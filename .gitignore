@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+cmake-build-*
+.idea
+*.log
+build
+app
+cmake/find_dependence.cmake
+config/user.json
