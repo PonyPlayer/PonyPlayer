@@ -28,14 +28,13 @@ Developer and Designer Tools -> mingw11
 
 2. FFmpeg
 
-官方推荐使用`gyan.dev`提供的预编译包，通过以下地址下载`ffmpeg-release-full-shared.7z`
-
-https://www.gyan.dev/ffmpeg/builds/ 解压到`C:/ProgramData/FFmpeg`
+官方推荐使用 [gyan.dev](https://www.gyan.dev/ffmpeg/builds/) 提供的预编译包。可以点击 [点击这里](https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full-shared.7z) `ffmpeg-release-full-shared.7z`。
+解压到`C:/ProgramData/FFmpeg`
 
 备用方案：通过`chocolatey`安装
 
 ```bash
-choco install ffmpeg
+choco install ffmpeg-shared
 ```
 
 https://community.chocolatey.org/packages/ffmpeg
