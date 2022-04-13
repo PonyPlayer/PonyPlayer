@@ -88,7 +88,10 @@ if __name__ == "__main__":
         f.write('set(FFMPEG_PREFIX_PATH "%s")' % str(ffmpeg_path).replace('\\', '/') + "\n")
     print(f"Write to {cmake_find_qt_path}.")
 
-    config_path = self_path.parent.parent / "config" / "user.json"
+    config_folder = self_path.parent.parent / "config"
+    if not config_folder.exists():
+        config_folder.mkdir()
+    config_path = config_folder / "user.json"
     with open(config_path, "w", encoding="utf-8-sig") as f:
         json.dump({
             "qt_path": str(qt_path),
