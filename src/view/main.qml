@@ -22,14 +22,14 @@ Window {
             minimumHeight: 500
             visible: true
             title: "PonyPlayer"
-        PONYBODY{
+        PonyBody{
                 id:body
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: footer.top
             }
-            PONYFOOTER{
+            PonyFooter{
                 id:footer
                 anchors.left: parent.left
                 anchors.right: parent.right
