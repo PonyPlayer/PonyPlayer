@@ -11,4 +11,12 @@ qt_add_qml_module(${PROJECT_NAME}
             FramedImage.qml
         RESOURCES
             img/ponyplayer-icon.png
+        SOURCES
+            squircle.cpp squircle.h
         )
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+        Qt::Core
+        Qt::Gui
+        Qt::Qml
+        Qt::Quick)

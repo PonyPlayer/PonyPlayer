@@ -1,6 +1,7 @@
 ﻿qt_add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(view)
 add_subdirectory(utils)
+#add_subdirectory(video)
 
 include(${CMAKE_SOURCE_DIR}/cmake/platform.cmake)
 
@@ -13,6 +14,7 @@ target_link_libraries(${PROJECT_NAME}
         PRIVATE ${FFmpeg}
         utils
         view
+#        video
         )
 
 
