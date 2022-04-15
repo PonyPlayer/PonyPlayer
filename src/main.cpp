@@ -13,6 +13,7 @@ extern "C" {
 }
 
 int main(int argc, char *argv[]) {
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::GraphicsApi::OpenGL);
     QGuiApplication app(argc, argv);
     qmlRegisterType<Hurricane>("Hurricane", 1, 0, "Hurricane");
     qInstallMessageHandler(logMessageHandler);
