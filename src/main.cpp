@@ -17,6 +17,7 @@ extern "C" {
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
+    QQuickView::setGraphicsApi(QSGRendererInterface::GraphicsApi::OpenGL);
     qmlRegisterType<Squircle>("Squircle", 1, 0, "Squircle");
     qInstallMessageHandler(logMessageHandler);
 
