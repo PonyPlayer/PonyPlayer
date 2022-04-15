@@ -5,6 +5,7 @@ add_subdirectory(render)
 
 include(${CMAKE_SOURCE_DIR}/cmake/platform.cmake)
 
+
 target_link_libraries(${PROJECT_NAME}
         PRIVATE Qt::Core
         PRIVATE Qt::Gui
@@ -15,5 +16,6 @@ target_link_libraries(${PROJECT_NAME}
         utils
         view
         render)
+
 
 

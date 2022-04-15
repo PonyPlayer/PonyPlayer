@@ -1,4 +1,4 @@
-#include "render/hurricane.h"
+#include "hurricane.h"
 
 #include <QtQuick/qquickwindow.h>
 #include <QOpenGLShaderProgram>
