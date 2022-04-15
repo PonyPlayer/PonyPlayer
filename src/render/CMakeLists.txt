@@ -1,16 +1,15 @@
-project(view)
+project(render)
+
 
 
 qt_add_qml_module(${PROJECT_NAME}
-        URI view
+        URI hurricane
         VERSION 1.0
         STATIC
-        PLUGIN_TARGET view
-        QML_FILES
-            main.qml
-        RESOURCES
-            img/ponyplayer-icon.png
-        )
+        PLUGIN_TARGET hurricane
+        SOURCES
+        hurricane.cpp)
+
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt::Core

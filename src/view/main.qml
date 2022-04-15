@@ -2,7 +2,7 @@ import QtQuick
 import view 1.0
 import QtQuick.Dialogs
 import QtQuick.Controls
-import Squircle 1.0
+import Hurricane 1.0
 import QtQuick.Window
 
 
@@ -25,7 +25,7 @@ ApplicationWindow {
     }
 
 
-    Squircle {
+    Hurricane {
         id: squircle
     }
 

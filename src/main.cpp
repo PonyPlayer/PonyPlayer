@@ -1,10 +1,7 @@
 #include "logger.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QGuiApplication>
-
-#include <QtQuick/QQuickView>
-#include "view/squircle.h"
+#include "render/hurricane.h"
 
 extern "C" {
 #pragma GCC diagnostic push
@@ -17,7 +14,7 @@ extern "C" {
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
-    qmlRegisterType<Squircle>("Squircle", 1, 0, "Squircle");
+    qmlRegisterType<Hurricane>("Squircle", 1, 0, "Squircle");
     qInstallMessageHandler(logMessageHandler);
 
     const QUrl url(u"qrc:/view/main.qml"_qs);
