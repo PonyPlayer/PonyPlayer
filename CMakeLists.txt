@@ -20,7 +20,12 @@ find_package(Qt6 COMPONENTS
         QmlWorkerScript
         REQUIRED)
 
-find_library(FFmpeg ${FFMPEG_LIBS} "${FFMPEG_PREFIX_PATH}/lib/")
+set(FFmpeg)
+foreach(LIB IN LISTS FFMPEG_LIBS)
+    find_library(FFmpeg_FOUND_${LIB} NAMES ${LIB} HINTS "${FFMPEG_PREFIX_PATH}/lib/" REQUIRED)
+    list(APPEND FFmpeg "${FFmpeg_FOUND_${LIB}}")
+endforeach()
+find_library(FFmpeg COMPONENTS ${FFMPEG_LIBS} "${FFMPEG_PREFIX_PATH}/lib/")
 
 include_directories(${FFMPEG_PREFIX_PATH}/include)
 
