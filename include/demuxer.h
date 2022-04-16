@@ -4,10 +4,12 @@
 
 #ifndef FFMPEGCMAKE_DEMUXER_H
 #define FFMPEGCMAKE_DEMUXER_H
-extern "C" {
+
+#include <helper.h>
+INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
-}
+INCLUDE_FFMPEG_END
 
 #include "packet_queue.h"
 #include "frame_queue.h"

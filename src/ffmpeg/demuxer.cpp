@@ -6,7 +6,7 @@
 
 int Demuxer::initVideoState() {
     auto videoCodecPara = fmtCtx->streams[videoStreamIndex]->codecpar;
-    if (!(videoCodec = (AVCodec *) avcodec_find_decoder(videoCodecPara->codec_id))) {
+    if (!(videoCodec = (AVCodec *) )) {
         printf("Cannot find valid decode codec.\n");
         return -1;
     }

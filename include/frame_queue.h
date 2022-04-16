@@ -7,10 +7,10 @@
 
 #include <mutex>
 #include <condition_variable>
-
-extern "C" {
+#include <helper.h>
+INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
-};
+INCLUDE_FFMPEG_END
 
 struct Frame {
     AVFrame *frame{};
