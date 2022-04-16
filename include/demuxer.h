@@ -1,65 +1,100 @@
 //
-// Created by kurisu on 2022/4/14.
+// Created by kurisu on 2022/4/16.
 //
 
-#ifndef PONYPLAYER_DEMUXER_H
-#define PONYPLAYER_DEMUXER_H
-
+#ifndef FFMPEGCMAKE_DEMUXER_H
+#define FFMPEGCMAKE_DEMUXER_H
 extern "C" {
-#include <libavutil/frame.h>
+#include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
+}
+
+#include "packet_queue.h"
+#include "frame_queue.h"
+#include <string>
+#include <thread>
+
+/**
+ * usecase：
+ *      Demuxer demuxer;
+ *      ret = demuxer.openFile(filename);
+ *      initDemuxer();
+ *      for (;;) {
+ *          frame = demuxer.videoFrameQueueFront();
+ *          if (frame) {
+ *              // do something
+ *              demuxer.videoFramePop();
+ *          }
+ *      }
+ */
+class Demuxer {
+private:
+    std::string filename{};
+    AVFormatContext *fmtCtx{};
+
+    int videoStreamIndex{-1};
+    AVStream *videoStream{};
+    AVCodec *videoCodec{};
+    AVCodecContext *videoCodecCtx{};
+
+    AVFrame *frame{};
+    AVPacket *pkt{};
+
+    PacketQueue videoPacketQueue{};
+    FrameQueue videoFrameQueue{};
+
+    std::thread workerDemuxer;
+
+    void closeCtx() {
+        if (videoCodecCtx) avcodec_close(videoCodecCtx);
+        if (videoCodecCtx) avcodec_free_context(&videoCodecCtx);
+        if (fmtCtx) avformat_close_input(&fmtCtx);
+    }
+
+    void destroy() {
+        if (pkt) av_packet_free(&pkt);
+        if (frame) av_frame_free(&frame);
+        closeCtx();
+    }
+
+    int initVideoState();
+
+    void demuxer();
+
+    void videoDecoder();
+
+public:
+    Demuxer() :
+            frame(av_frame_alloc()),
+            pkt(av_packet_alloc()) {}
+
+    ~Demuxer() {
+        destroy();
+    }
+
+    /**
+     * 启动所有worker线程，当前版本需要先调用openFile打开文件
+     * @return 0表示成功，-1表示失败
+     */
+    int initDemuxer();
+
+    /**
+     * 打开一个视频文件
+     * @param inputFileName 文件名
+     * @return 0表示成功，-1表示失败
+     */
+    int openFile(std::string inputFileName);
+
+    /**
+     * 阻塞地获取一个视频帧
+     * @return 帧的指针
+     */
+    Frame *videoFrameQueueFront();
+
+    /**
+     * 成功获取一个视频帧后需要调用该函数从队列中弹出帧
+     */
+    void videoFrameQueuePop();
 };
 
-/**
- * 初始化demuxer模块
- * @return 返回0表示正常，小于0表示异常
- */
-int initDemuxer();
-
-/**
- * 阻塞地读一个视频帧到frame
- * 使用方法：
- *      frame = av_frame_alloc();
- *      ......
- *      for (;;) {
- *          ret = videoFrameQueueFront(frame);
- *          ......
- *          av_frame_unref(frame);
- *      }
- *      ......
- *      av_frame_free(&frame);
- *
- * @param frame 一个有效的AVFrame对象指针
- * @return 1表示读取到frame，0表示帧已全部读取，-1表示异常
- */
-int videoFrameQueueFront(AVFrame* frame);
-
-/**
- * 成功读取一个视频帧后需要调用该函数
- */
-void videoFrameQueuePop();
-
-/**
- * 阻塞地读一个音频帧到frame
- * 使用方法：
- *      frame = av_frame_alloc();
- *      ......
- *      for (;;) {
- *          ret = audioFrameQueueFront(frame);
- *          ......
- *          av_frame_unref(frame);
- *      }
- *      ......
- *      av_frame_free(&frame);
- *
- * @param frame 一个有效的AVFrame对象指针
- * @return 1表示读取到frame，0表示帧已全部读取，-1表示异常
- */
-int audioFrameQueueFront(AVFrame* frame);
-
-/**
- * 成功读取一个音频帧后需要调用该函数
- */
-void audioFrameQueuePop();
-
-
-#endif //PONYPLAYER_DEMUXER_H
+#endif //FFMPEGCMAKE_DEMUXER_H
