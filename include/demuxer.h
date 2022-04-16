@@ -4,7 +4,6 @@
 
 #ifndef FFMPEGCMAKE_DEMUXER_H
 #define FFMPEGCMAKE_DEMUXER_H
-
 #include <helper.h>
 INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
