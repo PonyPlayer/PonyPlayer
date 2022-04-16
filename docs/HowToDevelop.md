@@ -59,12 +59,13 @@ Developer and Designer Tools -> Ninja
 
 2. FFmpeg
 
-推荐使用我们编译的`FFmpeg`（同时提供`x86_64`,`arm64`和`universal版本`），我们打包会使用这里的`universal`版本
+对于开发，我们推荐使用`homebrew`安装FFmpeg
+
+
+
+然而，如果需要打包成`universal binrary`，需要`universal binrary`版本的FFmpeg。我们自己编译了FFmpeg：
 
 https://github.com/ColorsWind/FFmpeg-macOS/releases
-
-备选方案，可以使用`homebrew`安装
-
 ```bash
 brew install ffmpeg
 ```
@@ -72,7 +73,7 @@ brew install ffmpeg
 3. 设置项目，结合实际修改
 
 ```bash
-python scripts/setup.py --qt_path /Users/runner/Qt/6.2.4/macos --ffmpeg_path /Users/runner/FFmpeg
+python scripts/setup.py --qt_path /Users/runner/Qt/6.2.4/macos --ffmpeg_path /opt/homebrew
 ```
 
 ### Linux 配置步骤
