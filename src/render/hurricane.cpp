@@ -77,47 +77,15 @@ void Hurricane::loadImage(const QUrl &url) {
 }
 
 
-void HurricaneRenderer::init() {
-    initializeOpenGLFunctions();
 
-    vbo.bind();
 
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-
-    program->bind();
-}
-
-void HurricaneRenderer::paint() {
-    m_window->beginExternalCommands();
-    glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    QMatrix4x4 m;
-    m.ortho(-0.5f, +0.5f, +0.5f, -0.5f, 4.0f, 15.0f);
-    m.translate(0.0f, 0.0f, -10.0f);
-    m.rotate(0.0f, 1.0f, 0.0f, 0.0f);
-    m.rotate(0.0f, 0.0f, 1.0f, 0.0f);
-    m.rotate(0.0f, 0.0f, 0.0f, 1.0f);
-
-    program->setUniformValue("matrix", m);
-    program->enableAttributeArray(PROGRAM_VERTEX_ATTRIBUTE);
-    program->enableAttributeArray(PROGRAM_TEXCOORD_ATTRIBUTE);
-    program->setAttributeBuffer(PROGRAM_VERTEX_ATTRIBUTE, GL_FLOAT, 0, 3, 5 * sizeof(GLfloat));
-    program->setAttributeBuffer(PROGRAM_TEXCOORD_ATTRIBUTE, GL_FLOAT, 3 * sizeof(GLfloat), 2, 5 * sizeof(GLfloat));
-    glDisable(GL_DEPTH_TEST);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-    img_texture->bind();
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
-    m_window->endExternalCommands();
-}
 
 HurricaneRenderer::HurricaneRenderer() : m_t(0), m_program(nullptr), m_window(nullptr) {
     initializeOpenGLFunctions();
-    makeObject();
+    qDebug() << "GL version: "
+             << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
+    qDebug() << "GSLS version: "
+             << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION)));
     program = new QOpenGLShaderProgram;
     program->addCacheableShaderFromSourceFile(QOpenGLShader::Vertex, u":/render/shader/vertex.vsh"_qs);
     program->addCacheableShaderFromSourceFile(QOpenGLShader::Fragment, u":/render/shader/fragment.fsh"_qs);
@@ -128,33 +96,93 @@ HurricaneRenderer::HurricaneRenderer() : m_t(0), m_program(nullptr), m_window(nu
     program->setUniformValue("texture", 0);
 }
 
-void HurricaneRenderer::makeObject() {
-    static const int coords[4][3] = {
-            {+1, -1, -1},
-            {-1, -1, -1},
-            {-1, +1, -1},
-            {+1, +1, -1}
+void HurricaneRenderer::init() {
+    program->bind();
+
+    float arrVertex[] = {
+            //   position                 color
+            0.0f, 0.707f, -3.0f,     1.0f, 0.0f, 0.0f,
+            -0.5f, -0.5f, -3.0f,     0.0f, 1.0f, 0.0f,
+            0.5f, -0.5f,  -3.0f,     0.0f, 0.0f, 1.0f,
     };
-    QImage img = QImage(":/render/test.jpeg").mirrored();
 
-    img_texture = new QOpenGLTexture(img);
+    m_vbo.create();
+    m_vbo.bind();
+    m_vbo.allocate(arrVertex, sizeof(arrVertex));
 
-    double ratio = 1.0 * img.size().height() / img.size().width();
-    qDebug() << "ratio is " << ratio;
+    int attr = program->attributeLocation("aCol");
+    program->setAttributeBuffer(0, GL_FLOAT, 0,
+                                  3, sizeof(float) * 6);
+    program->enableAttributeArray(0);
 
-    QList<GLfloat> vertData;
-    for (int j = 0; j < 4; ++j) {
-        // vertex position
-        vertData.append(static_cast<float>(0.3 * coords[j][0]));
-        vertData.append(static_cast<float>(0.3 * coords[j][1]));
-        vertData.append(static_cast<float>(1 * coords[j][2]));
-        // texture coordinate
-        vertData.append(j == 0 || j == 3);
-        vertData.append(j == 0 || j == 1);
-    }
+    program->setAttributeBuffer(1, GL_FLOAT, 3 * sizeof(float),
+                                  3, sizeof(float) * 6);
+    program->enableAttributeArray(1);
 
-    vbo.create();
-    vbo.bind();
-    vbo.allocate(vertData.constData(),
-                 static_cast<int>((static_cast<unsigned long long>(vertData.count()) * sizeof(GLfloat))));
+    m_vbo.release();
+
+//    vbo = new QOpenGLBuffer();
+//    vbo->create();
+//    vbo->allocate(VERTEX_POS, sizeof(VERTEX_POS));
+//    vbo->bind();
+//    vbo->write(0, VERTEX_POS, sizeof(VERTEX_POS));
+////    program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 3 * sizeof(GLfloat));
+////    program->setAttributeBuffer(1, GL_FLOAT, 0, 2, 3 * sizeof(GLfloat));
+////    program->enableAttributeArray(0);
+////    program->enableAttributeArray(1);
+//    this->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+//    this->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+//    this->glEnableVertexAttribArray(0);
+//    this->glEnableVertexAttribArray(1);
+//
+////    this->glGenBuffers(1, &vao);
+////    this->glBindBuffer(GL_ARRAY_BUFFER, vao);
+////    this->glBufferData(GL_ARRAY_BUFFER, sizeof(VERTEX_POS), VERTEX_POS, GL_STATIC_DRAW);
+////
+////    this->glGenBuffers(1, &ebo);
+////    this->glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+////    this->glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(VERTEX_INDEX), VERTEX_INDEX, GL_STATIC_DRAW);
+//
+//
+////    this->glGenTextures(1, &texture);
+////    this->glActiveTexture(GL_TEXTURE0);
+////    this->glBindTexture(GL_TEXTURE_2D, texture);
+//
+//    this->glEnable(GL_BLEND);
+//    this->glEnable(GL_DEPTH_TEST);
+//
+//    QMatrix4x4 view;
+//    view.setToIdentity();
+//    view.ortho(-1, 1, -1, 1, -10, 10);
+//    this->program->setUniformValue("view", view);
+//
+//    this->image.load(":/render/test.jpeg");
 }
+
+void HurricaneRenderer::paint() {
+    m_window->beginExternalCommands();
+//    glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//
+////    this->glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+////                 image.width(), image.height(), 0,
+////                 GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
+////    this->glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
+//    this->vbo->bind();
+//    this->glDrawArrays(GL_TRIANGLES, 0, 3);
+//    qDebug() << "paint";
+//    m_window->endExternalCommands();
+
+    glClearColor(clearColor.redF(), clearColor.greenF(), clearColor.blueF(), clearColor.alphaF());
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    program->bind();
+
+    m_vbo.bind();
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    m_vbo.release();
+
+    program->release();
+    m_window->endExternalCommands();
+}
+

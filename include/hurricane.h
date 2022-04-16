@@ -9,8 +9,25 @@
 #include <QOpenGLTexture>
 #include <QOpenGLBuffer>
 
+const GLfloat VERTEX_POS[] = {
+        +1, +1, -1,
+        +1, -1, -1,
+        -1, +1, -1,
+        -1, -1, -1,
+};
+const GLuint VERTEX_INDEX[] = {
+        0, 1, 2,
+        1, 2, 3,
+};
+
 class HurricaneRenderer : public QObject, protected QOpenGLFunctions {
 Q_OBJECT
+private:
+    GLuint vao;
+    QOpenGLBuffer* vbo;
+    QOpenGLBuffer m_vbo;
+    GLuint ebo;
+    GLuint texture;
 public:
     HurricaneRenderer();
 
@@ -29,20 +46,18 @@ public slots:
     void paint();
 
 private:
-    void makeObject();
     QSize m_viewportSize;
     qreal m_t;
     QOpenGLShaderProgram *m_program;
     QQuickWindow *m_window;
     QImage image;
-    QColor clearColor = Qt::black;
+    QColor clearColor = Qt::darkCyan;
     QPoint lastPos;
     int xRot = 0;
     int yRot = 0;
     int zRot = 0;
     QOpenGLTexture *img_texture = nullptr;
     QOpenGLShaderProgram *program = nullptr;
-    QOpenGLBuffer vbo;
 
 };
 
