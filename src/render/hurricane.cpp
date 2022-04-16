@@ -119,8 +119,8 @@ HurricaneRenderer::HurricaneRenderer() : m_t(0), m_program(nullptr), m_window(nu
     initializeOpenGLFunctions();
     makeObject();
     program = new QOpenGLShaderProgram;
-    program->addCacheableShaderFromSourceFile(QOpenGLShader::Vertex,"../../shader/vertex.vsh");
-    program->addCacheableShaderFromSourceFile(QOpenGLShader::Fragment,"../../shader/fragment.fsh");
+    program->addCacheableShaderFromSourceFile(QOpenGLShader::Vertex, u":/render/shader/vertex.vsh"_qs);
+    program->addCacheableShaderFromSourceFile(QOpenGLShader::Fragment, u":/render/shader/fragment.fsh"_qs);
     program->bindAttributeLocation("vertex", PROGRAM_VERTEX_ATTRIBUTE);
     program->bindAttributeLocation("texCoord", PROGRAM_TEXCOORD_ATTRIBUTE);
     program->link();
@@ -135,7 +135,7 @@ void HurricaneRenderer::makeObject() {
             {-1, +1, -1},
             {+1, +1, -1}
     };
-    QImage img = QImage("../../test.jpeg").mirrored();
+    QImage img = QImage(":/render/test.jpeg").mirrored();
 
     img_texture = new QOpenGLTexture(img);
 

@@ -2,12 +2,17 @@ project(render)
 
 
 qt_add_qml_module(${PROJECT_NAME}
-        URI Hurricane
+        URI render
         VERSION 1.0
         STATIC
-        PLUGIN_TARGET hurricane
+        PLUGIN_TARGET render
         SOURCES
-        hurricane.cpp)
+        hurricane.cpp
+        RESOURCES
+            shader/vertex.vsh
+            shader/fragment.fsh
+            test.jpeg
+        )
 
 target_sources(render PRIVATE
         ${CMAKE_SOURCE_DIR}/include/hurricane.h)
