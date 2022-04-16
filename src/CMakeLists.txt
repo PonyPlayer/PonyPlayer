@@ -2,6 +2,7 @@
 add_subdirectory(view)
 add_subdirectory(utils)
 add_subdirectory(example)
+add_subdirectory(ffmpeg)
 add_subdirectory(tests)
 include(${CMAKE_SOURCE_DIR}/cmake/platform.cmake)
 
