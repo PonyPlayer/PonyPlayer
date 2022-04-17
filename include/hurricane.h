@@ -15,7 +15,7 @@
 // QuickItem lives in the GUI thread and the rendering potentially happens on the render thread.
 // QuickItem may be deleted on the GUI thread while the render thread is rendering.
 // Therefore, we need to separate those two objects.
-class HurricaneRenderer : public QObject, protected QOpenGLFunctions {
+class HurricaneRenderer : public QObject, protected QOpenGLFunctions_3_3_Core {
 Q_OBJECT
 private:
     QOpenGLShaderProgram program;
