@@ -4,6 +4,8 @@ import QtQuick.Dialogs
 import QtQuick.Controls
 import Hurricane 1.0
 import QtQuick.Window
+import Qt.labs.platform
+
 
 
 ApplicationWindow {
@@ -12,7 +14,35 @@ ApplicationWindow {
     height: 480
     visible: true
 
-    menuBar: MenuBar {
+    MenuBar {
+        id: menuBar
+
+        Menu {
+            id: fileMenu
+            title: qsTr("File")
+            // ...
+        }
+
+        Menu {
+            id: editMenu
+            title: qsTr("&Edit")
+            // ...
+        }
+
+        Menu {
+            id: viewMenu
+            title: qsTr("&View")
+            // ...
+        }
+
+        Menu {
+            id: helpMenu
+            title: qsTr("&Help")
+            // ...
+        }
+    }
+
+    /*menuBar: MenuBar {
         Menu {
             title: qsTr("文件(&F)")
             Action {
@@ -22,7 +52,9 @@ ApplicationWindow {
                 }
             }
         }
-    }
+    }*/
+
+
 
 
     Hurricane {
