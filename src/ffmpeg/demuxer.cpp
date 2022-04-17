@@ -6,7 +6,7 @@
 
 int Demuxer::initVideoState() {
     auto videoCodecPara = fmtCtx->streams[videoStreamIndex]->codecpar;
-    if (!(videoCodec = (AVCodec *) )) {
+    if (!(videoCodec = (AVCodec *) avcodec_find_decoder(videoCodecPara->codec_id))) {
         printf("Cannot find valid decode codec.\n");
         return -1;
     }
@@ -22,6 +22,7 @@ int Demuxer::initVideoState() {
         printf("Cannot open codec.\n");
         return -1;
     }
+
     videoStream = fmtCtx->streams[videoStreamIndex];
     return 0;
 }
@@ -58,9 +59,40 @@ int Demuxer::openFile(std::string inputFileName) {
         printf("error init video state\n");
         goto error;
     }
+
+    if (!(imgSwsCtx = sws_getContext(videoCodecCtx->width,
+                                     videoCodecCtx->height,
+                                     videoCodecCtx->pix_fmt,
+                                     videoCodecCtx->width,
+                                     videoCodecCtx->height,
+                                     AV_PIX_FMT_RGB24,
+                                     SWS_BICUBIC, NULL, NULL, NULL))) {
+        printf("error get sws context\n");
+        goto error;
+    }
+
+    rgbOutBufSize = av_image_get_buffer_size(AV_PIX_FMT_RGB24,
+                                             videoCodecCtx->width,
+                                             videoCodecCtx->height,
+                                             1);
+
+    if (!(rgbOutBuf = (uint8_t *)av_malloc(rgbOutBufSize * sizeof(uint8_t)))) {
+        rgbOutBufSize = 0;
+        printf("error av_malloc rgb output buf\n");
+        goto error;
+    }
+
+    if (av_image_fill_arrays(
+            rgbFrame->data,rgbFrame->linesize,
+            rgbOutBuf,AV_PIX_FMT_RGB24,
+            videoCodecCtx->width,videoCodecCtx->height,1) < 0) {
+        printf("error av_image_fill_arrays\n");
+        goto error;
+    }
+
     return 0;
 
-error:
+    error:
     closeCtx();
     return -1;
 }
@@ -104,10 +136,17 @@ void Demuxer::videoDecoder() {
         }
         while ((ret = avcodec_receive_frame(videoCodecCtx, frame)) >= 0) {
             auto picFrame = videoFrameQueue.nextWritePos();
+
+            sws_scale(imgSwsCtx,
+                      frame->data,frame->linesize,
+                      0,videoCodecCtx->height,
+                      rgbFrame->data,rgbFrame->linesize);
+
             picFrame->height = frame->height;
             picFrame->width = frame->width;
             picFrame->frameRate = av_q2d(videoStream->r_frame_rate);
-            av_frame_move_ref(picFrame->frame, frame);
+            *picFrame->frame = *rgbFrame;
+
             av_frame_unref(frame);
             videoFrameQueue.push();
         }

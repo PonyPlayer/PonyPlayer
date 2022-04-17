@@ -58,6 +58,7 @@ public:
     void pop() {
         std::unique_lock<std::mutex> ul(lock);
         --size;
+        // av_frame_unref(queue[rindex].frame);
         ++rindex;
         rindex %= MAXQ;
         cv.notify_all();

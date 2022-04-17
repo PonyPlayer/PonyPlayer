@@ -1,7 +1,7 @@
 project(ffmpeg)
 
 set(CPP_SOURCES
-        demuxer.cpp)
+        demuxer.cpp save_frame.cpp)
 
 qt_add_library(${PROJECT_NAME} STATIC
         ${CPP_SOURCES})

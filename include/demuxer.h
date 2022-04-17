@@ -4,10 +4,14 @@
 
 #ifndef FFMPEGCMAKE_DEMUXER_H
 #define FFMPEGCMAKE_DEMUXER_H
+
 #include <helper.h>
+
 INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
+#include <libswscale/swscale.h>
+#include <libavutil/imgutils.h>
 INCLUDE_FFMPEG_END
 
 #include "packet_queue.h"
@@ -37,7 +41,11 @@ private:
     AVStream *videoStream{};
     AVCodec *videoCodec{};
     AVCodecContext *videoCodecCtx{};
+    SwsContext *imgSwsCtx{};
+    uint8_t *rgbOutBuf{};
+    int rgbOutBufSize{};
 
+    AVFrame *rgbFrame{};
     AVFrame *frame{};
     AVPacket *pkt{};
 
@@ -48,14 +56,17 @@ private:
 
     void closeCtx() {
         if (videoCodecCtx) avcodec_close(videoCodecCtx);
-        if (videoCodecCtx) avcodec_free_context(&videoCodecCtx);
         if (fmtCtx) avformat_close_input(&fmtCtx);
+        if (imgSwsCtx) sws_freeContext(imgSwsCtx);
     }
 
     void destroy() {
+        closeCtx();
         if (pkt) av_packet_free(&pkt);
         if (frame) av_frame_free(&frame);
-        closeCtx();
+        if (rgbFrame) av_frame_free(&rgbFrame);
+        if (rgbOutBuf) av_free(rgbOutBuf);
+        if (videoCodecCtx) avcodec_free_context(&videoCodecCtx);
     }
 
     int initVideoState();
@@ -66,6 +77,7 @@ private:
 
 public:
     Demuxer() :
+            rgbFrame(av_frame_alloc()),
             frame(av_frame_alloc()),
             pkt(av_packet_alloc()) {}
 
@@ -97,5 +109,9 @@ public:
      */
     void videoFrameQueuePop();
 };
+
+void saveFrame(AVFrame *pFrame, int width, int height, int iFrame);
+
+void test_saveFrame();
 
 #endif //FFMPEGCMAKE_DEMUXER_H
