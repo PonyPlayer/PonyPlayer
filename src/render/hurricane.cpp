@@ -32,7 +32,7 @@ Hurricane::~Hurricane() noexcept {
 void Hurricane::handleWindowChanged(QQuickWindow *win)  {
     qDebug() << "Window Size Changed:" << static_cast<void *>(win) << ".";
     if (win) {
-        connect(this->window(), &QQuickWindow::sceneGraphInitialized, this, &Hurricane::initRenderer);
+        connect(this->window(), &QQuickWindow::sceneGraphInitialized, this, &Hurricane::initRenderer, Qt::DirectConnection);
     }
 }
 
