@@ -1,6 +1,11 @@
-#include "logger.h"
+#include <logger.h>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+
+void hello()
+{
+//    (new Demuxer())->videoFrameQueueFront();
+}
 #include "hurricane.h"
 
 extern "C" {
@@ -33,5 +38,3 @@ int main(int argc, char *argv[]) {
     engine.load(url);
     return QGuiApplication::exec();
 }
-
-
