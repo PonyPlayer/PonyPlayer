@@ -132,8 +132,8 @@ void HurricaneRenderer::paint() {
     glViewport(posX, posY, width, height);
     glScissor(posX, posY, width, height);
     glEnable(GL_SCISSOR_TEST);
-//    glEnable(GL_BLEND);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDisable(GL_DEPTH_TEST);
     program.bind();
     glBindVertexArray(vao);
