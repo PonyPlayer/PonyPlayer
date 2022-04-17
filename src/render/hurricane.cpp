@@ -33,6 +33,9 @@ void Hurricane::handleWindowChanged(QQuickWindow *win)  {
     qDebug() << "Window Size Changed:" << static_cast<void *>(win) << ".";
     if (win) {
         connect(this->window(), &QQuickWindow::sceneGraphInitialized, this, &Hurricane::initRenderer, Qt::DirectConnection);
+        connect(this->window(), &QQuickWindow::widthChanged, this, &Hurricane::updateViewport);
+        connect(this->window(), &QQuickWindow::heightChanged, this, &Hurricane::updateViewport);
+        win->setColor(Qt::black);
     }
 }
 
@@ -40,11 +43,22 @@ void Hurricane::initRenderer() {
     // call on renderer thread
     this->renderer = new HurricaneRenderer(this->window());
     this->renderer->init();
-
-    connect(this->window(), &QQuickWindow::beforeRenderPassRecording, renderer, &HurricaneRenderer::paint);
+    this->updateViewport();
+    connect(this->window(), &QQuickWindow::beforeRenderPassRecording, renderer, &HurricaneRenderer::paint,
+            Qt::DirectConnection);
 }
 
 void Hurricane::sync() {
+}
+
+void Hurricane::updateViewport() {
+    qreal ratio = window()->devicePixelRatio();
+    this->renderer->setViewport(
+            static_cast<GLint>(this->x() * ratio),
+            static_cast<GLint>(this->y() * ratio),
+            static_cast<GLsizei>(this->width() * ratio),
+            static_cast<GLsizei>(this->height() * ratio)
+    );
 }
 
 
@@ -113,14 +127,33 @@ void HurricaneRenderer::init() {
 
 void HurricaneRenderer::paint() {
     window->beginExternalCommands();
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glViewport(posX, posY, width, height);
+    glScissor(posX, posY, width, height);
+    glEnable(GL_SCISSOR_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    glDisable(GL_DEPTH_TEST);
     program.bind();
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
     glBindTexture(GL_TEXTURE_2D, pbo);
     glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
+
+    glDisable(GL_SCISSOR_TEST);
+
+    program.release();
     window->endExternalCommands();
+}
+
+void HurricaneRenderer::setViewport(GLint x, GLint y, GLsizei w, GLsizei h) {
+    this->posX = x;
+    this->posY = y;
+    this->width = w;
+    this->height = h;
+    qDebug() << "Set viewport" << "x =" << x << ", y =" << y << ", w =" << w << ", h =" << h;
 }
 
 

@@ -22,7 +22,10 @@ private:
     GLuint vao, vbo, ebo, pbo;
     QImage image;
     QSize imageSize;
+    QSize viewportSize;
     QMatrix4x4 viewMatrix;
+    GLint posX, posY;
+    GLsizei width, height;
 public slots:
     void init();
     void paint();
@@ -31,15 +34,20 @@ public:
 
     ~HurricaneRenderer() override;
 
+    void setViewport(GLint x, GLint y, GLsizei w, GLsizei h);
+
     QQuickWindow *window;
 };
 
 
 class Hurricane : public QQuickItem {
     Q_OBJECT
+//    Q_PROPERTY(QSize viewport READ getViewport WRITE setViewport)
     QML_ELEMENT
 private:
     HurricaneRenderer *renderer = nullptr;
+    QSize viewport;
+
 public:
     Hurricane(QQuickItem *parent = nullptr);
 
@@ -49,6 +57,7 @@ public slots:
     void handleWindowChanged(QQuickWindow *win);
     void sync();
     void initRenderer();
+    void updateViewport();
 };
 
 #endif // SQUIRCLE_H
