@@ -8,94 +8,48 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLTexture>
 #include <QOpenGLBuffer>
+#include <QQuickFramebufferObject>
+#include <QOpenGLFunctions_3_3_Core>
+#include <QOpenGLDebugLogger>
 
-const GLfloat VERTEX_POS[] = {
-        +1, +1, -1,
-        +1, -1, -1,
-        -1, +1, -1,
-        -1, -1, -1,
-};
-const GLuint VERTEX_INDEX[] = {
-        0, 1, 2,
-        1, 2, 3,
-};
 
-class HurricaneRenderer : public QObject, protected QOpenGLFunctions {
+class HurricaneRenderer : public QObject, public QQuickFramebufferObject::Renderer, protected QOpenGLFunctions_3_3_Core {
 Q_OBJECT
 private:
-    GLuint vao;
-    QOpenGLBuffer* vbo;
-    QOpenGLBuffer m_vbo;
-    GLuint ebo;
-    GLuint texture;
+    QOpenGLShaderProgram program;
+    GLuint vao, vbo, ebo, pbo;
+    QImage image;
+    QSize imageSize;
+    QMatrix4x4 viewMatrix;
+public slots:
+    void init();
+    void paint();
 public:
     HurricaneRenderer();
 
     ~HurricaneRenderer() override;
 
-    void setT(qreal t) { m_t = t; }
+    QOpenGLFramebufferObject *createFramebufferObject(const QSize &size) override;
 
-    void setViewportSize(const QSize &size) { m_viewportSize = size; }
-
-    void setWindow(QQuickWindow *window) { m_window = window; }
-
-public slots:
-
-    void init();
-
-    void paint();
-
-private:
-    QSize m_viewportSize;
-    qreal m_t;
-    QOpenGLShaderProgram *m_program;
-    QQuickWindow *m_window;
-    QImage image;
-    QColor clearColor = Qt::darkCyan;
-    QPoint lastPos;
-    int xRot = 0;
-    int yRot = 0;
-    int zRot = 0;
-    QOpenGLTexture *img_texture = nullptr;
-    QOpenGLShaderProgram *program = nullptr;
-
+protected:
+    void render() override;
 };
 
 
-class Hurricane : public QQuickItem {
-Q_OBJECT
-    Q_PROPERTY(qreal t READ t WRITE setT NOTIFY tChanged)
+class Hurricane : public QQuickFramebufferObject {
+    Q_OBJECT
     QML_ELEMENT
+private:
 
 public:
-    Hurricane();
+    Hurricane(QQuickItem *parent = nullptr);
 
-    [[nodiscard]] qreal t() const { return m_t; }
 
-    void setT(qreal t);
+    [[nodiscard]] Renderer *createRenderer() const override;
 
-signals:
+    ~Hurricane() noexcept override;
 
-    void tChanged();
 
-public slots:
-
-    void sync();
-
-    void cleanup();
-
-    void loadImage(const QUrl &url);
-
-private slots:
-
-    void handleWindowChanged(QQuickWindow *win) const;
-
-private:
-    void releaseResources() override;
-
-    qreal m_t;
-    HurricaneRenderer *m_renderer;
-    QImage image;
 };
 
 #endif // SQUIRCLE_H
