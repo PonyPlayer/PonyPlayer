@@ -37,10 +37,7 @@ void test_saveFrame()
     for (;;){
         auto frame = demuxer.videoFrameQueueFront();
         if (frame) {
-            if (cnt < 3) {
-                ++cnt;
-                saveFrame(frame->frame, frame->width, frame->height, cnt);
-            }
+            printf("pts: %f\n", frame->pts);
             demuxer.videoFrameQueuePop();
         }
     }

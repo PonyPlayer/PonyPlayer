@@ -21,6 +21,12 @@ private:
     std::condition_variable cv;
 
 public:
+    void flush() {
+        std::unique_lock<std::mutex> ul(lock);
+        while (!queue.empty())
+            queue.pop_front();
+    }
+
     void push(AVPacket* pkt) {
         std::unique_lock<std::mutex> ul(lock);
         queue.push_back(*pkt);

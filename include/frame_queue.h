@@ -17,6 +17,7 @@ struct Frame {
     AVFrame *frame{};
     int width{};
     int height{};
+    double pts{};
     double frameRate{};
 };
 
@@ -47,6 +48,12 @@ public:
         }
     }
 
+    void flush() {
+        std::unique_lock<std::mutex> ul(lock);
+        size = 0;
+        rindex = windex;
+    }
+
     Frame *front() {
         std::unique_lock<std::mutex> ul(lock);
         while (size == 0) {
@@ -58,7 +65,6 @@ public:
     void pop() {
         std::unique_lock<std::mutex> ul(lock);
         --size;
-        // av_frame_unref(queue[rindex].frame);
         ++rindex;
         rindex %= MAXQ;
         cv.notify_all();
