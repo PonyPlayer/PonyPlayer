@@ -1,38 +1,92 @@
 import QtQuick
+import view 1.0
+import QtQuick.Dialogs
+import QtQuick.Controls
+import Hurricane 1.0
+import QtQuick.Window
+import Qt.labs.platform
 
-Window {
-    id:mainWindow
-        property bool isFullScreen: false
-        property bool isVideoListOpen: true
-        property bool isFooterVisable: true
-        property bool isPlay: false
-        property int currentTime: 0
-        property int endTime: 100
-        //播放倍速
-        property int speed: 1
-        //播放音量
-        property int volumn: 25
-        //播放音量的辅助(可无视)
-        property int beforeMute
-        //到放
-        property int step: 1
-            width: 800
-            height: 600
-            minimumWidth: 650
-            minimumHeight: 500
-            visible: true
-            title: "PonyPlayer"
-        PonyBody{
-                id:body
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: footer.top
+
+
+ApplicationWindow {
+    id: window
+    width: 320
+    height: 480
+    visible: true
+
+    MenuBar {
+        id: menuBar
+
+        Menu {
+            id: fileMenu
+            title: qsTr("File")
+            // ...
+        }
+
+        Menu {
+            id: editMenu
+            title: qsTr("&Edit")
+            // ...
+        }
+
+        Menu {
+            id: viewMenu
+            title: qsTr("&View")
+            // ...
+        }
+
+        Menu {
+            id: helpMenu
+            title: qsTr("&Help")
+            // ...
+        }
+    }
+
+    /*menuBar: MenuBar {
+        Menu {
+            title: qsTr("文件(&F)")
+            Action {
+                text: qsTr("&打开(&O)...")
+                onTriggered: {
+                    fileDialog.open()
+                }
             }
-            PonyFooter{
-                id:footer
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-            }
+        }
+    }*/
+
+
+
+
+    Hurricane {
+        id: squircle
+        anchors.fill: parent
+    }
+
+    Rectangle {
+        color: Qt.rgba(1, 1, 1, 0.7)
+        radius: 10
+        border.width: 1
+        border.color: "white"
+        anchors.fill: label
+        anchors.margins: -10
+    }
+
+    Text {
+        id: label
+        color: "black"
+        wrapMode: Text.WordWrap
+        text: "The background here is a squircle rendered with raw OpenGL using the 'beforeRender()' signal in QQuickWindow. This text label and its border is rendered using QML"
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.margins: 20
+    }
+    FileDialog{
+        id: fileDialog;
+        title: "Please choose a file";
+        onAccepted: {
+            squircle.loadImage(this.currentFile);
+        }
+    }
+
 }

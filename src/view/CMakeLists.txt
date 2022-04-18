@@ -34,3 +34,9 @@ qt_add_qml_module(${PROJECT_NAME}
             PonyPics/Volumn2.png
             PonyPics/Volumn3.png
         )
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+        Qt::Core
+        Qt::Gui
+        Qt::Qml
+        Qt::Quick)
