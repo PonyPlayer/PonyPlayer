@@ -82,6 +82,10 @@ int Demuxer::openFile(std::string inputFileName) {
         goto error;
     }
 
+    /*
+     * 该函数会把rgbOutBuf作为新格式数据的底层缓冲区，不会再动态分配
+     * 因此rgbFrame不需要unref
+     * */
     if (av_image_fill_arrays(
             rgbFrame->data,rgbFrame->linesize,
             rgbOutBuf,AV_PIX_FMT_RGB24,
@@ -145,6 +149,7 @@ void Demuxer::videoDecoder() {
             picFrame->height = frame->height;
             picFrame->width = frame->width;
             picFrame->frameRate = av_q2d(videoStream->r_frame_rate);
+            picFrame->pts = static_cast<double>(frame->pts) * av_q2d(videoStream->time_base);
             *picFrame->frame = *rgbFrame;
 
             av_frame_unref(frame);
