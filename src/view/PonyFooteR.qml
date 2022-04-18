@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import "interfacefunctions.js" as IF
 Rectangle {
     id:footer
     height: mainWindow.isFooterVisable?80:0
@@ -50,14 +51,33 @@ Rectangle {
                 mainWindow.currentTime=0
                 videoSlide.value=0
                 mainWindow.isPlay=false
+                mainWindow.pause()
             }
             mainWindow.currentTime=videoSlide.value
+            mainWindow.currentTimeChange(videoSlide.value)
         }
 
         onPressedChanged: {
             if(mainWindow.isPlay){
                 mainWindow.isPlay=false
+                mainWindow.pause()
             }
+        }
+        Shortcut{
+            sequence: "Up"
+            onActivated: IF.forwardOneSecond()
+        }
+        Shortcut{
+            sequence: "Down"
+            onActivated: IF.backOneSecond()
+        }
+        Shortcut{
+            sequence: "Left"
+            onActivated: IF.backFiveSeconds()
+        }
+        Shortcut{
+            sequence: "Right"
+            onActivated: IF.forwardFiveSeconds()
         }
     }
 
@@ -87,12 +107,17 @@ Rectangle {
         repeat: true
         running: mainWindow.isPlay
         onTriggered:{
-            if(mainWindow.currentTime<=0||mainWindow.currentTime>=mainWindow.endTime){
+            if(mainWindow.currentTime<=0&&mainWindow.step==-1){
+                mainWindow.isPlay=false
+            }
+            else if(mainWindow.currentTime>=mainWindow.endTime&&mainWindow.step==1){
                 mainWindow.isPlay=false
             }
 
-            mainWindow.currentTime=mainWindow.currentTime+mainWindow.step
-            videoSlide.value=currentTime
+            else{
+                mainWindow.currentTime=mainWindow.currentTime+mainWindow.step
+                videoSlide.value=currentTime
+            }
         }
     }
 
@@ -120,7 +145,7 @@ Rectangle {
         anchors.leftMargin: 10
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 15
-        source: "PonyPics/FileList"
+        source: "interfacepics/filelist"
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
@@ -147,7 +172,7 @@ Rectangle {
     //倒放
     Image {
         id: inverted
-        source: "PonyPics/Inverted"
+        source: "interfacepics/inverted"
         width: 30
         height: 30
         anchors.verticalCenter: playOrPause.verticalCenter
@@ -163,6 +188,7 @@ Rectangle {
                 else{
                     mainWindow.step=1
                 }
+                mainWindow.inverted(mainWindow.step)
             }
         }
     }
@@ -171,7 +197,7 @@ Rectangle {
     //上一个视频
     Image {
         id: last
-        source: "PonyPics/Last"
+        source: "interfacepics/last"
         width: 30
         height: 30
         anchors.verticalCenter: playOrPause.verticalCenter
@@ -181,7 +207,7 @@ Rectangle {
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
             onClicked: {
-
+                mainWindow.lastOne()
             }
         }
     }
@@ -201,41 +227,32 @@ Rectangle {
                 name: "pause"
                 PropertyChanges {
                     target: playOrPause
-                    source: "PonyPics/Play"
+                    source: "interfacepics/play"
                 }
             },
             State {
                 name: "play"
                 PropertyChanges {
                     target: playOrPause
-                    source: "PonyPics/Pause"
+                    source: "interfacepics/pause"
                 }
             }
         ]
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                if(!mainWindow.isPlay){
-                    if(mainWindow.endTime!==0){
-                        mainWindow.isPlay=true
-                        if(mainWindow.currentTime===mainWindow.endTime){
-                            videoSlide.value=0
-                            mainWindow.currentTime=0
-                        }
-                    }
-                }
-                else{
-                    mainWindow.isPlay=false
-                }
-            }
+            onClicked: IF.playOrPauseFunction()
+        }
+        Shortcut{
+            sequence: "Space"
+            onActivated: IF.playOrPauseFunction()
         }
     }
 
     //下一个视频
     Image {
         id: next
-        source: "PonyPics/Next"
+        source: "interfacepics/next"
         width: 30
         height: 30
         anchors.verticalCenter: playOrPause.verticalCenter
@@ -245,7 +262,7 @@ Rectangle {
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
             onClicked: {
-
+                mainWindow.nextOne()
             }
         }
     }
@@ -264,28 +281,28 @@ Rectangle {
                 name: "speed1"
                 PropertyChanges {
                     target: videoSpeed
-                    source: "PonyPics/Speed1"
+                    source: "interfacepics/speed1"
                 }
             },
             State {
                 name: "speed2"
                 PropertyChanges {
                     target: videoSpeed
-                    source: "PonyPics/Speed2"
+                    source: "interfacepics/speed2"
                 }
             },
             State {
                 name: "speed4"
                 PropertyChanges {
                     target: videoSpeed
-                    source: "PonyPics/Speed4"
+                    source: "interfacepics/speed4"
                 }
             },
             State {
                 name: "speed8"
                 PropertyChanges {
                     target: videoSpeed
-                    source: "PonyPics/Speed8"
+                    source: "interfacepics/speed8"
                 }
             }
         ]
@@ -309,6 +326,7 @@ Rectangle {
                     videoSpeed.state="speed1"
                     mainWindow.speed=1
                 }
+                mainWindow.speedChange(mainWindow.speed)
             }
         }
     }
@@ -320,27 +338,27 @@ Rectangle {
         anchors.right: videoVolumn.left
         anchors.rightMargin: 10
         anchors.verticalCenter: playOrPause.verticalCenter
-        state:  "ordered"
+        state:  mainWindow.playState
         states: [
             State {
                 name: "ordered"
                 PropertyChanges {
                     target: playMode
-                    source: "PonyPics/Ordered"
+                    source: "interfacepics/ordered"
                 }
             },
             State {
                 name: "single"
                 PropertyChanges {
                     target: playMode
-                    source: "PonyPics/Single"
+                    source: "interfacepics/single"
                 }
             },
             State {
                 name: "random"
                 PropertyChanges {
                     target: playMode
-                    source: "PonyPics/Random"
+                    source: "interfacepics/random"
                 }
             }
         ]
@@ -357,6 +375,7 @@ Rectangle {
                 else{
                     playMode.state="ordered"
                 }
+                mainWindow.playModeChange(playMode.state)
             }
         }
     }
@@ -381,7 +400,7 @@ Rectangle {
                     when: mainWindow.volumn===0
                     PropertyChanges {
                         target: speaker
-                        source:"PonyPics/Volumn0"
+                        source:"interfacepics/volumn0"
                     }
                 },
                 State {
@@ -389,7 +408,7 @@ Rectangle {
                     when: mainWindow.volumn>0&&mainWindow.volumn<=33
                     PropertyChanges {
                         target: speaker
-                        source:"PonyPics/Volumn1"
+                        source:"interfacepics/volumn1"
                     }
                 },
                 State {
@@ -397,7 +416,7 @@ Rectangle {
                     when: mainWindow.volumn>33&&mainWindow.volumn<=66
                     PropertyChanges {
                         target: speaker
-                        source:"PonyPics/Volumn2"
+                        source:"interfacepics/volumn2"
                     }
                 },
                 State {
@@ -405,7 +424,7 @@ Rectangle {
                     when: mainWindow.volumn>66
                     PropertyChanges {
                         target: speaker
-                        source:"PonyPics/Volumn3"
+                        source:"interfacepics/volumn3"
                     }
                 }
             ]
@@ -420,6 +439,7 @@ Rectangle {
                         mainWindow.beforeMute=mainWindow.volumn
                         mainWindow.volumn=0
                     }
+                    mainWindow.volumnChange(volumnSlider.value)
                 }
             }
         }
@@ -437,6 +457,15 @@ Rectangle {
             onMoved: {
                 mainWindow.volumn=volumnSlider.value
                 mainWindow.beforeMute=volumnSlider.value
+                mainWindow.volumnChange(volumnSlider.value)
+            }
+            Shortcut{
+                sequence: "Ctrl+Down"
+                onActivated: IF.volumnDown()
+            }
+            Shortcut{
+                sequence: "Ctrl+Up"
+                onActivated: IF.volumnUp()
             }
         }
     }
@@ -454,29 +483,27 @@ Rectangle {
                 name: "fullScreen"
                 PropertyChanges {
                     target: screenSize
-                    source: "PonyPics/NormalScreen"
+                    source: "interfacepics/normalscreen"
                 }
             },
             State {
                 name: "normalScreen"
                 PropertyChanges {
                     target: screenSize
-                    source: "PonyPics/FullScreen"
+                    source: "interfacepics/fullscreen"
                 }
             }
         ]
+        Shortcut{
+            sequence: "Ctrl+F"
+            onActivated: IF.screenSizeFunction()
+        }
+
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
             onClicked: {
-                if(mainWindow.isFullScreen){
-                    mainWindow.showNormal()
-                    mainWindow.isFullScreen=false
-                }
-                else{
-                    mainWindow.isFullScreen=true
-                    mainWindow.visibility=showFullScreen()
-                }
+                IF.screenSizeFunction()
             }
         }
     }
