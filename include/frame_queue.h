@@ -21,7 +21,7 @@ struct Frame {
     double frameRate{};
 };
 
-#define MAXQ 60
+#define MAXQ 30
 
 class FrameQueue {
 private:
@@ -48,10 +48,8 @@ public:
         }
     }
 
-    void flush() {
-        std::unique_lock<std::mutex> ul(lock);
-        size = 0;
-        rindex = windex;
+    int getSize() {
+        return size;
     }
 
     Frame *front() {
@@ -64,6 +62,8 @@ public:
 
     void pop() {
         std::unique_lock<std::mutex> ul(lock);
+        if (size == 0)
+            return;
         --size;
         ++rindex;
         rindex %= MAXQ;

@@ -108,10 +108,14 @@ public:
      * 成功获取一个视频帧后需要调用该函数从队列中弹出帧
      */
     void videoFrameQueuePop();
+
+    Frame toRGB24(Frame* src);
 };
 
 void saveFrame(AVFrame *pFrame, int width, int height, int iFrame);
 
-void test_saveFrame();
+void test_saveFrame(std::string filename);
+
+int test_countFrame(std::string filename);
 
 #endif //FFMPEGCMAKE_DEMUXER_H

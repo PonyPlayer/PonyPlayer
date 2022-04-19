@@ -12,12 +12,14 @@ FetchContent_MakeAvailable(gtest)
 add_executable(
         unit_tests
         example_test.cpp
+        demuxer_test.cpp
 )
 
 target_link_libraries(unit_tests
         PRIVATE
         gtest_main
         example
+        ffmpeg
         )
 
 # automatic discovery of unit tests

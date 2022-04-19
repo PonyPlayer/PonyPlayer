@@ -23,8 +23,10 @@ private:
 public:
     void flush() {
         std::unique_lock<std::mutex> ul(lock);
-        while (!queue.empty())
+        while (!queue.empty()) {
+            av_packet_unref(&queue.front());
             queue.pop_front();
+        }
     }
 
     void push(AVPacket* pkt) {
