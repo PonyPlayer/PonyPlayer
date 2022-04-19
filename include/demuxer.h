@@ -54,6 +54,8 @@ private:
 
     std::thread workerDemuxer;
 
+    bool isQuit{};
+
     void closeCtx() {
         if (videoCodecCtx) avcodec_close(videoCodecCtx);
         if (fmtCtx) avformat_close_input(&fmtCtx);
@@ -82,6 +84,7 @@ public:
             pkt(av_packet_alloc()) {}
 
     ~Demuxer() {
+        workerDemuxer.join();
         destroy();
     }
 
@@ -99,8 +102,9 @@ public:
     int openFile(std::string inputFileName);
 
     /**
-     * 阻塞地获取一个视频帧
-     * @return 帧的指针
+     * 获取一个视频帧，返回nullptr表示当前没有可用帧，可能是因为暂时没有
+     * 也可能是因为应用已经结束，需要根据控制层是否已下达结束指令来判断
+     * @return nullptr或Frame指针
      */
     Frame *videoFrameQueueFront();
 
@@ -109,13 +113,21 @@ public:
      */
     void videoFrameQueuePop();
 
+    /**
+     * 把从FFmpeg解码得到的YUV420图像帧转码成RGB24
+     * @param src 通过videoFrameQueueFront获得的Frame
+     * @return 包含RGB24图像帧的Frame结构体
+     */
     Frame toRGB24(Frame* src);
+
+    /**
+     * 结束demuxer，此后Front函数都会返回nullptr
+     */
+    void quit();
 };
 
-void saveFrame(AVFrame *pFrame, int width, int height, int iFrame);
+void test_saveFrame(std::string filename, int n);
 
-void test_saveFrame(std::string filename);
-
-int test_countFrame(std::string filename);
+int test_quit(std::string filename);
 
 #endif //FFMPEGCMAKE_DEMUXER_H

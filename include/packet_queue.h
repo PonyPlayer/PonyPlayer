@@ -14,13 +14,12 @@ INCLUDE_FFMPEG_BEGIN
 #include <libavcodec/avcodec.h>
 INCLUDE_FFMPEG_END
 
-class PacketQueue {
-private:
+struct PacketQueue {
     std::list<AVPacket> queue;
     std::mutex lock;
     std::condition_variable cv;
+    bool abort_request{};
 
-public:
     void flush() {
         std::unique_lock<std::mutex> ul(lock);
         while (!queue.empty()) {
@@ -35,14 +34,21 @@ public:
         cv.notify_all();
     }
 
-    AVPacket pop() {
+    int pop(AVPacket* receiver) {
         std::unique_lock<std::mutex> ul(lock);
-        while (queue.empty()) {
-            cv.wait(ul);
+        for (;;) {
+           if (abort_request) {
+               return -1;
+           }
+           if (!queue.empty()) {
+               *receiver = queue.front();
+               queue.pop_front();
+               return 1;
+           }
+           else {
+               cv.wait(ul);
+           }
         }
-        auto res = queue.front();
-        queue.pop_front();
-        return res;
     }
 };
 

@@ -105,10 +105,18 @@ int Demuxer::initDemuxer() {
     workerDemuxer = std::thread(&Demuxer::demuxer, this);
 }
 
+void Demuxer::quit() {
+    isQuit = true;
+    videoPacketQueue.abort_request = true;
+}
+
 void Demuxer::demuxer() {
     int ret;
     auto workerVideoDecoder = std::thread(&Demuxer::videoDecoder, this);
     for (;;) {
+        if (isQuit) {
+            break;
+        }
         ret = av_read_frame(fmtCtx, pkt);
         if (ret < 0) {
             AVPacket *nullPkt = av_packet_alloc();
@@ -130,7 +138,11 @@ void Demuxer::demuxer() {
 void Demuxer::videoDecoder() {
     int ret;
     for (;;) {
-        auto front = videoPacketQueue.pop();
+        AVPacket front;
+        ret = videoPacketQueue.pop(&front);
+        if (ret < 0) {
+            break;
+        }
         ret = avcodec_send_packet(videoCodecCtx, &front);
         if (ret < 0) {
             char errStr[256];

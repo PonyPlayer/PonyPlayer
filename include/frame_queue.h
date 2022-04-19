@@ -23,8 +23,7 @@ struct Frame {
 
 #define MAXQ 30
 
-class FrameQueue {
-private:
+struct FrameQueue {
     Frame queue[MAXQ];
     int rindex = 0;
     int windex = 0;
@@ -32,7 +31,6 @@ private:
     std::mutex lock;
     std::condition_variable cv;
 
-public:
     FrameQueue() {
         for (int i = 0; i < MAXQ; i++) {
             if (!(queue[i].frame = av_frame_alloc())) {
@@ -48,14 +46,10 @@ public:
         }
     }
 
-    int getSize() {
-        return size;
-    }
-
     Frame *front() {
         std::unique_lock<std::mutex> ul(lock);
-        while (size == 0) {
-            cv.wait(ul);
+        if (size == 0) {
+            return nullptr;
         }
         return &queue[rindex];
     }
@@ -80,13 +74,9 @@ public:
 
     void push() {
         std::unique_lock<std::mutex> ul(lock);
-        while (size >= MAXQ) {
-            cv.wait(ul);
-        }
         ++windex;
         ++size;
         windex %= MAXQ;
-        cv.notify_all();
     }
 };
 
