@@ -16,48 +16,61 @@
 // QuickItem may be deleted on the GUI thread while the render thread is rendering.
 // Therefore, we need to separate those two objects.
 class HurricaneRenderer : public QObject, protected QOpenGLFunctions_3_3_Core {
-Q_OBJECT
+    Q_OBJECT
+    Q_PROPERTY(QImage imageView READ getImageView WRITE setImageView)
 private:
-    QOpenGLShaderProgram program;
+    QOpenGLShaderProgram *program = nullptr; // late init
     GLuint vao, vbo, ebo, pbo;
-    QImage image;
-    QSize imageSize;
-    QSize viewportSize;
     QMatrix4x4 viewMatrix;
-    GLint posX, posY;
-    GLsizei width, height;
+    QQuickItem *quickItem;
+
+    // update flag
+    QSize imageSize = {};
+    QImage imageView;
+    bool flagUpdateImageContent = false;
+    bool flagUpdateImageSize = false;
+public:
+    const QImage &getImageView() const;
+
+    void setImageView(const QImage &imageView);
+
 public slots:
     void init();
     void paint();
 public:
-    HurricaneRenderer(QQuickWindow *pWindow);
+    HurricaneRenderer(QQuickItem *item);
 
     ~HurricaneRenderer() override;
-
-    void setViewport(GLint x, GLint y, GLsizei w, GLsizei h);
-
-    QQuickWindow *window;
 };
 
 
 class Hurricane : public QQuickItem {
     Q_OBJECT
-//    Q_PROPERTY(QSize viewport READ getViewport WRITE setViewport)
     QML_ELEMENT
 private:
     HurricaneRenderer *renderer = nullptr;
-    QSize viewport;
-
+    QImage image;
 public:
     Hurricane(QQuickItem *parent = nullptr);
-
     ~Hurricane() noexcept override;
+    const QImage &getImage() {
+        return image;
+    }
+    void setImage(const QImage &img) {
+        image = img;
+        this->update();
+        this->window()->update();
+        qDebug() << "setImage";
+    }
+
+protected:
+    void releaseResources() override;
+
 
 public slots:
     void handleWindowChanged(QQuickWindow *win);
     void sync();
-    void initRenderer();
-    void updateViewport();
+    void cleanup();
 };
 
 #endif // SQUIRCLE_H

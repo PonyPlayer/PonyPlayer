@@ -1,11 +1,12 @@
 #include "hurricane.h"
+#include "demuxer.h"
 
 #include <QOpenGLShaderProgram>
 
-
+#include <QDir>
 #include <QtCore/QRunnable>
 #include <QOpenGLFramebufferObjectFormat>
-#include <QOpenGLDebugLogger>
+#include <QTimer>
 
 const static GLfloat VERTEX_POS[] = {
         +1, +1, 0, 1, 0,
@@ -21,7 +22,20 @@ const static GLuint VERTEX_INDEX[] = {
 Hurricane::Hurricane(QQuickItem *parent) : QQuickItem(parent) {
     connect(this, &QQuickItem::windowChanged, this, &Hurricane::handleWindowChanged);
     qDebug() << "Create Hurricane QuickItem.";
-
+    auto *timer = new QTimer(this);
+    timer->setInterval(1000/30);
+    auto *demuxer = new Demuxer;
+    demuxer->openFile(QDir::homePath().append(u"/143468776-1-208.mp4"_qs).toStdString());
+    demuxer->initDemuxer();
+    qDebug() << "Load test.jpeg"  << "w:" << image.width() << "h:" << image.height() << "." << "Format:" << image.format();
+    connect(timer, &QTimer::timeout, [=]{
+        auto * frame = demuxer->videoFrameQueueFront();
+        demuxer->videoFrameQueuePop();
+        QImage img = QImage(frame->frame->data[0], frame->width, frame->height, frame->frame->linesize[0], QImage::Format::Format_RGB888);
+        img.convertTo(QImage::Format::Format_RGB888);
+        this->setImage(img);
+    });
+    timer->start();
 }
 
 
@@ -32,52 +46,73 @@ Hurricane::~Hurricane() noexcept {
 void Hurricane::handleWindowChanged(QQuickWindow *win)  {
     qDebug() << "Window Size Changed:" << static_cast<void *>(win) << ".";
     if (win) {
-        connect(this->window(), &QQuickWindow::sceneGraphInitialized, this, &Hurricane::initRenderer, Qt::DirectConnection);
-        connect(this->window(), &QQuickWindow::widthChanged, this, &Hurricane::updateViewport);
-        connect(this->window(), &QQuickWindow::heightChanged, this, &Hurricane::updateViewport);
+//        connect(this->window(), &QQuickWindow::sceneGraphInitialized, this->renderer, &HurricaneRenderer::init, Qt::DirectConnection);
+        connect(this->window(), &QQuickWindow::sceneGraphInvalidated, this, &Hurricane::cleanup, Qt::DirectConnection);
+        connect(this->window(), &QQuickWindow::beforeSynchronizing, this, &Hurricane::sync, Qt::DirectConnection);
+//        connect(this->window(), &QQuickWindow::widthChanged, this, &Hurricane::updateViewport);
+//        connect(this->window(), &QQuickWindow::heightChanged, this, &Hurricane::updateViewport);
         win->setColor(Qt::black);
     }
 }
 
-void Hurricane::initRenderer() {
-    // call on renderer thread
-    this->renderer = new HurricaneRenderer(this->window());
-    this->renderer->init();
-    this->updateViewport();
-    connect(this->window(), &QQuickWindow::beforeRenderPassRecording, renderer, &HurricaneRenderer::paint,
-            Qt::DirectConnection);
-}
 
 void Hurricane::sync() {
+    // call from renderer thread while GUI thread is blocking
+    if (!renderer) {
+        renderer = new HurricaneRenderer(this);
+        connect(window(), &QQuickWindow::beforeRendering, renderer, &HurricaneRenderer::init, Qt::DirectConnection);
+        connect(window(), &QQuickWindow::beforeRenderPassRecording, renderer, &HurricaneRenderer::paint, Qt::DirectConnection);
+    }
+    // sync state
+    renderer->setImageView(image);
 }
 
-void Hurricane::updateViewport() {
-    qreal ratio = window()->devicePixelRatio();
-    this->renderer->setViewport(
-            static_cast<GLint>(this->x() * ratio),
-            static_cast<GLint>(this->y() * ratio),
-            static_cast<GLsizei>(this->width() * ratio),
-            static_cast<GLsizei>(this->height() * ratio)
-    );
+void Hurricane::cleanup() {
+    // called from renderer thread
+    qDebug() << "SceneGraphInvalidated, delete renderer: " << static_cast<void *>(renderer) << ".";
+    delete renderer;
+    renderer = nullptr;
 }
 
 
-HurricaneRenderer::HurricaneRenderer(QQuickWindow *pWindow) : window(pWindow) {
+void Hurricane::releaseResources() {
+    // call on GUI thread
+    class CleanupJob : public QRunnable {
+    private:
+        HurricaneRenderer *renderer;
+    public:
+        explicit CleanupJob(HurricaneRenderer *renderer) : renderer(renderer) {}
+        void run() override {
+            qDebug() << "CleanupJob deletes renderer:" << static_cast<void*>(renderer) << ".";
+            delete renderer;
+        }
+    };
+    qDebug() << "ReleaseResources, schedule cleanup job.";
+    window()->scheduleRenderJob(new CleanupJob(renderer), QQuickWindow::BeforeRenderingStage);
+    Hurricane::renderer = nullptr;
+}
+
+
+HurricaneRenderer::HurricaneRenderer(QQuickItem *item) : quickItem(item) {
     qDebug() << "Create Hurricane Renderer:" << static_cast<void *>(this) << ".";
-    image.load(":/render/test.jpeg");
-    image.convertTo(QImage::Format::Format_RGB888);
-    qDebug() << "Load test.jpeg" << "Format:" << image.format() << ".";
 }
 
 HurricaneRenderer::~HurricaneRenderer(){
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-    program.release();
+    program->release();
     qDebug() << "Deconstruct Hurricane Renderer:" << static_cast<void *>(this) << ".";
+    delete program;
+    program = nullptr;
 }
 
 void HurricaneRenderer::init() {
+    if (program) {
+        // already initialized
+        return;
+    }
+    program = new QOpenGLShaderProgram;
     initializeOpenGLFunctions();
     qDebug() << "OpenGL version:"
              << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
@@ -85,10 +120,10 @@ void HurricaneRenderer::init() {
              << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION)));
     qDebug() << "Vendor:" << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
     qDebug() << "Renderer:" << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
-    program.addCacheableShaderFromSourceFile(QOpenGLShader::Vertex, u":/render/shader/vertex.vsh"_qs);
-    program.addCacheableShaderFromSourceFile(QOpenGLShader::Fragment, u":/render/shader/fragment.fsh"_qs);
-    program.link();
-    program.bind();
+    program->addCacheableShaderFromSourceFile(QOpenGLShader::Vertex, u":/render/shader/vertex.vsh"_qs);
+    program->addCacheableShaderFromSourceFile(QOpenGLShader::Fragment, u":/render/shader/fragment.fsh"_qs);
+    program->link();
+    program->bind();
 
     glClearColor(0.1f, 0.1f, 0.3f, 1.0f);
     glGenVertexArrays(1, &vao);
@@ -117,44 +152,63 @@ void HurricaneRenderer::init() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.width(), image.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, image.bits());
 
     viewMatrix.setToIdentity();
 //    viewMatrix.
 //    viewMatrix.ortho(0, 1, 0, 1, 0, 1);
-    program.setUniformValue("view", viewMatrix);
+    program->setUniformValue("view", viewMatrix);
 }
 
 void HurricaneRenderer::paint() {
-    window->beginExternalCommands();
+    // prepare
+    qreal ratio = quickItem->window()->devicePixelRatio();
+    auto x = static_cast<GLint>(quickItem->x() * ratio);
+    auto y = static_cast<GLint>(quickItem->y() * ratio);
+    auto w = static_cast<GLsizei>(quickItem->width() * ratio);
+    auto h = static_cast<GLsizei>(quickItem->height() * ratio);
 
+    quickItem->window()->beginExternalCommands();
+    qDebug() << "paint";
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glViewport(posX, posY, width, height);
-    glScissor(posX, posY, width, height);
+    glViewport(x, y, w, h);
+    glScissor(x, y, w, h);
     glEnable(GL_SCISSOR_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDisable(GL_DEPTH_TEST);
-    program.bind();
+
+    program->bind();
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
     glBindTexture(GL_TEXTURE_2D, pbo);
+
+    glActiveTexture(GL_TEXTURE0);
+    if (flagUpdateImageSize) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageSize.width(), imageSize.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, imageView.bits());
+    } else if (flagUpdateImageContent) {
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width(), imageSize.height(), GL_RGB, GL_UNSIGNED_BYTE, imageView.bits());
+    }
+
     glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
 
     glDisable(GL_SCISSOR_TEST);
 
-    program.release();
-    window->endExternalCommands();
+    program->release();
+    quickItem->window()->endExternalCommands();
 }
 
-void HurricaneRenderer::setViewport(GLint x, GLint y, GLsizei w, GLsizei h) {
-    this->posX = x;
-    this->posY = y;
-    this->width = w;
-    this->height = h;
-    qDebug() << "Set viewport" << "x =" << x << ", y =" << y << ", w =" << w << ", h =" << h;
+const QImage &HurricaneRenderer::getImageView() const {
+    return imageView;
 }
 
+void HurricaneRenderer::setImageView(const QImage &img) {
+    flagUpdateImageContent = true;
+    if (img.size() != imageSize)
+        flagUpdateImageSize = true;
+    HurricaneRenderer::imageSize = img.size();
+    HurricaneRenderer::imageView = img;
+//    quickItem->update();
+}
 
 

@@ -14,7 +14,7 @@ target_link_libraries(${PROJECT_NAME}
         PRIVATE Qt::Quick
         PRIVATE Qt::Qml
         PRIVATE Qt::QmlWorkerScript
-        PRIVATE ${FFmpeg}
+#        PRIVATE ${FFmpeg}
         ffmpeg
         utils
         view
