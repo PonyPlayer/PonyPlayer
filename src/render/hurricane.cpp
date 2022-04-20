@@ -21,6 +21,7 @@ const static GLuint VERTEX_INDEX[] = {
 };
 
 Hurricane::Hurricane(QQuickItem *parent) : QQuickItem(parent) {
+    this->setFlag(QQuickItem::ItemHasContents);
     connect(this, &QQuickItem::windowChanged, this, &Hurricane::handleWindowChanged);
     qDebug() << "Create Hurricane QuickItem.";
     auto *timer = new QTimer(this);

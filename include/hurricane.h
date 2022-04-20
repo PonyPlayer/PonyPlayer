@@ -59,7 +59,7 @@ public:
     void setImage(const QImage &img) {
         image = img;
         this->update();
-        this->window()->update();
+//        this->window()->update();
         qDebug() << "setImage";
     }
 
