@@ -92,7 +92,7 @@ Window {
     }
 
 
-    PONYBODY{
+    PonyBody{
         id:body
         anchors.top: parent.top
         anchors.left: parent.left
@@ -100,7 +100,7 @@ Window {
         anchors.bottom: footer.top
     }
 
-    PONYFOOTER{
+    PonyFooter{
         id:footer
         anchors.left: parent.left
         anchors.right: parent.right
