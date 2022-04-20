@@ -1,12 +1,17 @@
 #include <logger.h>
+#include "config.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QApplication>
+#include "playlist.h"
 
-void hello()
-{
+void hello() {
 //    (new Demuxer())->videoFrameQueueFront();
 }
+
 #include "hurricane.h"
+#include "kv_engine.h"
+#include "config.h"
 
 extern "C" {
 #pragma GCC diagnostic push
@@ -21,9 +26,9 @@ int main(int argc, char *argv[]) {
     QQuickWindow::setGraphicsApi(QSGRendererInterface::GraphicsApi::OpenGL);
     QSurfaceFormat format;
     format.setProfile(QSurfaceFormat::CoreProfile);
-    format.setVersion(3,3);
+    format.setVersion(3, 3);
     QSurfaceFormat::setDefaultFormat(format);
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
     qmlRegisterType<Hurricane>("Hurricane", 1, 0, "Hurricane");
     qInstallMessageHandler(logMessageHandler);
 
@@ -36,5 +41,11 @@ int main(int argc, char *argv[]) {
                     QCoreApplication::exit(-1);
             }, Qt::QueuedConnection);
     engine.load(url);
-    return QGuiApplication::exec();
+
+
+
+
+    PlayList playList("testList");
+
+    return QApplication::exec();
 }

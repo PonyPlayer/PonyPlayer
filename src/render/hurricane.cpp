@@ -4,6 +4,7 @@
 
 
 #include <QtCore/QRunnable>
+#include <QOpenGLExtraFunctions>
 #include <QOpenGLFramebufferObjectFormat>
 #include <QOpenGLDebugLogger>
 
