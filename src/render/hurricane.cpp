@@ -5,6 +5,7 @@
 
 #include <QDir>
 #include <QtCore/QRunnable>
+#include <QOpenGLExtraFunctions>
 #include <QOpenGLFramebufferObjectFormat>
 #include <QTimer>
 

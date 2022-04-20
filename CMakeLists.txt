@@ -18,6 +18,8 @@ find_package(Qt6 COMPONENTS
         Quick
         Qml
         QmlWorkerScript
+        Sql
+        Widgets
         REQUIRED)
 
 set(FFmpeg)

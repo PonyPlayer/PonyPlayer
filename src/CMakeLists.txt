@@ -5,6 +5,8 @@ add_subdirectory(example)
 add_subdirectory(ffmpeg)
 add_subdirectory(tests)
 add_subdirectory(render)
+add_subdirectory(playlist)
+add_subdirectory(config)
 include(${CMAKE_SOURCE_DIR}/cmake/platform.cmake)
 
 
@@ -14,11 +16,14 @@ target_link_libraries(${PROJECT_NAME}
         PRIVATE Qt::Quick
         PRIVATE Qt::Qml
         PRIVATE Qt::QmlWorkerScript
-#        PRIVATE ${FFmpeg}
+        PRIVATE Qt::Widgets
+        PRIVATE ${FFmpeg}
         ffmpeg
         utils
         view
-        render)
+        render
+        playlist
+        config)
 
 
 
