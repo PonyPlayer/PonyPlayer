@@ -5,7 +5,7 @@
 #include "demuxer.h"
 
 TEST(frame_test, save_frame) {
-    test_saveFrameRGB24("D:/test_video/video.mp4", 100);
+    test_saveFrameRGB24("D:/test_video/weird.mov", 100);
 }
 
 TEST(quit_test, test_quit) {

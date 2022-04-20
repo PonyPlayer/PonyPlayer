@@ -55,6 +55,7 @@ private:
     std::thread workerDemuxer;
 
     bool isQuit{};
+    bool eof{};
 
     void closeCtx() {
         if (videoCodecCtx) avcodec_close(videoCodecCtx);
@@ -113,7 +114,7 @@ public:
      * 把从FFmpeg解码得到的YUV420图像帧转码成RGB24
      * @param src 通过videoFrameQueueFront获得的Frame
      */
-    void toRGB24(Frame* src);
+    Frame toRGB24(Frame* src);
 
     /**
      * 结束demuxer，此后Front函数都会返回nullptr

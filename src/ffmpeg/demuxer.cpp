@@ -172,12 +172,14 @@ void Demuxer::videoDecoder() {
     }
 }
 
-void Demuxer::toRGB24(Frame *src) {
+Frame Demuxer::toRGB24(Frame *src) {
+    Frame dst = *src;
     sws_scale(imgSwsCtx,
               src->frame->data,src->frame->linesize,
               0,videoCodecCtx->height,
               rgbFrame->data,rgbFrame->linesize);
-    *src->frame = *rgbFrame;
+    dst.frame = rgbFrame;
+    return dst;
 }
 
 Frame *Demuxer::videoFrameQueueFront() {
