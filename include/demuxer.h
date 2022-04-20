@@ -113,6 +113,7 @@ public:
     /**
      * 把从FFmpeg解码得到的YUV420图像帧转码成RGB24
      * @param src 通过videoFrameQueueFront获得的Frame
+     * @return 包含RGB24图像帧的Frame结构体
      */
     Frame toRGB24(Frame* src);
 
