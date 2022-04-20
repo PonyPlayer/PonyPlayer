@@ -118,9 +118,9 @@ Rectangle {
                          age: 45
                      }
                  }
-//                highlight:Rectangle {
-//                    color: "red"
-//                }
+                highlight:Rectangle {
+                    color: "red"
+                }
                 delegate: Rectangle {
                      color: "transparent"
                      Text {
@@ -129,15 +129,28 @@ Rectangle {
                          lineHeight: 20
                      }
                      width: 200
-                     height: 20
-
+                     height: 24
                      MouseArea{
                          anchors.fill: parent
                          cursorShape: "PointingHandCursor"
                          onClicked: {
-//                             console.log(index)
-//                             listview.currentIndex=index
-                             listModel.remove(index,1)
+                             listview.currentIndex=index
+                         }
+                     }
+                     Image{
+                         height: 20
+                         width: 20
+                         source: "interfacepics/filecloser"
+                         anchors.right: parent.right
+                         anchors.top: parent.top
+                         anchors.rightMargin: 2
+                         anchors.topMargin: 2
+                         MouseArea{
+                             anchors.fill: parent
+                             cursorShape: "PointingHandCursor"
+                             onClicked: {
+                                 listModel.remove(index,1)
+                             }
                          }
                      }
                  }
@@ -182,3 +195,4 @@ Rectangle {
         }
     }
 }
+
