@@ -55,7 +55,6 @@ private:
     std::thread workerDemuxer;
 
     bool isQuit{};
-    bool eof{};
 
     void closeCtx() {
         if (videoCodecCtx) avcodec_close(videoCodecCtx);
@@ -87,9 +86,8 @@ public:
 
     /**
      * 启动所有worker线程，当前版本需要先调用openFile打开文件
-     * @return 0表示成功，-1表示失败
      */
-    int initDemuxer();
+    void initDemuxer();
 
     /**
      * 打开一个视频文件
@@ -125,6 +123,6 @@ public:
 
 void test_saveFrameRGB24(std::string filename, int n);
 
-int test_quit(std::string filename);
+void test_quit(std::string filename);
 
 #endif //FFMPEGCMAKE_DEMUXER_H

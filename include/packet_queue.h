@@ -46,7 +46,7 @@ struct PacketQueue {
                return 1;
            }
            else {
-               cv.wait(ul);
+               cv.wait_for(ul, std::chrono::milliseconds(10));
            }
         }
     }
