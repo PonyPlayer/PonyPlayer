@@ -101,7 +101,7 @@ int Demuxer::openFile(std::string inputFileName) {
     return -1;
 }
 
-int Demuxer::initDemuxer() {
+void Demuxer::initDemuxer() {
     workerDemuxer = std::thread(&Demuxer::demuxer, this);
 }
 

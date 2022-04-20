@@ -21,7 +21,7 @@ struct Frame {
     double frameRate{};
 };
 
-#define MAXQ 30
+const int MAXQ = 30;
 
 struct FrameQueue {
     Frame queue[MAXQ];
@@ -33,8 +33,9 @@ struct FrameQueue {
 
     FrameQueue() {
         for (int i = 0; i < MAXQ; i++) {
-            if (!(queue[i].frame = av_frame_alloc())) {
-                printf("oom\n");
+            queue[i].frame = av_frame_alloc();
+            if (queue[i].frame == nullptr) {
+                printf("at %d oom, size = %d\n", i, size);
                 exit(-1);
             }
         }

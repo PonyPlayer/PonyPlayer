@@ -35,8 +35,9 @@ void test_saveFrameRGB24(std::string filename, int n) {
     worker.join();
 }
 
-int test_quit(std::string filename) {
+void test_quit(std::string filename) {
     Demuxer demuxer;
+
     demuxer.openFile(filename);
     demuxer.initDemuxer();
     int cnt = 0;
@@ -57,4 +58,5 @@ int test_quit(std::string filename) {
     quit = true;
     demuxer.quit();
     worker.join();
+
 }
