@@ -9,6 +9,8 @@
 #include <QOpenGLFramebufferObjectFormat>
 #include <QTimer>
 
+#define IGNORE_PAINT_DEBUG_LOG
+
 const static GLfloat VERTEX_POS[] = {
         +1, +1, 0, 1, 0,
         +1, -1, 0, 1, 1,
@@ -170,7 +172,9 @@ void HurricaneRenderer::paint() {
     auto h = static_cast<GLsizei>(quickItem->height() * ratio);
 
     quickItem->window()->beginExternalCommands();
-    qDebug() << "paint";
+#ifndef IGNORE_PAINT_DEBUG_LOG
+    qDebug() << "Paint" << "x =" << x << "y =" << y << "w =" << w << "h =" << h;
+#endif
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glViewport(x, y, w, h);
     glScissor(x, y, w, h);

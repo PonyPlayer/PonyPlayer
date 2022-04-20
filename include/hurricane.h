@@ -58,9 +58,8 @@ public:
     }
     void setImage(const QImage &img) {
         image = img;
+        // make dirty
         this->update();
-//        this->window()->update();
-        qDebug() << "setImage";
     }
 
 protected:
