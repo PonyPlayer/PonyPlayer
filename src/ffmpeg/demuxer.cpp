@@ -6,7 +6,7 @@
 
 int Demuxer::initVideoState() {
     auto videoCodecPara = fmtCtx->streams[videoStreamIndex]->codecpar;
-    if (!(videoCodec = (AVCodec *) avcodec_find_decoder(videoCodecPara->codec_id))) {
+    if (!(videoCodec = const_cast<AVCodec *>(avcodec_find_decoder(videoCodecPara->codec_id)))) {
         printf("Cannot find valid decode codec.\n");
         return -1;
     }
@@ -43,7 +43,7 @@ int Demuxer::openFile(std::string inputFileName) {
         goto error;
     }
 
-    for (int i = 0; i < fmtCtx->nb_streams; i++) {
+    for (int i = 0; i < static_cast<int>(fmtCtx->nb_streams); i++) {
         if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
             videoStreamIndex = i;
             break;
@@ -76,7 +76,7 @@ int Demuxer::openFile(std::string inputFileName) {
                                              videoCodecCtx->height,
                                              1);
 
-    if (!(rgbOutBuf = (uint8_t *)av_malloc(rgbOutBufSize * sizeof(uint8_t)))) {
+    if (!(rgbOutBuf = static_cast<uint8_t *>(av_malloc(rgbOutBufSize * sizeof(uint8_t))))) {
         rgbOutBufSize = 0;
         printf("error av_malloc rgb output buf\n");
         goto error;
@@ -87,9 +87,9 @@ int Demuxer::openFile(std::string inputFileName) {
      * 因此rgbFrame不需要unref
      * */
     if (av_image_fill_arrays(
-            rgbFrame->data,rgbFrame->linesize,
-            rgbOutBuf,AV_PIX_FMT_RGB24,
-            videoCodecCtx->width,videoCodecCtx->height,1) < 0) {
+            rgbFrame->data, rgbFrame->linesize,
+            rgbOutBuf, AV_PIX_FMT_RGB24,
+            videoCodecCtx->width, videoCodecCtx->height, 1) < 0) {
         printf("error av_image_fill_arrays\n");
         goto error;
     }
@@ -175,9 +175,9 @@ void Demuxer::videoDecoder() {
 Frame Demuxer::toRGB24(Frame *src) {
     Frame dst = *src;
     sws_scale(imgSwsCtx,
-              src->frame->data,src->frame->linesize,
-              0,videoCodecCtx->height,
-              rgbFrame->data,rgbFrame->linesize);
+              src->frame->data, src->frame->linesize,
+              0, videoCodecCtx->height,
+              rgbFrame->data, rgbFrame->linesize);
     dst.frame = rgbFrame;
     return dst;
 }
