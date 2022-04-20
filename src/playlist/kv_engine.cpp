@@ -2,6 +2,7 @@
 #include <QMetaType>
 #include <QtSql/QtSql>
 #include <string>
+#include <sstream>
 #include <iomanip>
 #include "playlist.h"
 
