@@ -6,7 +6,7 @@
 
 #include <QImage>
 
-void test_saveFrame(std::string filename, int n) {
+void test_saveFrameRGB24(std::string filename, int n) {
     Demuxer demuxer;
     demuxer.openFile(filename);
     demuxer.initDemuxer();
@@ -16,12 +16,12 @@ void test_saveFrame(std::string filename, int n) {
             auto frame = demuxer.videoFrameQueueFront();
             if (frame) {
                 if (cnt < n) {
-                    auto rgb = demuxer.toRGB24(frame);
-                    QImage img(rgb.frame->data[0], rgb.width,
-                               rgb.height, rgb.frame->linesize[0],
+                    demuxer.toRGB24(frame);
+                    QImage img(frame->frame->data[0], frame->width,
+                               frame->height, frame->frame->linesize[0],
                                QImage::Format_RGB888);
                     char buf[64]{};
-                    sprintf(buf, "D:/test_video/frame%d.jpg", cnt);
+                    sprintf(buf, "D:/test_video/Frame%d.jpg", cnt);
                     img.save(QString(buf), "JPG");
                     ++cnt;
                     demuxer.videoFrameQueuePop();

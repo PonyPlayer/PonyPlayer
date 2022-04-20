@@ -25,8 +25,8 @@ INCLUDE_FFMPEG_END
  *      ret = demuxer.openFile(filename);
  *      initDemuxer();
  *      for (;;) {
- *          frame = demuxer.videoFrameQueueFront();
- *          if (frame) {
+ *          yuvFrame = demuxer.videoFrameQueueFront();
+ *          if (yuvFrame) {
  *              // do something
  *              demuxer.videoFramePop();
  *          }
@@ -46,7 +46,7 @@ private:
     int rgbOutBufSize{};
 
     AVFrame *rgbFrame{};
-    AVFrame *frame{};
+    AVFrame *yuvFrame{};
     AVPacket *pkt{};
 
     PacketQueue videoPacketQueue{};
@@ -62,11 +62,8 @@ private:
         if (imgSwsCtx) sws_freeContext(imgSwsCtx);
     }
 
-    void destroy() {
+    void cleanUp() {
         closeCtx();
-        if (pkt) av_packet_free(&pkt);
-        if (frame) av_frame_free(&frame);
-        if (rgbFrame) av_frame_free(&rgbFrame);
         if (rgbOutBuf) av_free(rgbOutBuf);
         if (videoCodecCtx) avcodec_free_context(&videoCodecCtx);
     }
@@ -80,12 +77,11 @@ private:
 public:
     Demuxer() :
             rgbFrame(av_frame_alloc()),
-            frame(av_frame_alloc()),
+            yuvFrame(av_frame_alloc()),
             pkt(av_packet_alloc()) {}
 
     ~Demuxer() {
         workerDemuxer.join();
-        destroy();
     }
 
     /**
@@ -116,9 +112,8 @@ public:
     /**
      * 把从FFmpeg解码得到的YUV420图像帧转码成RGB24
      * @param src 通过videoFrameQueueFront获得的Frame
-     * @return 包含RGB24图像帧的Frame结构体
      */
-    Frame toRGB24(Frame* src);
+    void toRGB24(Frame* src);
 
     /**
      * 结束demuxer，此后Front函数都会返回nullptr
@@ -126,7 +121,7 @@ public:
     void quit();
 };
 
-void test_saveFrame(std::string filename, int n);
+void test_saveFrameRGB24(std::string filename, int n);
 
 int test_quit(std::string filename);
 
