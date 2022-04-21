@@ -94,9 +94,7 @@ Window {
     minimumHeight: 500
     visible: true
     title: "PonyPlayer"
-    Component.onCompleted: {
-        mainWindow.openFile.connect(IF.mytest)
-    }
+
 
 //    Timer {
 //            id: holder

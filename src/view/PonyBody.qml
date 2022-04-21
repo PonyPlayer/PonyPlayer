@@ -170,6 +170,12 @@ Rectangle {
                     }
                 }
             }
+            Component.onCompleted: {
+                    mainWindow.start.connect(videoArea.start)
+                    mainWindow.stop.connect(videoArea.stop)
+                    mainWindow.openFile.connect(videoArea.openFile)
+                    mainWindow.setSpeed.connect(videoArea.setSpeed)
+                }
         }
         Rectangle{
             id:mediaMessage
