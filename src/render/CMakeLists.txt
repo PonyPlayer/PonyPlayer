@@ -22,4 +22,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt::Core
         Qt::Gui
         Qt::Qml
-        Qt::Quick)
+        Qt::Quick
+        ffmpeg
+        )

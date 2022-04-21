@@ -44,7 +44,14 @@ private:
     bool flagUpdateImageContent = false;
     bool flagUpdateImageSize = false;
 
-
+    void inline createTextureBuffer(GLuint *texture) {
+        QOpenGLFunctions_3_3_Core::glGenTextures(1, texture);
+        QOpenGLFunctions_3_3_Core::glBindTexture(GL_TEXTURE_2D, *texture);
+        QOpenGLFunctions_3_3_Core::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        QOpenGLFunctions_3_3_Core::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        QOpenGLFunctions_3_3_Core::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        QOpenGLFunctions_3_3_Core::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    }
 public slots:
     void init();
     void paint();
