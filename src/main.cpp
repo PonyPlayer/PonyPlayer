@@ -4,6 +4,7 @@
 #include <QApplication>
 #include "hurricane.h"
 #include "logger.h"
+#include "quickitem.h"
 
 int main(int argc, char *argv[]) {
     QQuickWindow::setGraphicsApi(QSGRendererInterface::GraphicsApi::OpenGL);
@@ -12,7 +13,7 @@ int main(int argc, char *argv[]) {
     format.setVersion(3, 3);
     QSurfaceFormat::setDefaultFormat(format);
     QApplication app(argc, argv);
-    qmlRegisterType<Hurricane>("Hurricane", 1, 0, "Hurricane");
+    qmlRegisterType<HurricanePlayer>("HurricanePlayer", 1, 0, "HurricanePlayer");
     qInstallMessageHandler(logMessageHandler);
     const QUrl url(u"qrc:/view/main.qml"_qs);
     QQmlApplicationEngine engine;
