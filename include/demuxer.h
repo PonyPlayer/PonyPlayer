@@ -10,7 +10,6 @@
 INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
-#include <libswscale/swscale.h>
 #include <libavutil/imgutils.h>
 INCLUDE_FFMPEG_END
 
@@ -18,6 +17,7 @@ INCLUDE_FFMPEG_END
 #include "frame_queue.h"
 #include <string>
 #include <thread>
+#include <optional>
 
 /**
  * usecase：
@@ -41,11 +41,7 @@ private:
     AVStream *videoStream{};
     AVCodec *videoCodec{};
     AVCodecContext *videoCodecCtx{};
-    SwsContext *imgSwsCtx{};
-    uint8_t *rgbOutBuf{};
-    int rgbOutBufSize{};
 
-    AVFrame *rgbFrame{};
     AVFrame *yuvFrame{};
     AVPacket *pkt{};
 
@@ -55,16 +51,15 @@ private:
     std::thread workerDemuxer;
 
     bool isQuit{};
+    bool isPause{};
 
     void closeCtx() {
         if (videoCodecCtx) avcodec_close(videoCodecCtx);
         if (fmtCtx) avformat_close_input(&fmtCtx);
-        if (imgSwsCtx) sws_freeContext(imgSwsCtx);
     }
 
     void cleanUp() {
         closeCtx();
-        if (rgbOutBuf) av_free(rgbOutBuf);
         if (videoCodecCtx) avcodec_free_context(&videoCodecCtx);
     }
 
@@ -76,7 +71,6 @@ private:
 
 public:
     Demuxer() :
-            rgbFrame(av_frame_alloc()),
             yuvFrame(av_frame_alloc()),
             pkt(av_packet_alloc()) {}
 
@@ -97,32 +91,33 @@ public:
     int openFile(std::string inputFileName);
 
     /**
-     * 获取一个视频帧，返回nullptr表示当前没有可用帧，可能是因为暂时没有
-     * 也可能是因为应用已经结束，需要根据控制层是否已下达结束指令来判断
-     * @return nullptr或Frame指针
+     * 获得图像数据
+     * @return 图像数据，根据picture.isValid()判断是否返回了可用数据，如果没有返回可用数据，
+     * 可能是因为暂时没有数据（比如当前视频已经播放结束或者正常的饥饿，这种情况重试即可），
+     * 也可能是因为上层下达了暂停/终止命令，需要自行判断
      */
-    Frame *videoFrameQueueFront();
+    Picture getPicture();
 
     /**
-     * 成功获取一个视频帧后需要调用该函数从队列中弹出帧
-     */
-    void videoFrameQueuePop();
-
-    /**
-     * 把从FFmpeg解码得到的YUV420图像帧转码成RGB24
-     * @param src 通过videoFrameQueueFront获得的Frame
-     * @return 包含RGB24图像帧的Frame结构体
-     */
-    Frame toRGB24(Frame* src);
-
-    /**
-     * 结束demuxer，此后Front函数都会返回nullptr
+     * 结束demuxer
      */
     void quit();
+
+    /**
+     * 暂停demuxer
+     */
+    void pause();
+
+    /**
+     * 恢复demuxer
+     */
+    void resume();
 };
 
-void test_saveFrameRGB24(std::string filename, int n);
+void test_saveFrame(std::string filename, int n);
 
 void test_quit(std::string filename);
+
+void test_pause(std::string filename, bool halfQuit);
 
 #endif //FFMPEGCMAKE_DEMUXER_H

@@ -13,12 +13,64 @@ INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
 INCLUDE_FFMPEG_END
 
+struct Picture {
+    AVFrame *frame{};
+    double pts{};
+    bool valid{};
+
+    Picture(AVFrame* frame_, double pts_):
+            frame(av_frame_alloc()), pts(pts_), valid(true) {
+        av_frame_move_ref(frame, frame_);
+        av_frame_unref(frame_);
+    }
+
+    Picture() = default;
+
+    /**
+     * @return 图像数据是否有效
+     */
+    bool isValid() {
+        return valid;
+    }
+
+    double getPTS() {
+        return pts;
+    }
+
+    uint8_t* getY() {
+        return frame->data[0];
+    }
+
+    uint8_t* getU() {
+        return frame->data[1];
+    }
+
+    uint8_t* getV() {
+        return frame->data[2];
+    }
+
+    int getLineSize() {
+        return frame->linesize[0];
+    }
+
+    int getWidth() {
+        return frame->width;
+    }
+
+    int getHeight() {
+        return frame->height;
+    }
+
+    /**
+     * 如果picture不包含有效数据，不要调用free
+     */
+    void free() {
+        if (frame) av_frame_free(&frame);
+    }
+};
+
 struct Frame {
     AVFrame *frame{};
-    int width{};
-    int height{};
-    double pts{};
-    double frameRate{};
 };
 
 const int MAXQ = 30;
