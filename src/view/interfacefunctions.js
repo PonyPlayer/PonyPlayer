@@ -73,11 +73,11 @@ function playOrPauseFunction(){
                 mainWindow.currentTime=0
             }
         }
-        mainWindow.play()
+        mainWindow.start()
     }
     else{
         mainWindow.isPlay=false
-        mainWindow.pause()
+        mainWindow.stop()
     }
 }
 

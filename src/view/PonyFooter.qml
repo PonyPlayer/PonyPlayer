@@ -51,7 +51,7 @@ Rectangle {
                 mainWindow.currentTime=0
                 videoSlide.value=0
                 mainWindow.isPlay=false
-                mainWindow.pause()
+                mainWindow.stop()
             }
             mainWindow.currentTime=videoSlide.value
             mainWindow.currentTimeChange(videoSlide.value)
@@ -60,7 +60,7 @@ Rectangle {
         onPressedChanged: {
             if(mainWindow.isPlay){
                 mainWindow.isPlay=false
-                mainWindow.pause()
+                mainWindow.stop()
             }
         }
         Shortcut{
@@ -91,7 +91,7 @@ Rectangle {
         anchors.rightMargin: 10
         anchors.top: parent.top
         anchors.topMargin: 5
-        text:((mainWindow.endTime-mainWindow.currentTime)>3600?parseInt((mainWindow.endTime-mainWindow.currentTime)/3600)+":":"")+(((mainWindow.endTime-mainWindow.currentTime)>60)?((parseInt((mainWindow.endTime-mainWindow.currentTime)/60)%60)>10?(parseInt((mainWindow.endTime-mainWindow.currentTime)/60)%60+":"):('0'+(parseInt((mainWindow.endTime-mainWindow.currentTime)/60)%60))+":"):"")+(((mainWindow.endTime-mainWindow.currentTime)%60)<10?'0'+(mainWindow.endTime-mainWindow.currentTime)%60:(mainWindow.endTime-mainWindow.currentTime)%60)
+        text:((mainWindow.endTime-mainWindow.currentTime)>=3600?parseInt((mainWindow.endTime-mainWindow.currentTime)/3600)+":":"")+(((mainWindow.endTime-mainWindow.currentTime)>=60)?((parseInt((mainWindow.endTime-mainWindow.currentTime)/60)%60)>10?(parseInt((mainWindow.endTime-mainWindow.currentTime)/60)%60+":"):('0'+(parseInt((mainWindow.endTime-mainWindow.currentTime)/60)%60))+":"):"")+(((mainWindow.endTime-mainWindow.currentTime)%60)<10?'0'+(mainWindow.endTime-mainWindow.currentTime)%60:(mainWindow.endTime-mainWindow.currentTime)%60)
         color: "white"
         font.bold: true
         lineHeight: 20
@@ -312,21 +312,21 @@ Rectangle {
             onClicked: {
                 if(videoSpeed.state==="speed1"){
                     videoSpeed.state="speed2"
-                    mainWindow.speed=2
+                    mainWindow.speed=2.0
                 }
                 else if(videoSpeed.state==="speed2"){
                     videoSpeed.state="speed4"
-                    mainWindow.speed=4
+                    mainWindow.speed=4.0
                 }
                 else if(videoSpeed.state==="speed4"){
                     videoSpeed.state="speed8"
-                    mainWindow.speed=8
+                    mainWindow.speed=8.0
                 }
                 else{
                     videoSpeed.state="speed1"
-                    mainWindow.speed=1
+                    mainWindow.speed=1.0
                 }
-                mainWindow.speedChange(mainWindow.speed)
+                mainWindow.setSpeed(mainWindow.speed)
             }
         }
     }

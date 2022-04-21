@@ -51,7 +51,7 @@ Window {
     //播放模式改变
     signal playModeChange(string state)
     //播放倍速改变
-    signal speedChange(int speed)
+    signal setSpeed(int speed)
     //打开文件
     signal openFilePath(string path)
 
