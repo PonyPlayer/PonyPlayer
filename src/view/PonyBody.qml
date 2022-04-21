@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
-
+import HurricanePlayer
 Rectangle {
     id:body
     //左侧播放列表栏
@@ -153,9 +153,8 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         clip:true
-        Rectangle{
+        HurricanePlayer{
             id:videoArea
-            color:"gray"
             MouseArea{
                 anchors.fill: parent
                 propagateComposedEvents: true

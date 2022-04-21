@@ -32,6 +32,7 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
+import HurricanePlayer
 import "./interfacefunctions.js" as IF
 Window {
     id:mainWindow
@@ -136,7 +137,9 @@ Window {
         anchors.bottom: parent.bottom
         Component.onCompleted: {
             mainWindow.setSpeed.connect(femo)
+            mainWindow.start.connect(statata)
         }
+        function statata(){console.log("start")}
         function femo(spe){
             console.log(spe)
         }
