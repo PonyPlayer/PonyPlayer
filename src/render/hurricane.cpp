@@ -28,18 +28,6 @@ Hurricane::Hurricane(QQuickItem *parent) : QQuickItem(parent) {
     this->setFlag(QQuickItem::ItemHasContents);
     connect(this, &QQuickItem::windowChanged, this, &Hurricane::handleWindowChanged);
     qDebug() << "Create Hurricane QuickItem.";
-    auto *timer = new QTimer(this);
-    timer->setInterval(1000/30);
-    auto *demuxer = new Demuxer;
-    demuxer->openFile(QDir::homePath().append(u"/143468776-1-208.mp4"_qs).toStdString());
-    demuxer->initDemuxer();
-    connect(timer, &QTimer::timeout, [=]{
-        auto * f = demuxer->videoFrameQueueFront();
-        demuxer->videoFrameQueuePop();
-        setImage(f);
-//        demuxer->videoFrameQueuePop();
-    });
-    timer->start();
 }
 
 
@@ -51,7 +39,7 @@ void Hurricane::handleWindowChanged(QQuickWindow *win)  {
     qDebug() << "Window Size Changed:" << static_cast<void *>(win) << ".";
     if (win) {
 //        connect(this->window(), &QQuickWindow::sceneGraphInitialized, this->renderer, &HurricaneRenderer::init, Qt::DirectConnection);
-        connect(this->window(), &QQuickWindow::sceneGraphInvalidated, this, &Hurricane::cleanup, Qt::DirectConnection);
+        connect(this->window(), &QQuickWindow::sceneGraphInvalidated, this, &Hurricane::cleanupRenderer, Qt::DirectConnection);
         connect(this->window(), &QQuickWindow::beforeSynchronizing, this, &Hurricane::sync, Qt::DirectConnection);
 //        connect(this->window(), &QQuickWindow::widthChanged, this, &Hurricane::updateViewport);
 //        connect(this->window(), &QQuickWindow::heightChanged, this, &Hurricane::updateViewport);
@@ -66,20 +54,21 @@ void Hurricane::sync() {
         renderer = new HurricaneRenderer(this);
         connect(window(), &QQuickWindow::beforeRendering, renderer, &HurricaneRenderer::init, Qt::DirectConnection);
         connect(window(), &QQuickWindow::beforeRenderPassRecording, renderer, &HurricaneRenderer::paint, Qt::DirectConnection);
+        connect(window(), &QQuickWindow::afterRendering, this, &Hurricane::cleanupPicture);
     }
     // sync state
-    if (frame) {
-        int w = frame->frame->width;
-        int h = frame->frame->height;
-        unsigned char * y  = frame->frame->data[0];
-        unsigned char * u  = frame->frame->data[1];
-        unsigned char * v  = frame->frame->data[2];
+    if (picture.isValid()) {
+        int w = picture.getWidth();
+        int h = picture.getHeight();
+        unsigned char * y  = picture.getY();
+        unsigned char * u  = picture.getU();
+        unsigned char * v  = picture.getV();
         renderer->setImageView({w, h}, y, u, v);
     }
 
 }
 
-void Hurricane::cleanup() {
+void Hurricane::cleanupRenderer() {
     // called from renderer thread
     qDebug() << "SceneGraphInvalidated, delete renderer: " << static_cast<void *>(renderer) << ".";
     delete renderer;
@@ -102,6 +91,14 @@ void Hurricane::releaseResources() {
     qDebug() << "ReleaseResources, schedule cleanup job.";
     window()->scheduleRenderJob(new CleanupJob(renderer), QQuickWindow::BeforeRenderingStage);
     Hurricane::renderer = nullptr;
+}
+
+void Hurricane::cleanupPicture() {
+    // call on GUI thread
+    for(auto && pic : cleanupPictureQueue) {
+        pic.free();
+    }
+    cleanupPictureQueue.clear();
 }
 
 

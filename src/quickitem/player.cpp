@@ -4,25 +4,27 @@
 #include "quickitem.h"
 
 void HurricanePlayer::openFile(const QString &path) {
-    qDebug() << "open file" << path;
+    qDebug() << "HP: open file" << path;
 }
 
 void HurricanePlayer::start() {
-    qDebug() << "pause start";
+    qDebug() << "HP: pause start";
 }
 
 void HurricanePlayer::pause() {
-    qDebug() << "pause";
+    qDebug() << "HP: pause";
 }
 
 void HurricanePlayer::stop() {
-    qDebug() << "stop";
+    qDebug() << "HP: stop";
 }
 
+HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent) {}
+
 void HurricanePlayer::seek(qreal sec) {
-    qDebug() << "seek" << sec;
+    qDebug() << "HP: seek" << sec;
 }
 
 void HurricanePlayer::setSpeed(qreal speed) {
-    qDebug() << "setSpeed" << speed;
+    qDebug() << "HP: setSpeed" << speed;
 }

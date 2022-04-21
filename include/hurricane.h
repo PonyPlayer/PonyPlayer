@@ -10,19 +10,15 @@
 
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickWindow>
-
-
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
-
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLTexture>
 #include <QOpenGLBuffer>
 #include <QQuickFramebufferObject>
-
 #include <QOpenGLFunctions_3_3_Core>
-
 #include <QOpenGLDebugLogger>
+#include <QVector>
 #include "frame_queue.h"
 
 // QuickItem lives in the GUI thread and the rendering potentially happens on the render thread.
@@ -69,12 +65,16 @@ class Hurricane : public QQuickItem {
     QML_ELEMENT
 private:
     HurricaneRenderer *renderer = nullptr;
-    Frame* frame = nullptr;
+    Picture picture;
+    std::vector<Picture> cleanupPictureQueue;
 public:
     Hurricane(QQuickItem *parent = nullptr);
     ~Hurricane() noexcept override;
-    void setImage(Frame *f) {
-        frame = f;
+    void setImage(const Picture &pic) {
+        // setImage -> sync -> render
+        // since picture may use on renderer thread, we CANNOT free now
+        cleanupPictureQueue.push_back(picture);
+        picture = pic;
         // make dirty
         this->update();
     }
@@ -86,7 +86,8 @@ protected:
 public slots:
     void handleWindowChanged(QQuickWindow *win);
     void sync();
-    void cleanup();
+    void cleanupRenderer();
+    void cleanupPicture();
 };
 
 #endif // SQUIRCLE_H

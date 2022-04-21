@@ -36,6 +36,9 @@ class HurricanePlayer : public Hurricane {
 //    Q_PROPERTY(HurricaneState state NOTIFY stateChanged)
 public:
     HurricaneState state;
+
+    HurricanePlayer(QQuickItem *parent= nullptr);
+
 signals:
     /**
      * 状态发生改变
