@@ -66,7 +66,7 @@ int Demuxer::openFile(std::string inputFileName) {
                                      videoCodecCtx->width,
                                      videoCodecCtx->height,
                                      AV_PIX_FMT_RGB24,
-                                     SWS_BICUBIC, NULL, NULL, NULL))) {
+                                     SWS_BICUBIC, nullptr, nullptr, nullptr))) {
         printf("error get sws context\n");
         goto error;
     }
@@ -105,10 +105,18 @@ int Demuxer::initDemuxer() {
     workerDemuxer = std::thread(&Demuxer::demuxer, this);
 }
 
+void Demuxer::quit() {
+    isQuit = true;
+    videoPacketQueue.abort_request = true;
+}
+
 void Demuxer::demuxer() {
     int ret;
     auto workerVideoDecoder = std::thread(&Demuxer::videoDecoder, this);
     for (;;) {
+        if (isQuit) {
+            break;
+        }
         ret = av_read_frame(fmtCtx, pkt);
         if (ret < 0) {
             AVPacket *nullPkt = av_packet_alloc();
@@ -130,7 +138,11 @@ void Demuxer::demuxer() {
 void Demuxer::videoDecoder() {
     int ret;
     for (;;) {
-        auto front = videoPacketQueue.pop();
+        AVPacket front;
+        ret = videoPacketQueue.pop(&front);
+        if (ret < 0) {
+            break;
+        }
         ret = avcodec_send_packet(videoCodecCtx, &front);
         if (ret < 0) {
             char errStr[256];
@@ -138,21 +150,16 @@ void Demuxer::videoDecoder() {
             printf("avcodec_send_packet %d %s\n", ret, errStr);
             break;
         }
-        while ((ret = avcodec_receive_frame(videoCodecCtx, frame)) >= 0) {
+        while ((ret = avcodec_receive_frame(videoCodecCtx, yuvFrame)) >= 0) {
             auto picFrame = videoFrameQueue.nextWritePos();
 
-            sws_scale(imgSwsCtx,
-                      frame->data,frame->linesize,
-                      0,videoCodecCtx->height,
-                      rgbFrame->data,rgbFrame->linesize);
-
-            picFrame->height = frame->height;
-            picFrame->width = frame->width;
+            picFrame->height = yuvFrame->height;
+            picFrame->width = yuvFrame->width;
             picFrame->frameRate = av_q2d(videoStream->r_frame_rate);
-            picFrame->pts = static_cast<double>(frame->pts) * av_q2d(videoStream->time_base);
-            *picFrame->frame = *rgbFrame;
+            picFrame->pts = static_cast<double>(yuvFrame->pts) * av_q2d(videoStream->time_base);
+            av_frame_move_ref(picFrame->frame, yuvFrame);
 
-            av_frame_unref(frame);
+            av_frame_unref(yuvFrame);
             videoFrameQueue.push();
         }
         if (ret < 0) {
@@ -163,6 +170,16 @@ void Demuxer::videoDecoder() {
         }
         av_packet_unref(&front);
     }
+}
+
+Frame Demuxer::toRGB24(Frame *src) {
+    Frame dst = *src;
+    sws_scale(imgSwsCtx,
+              src->frame->data,src->frame->linesize,
+              0,videoCodecCtx->height,
+              rgbFrame->data,rgbFrame->linesize);
+    dst.frame = rgbFrame;
+    return dst;
 }
 
 Frame *Demuxer::videoFrameQueueFront() {
