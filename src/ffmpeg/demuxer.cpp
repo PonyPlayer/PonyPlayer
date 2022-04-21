@@ -60,40 +60,6 @@ int Demuxer::openFile(std::string inputFileName) {
         goto error;
     }
 
-    if (!(imgSwsCtx = sws_getContext(videoCodecCtx->width,
-                                     videoCodecCtx->height,
-                                     videoCodecCtx->pix_fmt,
-                                     videoCodecCtx->width,
-                                     videoCodecCtx->height,
-                                     AV_PIX_FMT_RGB24,
-                                     SWS_BICUBIC, nullptr, nullptr, nullptr))) {
-        printf("error get sws context\n");
-        goto error;
-    }
-
-    rgbOutBufSize = av_image_get_buffer_size(AV_PIX_FMT_RGB24,
-                                             videoCodecCtx->width,
-                                             videoCodecCtx->height,
-                                             1);
-
-    if (!(rgbOutBuf = static_cast<uint8_t *>(av_malloc(rgbOutBufSize * sizeof(uint8_t))))) {
-        rgbOutBufSize = 0;
-        printf("error av_malloc rgb output buf\n");
-        goto error;
-    }
-
-    /*
-     * 该函数会把rgbOutBuf作为新格式数据的底层缓冲区，不会再动态分配
-     * 因此rgbFrame不需要unref
-     * */
-    if (av_image_fill_arrays(
-            rgbFrame->data, rgbFrame->linesize,
-            rgbOutBuf, AV_PIX_FMT_RGB24,
-            videoCodecCtx->width, videoCodecCtx->height, 1) < 0) {
-        printf("error av_image_fill_arrays\n");
-        goto error;
-    }
-
     return 0;
 
     error:
@@ -110,12 +76,24 @@ void Demuxer::quit() {
     videoPacketQueue.abort_request = true;
 }
 
+void Demuxer::pause() {
+    isPause = true;
+}
+
+void Demuxer::resume() {
+    isPause = false;
+}
+
 void Demuxer::demuxer() {
     int ret;
     auto workerVideoDecoder = std::thread(&Demuxer::videoDecoder, this);
     for (;;) {
         if (isQuit) {
             break;
+        }
+        if (isPause) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            continue;
         }
         ret = av_read_frame(fmtCtx, pkt);
         if (ret < 0) {
@@ -138,6 +116,10 @@ void Demuxer::demuxer() {
 void Demuxer::videoDecoder() {
     int ret;
     for (;;) {
+        if (isPause && !isQuit) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            continue;
+        }
         AVPacket front;
         ret = videoPacketQueue.pop(&front);
         if (ret < 0) {
@@ -152,13 +134,7 @@ void Demuxer::videoDecoder() {
         }
         while ((ret = avcodec_receive_frame(videoCodecCtx, yuvFrame)) >= 0) {
             auto picFrame = videoFrameQueue.nextWritePos();
-
-            picFrame->height = yuvFrame->height;
-            picFrame->width = yuvFrame->width;
-            picFrame->frameRate = av_q2d(videoStream->r_frame_rate);
-            picFrame->pts = static_cast<double>(yuvFrame->pts) * av_q2d(videoStream->time_base);
             av_frame_move_ref(picFrame->frame, yuvFrame);
-
             av_frame_unref(yuvFrame);
             videoFrameQueue.push();
         }
@@ -172,20 +148,13 @@ void Demuxer::videoDecoder() {
     }
 }
 
-Frame Demuxer::toRGB24(Frame *src) {
-    Frame dst = *src;
-    sws_scale(imgSwsCtx,
-              src->frame->data, src->frame->linesize,
-              0, videoCodecCtx->height,
-              rgbFrame->data, rgbFrame->linesize);
-    dst.frame = rgbFrame;
-    return dst;
-}
-
-Frame *Demuxer::videoFrameQueueFront() {
-    return videoFrameQueue.front();
-}
-
-void Demuxer::videoFrameQueuePop() {
-    videoFrameQueue.pop();
+Picture Demuxer::getPicture() {
+    Picture res;
+    auto frame = videoFrameQueue.front();
+    if (frame) {
+        double pts = static_cast<double>(frame->frame->pts) * av_q2d(videoStream->time_base);
+        res = Picture(frame->frame, pts);
+        videoFrameQueue.pop();
+    }
+    return res;
 }
