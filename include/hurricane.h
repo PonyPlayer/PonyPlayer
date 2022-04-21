@@ -1,15 +1,27 @@
 #ifndef SQUIRCLE_H
 #define SQUIRCLE_H
 
+#ifdef __APPLE__
+// suppress apple warning
+#define GL_SILENCE_DEPRECATION
+#include <OpenGL/gl.h>
+#undef GL_SILENCE_DEPRECATION
+#endif
+
 #include <QtQuick/QQuickItem>
 #include <QtQuick/QQuickWindow>
+
+
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
+
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLTexture>
 #include <QOpenGLBuffer>
 #include <QQuickFramebufferObject>
+
 #include <QOpenGLFunctions_3_3_Core>
+
 #include <QOpenGLDebugLogger>
 #include "frame_queue.h"
 
