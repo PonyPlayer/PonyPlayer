@@ -15,7 +15,7 @@ Rectangle {
         anchors.leftMargin: 10
         anchors.top: parent.top
         anchors.topMargin: 5
-        text:((mainWindow.currentTime)>3600?parseInt((mainWindow.currentTime)/3600)+":":"")+(((mainWindow.currentTime)>60)?((parseInt((mainWindow.currentTime)/60)%60)>10?(parseInt((mainWindow.currentTime)/60)%60+":"):('0'+(parseInt((mainWindow.currentTime)/60)%60))+":"):"")+(((mainWindow.currentTime)%60)<10?'0'+(mainWindow.currentTime)%60:(mainWindow.currentTime)%60)
+        text:((mainWindow.currentTime)>=3600?parseInt((mainWindow.currentTime)/3600)+":":"")+(((mainWindow.currentTime)>=60)?((parseInt((mainWindow.currentTime)/60)%60)>10?(parseInt((mainWindow.currentTime)/60)%60+":"):('0'+(parseInt((mainWindow.currentTime)/60)%60))+":"):"")+(((mainWindow.currentTime)%60)<10?'0'+(mainWindow.currentTime)%60:(mainWindow.currentTime)%60)
         color: "white"
         font.bold: true
         lineHeight: 20
