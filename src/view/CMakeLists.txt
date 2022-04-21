@@ -8,30 +8,30 @@ qt_add_qml_module(${PROJECT_NAME}
         PLUGIN_TARGET view
         QML_FILES
             main.qml
-            App.qml
             PonyBody.qml
             PonyFooter.qml
+            interfacefunctions.js
         RESOURCES
-            PonyPics/FileCloser.png
-            PonyPics/FileList.png
-            PonyPics/FileOpener.png
-            PonyPics/FullScreen.png
-            PonyPics/Inverted.png
-            PonyPics/Last.png
-            PonyPics/Minimize.png
-            PonyPics/Next.png
-            PonyPics/NormalScreen.png
-            PonyPics/Ordered.png
-            PonyPics/Pause.png
-            PonyPics/Play.png
-            PonyPics/Random.png
-            PonyPics/Single.png
-            PonyPics/Speed1.png
-            PonyPics/Speed2.png
-            PonyPics/Speed4.png
-            PonyPics/Speed8.png
-            PonyPics/Volumn0.png
-            PonyPics/Volumn1.png
-            PonyPics/Volumn2.png
-            PonyPics/Volumn3.png
+            interfacepics/filecloser.png
+            interfacepics/filelist.png
+            interfacepics/fileopener.png
+            interfacepics/fullscreen.png
+            interfacepics/inverted.png
+            interfacepics/last.png
+            interfacepics/minimize.png
+            interfacepics/next.png
+            interfacepics/normalscreen.png
+            interfacepics/ordered.png
+            interfacepics/pause.png
+            interfacepics/play.png
+            interfacepics/random.png
+            interfacepics/single.png
+            interfacepics/speed1.png
+            interfacepics/speed2.png
+            interfacepics/speed4.png
+            interfacepics/speed8.png
+            interfacepics/volumn0.png
+            interfacepics/volumn1.png
+            interfacepics/volumn2.png
+            interfacepics/volumn3.png
         )
