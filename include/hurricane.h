@@ -11,28 +11,27 @@
 #include <QQuickFramebufferObject>
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLDebugLogger>
+#include "frame_queue.h"
 
 // QuickItem lives in the GUI thread and the rendering potentially happens on the render thread.
 // QuickItem may be deleted on the GUI thread while the render thread is rendering.
 // Therefore, we need to separate those two objects.
 class HurricaneRenderer : public QObject, protected QOpenGLFunctions_3_3_Core {
     Q_OBJECT
-    Q_PROPERTY(QImage imageView READ getImageView WRITE setImageView)
 private:
     QOpenGLShaderProgram *program = nullptr; // late init
-    GLuint vao, vbo, ebo, pbo;
+    GLuint vao, vbo, ebo, pbos[3];
+    GLuint textureY, textureU, textureV;
+    GLubyte * imageY, *imageU, *imageV;
     QMatrix4x4 viewMatrix;
     QQuickItem *quickItem;
 
     // update flag
     QSize imageSize = {};
-    QImage imageView;
+    char* imageYUV[3];
     bool flagUpdateImageContent = false;
     bool flagUpdateImageSize = false;
-public:
-    const QImage &getImageView() const;
 
-    void setImageView(const QImage &imageView);
 
 public slots:
     void init();
@@ -41,6 +40,8 @@ public:
     HurricaneRenderer(QQuickItem *item);
 
     ~HurricaneRenderer() override;
+
+    void setImageView(QSize sz, GLubyte *y, GLubyte *u, GLubyte *v);
 };
 
 
@@ -49,15 +50,12 @@ class Hurricane : public QQuickItem {
     QML_ELEMENT
 private:
     HurricaneRenderer *renderer = nullptr;
-    QImage image;
+    Frame* frame = nullptr;
 public:
     Hurricane(QQuickItem *parent = nullptr);
     ~Hurricane() noexcept override;
-    const QImage &getImage() {
-        return image;
-    }
-    void setImage(const QImage &img) {
-        image = img;
+    void setImage(Frame *f) {
+        frame = f;
         // make dirty
         this->update();
     }

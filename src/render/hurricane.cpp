@@ -31,13 +31,11 @@ Hurricane::Hurricane(QQuickItem *parent) : QQuickItem(parent) {
     auto *demuxer = new Demuxer;
     demuxer->openFile(QDir::homePath().append(u"/143468776-1-208.mp4"_qs).toStdString());
     demuxer->initDemuxer();
-    qDebug() << "Load test.jpeg"  << "w:" << image.width() << "h:" << image.height() << "." << "Format:" << image.format();
     connect(timer, &QTimer::timeout, [=]{
-        auto * frame = demuxer->videoFrameQueueFront();
+        auto * f = demuxer->videoFrameQueueFront();
         demuxer->videoFrameQueuePop();
-        QImage img = QImage(frame->frame->data[0], frame->width, frame->height, frame->frame->linesize[0], QImage::Format::Format_RGB888);
-        img.convertTo(QImage::Format::Format_RGB888);
-        this->setImage(img);
+        setImage(f);
+//        demuxer->videoFrameQueuePop();
     });
     timer->start();
 }
@@ -68,7 +66,15 @@ void Hurricane::sync() {
         connect(window(), &QQuickWindow::beforeRenderPassRecording, renderer, &HurricaneRenderer::paint, Qt::DirectConnection);
     }
     // sync state
-    renderer->setImageView(image);
+    if (frame) {
+        int w = frame->frame->width;
+        int h = frame->frame->height;
+        unsigned char * y  = frame->frame->data[0];
+        unsigned char * u  = frame->frame->data[1];
+        unsigned char * v  = frame->frame->data[2];
+        renderer->setImageView({w, h}, y, u, v);
+    }
+
 }
 
 void Hurricane::cleanup() {
@@ -111,6 +117,14 @@ HurricaneRenderer::~HurricaneRenderer(){
     program = nullptr;
 }
 
+void inline createTextureBuffer(GLuint *texture) {
+    glGenTextures(1, texture);
+    glBindTexture(GL_TEXTURE_2D, *texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+}
 void HurricaneRenderer::init() {
     if (program) {
         // already initialized
@@ -148,18 +162,18 @@ void HurricaneRenderer::init() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(VERTEX_INDEX), VERTEX_INDEX, GL_STATIC_DRAW);
 
+    program->setUniformValue("tex_y", 0);
+    program->setUniformValue("tex_u", 1);
+    program->setUniformValue("tex_v", 2);
     glEnable(GL_TEXTURE_2D);
     glActiveTexture(GL_TEXTURE0);
-    glGenTextures(1, &pbo);
-    glBindTexture(GL_TEXTURE_2D, pbo);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    createTextureBuffer(&textureY);
+    glActiveTexture(GL_TEXTURE1);
+    createTextureBuffer(&textureU);
+    glActiveTexture(GL_TEXTURE2);
+    createTextureBuffer(&textureV);
 
     viewMatrix.setToIdentity();
-//    viewMatrix.
-//    viewMatrix.ortho(0, 1, 0, 1, 0, 1);
     program->setUniformValue("view", viewMatrix);
 }
 
@@ -187,33 +201,46 @@ void HurricaneRenderer::paint() {
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBindTexture(GL_TEXTURE_2D, pbo);
+
 
     glActiveTexture(GL_TEXTURE0);
     if (flagUpdateImageSize) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageSize.width(), imageSize.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, imageView.bits());
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureY);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, imageSize.width(), imageSize.height(), 0, GL_RED, GL_UNSIGNED_BYTE, imageY);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, textureU);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, imageSize.width() / 2, imageSize.height() / 2, 0, GL_RED, GL_UNSIGNED_BYTE, imageU);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, textureV);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, imageSize.width() / 2, imageSize.height() / 2, 0, GL_RED, GL_UNSIGNED_BYTE, imageV);
     } else if (flagUpdateImageContent) {
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width(), imageSize.height(), GL_RGB, GL_UNSIGNED_BYTE, imageView.bits());
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureY);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width(), imageSize.height(), GL_RED, GL_UNSIGNED_BYTE, imageY);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, textureU);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width() / 2, imageSize.height() / 2, GL_RED, GL_UNSIGNED_BYTE, imageU);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, textureV);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width() / 2, imageSize.height() / 2, GL_RED, GL_UNSIGNED_BYTE, imageV);
     }
-
     glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
-
     glDisable(GL_SCISSOR_TEST);
 
     program->release();
     quickItem->window()->endExternalCommands();
 }
 
-const QImage &HurricaneRenderer::getImageView() const {
-    return imageView;
-}
 
-void HurricaneRenderer::setImageView(const QImage &img) {
+void HurricaneRenderer::setImageView(QSize sz, GLubyte *y, GLubyte *u, GLubyte *v) {
     flagUpdateImageContent = true;
-    if (img.size() != imageSize)
+    if (sz != imageSize)
         flagUpdateImageSize = true;
-    HurricaneRenderer::imageSize = img.size();
-    HurricaneRenderer::imageView = img;
+    imageSize = sz;
+    imageY = y;
+    imageU = u;
+    imageV = v;
 //    quickItem->update();
 }
 
