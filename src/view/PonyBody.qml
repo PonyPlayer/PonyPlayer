@@ -24,7 +24,7 @@ Rectangle {
                 id:fileDialog
                 title: "choose video"
                 onAccepted: {
-                    mainWindow.openFilePath(fileDialog.currentFile);
+                    mainWindow.openFile(fileDialog.currentFile);
                 }
                 onRejected: {
                     console.log("reject")
@@ -51,22 +51,7 @@ Rectangle {
                     }
                 }
             }
-            //关闭文件
-//            Image {
-//                id:removeFile
-//                width: 25
-//                height: 20
-//                anchors.left: openFile.right
-//                anchors.leftMargin: 5
-//                anchors.verticalCenter: minimize.verticalCenter
-//                source: "PonyPics/FileCloser"
-//                MouseArea{
-//                    anchors.fill: parent
-//                    cursorShape: "PointingHandCursor"
-//                    onClicked: {
-//                    }
-//                }
-//            }
+
             //关闭播放栏列表
             Image {
                 id: minimize
@@ -178,9 +163,11 @@ Rectangle {
                 onClicked: {
                     if(mainWindow.isPlay){
                         mainWindow.isPlay=false
+                        mainWindow.stop()
                     }
                     else{
                         mainWindow.isPlay=true
+                        mainWindow.start()
                     }
                 }
             }
@@ -195,4 +182,3 @@ Rectangle {
         }
     }
 }
-
