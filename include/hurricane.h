@@ -28,7 +28,7 @@ class HurricaneRenderer : public QObject, protected QOpenGLFunctions_3_3_Core {
     Q_OBJECT
 private:
     QOpenGLShaderProgram *program = nullptr; // late init
-    GLuint vao, vbo, ebo, pbos[3];
+    GLuint vao, vbo, ebo;
     GLuint textureY, textureU, textureV;
     GLubyte * imageY, *imageU, *imageV;
     QMatrix4x4 viewMatrix;
@@ -36,7 +36,6 @@ private:
 
     // update flag
     QSize imageSize = {};
-    char* imageYUV[3];
     bool flagUpdateImageContent = false;
     bool flagUpdateImageSize = false;
 

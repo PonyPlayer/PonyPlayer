@@ -11,13 +11,13 @@
 #include <QOpenGLFramebufferObjectFormat>
 #include <QTimer>
 
-#define IGNORE_PAINT_DEBUG_LOG
+//#define IGNORE_PAINT_DEBUG_LOG
 
 const static GLfloat VERTEX_POS[] = {
-        +1, +1, 0, 1, 0,
-        +1, -1, 0, 1, 1,
-        -1, +1, 0, 0, 0,
-        -1, -1, 0, 0, 1,
+        +1, +1, 1, 1, 0,
+        +1, -1, 1, 1, 1,
+        -1, +1, 1, 0, 0,
+        -1, -1, 1, 0, 1,
 };
 const static GLuint VERTEX_INDEX[] = {
         0, 1, 2,
@@ -44,6 +44,7 @@ void Hurricane::handleWindowChanged(QQuickWindow *win)  {
 //        connect(this->window(), &QQuickWindow::widthChanged, this, &Hurricane::updateViewport);
 //        connect(this->window(), &QQuickWindow::heightChanged, this, &Hurricane::updateViewport);
         win->setColor(Qt::black);
+
     }
 }
 
@@ -58,7 +59,7 @@ void Hurricane::sync() {
     }
     // sync state
     if (picture.isValid()) {
-        int w = picture.getWidth();
+        int w = picture.getLineSize();
         int h = picture.getHeight();
         unsigned char * y  = picture.getY();
         unsigned char * u  = picture.getU();
@@ -170,6 +171,7 @@ void HurricaneRenderer::init() {
 }
 
 void HurricaneRenderer::paint() {
+    if (!imageY || !imageU || !imageV) { return; }
     // prepare
     qreal ratio = quickItem->window()->devicePixelRatio();
     auto x = static_cast<GLint>(quickItem->x() * ratio);
@@ -194,29 +196,27 @@ void HurricaneRenderer::paint() {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-
-    glActiveTexture(GL_TEXTURE0);
-    if (flagUpdateImageSize) {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textureY);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, imageSize.width(), imageSize.height(), 0, GL_RED, GL_UNSIGNED_BYTE, imageY);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, textureU);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, imageSize.width() / 2, imageSize.height() / 2, 0, GL_RED, GL_UNSIGNED_BYTE, imageU);
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, textureV);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, imageSize.width() / 2, imageSize.height() / 2, 0, GL_RED, GL_UNSIGNED_BYTE, imageV);
-    } else if (flagUpdateImageContent) {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textureY);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width(), imageSize.height(), GL_RED, GL_UNSIGNED_BYTE, imageY);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, textureU);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width() / 2, imageSize.height() / 2, GL_RED, GL_UNSIGNED_BYTE, imageU);
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, textureV);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width() / 2, imageSize.height() / 2, GL_RED, GL_UNSIGNED_BYTE, imageV);
-    }
+//    if (flagUpdateImageSize) {
+//        glActiveTexture(GL_TEXTURE0);
+//        glBindTexture(GL_TEXTURE_2D, textureY);
+//        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, imageSize.width(), imageSize.height(), 0, GL_RED, GL_UNSIGNED_BYTE, imageY);
+//        glActiveTexture(GL_TEXTURE1);
+//        glBindTexture(GL_TEXTURE_2D, textureU);
+//        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, imageSize.width() / 2, imageSize.height() / 2, 0, GL_RED, GL_UNSIGNED_BYTE, imageU);
+//        glActiveTexture(GL_TEXTURE2);
+//        glBindTexture(GL_TEXTURE_2D, textureV);
+//        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, imageSize.width() / 2, imageSize.height() / 2, 0, GL_RED, GL_UNSIGNED_BYTE, imageV);
+//    } else if (flagUpdateImageContent) {
+//        glActiveTexture(GL_TEXTURE0);
+//        glBindTexture(GL_TEXTURE_2D, textureY);
+//        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width(), imageSize.height(), GL_RED, GL_UNSIGNED_BYTE, imageY);
+//        glActiveTexture(GL_TEXTURE1);
+//        glBindTexture(GL_TEXTURE_2D, textureU);
+//        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width() / 2, imageSize.height() / 2, GL_RED, GL_UNSIGNED_BYTE, imageU);
+//        glActiveTexture(GL_TEXTURE2);
+//        glBindTexture(GL_TEXTURE_2D, textureV);
+//        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width() / 2, imageSize.height() / 2, GL_RED, GL_UNSIGNED_BYTE, imageV);
+//    }
     glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
     glDisable(GL_SCISSOR_TEST);
 
