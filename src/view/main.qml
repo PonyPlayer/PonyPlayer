@@ -72,6 +72,8 @@ Window {
     signal nextOne()
     //上一个
     signal lastOne()
+    //停止
+    signal cease()
     //倒放
     signal inverted()
     //音量改变
@@ -84,6 +86,7 @@ Window {
     signal setSpeed(real speed)
     //打开文件
     signal openFile(string path)
+
 
 
 

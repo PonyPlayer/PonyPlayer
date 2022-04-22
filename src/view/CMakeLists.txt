@@ -12,6 +12,7 @@ qt_add_qml_module(${PROJECT_NAME}
             PonyFooter.qml
             interfacefunctions.js
         RESOURCES
+            interfacepics/cease.png
             interfacepics/filecloser.png
             interfacepics/filelist.png
             interfacepics/fileopener.png

@@ -266,7 +266,26 @@ Rectangle {
             }
         }
     }
-
+    //停止
+    Image {
+        id: cease
+        source: "interfacepics/cease"
+        width: 30
+        height: 30
+        anchors.verticalCenter: playOrPause.verticalCenter
+        anchors.left: next.right
+        anchors.leftMargin: 5
+        MouseArea{
+            anchors.fill: parent
+            cursorShape: "PointingHandCursor"
+            onClicked: {
+                mainWindow.cease()
+                mainWindow.isPlay=false
+                mainWindow.currentTime=0
+                videoSlide.value=0
+            }
+        }
+    }
     //播放速度调整
     Image{
         id: videoSpeed
