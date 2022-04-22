@@ -92,11 +92,12 @@ public:
 
     /**
      * 获得图像数据
+     * @param block 是否需要阻塞
      * @return 图像数据，根据picture.isValid()判断是否返回了可用数据，如果没有返回可用数据，
      * 可能是因为暂时没有数据（比如当前视频已经播放结束或者正常的饥饿，这种情况重试即可），
      * 也可能是因为上层下达了暂停/终止命令，需要自行判断
      */
-    Picture getPicture();
+    Picture getPicture(bool block);
 
     /**
      * 结束demuxer

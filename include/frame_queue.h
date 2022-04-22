@@ -6,9 +6,11 @@
 #define FFMPEGCMAKE_FRAME_QUEUE_H
 
 #include <mutex>
+#include <queue>
 #include <condition_variable>
 
 #include <helper.h>
+
 INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
 INCLUDE_FFMPEG_END
@@ -18,7 +20,7 @@ struct Picture {
     double pts{};
     bool valid{};
 
-    Picture(AVFrame* frame_, double pts_):
+    Picture(AVFrame *frame_, double pts_) :
             frame(av_frame_alloc()), pts(pts_), valid(true) {
         av_frame_move_ref(frame, frame_);
         av_frame_unref(frame_);
@@ -29,35 +31,35 @@ struct Picture {
     /**
      * @return 图像数据是否有效
      */
-    [[nodiscard]] bool isValid() const {
+    bool isValid() {
         return valid;
     }
 
-    [[nodiscard]] double getPTS() const {
+    double getPTS() {
         return pts;
     }
 
-    [[nodiscard]] uint8_t* getY() const  {
+    uint8_t *getY() {
         return frame->data[0];
     }
 
-    [[nodiscard]] uint8_t* getU() const {
+    uint8_t *getU() {
         return frame->data[1];
     }
 
-    [[nodiscard]] uint8_t* getV() const {
+    uint8_t *getV() {
         return frame->data[2];
     }
 
-    [[nodiscard]] int getLineSize() const {
+    int getLineSize() {
         return frame->linesize[0];
     }
 
-    [[nodiscard]] int getWidth() const {
+    int getWidth() {
         return frame->width;
     }
 
-    int getHeight() const {
+    int getHeight() {
         return frame->height;
     }
 
@@ -69,17 +71,18 @@ struct Picture {
     }
 };
 
+const int MAXQ = 30;
+
 struct Frame {
     AVFrame *frame{};
 };
-
-const int MAXQ = 30;
 
 struct FrameQueue {
     Frame queue[MAXQ];
     int rindex = 0;
     int windex = 0;
     int size = 0;
+    bool isQuit{};
     std::mutex lock;
     std::condition_variable cv;
 
@@ -99,10 +102,17 @@ struct FrameQueue {
         }
     }
 
-    Frame *front() {
+    Frame *front(bool block) {
         std::unique_lock<std::mutex> ul(lock);
-        if (size == 0) {
-            return nullptr;
+        while (true) {
+            if (isQuit)
+                return nullptr;
+            if (size != 0)
+                break;
+            else if (block)
+                cv.wait_for(ul, std::chrono::milliseconds(10));
+            else
+                return nullptr;
         }
         return &queue[rindex];
     }
@@ -130,6 +140,7 @@ struct FrameQueue {
         ++windex;
         ++size;
         windex %= MAXQ;
+        cv.notify_all();
     }
 };
 

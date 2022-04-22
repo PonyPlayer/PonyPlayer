@@ -73,7 +73,8 @@ void Demuxer::initDemuxer() {
 
 void Demuxer::quit() {
     isQuit = true;
-    videoPacketQueue.abort_request = true;
+    videoPacketQueue.isQuit = true;
+    videoFrameQueue.isQuit = true;
 }
 
 void Demuxer::pause() {
@@ -148,13 +149,21 @@ void Demuxer::videoDecoder() {
     }
 }
 
-Picture Demuxer::getPicture() {
+Picture Demuxer::getPicture(bool block) {
     Picture res;
-    auto frame = videoFrameQueue.front();
-    if (frame) {
-        double pts = static_cast<double>(frame->frame->pts) * av_q2d(videoStream->time_base);
-        res = Picture(frame->frame, pts);
-        videoFrameQueue.pop();
+    while (true) {
+        if (isQuit) {
+            break;
+        }
+        auto frame = videoFrameQueue.front(block);
+        if (frame) {
+            double pts = static_cast<double>(frame->frame->pts) * av_q2d(videoStream->time_base);
+            res = Picture(frame->frame, pts);
+            videoFrameQueue.pop();
+            break;
+        }
+        else if (!block)
+            break;
     }
     return res;
 }
