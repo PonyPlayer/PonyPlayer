@@ -18,7 +18,7 @@ void test_quit(std::string filename) {
     bool quit = false;
     auto worker = std::thread([&]() {
         for (;;) {
-            auto picture = demuxer.getPicture();
+            auto picture = demuxer.getPicture(false);
             if (picture.isValid()) {
                 ++cnt;
                 printf("%d %f\n", cnt, picture.getPTS());
@@ -42,7 +42,7 @@ void test_pause(std::string filename, bool halfQuit) {
     int cnt = 0;
     auto worker = std::thread([&]() {
         for (;;) {
-            auto picture = demuxer.getPicture();
+            auto picture = demuxer.getPicture(true);
             if (picture.isValid()) {
                 printf("%d %f\n", ++cnt, picture.getPTS());
                 picture.free();

@@ -18,7 +18,7 @@ struct PacketQueue {
     std::list<AVPacket> queue;
     std::mutex lock;
     std::condition_variable cv;
-    bool abort_request{};
+    bool isQuit{};
 
     void flush() {
         std::unique_lock<std::mutex> ul(lock);
@@ -37,7 +37,7 @@ struct PacketQueue {
     int pop(AVPacket* receiver) {
         std::unique_lock<std::mutex> ul(lock);
         for (;;) {
-           if (abort_request) {
+           if (isQuit) {
                return -1;
            }
            if (!queue.empty()) {
