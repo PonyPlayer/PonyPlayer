@@ -11,10 +11,10 @@
 const void* ZERO_OFFSET = nullptr;
 
 const static GLfloat VERTEX_POS[] = {
-        +1, +1, 1, 1, 0,
-        +1, -1, 1, 1, 1,
-        -1, +1, 1, 0, 0,
-        -1, -1, 1, 0, 1,
+        1, 1, 0.5, 1, 0,
+        1, 0, 0.5, 1, 1,
+        0, 1, 0.5, 0, 0,
+        0, 0, 0.5, 0, 1,
 };
 const static GLuint VERTEX_INDEX[] = {
         0, 1, 2,
@@ -29,7 +29,10 @@ Hurricane::Hurricane(QQuickItem *parent) : QQuickItem(parent) {
 
 
 Hurricane::~Hurricane() noexcept {
-
+    picture.free();
+    for(auto && pic : cleanupPictureQueue) {
+        pic.free();
+    }
 }
 
 void Hurricane::handleWindowChanged(QQuickWindow *win)  {
@@ -51,17 +54,13 @@ void Hurricane::sync() {
     if (!renderer) {
         renderer = new HurricaneRenderer(this);
         connect(window(), &QQuickWindow::beforeRendering, renderer, &HurricaneRenderer::init, Qt::DirectConnection);
-//        connect(window(), &QQuickWindow::afterRenderPassRecording, renderer, &HurricaneRenderer::paint, Qt::DirectConnection);
+        //
+        //        connect(window(), &QQuickWindow::afterRenderPassRecording, renderer, &HurricaneRenderer::paint, Qt::DirectConnection);
         connect(window(), &QQuickWindow::afterRendering, this, &Hurricane::cleanupPicture);
     }
     // sync state
     if (picture.isValid()) {
-        int w = picture.getLineSize();
-        int h = picture.getHeight();
-        unsigned char * y  = picture.getY();
-        unsigned char * u  = picture.getU();
-        unsigned char * v  = picture.getV();
-        renderer->setImageView({w, h}, y, u, v);
+        renderer->setImageView(picture);
     }
 
 }
@@ -76,7 +75,7 @@ void Hurricane::cleanupRenderer() {
 
 void Hurricane::releaseResources() {
     // call on GUI thread
-    class CleanupJob : public QRunnable {
+    class [[maybe_unused]] CleanupJob : public QRunnable {
     private:
         HurricaneRenderer *renderer;
     public:
@@ -165,9 +164,6 @@ void HurricaneRenderer::init() {
     createTextureBuffer(&textureU);
     glActiveTexture(GL_TEXTURE2);
     createTextureBuffer(&textureV);
-
-    viewMatrix.setToIdentity();
-    program->setUniformValue("view", viewMatrix);
 }
 
 void HurricaneRenderer::render(const RenderState *state) {
@@ -206,23 +202,27 @@ void HurricaneRenderer::render(const RenderState *state) {
     if (flagUpdateImageSize) {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureY);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, imageSize.width(), imageSize.height(), 0, GL_RED, GL_UNSIGNED_BYTE, imageY);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, lineSize, imageHeight, 0, GL_RED, GL_UNSIGNED_BYTE, imageY);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, textureU);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, imageSize.width() / 2, imageSize.height() / 2, 0, GL_RED, GL_UNSIGNED_BYTE, imageU);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, lineSize / 2, imageHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, imageU);
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, textureV);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, imageSize.width() / 2, imageSize.height() / 2, 0, GL_RED, GL_UNSIGNED_BYTE, imageV);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, lineSize / 2, imageHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, imageV);
+        // since FFmpeg may pad frame to align, we need to clip invalid data
+        viewMatrix.setToIdentity();
+        viewMatrix.ortho(0, static_cast<float>(imageWidth) / static_cast<float>(lineSize), 0, 1, -1, 1);
+        program->setUniformValue("view", viewMatrix);
     } else if (flagUpdateImageContent) {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureY);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width(), imageSize.height(), GL_RED, GL_UNSIGNED_BYTE, imageY);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, lineSize, imageHeight, GL_RED, GL_UNSIGNED_BYTE, imageY);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, textureU);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width() / 2, imageSize.height() / 2, GL_RED, GL_UNSIGNED_BYTE, imageU);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, lineSize / 2, imageHeight / 2, GL_RED, GL_UNSIGNED_BYTE, imageU);
         glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, textureV);
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width() / 2, imageSize.height() / 2, GL_RED, GL_UNSIGNED_BYTE, imageV);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, lineSize / 2, imageHeight / 2, GL_RED, GL_UNSIGNED_BYTE, imageV);
     }
     glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, ZERO_OFFSET);
     glDisable(GL_SCISSOR_TEST);
@@ -230,16 +230,18 @@ void HurricaneRenderer::render(const RenderState *state) {
 //    quickItem->window()->endExternalCommands();
 }
 
-
-void HurricaneRenderer::setImageView(QSize sz, GLubyte *y, GLubyte *u, GLubyte *v) {
+void HurricaneRenderer::setImageView(const Picture &pic) {
+    // should call on sync stage
     flagUpdateImageContent = true;
-    if (sz != imageSize)
+    imageY = pic.getY();
+    imageU = pic.getU();
+    imageV = pic.getV();
+    if (pic.getWidth() != imageWidth || pic.getHeight() != imageHeight || pic.getLineSize() != lineSize) {
+        imageWidth = pic.getWidth();
+        imageHeight = pic.getHeight();
+        lineSize = pic.getLineSize();
         flagUpdateImageSize = true;
-    imageSize = sz;
-    imageY = y;
-    imageU = u;
-    imageV = v;
-//    quickItem->update();
+    }
 }
 
 

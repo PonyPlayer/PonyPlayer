@@ -37,7 +37,9 @@ private:
     QQuickItem *quickItem;
 
     // update flag
-    QSize imageSize = {0, 0};
+    GLsizei imageWidth;
+    GLsizei imageHeight;
+    GLsizei lineSize;
     bool flagUpdateImageContent = false;
     bool flagUpdateImageSize = false;
 
@@ -57,7 +59,7 @@ public:
     void render(const RenderState *state) override;
     ~HurricaneRenderer() override;
 
-    void setImageView(QSize sz, GLubyte *y, GLubyte *u, GLubyte *v);
+    void setImageView(const Picture &pic);
 };
 
 
@@ -68,7 +70,6 @@ private:
     HurricaneRenderer *renderer = nullptr;
     Picture picture;
     std::vector<Picture> cleanupPictureQueue;
-    QSGSimpleTextureNode *m_SGNode;
 public:
     Hurricane(QQuickItem *parent = nullptr);
     ~Hurricane() noexcept override;
