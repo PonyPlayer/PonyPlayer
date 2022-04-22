@@ -19,23 +19,25 @@
 #include <QOpenGLFunctions_3_3_Core>
 #include <QOpenGLDebugLogger>
 #include <QVector>
+#include <QSGSimpleTextureNode>
+#include <QSGRenderNode>
 #include "frame_queue.h"
 
 // QuickItem lives in the GUI thread and the rendering potentially happens on the render thread.
 // QuickItem may be deleted on the GUI thread while the render thread is rendering.
 // Therefore, we need to separate those two objects.
-class HurricaneRenderer : public QObject, protected QOpenGLFunctions_3_3_Core {
+class HurricaneRenderer : public QObject, public QSGRenderNode, protected QOpenGLFunctions_3_3_Core {
     Q_OBJECT
 private:
     QOpenGLShaderProgram *program = nullptr; // late init
-    GLuint vao, vbo, ebo;
-    GLuint textureY, textureU, textureV;
-    GLubyte * imageY, *imageU, *imageV;
+    GLuint vao = 0, vbo = 0, ebo = 0;
+    GLuint textureY = 0, textureU = 0, textureV = 0;
+    GLubyte * imageY = nullptr, *imageU = nullptr, *imageV = nullptr;
     QMatrix4x4 viewMatrix;
     QQuickItem *quickItem;
 
     // update flag
-    QSize imageSize = {};
+    QSize imageSize = {0, 0};
     bool flagUpdateImageContent = false;
     bool flagUpdateImageSize = false;
 
@@ -49,10 +51,10 @@ private:
     }
 public slots:
     void init();
-    void paint();
+
 public:
     HurricaneRenderer(QQuickItem *item);
-
+    void render(const RenderState *state) override;
     ~HurricaneRenderer() override;
 
     void setImageView(QSize sz, GLubyte *y, GLubyte *u, GLubyte *v);
@@ -66,6 +68,7 @@ private:
     HurricaneRenderer *renderer = nullptr;
     Picture picture;
     std::vector<Picture> cleanupPictureQueue;
+    QSGSimpleTextureNode *m_SGNode;
 public:
     Hurricane(QQuickItem *parent = nullptr);
     ~Hurricane() noexcept override;
@@ -77,6 +80,9 @@ public:
         // make dirty
         this->update();
     }
+
+protected:
+    QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *data) override;
 
 protected:
     void releaseResources() override;

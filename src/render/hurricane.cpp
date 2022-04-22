@@ -1,17 +1,14 @@
 #include "hurricane.h"
-#include "demuxer.h"
-
 
 #include <QOpenGLShaderProgram>
-
-
 #include <QDir>
 #include <QtCore/QRunnable>
 #include <QOpenGLExtraFunctions>
 #include <QOpenGLFramebufferObjectFormat>
-#include <QTimer>
+#include <QSGRenderNode>
 
-//#define IGNORE_PAINT_DEBUG_LOG
+#define IGNORE_PAINT_DEBUG_LOG
+const void* ZERO_OFFSET = nullptr;
 
 const static GLfloat VERTEX_POS[] = {
         +1, +1, 1, 1, 0,
@@ -53,8 +50,8 @@ void Hurricane::sync() {
     // call from renderer thread while GUI thread is blocking
     if (!renderer) {
         renderer = new HurricaneRenderer(this);
-        connect(window(), &QQuickWindow::afterRendering, renderer, &HurricaneRenderer::init, Qt::DirectConnection);
-        connect(window(), &QQuickWindow::beforeRenderPassRecording, renderer, &HurricaneRenderer::paint, Qt::DirectConnection);
+        connect(window(), &QQuickWindow::beforeRendering, renderer, &HurricaneRenderer::init, Qt::DirectConnection);
+//        connect(window(), &QQuickWindow::afterRenderPassRecording, renderer, &HurricaneRenderer::paint, Qt::DirectConnection);
         connect(window(), &QQuickWindow::afterRendering, this, &Hurricane::cleanupPicture);
     }
     // sync state
@@ -102,6 +99,10 @@ void Hurricane::cleanupPicture() {
     cleanupPictureQueue.clear();
 }
 
+QSGNode *Hurricane::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNodeData *data) {
+    return renderer;
+}
+
 
 HurricaneRenderer::HurricaneRenderer(QQuickItem *item) : quickItem(item) {
     qDebug() << "Create Hurricane Renderer:" << static_cast<void *>(this) << ".";
@@ -145,7 +146,7 @@ void HurricaneRenderer::init() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(VERTEX_POS), VERTEX_POS, GL_STATIC_DRAW);
 
     glBindVertexArray(vao);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), ZERO_OFFSET);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat),
                           reinterpret_cast<const void *>(3 * sizeof(GLfloat)));
@@ -169,21 +170,29 @@ void HurricaneRenderer::init() {
     program->setUniformValue("view", viewMatrix);
 }
 
-void HurricaneRenderer::paint() {
+void HurricaneRenderer::render(const RenderState *state) {
+
+    // call on render thread
     if (!imageY || !imageU || !imageV) { return; }
-    // prepare
-    qreal ratio = quickItem->window()->devicePixelRatio();
-    auto x = static_cast<GLint>(quickItem->x() * ratio);
-    auto y = static_cast<GLint>(quickItem->y() * ratio);
-    auto w = static_cast<GLsizei>(quickItem->width() * ratio);
-    auto h = static_cast<GLsizei>(quickItem->height() * ratio);
-    quickItem->window()->beginExternalCommands();
+    // since QuickItem position is relative position of its parent, we need to convert to scene coordinate
+    QPointF qtPos = quickItem->mapToScene(quickItem->position());
+    // scale to physical pixel
+    qreal ratio =  quickItem->window()->devicePixelRatio();
+    QRect glRect = {
+            static_cast<int>(qtPos.x() * ratio),
+            // in qt cartesian coordinate system, (0, 0) is at the left top corner
+            // while in OpenGL coordinate system, (0, 0) is at the left bottom corner
+            static_cast<int>((quickItem->window()->height() - quickItem->height() - qtPos.y()) * ratio),
+            static_cast<int>(quickItem->width() * ratio),
+            static_cast<int>(quickItem->height() * ratio),
+    };
+//    quickItem->window()->beginExternalCommands();
 #ifndef IGNORE_PAINT_DEBUG_LOG
-    qDebug() << "Paint" << "x =" << x << "y =" << y << "w =" << w << "h =" << h;
+    qDebug() << "Paint" << "x =" << glRect.x() << "y =" << glRect.y() << "w =" << glRect.width() << "h =" << glRect.height();
 #endif
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glViewport(x, y, w, h);
-    glScissor(x, y, w, h);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glViewport(glRect.x(), glRect.y(), glRect.width(), glRect.height());
+    glScissor(glRect.x(), glRect.y(), glRect.width(), glRect.height());
     glEnable(GL_SCISSOR_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -215,11 +224,10 @@ void HurricaneRenderer::paint() {
         glBindTexture(GL_TEXTURE_2D, textureV);
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, imageSize.width() / 2, imageSize.height() / 2, GL_RED, GL_UNSIGNED_BYTE, imageV);
     }
-    glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, ZERO_OFFSET);
     glDisable(GL_SCISSOR_TEST);
-
     program->release();
-    quickItem->window()->endExternalCommands();
+//    quickItem->window()->endExternalCommands();
 }
 
 
@@ -233,5 +241,6 @@ void HurricaneRenderer::setImageView(QSize sz, GLubyte *y, GLubyte *u, GLubyte *
     imageV = v;
 //    quickItem->update();
 }
+
 
 
