@@ -39,7 +39,6 @@ void Hurricane::handleWindowChanged(QQuickWindow *win)  {
     qDebug() << "Window Size Changed:" << static_cast<void *>(win) << ".";
     if (win) {
 //        connect(this->window(), &QQuickWindow::sceneGraphInitialized, this->renderer, &HurricaneRenderer::init, Qt::DirectConnection);
-        connect(this->window(), &QQuickWindow::sceneGraphInvalidated, this, &Hurricane::cleanupRenderer, Qt::DirectConnection);
         connect(this->window(), &QQuickWindow::beforeSynchronizing, this, &Hurricane::sync, Qt::DirectConnection);
 //        connect(this->window(), &QQuickWindow::widthChanged, this, &Hurricane::updateViewport);
 //        connect(this->window(), &QQuickWindow::heightChanged, this, &Hurricane::updateViewport);
@@ -65,30 +64,6 @@ void Hurricane::sync() {
 
 }
 
-void Hurricane::cleanupRenderer() {
-    // called from renderer thread
-    qDebug() << "SceneGraphInvalidated, delete renderer: " << static_cast<void *>(renderer) << ".";
-    delete renderer;
-    renderer = nullptr;
-}
-
-
-void Hurricane::releaseResources() {
-    // call on GUI thread
-    class [[maybe_unused]] CleanupJob : public QRunnable {
-    private:
-        HurricaneRenderer *renderer;
-    public:
-        explicit CleanupJob(HurricaneRenderer *renderer) : renderer(renderer) {}
-        void run() override {
-            qDebug() << "CleanupJob deletes renderer:" << static_cast<void*>(renderer) << ".";
-            delete renderer;
-        }
-    };
-    qDebug() << "ReleaseResources, schedule cleanup job.";
-    window()->scheduleRenderJob(new CleanupJob(renderer), QQuickWindow::BeforeRenderingStage);
-    Hurricane::renderer = nullptr;
-}
 
 void Hurricane::cleanupPicture() {
     // call on GUI thread
@@ -113,8 +88,6 @@ HurricaneRenderer::~HurricaneRenderer(){
     glBindVertexArray(0);
     program->release();
     qDebug() << "Deconstruct Hurricane Renderer:" << static_cast<void *>(this) << ".";
-    delete program;
-    program = nullptr;
 }
 
 

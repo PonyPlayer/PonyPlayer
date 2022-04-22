@@ -85,14 +85,9 @@ public:
 protected:
     QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *data) override;
 
-protected:
-    void releaseResources() override;
-
-
 public slots:
     void handleWindowChanged(QQuickWindow *win);
     void sync();
-    void cleanupRenderer();
     void cleanupPicture();
 };
 

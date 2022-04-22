@@ -13,7 +13,7 @@ void HurricanePlayer::openFile(const QString &path) {
     auto *timer = new QTimer(this);
     timer->setInterval(1000/30);
     auto *demuxer = new Demuxer;
-    demuxer->openFile(QDir::homePath().append(u"/143468776-1-208.mp4"_qs).toStdString());
+    demuxer->openFile(url.path().toStdString());
     demuxer->initDemuxer();
     connect(timer, &QTimer::timeout, [=]{
         Picture pic = demuxer->getPicture();
@@ -40,7 +40,7 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent) {
     auto *timer = new QTimer(this);
     timer->setInterval(1000/30);
     auto *demuxer = new Demuxer;
-    demuxer->openFile(QDir::homePath().append(u"/143468776-1-208.mp4"_qs).toStdString());
+    demuxer->openFile("/Users/colorswind/Desktop/屏幕录制2022-02-16 上午9.20.24.mov");
     demuxer->initDemuxer();
     connect(timer, &QTimer::timeout, [=]{
         Picture pic = demuxer->getPicture();
