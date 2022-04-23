@@ -10,9 +10,9 @@
 extern "C" {       \
 _Pragma("GCC diagnostic push") \
 _Pragma("GCC diagnostic ignored \"-Wold-style-cast\"") \
-_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")
+_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"") \
 _Pragma("GCC diagnostic ignored \"-Wconversion\"")
-#elif UNIX
+#elif defined(__APPLE__)
 #define INCLUDE_FFMPEG_BEGIN \
 extern "C" {       \
 _Pragma("GCC diagnostic push") \
