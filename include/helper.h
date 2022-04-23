@@ -5,16 +5,14 @@
 #ifndef PONYPLAYER_HELPER_H
 #define PONYPLAYER_HELPER_H
 
-#ifdef WIN32
-// windows
+#if defined(WIN32) || defined(linux)
 #define INCLUDE_FFMPEG_BEGIN \
 extern "C" {       \
 _Pragma("GCC diagnostic push") \
 _Pragma("GCC diagnostic ignored \"-Wold-style-cast\"") \
 _Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")
 _Pragma("GCC diagnostic ignored \"-Wconversion\"")
-#else
-// unix
+#elif UNIX
 #define INCLUDE_FFMPEG_BEGIN \
 extern "C" {       \
 _Pragma("GCC diagnostic push") \
