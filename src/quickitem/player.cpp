@@ -8,24 +8,28 @@
 #include <QTimer>
 #include <QDir>
 
+#define DEBUG_FLAG_AUTO_OPEN
 HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), demuxer(), videoPlayWorker(&demuxer, this) {
     videoThread = new QThread;
     videoThread->setObjectName("VideoThread");
     videoThread->start();
-
     videoPlayWorker.moveToThread(videoThread);
     connect(this, &HurricanePlayer::videoStart, &videoPlayWorker, &VideoPlayWorker::onWork);
     connect(this, &HurricanePlayer::videoPause, &videoPlayWorker, &VideoPlayWorker::pause);
     connect(&videoPlayWorker, &VideoPlayWorker::setImage, this, &HurricanePlayer::setImage);
     connect(videoThread, &QThread::destroyed, []{ qDebug() << "Video Thread delete.";});
+#ifdef DEBUG_FLAG_AUTO_OPEN
+    openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/143468776-1-208.mp4"_qs)).url());
+#endif
 }
 
 
 void HurricanePlayer::openFile(const QString &path) {
     QUrl url(path);
+    qDebug() << "HP: open file" << path << QUrl(path).toLocalFile();
     demuxer.openFile(url.toLocalFile().toStdString());
     demuxer.initDemuxer();
-    qDebug() << "HP: open file" << url.toLocalFile();
+
     emit start();
 }
 
@@ -55,11 +59,10 @@ void HurricanePlayer::setSpeed(qreal speed) {
 }
 
 HurricanePlayer::~HurricanePlayer() {
+    demuxer.quit();
     videoPlayWorker.pause();
     videoThread->quit();
-    videoThread->wait(100);
-    qDebug() << "wait to quit" << videoThread->isRunning();
-    delete videoThread;
+    videoThread->deleteLater();
 }
 
 
