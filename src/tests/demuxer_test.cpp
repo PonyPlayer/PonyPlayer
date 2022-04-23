@@ -13,5 +13,5 @@ TEST(quit_test, test_quit) {
 }
 
 TEST(pause_test, test_pause) {
-    test_pause("D:/test_video/1.mp4", false);
+    test_pause("D:/test_video/1.mp4", true);
 }

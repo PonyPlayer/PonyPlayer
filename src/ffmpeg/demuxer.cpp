@@ -96,6 +96,10 @@ void Demuxer::demuxer() {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
             continue;
         }
+        if (tooManyPackets()) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            continue;
+        }
         ret = av_read_frame(fmtCtx, pkt);
         if (ret < 0) {
             AVPacket *nullPkt = av_packet_alloc();
@@ -134,10 +138,10 @@ void Demuxer::videoDecoder() {
             break;
         }
         while ((ret = avcodec_receive_frame(videoCodecCtx, yuvFrame)) >= 0) {
-            auto picFrame = videoFrameQueue.nextWritePos();
-            av_frame_move_ref(picFrame->frame, yuvFrame);
+            auto picFrame = av_frame_alloc();
+            av_frame_move_ref(picFrame, yuvFrame);
             av_frame_unref(yuvFrame);
-            videoFrameQueue.push();
+            videoFrameQueue.push(picFrame);
         }
         if (ret < 0) {
             if (ret == AVERROR(EAGAIN))
@@ -157,13 +161,15 @@ Picture Demuxer::getPicture(bool block) {
         }
         auto frame = videoFrameQueue.front(block);
         if (frame) {
-            double pts = static_cast<double>(frame->frame->pts) * av_q2d(videoStream->time_base);
-            res = Picture(frame->frame, pts);
-            videoFrameQueue.pop();
+            double pts = static_cast<double>(frame->pts) * av_q2d(videoStream->time_base);
+            res = Picture(frame, pts);
             break;
-        }
-        else if (!block)
+        } else if (!block)
             break;
     }
     return res;
+}
+
+void Demuxer::popPicture() {
+    videoFrameQueue.pop();
 }
