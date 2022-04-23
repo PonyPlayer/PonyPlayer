@@ -145,7 +145,7 @@ Rectangle {
         anchors.leftMargin: 10
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 15
-        source: "interfacepics/filelist"
+        source: "interfacepics/FileList"
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
@@ -172,7 +172,7 @@ Rectangle {
     //倒放
     Image {
         id: inverted
-        source: "interfacepics/inverted"
+        source: "interfacepics/Inverted"
         width: 30
         height: 30
         anchors.verticalCenter: playOrPause.verticalCenter
@@ -197,7 +197,7 @@ Rectangle {
     //上一个视频
     Image {
         id: last
-        source: "interfacepics/last"
+        source: "interfacepics/Last"
         width: 30
         height: 30
         anchors.verticalCenter: playOrPause.verticalCenter
@@ -227,14 +227,14 @@ Rectangle {
                 name: "pause"
                 PropertyChanges {
                     target: playOrPause
-                    source: "interfacepics/play"
+                    source: "interfacepics/Play"
                 }
             },
             State {
                 name: "play"
                 PropertyChanges {
                     target: playOrPause
-                    source: "interfacepics/pause"
+                    source: "interfacepics/Pause"
                 }
             }
         ]
@@ -252,7 +252,7 @@ Rectangle {
     //下一个视频
     Image {
         id: next
-        source: "interfacepics/next"
+        source: "interfacepics/Next"
         width: 30
         height: 30
         anchors.verticalCenter: playOrPause.verticalCenter
@@ -300,28 +300,28 @@ Rectangle {
                 name: "speed1"
                 PropertyChanges {
                     target: videoSpeed
-                    source: "interfacepics/speed1"
+                    source: "interfacepics/Speed1"
                 }
             },
             State {
                 name: "speed2"
                 PropertyChanges {
                     target: videoSpeed
-                    source: "interfacepics/speed2"
+                    source: "interfacepics/Speed2"
                 }
             },
             State {
                 name: "speed4"
                 PropertyChanges {
                     target: videoSpeed
-                    source: "interfacepics/speed4"
+                    source: "interfacepics/Speed4"
                 }
             },
             State {
                 name: "speed8"
                 PropertyChanges {
                     target: videoSpeed
-                    source: "interfacepics/speed8"
+                    source: "interfacepics/Speed8"
                 }
             }
         ]
@@ -363,21 +363,21 @@ Rectangle {
                 name: "ordered"
                 PropertyChanges {
                     target: playMode
-                    source: "interfacepics/ordered"
+                    source: "interfacepics/Ordered"
                 }
             },
             State {
                 name: "single"
                 PropertyChanges {
                     target: playMode
-                    source: "interfacepics/single"
+                    source: "interfacepics/Single"
                 }
             },
             State {
                 name: "random"
                 PropertyChanges {
                     target: playMode
-                    source: "interfacepics/random"
+                    source: "interfacepics/Random"
                 }
             }
         ]
@@ -419,7 +419,7 @@ Rectangle {
                     when: mainWindow.volumn===0
                     PropertyChanges {
                         target: speaker
-                        source:"interfacepics/volumn0"
+                        source:"interfacepics/Volumn0"
                     }
                 },
                 State {
@@ -427,7 +427,7 @@ Rectangle {
                     when: mainWindow.volumn>0&&mainWindow.volumn<=33
                     PropertyChanges {
                         target: speaker
-                        source:"interfacepics/volumn1"
+                        source:"interfacepics/Volumn1"
                     }
                 },
                 State {
@@ -435,7 +435,7 @@ Rectangle {
                     when: mainWindow.volumn>33&&mainWindow.volumn<=66
                     PropertyChanges {
                         target: speaker
-                        source:"interfacepics/volumn2"
+                        source:"interfacepics/Volumn2"
                     }
                 },
                 State {
@@ -443,7 +443,7 @@ Rectangle {
                     when: mainWindow.volumn>66
                     PropertyChanges {
                         target: speaker
-                        source:"interfacepics/volumn3"
+                        source:"interfacepics/Volumn3"
                     }
                 }
             ]
@@ -502,14 +502,14 @@ Rectangle {
                 name: "fullScreen"
                 PropertyChanges {
                     target: screenSize
-                    source: "interfacepics/normalscreen"
+                    source: "interfacepics/NormalScreen"
                 }
             },
             State {
                 name: "normalScreen"
                 PropertyChanges {
                     target: screenSize
-                    source: "interfacepics/fullscreen"
+                    source: "interfacepics/FullScreen"
                 }
             }
         ]

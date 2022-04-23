@@ -38,7 +38,7 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.leftMargin: 5
                 anchors.verticalCenter: minimize.verticalCenter
-                source: "interfacepics/fileopener"
+                source: "interfacepics/FileOpener"
                 Shortcut{
                     sequence: "Ctrl+I"
                     onActivated: fileDialog.open();
@@ -55,7 +55,7 @@ Rectangle {
             //关闭播放栏列表
             Image {
                 id: minimize
-                source: "interfacepics/minimize"
+                source: "interfacepics/Minimize"
                 width: 20
                 height: 20
                 anchors.top: parent.top
@@ -125,7 +125,7 @@ Rectangle {
                      Image{
                          height: 20
                          width: 20
-                         source: "interfacepics/filecloser"
+                         source: "interfacepics/FileCloser"
                          anchors.right: parent.right
                          anchors.top: parent.top
                          anchors.rightMargin: 2

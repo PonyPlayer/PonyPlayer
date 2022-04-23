@@ -13,26 +13,26 @@ qt_add_qml_module(${PROJECT_NAME}
             interfacefunctions.js
         RESOURCES
             interfacepics/cease.png
-            interfacepics/filecloser.png
-            interfacepics/filelist.png
-            interfacepics/fileopener.png
-            interfacepics/fullscreen.png
-            interfacepics/inverted.png
-            interfacepics/last.png
-            interfacepics/minimize.png
-            interfacepics/next.png
-            interfacepics/normalscreen.png
-            interfacepics/ordered.png
-            interfacepics/pause.png
-            interfacepics/play.png
-            interfacepics/random.png
-            interfacepics/single.png
-            interfacepics/speed1.png
-            interfacepics/speed2.png
-            interfacepics/speed4.png
-            interfacepics/speed8.png
-            interfacepics/volumn0.png
-            interfacepics/volumn1.png
-            interfacepics/volumn2.png
-            interfacepics/volumn3.png
+            interfacepics/FileCloser.png
+            interfacepics/FileList.png
+            interfacepics/FileOpener.png
+            interfacepics/FullScreen.png
+            interfacepics/Inverted.png
+            interfacepics/Last.png
+            interfacepics/Minimize.png
+            interfacepics/Next.png
+            interfacepics/NormalScreen.png
+            interfacepics/Ordered.png
+            interfacepics/Pause.png
+            interfacepics/Play.png
+            interfacepics/Random.png
+            interfacepics/Single.png
+            interfacepics/Speed1.png
+            interfacepics/Speed2.png
+            interfacepics/Speed4.png
+            interfacepics/Speed8.png
+            interfacepics/Volumn0.png
+            interfacepics/Volumn1.png
+            interfacepics/Volumn2.png
+            interfacepics/Volumn3.png
         )
