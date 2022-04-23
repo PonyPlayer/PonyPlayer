@@ -19,6 +19,7 @@ find_package(Qt6 COMPONENTS
         Qml
         QmlWorkerScript
         Sql
+        Multimedia
         Widgets
         REQUIRED)
 

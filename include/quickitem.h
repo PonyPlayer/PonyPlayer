@@ -7,11 +7,11 @@
 
 #include <QRunnable>
 #include <QAtomicInt>
-#include <QWaitCondition>
-#include <QMutex>
-#include <QWaitCondition>
+#include <QAudioSink>
 #include <QThread>
 #include <chrono>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 #include "hurricane.h"
 #include "demuxer.h"
 
@@ -30,26 +30,46 @@ class VideoPlayWorker : public QObject {
     Q_OBJECT
 private:
     Demuxer *demuxer;
+    QAudioSink audioSink;
     Hurricane *hurricane;
     QAtomicInteger<bool> pauseRequested = false;
+    QAudioSink *audioOutput;
 public:
     VideoPlayWorker(Demuxer *d, Hurricane *h) : QObject(nullptr), demuxer(d), hurricane(h) {
-
+        QAudioFormat format;
+        format.setSampleRate(44100);
+        format.setChannelCount(2);
+        format.setSampleFormat(QAudioFormat::Int16);
+        audioOutput = new QAudioSink(format);
+        audioOutput->setVolume(100);
+        audioOutput->setBufferSize(192000 * 10);
     }
     void resume() { pauseRequested = false; }
     void pause() { pauseRequested = true; }
+
+    unsigned long cast(long ms) {
+        if (ms < 0) return 0L;
+        return static_cast<unsigned long>(ms);
+    }
 public slots:
     void onWork() {
         qDebug() << "Start Video Work";
+        auto *audioInput = audioOutput->start();
         Picture currFrame;
         while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
             demuxer->popPicture();
             emit setImage(currFrame);
             Picture nextFrame = demuxer->getPicture(true);
+            while(audioOutput->bytesFree() >  192000) {
+                Sample sample = demuxer->getSample(true);
+                audioInput->write(reinterpret_cast<const char *>(sample.data), sample.len);
+                demuxer->popSample();
+            }
             if (nextFrame.isValid()) {
-                QThread::msleep(static_cast<unsigned long>((nextFrame.pts - currFrame.pts)  * 1000));
+                QThread::msleep(cast(static_cast<long>(nextFrame.pts * 1000) - audioOutput->processedUSecs() / 1000));
             }
         }
+        audioOutput->stop();
         emit videoInterrupted();
         qDebug() << "end";
     }

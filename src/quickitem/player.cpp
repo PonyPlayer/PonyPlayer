@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <QDir>
 
+
 #define DEBUG_FLAG_AUTO_OPEN
 HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), demuxer(), videoPlayWorker(&demuxer, this) {
     videoThread = new QThread;
@@ -36,6 +37,7 @@ void HurricanePlayer::openFile(const QString &path) {
 void HurricanePlayer::start() {
     qDebug() << "HP: start";
     videoPlayWorker.resume();
+
     emit videoStart();
 }
 

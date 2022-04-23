@@ -162,10 +162,10 @@ void Demuxer::demuxer() {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
             continue;
         }
-        if (tooManyPackets()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            continue;
-        }
+//        if (tooManyPackets()) {
+//            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+//            continue;
+//        }
         ret = av_read_frame(fmtCtx, pkt);
         if (ret < 0) {
             AVPacket *nullPkt = av_packet_alloc();
