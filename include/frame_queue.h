@@ -68,6 +68,34 @@ struct Picture {
     }
 };
 
+struct Sample {
+    uint8_t *data{};
+    int len{};
+    double pts{};
+    bool valid{};
+
+    Sample() = default;
+
+    Sample(uint8_t *data_, int len_, double pts_) :
+            data(data_), len(len_), pts(pts_), valid(true) {}
+
+    bool isValid() {
+        return valid;
+    }
+
+    uint8_t *getSampleData() {
+        return data;
+    }
+
+    int getDataLen() {
+        return len;
+    }
+
+    double getPTS() {
+        return pts;
+    }
+};
+
 struct FrameQueue {
     std::queue<AVFrame *> queue;
     int maxSize{};

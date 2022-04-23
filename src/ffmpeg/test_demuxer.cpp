@@ -14,17 +14,24 @@ void test_quit(std::string filename) {
     Demuxer demuxer;
     demuxer.openFile(filename);
     demuxer.initDemuxer();
-    int cnt = 0;
+    int videoCnt = 0, audioCnt = 0;
     bool quit = false;
     auto worker = std::thread([&]() {
         for (;;) {
-            auto picture = demuxer.getPicture(false);
+            auto picture = demuxer.getPicture(true);
+            auto sample = demuxer.getSample(true);
             if (picture.isValid()) {
                 demuxer.popPicture();
-                ++cnt;
-                printf("%d %f\n", cnt, picture.getPTS());
+                ++videoCnt;
+                printf("%d %d\n", videoCnt, picture.getHeight());
                 picture.free();
-            } else if (quit) {
+            }
+            if (sample.valid) {
+                demuxer.popSample();
+                ++audioCnt;
+                printf("%d %d\n", audioCnt, sample.len);
+            }
+            if (quit) {
                 break;
             }
         }
@@ -40,15 +47,23 @@ void test_pause(std::string filename, bool halfQuit) {
     demuxer.openFile(filename);
     demuxer.initDemuxer();
     bool quit = false;
-    int cnt = 0;
+    int videoCnt = 0, audioCnt = 0;
     auto worker = std::thread([&]() {
         for (;;) {
             auto picture = demuxer.getPicture(true);
+            auto sample = demuxer.getSample(true);
             if (picture.isValid()) {
                 demuxer.popPicture();
-                printf("%d %f\n", ++cnt, picture.getPTS());
+                ++videoCnt;
+                printf("%d %d\n", videoCnt, picture.getHeight());
                 picture.free();
-            } else if (quit) {
+            }
+            if (sample.valid) {
+                demuxer.popSample();
+                ++audioCnt;
+                printf("%d %d\n", audioCnt, sample.len);
+            }
+            if (quit) {
                 break;
             }
         }

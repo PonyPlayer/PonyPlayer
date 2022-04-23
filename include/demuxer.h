@@ -10,6 +10,7 @@
 INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
+#include <libswresample/swresample.h>
 #include <libavutil/imgutils.h>
 INCLUDE_FFMPEG_END
 
@@ -32,21 +33,33 @@ INCLUDE_FFMPEG_END
  *          }
  *      }
  */
+
 class Demuxer {
 private:
+    const int MAX_AUDIO_FRAME_SIZE = 192000;
     std::string filename{};
     AVFormatContext *fmtCtx{};
+    AVPacket *pkt{};
 
     int videoStreamIndex{-1};
+    AVFrame *yuvFrame{};
     AVStream *videoStream{};
     AVCodec *videoCodec{};
     AVCodecContext *videoCodecCtx{};
 
-    AVFrame *yuvFrame{};
-    AVPacket *pkt{};
-
     PacketQueue videoPacketQueue;
     FrameQueue videoFrameQueue;
+
+    int audioStreamIndex{-1};
+    AVFrame *sampleFrame{};
+    AVStream *audioStream{};
+    AVCodec *audioCodec{};
+    AVCodecContext *audioCodecCtx{};
+    SwrContext *swrCtx{};
+    uint8_t *audioOutBuf{};
+
+    PacketQueue audioPacketQueue;
+    FrameQueue audioFrameQueue;
 
     std::thread workerDemuxer;
 
@@ -55,28 +68,37 @@ private:
 
     void closeCtx() {
         if (videoCodecCtx) avcodec_close(videoCodecCtx);
+        if (audioCodecCtx) avcodec_close(audioCodecCtx);
         if (fmtCtx) avformat_close_input(&fmtCtx);
     }
 
     void cleanUp() {
         closeCtx();
         if (videoCodecCtx) avcodec_free_context(&videoCodecCtx);
+        if (audioCodecCtx) avcodec_free_context(&audioCodecCtx);
     }
 
     bool tooManyPackets() {
-        return videoPacketQueue.queue.size() >= 20;
+        return videoPacketQueue.queue.size() >= 20 || audioPacketQueue.queue.size() >= 20;
     }
-
-    int initVideoState();
 
     void demuxer();
 
+    int initVideoState();
+
     void videoDecoder();
+
+    int initAudioState();
+
+    void audioDecoder();
+
+    void decoder(AVCodecContext *ctx, PacketQueue &pq, FrameQueue &fq, AVFrame* frame);
 
 public:
     Demuxer() :
+            pkt(av_packet_alloc()),
             yuvFrame(av_frame_alloc()),
-            pkt(av_packet_alloc()) {}
+            sampleFrame(av_frame_alloc()) {}
 
     ~Demuxer() {
         workerDemuxer.join();
@@ -107,6 +129,18 @@ public:
      * 成功获取图像数据后用于从队列中弹出一个图像帧
      */
     void popPicture();
+
+    /**
+     * 获取采样数据
+     * @param block 是否需要阻塞
+     * @return 一个帧的采样数据，根据sample.isValid()判断是否返回了可用数据
+     */
+    Sample getSample(bool block);
+
+    /**
+     * 获得一个可用的采样数据之后调用该函数弹出一个采样帧
+     */
+    void popSample();
 
     /**
      * 结束demuxer
