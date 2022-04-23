@@ -26,60 +26,37 @@ public:
 
 };
 
-/**
- * 负责按时取出视频帧并设置 Image
- */
-class VideoPlayThread : public QThread {
+class VideoPlayWorker : public QObject {
     Q_OBJECT
 private:
-    QMutex mutex;
-    QWaitCondition condition;
-    Demuxer *demuxer = nullptr;
+    Demuxer *demuxer;
     Hurricane *hurricane;
-    bool isPlay = false;
-    bool isWork = true;
+    QAtomicInteger<bool> pauseRequested = false;
 public:
-    VideoPlayThread(Hurricane *h, Demuxer *d, QObject *parent = nullptr) : QThread(parent), demuxer(d), hurricane(h) {
-        this->setObjectName("VideoPlayThread");
+    VideoPlayWorker(Demuxer *d, Hurricane *h) : QObject(nullptr), demuxer(d), hurricane(h) {
+
     }
-    void run() override {
-        while(isWork) {
-            if (isPlay) {
-                Picture currFrame = demuxer->getPicture(true);
-                if (currFrame.isValid()) {
-                    demuxer->popPicture();
-                    emit setImage(currFrame);
-                    Picture nextFrame = demuxer->getPicture(true);
-                    if (nextFrame.isValid()) {
-                        QThread::msleep(static_cast<unsigned long>((nextFrame.pts - currFrame.pts)  * 1000));
-                    }
-                    continue;
-                }
+    void resume() { pauseRequested = false; }
+    void pause() { pauseRequested = true; }
+public slots:
+    void onWork() {
+        qDebug() << "Start Video Work";
+        Picture currFrame;
+        while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
+            demuxer->popPicture();
+            emit setImage(currFrame);
+            Picture nextFrame = demuxer->getPicture(true);
+            if (nextFrame.isValid()) {
+                QThread::msleep(static_cast<unsigned long>((nextFrame.pts - currFrame.pts)  * 1000));
             }
-            isPlay = false;
-            mutex.lock();
-            condition.wait(&mutex);
-            mutex.unlock();
         }
+        emit videoInterrupted();
+        qDebug() << "end";
     }
 signals:
     void setImage(Picture pic);
-public slots:
-    void videoPause() {
-        isPlay = false;
-    }
-    void videoStart() {
-        if (!isPlay) {
-            isPlay = true;
-            condition.wakeAll();
-        }
-    }
-
-    void taskStop() {
-        isWork = false;
-    }
+    void videoInterrupted();
 };
-
 
 class HurricanePlayer : public Hurricane {
     Q_OBJECT
@@ -87,11 +64,14 @@ class HurricanePlayer : public Hurricane {
 //    Q_PROPERTY(HurricaneState state NOTIFY stateChanged)
 private:
     Demuxer demuxer;
-    VideoPlayThread videoPlayThread;
+    QThread *videoThread;
+    VideoPlayWorker videoPlayWorker;
 public:
     HurricaneState state;
 
     HurricanePlayer(QQuickItem *parent = nullptr);
+
+    virtual ~HurricanePlayer();
 
 signals:
 
@@ -107,6 +87,7 @@ signals:
 
     void videoStart();
     void videoPause();
+    void taskStop();
 
 public slots:
 

@@ -8,11 +8,16 @@
 #include <QTimer>
 #include <QDir>
 
-HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoPlayThread(this, &this->demuxer, parent) {
-    videoPlayThread.start();
-    connect(this, &HurricanePlayer::videoStart, &videoPlayThread, &VideoPlayThread::videoStart);
-    connect(this, &HurricanePlayer::videoPause, &videoPlayThread, &VideoPlayThread::videoPause);
-    connect(&videoPlayThread, &VideoPlayThread::setImage, this, &HurricanePlayer::setImage);
+HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), demuxer(), videoPlayWorker(&demuxer, this) {
+    videoThread = new QThread;
+    videoThread->setObjectName("VideoThread");
+    videoThread->start();
+
+    videoPlayWorker.moveToThread(videoThread);
+    connect(this, &HurricanePlayer::videoStart, &videoPlayWorker, &VideoPlayWorker::onWork);
+    connect(this, &HurricanePlayer::videoPause, &videoPlayWorker, &VideoPlayWorker::pause);
+    connect(&videoPlayWorker, &VideoPlayWorker::setImage, this, &HurricanePlayer::setImage);
+    connect(videoThread, &QThread::destroyed, []{ qDebug() << "Video Thread delete.";});
 }
 
 
@@ -26,17 +31,18 @@ void HurricanePlayer::openFile(const QString &path) {
 
 void HurricanePlayer::start() {
     qDebug() << "HP: start";
+    videoPlayWorker.resume();
     emit videoStart();
 }
 
 void HurricanePlayer::pause() {
     qDebug() << "HP: pause";
-    emit videoPause();
+    videoPlayWorker.pause();
 }
 
 void HurricanePlayer::stop() {
     qDebug() << "HP: stop";
-    emit videoPause();
+    videoPlayWorker.pause();
 }
 
 
@@ -47,4 +53,13 @@ void HurricanePlayer::seek(qreal sec) {
 void HurricanePlayer::setSpeed(qreal speed) {
     qDebug() << "HP: setSpeed" << speed;
 }
+
+HurricanePlayer::~HurricanePlayer() {
+    videoPlayWorker.pause();
+    videoThread->quit();
+    videoThread->wait(100);
+    qDebug() << "wait to quit" << videoThread->isRunning();
+    delete videoThread;
+}
+
 
