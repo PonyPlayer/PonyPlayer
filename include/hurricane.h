@@ -73,14 +73,7 @@ private:
 public:
     Hurricane(QQuickItem *parent = nullptr);
     ~Hurricane() noexcept override;
-    void setImage(const Picture &pic) {
-        // setImage -> sync -> render
-        // since picture may use on renderer thread, we CANNOT free now
-        cleanupPictureQueue.push_back(picture);
-        picture = pic;
-        // make dirty
-        this->update();
-    }
+
 
 protected:
     QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *data) override;
@@ -89,6 +82,14 @@ public slots:
     void handleWindowChanged(QQuickWindow *win);
     void sync();
     void cleanupPicture();
+    void setImage(const Picture &pic) {
+        // setImage -> sync -> render
+        // since picture may use on renderer thread, we CANNOT free now
+        cleanupPictureQueue.push_back(picture);
+        picture = pic;
+        // make dirty
+        this->update();
+    }
 };
 
 #endif // SQUIRCLE_H

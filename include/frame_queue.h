@@ -36,27 +36,27 @@ struct Picture {
         return pts;
     }
 
-    uint8_t *getY() {
+    [[nodiscard]] uint8_t *getY() const {
         return frame->data[0];
     }
 
-    uint8_t *getU() {
+    [[nodiscard]] uint8_t *getU() const {
         return frame->data[1];
     }
 
-    uint8_t *getV() {
+    [[nodiscard]] uint8_t *getV() const {
         return frame->data[2];
     }
 
-    int getLineSize() {
+    [[nodiscard]] int getLineSize() const {
         return frame->linesize[0];
     }
 
-    int getWidth() {
+    [[nodiscard]] int getWidth() const {
         return frame->width;
     }
 
-    int getHeight() {
+    [[nodiscard]] int getHeight() const {
         return frame->height;
     }
 

@@ -29,25 +29,55 @@ public:
 /**
  * 负责按时取出视频帧并设置 Image
  */
-class VideoTimer : public QThread {
+class VideoPlayThread : public QThread {
     Q_OBJECT
 private:
     QMutex mutex;
     QWaitCondition condition;
+    Demuxer *demuxer = nullptr;
+    Hurricane *hurricane;
+    bool isPlay = false;
+    bool isWork = true;
 public:
-    struct NextFrameEvent {
-        QAtomicInt block = true;
-        QAtomicInteger<uint64_t> next;
-    } frameEvent;
-
-    VideoTimer(QObject *parent = nullptr);
-    void run() override;
-    void notify() {
-        condition.wakeAll();
+    VideoPlayThread(Hurricane *h, Demuxer *d, QObject *parent = nullptr) : QThread(parent), demuxer(d), hurricane(h) {
+        this->setObjectName("VideoPlayThread");
+    }
+    void run() override {
+        while(isWork) {
+            if (isPlay) {
+                Picture currFrame = demuxer->getPicture(true);
+                if (currFrame.isValid()) {
+                    demuxer->popPicture();
+                    emit setImage(currFrame);
+                    Picture nextFrame = demuxer->getPicture(true);
+                    if (nextFrame.isValid()) {
+                        QThread::msleep(static_cast<unsigned long>((nextFrame.pts - currFrame.pts)  * 1000));
+                    }
+                    continue;
+                }
+            }
+            isPlay = false;
+            mutex.lock();
+            condition.wait(&mutex);
+            mutex.unlock();
+        }
+    }
+signals:
+    void setImage(Picture pic);
+public slots:
+    void videoPause() {
+        isPlay = false;
+    }
+    void videoStart() {
+        if (!isPlay) {
+            isPlay = true;
+            condition.wakeAll();
+        }
     }
 
-signals:
-    void timeEmit(); //NOLINT
+    void taskStop() {
+        isWork = false;
+    }
 };
 
 
@@ -57,10 +87,7 @@ class HurricanePlayer : public Hurricane {
 //    Q_PROPERTY(HurricaneState state NOTIFY stateChanged)
 private:
     Demuxer demuxer;
-    VideoTimer timer;
-    QThread timerThread;
-    clock_t videoStartTime;
-    Picture picture;
+    VideoPlayThread videoPlayThread;
 public:
     HurricaneState state;
 
@@ -78,9 +105,11 @@ signals:
      */
     void playFinished();
 
+    void videoStart();
+    void videoPause();
+
 public slots:
 
-    void playNextFrame();
     /**
      * 打开视频文件
      * @param path
