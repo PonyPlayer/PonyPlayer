@@ -18,9 +18,9 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoP
 
 void HurricanePlayer::openFile(const QString &path) {
     QUrl url(path);
-    demuxer.openFile(url.path().toStdString());
+    demuxer.openFile(url.toLocalFile().toStdString());
     demuxer.initDemuxer();
-    qDebug() << "HP: open file" << url.path();
+    qDebug() << "HP: open file" << url.toLocalFile();
     emit start();
 }
 
