@@ -21,10 +21,7 @@ struct Picture {
     bool valid{};
 
     Picture(AVFrame *frame_, double pts_) :
-            frame(av_frame_alloc()), pts(pts_), valid(true) {
-        av_frame_move_ref(frame, frame_);
-        av_frame_unref(frame_);
-    }
+            frame(frame_), pts(pts_), valid(true) {}
 
     Picture() = default;
 
@@ -71,75 +68,57 @@ struct Picture {
     }
 };
 
-const int MAXQ = 30;
-
-struct Frame {
-    AVFrame *frame{};
-};
-
 struct FrameQueue {
-    Frame queue[MAXQ];
-    int rindex = 0;
-    int windex = 0;
-    int size = 0;
+    std::queue<AVFrame *> queue;
+    int maxSize{};
     bool isQuit{};
     std::mutex lock;
     std::condition_variable cv;
 
-    FrameQueue() {
-        for (int i = 0; i < MAXQ; i++) {
-            queue[i].frame = av_frame_alloc();
-            if (queue[i].frame == nullptr) {
-                printf("at %d oom, size = %d\n", i, size);
-                exit(-1);
-            }
-        }
-    }
+    explicit FrameQueue(int maxSize_ = 30) : maxSize(maxSize_) {}
 
     ~FrameQueue() {
-        for (int i = 0; i < MAXQ; i++) {
-            av_frame_free(&queue[i].frame);
+        while (!queue.empty()) {
+            av_frame_free(&queue.front());
+            queue.pop();
         }
     }
 
-    Frame *front(bool block) {
+    AVFrame *front(bool block) {
         std::unique_lock<std::mutex> ul(lock);
         while (true) {
             if (isQuit)
                 return nullptr;
-            if (size != 0)
+            if (!queue.empty())
                 break;
             else if (block)
                 cv.wait_for(ul, std::chrono::milliseconds(10));
             else
                 return nullptr;
         }
-        return &queue[rindex];
+        return queue.front();
     }
 
     void pop() {
         std::unique_lock<std::mutex> ul(lock);
-        if (size == 0)
+        if (queue.empty())
             return;
-        --size;
-        ++rindex;
-        rindex %= MAXQ;
+        queue.pop();
         cv.notify_all();
     }
 
-    Frame *nextWritePos() {
+    void push(AVFrame *frame) {
         std::unique_lock<std::mutex> ul(lock);
-        while (size >= MAXQ) {
-            cv.wait(ul);
+        while (true) {
+            if (isQuit)
+                return;
+            if (static_cast<int>(queue.size()) >= maxSize) {
+                cv.wait_for(ul, std::chrono::milliseconds(10));
+            } else {
+                queue.push(frame);
+                break;
+            }
         }
-        return &queue[windex];
-    }
-
-    void push() {
-        std::unique_lock<std::mutex> ul(lock);
-        ++windex;
-        ++size;
-        windex %= MAXQ;
         cv.notify_all();
     }
 };

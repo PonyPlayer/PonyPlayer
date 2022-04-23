@@ -20,6 +20,7 @@ void test_quit(std::string filename) {
         for (;;) {
             auto picture = demuxer.getPicture(false);
             if (picture.isValid()) {
+                demuxer.popPicture();
                 ++cnt;
                 printf("%d %f\n", cnt, picture.getPTS());
                 picture.free();
@@ -44,6 +45,7 @@ void test_pause(std::string filename, bool halfQuit) {
         for (;;) {
             auto picture = demuxer.getPicture(true);
             if (picture.isValid()) {
+                demuxer.popPicture();
                 printf("%d %f\n", ++cnt, picture.getPTS());
                 picture.free();
             } else if (quit) {

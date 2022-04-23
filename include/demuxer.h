@@ -45,8 +45,8 @@ private:
     AVFrame *yuvFrame{};
     AVPacket *pkt{};
 
-    PacketQueue videoPacketQueue{};
-    FrameQueue videoFrameQueue{};
+    PacketQueue videoPacketQueue;
+    FrameQueue videoFrameQueue;
 
     std::thread workerDemuxer;
 
@@ -61,6 +61,10 @@ private:
     void cleanUp() {
         closeCtx();
         if (videoCodecCtx) avcodec_free_context(&videoCodecCtx);
+    }
+
+    bool tooManyPackets() {
+        return videoPacketQueue.queue.size() >= 20;
     }
 
     int initVideoState();
@@ -98,6 +102,11 @@ public:
      * 也可能是因为上层下达了暂停/终止命令，需要自行判断
      */
     Picture getPicture(bool block);
+
+    /**
+     * 成功获取图像数据后用于从队列中弹出一个图像帧
+     */
+    void popPicture();
 
     /**
      * 结束demuxer
