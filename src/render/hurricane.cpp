@@ -7,14 +7,14 @@
 #include <QOpenGLFramebufferObjectFormat>
 #include <QSGRenderNode>
 
-#define IGNORE_PAINT_DEBUG_LOG
+//#define DEBUG_FlAG_PAINT_LOG
 const void* ZERO_OFFSET = nullptr;
 
 const static GLfloat VERTEX_POS[] = {
-        1, 1, 0.5, 1, 0,
-        1, 0, 0.5, 1, 1,
-        0, 1, 0.5, 0, 0,
-        0, 0, 0.5, 0, 1,
+        1, 1, 0, 1, 0,
+        1, 0, 0, 1, 1,
+        0, 1, 0, 0, 0,
+        0, 0, 0, 0, 1,
 };
 const static GLuint VERTEX_INDEX[] = {
         0, 1, 2,
@@ -79,6 +79,7 @@ QSGNode *Hurricane::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNodeDa
 
 
 HurricaneRenderer::HurricaneRenderer(QQuickItem *item) : quickItem(item) {
+
     qDebug() << "Create Hurricane Renderer:" << static_cast<void *>(this) << ".";
 }
 
@@ -156,12 +157,12 @@ void HurricaneRenderer::render(const RenderState *state) {
             static_cast<int>(quickItem->height() * ratio),
     };
 //    quickItem->window()->beginExternalCommands();
-#ifndef IGNORE_PAINT_DEBUG_LOG
+#ifdef DEBUG_FlAG_PAINT_LOG
     qDebug() << "Paint" << "x =" << glRect.x() << "y =" << glRect.y() << "w =" << glRect.width() << "h =" << glRect.height();
 #endif
 //    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glViewport(glRect.x(), glRect.y(), glRect.width(), glRect.height());
-    glScissor(glRect.x(), glRect.y(), glRect.width(), glRect.height());
+//    glScissor(glRect.x(), glRect.y(), glRect.width(), glRect.height());
     glEnable(GL_SCISSOR_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
