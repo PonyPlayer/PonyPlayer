@@ -32,21 +32,30 @@ private:
     Demuxer *demuxer;
     QAtomicInteger<bool> pauseRequested = false;
     QAudioSink *audioOutput;
+    QIODevice *audioInput;
     int64_t videoStartPoint = 0;
     int64_t elapsedUSecsOnStart = 0;
+
+    int64_t idleStartTime = 0;
+    int64_t idleTimeTotal = 0;
+
 public:
     VideoPlayWorker(Demuxer *d) : QObject(nullptr), demuxer(d) {
-
     }
     void resume() { pauseRequested = false; }
     void pause() { pauseRequested = true; }
 
 
-    inline void sync(double pts) {
+
+
+private:
+    inline int64_t getProcessedAudioUSecs() {
+        return audioOutput->elapsedUSecs() - idleTimeTotal;
+    }
+    inline void syncTo(double pts) {
         auto target = static_cast<int64_t>(pts * 1000 * 1000); // us
-        auto current = audioOutput->elapsedUSecs() + videoStartPoint - elapsedUSecsOnStart; // us
+        auto current = getProcessedAudioUSecs() + videoStartPoint; // us
         auto duration = target - current;
-//        qDebug() << audioOutput->processedUSecs() / 1000 << audioOutput->elapsedUSecs() / 1000;
         if (duration > 0) {
             QThread::usleep(static_cast<unsigned long>(duration));
         } else {
@@ -54,6 +63,24 @@ public:
         }
     }
 public slots:
+    void onChanged(QAudio::State state) {
+        auto curr = audioOutput->elapsedUSecs();
+        qDebug() << "QAudioSink State changed" << state;
+        switch(state) {
+            case QAudio::ActiveState:
+                idleTimeTotal += curr -  idleStartTime;
+                idleStartTime = -1;
+                break;
+            case QAudio::SuspendedState:
+            case QAudio::StoppedState:
+            case QAudio::IdleState:
+                // FIXME take state transition diagram into consideration
+                if (idleStartTime <= 0)
+                    idleStartTime = curr;
+                break;
+        }
+        qDebug() << idleTimeTotal;
+    }
     void initOnThread() {
         QAudioFormat format;
         format.setSampleRate(44100);
@@ -62,10 +89,13 @@ public slots:
         audioOutput = new QAudioSink(format, this);
         audioOutput->setVolume(100);
         audioOutput->setBufferSize(192000 * 10);
+        audioInput = audioOutput->start();
+        audioOutput->suspend();
+        connect(audioOutput, &QAudioSink::stateChanged, this, &VideoPlayWorker::onChanged, Qt::ConnectionType::DirectConnection);
     };
     void onWork() {
         qDebug() << "Start Video Work";
-        auto *audioInput = audioOutput->start();
+        audioOutput->resume();
         Picture currFrame;
         elapsedUSecsOnStart = audioOutput->elapsedUSecs();
         while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
@@ -78,10 +108,10 @@ public slots:
                 demuxer->popSample();
             }
             if (nextFrame.isValid()) {
-                sync(nextFrame.pts);
+                syncTo(nextFrame.pts);
             }
         }
-        audioOutput->stop();
+        audioOutput->suspend();
         emit videoInterrupted();
         qDebug() << "end";
     }
@@ -98,6 +128,7 @@ private:
     Demuxer demuxer;
     QThread *videoThread;
     VideoPlayWorker videoPlayWorker;
+    bool isPlay = false;
 public:
     HurricaneState state;
 
