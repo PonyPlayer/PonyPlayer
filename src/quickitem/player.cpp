@@ -22,7 +22,7 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), demuxe
     connect(videoThread, &QThread::destroyed, []{ qDebug() << "Video Thread delete.";});
     emit videoInit();
 #ifdef DEBUG_FLAG_AUTO_OPEN
-    openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/143468776-1-208.mp4"_qs)).url());
+    openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/577099243-1-208.mp4"_qs)).url());
 #endif
 }
 
