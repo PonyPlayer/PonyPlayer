@@ -10,15 +10,17 @@
 
 
 #define DEBUG_FLAG_AUTO_OPEN
-HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), demuxer(), videoPlayWorker(&demuxer, this) {
+HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), demuxer(), videoPlayWorker(&demuxer) {
     videoThread = new QThread;
     videoThread->setObjectName("VideoThread");
-    videoThread->start();
     videoPlayWorker.moveToThread(videoThread);
+    videoThread->start();
+    connect(this, &HurricanePlayer::videoInit, &videoPlayWorker, &VideoPlayWorker::initOnThread);
     connect(this, &HurricanePlayer::videoStart, &videoPlayWorker, &VideoPlayWorker::onWork);
     connect(this, &HurricanePlayer::videoPause, &videoPlayWorker, &VideoPlayWorker::pause);
     connect(&videoPlayWorker, &VideoPlayWorker::setImage, this, &HurricanePlayer::setImage);
     connect(videoThread, &QThread::destroyed, []{ qDebug() << "Video Thread delete.";});
+    emit videoInit();
 #ifdef DEBUG_FLAG_AUTO_OPEN
     openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/143468776-1-208.mp4"_qs)).url());
 #endif

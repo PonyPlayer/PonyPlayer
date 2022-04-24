@@ -30,28 +30,37 @@ class VideoPlayWorker : public QObject {
     Q_OBJECT
 private:
     Demuxer *demuxer;
-    QAudioSink audioSink;
-    Hurricane *hurricane;
     QAtomicInteger<bool> pauseRequested = false;
     QAudioSink *audioOutput;
+    int64_t videoStartPoint = 0;
 public:
-    VideoPlayWorker(Demuxer *d, Hurricane *h) : QObject(nullptr), demuxer(d), hurricane(h) {
-        QAudioFormat format;
-        format.setSampleRate(44100);
-        format.setChannelCount(2);
-        format.setSampleFormat(QAudioFormat::Int16);
-        audioOutput = new QAudioSink(format);
-        audioOutput->setVolume(100);
-        audioOutput->setBufferSize(192000 * 10);
+    VideoPlayWorker(Demuxer *d) : QObject(nullptr), demuxer(d) {
+
     }
     void resume() { pauseRequested = false; }
     void pause() { pauseRequested = true; }
 
-    unsigned long cast(long ms) {
-        if (ms < 0) return 0L;
-        return static_cast<unsigned long>(ms);
+
+    inline void sync(double pts) {
+        auto target = static_cast<int64_t>(pts * 1000 * 1000); // us
+        auto current = audioOutput->processedUSecs() + videoStartPoint; // us
+        auto duration = target - current;
+        if (duration > 0) {
+            QThread::usleep(static_cast<unsigned long>(duration));
+        } else {
+            qWarning() << "Sleep negative duration" << duration << "us";
+        }
     }
 public slots:
+    void initOnThread() {
+        QAudioFormat format;
+        format.setSampleRate(44100);
+        format.setChannelCount(2);
+        format.setSampleFormat(QAudioFormat::Int16);
+        audioOutput = new QAudioSink(format, this);
+        audioOutput->setVolume(100);
+        audioOutput->setBufferSize(192000 * 10);
+    };
     void onWork() {
         qDebug() << "Start Video Work";
         auto *audioInput = audioOutput->start();
@@ -60,13 +69,13 @@ public slots:
             demuxer->popPicture();
             emit setImage(currFrame);
             Picture nextFrame = demuxer->getPicture(true);
-            while(audioOutput->bytesFree() >  192000) {
+            for (int i = 0; i < 2 && audioOutput->bytesFree() > 192000; ++i) {
                 Sample sample = demuxer->getSample(true);
                 audioInput->write(reinterpret_cast<const char *>(sample.data), sample.len);
                 demuxer->popSample();
             }
             if (nextFrame.isValid()) {
-                QThread::msleep(cast(static_cast<long>(nextFrame.pts * 1000) - audioOutput->processedUSecs() / 1000));
+                sync(nextFrame.pts);
             }
         }
         audioOutput->stop();
@@ -99,6 +108,7 @@ signals:
      * 状态发生改变
      */
     void stateChanged();
+    void videoInit();
 
     /**
      * 视频播放完
