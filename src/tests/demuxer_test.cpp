@@ -15,3 +15,11 @@ TEST(quit_test, test_quit) {
 TEST(pause_test, test_pause) {
     test_pause("D:/test_video/1.mp4", true);
 }
+
+TEST(audio_test, test_audio) {
+    test_audio("D:/test_video/1.mp4");
+}
+
+TEST(pcm_test, test_savePCM) {
+    test_savePCM("D:/test_video/1.mp4");
+}

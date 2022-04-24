@@ -4,8 +4,7 @@
 
 #include "demuxer.h"
 
-void debugErr(std::string prefix, int err)
-{
+void debugErr(std::string prefix, int err) {
     char errBuf[512] = {0};
     av_strerror(err, errBuf, sizeof(errBuf));
     printf("%s: %s\n", prefix.c_str(), errBuf);
@@ -44,10 +43,14 @@ int Demuxer::initAudioState() {
         printf("Cannot find valid audio decode codec context.\n");
         return -1;
     }
+
     if (avcodec_parameters_to_context(audioCodecCtx, audioCodecPara) < 0) {
         printf("Cannot initialize audioCodecCtx.\n");
         return -1;
     }
+
+    audioCodecCtx->pkt_timebase = fmtCtx->streams[audioStreamIndex]->time_base;
+
     if (avcodec_open2(audioCodecCtx, audioCodec, nullptr) < 0) {
         printf("Cannot open codec.\n");
         return -1;
@@ -55,7 +58,7 @@ int Demuxer::initAudioState() {
 
     audioStream = fmtCtx->streams[audioStreamIndex];
 
-    swrCtx = swr_alloc_set_opts(nullptr, av_get_default_channel_layout(2),
+    swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
                                 AV_SAMPLE_FMT_S16, 44100,
                                 audioCodecCtx->channel_layout, audioCodecCtx->sample_fmt,
                                 audioCodecCtx->sample_rate, 0, nullptr);
@@ -260,11 +263,12 @@ Sample Demuxer::getSample(bool block) {
             double pts = static_cast<double>(frame->pts) * av_q2d(audioStream->time_base);
             int len = swr_convert(swrCtx, &audioOutBuf, 2 * MAX_AUDIO_FRAME_SIZE,
                                   (const uint8_t **) (frame->data), frame->nb_samples);
-            int out_size = av_samples_get_buffer_size(0,
-                                                      av_get_default_channel_layout(2),
+
+            int out_size = av_samples_get_buffer_size(0, 2,
                                                       len,
                                                       AV_SAMPLE_FMT_S16,
                                                       1);
+
             res = Sample(audioOutBuf, out_size, pts);
             break;
         } else if (!block)

@@ -164,4 +164,8 @@ void test_quit(std::string filename);
 
 void test_pause(std::string filename, bool halfQuit);
 
+void test_savePCM(std::string filename);
+
+void test_audio(std::string filename);
+
 #endif //FFMPEGCMAKE_DEMUXER_H
