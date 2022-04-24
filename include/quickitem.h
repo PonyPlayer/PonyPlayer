@@ -33,6 +33,7 @@ private:
     QAtomicInteger<bool> pauseRequested = false;
     QAudioSink *audioOutput;
     int64_t videoStartPoint = 0;
+    int64_t elapsedUSecsOnStart = 0;
 public:
     VideoPlayWorker(Demuxer *d) : QObject(nullptr), demuxer(d) {
 
@@ -43,8 +44,9 @@ public:
 
     inline void sync(double pts) {
         auto target = static_cast<int64_t>(pts * 1000 * 1000); // us
-        auto current = audioOutput->processedUSecs() + videoStartPoint; // us
+        auto current = audioOutput->elapsedUSecs() + videoStartPoint - elapsedUSecsOnStart; // us
         auto duration = target - current;
+//        qDebug() << audioOutput->processedUSecs() / 1000 << audioOutput->elapsedUSecs() / 1000;
         if (duration > 0) {
             QThread::usleep(static_cast<unsigned long>(duration));
         } else {
@@ -65,6 +67,7 @@ public slots:
         qDebug() << "Start Video Work";
         auto *audioInput = audioOutput->start();
         Picture currFrame;
+        elapsedUSecsOnStart = audioOutput->elapsedUSecs();
         while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
             demuxer->popPicture();
             emit setImage(currFrame);
