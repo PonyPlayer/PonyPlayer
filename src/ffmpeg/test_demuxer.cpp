@@ -16,10 +16,9 @@ void test_saveFrame(std::string filename, int n) {
 void test_savePCM(std::string filename) {
     Demuxer demuxer;
     demuxer.openFile(filename);
-    demuxer.initDemuxer();
 
     const char outFileName[] = "D:/test_video/test.pcm";
-    FILE *file=fopen(outFileName,"w+b");
+    FILE *file = fopen(outFileName, "w+b");
 
     int cnt = 0;
     bool quit = false;
@@ -28,7 +27,7 @@ void test_savePCM(std::string filename) {
             auto sample = demuxer.getSample(true);
             if (sample.valid) {
 
-                fwrite(sample.data,1,sample.len,file);
+                fwrite(sample.data, 1, sample.len, file);
 
                 printf("%d\n", ++cnt);
                 demuxer.popSample();
@@ -60,29 +59,53 @@ void test_audio(std::string filename) {
     streamOut = audioOutput->start();
 
     Demuxer demuxer;
-    demuxer.openFile(filename);
-    demuxer.initDemuxer();
+
+    int ret = demuxer.openFile("D:/test_video/8.mp4");
+    if (ret < 0)
+        printf("can not open file\n");
 
     int cnt = 0;
+    bool change = false;
+    bool getChanged = false;
     bool quit = false;
     auto worker = std::thread([&]() {
         for (;;) {
+            if (change) {
+                audioOutput->suspend();
+                audioOutput->reset();
+                getChanged = true;
+                while (change) {
+                    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                }
+                audioOutput->resume();
+            }
             auto sample = demuxer.getSample(true);
             if (sample.valid) {
-
                 while (audioOutput->bytesFree() < sample.len)
                     std::this_thread::sleep_for(std::chrono::milliseconds(10));
                 streamOut->write(reinterpret_cast<const char *>(sample.data), sample.len);
-
-                printf("%d\n", ++cnt);
                 demuxer.popSample();
+                sample.free();
+            } else {
+                printf("invalid\n");
             }
             if (quit) {
                 break;
             }
         }
     });
-    std::this_thread::sleep_for(std::chrono::seconds(10));
+    demuxer.openFile("D:/test_video/577099243-1-208.mp4");
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    for (int i = 0; i < 2; i++) {
+        change = true;
+        while (!getChanged)
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        demuxer.openFile("D:/test_video/577099243-1-208.mp4");
+        change = false;
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+    }
+
+
     quit = true;
     demuxer.quit();
     worker.join();
@@ -91,7 +114,6 @@ void test_audio(std::string filename) {
 void test_quit(std::string filename) {
     Demuxer demuxer;
     demuxer.openFile(filename);
-    demuxer.initDemuxer();
     int videoCnt = 0, audioCnt = 0;
     bool quit = false;
     auto worker = std::thread([&]() {
@@ -123,7 +145,6 @@ void test_quit(std::string filename) {
 void test_pause(std::string filename, bool halfQuit) {
     Demuxer demuxer;
     demuxer.openFile(filename);
-    demuxer.initDemuxer();
     bool quit = false;
     int videoCnt = 0, audioCnt = 0;
     auto worker = std::thread([&]() {
@@ -157,12 +178,17 @@ void test_pause(std::string filename, bool halfQuit) {
     if (halfQuit) {
         demuxer.quit();
         quit = true;
-    }
-    else {
+    } else {
         demuxer.resume();
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         demuxer.quit();
         quit = true;
     }
     worker.join();
+}
+
+void test_eof(std::string filename) {
+    Demuxer demuxer;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    demuxer.quit();
 }

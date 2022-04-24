@@ -58,21 +58,36 @@ private:
     SwrContext *swrCtx{};
     uint8_t *audioOutBuf{};
 
-    PacketQueue audioPacketQueue;
-    FrameQueue audioFrameQueue;
+    PacketQueue audioPacketQueue{};
+    FrameQueue audioFrameQueue{};
 
     std::thread workerDemuxer;
 
     bool isQuit{};
     bool isPause{};
 
+    std::mutex syncLock;
+    bool isEof{true};
+    std::atomic<int> waitSync{};
+    bool syncFinished{};
+
     void closeCtx() {
-        if (videoCodecCtx) avcodec_close(videoCodecCtx);
-        if (audioCodecCtx) avcodec_close(audioCodecCtx);
+        if (videoCodecCtx) {
+            avcodec_flush_buffers(videoCodecCtx);
+            avcodec_close(videoCodecCtx);
+        }
+        if (audioCodecCtx) {
+            avcodec_flush_buffers(audioCodecCtx);
+            avcodec_close(audioCodecCtx);
+        }
         if (fmtCtx) avformat_close_input(&fmtCtx);
     }
 
     void cleanUp() {
+        videoFrameQueue.flush();
+        audioFrameQueue.flush();
+        videoPacketQueue.flush();
+        audioPacketQueue.flush();
         closeCtx();
         if (videoCodecCtx) avcodec_free_context(&videoCodecCtx);
         if (audioCodecCtx) avcodec_free_context(&audioCodecCtx);
@@ -92,22 +107,21 @@ private:
 
     void audioDecoder();
 
-    void decoder(AVCodecContext *ctx, PacketQueue &pq, FrameQueue &fq, AVFrame* frame);
+    void decoder(AVCodecContext **ctx, PacketQueue &pq, FrameQueue &fq, AVFrame *frame);
+
+    void initDemuxer();
 
 public:
     Demuxer() :
             pkt(av_packet_alloc()),
             yuvFrame(av_frame_alloc()),
-            sampleFrame(av_frame_alloc()) {}
+            sampleFrame(av_frame_alloc()) {
+        initDemuxer();
+    }
 
     ~Demuxer() {
         workerDemuxer.join();
     }
-
-    /**
-     * 启动所有worker线程，当前版本需要先调用openFile打开文件
-     */
-    void initDemuxer();
 
     /**
      * 打开一个视频文件
@@ -167,5 +181,8 @@ void test_pause(std::string filename, bool halfQuit);
 void test_savePCM(std::string filename);
 
 void test_audio(std::string filename);
+
+void test_eof(std::string filename);
+
 
 #endif //FFMPEGCMAKE_DEMUXER_H

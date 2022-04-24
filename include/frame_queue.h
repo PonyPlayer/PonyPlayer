@@ -73,11 +73,12 @@ struct Sample {
     int len{};
     double pts{};
     bool valid{};
+    AVFrame *frame{};
 
     Sample() = default;
 
-    Sample(uint8_t *data_, int len_, double pts_) :
-            data(data_), len(len_), pts(pts_), valid(true) {}
+    Sample(uint8_t *data_, int len_, double pts_, AVFrame* frame_) :
+            data(data_), len(len_), pts(pts_), valid(true), frame(frame_) {}
 
     bool isValid() {
         return valid;
@@ -94,6 +95,10 @@ struct Sample {
     double getPTS() {
         return pts;
     }
+
+    void free() {
+        if (frame) av_frame_free(&frame);
+    }
 };
 
 struct FrameQueue {
@@ -108,6 +113,15 @@ struct FrameQueue {
     ~FrameQueue() {
         while (!queue.empty()) {
             av_frame_free(&queue.front());
+            queue.pop();
+        }
+    }
+
+    void flush() {
+        std::unique_lock<std::mutex> ul(lock);
+        while (!queue.empty()) {
+            auto frame = queue.front();
+            av_frame_free(&frame);
             queue.pop();
         }
     }

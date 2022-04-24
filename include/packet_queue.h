@@ -9,6 +9,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <helper.h>
+
 INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
@@ -28,27 +29,20 @@ struct PacketQueue {
         }
     }
 
-    void push(AVPacket* pkt) {
+    void push(AVPacket *pkt) {
         std::unique_lock<std::mutex> ul(lock);
         queue.push_back(*pkt);
         cv.notify_all();
     }
 
-    int pop(AVPacket* receiver) {
+    int pop(AVPacket *receiver) {
         std::unique_lock<std::mutex> ul(lock);
-        for (;;) {
-           if (isQuit) {
-               return -1;
-           }
-           if (!queue.empty()) {
-               *receiver = queue.front();
-               queue.pop_front();
-               return 1;
-           }
-           else {
-               cv.wait_for(ul, std::chrono::milliseconds(10));
-           }
+        if (isQuit || queue.empty()) {
+            return -1;
         }
+        *receiver = queue.front();
+        queue.pop_front();
+        return 1;
     }
 };
 

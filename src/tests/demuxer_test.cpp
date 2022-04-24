@@ -23,3 +23,7 @@ TEST(audio_test, test_audio) {
 TEST(pcm_test, test_savePCM) {
     test_savePCM("D:/test_video/1.mp4");
 }
+
+TEST(eof_test, test_eof) {
+    test_eof("D:/test_video/1.mp4");
+}
