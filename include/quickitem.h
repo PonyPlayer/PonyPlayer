@@ -15,7 +15,6 @@
 #include "hurricane.h"
 #include "demuxer.h"
 
-class HurricanePlayer;
 
 using std::chrono::system_clock;
 
@@ -26,27 +25,33 @@ public:
 
 };
 
+typedef int64_t time_point;
+typedef int64_t time_duration;
 class VideoPlayWorker : public QObject {
     Q_OBJECT
 private:
     Demuxer *demuxer;
     QAtomicInteger<bool> pauseRequested = false;
     QAudioSink *audioOutput;
-    int64_t videoStartPoint = 0;
-    int64_t elapsedUSecsOnStart = 0;
-public:
-    VideoPlayWorker(Demuxer *d) : QObject(nullptr), demuxer(d) {
+    QIODevice *audioInput;
 
-    }
+    time_point seekPoint = 0;
+    time_point idlePoint = 0;
+    time_duration idleDurationSum = 0;
+
+public:
+    VideoPlayWorker(Demuxer *d) : QObject(nullptr), demuxer(d) {}
     void resume() { pauseRequested = false; }
     void pause() { pauseRequested = true; }
 
-
-    inline void sync(double pts) {
+private:
+    inline int64_t getProcessedAudioUSecs() {
+        return audioOutput->elapsedUSecs() - idleDurationSum;
+    }
+    inline void syncTo(double pts) {
         auto target = static_cast<int64_t>(pts * 1000 * 1000); // us
-        auto current = audioOutput->elapsedUSecs() + videoStartPoint - elapsedUSecsOnStart; // us
+        auto current = getProcessedAudioUSecs() + seekPoint; // us
         auto duration = target - current;
-//        qDebug() << audioOutput->processedUSecs() / 1000 << audioOutput->elapsedUSecs() / 1000;
         if (duration > 0) {
             QThread::usleep(static_cast<unsigned long>(duration));
         } else {
@@ -54,6 +59,25 @@ public:
         }
     }
 public slots:
+    void onChanged(QAudio::State state) {
+        auto curr = audioOutput->elapsedUSecs();
+        qDebug() << "QAudioSink State changed:" << state << "Curr" << curr << "Sum" << idleDurationSum;
+        switch(state) {
+            case QAudio::ActiveState:
+                idleDurationSum += curr - idlePoint;
+                idlePoint = -1;
+                break;
+            case QAudio::SuspendedState:
+            case QAudio::StoppedState:
+            case QAudio::IdleState:
+                // Start: IdleState -> ActiveState
+                // Pause: ActiveState -> SuspendedState
+                // Resume: SuspendedState -> IdleState -> ActiveState
+                if (idlePoint <= 0)
+                    idlePoint = curr;
+                break;
+        }
+    }
     void initOnThread() {
         QAudioFormat format;
         format.setSampleRate(44100);
@@ -62,12 +86,14 @@ public slots:
         audioOutput = new QAudioSink(format, this);
         audioOutput->setVolume(100);
         audioOutput->setBufferSize(192000 * 10);
+        audioInput = audioOutput->start();
+        audioOutput->suspend();
+        connect(audioOutput, &QAudioSink::stateChanged, this, &VideoPlayWorker::onChanged, Qt::ConnectionType::DirectConnection);
     };
     void onWork() {
         qDebug() << "Start Video Work";
-        auto *audioInput = audioOutput->start();
+        audioOutput->resume();
         Picture currFrame;
-        elapsedUSecsOnStart = audioOutput->elapsedUSecs();
         while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
             demuxer->popPicture();
             emit setImage(currFrame);
@@ -78,10 +104,10 @@ public slots:
                 demuxer->popSample();
             }
             if (nextFrame.isValid()) {
-                sync(nextFrame.pts);
+                syncTo(nextFrame.pts);
             }
         }
-        audioOutput->stop();
+        audioOutput->suspend();
         emit videoInterrupted();
         qDebug() << "end";
     }
@@ -98,6 +124,7 @@ private:
     Demuxer demuxer;
     QThread *videoThread;
     VideoPlayWorker videoPlayWorker;
+    bool isPlay = false;
 public:
     HurricaneState state;
 

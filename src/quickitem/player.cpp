@@ -20,6 +20,7 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), demuxe
     connect(this, &HurricanePlayer::videoPause, &videoPlayWorker, &VideoPlayWorker::pause);
     connect(&videoPlayWorker, &VideoPlayWorker::setImage, this, &HurricanePlayer::setImage);
     connect(videoThread, &QThread::destroyed, []{ qDebug() << "Video Thread delete.";});
+
     emit videoInit();
 #ifdef DEBUG_FLAG_AUTO_OPEN
     openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/581518754-1-208.mp4"_qs)).url());
@@ -37,20 +38,29 @@ void HurricanePlayer::openFile(const QString &path) {
 }
 
 void HurricanePlayer::start() {
-    qDebug() << "HP: start";
-    videoPlayWorker.resume();
+    if (!isPlay) {
+        isPlay = true;
+        qDebug() << "HP: start";
+        videoPlayWorker.resume();
 
-    emit videoStart();
+        emit videoStart();
+    }
 }
 
 void HurricanePlayer::pause() {
-    qDebug() << "HP: pause";
-    videoPlayWorker.pause();
+    if (isPlay) {
+        isPlay = false;
+        qDebug() << "HP: pause";
+        videoPlayWorker.pause();
+    }
 }
 
 void HurricanePlayer::stop() {
-    qDebug() << "HP: stop";
-    videoPlayWorker.pause();
+    if (isPlay) {
+        isPlay = false;
+        qDebug() << "HP: stop";
+        videoPlayWorker.pause();
+    }
 }
 
 
