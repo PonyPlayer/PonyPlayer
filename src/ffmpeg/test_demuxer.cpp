@@ -60,9 +60,7 @@ void test_audio(std::string filename) {
 
     Demuxer demuxer;
 
-    int ret = demuxer.openFile("D:/test_video/8.mp4");
-    if (ret < 0)
-        printf("can not open file\n");
+    int ret = demuxer.openFile("123");
 
     int cnt = 0;
     bool change = false;
@@ -77,8 +75,17 @@ void test_audio(std::string filename) {
                 while (change) {
                     std::this_thread::sleep_for(std::chrono::milliseconds(10));
                 }
+                getChanged = false;
                 audioOutput->resume();
             }
+            /*
+            auto pic = demuxer.getPicture(false);
+            if (pic.isValid()) {
+                demuxer.popPicture();
+                pic.free();
+            }
+             */
+
             auto sample = demuxer.getSample(true);
             if (sample.valid) {
                 while (audioOutput->bytesFree() < sample.len)
@@ -87,13 +94,14 @@ void test_audio(std::string filename) {
                 demuxer.popSample();
                 sample.free();
             } else {
-                printf("invalid\n");
+                // printf("invalid\n");
             }
             if (quit) {
                 break;
             }
         }
     });
+
     demuxer.openFile("D:/test_video/577099243-1-208.mp4");
     std::this_thread::sleep_for(std::chrono::seconds(2));
     for (int i = 0; i < 2; i++) {
@@ -105,7 +113,7 @@ void test_audio(std::string filename) {
         std::this_thread::sleep_for(std::chrono::seconds(2));
     }
 
-
+    std::this_thread::sleep_for(std::chrono::seconds (20));
     quit = true;
     demuxer.quit();
     worker.join();

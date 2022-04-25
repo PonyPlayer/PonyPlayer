@@ -65,11 +65,10 @@ private:
 
     bool isQuit{};
     bool isPause{};
+    bool isEof{};
 
-    std::mutex syncLock;
-    bool isEof{true};
-    std::atomic<int> waitSync{};
-    bool syncFinished{};
+    bool needFlush{};
+    int flushFinish{};
 
     void closeCtx() {
         if (videoCodecCtx) {
@@ -94,7 +93,7 @@ private:
     }
 
     bool tooManyPackets() {
-        return videoPacketQueue.queue.size() >= 20 || audioPacketQueue.queue.size() >= 20;
+        return videoFrameQueue.queue.size() >= 200 || videoFrameQueue.queue.size() >= 200;
     }
 
     void demuxer();
@@ -110,6 +109,8 @@ private:
     void decoder(AVCodecContext **ctx, PacketQueue &pq, FrameQueue &fq, AVFrame *frame);
 
     void initDemuxer();
+
+    int openFile();
 
 public:
     Demuxer() :

@@ -81,15 +81,16 @@ int Demuxer::initAudioState() {
 }
 
 int Demuxer::openFile(std::string inputFileName) {
-    std::unique_lock<std::mutex> ul(syncLock);
-    waitSync.store(3);
-    while (waitSync.load() != 0) {
+    filename = inputFileName;
+    needFlush = true;
+    flushFinish = 0;
+    while (flushFinish == 0) {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-    cleanUp();
+    return flushFinish;
+}
 
-    filename = inputFileName;
-
+int Demuxer::openFile() {
     if (avformat_open_input(&fmtCtx, filename.c_str(), nullptr, nullptr) < 0) {
         printf("Cannot open input file.\n");
         goto error;
@@ -130,14 +131,12 @@ int Demuxer::openFile(std::string inputFileName) {
 
     isEof = false;
     isPause = false;
-    syncFinished = true;
     printf("finish\n");
-    return 0;
+    return 1;
 
     error:
-    isEof = true;
-    syncFinished = true;
     cleanUp();
+    isEof = true;
     return -1;
 }
 
@@ -163,22 +162,17 @@ void Demuxer::resume() {
 
 void Demuxer::demuxer() {
     int ret = 0;
-    auto workerVideoDecoder = std::thread(&Demuxer::videoDecoder, this);
-    auto workerAudioDecoder = std::thread(&Demuxer::audioDecoder, this);
     for (;;) {
         if (isQuit) {
             break;
         }
 
-        if (waitSync.load()) {
-            printf("sync\n");
-            waitSync.store(waitSync-1);
-            while (!syncFinished) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            }
-            printf("after sync\n");
+        if (needFlush) {
+            cleanUp();
+            flushFinish = openFile();
+            needFlush = false;
+            continue;
         }
-
 
         if (isPause || isEof) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -187,26 +181,57 @@ void Demuxer::demuxer() {
 
         ret = av_read_frame(fmtCtx, pkt);
         if (ret < 0) {
-            AVPacket *nullPkt = av_packet_alloc();
-            nullPkt->data = nullptr;
-            nullPkt->size = 0;
-            videoPacketQueue.push(pkt);
-            audioPacketQueue.push(pkt);
-            av_packet_free(&nullPkt);
             isEof = true;
             continue;
         }
         if (pkt->stream_index == videoStreamIndex) {
-            videoPacketQueue.push(pkt);
+            ret = avcodec_send_packet(videoCodecCtx, pkt);
+            if (ret < 0) {
+                debugErr("avcodec_send_packet", ret);
+                break;
+            }
+            while ((ret = avcodec_receive_frame(videoCodecCtx, yuvFrame)) >= 0) {
+                auto copyFrame = av_frame_alloc();
+                av_frame_move_ref(copyFrame, yuvFrame);
+                av_frame_unref(yuvFrame);
+                if (videoFrameQueue.push(copyFrame) < 0) {
+                    av_frame_free(&copyFrame);
+                    break;
+                }
+            }
+            if (ret < 0) {
+                if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF);
+                else {
+                    debugErr("avcodec_receive_frame", ret);
+                    break;
+                }
+            }
         } else if (pkt->stream_index == audioStreamIndex) {
-            audioPacketQueue.push(pkt);
-        } else {
-            av_packet_unref(pkt);
+            ret = avcodec_send_packet(audioCodecCtx, pkt);
+            if (ret < 0) {
+                debugErr("avcodec_send_packet", ret);
+                break;
+            }
+            while ((ret = avcodec_receive_frame(audioCodecCtx, sampleFrame)) >= 0) {
+                auto copyFrame = av_frame_alloc();
+                av_frame_move_ref(copyFrame, sampleFrame);
+                av_frame_unref(sampleFrame);
+                if (audioFrameQueue.push(copyFrame) < 0) {
+                    av_frame_free(&copyFrame);
+                    break;
+                }
+            }
+            if (ret < 0) {
+                if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF);
+                else {
+                    debugErr("avcodec_receive_frame", ret);
+                    break;
+                }
+            }
         }
+        av_packet_unref(pkt);
     }
     printf("demuxer quit\n");
-    workerVideoDecoder.join();
-    workerAudioDecoder.join();
 }
 
 void Demuxer::decoder(AVCodecContext **ctx, PacketQueue &pq, FrameQueue &fq, AVFrame *frame) {
@@ -214,17 +239,17 @@ void Demuxer::decoder(AVCodecContext **ctx, PacketQueue &pq, FrameQueue &fq, AVF
     for (;;) {
         if (isQuit)
             break;
-
+/*
         if (waitSync.load()) {
             printf("sync\n");
-            waitSync.store(waitSync-1);
+            waitSync.store(waitSync - 1);
             while (!syncFinished) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(10));
             }
             printf("after sync\n");
         }
-
-        if (isPause) {
+*/
+        if (isPause || isEof) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
             continue;
         }
