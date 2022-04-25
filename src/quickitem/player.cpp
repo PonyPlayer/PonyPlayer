@@ -9,7 +9,7 @@
 #include <QDir>
 
 
-//#define DEBUG_FLAG_AUTO_OPEN
+#define DEBUG_FLAG_AUTO_OPEN
 HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoPlayWorker() {
     videoThread = new QThread;
     videoThread->setObjectName("VideoThread");
@@ -23,7 +23,7 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoP
 
     emit onPlayerInitializing();
 #ifdef DEBUG_FLAG_AUTO_OPEN
-    openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/581518754-1-208.mp4"_qs)).url());
+    openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/577099243-1-208.mp4"_qs)).url());
 #endif
 }
 
@@ -37,6 +37,7 @@ void HurricanePlayer::openFile(const QString &path) {
         state = HurricaneState::STOPPED;
     } else {
         state = HurricaneState::INVALID;
+        qWarning() << "Hurricane Player: Fail to open video." << ret;
     }
     emit stateChanged();
 }
