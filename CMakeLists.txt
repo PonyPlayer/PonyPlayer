@@ -21,6 +21,7 @@ find_package(Qt6 COMPONENTS
         Sql
         Multimedia
         Widgets
+        Network
         REQUIRED)
 
 set(FFmpeg)

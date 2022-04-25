@@ -5,6 +5,9 @@
 #include "hurricane.h"
 #include "logger.h"
 #include "quickitem.h"
+#include "netfind.h"
+#include "broadcast.h"
+#include "netfind.h"
 
 int main(int argc, char *argv[]) {
     QQuickWindow::setGraphicsApi(QSGRendererInterface::GraphicsApi::OpenGL);
@@ -24,5 +27,9 @@ int main(int argc, char *argv[]) {
             }, Qt::QueuedConnection);
     engine.load(url);
     qDebug() << "Start program";
+    BroadCaster broadCaster;
+    broadCaster.startBroadcast();
+    NetFind netfind;
+    netfind.start();
     return QApplication::exec();
 }

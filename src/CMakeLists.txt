@@ -9,6 +9,7 @@ add_subdirectory(quickitem)
 add_subdirectory(playlist)
 add_subdirectory(config)
 add_subdirectory(interpolate)
+add_subdirectory(networking)
 include(${CMAKE_SOURCE_DIR}/cmake/platform.cmake)
 
 
@@ -20,6 +21,7 @@ target_link_libraries(${PROJECT_NAME}
         PRIVATE Qt::QmlWorkerScript
         PRIVATE Qt::Widgets
         PRIVATE Qt::Multimedia
+        PRIVATE Qt::Network
         PRIVATE ${FFmpeg}
         ffmpeg
         utils
@@ -28,7 +30,8 @@ target_link_libraries(${PROJECT_NAME}
         quickitem
         playlist
         config
-        interpolate)
+        interpolate
+        networking)
 
 
 
