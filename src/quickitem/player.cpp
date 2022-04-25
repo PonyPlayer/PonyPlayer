@@ -15,31 +15,25 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoP
     videoThread->setObjectName("VideoThread");
     videoPlayWorker.moveToThread(videoThread);
     videoThread->start();
-    connect(this, &HurricanePlayer::onPlayerInitializing, &videoPlayWorker, &VideoPlayWorker::initOnThread);
-    connect(this, &HurricanePlayer::onVideoStarting, &videoPlayWorker, &VideoPlayWorker::onWork);
-    connect(this, &HurricanePlayer::onVolumeChanging, &videoPlayWorker, &VideoPlayWorker::setVolume);
-    connect(&videoPlayWorker, &VideoPlayWorker::setImage, this, &HurricanePlayer::setImage);
+    connect(this, &HurricanePlayer::signalPlayerInitializing, &videoPlayWorker, &VideoPlayWorker::slotThreadInit);
+    connect(this, &HurricanePlayer::signalVideoStarting, &videoPlayWorker, &VideoPlayWorker::slotOnWork);
+    connect(this, &HurricanePlayer::signalVolumeChanging, &videoPlayWorker, &VideoPlayWorker::slotVolumeChanged);
+    connect(this, &HurricanePlayer::signalOpenFile, &videoPlayWorker, &VideoPlayWorker::slotOpenFile);
+    connect(&videoPlayWorker, &VideoPlayWorker::signalImageChanged, this, &HurricanePlayer::setImage);
+    connect(&videoPlayWorker, &VideoPlayWorker::signalStateChanged, this, &HurricanePlayer::slotStateChanged);
     connect(videoThread, &QThread::destroyed, []{ qDebug() << "Video Thread delete.";});
 
-    emit onPlayerInitializing();
+    emit signalPlayerInitializing();
 #ifdef DEBUG_FLAG_AUTO_OPEN
-    openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/577099243-1-208.mp4"_qs)).url());
+    openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/581518754-1-208.mp4"_qs)).url());
 #endif
 }
 
 
 void HurricanePlayer::openFile(const QString &path) {
-    QUrl url(path);
-    QString localPath = url.toLocalFile();
-    qDebug() << "Hurricane Player: Open file" << localPath;
-    int ret = demuxer.openFile(localPath.toStdString());
-    if (ret) {
-        state = HurricaneState::STOPPED;
-    } else {
-        state = HurricaneState::INVALID;
-        qWarning() << "Hurricane Player: Fail to open video." << ret;
-    }
+    state = HurricaneState::LOADING;
     emit stateChanged();
+    emit signalOpenFile(path);
 }
 
 void HurricanePlayer::start() {
@@ -47,7 +41,7 @@ void HurricanePlayer::start() {
         state = HurricaneState::PLAYING;
         videoPlayWorker.resume();
         qDebug() << "HurricanePlayer: Start play video.";
-        emit onVideoStarting();
+        emit signalVideoStarting();
     }
 }
 
@@ -75,10 +69,6 @@ HurricanePlayer::~HurricanePlayer() {
     videoThread->deleteLater();
 }
 
-void HurricanePlayer::setVolume(qreal v) {
-    emit onVolumeChanging(v);
-}
-
 
 time_point VideoPlayWorker::getProcessedAudioUSecs() {
     return audioOutput->elapsedUSecs() - idleDurationSum;
@@ -95,7 +85,7 @@ void VideoPlayWorker::syncTo(double pts) {
     }
 }
 
-void VideoPlayWorker::onChanged(QAudio::State state) {
+void VideoPlayWorker::onAudioStateChanged(QAudio::State state) {
     auto curr = audioOutput->elapsedUSecs();
     qDebug() << "QAudioSink State changed:" << state << "Curr" << curr << "Sum" << idleDurationSum;
     switch(state) {
@@ -115,32 +105,33 @@ void VideoPlayWorker::onChanged(QAudio::State state) {
     }
 }
 
-void VideoPlayWorker::initOnThread() {
+void VideoPlayWorker::slotThreadInit() {
     // this function must be called on VideoPlayWorker's thread
     QAudioFormat format;
     format.setSampleRate(44100);
     format.setChannelCount(2);
     format.setSampleFormat(QAudioFormat::Int16);
     audioOutput = new QAudioSink(format, this);
+    connect(audioOutput, &QAudioSink::stateChanged, this, &VideoPlayWorker::onAudioStateChanged, Qt::ConnectionType::DirectConnection);
     audioOutput->setVolume(100);
-    audioOutput->setBufferSize(0);
+    audioOutput->setBufferSize(19200 * 10);
     audioInput = audioOutput->start();
     audioOutput->suspend();
-    connect(audioOutput, &QAudioSink::stateChanged, this, &VideoPlayWorker::onChanged, Qt::ConnectionType::DirectConnection);
 }
 
-void VideoPlayWorker::onWork() {
+void VideoPlayWorker::slotOnWork() {
     qDebug() << "Start Video Work";
     audioOutput->resume();
     Picture currFrame;
     while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
         demuxer->popPicture();
-        emit setImage(currFrame);
+        emit signalImageChanged(currFrame);
         Picture nextFrame = demuxer->getPicture(true);
-        for (int i = 0; i < 1 && audioOutput->bytesFree() > 0; ++i) {
+        for (int i = 0; i < 5 && audioOutput->bytesFree() > 19200; ++i) {
             Sample sample = demuxer->getSample(true);
             audioInput->write(reinterpret_cast<const char *>(sample.data), sample.len);
             demuxer->popSample();
+            sample.free();
         }
         // process all events such as setVolume
         QCoreApplication::processEvents();
@@ -152,6 +143,23 @@ void VideoPlayWorker::onWork() {
     audioOutput->suspend();
 }
 
-void VideoPlayWorker::setVolume(qreal v) {
+void VideoPlayWorker::slotVolumeChanged(qreal v) {
     audioOutput->setVolume(v);
+}
+
+void VideoPlayWorker::slotOpenFile(const QString &path) {
+    QUrl url(path);
+    QString localPath = url.toLocalFile();
+    qDebug() << "Hurricane Player: Open file" << localPath;
+    int ret = demuxer->openFile(localPath.toStdString());
+    HurricaneState state;
+    if (ret) {
+        state = HurricaneState::STOPPED;
+        Picture pic = demuxer->getPicture(true);
+        emit signalImageChanged(pic);
+    } else {
+        state = HurricaneState::INVALID;
+        qWarning() << "Hurricane Player: Fail to open video." << ret;
+    }
+    emit signalStateChanged(state);
 }

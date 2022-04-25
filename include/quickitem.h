@@ -20,7 +20,13 @@ typedef int64_t time_point;
 typedef int64_t time_duration;
 
 
-
+enum class HurricaneState {
+    INVALID, // 文件无效
+    PLAYING, // 正在播放
+    STOPPED, // 已停止
+    LOADING, // 正在加载
+    PAUSED,  // 已暂停
+};
 
 class VideoPlayWorker : public QObject {
     Q_OBJECT
@@ -44,20 +50,17 @@ private:
     inline time_point getProcessedAudioUSecs();
     inline void syncTo(double pts);
 public slots:
-    void onChanged(QAudio::State state);
-    void initOnThread();;
-    void onWork();
-    void setVolume(qreal v);
+    void slotOpenFile(const QString &path);
+    void onAudioStateChanged(QAudio::State state);
+    void slotThreadInit();
+    void slotOnWork();
+    void slotVolumeChanged(qreal v);
 signals:
-    void setImage(Picture pic);
+    void signalImageChanged(Picture pic);
+    void signalStateChanged(HurricaneState state);
 };
 
-enum class HurricaneState {
-    INVALID, // 文件无效
-    PLAYING, // 正在播放
-    STOPPED, // 已停止
-    PAUSED,  // 已暂停
-};
+
 class HurricanePlayer : public Hurricane {
     Q_OBJECT
     QML_ELEMENT
@@ -67,7 +70,6 @@ private:
     HurricaneState state;
     qreal volume;
 private:
-    Demuxer demuxer;
     QThread *videoThread;
     VideoPlayWorker videoPlayWorker;
 public:
@@ -92,10 +94,13 @@ signals:
     void volumeChanged();
 
 
-    // 下面这些方法用于于 VideoPlayWorker 通信
-    void onPlayerInitializing();
-    void onVideoStarting();
-    void onVolumeChanging(qreal v);
+    // 下面这些方法用于与 VideoPlayWorker 通信
+    // 约定两者通信的方法信号以 signal 开头, 槽函数以 slot 开头
+    // 约定信号只能由所属的类的实例 emit
+    void signalPlayerInitializing();
+    void signalVideoStarting();
+    void signalVolumeChanging(qreal v);
+    void signalOpenFile(const QString &url);
 
 public slots:
 
@@ -124,13 +129,15 @@ public slots:
      * 设置音量大小, 不能保证立即生效
      * @param v 音量大小, 通常在[0, 1]
      */
-    Q_INVOKABLE void setVolume(qreal v);
+    Q_INVOKABLE void setVolume(qreal v) { emit signalVolumeChanging(v); }
 //
 //    /**
 //     * 将视频播放进度移动到指定位置
 //     * 注：这个操作不会改变视频的播放状态
 //     */
 //    Q_INVOKABLE void seek(qreal sec);
+
+    void slotStateChanged(HurricaneState s) { state = s; emit stateChanged(); }
 };
 
 

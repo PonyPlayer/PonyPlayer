@@ -86,10 +86,13 @@ public slots:
         // this function must be called on GUI thread
         // setImage -> sync -> render
         // since picture may use on renderer thread, we CANNOT free now
-        cleanupPictureQueue.push_back(picture);
-        picture = pic;
-        // make dirty
-        this->update();
+        if (pic.frame != picture.frame) {
+            cleanupPictureQueue.push_back(picture);
+            picture = pic;
+            // make dirty
+            this->update();
+        }
+
     }
 };
 
