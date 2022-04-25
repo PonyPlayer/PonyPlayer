@@ -32,8 +32,7 @@ void PonyKVConnect::createTableFrom(const QString &className, const QString &tab
     for (int i = metaObj->propertyOffset(); i < metaObj->propertyCount(); ++i) {
         if (i != metaObj->propertyOffset()) tableDDL += ", ";
         tableDDL += metaObj->property(i).name();
-        tableDDL += " ";
-        tableDDL += qTypeToDDL(metaObj->property(i).typeName());
+        tableDDL += " text";
         if (!strcmp(metaObj->property(i).name(), "__uuid__")) tableDDL += "PRIMARY KEY";
     }
     tableDDL += ");";
@@ -41,11 +40,6 @@ void PonyKVConnect::createTableFrom(const QString &className, const QString &tab
     db.exec(tableDDL);
 }
 
-QString PonyKVConnect::qTypeToDDL(const QString &qType) {
-    static std::unordered_map<QString, QString> lookUpTable = {{"QString", "text"},
-                                                               {"QDir",    "text"}};
-    return lookUpTable[qType];
-}
 
 void PonyKVConnect::insert(const QString &tableName, const QObject *object) {
     const QMetaObject *metaObj = object->metaObject();

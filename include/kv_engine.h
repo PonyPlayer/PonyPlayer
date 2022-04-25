@@ -19,7 +19,7 @@ public:
 
     void createTableFrom(const QString &className, const QString &tableName);
 
-    static QString qTypeToDDL(const QString &qType);
+//    static QString qTypeToDDL(const QString &qType);
 
     void insert(const QString &tableName, const QObject *object);
 
