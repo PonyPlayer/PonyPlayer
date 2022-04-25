@@ -83,6 +83,7 @@ public slots:
     void sync();
     void cleanupPicture();
     void setImage(const Picture &pic) {
+        // this function must be called on GUI thread
         // setImage -> sync -> render
         // since picture may use on renderer thread, we CANNOT free now
         cleanupPictureQueue.push_back(picture);
