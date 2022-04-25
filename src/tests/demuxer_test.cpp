@@ -27,3 +27,7 @@ TEST(pcm_test, test_savePCM) {
 TEST(eof_test, test_eof) {
     test_eof("D:/test_video/1.mp4");
 }
+
+TEST(seek_test, test_seek) {
+    test_seek("D:/test_video/1.mp4");
+}

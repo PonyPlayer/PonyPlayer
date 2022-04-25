@@ -144,6 +144,13 @@ void Demuxer::initDemuxer() {
     workerDemuxer = std::thread(&Demuxer::demuxer, this);
 }
 
+void Demuxer::seek(int64_t us) {
+    isSeek = true;
+    targetUs = us;
+    while (!seekFinish)
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+}
+
 void Demuxer::quit() {
     isQuit = true;
     videoPacketQueue.isQuit = true;
@@ -167,6 +174,16 @@ void Demuxer::demuxer() {
             break;
         }
 
+        if (isSeek) {
+            seekCleanUp();
+            if (fmtCtx)
+                av_seek_frame(fmtCtx, -1,
+                              targetUs / 1000000.0 * AV_TIME_BASE, AVSEEK_FLAG_BACKWARD);
+            seekFinish = true;
+            isSeek = false;
+            continue;
+        }
+
         if (needFlush) {
             cleanUp();
             flushFinish = openFile();
@@ -179,11 +196,18 @@ void Demuxer::demuxer() {
             continue;
         }
 
+        if (videoFrameQueue.queue.size() >= 100 && audioFrameQueue.queue.size() >= 100) {
+            std::unique_lock<std::mutex> ul(moreFrameLock);
+            moreFrameCv.wait_for(ul, std::chrono::milliseconds(10));
+            continue;
+        }
+
         ret = av_read_frame(fmtCtx, pkt);
         if (ret < 0) {
             isEof = true;
             continue;
         }
+
         if (pkt->stream_index == videoStreamIndex) {
             ret = avcodec_send_packet(videoCodecCtx, pkt);
             if (ret < 0) {
@@ -194,10 +218,7 @@ void Demuxer::demuxer() {
                 auto copyFrame = av_frame_alloc();
                 av_frame_move_ref(copyFrame, yuvFrame);
                 av_frame_unref(yuvFrame);
-                if (videoFrameQueue.push(copyFrame) < 0) {
-                    av_frame_free(&copyFrame);
-                    break;
-                }
+                videoFrameQueue.push(copyFrame);
             }
             if (ret < 0) {
                 if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF);
@@ -216,10 +237,7 @@ void Demuxer::demuxer() {
                 auto copyFrame = av_frame_alloc();
                 av_frame_move_ref(copyFrame, sampleFrame);
                 av_frame_unref(sampleFrame);
-                if (audioFrameQueue.push(copyFrame) < 0) {
-                    av_frame_free(&copyFrame);
-                    break;
-                }
+                audioFrameQueue.push(copyFrame);
             }
             if (ret < 0) {
                 if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF);
@@ -302,6 +320,8 @@ Picture Demuxer::getPicture(bool block) {
         if (isQuit) {
             break;
         }
+        if (videoFrameQueue.queue.size() < 50)
+            moreFrameCv.notify_all();
         auto frame = videoFrameQueue.front(block);
         if (frame) {
             double pts = static_cast<double>(frame->pts) * av_q2d(videoStream->time_base);
@@ -323,6 +343,8 @@ Sample Demuxer::getSample(bool block) {
         if (isQuit) {
             break;
         }
+        if (audioFrameQueue.queue.size() < 50)
+            moreFrameCv.notify_all();
         auto frame = audioFrameQueue.front(block);
         if (frame) {
             double pts = static_cast<double>(frame->pts) * av_q2d(audioStream->time_base);

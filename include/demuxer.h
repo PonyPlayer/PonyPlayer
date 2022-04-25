@@ -67,8 +67,15 @@ private:
     bool isPause{};
     bool isEof{true};
 
+    bool isSeek{};
+    int targetUs{};
+    bool seekFinish{};
+
     bool needFlush{};
     int flushFinish{};
+
+    std::mutex moreFrameLock{};
+    std::condition_variable moreFrameCv{};
 
     void closeCtx() {
         if (videoCodecCtx) {
@@ -82,18 +89,21 @@ private:
         if (fmtCtx) avformat_close_input(&fmtCtx);
     }
 
+    void seekCleanUp() {
+        videoFrameQueue.flush();
+        audioFrameQueue.flush();
+        if (videoCodecCtx) avcodec_flush_buffers(videoCodecCtx);
+        if (audioCodecCtx) avcodec_flush_buffers(audioCodecCtx);
+    }
+
     void cleanUp() {
         videoFrameQueue.flush();
         audioFrameQueue.flush();
-        videoPacketQueue.flush();
-        audioPacketQueue.flush();
+        videoStream = nullptr;
+        audioStream = nullptr;
         closeCtx();
         if (videoCodecCtx) avcodec_free_context(&videoCodecCtx);
         if (audioCodecCtx) avcodec_free_context(&audioCodecCtx);
-    }
-
-    bool tooManyPackets() {
-        return videoFrameQueue.queue.size() >= 200 || videoFrameQueue.queue.size() >= 200;
     }
 
     void demuxer();
@@ -124,10 +134,40 @@ public:
         workerDemuxer.join();
     }
 
+    bool eof() {
+        return isEof;
+    }
+
+    /**
+     * 跳转到指定时间点
+     * @param us 微秒时间戳
+     */
+    void seek(int64_t us);
+
+    /**
+     * 获取视频流的长度
+     * @return 秒数
+     */
+    double videoDuration() {
+        if (videoStream)
+            return videoStream->duration * av_q2d(videoStream->time_base);
+        return 0;
+    }
+
+    /**
+     * 获取音频流的长度
+     * @return 秒数
+     */
+    double audioDuration() {
+        if (audioStream)
+            return audioStream->duration * av_q2d(audioStream->time_base);
+        return 0;
+    }
+
     /**
      * 打开一个视频文件
      * @param inputFileName 文件名
-     * @return 0表示成功，-1表示失败
+     * @return 1表示成功，-1表示失败
      */
     int openFile(std::string inputFileName);
 
@@ -185,5 +225,6 @@ void test_audio(std::string filename);
 
 void test_eof(std::string filename);
 
+void test_seek(std::string filename);
 
 #endif //FFMPEGCMAKE_DEMUXER_H

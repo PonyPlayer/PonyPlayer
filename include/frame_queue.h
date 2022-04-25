@@ -77,7 +77,7 @@ struct Sample {
 
     Sample() = default;
 
-    Sample(uint8_t *data_, int len_, double pts_, AVFrame* frame_) :
+    Sample(uint8_t *data_, int len_, double pts_, AVFrame *frame_) :
             data(data_), len(len_), pts(pts_), valid(true), frame(frame_) {}
 
     bool isValid() {
@@ -103,12 +103,10 @@ struct Sample {
 
 struct FrameQueue {
     std::queue<AVFrame *> queue;
-    int maxSize{};
-    bool isQuit{};
     std::mutex lock;
     std::condition_variable cv;
 
-    explicit FrameQueue(int maxSize_ = INT_MAX) : maxSize(maxSize_) {}
+    FrameQueue() = default;
 
     ~FrameQueue() {
         while (!queue.empty()) {
@@ -146,23 +144,12 @@ struct FrameQueue {
         if (queue.empty())
             return;
         queue.pop();
-        cv.notify_all();
     }
 
-    int push(AVFrame *frame) {
+    void push(AVFrame *frame) {
         std::unique_lock<std::mutex> ul(lock);
-        while (true) {
-            if (isQuit)
-                return -1;
-            if (static_cast<int>(queue.size()) >= maxSize) {
-                cv.wait_for(ul, std::chrono::milliseconds(10));
-            } else {
-                queue.push(frame);
-                break;
-            }
-        }
+        queue.push(frame);
         cv.notify_all();
-        return 0;
     }
 };
 
