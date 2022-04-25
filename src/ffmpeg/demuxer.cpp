@@ -111,20 +111,23 @@ int Demuxer::openFile() {
 
     if (videoStreamIndex < 0) {
         printf("Cannot find video stream in file.\n");
-        goto error;
     }
 
     if (audioStreamIndex < 0) {
         printf("Cannot find audio stream in file.\n");
+    }
+
+    if (audioStreamIndex < 0 && videoStreamIndex < 0) {
+        printf("can find any stream\n");
         goto error;
     }
 
-    if (initVideoState() < 0) {
+    if (videoStreamIndex >= 0 && initVideoState() < 0) {
         printf("error init video state\n");
         goto error;
     }
 
-    if (initAudioState() < 0) {
+    if (audioStreamIndex >= 0 && initAudioState() < 0) {
         printf("error init audio state\n");
         goto error;
     }
@@ -153,10 +156,6 @@ void Demuxer::seek(int64_t us) {
 
 void Demuxer::quit() {
     isQuit = true;
-    videoPacketQueue.isQuit = true;
-    videoFrameQueue.isQuit = true;
-    audioPacketQueue.isQuit = true;
-    audioFrameQueue.isQuit = true;
 }
 
 void Demuxer::pause() {
@@ -174,11 +173,15 @@ void Demuxer::demuxer() {
             break;
         }
 
+
         if (isSeek) {
             seekCleanUp();
-            if (fmtCtx)
+            if (fmtCtx) {
                 av_seek_frame(fmtCtx, -1,
                               targetUs / 1000000.0 * AV_TIME_BASE, AVSEEK_FLAG_BACKWARD);
+                isPause = false;
+                isEof = false;
+            }
             seekFinish = true;
             isSeek = false;
             continue;
@@ -205,6 +208,8 @@ void Demuxer::demuxer() {
         ret = av_read_frame(fmtCtx, pkt);
         if (ret < 0) {
             isEof = true;
+            videoFrameQueue.pushEof();
+            audioFrameQueue.pushEof();
             continue;
         }
 
@@ -252,68 +257,6 @@ void Demuxer::demuxer() {
     printf("demuxer quit\n");
 }
 
-void Demuxer::decoder(AVCodecContext **ctx, PacketQueue &pq, FrameQueue &fq, AVFrame *frame) {
-    int ret = 0;
-    for (;;) {
-        if (isQuit)
-            break;
-/*
-        if (waitSync.load()) {
-            printf("sync\n");
-            waitSync.store(waitSync - 1);
-            while (!syncFinished) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            }
-            printf("after sync\n");
-        }
-*/
-        if (isPause || isEof) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            continue;
-        }
-
-        AVPacket front;
-        ret = pq.pop(&front);
-        if (ret < 0) {
-            if (isQuit)
-                break;
-            else {
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
-                continue;
-            }
-        }
-        ret = avcodec_send_packet(*ctx, &front);
-        if (ret < 0) {
-            debugErr("avcodec_send_packet", ret);
-            break;
-        }
-        if ((ret = avcodec_receive_frame(*ctx, frame)) >= 0) {
-            auto copyFrame = av_frame_alloc();
-            av_frame_move_ref(copyFrame, frame);
-            av_frame_unref(frame);
-            fq.push(copyFrame);
-        }
-        if (ret < 0) {
-            if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
-                continue;
-            else {
-                debugErr("avcodec_receive_frame", ret);
-                break;
-            }
-        }
-        av_packet_unref(&front);
-    }
-    printf("decoder quit\n");
-}
-
-void Demuxer::videoDecoder() {
-    decoder(&videoCodecCtx, videoPacketQueue, videoFrameQueue, yuvFrame);
-}
-
-void Demuxer::audioDecoder() {
-    decoder(&audioCodecCtx, audioPacketQueue, audioFrameQueue, sampleFrame);
-}
-
 Picture Demuxer::getPicture(bool block) {
     Picture res;
     while (true) {
@@ -322,13 +265,19 @@ Picture Demuxer::getPicture(bool block) {
         }
         if (videoFrameQueue.queue.size() < 50)
             moreFrameCv.notify_all();
-        auto frame = videoFrameQueue.front(block);
+        auto frame = videoFrameQueue.front();
         if (frame) {
+            if (videoFrameQueue.isEof(frame)) {
+                videoFrameQueue.pop();
+                break;
+            }
             double pts = static_cast<double>(frame->pts) * av_q2d(videoStream->time_base);
             res = Picture(frame, pts);
             break;
         } else if (!block)
             break;
+        else if (block)
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     return res;
 }
@@ -345,8 +294,12 @@ Sample Demuxer::getSample(bool block) {
         }
         if (audioFrameQueue.queue.size() < 50)
             moreFrameCv.notify_all();
-        auto frame = audioFrameQueue.front(block);
+        auto frame = audioFrameQueue.front();
         if (frame) {
+            if (audioFrameQueue.isEof(frame)) {
+                audioFrameQueue.pop();
+                break;
+            }
             double pts = static_cast<double>(frame->pts) * av_q2d(audioStream->time_base);
             int len = swr_convert(swrCtx, &audioOutBuf, 2 * MAX_AUDIO_FRAME_SIZE,
                                   (const uint8_t **) (frame->data), frame->nb_samples);
@@ -360,6 +313,9 @@ Sample Demuxer::getSample(bool block) {
             break;
         } else if (!block)
             break;
+        else if (block)
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
     }
     return res;
 }

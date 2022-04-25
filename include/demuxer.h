@@ -47,7 +47,6 @@ private:
     AVCodec *videoCodec{};
     AVCodecContext *videoCodecCtx{};
 
-    PacketQueue videoPacketQueue;
     FrameQueue videoFrameQueue;
 
     int audioStreamIndex{-1};
@@ -58,7 +57,6 @@ private:
     SwrContext *swrCtx{};
     uint8_t *audioOutBuf{};
 
-    PacketQueue audioPacketQueue{};
     FrameQueue audioFrameQueue{};
 
     std::thread workerDemuxer;
@@ -100,7 +98,9 @@ private:
         videoFrameQueue.flush();
         audioFrameQueue.flush();
         videoStream = nullptr;
+        videoStreamIndex = -1;
         audioStream = nullptr;
+        audioStreamIndex = -1;
         closeCtx();
         if (videoCodecCtx) avcodec_free_context(&videoCodecCtx);
         if (audioCodecCtx) avcodec_free_context(&audioCodecCtx);
@@ -110,13 +110,7 @@ private:
 
     int initVideoState();
 
-    void videoDecoder();
-
     int initAudioState();
-
-    void audioDecoder();
-
-    void decoder(AVCodecContext **ctx, PacketQueue &pq, FrameQueue &fq, AVFrame *frame);
 
     void initDemuxer();
 
@@ -134,10 +128,6 @@ public:
         workerDemuxer.join();
     }
 
-    bool eof() {
-        return isEof;
-    }
-
     /**
      * 跳转到指定时间点
      * @param us 微秒时间戳
@@ -150,7 +140,7 @@ public:
      */
     double videoDuration() {
         if (videoStream)
-            return videoStream->duration * av_q2d(videoStream->time_base);
+            return static_cast<double>(videoStream->duration) * av_q2d(videoStream->time_base);
         return 0;
     }
 
@@ -160,7 +150,7 @@ public:
      */
     double audioDuration() {
         if (audioStream)
-            return audioStream->duration * av_q2d(audioStream->time_base);
+            return static_cast<double>(audioStream->duration) * av_q2d(audioStream->time_base);
         return 0;
     }
 
@@ -213,17 +203,11 @@ public:
     void resume();
 };
 
-void test_saveFrame(std::string filename, int n);
-
 void test_quit(std::string filename);
 
 void test_pause(std::string filename, bool halfQuit);
 
-void test_savePCM(std::string filename);
-
 void test_audio(std::string filename);
-
-void test_eof(std::string filename);
 
 void test_seek(std::string filename);
 

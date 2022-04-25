@@ -104,38 +104,37 @@ struct Sample {
 struct FrameQueue {
     std::queue<AVFrame *> queue;
     std::mutex lock;
-    std::condition_variable cv;
+    AVFrame *eofFrame;
 
-    FrameQueue() = default;
+    FrameQueue() : eofFrame(av_frame_alloc()) {}
 
     ~FrameQueue() {
-        while (!queue.empty()) {
-            av_frame_free(&queue.front());
-            queue.pop();
-        }
+        flush();
+    }
+
+    bool isEof(AVFrame *frame) {
+        return frame == eofFrame;
+    }
+
+    void pushEof() {
+        std::unique_lock<std::mutex> ul(lock);
+        queue.push(eofFrame);
     }
 
     void flush() {
         std::unique_lock<std::mutex> ul(lock);
         while (!queue.empty()) {
             auto frame = queue.front();
-            av_frame_free(&frame);
+            if (frame != eofFrame)
+                av_frame_free(&frame);
             queue.pop();
         }
     }
 
-    AVFrame *front(bool block) {
+    AVFrame *front() {
         std::unique_lock<std::mutex> ul(lock);
-        while (true) {
-            if (isQuit)
-                return nullptr;
-            if (!queue.empty())
-                break;
-            else if (block)
-                cv.wait_for(ul, std::chrono::milliseconds(10));
-            else
-                return nullptr;
-        }
+        if (queue.empty())
+            return nullptr;
         return queue.front();
     }
 
@@ -149,8 +148,8 @@ struct FrameQueue {
     void push(AVFrame *frame) {
         std::unique_lock<std::mutex> ul(lock);
         queue.push(frame);
-        cv.notify_all();
     }
 };
+
 
 #endif //FFMPEGCMAKE_FRAME_QUEUE_H

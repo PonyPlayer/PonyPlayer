@@ -9,40 +9,6 @@
 #include <QAudioSink>
 #include <QAudioDevice>
 
-void test_saveFrame(std::string filename, int n) {
-
-}
-
-void test_savePCM(std::string filename) {
-    Demuxer demuxer;
-    demuxer.openFile(filename);
-
-    const char outFileName[] = "D:/test_video/test.pcm";
-    FILE *file = fopen(outFileName, "w+b");
-
-    int cnt = 0;
-    bool quit = false;
-    auto worker = std::thread([&]() {
-        for (;;) {
-            auto sample = demuxer.getSample(true);
-            if (sample.valid) {
-
-                fwrite(sample.data, 1, sample.len, file);
-
-                printf("%d\n", ++cnt);
-                demuxer.popSample();
-            }
-            if (quit) {
-                break;
-            }
-        }
-    });
-    std::this_thread::sleep_for(std::chrono::seconds(3));
-    quit = true;
-    demuxer.quit();
-    worker.join();
-}
-
 void test_audio(std::string filename) {
     QAudioDevice info(QMediaDevices::defaultAudioOutput());
     QAudioSink *audioOutput;
@@ -199,43 +165,38 @@ void test_pause(std::string filename, bool halfQuit) {
     worker.join();
 }
 
-void test_eof(std::string filename) {
-    Demuxer demuxer;
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-    demuxer.quit();
-}
-
 void test_seek(std::string filename) {
     Demuxer demuxer;
 
-    bool seekWait{};
-    bool ackWait{};
+    demuxer.openFile(filename);
+
+    printf("%f %f\n", demuxer.videoDuration(), demuxer.audioDuration());
 
     int videoCnt = 0, audioCnt = 0;
     bool quit = false;
     auto worker = std::thread([&]() {
-        for (;;) {
-            demuxer.openFile(filename);
-
-            auto picture = demuxer.getPicture(true);
-            auto sample = demuxer.getSample(true);
-            if (picture.isValid()) {
-                demuxer.popPicture();
-                ++videoCnt;
-                //printf("video: %d %f\n", videoCnt, picture.getPTS());
-                picture.free();
+        for (int i = 0; i < 5; i++) {
+            while (true) {
+                auto picture = demuxer.getPicture(true);
+                //auto sample = demuxer.getSample(true);
+                if (picture.isValid()) {
+                    demuxer.popPicture();
+                    ++videoCnt;
+                    //printf("video: %d %f\n", videoCnt, picture.getPTS());
+                    picture.free();
+                }
+                else {
+                    break;
+                }
+                if (quit) {
+                    return ;
+                }
             }
-            if (sample.valid) {
-                demuxer.popSample();
-                ++audioCnt;
-                printf("audio: %d %f\n", audioCnt, sample.getPTS());
-            }
-            if (quit) {
-                break;
-            }
+            printf("round %d\n", i);
+            demuxer.seek(0);
         }
     });
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    std::this_thread::sleep_for(std::chrono::seconds(20));
     quit = true;
     demuxer.quit();
     worker.join();
