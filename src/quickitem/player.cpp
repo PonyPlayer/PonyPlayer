@@ -148,6 +148,7 @@ void VideoPlayWorker::slotVolumeChanged(qreal v) {
 }
 
 void VideoPlayWorker::slotOpenFile(const QString &path) {
+    pauseRequested = true;
     QUrl url(path);
     QString localPath = url.toLocalFile();
     qDebug() << "Hurricane Player: Open file" << localPath;
@@ -156,9 +157,14 @@ void VideoPlayWorker::slotOpenFile(const QString &path) {
     if (ret) {
         state = HurricaneState::STOPPED;
         Picture pic = demuxer->getPicture(true);
+//        seekPoint = 0;
+//        idlePoint = 0;
+//        idleDurationSum = 0;
+//        audioOutput->reset();
         emit signalImageChanged(pic);
     } else {
         state = HurricaneState::INVALID;
+
         qWarning() << "Hurricane Player: Fail to open video." << ret;
     }
     emit signalStateChanged(state);
