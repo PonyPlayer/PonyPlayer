@@ -105,7 +105,6 @@ struct FrameQueue {
     std::queue<AVFrame *> queue;
     int maxSize{};
     bool isQuit{};
-    bool isFlush{};
     std::mutex lock;
     std::condition_variable cv;
 
@@ -153,7 +152,7 @@ struct FrameQueue {
     int push(AVFrame *frame) {
         std::unique_lock<std::mutex> ul(lock);
         while (true) {
-            if (isQuit || isFlush)
+            if (isQuit)
                 return -1;
             if (static_cast<int>(queue.size()) >= maxSize) {
                 cv.wait_for(ul, std::chrono::milliseconds(10));

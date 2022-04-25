@@ -65,7 +65,7 @@ private:
 
     bool isQuit{};
     bool isPause{};
-    bool isEof{};
+    bool isEof{true};
 
     bool needFlush{};
     int flushFinish{};
