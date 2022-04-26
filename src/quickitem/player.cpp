@@ -9,7 +9,7 @@
 #include <QDir>
 
 
-#define DEBUG_FLAG_AUTO_OPEN
+//#define DEBUG_FLAG_AUTO_OPEN
 HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoPlayWorker() {
     videoThread = new QThread;
     videoThread->setObjectName("VideoThread");
@@ -34,6 +34,12 @@ void HurricanePlayer::openFile(const QString &path) {
     if (state == HurricaneState::STOPPED || state == HurricaneState::INVALID) {
         state = HurricaneState::LOADING;
         emit stateChanged();
+        if (picture.isValid()) {
+            // If picture is valid, its data may be waiting to be sent to GPU.
+            // Therefore, we must clear it and wait for this change to sync to renderer.
+            setImage(Picture());
+            QCoreApplication::processEvents();
+        }
         emit signalOpenFile(path);
     }
 }

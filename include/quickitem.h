@@ -21,12 +21,13 @@ typedef int64_t time_duration;
 
 
 enum class HurricaneState {
-    IDLED, // 空闲状态, 没有打开文件
-    INVALID, // 文件无效
-    PLAYING, // 正在播放
-    STOPPED, // 已停止
-    LOADING, // 正在加载
-    PAUSED,  // 已暂停
+    INVALID,       ///< 文件无效
+    PRE_PLAY,      ///< 准备播放
+    PLAYING,       ///< 正在播放
+    STOPPED,       ///< 已停止
+    LOADING,       ///< 正在加载
+    PRE_PAUSE,     ///< 请求暂停
+    PAUSED,        ///< 已暂停
 };
 
 class VideoPlayWorker : public QObject {
@@ -37,7 +38,6 @@ private:
     QAudioSink *audioOutput;
     QIODevice *audioInput;
 
-//    QAtomicInteger<time_point>
     time_point seekPoint = 0;
     time_point idlePoint = -1;
     time_duration idleDurationSum = 0;
@@ -62,7 +62,18 @@ signals:
     void signalStateChanged(HurricaneState state);
 };
 
-
+/**
+ * 播放器 QuickItem 组件，提供暴露给 QML 的接口。
+ * 我们完全采用异步通信的思想，这里的大部分方法都会直接返回。我们只需要关注一些事件（信号）更新 UI 的状态即可。
+ * 我们的部分方法仅在特定状态才能使用，需要特别注意。例如：打开视频文件可以分为两个操作：stop（如果当前正在播放视频，需要先停止播放）和 openFile。
+ * 也就是说，如果正在播放视频，必须先调用 stop 确保停止播放后再调用 openFile，否则 openFile 请求会被忽略。因此，一种正确的做法是先判断 state
+ * 是否为 PLAYING（正在播放视频），如果不是，先调用 stop。由于我们的方法调用是异步的，所以其实我们不能保证方法返回后状态会马上发生改变。保险的做法
+ * 需要关注 stateChanged 事件再进行下一步动作，这会大大增加编码的复杂度。幸运地，部分方法我们可以提供状态立刻发生变换的保证（见方法注释）。
+ * 我们会在注释中说明调用的条件和状态转换。
+ *
+ * @see HurricaneState
+ * @see HurricanePlayer::stateChanged()
+ */
 class HurricanePlayer : public Hurricane {
     Q_OBJECT
     QML_ELEMENT
@@ -109,34 +120,32 @@ signals:
 public slots:
 
     /**
-     * 打开视频文件, 需要保证 #state 是 IDLED
+     * 打开视频文件, 需要保证 state 是 IDLED
      * @param path
      */
     Q_INVOKABLE void openFile(const QString &path);
 
-    /**
-     * 关闭视频文件
-     */
-    Q_INVOKABLE void closeFile();
 
     /**
-     * 开始播放视频
+     * 开始播放视频,
      */
     Q_INVOKABLE void start();
 
     /**
-     * 停止播放视频
+     * 停止播放视频, 能在 PLAYING 和 PAUSE 状态使用, 不能保证立即生效, 调用后状态立即转为 REQUEST_STOP, 生效后状态转为 STOP
      */
     Q_INVOKABLE void stop();
 
     /**
-     * 暂停播放视频
+     * 暂停播放视频, 仅能在 PLAYING 状态使用, 不能保证立即生效, 调用后状态立即转为 REQUEST_PAUSE, 生效后状态转为 PAUSED
+     * @see HurricanePlayer::stateChanged()
      */
     Q_INVOKABLE void pause();
 
     /**
      * 设置音量大小, 不能保证立即生效
      * @param v 音量大小, 通常在[0, 1]
+     * @see HurricanePlayer::volumeChanged()
      */
     Q_INVOKABLE void setVolume(qreal v) { emit signalVolumeChanging(v); }
 
@@ -157,6 +166,12 @@ public slots:
      * @return 播放进度(单位: 秒)
      */
     Q_INVOKABLE qreal getPTS() { return picture.getPTS(); }
+
+    /**
+     * 改变视频播放的进度
+     * @param pos 播放进度(单位: 秒)
+     */
+    Q_INVOKABLE void seek(qreal pos) { qDebug() << "HurricanePlayer: Seek" << pos; };
 //
 //    /**
 //     * 将视频播放进度移动到指定位置
