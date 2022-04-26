@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: include/quickitem.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('quickitem_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">quickitem.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="quickitem_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">//</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// Created by ColorsWind on 2022/4/21.</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#ifndef PONYPLAYER_QUICKITEM_H</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#define PONYPLAYER_QUICKITEM_H</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QRunnable&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QAtomicInt&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QAudioSink&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;QThread&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;QMediaPlayer&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;QAudioOutput&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;<a class="code" href="hurricane_8h.html">hurricane.h</a>&quot;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;<a class="code" href="demuxer_8h.html">demuxer.h</a>&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="quickitem_8h.html#a6f1ec7cee811324f72a81f20b989dfa7">   19</a></span><span class="keyword">typedef</span> int64_t <a class="code hl_typedef" href="quickitem_8h.html#a6f1ec7cee811324f72a81f20b989dfa7">time_point</a>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="quickitem_8h.html#ae17f5f58c75c796a11f1415cfaef7ecc">   20</a></span><span class="keyword">typedef</span> int64_t <a class="code hl_typedef" href="quickitem_8h.html#ae17f5f58c75c796a11f1415cfaef7ecc">time_duration</a>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477">   23</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477">HurricaneState</a> {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <a class="code hl_enumvalue" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477a46829ab02a811d04617f20f0253a0183">IDLED</a>, <span class="comment">// 空闲状态, 没有打开文件</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <a class="code hl_enumvalue" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477accc0377a8afbf50e7094f5c23a8af223">INVALID</a>, <span class="comment">// 文件无效</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_enumvalue" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477a50366a49630a416ab3ccaa004196027e">PLAYING</a>, <span class="comment">// 正在播放</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <a class="code hl_enumvalue" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477a09d4d696b4e935115b9313e3c412509a">STOPPED</a>, <span class="comment">// 已停止</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <a class="code hl_enumvalue" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477af9f6955ebca09a484157c05f80acd65e">LOADING</a>, <span class="comment">// 正在加载</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <a class="code hl_enumvalue" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477a99b2439e63f73ad515f7ab2447a80673">PAUSED</a>,  <span class="comment">// 已暂停</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>};</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="class_video_play_worker.html">   32</a></span><span class="keyword">class </span><a class="code hl_class" href="class_video_play_worker.html">VideoPlayWorker</a> : <span class="keyword">public</span> QObject {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    Q_OBJECT</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <a class="code hl_class" href="class_demuxer.html">Demuxer</a> *demuxer;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    QAtomicInteger&lt;bool&gt; pauseRequested = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    QAudioSink *audioOutput;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    QIODevice *audioInput;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <a class="code hl_typedef" href="quickitem_8h.html#a6f1ec7cee811324f72a81f20b989dfa7">time_point</a> seekPoint = 0;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <a class="code hl_typedef" href="quickitem_8h.html#a6f1ec7cee811324f72a81f20b989dfa7">time_point</a> idlePoint = 0;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <a class="code hl_typedef" href="quickitem_8h.html#ae17f5f58c75c796a11f1415cfaef7ecc">time_duration</a> idleDurationSum = 0;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="class_video_play_worker.html#a4cdc1fa19c1808fd5360454166db2181">   45</a></span>    <a class="code hl_function" href="class_video_play_worker.html#a4cdc1fa19c1808fd5360454166db2181">VideoPlayWorker</a>() : QObject(nullptr) { demuxer = <span class="keyword">new</span> <a class="code hl_class" href="class_demuxer.html">Demuxer</a>; }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="class_video_play_worker.html#a982fc273d2219ca2593f568bafb533f8">   46</a></span>    <a class="code hl_function" href="class_video_play_worker.html#a982fc273d2219ca2593f568bafb533f8">~VideoPlayWorker</a>() { demuxer-&gt;<a class="code hl_function" href="class_demuxer.html#a829dddb168ca37288002507463257cf8">quit</a>(); <span class="keyword">delete</span> demuxer; }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="class_video_play_worker.html#a0e354dcf8f04f31466a5b767b9cb8f9a">   47</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_video_play_worker.html#a0e354dcf8f04f31466a5b767b9cb8f9a">resume</a>() { pauseRequested = <span class="keyword">false</span>; }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="class_video_play_worker.html#a743ed858b283e5ac9d5909c3edc85e30">   48</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_video_play_worker.html#a743ed858b283e5ac9d5909c3edc85e30">pause</a>() { pauseRequested = <span class="keyword">true</span>; }</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keyword">inline</span> <a class="code hl_typedef" href="quickitem_8h.html#a6f1ec7cee811324f72a81f20b989dfa7">time_point</a> getProcessedAudioUSecs();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keyword">inline</span> <span class="keywordtype">void</span> syncTo(<span class="keywordtype">double</span> pts);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">public</span> slots:</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_video_play_worker.html#a9089bfdaf21527f523654fa8f6b9ad63">slotOpenFile</a>(<span class="keyword">const</span> QString &amp;path);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_video_play_worker.html#abc901434587cb376c7ce25542f85d13f">onAudioStateChanged</a>(QAudio::State state);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_video_play_worker.html#a7aa5bc6d6facc3ea6d66465d3ed2703f">slotThreadInit</a>();</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_video_play_worker.html#adb1b25158302e507f9fae296ce20ebda">slotOnWork</a>();</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_video_play_worker.html#ab8c202eda08204ea59968a55f483ceea">slotVolumeChanged</a>(qreal v);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>signals:</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="class_video_play_worker.html#ae69220765205556cca6a22875c1acb85">   60</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_video_play_worker.html#ae69220765205556cca6a22875c1acb85">signalImageChanged</a>(<a class="code hl_struct" href="struct_picture.html">Picture</a> pic);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="class_video_play_worker.html#a40b59b64d69c0d0ec8afc5246d08fbfa">   61</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_video_play_worker.html#a40b59b64d69c0d0ec8afc5246d08fbfa">signalStateChanged</a>(<a class="code hl_enumeration" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477">HurricaneState</a> state);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>};</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="class_hurricane_player.html">   65</a></span><span class="keyword">class </span><a class="code hl_class" href="class_hurricane_player.html">HurricanePlayer</a> : <span class="keyword">public</span> <a class="code hl_class" href="class_hurricane.html">Hurricane</a> {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    Q_OBJECT</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="class_hurricane_player.html#a17646e8e03dab88e4e75a2f5a89812d1">   67</a></span>    QML_ELEMENT</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    Q_PROPERTY(<a class="code hl_enumeration" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477">HurricaneState</a> <a class="code hl_property" href="class_hurricane_player.html#a17646e8e03dab88e4e75a2f5a89812d1">state</a> READ <a class="code hl_function" href="class_hurricane_player.html#a13deac918c4b81759ce643b653eb5e12">getState</a> NOTIFY <a class="code hl_signal" href="class_hurricane_player.html#af3bcd36984472a8d990148cbb5d92aa6">stateChanged</a> FINAL)</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    Q_PROPERTY(qreal <a class="code hl_property" href="class_hurricane_player.html#a7cc87f6cf72f422254f1560671d47f37">volume</a> READ <a class="code hl_function" href="class_hurricane_player.html#af9aaf65cac620b4a18f0e8f7f48c724f">getVolume</a> NOTIFY <a class="code hl_signal" href="class_hurricane_player.html#af5c7f8b1351f12dd15bff14432b92fc8">volumeChanged</a> FINAL)</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <a class="code hl_enumeration" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477">HurricaneState</a> <a class="code hl_property" href="class_hurricane_player.html#a17646e8e03dab88e4e75a2f5a89812d1">state</a>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    qreal <a class="code hl_property" href="class_hurricane_player.html#a7cc87f6cf72f422254f1560671d47f37">volume</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    QThread *videoThread;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <a class="code hl_class" href="class_video_play_worker.html">VideoPlayWorker</a> videoPlayWorker;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <a class="code hl_function" href="class_hurricane_player.html#ac019fc4e668c306273f649c277c0baa8">HurricanePlayer</a>(QQuickItem *parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keyword">virtual</span> <a class="code hl_function" href="class_hurricane_player.html#a420e579b5a2f7eefea86338ce5f1818b">~HurricanePlayer</a>();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="class_hurricane_player.html#a13deac918c4b81759ce643b653eb5e12">   81</a></span>    <a class="code hl_enumeration" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477">HurricaneState</a> <a class="code hl_function" href="class_hurricane_player.html#a13deac918c4b81759ce643b653eb5e12">getState</a>() { <span class="keywordflow">return</span> <a class="code hl_property" href="class_hurricane_player.html#a17646e8e03dab88e4e75a2f5a89812d1">state</a>; }</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="class_hurricane_player.html#af9aaf65cac620b4a18f0e8f7f48c724f">   83</a></span>    qreal <a class="code hl_function" href="class_hurricane_player.html#af9aaf65cac620b4a18f0e8f7f48c724f">getVolume</a>() { <span class="keywordflow">return</span> <a class="code hl_property" href="class_hurricane_player.html#a7cc87f6cf72f422254f1560671d47f37">volume</a>; }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>signals:</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="class_hurricane_player.html#af3bcd36984472a8d990148cbb5d92aa6">   90</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_hurricane_player.html#af3bcd36984472a8d990148cbb5d92aa6">stateChanged</a>();</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="class_hurricane_player.html#af5c7f8b1351f12dd15bff14432b92fc8">   95</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_hurricane_player.html#af5c7f8b1351f12dd15bff14432b92fc8">volumeChanged</a>();</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="comment">// 下面这些方法用于与 VideoPlayWorker 通信</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="comment">// 约定两者通信的方法信号以 signal 开头, 槽函数以 slot 开头</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="comment">// 约定信号只能由所属的类的实例 emit</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="class_hurricane_player.html#abeef1a91722c0cece46edf3a9d70a907">  101</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_hurricane_player.html#abeef1a91722c0cece46edf3a9d70a907">signalPlayerInitializing</a>();</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="class_hurricane_player.html#ad1ffc0cdb998ebc70f780a9567c6ac4e">  102</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_hurricane_player.html#ad1ffc0cdb998ebc70f780a9567c6ac4e">signalVideoStarting</a>();</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="class_hurricane_player.html#a6679766f33c0c10b0ab7484a941f842c">  103</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_hurricane_player.html#a6679766f33c0c10b0ab7484a941f842c">signalVolumeChanging</a>(qreal v);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="class_hurricane_player.html#ad3ef2260be602115ee094a1698fd0e3b">  104</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_hurricane_player.html#ad3ef2260be602115ee094a1698fd0e3b">signalOpenFile</a>(<span class="keyword">const</span> QString &amp;url);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keyword">public</span> slots:</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_slot" href="class_hurricane_player.html#a46a0d8ed43b52a2f2b6fb9b0789a1a50">openFile</a>(<span class="keyword">const</span> QString &amp;path);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_slot" href="class_hurricane_player.html#a1413c3751b41fff66c23d702cffce8cd">closeFile</a>();</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_slot" href="class_hurricane_player.html#a92d339d3c2ec7f29f34b76498132a510">start</a>();</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_slot" href="class_hurricane_player.html#a77093c2bde557c5c3183176dee8204f7">stop</a>();</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_slot" href="class_hurricane_player.html#ad20cf83dae79f2726a1b06c103c02afb">pause</a>();</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="class_hurricane_player.html#abcd0c301846d10a33835f656e5a74d89">  138</a></span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_slot" href="class_hurricane_player.html#abcd0c301846d10a33835f656e5a74d89">setVolume</a>(qreal v) { emit <a class="code hl_signal" href="class_hurricane_player.html#a6679766f33c0c10b0ab7484a941f842c">signalVolumeChanging</a>(v); }</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="comment">//</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="comment">//    /**</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="comment">//     * 将视频播放进度移动到指定位置</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="comment">//     * 注：这个操作不会改变视频的播放状态</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="comment">//     */</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="comment">//    Q_INVOKABLE void seek(qreal sec);</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="class_hurricane_player.html#a84c236556c3061ccf18825e9faabc969">  146</a></span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_hurricane_player.html#a84c236556c3061ccf18825e9faabc969">slotStateChanged</a>(<a class="code hl_enumeration" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477">HurricaneState</a> s) { <a class="code hl_property" href="class_hurricane_player.html#a17646e8e03dab88e4e75a2f5a89812d1">state</a> = s; emit <a class="code hl_signal" href="class_hurricane_player.html#af3bcd36984472a8d990148cbb5d92aa6">stateChanged</a>(); }</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>};</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#endif </span><span class="comment">//PONYPLAYER_QUICKITEM_H</span></div>
+<div class="ttc" id="aclass_demuxer_html"><div class="ttname"><a href="class_demuxer.html">Demuxer</a></div><div class="ttdef"><b>Definition:</b> demuxer.h:37</div></div>
+<div class="ttc" id="aclass_demuxer_html_a829dddb168ca37288002507463257cf8"><div class="ttname"><a href="class_demuxer.html#a829dddb168ca37288002507463257cf8">Demuxer::quit</a></div><div class="ttdeci">void quit()</div><div class="ttdef"><b>Definition:</b> demuxer.cpp:157</div></div>
+<div class="ttc" id="aclass_hurricane_html"><div class="ttname"><a href="class_hurricane.html">Hurricane</a></div><div class="ttdef"><b>Definition:</b> hurricane.h:66</div></div>
+<div class="ttc" id="aclass_hurricane_player_html"><div class="ttname"><a href="class_hurricane_player.html">HurricanePlayer</a></div><div class="ttdef"><b>Definition:</b> quickitem.h:65</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_a13deac918c4b81759ce643b653eb5e12"><div class="ttname"><a href="class_hurricane_player.html#a13deac918c4b81759ce643b653eb5e12">HurricanePlayer::getState</a></div><div class="ttdeci">HurricaneState getState()</div><div class="ttdef"><b>Definition:</b> quickitem.h:81</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_a1413c3751b41fff66c23d702cffce8cd"><div class="ttname"><a href="class_hurricane_player.html#a1413c3751b41fff66c23d702cffce8cd">HurricanePlayer::closeFile</a></div><div class="ttdeci">Q_INVOKABLE void closeFile()</div><div class="ttdef"><b>Definition:</b> player.cpp:75</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_a17646e8e03dab88e4e75a2f5a89812d1"><div class="ttname"><a href="class_hurricane_player.html#a17646e8e03dab88e4e75a2f5a89812d1">HurricanePlayer::state</a></div><div class="ttdeci">QML_ELEMENTHurricaneState state</div><div class="ttdef"><b>Definition:</b> quickitem.h:68</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_a420e579b5a2f7eefea86338ce5f1818b"><div class="ttname"><a href="class_hurricane_player.html#a420e579b5a2f7eefea86338ce5f1818b">HurricanePlayer::~HurricanePlayer</a></div><div class="ttdeci">virtual ~HurricanePlayer()</div><div class="ttdef"><b>Definition:</b> player.cpp:69</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_a46a0d8ed43b52a2f2b6fb9b0789a1a50"><div class="ttname"><a href="class_hurricane_player.html#a46a0d8ed43b52a2f2b6fb9b0789a1a50">HurricanePlayer::openFile</a></div><div class="ttdeci">Q_INVOKABLE void openFile(const QString &amp;path)</div><div class="ttdef"><b>Definition:</b> player.cpp:33</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_a6679766f33c0c10b0ab7484a941f842c"><div class="ttname"><a href="class_hurricane_player.html#a6679766f33c0c10b0ab7484a941f842c">HurricanePlayer::signalVolumeChanging</a></div><div class="ttdeci">void signalVolumeChanging(qreal v)</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_a77093c2bde557c5c3183176dee8204f7"><div class="ttname"><a href="class_hurricane_player.html#a77093c2bde557c5c3183176dee8204f7">HurricanePlayer::stop</a></div><div class="ttdeci">Q_INVOKABLE void stop()</div><div class="ttdef"><b>Definition:</b> player.cpp:59</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_a7cc87f6cf72f422254f1560671d47f37"><div class="ttname"><a href="class_hurricane_player.html#a7cc87f6cf72f422254f1560671d47f37">HurricanePlayer::volume</a></div><div class="ttdeci">qreal volume</div><div class="ttdef"><b>Definition:</b> quickitem.h:69</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_a84c236556c3061ccf18825e9faabc969"><div class="ttname"><a href="class_hurricane_player.html#a84c236556c3061ccf18825e9faabc969">HurricanePlayer::slotStateChanged</a></div><div class="ttdeci">void slotStateChanged(HurricaneState s)</div><div class="ttdef"><b>Definition:</b> quickitem.h:146</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_a92d339d3c2ec7f29f34b76498132a510"><div class="ttname"><a href="class_hurricane_player.html#a92d339d3c2ec7f29f34b76498132a510">HurricanePlayer::start</a></div><div class="ttdeci">Q_INVOKABLE void start()</div><div class="ttdef"><b>Definition:</b> player.cpp:42</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_abcd0c301846d10a33835f656e5a74d89"><div class="ttname"><a href="class_hurricane_player.html#abcd0c301846d10a33835f656e5a74d89">HurricanePlayer::setVolume</a></div><div class="ttdeci">Q_INVOKABLE void setVolume(qreal v)</div><div class="ttdef"><b>Definition:</b> quickitem.h:138</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_abeef1a91722c0cece46edf3a9d70a907"><div class="ttname"><a href="class_hurricane_player.html#abeef1a91722c0cece46edf3a9d70a907">HurricanePlayer::signalPlayerInitializing</a></div><div class="ttdeci">void signalPlayerInitializing()</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_ac019fc4e668c306273f649c277c0baa8"><div class="ttname"><a href="class_hurricane_player.html#ac019fc4e668c306273f649c277c0baa8">HurricanePlayer::HurricanePlayer</a></div><div class="ttdeci">HurricanePlayer(QQuickItem *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> player.cpp:13</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_ad1ffc0cdb998ebc70f780a9567c6ac4e"><div class="ttname"><a href="class_hurricane_player.html#ad1ffc0cdb998ebc70f780a9567c6ac4e">HurricanePlayer::signalVideoStarting</a></div><div class="ttdeci">void signalVideoStarting()</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_ad20cf83dae79f2726a1b06c103c02afb"><div class="ttname"><a href="class_hurricane_player.html#ad20cf83dae79f2726a1b06c103c02afb">HurricanePlayer::pause</a></div><div class="ttdeci">Q_INVOKABLE void pause()</div><div class="ttdef"><b>Definition:</b> player.cpp:51</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_ad3ef2260be602115ee094a1698fd0e3b"><div class="ttname"><a href="class_hurricane_player.html#ad3ef2260be602115ee094a1698fd0e3b">HurricanePlayer::signalOpenFile</a></div><div class="ttdeci">void signalOpenFile(const QString &amp;url)</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_af3bcd36984472a8d990148cbb5d92aa6"><div class="ttname"><a href="class_hurricane_player.html#af3bcd36984472a8d990148cbb5d92aa6">HurricanePlayer::stateChanged</a></div><div class="ttdeci">void stateChanged()</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_af5c7f8b1351f12dd15bff14432b92fc8"><div class="ttname"><a href="class_hurricane_player.html#af5c7f8b1351f12dd15bff14432b92fc8">HurricanePlayer::volumeChanged</a></div><div class="ttdeci">void volumeChanged()</div></div>
+<div class="ttc" id="aclass_hurricane_player_html_af9aaf65cac620b4a18f0e8f7f48c724f"><div class="ttname"><a href="class_hurricane_player.html#af9aaf65cac620b4a18f0e8f7f48c724f">HurricanePlayer::getVolume</a></div><div class="ttdeci">qreal getVolume()</div><div class="ttdef"><b>Definition:</b> quickitem.h:83</div></div>
+<div class="ttc" id="aclass_video_play_worker_html"><div class="ttname"><a href="class_video_play_worker.html">VideoPlayWorker</a></div><div class="ttdef"><b>Definition:</b> quickitem.h:32</div></div>
+<div class="ttc" id="aclass_video_play_worker_html_a0e354dcf8f04f31466a5b767b9cb8f9a"><div class="ttname"><a href="class_video_play_worker.html#a0e354dcf8f04f31466a5b767b9cb8f9a">VideoPlayWorker::resume</a></div><div class="ttdeci">void resume()</div><div class="ttdef"><b>Definition:</b> quickitem.h:47</div></div>
+<div class="ttc" id="aclass_video_play_worker_html_a40b59b64d69c0d0ec8afc5246d08fbfa"><div class="ttname"><a href="class_video_play_worker.html#a40b59b64d69c0d0ec8afc5246d08fbfa">VideoPlayWorker::signalStateChanged</a></div><div class="ttdeci">void signalStateChanged(HurricaneState state)</div></div>
+<div class="ttc" id="aclass_video_play_worker_html_a4cdc1fa19c1808fd5360454166db2181"><div class="ttname"><a href="class_video_play_worker.html#a4cdc1fa19c1808fd5360454166db2181">VideoPlayWorker::VideoPlayWorker</a></div><div class="ttdeci">VideoPlayWorker()</div><div class="ttdef"><b>Definition:</b> quickitem.h:45</div></div>
+<div class="ttc" id="aclass_video_play_worker_html_a743ed858b283e5ac9d5909c3edc85e30"><div class="ttname"><a href="class_video_play_worker.html#a743ed858b283e5ac9d5909c3edc85e30">VideoPlayWorker::pause</a></div><div class="ttdeci">void pause()</div><div class="ttdef"><b>Definition:</b> quickitem.h:48</div></div>
+<div class="ttc" id="aclass_video_play_worker_html_a7aa5bc6d6facc3ea6d66465d3ed2703f"><div class="ttname"><a href="class_video_play_worker.html#a7aa5bc6d6facc3ea6d66465d3ed2703f">VideoPlayWorker::slotThreadInit</a></div><div class="ttdeci">void slotThreadInit()</div><div class="ttdef"><b>Definition:</b> player.cpp:120</div></div>
+<div class="ttc" id="aclass_video_play_worker_html_a9089bfdaf21527f523654fa8f6b9ad63"><div class="ttname"><a href="class_video_play_worker.html#a9089bfdaf21527f523654fa8f6b9ad63">VideoPlayWorker::slotOpenFile</a></div><div class="ttdeci">void slotOpenFile(const QString &amp;path)</div><div class="ttdef"><b>Definition:</b> player.cpp:162</div></div>
+<div class="ttc" id="aclass_video_play_worker_html_a982fc273d2219ca2593f568bafb533f8"><div class="ttname"><a href="class_video_play_worker.html#a982fc273d2219ca2593f568bafb533f8">VideoPlayWorker::~VideoPlayWorker</a></div><div class="ttdeci">~VideoPlayWorker()</div><div class="ttdef"><b>Definition:</b> quickitem.h:46</div></div>
+<div class="ttc" id="aclass_video_play_worker_html_ab8c202eda08204ea59968a55f483ceea"><div class="ttname"><a href="class_video_play_worker.html#ab8c202eda08204ea59968a55f483ceea">VideoPlayWorker::slotVolumeChanged</a></div><div class="ttdeci">void slotVolumeChanged(qreal v)</div><div class="ttdef"><b>Definition:</b> player.cpp:158</div></div>
+<div class="ttc" id="aclass_video_play_worker_html_abc901434587cb376c7ce25542f85d13f"><div class="ttname"><a href="class_video_play_worker.html#abc901434587cb376c7ce25542f85d13f">VideoPlayWorker::onAudioStateChanged</a></div><div class="ttdeci">void onAudioStateChanged(QAudio::State state)</div><div class="ttdef"><b>Definition:</b> player.cpp:100</div></div>
+<div class="ttc" id="aclass_video_play_worker_html_adb1b25158302e507f9fae296ce20ebda"><div class="ttname"><a href="class_video_play_worker.html#adb1b25158302e507f9fae296ce20ebda">VideoPlayWorker::slotOnWork</a></div><div class="ttdeci">void slotOnWork()</div><div class="ttdef"><b>Definition:</b> player.cpp:134</div></div>
+<div class="ttc" id="aclass_video_play_worker_html_ae69220765205556cca6a22875c1acb85"><div class="ttname"><a href="class_video_play_worker.html#ae69220765205556cca6a22875c1acb85">VideoPlayWorker::signalImageChanged</a></div><div class="ttdeci">void signalImageChanged(Picture pic)</div></div>
+<div class="ttc" id="ademuxer_8h_html"><div class="ttname"><a href="demuxer_8h.html">demuxer.h</a></div></div>
+<div class="ttc" id="ahurricane_8h_html"><div class="ttname"><a href="hurricane_8h.html">hurricane.h</a></div></div>
+<div class="ttc" id="aquickitem_8h_html_a498784c505615faa59a572ec89ea0477"><div class="ttname"><a href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477">HurricaneState</a></div><div class="ttdeci">HurricaneState</div><div class="ttdef"><b>Definition:</b> quickitem.h:23</div></div>
+<div class="ttc" id="aquickitem_8h_html_a498784c505615faa59a572ec89ea0477a09d4d696b4e935115b9313e3c412509a"><div class="ttname"><a href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477a09d4d696b4e935115b9313e3c412509a">HurricaneState::STOPPED</a></div><div class="ttdeci">@ STOPPED</div></div>
+<div class="ttc" id="aquickitem_8h_html_a498784c505615faa59a572ec89ea0477a46829ab02a811d04617f20f0253a0183"><div class="ttname"><a href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477a46829ab02a811d04617f20f0253a0183">HurricaneState::IDLED</a></div><div class="ttdeci">@ IDLED</div></div>
+<div class="ttc" id="aquickitem_8h_html_a498784c505615faa59a572ec89ea0477a50366a49630a416ab3ccaa004196027e"><div class="ttname"><a href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477a50366a49630a416ab3ccaa004196027e">HurricaneState::PLAYING</a></div><div class="ttdeci">@ PLAYING</div></div>
+<div class="ttc" id="aquickitem_8h_html_a498784c505615faa59a572ec89ea0477a99b2439e63f73ad515f7ab2447a80673"><div class="ttname"><a href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477a99b2439e63f73ad515f7ab2447a80673">HurricaneState::PAUSED</a></div><div class="ttdeci">@ PAUSED</div></div>
+<div class="ttc" id="aquickitem_8h_html_a498784c505615faa59a572ec89ea0477accc0377a8afbf50e7094f5c23a8af223"><div class="ttname"><a href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477accc0377a8afbf50e7094f5c23a8af223">HurricaneState::INVALID</a></div><div class="ttdeci">@ INVALID</div></div>
+<div class="ttc" id="aquickitem_8h_html_a498784c505615faa59a572ec89ea0477af9f6955ebca09a484157c05f80acd65e"><div class="ttname"><a href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477af9f6955ebca09a484157c05f80acd65e">HurricaneState::LOADING</a></div><div class="ttdeci">@ LOADING</div></div>
+<div class="ttc" id="aquickitem_8h_html_a6f1ec7cee811324f72a81f20b989dfa7"><div class="ttname"><a href="quickitem_8h.html#a6f1ec7cee811324f72a81f20b989dfa7">time_point</a></div><div class="ttdeci">int64_t time_point</div><div class="ttdef"><b>Definition:</b> quickitem.h:19</div></div>
+<div class="ttc" id="aquickitem_8h_html_ae17f5f58c75c796a11f1415cfaef7ecc"><div class="ttname"><a href="quickitem_8h.html#ae17f5f58c75c796a11f1415cfaef7ecc">time_duration</a></div><div class="ttdeci">int64_t time_duration</div><div class="ttdef"><b>Definition:</b> quickitem.h:20</div></div>
+<div class="ttc" id="astruct_picture_html"><div class="ttname"><a href="struct_picture.html">Picture</a></div><div class="ttdef"><b>Definition:</b> frame_queue.h:18</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="quickitem_8h.html">quickitem.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

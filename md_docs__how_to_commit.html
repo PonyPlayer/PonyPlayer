@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: How to Commit</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('md_docs__how_to_commit.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div><div class="header">
+  <div class="headertitle"><div class="title">How to Commit </div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><blockquote class="doxtable">
+<p >参考 <a href="https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular">https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular</a></p>
+<p >中文参考（可能过时） <a href="https://www.cnblogs.com/wubaiqing/p/10307605.html">https://www.cnblogs.com/wubaiqing/p/10307605.html</a> </p>
+</blockquote>
+<h1><a class="anchor" id="autotoc_md4"></a>
+基本要点</h1>
+<ul>
+<li>使用Signed-off选项（在Clion中勾选）</li>
+<li>使用除了<code>Type</code>以外，可以使用**中文**</li>
+<li>使用Clion插件<a href="https://plugins.jetbrains.com/plugin/13389-conventional-commit">conventional commits</a>格式化commits</li>
+<li>进行修改时</li>
+</ul>
+<p >如果希望手动写commit，参考以下规则</p>
+<h1><a class="anchor" id="autotoc_md5"></a>
+基本格式</h1>
+<p >A commit message consists of a <b>header</b>, <b>body</b> and <b>footer</b>. The header has a <b>type</b>, <b>scope</b> and <b>subject</b>:</p>
+<div class="fragment"><div class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</div>
+<div class="line">&lt;BLANK LINE&gt;</div>
+<div class="line">&lt;body&gt;</div>
+<div class="line">&lt;BLANK LINE&gt;</div>
+<div class="line">&lt;footer&gt;</div>
+</div><!-- fragment --><p >The <b>header</b> is mandatory and the <b>scope</b> of the header is optional.</p>
+<p >Any line of the commit message cannot be longer 100 characters! This allows the message to be easier to read on GitHub as well as in various git tools.</p>
+<h2><a class="anchor" id="autotoc_md6"></a>
+autotoc_md6</h2>
+<h2><a class="anchor" id="autotoc_md7"></a>
+Revert</h2>
+<p >If the commit reverts a previous commit, it should begin with <code>revert:</code>, followed by the header of the reverted commit. In the body it should say: <code>This reverts commit &lt;hash&gt;.</code>, where the hash is the SHA of the commit being reverted.</p>
+<h2><a class="anchor" id="autotoc_md8"></a>
+autotoc_md8</h2>
+<h2><a class="anchor" id="autotoc_md9"></a>
+Type</h2>
+<p >可用的标签包括<code>feat</code>(新特性)，<code>fix</code>(修复)，<code>perf</code>(性能)，这三项出现在自动生成的changelog中。</p>
+<p >另外我们还允许这些标签：<code>docs</code>(文档)，<code>chore</code>(日常事务)，<code>stype</code>(代码风格)，<code>refactor</code>(重构)和<code>test</code>(测试)。</p>
+<h2><a class="anchor" id="autotoc_md10"></a>
+Scope</h2>
+<p >The scope could be anything specifying place of the commit change. For example <code>$location</code>, <code>$browser</code>, <code>$compile</code>, <code>$rootScope</code>, <code>ngHref</code>, <code>ngClick</code>, <code>ngView</code>, etc...</p>
+<h2><a class="anchor" id="autotoc_md11"></a>
+autotoc_md11</h2>
+<h2><a class="anchor" id="autotoc_md12"></a>
+Subject</h2>
+<p >The subject contains succinct description of the change:</p>
+<ul>
+<li>use the imperative, present tense: "change" not "changed" nor "changes"</li>
+<li>don't capitalize first letter</li>
+<li>no dot (.) at the end</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md13"></a>
+autotoc_md13</h2>
+<h2><a class="anchor" id="autotoc_md14"></a>
+Body</h2>
+<p >Just as in the <b>subject</b>, use the imperative, present tense: "change" not "changed" nor "changes". The body should include the motivation for the change and contrast this with previous behavior.</p>
+<h2><a class="anchor" id="autotoc_md15"></a>
+autotoc_md15</h2>
+<h2><a class="anchor" id="autotoc_md16"></a>
+Footer</h2>
+<p >The footer should contain any information about <b>Breaking Changes</b> and is also the place to reference GitHub issues that this commit <b>Closes</b>.</p>
+<p ><b>Breaking Changes</b> should start with the word <code>BREAKING CHANGE:</code> with a space or two newlines. The rest of the commit message is then used for this.</p>
+<p >A detailed explanation can be found in this <a href="https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#">document</a>.</p>
+<p >Based on <a href="https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit">https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit</a> </p>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

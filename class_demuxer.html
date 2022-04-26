@@ -1,0 +1,432 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: Demuxer类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_demuxer.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="class_demuxer-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">Demuxer类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="demuxer_8h_source.html">demuxer.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a25115a0acf0c4e2ff9ab1481cfe3645a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a25115a0acf0c4e2ff9ab1481cfe3645a">Demuxer</a> ()</td></tr>
+<tr class="separator:a25115a0acf0c4e2ff9ab1481cfe3645a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56bcb4fb783d2a8ac15db2bb7d4671e2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a56bcb4fb783d2a8ac15db2bb7d4671e2">~Demuxer</a> ()</td></tr>
+<tr class="separator:a56bcb4fb783d2a8ac15db2bb7d4671e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ea0d0375816b9a5690a16b9282b2b7e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a8ea0d0375816b9a5690a16b9282b2b7e">seek</a> (int64_t us)</td></tr>
+<tr class="separator:a8ea0d0375816b9a5690a16b9282b2b7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa33a5fba97ec8c95a262b4c65f9d0bd3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#aa33a5fba97ec8c95a262b4c65f9d0bd3">videoDuration</a> ()</td></tr>
+<tr class="separator:aa33a5fba97ec8c95a262b4c65f9d0bd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83a8c15dcc92401012797fc933341fd8"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a83a8c15dcc92401012797fc933341fd8">audioDuration</a> ()</td></tr>
+<tr class="separator:a83a8c15dcc92401012797fc933341fd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb7a71acfe7afbc9101bec6b916ef31d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#acb7a71acfe7afbc9101bec6b916ef31d">openFile</a> (std::string inputFileName)</td></tr>
+<tr class="separator:acb7a71acfe7afbc9101bec6b916ef31d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab877d5a346eb48e74efcff609ba0dbe6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_picture.html">Picture</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#ab877d5a346eb48e74efcff609ba0dbe6">getPicture</a> (bool block)</td></tr>
+<tr class="separator:ab877d5a346eb48e74efcff609ba0dbe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51f65d75ad33d91e3b0edefbb994a190"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a51f65d75ad33d91e3b0edefbb994a190">popPicture</a> ()</td></tr>
+<tr class="separator:a51f65d75ad33d91e3b0edefbb994a190"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae807ec7eeedae0b7d1f182f440529fd1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_sample.html">Sample</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#ae807ec7eeedae0b7d1f182f440529fd1">getSample</a> (bool block)</td></tr>
+<tr class="separator:ae807ec7eeedae0b7d1f182f440529fd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af79bf069cff91cbbfb43593e9d9c1076"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#af79bf069cff91cbbfb43593e9d9c1076">popSample</a> ()</td></tr>
+<tr class="separator:af79bf069cff91cbbfb43593e9d9c1076"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a829dddb168ca37288002507463257cf8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a829dddb168ca37288002507463257cf8">quit</a> ()</td></tr>
+<tr class="separator:a829dddb168ca37288002507463257cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e4fb998093989fcee32b2affc9b9ccf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a7e4fb998093989fcee32b2affc9b9ccf">pause</a> ()</td></tr>
+<tr class="separator:a7e4fb998093989fcee32b2affc9b9ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a426a0c5ff0c4c6cfcf645483c939513f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a426a0c5ff0c4c6cfcf645483c939513f">resume</a> ()</td></tr>
+<tr class="separator:a426a0c5ff0c4c6cfcf645483c939513f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p >usecase： <a class="el" href="class_demuxer.html">Demuxer</a> demuxer; ret = demuxer.openFile(filename); initDemuxer(); for (;;) { yuvFrame = demuxer.videoFrameQueueFront(); if (yuvFrame) { // do something demuxer.videoFramePop(); } } </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a25115a0acf0c4e2ff9ab1481cfe3645a" name="a25115a0acf0c4e2ff9ab1481cfe3645a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25115a0acf0c4e2ff9ab1481cfe3645a">&#9670;&nbsp;</a></span>Demuxer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Demuxer::Demuxer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a56bcb4fb783d2a8ac15db2bb7d4671e2" name="a56bcb4fb783d2a8ac15db2bb7d4671e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56bcb4fb783d2a8ac15db2bb7d4671e2">&#9670;&nbsp;</a></span>~Demuxer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Demuxer::~Demuxer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a83a8c15dcc92401012797fc933341fd8" name="a83a8c15dcc92401012797fc933341fd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83a8c15dcc92401012797fc933341fd8">&#9670;&nbsp;</a></span>audioDuration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Demuxer::audioDuration </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取音频流的长度 </p><dl class="section return"><dt>返回</dt><dd>秒数 </dd></dl>
+
+</div>
+</div>
+<a id="ab877d5a346eb48e74efcff609ba0dbe6" name="ab877d5a346eb48e74efcff609ba0dbe6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab877d5a346eb48e74efcff609ba0dbe6">&#9670;&nbsp;</a></span>getPicture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_picture.html">Picture</a> Demuxer::getPicture </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>block</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >获得图像数据 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">block</td><td>是否需要阻塞 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>图像数据，根据picture.isValid()判断是否返回了可用数据，如果没有返回可用数据， 可能是因为暂时没有数据（比如当前视频已经播放结束或者正常的饥饿，这种情况重试即可）， 也可能是因为上层下达了暂停/终止命令，需要自行判断 </dd></dl>
+
+</div>
+</div>
+<a id="ae807ec7eeedae0b7d1f182f440529fd1" name="ae807ec7eeedae0b7d1f182f440529fd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae807ec7eeedae0b7d1f182f440529fd1">&#9670;&nbsp;</a></span>getSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_sample.html">Sample</a> Demuxer::getSample </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>block</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >获取采样数据 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">block</td><td>是否需要阻塞 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>一个帧的采样数据，根据sample.isValid()判断是否返回了可用数据 </dd></dl>
+
+</div>
+</div>
+<a id="acb7a71acfe7afbc9101bec6b916ef31d" name="acb7a71acfe7afbc9101bec6b916ef31d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb7a71acfe7afbc9101bec6b916ef31d">&#9670;&nbsp;</a></span>openFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Demuxer::openFile </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>inputFileName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >打开一个视频文件 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inputFileName</td><td>文件名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>1表示成功，-1表示失败 </dd></dl>
+
+</div>
+</div>
+<a id="a7e4fb998093989fcee32b2affc9b9ccf" name="a7e4fb998093989fcee32b2affc9b9ccf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e4fb998093989fcee32b2affc9b9ccf">&#9670;&nbsp;</a></span>pause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demuxer::pause </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >暂停demuxer </p>
+
+</div>
+</div>
+<a id="a51f65d75ad33d91e3b0edefbb994a190" name="a51f65d75ad33d91e3b0edefbb994a190"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51f65d75ad33d91e3b0edefbb994a190">&#9670;&nbsp;</a></span>popPicture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demuxer::popPicture </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >成功获取图像数据后用于从队列中弹出一个图像帧 </p>
+
+</div>
+</div>
+<a id="af79bf069cff91cbbfb43593e9d9c1076" name="af79bf069cff91cbbfb43593e9d9c1076"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af79bf069cff91cbbfb43593e9d9c1076">&#9670;&nbsp;</a></span>popSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demuxer::popSample </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >获得一个可用的采样数据之后调用该函数弹出一个采样帧 </p>
+
+</div>
+</div>
+<a id="a829dddb168ca37288002507463257cf8" name="a829dddb168ca37288002507463257cf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a829dddb168ca37288002507463257cf8">&#9670;&nbsp;</a></span>quit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demuxer::quit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >结束demuxer </p>
+
+</div>
+</div>
+<a id="a426a0c5ff0c4c6cfcf645483c939513f" name="a426a0c5ff0c4c6cfcf645483c939513f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a426a0c5ff0c4c6cfcf645483c939513f">&#9670;&nbsp;</a></span>resume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demuxer::resume </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >恢复demuxer </p>
+
+</div>
+</div>
+<a id="a8ea0d0375816b9a5690a16b9282b2b7e" name="a8ea0d0375816b9a5690a16b9282b2b7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ea0d0375816b9a5690a16b9282b2b7e">&#9670;&nbsp;</a></span>seek()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demuxer::seek </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>us</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >跳转到指定时间点 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">us</td><td>微秒时间戳 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa33a5fba97ec8c95a262b4c65f9d0bd3" name="aa33a5fba97ec8c95a262b4c65f9d0bd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa33a5fba97ec8c95a262b4c65f9d0bd3">&#9670;&nbsp;</a></span>videoDuration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Demuxer::videoDuration </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取视频流的长度 </p><dl class="section return"><dt>返回</dt><dd>秒数 </dd></dl>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>include/<a class="el" href="demuxer_8h_source.html">demuxer.h</a></li>
+<li>src/ffmpeg/<a class="el" href="demuxer_8cpp.html">demuxer.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_demuxer.html">Demuxer</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

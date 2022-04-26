@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: VideoPlayWorker类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_video_play_worker.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-slots">Public 槽</a> &#124;
+<a href="#signals">信号</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="class_video_play_worker-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">VideoPlayWorker类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="quickitem_8h_source.html">quickitem.h</a>&gt;</code></p>
+<div class="dynheader">
+类 VideoPlayWorker 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_video_play_worker.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-slots" name="pub-slots"></a>
+Public 槽</h2></td></tr>
+<tr class="memitem:a9089bfdaf21527f523654fa8f6b9ad63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_video_play_worker.html#a9089bfdaf21527f523654fa8f6b9ad63">slotOpenFile</a> (const QString &amp;path)</td></tr>
+<tr class="separator:a9089bfdaf21527f523654fa8f6b9ad63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc901434587cb376c7ce25542f85d13f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_video_play_worker.html#abc901434587cb376c7ce25542f85d13f">onAudioStateChanged</a> (QAudio::State state)</td></tr>
+<tr class="separator:abc901434587cb376c7ce25542f85d13f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7aa5bc6d6facc3ea6d66465d3ed2703f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_video_play_worker.html#a7aa5bc6d6facc3ea6d66465d3ed2703f">slotThreadInit</a> ()</td></tr>
+<tr class="separator:a7aa5bc6d6facc3ea6d66465d3ed2703f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb1b25158302e507f9fae296ce20ebda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_video_play_worker.html#adb1b25158302e507f9fae296ce20ebda">slotOnWork</a> ()</td></tr>
+<tr class="separator:adb1b25158302e507f9fae296ce20ebda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8c202eda08204ea59968a55f483ceea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_video_play_worker.html#ab8c202eda08204ea59968a55f483ceea">slotVolumeChanged</a> (qreal v)</td></tr>
+<tr class="separator:ab8c202eda08204ea59968a55f483ceea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
+信号</h2></td></tr>
+<tr class="memitem:ae69220765205556cca6a22875c1acb85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_video_play_worker.html#ae69220765205556cca6a22875c1acb85">signalImageChanged</a> (<a class="el" href="struct_picture.html">Picture</a> pic)</td></tr>
+<tr class="separator:ae69220765205556cca6a22875c1acb85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40b59b64d69c0d0ec8afc5246d08fbfa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_video_play_worker.html#a40b59b64d69c0d0ec8afc5246d08fbfa">signalStateChanged</a> (<a class="el" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477">HurricaneState</a> state)</td></tr>
+<tr class="separator:a40b59b64d69c0d0ec8afc5246d08fbfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a4cdc1fa19c1808fd5360454166db2181"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_video_play_worker.html#a4cdc1fa19c1808fd5360454166db2181">VideoPlayWorker</a> ()</td></tr>
+<tr class="separator:a4cdc1fa19c1808fd5360454166db2181"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a982fc273d2219ca2593f568bafb533f8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_video_play_worker.html#a982fc273d2219ca2593f568bafb533f8">~VideoPlayWorker</a> ()</td></tr>
+<tr class="separator:a982fc273d2219ca2593f568bafb533f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e354dcf8f04f31466a5b767b9cb8f9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_video_play_worker.html#a0e354dcf8f04f31466a5b767b9cb8f9a">resume</a> ()</td></tr>
+<tr class="separator:a0e354dcf8f04f31466a5b767b9cb8f9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a743ed858b283e5ac9d5909c3edc85e30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_video_play_worker.html#a743ed858b283e5ac9d5909c3edc85e30">pause</a> ()</td></tr>
+<tr class="separator:a743ed858b283e5ac9d5909c3edc85e30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a4cdc1fa19c1808fd5360454166db2181" name="a4cdc1fa19c1808fd5360454166db2181"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cdc1fa19c1808fd5360454166db2181">&#9670;&nbsp;</a></span>VideoPlayWorker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">VideoPlayWorker::VideoPlayWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a982fc273d2219ca2593f568bafb533f8" name="a982fc273d2219ca2593f568bafb533f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a982fc273d2219ca2593f568bafb533f8">&#9670;&nbsp;</a></span>~VideoPlayWorker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">VideoPlayWorker::~VideoPlayWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="abc901434587cb376c7ce25542f85d13f" name="abc901434587cb376c7ce25542f85d13f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc901434587cb376c7ce25542f85d13f">&#9670;&nbsp;</a></span>onAudioStateChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VideoPlayWorker::onAudioStateChanged </td>
+          <td>(</td>
+          <td class="paramtype">QAudio::State&#160;</td>
+          <td class="paramname"><em>state</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a743ed858b283e5ac9d5909c3edc85e30" name="a743ed858b283e5ac9d5909c3edc85e30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a743ed858b283e5ac9d5909c3edc85e30">&#9670;&nbsp;</a></span>pause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VideoPlayWorker::pause </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0e354dcf8f04f31466a5b767b9cb8f9a" name="a0e354dcf8f04f31466a5b767b9cb8f9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e354dcf8f04f31466a5b767b9cb8f9a">&#9670;&nbsp;</a></span>resume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VideoPlayWorker::resume </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae69220765205556cca6a22875c1acb85" name="ae69220765205556cca6a22875c1acb85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae69220765205556cca6a22875c1acb85">&#9670;&nbsp;</a></span>signalImageChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VideoPlayWorker::signalImageChanged </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_picture.html">Picture</a>&#160;</td>
+          <td class="paramname"><em>pic</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a40b59b64d69c0d0ec8afc5246d08fbfa" name="a40b59b64d69c0d0ec8afc5246d08fbfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40b59b64d69c0d0ec8afc5246d08fbfa">&#9670;&nbsp;</a></span>signalStateChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VideoPlayWorker::signalStateChanged </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="quickitem_8h.html#a498784c505615faa59a572ec89ea0477">HurricaneState</a>&#160;</td>
+          <td class="paramname"><em>state</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adb1b25158302e507f9fae296ce20ebda" name="adb1b25158302e507f9fae296ce20ebda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb1b25158302e507f9fae296ce20ebda">&#9670;&nbsp;</a></span>slotOnWork</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VideoPlayWorker::slotOnWork </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9089bfdaf21527f523654fa8f6b9ad63" name="a9089bfdaf21527f523654fa8f6b9ad63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9089bfdaf21527f523654fa8f6b9ad63">&#9670;&nbsp;</a></span>slotOpenFile</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VideoPlayWorker::slotOpenFile </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7aa5bc6d6facc3ea6d66465d3ed2703f" name="a7aa5bc6d6facc3ea6d66465d3ed2703f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7aa5bc6d6facc3ea6d66465d3ed2703f">&#9670;&nbsp;</a></span>slotThreadInit</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VideoPlayWorker::slotThreadInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab8c202eda08204ea59968a55f483ceea" name="ab8c202eda08204ea59968a55f483ceea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8c202eda08204ea59968a55f483ceea">&#9670;&nbsp;</a></span>slotVolumeChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VideoPlayWorker::slotVolumeChanged </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>include/<a class="el" href="quickitem_8h_source.html">quickitem.h</a></li>
+<li>src/quickitem/<a class="el" href="player_8cpp.html">player.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_video_play_worker.html">VideoPlayWorker</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>
