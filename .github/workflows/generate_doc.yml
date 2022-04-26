@@ -27,5 +27,8 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         id: publish-github-page
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: ColorsWind/PonyPlayer-Docs
+          publish_branch: gh-pages
+          destination_dir: u5smb17rl3k18v79
           publish_dir: '${{ github.workspace }}/docs/html'
