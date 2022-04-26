@@ -16,10 +16,13 @@ jobs:
         with:
           ref: ${{ env.branches }}
       - name: Doxygen
+        # since Doxygen runs on Docker and maps ${{ github.workspace }} on host to /github/workspace, we should use
+        # relative path or absolute path that ${{ github.workspace }} is replaced by /github/workspace
         id: generate-document
         uses: mattnotmitt/doxygen-action@v1.9.2
         with:
-          doxyfile-path: '${{ github.workspace }}/Doxyfile'
+          working-directory: /github/workspace/
+          doxyfile-path: /github/workspace/Doxyfile
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         id: publish-github-page
