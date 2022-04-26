@@ -68,8 +68,9 @@ class Hurricane : public QQuickItem {
     QML_ELEMENT
 private:
     HurricaneRenderer *renderer = nullptr;
-    Picture picture;
     std::vector<Picture> cleanupPictureQueue;
+protected:
+    Picture picture;
 public:
     Hurricane(QQuickItem *parent = nullptr);
     ~Hurricane() noexcept override;
@@ -82,6 +83,8 @@ public slots:
     void handleWindowChanged(QQuickWindow *win);
     void sync();
     void cleanupPicture();
+
+
     void setImage(const Picture &pic) {
         // this function must be called on GUI thread
         // setImage -> sync -> render

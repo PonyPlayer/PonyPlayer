@@ -16,13 +16,13 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoP
     videoPlayWorker.moveToThread(videoThread);
     videoThread->start();
     connect(this, &HurricanePlayer::signalPlayerInitializing, &videoPlayWorker, &VideoPlayWorker::slotThreadInit);
-    connect(this, &HurricanePlayer::signalVideoStarting, &videoPlayWorker, &VideoPlayWorker::slotOnWork);
+    connect(this, &HurricanePlayer::signalResume, &videoPlayWorker, &VideoPlayWorker::slotOnWork);
+    connect(this, &HurricanePlayer::signalPause, &videoPlayWorker, &VideoPlayWorker::slotPause);
     connect(this, &HurricanePlayer::signalVolumeChanging, &videoPlayWorker, &VideoPlayWorker::slotVolumeChanged);
     connect(this, &HurricanePlayer::signalOpenFile, &videoPlayWorker, &VideoPlayWorker::slotOpenFile);
     connect(&videoPlayWorker, &VideoPlayWorker::signalImageChanged, this, &HurricanePlayer::setImage);
     connect(&videoPlayWorker, &VideoPlayWorker::signalStateChanged, this, &HurricanePlayer::slotStateChanged);
     connect(videoThread, &QThread::destroyed, []{ qDebug() << "Video Thread delete.";});
-
     emit signalPlayerInitializing();
 #ifdef DEBUG_FLAG_AUTO_OPEN
     openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/581518754-1-208.mp4"_qs)).url());
@@ -41,16 +41,15 @@ void HurricanePlayer::openFile(const QString &path) {
 void HurricanePlayer::start() {
     if (state == HurricaneState::PAUSED || state == HurricaneState::STOPPED) {
         state = HurricaneState::PLAYING;
-        videoPlayWorker.resume();
+        emit signalResume();
         qDebug() << "HurricanePlayer: Start play video.";
-        emit signalVideoStarting();
     }
 }
 
 void HurricanePlayer::pause() {
     if (state == HurricaneState::PLAYING) {
         state = HurricaneState::PAUSED;
-        videoPlayWorker.pause();
+        emit signalPause();
         qDebug() << "HurricanePlayer: Pause.";
     }
 }
@@ -58,7 +57,10 @@ void HurricanePlayer::pause() {
 void HurricanePlayer::stop() {
     if (state == HurricaneState::PLAYING) {
         state = HurricaneState::STOPPED;
-        videoPlayWorker.pause();
+        emit signalPause();
+        qDebug() << "HurricanePlayer: Stop.";
+    } else if (state == HurricaneState::PAUSED) {
+        state = HurricaneState::STOPPED;
         qDebug() << "HurricanePlayer: Stop.";
     }
 }
@@ -66,7 +68,7 @@ void HurricanePlayer::stop() {
 
 
 HurricanePlayer::~HurricanePlayer() {
-    videoPlayWorker.pause();
+    emit signalPause();
     videoThread->quit();
     videoThread->deleteLater();
 }
@@ -92,8 +94,12 @@ void VideoPlayWorker::onAudioStateChanged(QAudio::State state) {
     qDebug() << "QAudioSink State changed:" << state << "Curr" << curr << "Sum" << idleDurationSum;
     switch(state) {
         case QAudio::ActiveState:
-            idleDurationSum += curr - idlePoint;
-            idlePoint = -1;
+            if (idlePoint > 0) {
+                idleDurationSum += curr - idlePoint;
+                idlePoint = -1;
+            } else {
+                qDebug() << "VideoPlayerWorker: State changed to ActiveState, but fail to determine last time of IdleState or SuspendState.";
+            }
             break;
         case QAudio::SuspendedState:
         case QAudio::StoppedState:
@@ -123,8 +129,9 @@ void VideoPlayWorker::slotThreadInit() {
 
 void VideoPlayWorker::slotOnWork() {
     qDebug() << "Start Video Work";
-    audioOutput->resume();
     Picture currFrame;
+    pauseRequested = false;
+    audioOutput->resume();
     while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
         demuxer->popPicture();
         emit signalImageChanged(currFrame);
@@ -143,19 +150,17 @@ void VideoPlayWorker::slotOnWork() {
 
     }
     audioOutput->suspend();
+    pauseRequested = true;
 }
 
-void VideoPlayWorker::slotVolumeChanged(qreal v) {
-    audioOutput->setVolume(v);
-}
 
 void VideoPlayWorker::slotOpenFile(const QString &path) {
     pauseRequested = true;
     seekPoint = 0;
-    idlePoint = 0;
     audioOutput->reset();
-    // Note: reset will not clear elapsedUSecs
+    // Note: reset will not clear elapsedUSecs and not change state
     idleDurationSum = audioOutput->elapsedUSecs();
+    idlePoint = idleDurationSum;
     QUrl url(path);
     QString localPath = url.toLocalFile();
     qDebug() << "Hurricane Player: Open file" << localPath;

@@ -1,7 +1,7 @@
 //
 // Created by ColorsWind on 2022/4/21.
 //
-
+#pragma once
 #ifndef PONYPLAYER_QUICKITEM_H
 #define PONYPLAYER_QUICKITEM_H
 
@@ -31,21 +31,21 @@ enum class HurricaneState {
 class VideoPlayWorker : public QObject {
     Q_OBJECT
 private:
-    Demuxer *demuxer;
-    QAtomicInteger<bool> pauseRequested = false;
+    Demuxer *demuxer = nullptr;
+    bool pauseRequested = false;
     QAudioSink *audioOutput;
     QIODevice *audioInput;
 
+//    QAtomicInteger<time_point>
     time_point seekPoint = 0;
-    time_point idlePoint = 0;
+    time_point idlePoint = -1;
     time_duration idleDurationSum = 0;
 
 public:
     VideoPlayWorker() : QObject(nullptr) { demuxer = new Demuxer; }
-    ~VideoPlayWorker() { demuxer->quit(); delete demuxer; }
-    void resume() { pauseRequested = false; }
-    void pause() { pauseRequested = true; }
-
+    ~VideoPlayWorker() override { demuxer->quit(); delete demuxer; }
+    qreal getAudioDuration() { return demuxer->audioDuration(); }
+    qreal getVideoDuration() { return demuxer->videoDuration(); }
 private:
     inline time_point getProcessedAudioUSecs();
     inline void syncTo(double pts);
@@ -54,7 +54,8 @@ public slots:
     void onAudioStateChanged(QAudio::State state);
     void slotThreadInit();
     void slotOnWork();
-    void slotVolumeChanged(qreal v);
+    void slotVolumeChanged(qreal v) { audioOutput->setVolume(v); }
+    void slotPause() {  pauseRequested = true; };
 signals:
     void signalImageChanged(Picture pic);
     void signalStateChanged(HurricaneState state);
@@ -64,10 +65,11 @@ signals:
 class HurricanePlayer : public Hurricane {
     Q_OBJECT
     QML_ELEMENT
+    Q_ENUM(HurricaneState)
     Q_PROPERTY(HurricaneState state READ getState NOTIFY stateChanged FINAL)
     Q_PROPERTY(qreal volume READ getVolume NOTIFY volumeChanged FINAL)
 private:
-    HurricaneState state;
+    HurricaneState state = HurricaneState::INVALID;
     qreal volume;
 private:
     QThread *videoThread;
@@ -98,7 +100,8 @@ signals:
     // 约定两者通信的方法信号以 signal 开头, 槽函数以 slot 开头
     // 约定信号只能由所属的类的实例 emit
     void signalPlayerInitializing();
-    void signalVideoStarting();
+    void signalPause();
+    void signalResume();
     void signalVolumeChanging(qreal v);
     void signalOpenFile(const QString &url);
 
@@ -130,14 +133,33 @@ public slots:
      * @param v 音量大小, 通常在[0, 1]
      */
     Q_INVOKABLE void setVolume(qreal v) { emit signalVolumeChanging(v); }
+
+    /**
+     * 获取视频长度
+     * @return 长度(单位: 秒)
+     */
+    Q_INVOKABLE qreal getAudioDuration() { return videoPlayWorker.getAudioDuration(); }
+
+    /**
+     * 获取音频长度
+     * @return 长度(单位: 秒)
+     */
+    Q_INVOKABLE qreal getVideoDuration() { return videoPlayWorker.getVideoDuration(); }
+
+    /**
+     * 获取当前视频播放进度
+     * @return 播放进度(单位: 秒)
+     */
+    Q_INVOKABLE qreal getPTS() { return picture.getPTS(); }
 //
 //    /**
 //     * 将视频播放进度移动到指定位置
 //     * 注：这个操作不会改变视频的播放状态
 //     */
-//    Q_INVOKABLE void seek(qreal sec);
+
 
     void slotStateChanged(HurricaneState s) { state = s; emit stateChanged(); }
+
 };
 
 
