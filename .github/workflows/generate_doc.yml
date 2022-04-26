@@ -1,0 +1,25 @@
+name: Build Project
+on:
+  push:
+    branches:
+      - dbg_opengl2
+jobs:
+  build:
+    name: Doxygen Docs
+    runs-on: ubuntu-20.04
+    steps:
+      - name: CheckOut
+        id: checkout
+        uses: actions/checkout@v2
+      - name: Doxygen
+        id: generate-document
+        uses: mattnotmitt/doxygen-action@v1.9.2
+        with:
+          working-directory: '${{ github.workspace }}'
+          doxyfile-path: '${{ github.workspace }}/Doxyfile'
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        id: publish-github-page
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: '${{ github.workspace }}/docs/html'
