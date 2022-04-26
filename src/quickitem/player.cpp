@@ -31,9 +31,11 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoP
 
 
 void HurricanePlayer::openFile(const QString &path) {
-    state = HurricaneState::LOADING;
-    emit stateChanged();
-    emit signalOpenFile(path);
+    if (state == HurricaneState::STOPPED || state == HurricaneState::INVALID) {
+        state = HurricaneState::LOADING;
+        emit stateChanged();
+        emit signalOpenFile(path);
+    }
 }
 
 void HurricanePlayer::start() {
@@ -149,6 +151,11 @@ void VideoPlayWorker::slotVolumeChanged(qreal v) {
 
 void VideoPlayWorker::slotOpenFile(const QString &path) {
     pauseRequested = true;
+    seekPoint = 0;
+    idlePoint = 0;
+    audioOutput->reset();
+    // Note: reset will not clear elapsedUSecs
+    idleDurationSum = audioOutput->elapsedUSecs();
     QUrl url(path);
     QString localPath = url.toLocalFile();
     qDebug() << "Hurricane Player: Open file" << localPath;
@@ -157,14 +164,10 @@ void VideoPlayWorker::slotOpenFile(const QString &path) {
     if (ret) {
         state = HurricaneState::STOPPED;
         Picture pic = demuxer->getPicture(true);
-//        seekPoint = 0;
-//        idlePoint = 0;
-//        idleDurationSum = 0;
-//        audioOutput->reset();
+
         emit signalImageChanged(pic);
     } else {
         state = HurricaneState::INVALID;
-
         qWarning() << "Hurricane Player: Fail to open video." << ret;
     }
     emit signalStateChanged(state);
