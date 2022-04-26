@@ -7,10 +7,14 @@ jobs:
   build:
     name: Doxygen Docs
     runs-on: ubuntu-20.04
+    env:
+      branch: dbg_opengl2
     steps:
       - name: CheckOut
         id: checkout
         uses: actions/checkout@v2
+        with:
+          ref: my-branch
       - name: Doxygen
         id: generate-document
         uses: mattnotmitt/doxygen-action@v1.9.2
