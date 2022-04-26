@@ -1,0 +1,34 @@
+name: Build Project
+on:
+  push:
+    branches:
+      - dbg_opengl2
+jobs:
+  build:
+    name: Doxygen Docs
+    runs-on: ubuntu-20.04
+    env:
+      branch: dbg_opengl2
+    steps:
+      - name: CheckOut
+        id: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ env.branches }}
+      - name: Doxygen
+        # since Doxygen runs on Docker and maps ${{ github.workspace }} on host to /github/workspace, we should use
+        # relative path or absolute path that ${{ github.workspace }} is replaced by /github/workspace
+        id: generate-document
+        uses: mattnotmitt/doxygen-action@v1.9.2
+        with:
+          working-directory: .
+          doxyfile-path: config/Doxyfile
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        id: publish-github-page
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: ColorsWind/PonyPlayer-Docs
+          publish_branch: gh-pages
+          destination_dir: u5smb17rl3k18v79
+          publish_dir: '${{ github.workspace }}/docs/html'

@@ -21,6 +21,7 @@ typedef int64_t time_duration;
 
 
 enum class HurricaneState {
+    IDLED, // 空闲状态, 没有打开文件
     INVALID, // 文件无效
     PLAYING, // 正在播放
     STOPPED, // 已停止
@@ -108,10 +109,15 @@ signals:
 public slots:
 
     /**
-     * 打开视频文件
+     * 打开视频文件, 需要保证 #state 是 IDLED
      * @param path
      */
     Q_INVOKABLE void openFile(const QString &path);
+
+    /**
+     * 关闭视频文件
+     */
+    Q_INVOKABLE void closeFile();
 
     /**
      * 开始播放视频
