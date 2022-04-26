@@ -21,8 +21,8 @@ jobs:
         id: generate-document
         uses: mattnotmitt/doxygen-action@v1.9.2
         with:
-          working-directory: /github/workspace/
-          doxyfile-path: /github/workspace/Doxyfile
+          working-directory: .
+          doxyfile-path: config/Doxyfile
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         id: publish-github-page
