@@ -20,15 +20,26 @@ typedef int64_t time_point;
 typedef int64_t time_duration;
 
 
-enum class HurricaneState {
-    INVALID,       ///< 文件无效
-    PRE_PLAY,      ///< 准备播放
-    PLAYING,       ///< 正在播放
-    STOPPED,       ///< 已停止
-    LOADING,       ///< 正在加载
-    PRE_PAUSE,     ///< 请求暂停
-    PAUSED,        ///< 已暂停
-};
+
+namespace H {
+
+    Q_NAMESPACE
+
+    enum HurricaneState {
+        CLOSING,       ///< 正在关闭当前文件, 这是一个瞬时状态
+        LOADING,       ///< 正在加载, 这是一个瞬时状态
+        INVALID,       ///< 文件无效
+        PRE_PLAY,      ///< 准备播放, 这是一个瞬时状态, 将会很快转为 @code HurricaneState::PLAYING
+        PLAYING,       ///< 正在播放
+        PRE_PAUSE,     ///< 请求暂停, 这是一个瞬时状态
+        PAUSED            ///< 已暂停
+    };
+
+    Q_ENUM_NS(HurricaneState)
+
+}
+
+using namespace H;
 
 class VideoPlayWorker : public QObject {
     Q_OBJECT
@@ -55,11 +66,13 @@ public slots:
     void onAudioStateChanged(QAudio::State state);
     void slotThreadInit();
     void slotOnWork();
+    void slotClose();
     void slotVolumeChanged(qreal v) { audioOutput->setVolume(v); }
-    void slotPause() {  pauseRequested = true; };
+    void slotPause() {  pauseRequested = true; emit signalStateChanged(HurricaneState::PAUSED); };
 signals:
     void signalImageChanged(Picture pic);
     void signalStateChanged(HurricaneState state);
+    void signalVolumeChanged(qreal v);
 };
 
 /**
@@ -76,8 +89,8 @@ signals:
  */
 class HurricanePlayer : public Hurricane {
     Q_OBJECT
-    QML_ELEMENT
     Q_ENUM(HurricaneState)
+    QML_ELEMENT
     Q_PROPERTY(HurricaneState state READ getState NOTIFY stateChanged FINAL)
     Q_PROPERTY(qreal volume READ getVolume NOTIFY volumeChanged FINAL)
 private:
@@ -98,7 +111,9 @@ public:
 signals:
 
     /**
-     * 播放器状态发生改变
+     * 播放器状态发生改变.
+     * 我们不能保证瞬时状态会转移到相应的稳定状态，所以我们不应该检测瞬时状态决定下一步的动作.
+     * 例如: PRE_PAUSE 可以被 close 被打断, 直接转移到 INVALID 而永远不会转移到 PAUSED.
      */
     void stateChanged();
 
@@ -107,6 +122,11 @@ signals:
      */
     void volumeChanged();
 
+    /**
+     * 视频播放进度由于手动调整发送改变
+     */
+    void positionChangedBySeek();
+
 
     // 下面这些方法用于与 VideoPlayWorker 通信
     // 约定两者通信的方法信号以 signal 开头, 槽函数以 slot 开头
@@ -114,72 +134,79 @@ signals:
     void signalPlayerInitializing();
     void signalPause();
     void signalResume();
+    void signalClose();
     void signalVolumeChanging(qreal v);
     void signalOpenFile(const QString &url);
 
 public slots:
 
     /**
-     * 打开视频文件, 需要保证 state 是 IDLED
-     * @param path
+     * 打开视频文件
+     * 需要保证调用时状态为 INVALID / CLOSING, 方法保证返回时状态为 LOADING
+     * 如果指定 autoClose, 则会自动调用 HurricanePlayer::close()
+     * 状态转移 INVALID -> LOADING -> PAUSED
+     * @param path 文件路径
+     * @param autoClose 如果打开视频文件, 是否自动关闭
      */
-    Q_INVOKABLE void openFile(const QString &path);
+    Q_INVOKABLE void openFile(const QString &path, bool autoClose = true);
 
 
     /**
-     * 开始播放视频,
+     * 开始播放视频
+     * 需要保证调用时状态为 PAUSED / PRE_PAUSE, 方法保证返回时状态为 PRE_PLAY
+     * 状态转移 PAUSED -> PRE_PLAY -> PLAYING
      */
     Q_INVOKABLE void start();
 
     /**
-     * 停止播放视频, 能在 PLAYING 和 PAUSE 状态使用, 不能保证立即生效, 调用后状态立即转为 REQUEST_STOP, 生效后状态转为 STOP
-     */
-    Q_INVOKABLE void stop();
-
-    /**
-     * 暂停播放视频, 仅能在 PLAYING 状态使用, 不能保证立即生效, 调用后状态立即转为 REQUEST_PAUSE, 生效后状态转为 PAUSED
-     * @see HurricanePlayer::stateChanged()
+     * 暂停播放视频
+     * 需要保证调用时状态为 PLAYING / PRE_PLAY, 方法保证返回时状态为 PRE_PAUSE
+     * 状态转移 PAUSED -> PRE_PAUSE -> PAUSED
      */
     Q_INVOKABLE void pause();
 
     /**
-     * 设置音量大小, 不能保证立即生效
+     * 关闭当前播放的视频, 这会清空组件显示
+     * 需要保证调用时的状态为 PAUSED / PRE_PAUSE, 方法保证返回时的状态为 CLOSING
+     * 状态转义 PAUSED -> CLOSING -> INVALID
+     */
+    Q_INVOKABLE void close();
+
+    /**
+     * 设置音量大小, 不能保证立即生效, 请关注音量发送变化的信号
      * @param v 音量大小, 通常在[0, 1]
      * @see HurricanePlayer::volumeChanged()
      */
     Q_INVOKABLE void setVolume(qreal v) { emit signalVolumeChanging(v); }
 
     /**
-     * 获取视频长度
+     * 获取视频长度, 需要保证状态不是 INVALID
      * @return 长度(单位: 秒)
      */
     Q_INVOKABLE qreal getAudioDuration() { return videoPlayWorker.getAudioDuration(); }
 
     /**
-     * 获取音频长度
+     * 获取音频长度, 需要保证状态不是 INVALID
      * @return 长度(单位: 秒)
      */
     Q_INVOKABLE qreal getVideoDuration() { return videoPlayWorker.getVideoDuration(); }
 
     /**
-     * 获取当前视频播放进度
+     * 获取当前视频播放进度, 需要保证状态不是 INVALID
      * @return 播放进度(单位: 秒)
      */
     Q_INVOKABLE qreal getPTS() { return picture.getPTS(); }
 
     /**
-     * 改变视频播放的进度
+     * 改变视频播放的进度, 不保证马上生效, 请关注信号
      * @param pos 播放进度(单位: 秒)
+     * @see HurricanePlayer::positionChangedBySeek
      */
     Q_INVOKABLE void seek(qreal pos) { qDebug() << "HurricanePlayer: Seek" << pos; };
-//
-//    /**
-//     * 将视频播放进度移动到指定位置
-//     * 注：这个操作不会改变视频的播放状态
-//     */
 
 
-    void slotStateChanged(HurricaneState s) { state = s; emit stateChanged(); }
+    void slotStateChanged(HurricaneState s);
+    void slotVolumeChanged(qreal v) { this->volume = v; emit volumeChanged(); };
 
 };
 
