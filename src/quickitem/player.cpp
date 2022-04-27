@@ -25,6 +25,12 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoP
     connect(&videoPlayWorker, &VideoPlayWorker::signalImageChanged, this, &HurricanePlayer::setImage);
     connect(&videoPlayWorker, &VideoPlayWorker::signalStateChanged, this, &HurricanePlayer::slotStateChanged);
     connect(&videoPlayWorker, &VideoPlayWorker::signalVolumeChanged, this, &HurricanePlayer::slotVolumeChanged);
+
+    // seek
+    connect(this, &HurricanePlayer::signalSeek, &videoPlayWorker, &VideoPlayWorker::slotSeek);
+    connect(&videoPlayWorker, &VideoPlayWorker::signalPositionChangedBySeek, this, &HurricanePlayer::slotPositionChangedBySeek);
+
+    // debug
     connect(videoThread, &QThread::destroyed, []{ qDebug() << "Video Thread delete.";});
     connect(this, &HurricanePlayer::stateChanged, [=]{
         qDebug() << "State Changed to" << QVariant::fromValue(state).toString();});

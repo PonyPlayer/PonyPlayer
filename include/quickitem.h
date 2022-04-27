@@ -32,7 +32,7 @@ namespace H {
         PRE_PLAY,      ///< 准备播放, 这是一个瞬时状态, 将会很快转为 @code HurricaneState::PLAYING
         PLAYING,       ///< 正在播放
         PRE_PAUSE,     ///< 请求暂停, 这是一个瞬时状态
-        PAUSED            ///< 已暂停
+        PAUSED         ///< 已暂停
     };
 
     Q_ENUM_NS(HurricaneState)
@@ -67,12 +67,14 @@ public slots:
     void slotThreadInit();
     void slotOnWork();
     void slotClose();
-    void slotVolumeChanged(qreal v) { audioOutput->setVolume(v); }
+    void slotVolumeChanged(qreal v) { audioOutput->setVolume(v); emit signalVolumeChanged(audioOutput->volume()); }
     void slotPause() {  pauseRequested = true; emit signalStateChanged(HurricaneState::PAUSED); };
+    void slotSeek(qreal pos) { demuxer->seek(static_cast<int64_t>(pos * 1000 * 1000)); emit signalPositionChangedBySeek();}
 signals:
     void signalImageChanged(Picture pic);
     void signalStateChanged(HurricaneState state);
     void signalVolumeChanged(qreal v);
+    void signalPositionChangedBySeek();
 };
 
 /**
@@ -137,6 +139,7 @@ signals:
     void signalClose();
     void signalVolumeChanging(qreal v);
     void signalOpenFile(const QString &url);
+    void signalSeek(qreal pos);
 
 public slots:
 
@@ -168,7 +171,7 @@ public slots:
     /**
      * 关闭当前播放的视频, 这会清空组件显示
      * 需要保证调用时的状态为 PAUSED / PRE_PAUSE, 方法保证返回时的状态为 CLOSING
-     * 状态转义 PAUSED -> CLOSING -> INVALID
+     * 状态转移 PAUSED -> CLOSING -> INVALID
      */
     Q_INVOKABLE void close();
 
@@ -199,15 +202,31 @@ public slots:
 
     /**
      * 改变视频播放的进度, 不保证马上生效, 请关注信号
+     * 需要保证当前状态为 PAUSE, PRE_PAUSE, PLAYING 或 PRE_PLAY
      * @param pos 播放进度(单位: 秒)
      * @see HurricanePlayer::positionChangedBySeek
      */
-    Q_INVOKABLE void seek(qreal pos) { qDebug() << "HurricanePlayer: Seek" << pos; };
+    Q_INVOKABLE void seek(qreal pos) {
+        switch(state) {
+            case HurricaneState::PAUSED:
+            case HurricaneState::PRE_PAUSE:
+            case HurricaneState::PLAYING:
+            case HurricaneState::PRE_PLAY:
+                break;
+            default:
+                return;
+        }
+        if (pos < 0 || pos > getVideoDuration())
+            return;
+        emit signalSeek(pos);
+        qDebug() << "HurricanePlayer: Seek" << pos;
+
+    };
 
 
     void slotStateChanged(HurricaneState s);
     void slotVolumeChanged(qreal v) { this->volume = v; emit volumeChanged(); };
-
+    void slotPositionChangedBySeek() { emit positionChangedBySeek(); }
 };
 
 
