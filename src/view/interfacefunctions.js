@@ -82,32 +82,30 @@ function playOrPauseFunction(){
 }
 
 function volumnUp(){
-    if(volumnSlider.value<90){
-        volumnSlider.value=volumnSlider.value+10
-        mainWindow.volumn=volumnSlider.value
-        mainWindow.beforeMute=volumnSlider.value
-        mainWindow.volumnChange(volumnSlider.value)
+    if(mainWindow.volumn<0.9){
+        mainWindow.volumn=mainWindow.volumn+0.1
+        mainWindow.beforeMute=mainWindow.volumn
+        volumnSlider.value=mainWindow.volumn*100
     }
     else{
-        mainWindow.volumn=100
-        mainWindow.beforeMute=100
+        mainWindow.volumn=1
+        mainWindow.beforeMute=1
         volumnSlider.value=100
-        mainWindow.volumnChange(volumnSlider.value)
     }
+    mainWindow.volumnChange(mainWindow.volumn)
 }
 function volumnDown(){
-    if(volumnSlider.value<10){
+    if(mainWindow.volumn<0.1){
         mainWindow.volumn=0
         mainWindow.beforeMute=0
         volumnSlider.value=0
-        mainWindow.volumnChange(volumnSlider.value)
     }
     else{
-        volumnSlider.value=volumnSlider.value-10
-        mainWindow.volumn=volumnSlider.value
-        mainWindow.beforeMute=volumnSlider.value
-        mainWindow.volumnChange(volumnSlider.value)
+        mainWindow.volumn=mainWindow.volumn-0.1
+        mainWindow.beforeMute=mainWindow.volumn
+        volumnSlider.value=mainWindow.volumn*100
     }
+    mainWindow.volumnChange(mainWindow.volumn)
 }
 function screenSizeFunction(){
     if(mainWindow.isFullScreen){

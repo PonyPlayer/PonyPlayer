@@ -453,12 +453,14 @@ Rectangle {
                 onClicked: {
                     if(mainWindow.volumn===0){
                         mainWindow.volumn=mainWindow.beforeMute
+                        volumnSlider.value=Math.floor(mainWindow.volumn*100)
                     }
                     else{
                         mainWindow.beforeMute=mainWindow.volumn
                         mainWindow.volumn=0
+                        volumnSlider.value=0
                     }
-                    mainWindow.volumnChange(volumnSlider.value)
+                    mainWindow.volumnChange(mainWindow.volumn)
                 }
             }
         }
@@ -472,11 +474,11 @@ Rectangle {
             anchors.top: parent.top
             from: 0
             to: 100
-            value: mainWindow.volumn
+            value: mainWindow.volumn*100
             onMoved: {
-                mainWindow.volumn=volumnSlider.value
-                mainWindow.beforeMute=volumnSlider.value
-                mainWindow.volumnChange(volumnSlider.value)
+                mainWindow.volumn=volumnSlider.value/100
+                mainWindow.beforeMute=volumnSlider.value/100
+                mainWindow.volumnChange(mainWindow.volumn)
             }
             Shortcut{
                 sequence: "Ctrl+Down"

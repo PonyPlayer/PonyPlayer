@@ -51,9 +51,9 @@ Window {
     //播放倍速
     property real speed: 1.0
     //播放音量
-    property int volumn: 25
+    property real volumn: 0.25
     //播放音量的辅助(可无视)
-    property int beforeMute
+    property real beforeMute: 0.25
     //播放时滚动条的步长(倒放时为  -1)
     property int step: 1
     //播放器界面的当前宽度
@@ -77,7 +77,7 @@ Window {
     //倒放
     signal inverted()
     //音量改变
-    signal volumnChange(int vol)
+    signal volumnChange(real vol)
     //播放进度改变
     signal currentTimeChange(int cur)
     //播放模式改变
