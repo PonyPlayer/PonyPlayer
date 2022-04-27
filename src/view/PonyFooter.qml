@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import "interfacefunctions.js" as IF
+import HurricanePlayer
 Rectangle {
     id:footer
     height: mainWindow.isFooterVisable?80:0
@@ -479,6 +480,7 @@ Rectangle {
                 mainWindow.volumn=volumnSlider.value/100
                 mainWindow.beforeMute=volumnSlider.value/100
                 mainWindow.volumnChange(mainWindow.volumn)
+                HurricanePlayer.setVolume(mainWindow.volumn)
             }
             Shortcut{
                 sequence: "Ctrl+Down"
