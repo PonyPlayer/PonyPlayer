@@ -129,17 +129,18 @@ signals:
      */
     void positionChangedBySeek();
 
+Q_SIGNALS:
 
     // 下面这些方法用于与 VideoPlayWorker 通信
     // 约定两者通信的方法信号以 signal 开头, 槽函数以 slot 开头
     // 约定信号只能由所属的类的实例 emit
-    void signalPlayerInitializing();
-    void signalPause();
-    void signalResume();
-    void signalClose();
-    void signalVolumeChanging(qreal v);
-    void signalOpenFile(const QString &url);
-    void signalSeek(qreal pos);
+    void signalPlayerInitializing(QPrivateSignal);
+    void signalPause(QPrivateSignal);
+    void signalResume(QPrivateSignal);
+    void signalClose(QPrivateSignal);
+    void signalVolumeChanging(qreal v, QPrivateSignal);
+    void signalOpenFile(const QString &url, QPrivateSignal);
+    void signalSeek(qreal pos, QPrivateSignal);
 
 public slots:
 
@@ -180,7 +181,7 @@ public slots:
      * @param v 音量大小, 通常在[0, 1]
      * @see HurricanePlayer::volumeChanged()
      */
-    Q_INVOKABLE void setVolume(qreal v) { emit signalVolumeChanging(v); }
+    Q_INVOKABLE void setVolume(qreal v) { qDebug() << "setVolume" << v; emit signalVolumeChanging(v, QPrivateSignal()); }
 
     /**
      * 获取视频长度, 需要保证状态不是 INVALID
@@ -218,7 +219,7 @@ public slots:
         }
         if (pos < 0 || pos > getVideoDuration())
             return;
-        emit signalSeek(pos);
+        emit signalSeek(pos, QPrivateSignal());
         qDebug() << "HurricanePlayer: Seek" << pos;
 
     };

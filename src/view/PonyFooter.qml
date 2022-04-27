@@ -480,7 +480,7 @@ Rectangle {
                 mainWindow.volumn=volumnSlider.value/100
                 mainWindow.beforeMute=volumnSlider.value/100
                 mainWindow.volumnChange(mainWindow.volumn)
-                HurricanePlayer.setVolume(mainWindow.volumn)
+                videoArea.setVolume(mainWindow.volumn)
             }
             Shortcut{
                 sequence: "Ctrl+Down"

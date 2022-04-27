@@ -34,7 +34,7 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoP
     connect(videoThread, &QThread::destroyed, []{ qDebug() << "Video Thread delete.";});
     connect(this, &HurricanePlayer::stateChanged, [=]{
         qDebug() << "State Changed to" << QVariant::fromValue(state).toString();});
-    emit signalPlayerInitializing();
+    emit signalPlayerInitializing(QPrivateSignal());
 #ifdef DEBUG_FLAG_AUTO_OPEN
     openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/581518754-1-208.mp4"_qs)).url());
 #endif
@@ -52,7 +52,7 @@ void HurricanePlayer::openFile(const QString &path, bool autoClose) {
         }
         state = HurricaneState::LOADING;
         emit stateChanged();
-        emit signalOpenFile(path);
+        emit signalOpenFile(path, QPrivateSignal());
         qDebug() << "HurricanePlayer: Open file:" << path;
     }
 }
@@ -61,7 +61,7 @@ void HurricanePlayer::start() {
     if (state == HurricaneState::PAUSED || state == HurricaneState::PRE_PAUSE) {
         state = HurricaneState::PLAYING;
         emit stateChanged();
-        emit signalResume();
+        emit signalResume(QPrivateSignal());
         qDebug() << "HurricanePlayer: Start play video.";
     }
 }
@@ -70,7 +70,7 @@ void HurricanePlayer::pause() {
     if (state == HurricaneState::PLAYING || state == HurricaneState::PRE_PLAY) {
         state = HurricaneState::PRE_PAUSE;
         emit stateChanged();
-        emit signalPause();
+        emit signalPause(QPrivateSignal());
         qDebug() << "HurricanePlayer: Pause.";
     }
 }
@@ -83,12 +83,12 @@ void HurricanePlayer::close() {
         this->setImage(Picture());
         // wait renderer thread to sync to ensure origin picture data is not used anymore
         QCoreApplication::processEvents();
-        emit signalClose();
+        emit signalClose(QPrivateSignal());
     }
 }
 
 HurricanePlayer::~HurricanePlayer() {
-    emit signalPause();
+    emit signalPause(QPrivateSignal());
     videoThread->quit();
     videoThread->deleteLater();
 }
