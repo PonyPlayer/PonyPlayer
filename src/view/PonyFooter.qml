@@ -56,6 +56,7 @@ Rectangle {
             }
             mainWindow.currentTime=videoSlide.value
             mainWindow.currentTimeChange(videoSlide.value)
+            videoArea.seek(mainWindow.currentTime)
         }
 
         onPressedChanged: {
@@ -284,6 +285,7 @@ Rectangle {
                 mainWindow.isPlay=false
                 mainWindow.currentTime=0
                 videoSlide.value=0
+                videoArea.close()
             }
         }
     }

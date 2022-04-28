@@ -47,7 +47,7 @@ Window {
     //音视频的当前时间
     property int currentTime: 0
     //音视频的时间长度
-    property int endTime: 100
+    property int endTime: 0
     //播放倍速
     property real speed: 1.0
     //播放音量
@@ -157,6 +157,8 @@ Window {
                     title: "choose video"
                     onAccepted: {
                         mainWindow.openFile(fileDialog.currentFile);
+                        mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+                        console.log(videoArea.getVideoDuration())
                     }
                     onRejected: {
                         console.log("reject")
