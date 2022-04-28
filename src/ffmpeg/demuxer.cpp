@@ -3,29 +3,30 @@
 //
 
 #include "demuxer.h"
+#include <QDebug>
 
 void debugErr(std::string prefix, int err) {
     char errBuf[512] = {0};
     av_strerror(err, errBuf, sizeof(errBuf));
-    printf("%s: %s\n", prefix.c_str(), errBuf);
+    qWarning("%s: %s\n", prefix.c_str(), errBuf);
 }
 
 int Demuxer::initVideoState() {
     auto videoCodecPara = fmtCtx->streams[videoStreamIndex]->codecpar;
     if (!(videoCodec = const_cast<AVCodec *>(avcodec_find_decoder(videoCodecPara->codec_id)))) {
-        printf("Cannot find valid video decode codec.\n");
+        qWarning("Cannot find valid video decode codec.\n");
         return -1;
     }
     if (!(videoCodecCtx = avcodec_alloc_context3(videoCodec))) {
-        printf("Cannot find valid video decode codec context.\n");
+        qWarning("Cannot find valid video decode codec context.\n");
         return -1;
     }
     if (avcodec_parameters_to_context(videoCodecCtx, videoCodecPara) < 0) {
-        printf("Cannot initialize videoCodecCtx.\n");
+        qWarning("Cannot initialize videoCodecCtx.\n");
         return -1;
     }
     if (avcodec_open2(videoCodecCtx, videoCodec, nullptr) < 0) {
-        printf("Cannot open codec.\n");
+        qWarning("Cannot open codec.\n");
         return -1;
     }
 
@@ -36,21 +37,21 @@ int Demuxer::initVideoState() {
 int Demuxer::initAudioState() {
     auto audioCodecPara = fmtCtx->streams[audioStreamIndex]->codecpar;
     if (!(audioCodec = const_cast<AVCodec *>(avcodec_find_decoder(audioCodecPara->codec_id)))) {
-        printf("Cannot find valid audio decode codec.\n");
+        qWarning("Cannot find valid audio decode codec.\n");
         return -1;
     }
     if (!(audioCodecCtx = avcodec_alloc_context3(audioCodec))) {
-        printf("Cannot find valid audio decode codec context.\n");
+        qWarning("Cannot find valid audio decode codec context.\n");
         return -1;
     }
 
     if (avcodec_parameters_to_context(audioCodecCtx, audioCodecPara) < 0) {
-        printf("Cannot initialize audioCodecCtx.\n");
+        qWarning("Cannot initialize audioCodecCtx.\n");
         return -1;
     }
 
     if (avcodec_open2(audioCodecCtx, audioCodec, nullptr) < 0) {
-        printf("Cannot open codec.\n");
+        qWarning("Cannot open codec.\n");
         return -1;
     }
 
@@ -62,7 +63,7 @@ int Demuxer::initAudioState() {
                                 audioCodecCtx->sample_rate, 0, nullptr);
 
     if (!swrCtx) {
-        printf("can not initialize swrCtx\n");
+        qWarning("can not initialize swrCtx\n");
         return -1;
     }
 
@@ -73,7 +74,7 @@ int Demuxer::initAudioState() {
     }
 
     if (!(audioOutBuf = static_cast<uint8_t *>(av_malloc(2 * MAX_AUDIO_FRAME_SIZE)))) {
-        printf("oom: can not alloc audioOutBuf\n");
+        qWarning("oom: can not alloc audioOutBuf\n");
         return -1;
     }
 
@@ -92,12 +93,12 @@ int Demuxer::openFile(std::string inputFileName) {
 
 int Demuxer::openFile() {
     if (avformat_open_input(&fmtCtx, filename.c_str(), nullptr, nullptr) < 0) {
-        printf("Cannot open input file.\n");
+        qWarning("Cannot open input file.\n");
         goto error;
     }
 
     if (avformat_find_stream_info(fmtCtx, nullptr) < 0) {
-        printf("Cannot find any stream in file.\n");
+        qWarning("Cannot find any stream in file.\n");
         goto error;
     }
 
@@ -110,31 +111,30 @@ int Demuxer::openFile() {
     }
 
     if (videoStreamIndex < 0) {
-        printf("Cannot find video stream in file.\n");
+        qWarning("Cannot find video stream in file.\n");
     }
 
     if (audioStreamIndex < 0) {
-        printf("Cannot find audio stream in file.\n");
+        qWarning("Cannot find audio stream in file.\n");
     }
 
     if (audioStreamIndex < 0 && videoStreamIndex < 0) {
-        printf("can find any stream\n");
+        qWarning("can find any stream\n");
         goto error;
     }
 
     if (videoStreamIndex >= 0 && initVideoState() < 0) {
-        printf("error init video state\n");
+        qWarning("error init video state\n");
         goto error;
     }
 
     if (audioStreamIndex >= 0 && initAudioState() < 0) {
-        printf("error init audio state\n");
+        qWarning("error init audio state\n");
         goto error;
     }
 
     isEof = false;
     isPause = false;
-    printf("finish\n");
     return 1;
 
     error:
@@ -147,11 +147,12 @@ void Demuxer::initDemuxer() {
     workerDemuxer = std::thread(&Demuxer::demuxer, this);
 }
 
-void Demuxer::seek(int64_t us) {
+int Demuxer::seek(int64_t us) {
     isSeek = true;
     targetUs = us;
     while (!seekFinish)
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    return seekRet;
 }
 
 void Demuxer::quit() {
@@ -173,12 +174,14 @@ void Demuxer::demuxer() {
             break;
         }
 
-
         if (isSeek) {
             seekCleanUp();
             if (fmtCtx) {
-                av_seek_frame(fmtCtx, -1,
+                seekRet = av_seek_frame(fmtCtx, -1,
                               targetUs / 1000000.0 * AV_TIME_BASE, AVSEEK_FLAG_BACKWARD);
+                if (seekRet < 0) {
+                    debugErr("av_seek_frame", seekRet);
+                }
                 isPause = false;
                 isEof = false;
             }
@@ -254,7 +257,7 @@ void Demuxer::demuxer() {
         }
         av_packet_unref(pkt);
     }
-    printf("demuxer quit\n");
+    qDebug("demuxer quit\n");
 }
 
 Picture Demuxer::getPicture(bool block) {

@@ -67,6 +67,7 @@ private:
 
     bool isSeek{};
     int targetUs{};
+    int seekRet{};
     bool seekFinish{};
 
     bool needFlush{};
@@ -131,8 +132,9 @@ public:
     /**
      * 跳转到指定时间点
      * @param us 微秒时间戳
+     * @return >=0表示成功，否则失败
      */
-    void seek(int64_t us);
+    int seek(int64_t us);
 
     /**
      * 获取视频流的长度

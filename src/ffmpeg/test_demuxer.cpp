@@ -178,7 +178,7 @@ void test_seek(std::string filename) {
         for (int i = 0; i < 5; i++) {
             while (true) {
                 auto picture = demuxer.getPicture(true);
-                //auto sample = demuxer.getSample(true);
+                auto sample = demuxer.getSample(true);
                 if (picture.isValid()) {
                     demuxer.popPicture();
                     ++videoCnt;
@@ -188,15 +188,19 @@ void test_seek(std::string filename) {
                 else {
                     break;
                 }
+                if (sample.isValid()) {
+                    demuxer.popSample();
+                    sample.free();
+                }
                 if (quit) {
                     return ;
                 }
             }
             printf("round %d\n", i);
-            demuxer.seek(0);
+            demuxer.seek(8*1000000);
         }
     });
-    std::this_thread::sleep_for(std::chrono::seconds(20));
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     quit = true;
     demuxer.quit();
     worker.join();
