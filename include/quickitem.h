@@ -59,7 +59,8 @@ public:
     qreal getAudioDuration() { return demuxer->audioDuration(); }
     qreal getVideoDuration() { return demuxer->videoDuration(); }
 private:
-    inline time_point getProcessedAudioUSecs();
+    inline time_point getAudioPlayingUSecs();
+    inline void closeAudio();
     inline void syncTo(double pts);
 public slots:
     void slotOpenFile(const QString &path);
@@ -68,8 +69,8 @@ public slots:
     void slotOnWork();
     void slotClose();
     void slotVolumeChanged(qreal v) { audioOutput->setVolume(v); emit signalVolumeChanged(audioOutput->volume()); }
-    void slotPause() {  pauseRequested = true; emit signalStateChanged(HurricaneState::PAUSED); };
-    void slotSeek(qreal pos) { demuxer->seek(static_cast<int64_t>(pos * 1000 * 1000)); emit signalPositionChangedBySeek();}
+    void slotPause();;
+    void slotSeek(qreal pos);
 signals:
     void signalImageChanged(Picture pic);
     void signalStateChanged(HurricaneState state);
@@ -78,13 +79,15 @@ signals:
 };
 
 /**
+ * @brief
  * 播放器 QuickItem 组件，提供暴露给 QML 的接口。
- * 我们完全采用异步通信的思想，这里的大部分方法都会直接返回。我们只需要关注一些事件（信号）更新 UI 的状态即可。
- * 我们的部分方法仅在特定状态才能使用，需要特别注意。例如：打开视频文件可以分为两个操作：stop（如果当前正在播放视频，需要先停止播放）和 openFile。
- * 也就是说，如果正在播放视频，必须先调用 stop 确保停止播放后再调用 openFile，否则 openFile 请求会被忽略。因此，一种正确的做法是先判断 state
- * 是否为 PLAYING（正在播放视频），如果不是，先调用 stop。由于我们的方法调用是异步的，所以其实我们不能保证方法返回后状态会马上发生改变。保险的做法
- * 需要关注 stateChanged 事件再进行下一步动作，这会大大增加编码的复杂度。幸运地，部分方法我们可以提供状态立刻发生变换的保证（见方法注释）。
- * 我们会在注释中说明调用的条件和状态转换。
+ * @details
+ * 我们完全采用异步通信的思想，这里的大部分方法都会直接返回。我们只需要关注一些事件（信号）更新 UI 的状态即可。我们的部分方法仅在特定状态才能
+ * 使用，需要特别注意。例如：打开视频文件可以分为两个操作：stop（如果当前正在播放视频，需要先停止播放）和 openFile。也就是说，如果正在播放视
+ * 频，必须先调用 stop 确保停止播放后再调用 openFile，否则 openFile 请求会被忽略。因此，一种正确的做法是先判断 state 是否为 PLAYING
+ * （正在播放视频），如果不是，先调用 stop。由于我们的方法调用是异步的，所以其实我们不能保证方法返回后状态会马上发生改变。保险的做法需要关注
+ * stateChanged 事件再进行下一步动作，这会大大增加编码的复杂度。幸运地，部分方法我们可以提供状态立刻发生变换的保证（见方法注释）。我们会在注
+ * 释中说明调用的条件和状态转换。
  *
  * @see HurricaneState
  * @see HurricanePlayer::stateChanged()
@@ -208,6 +211,7 @@ public slots:
      * @see HurricanePlayer::positionChangedBySeek
      */
     Q_INVOKABLE void seek(qreal pos) {
+        // only available on PLAY/PAUSE
         switch(state) {
             case HurricaneState::PAUSED:
             case HurricaneState::PRE_PAUSE:
@@ -224,7 +228,7 @@ public slots:
 
     };
 
-
+private slots:
     void slotStateChanged(HurricaneState s);
     void slotVolumeChanged(qreal v) { this->volume = v; emit volumeChanged(); };
     void slotPositionChangedBySeek() { emit positionChangedBySeek(); }
