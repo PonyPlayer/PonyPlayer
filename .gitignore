@@ -38,3 +38,4 @@ build
 app
 cmake/find_dependence.cmake
 config/user.json
+docs/html

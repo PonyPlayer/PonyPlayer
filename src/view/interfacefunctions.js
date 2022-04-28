@@ -65,6 +65,7 @@ function backFiveSeconds(){
 }
 
 function playOrPauseFunction(){
+    console.log(videoArea.getVideoDuration())
     if(!mainWindow.isPlay){
         if(mainWindow.endTime!==0){
             mainWindow.isPlay=true
@@ -80,34 +81,43 @@ function playOrPauseFunction(){
         mainWindow.stop()
     }
 }
-
+function solveStateChanged(){
+    videoArea.state
+    if(videoArea.state==1){
+        console.log("loading now")
+    }
+    else if(videoArea.state==0){
+        toPause()
+    }
+    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+}
 function volumnUp(){
-    if(volumnSlider.value<90){
-        volumnSlider.value=volumnSlider.value+10
-        mainWindow.volumn=volumnSlider.value
-        mainWindow.beforeMute=volumnSlider.value
-        mainWindow.volumnChange(volumnSlider.value)
+    if(mainWindow.volumn<0.9){
+        mainWindow.volumn=mainWindow.volumn+0.1
+        mainWindow.beforeMute=mainWindow.volumn
+        volumnSlider.value=mainWindow.volumn*100
     }
     else{
-        mainWindow.volumn=100
-        mainWindow.beforeMute=100
+        mainWindow.volumn=1
+        mainWindow.beforeMute=1
         volumnSlider.value=100
-        mainWindow.volumnChange(volumnSlider.value)
     }
+    mainWindow.volumnChange(mainWindow.volumn)
+    videoArea.setVolume(mainWindow.volumn)
 }
 function volumnDown(){
-    if(volumnSlider.value<10){
+    if(mainWindow.volumn<0.1){
         mainWindow.volumn=0
         mainWindow.beforeMute=0
         volumnSlider.value=0
-        mainWindow.volumnChange(volumnSlider.value)
     }
     else{
-        volumnSlider.value=volumnSlider.value-10
-        mainWindow.volumn=volumnSlider.value
-        mainWindow.beforeMute=volumnSlider.value
-        mainWindow.volumnChange(volumnSlider.value)
+        mainWindow.volumn=mainWindow.volumn-0.1
+        mainWindow.beforeMute=mainWindow.volumn
+        volumnSlider.value=mainWindow.volumn*100
     }
+    mainWindow.volumnChange(mainWindow.volumn)
+    videoArea.setVolume(mainWindow.volumn)
 }
 function screenSizeFunction(){
     if(mainWindow.isFullScreen){
@@ -119,5 +129,11 @@ function screenSizeFunction(){
         mainWindow.visibility=showFullScreen()
     }
 }
-
+function toPause(){
+    mainWindow.cease()
+    mainWindow.isPlay=false
+    mainWindow.currentTime=0
+    videoSlide.value=0
+    videoArea.close()
+}
 

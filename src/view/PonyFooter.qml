@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import "interfacefunctions.js" as IF
+import HurricanePlayer
 Rectangle {
     id:footer
     height: mainWindow.isFooterVisable?80:0
@@ -55,13 +56,11 @@ Rectangle {
             }
             mainWindow.currentTime=videoSlide.value
             mainWindow.currentTimeChange(videoSlide.value)
+
         }
 
         onPressedChanged: {
-            if(mainWindow.isPlay){
-                mainWindow.isPlay=false
-                mainWindow.stop()
-            }
+            videoArea.seek(mainWindow.currentTime)
         }
         Shortcut{
             sequence: "Up"
@@ -279,10 +278,7 @@ Rectangle {
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
             onClicked: {
-                mainWindow.cease()
-                mainWindow.isPlay=false
-                mainWindow.currentTime=0
-                videoSlide.value=0
+                IF.toPause()
             }
         }
     }
@@ -453,12 +449,15 @@ Rectangle {
                 onClicked: {
                     if(mainWindow.volumn===0){
                         mainWindow.volumn=mainWindow.beforeMute
+                        volumnSlider.value=Math.floor(mainWindow.volumn*100)
                     }
                     else{
                         mainWindow.beforeMute=mainWindow.volumn
                         mainWindow.volumn=0
+                        volumnSlider.value=0
                     }
-                    mainWindow.volumnChange(volumnSlider.value)
+                    mainWindow.volumnChange(mainWindow.volumn)
+                    videoArea.setVolume(mainWindow.volumn)
                 }
             }
         }
@@ -472,11 +471,12 @@ Rectangle {
             anchors.top: parent.top
             from: 0
             to: 100
-            value: mainWindow.volumn
+            value: mainWindow.volumn*100
             onMoved: {
-                mainWindow.volumn=volumnSlider.value
-                mainWindow.beforeMute=volumnSlider.value
-                mainWindow.volumnChange(volumnSlider.value)
+                mainWindow.volumn=volumnSlider.value/100
+                mainWindow.beforeMute=volumnSlider.value/100
+                mainWindow.volumnChange(mainWindow.volumn)
+                videoArea.setVolume(mainWindow.volumn)
             }
             Shortcut{
                 sequence: "Ctrl+Down"

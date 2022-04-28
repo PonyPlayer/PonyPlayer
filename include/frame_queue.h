@@ -28,37 +28,43 @@ struct Picture {
     /**
      * @return 图像数据是否有效
      */
-    bool isValid() {
+    [[nodiscard]] inline bool isValid() {
         return valid;
     }
 
-    double getPTS() {
+    [[nodiscard]] inline double getPTS() {
         return pts;
     }
 
-    [[nodiscard]] uint8_t *getY() const {
+    [[nodiscard]] inline uint8_t *getY() const {
         return frame->data[0];
     }
 
-    [[nodiscard]] uint8_t *getU() const {
+    [[nodiscard]] inline uint8_t *getU() const {
         return frame->data[1];
     }
 
-    [[nodiscard]] uint8_t *getV() const {
+    [[nodiscard]] inline uint8_t *getV() const {
         return frame->data[2];
     }
 
-    [[nodiscard]] int getLineSize() const {
+    [[nodiscard]] inline int getLineSize() const {
         return frame->linesize[0];
     }
 
-    [[nodiscard]] int getWidth() const {
+    [[nodiscard]] inline int getWidth() const {
         return frame->width;
     }
 
-    [[nodiscard]] int getHeight() const {
+    [[nodiscard]] inline int getHeight() const {
         return frame->height;
     }
+
+    [[nodiscard]] inline bool isFree() const {
+        return !frame;
+    }
+
+
 
     /**
      * 如果picture不包含有效数据，不要调用free
