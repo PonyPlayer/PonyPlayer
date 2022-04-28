@@ -304,10 +304,8 @@ Window {
                         }
                     }
                 }
-                onStateChanged:{
-                    console.log("state is :  "+videoArea.state)
-                    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
-                }
+
+                onStateChanged:IF.solveStateChanged()
                 Component.onCompleted: {
                         mainWindow.start.connect(videoArea.start)
                         mainWindow.stop.connect(videoArea.pause)

@@ -81,7 +81,10 @@ function playOrPauseFunction(){
         mainWindow.stop()
     }
 }
-
+function solveStateChanged(){
+    console.log("state is :  "+videoArea.state)
+    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+}
 function volumnUp(){
     if(mainWindow.volumn<0.9){
         mainWindow.volumn=mainWindow.volumn+0.1
