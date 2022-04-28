@@ -56,7 +56,7 @@ Rectangle {
             }
             mainWindow.currentTime=videoSlide.value
             mainWindow.currentTimeChange(videoSlide.value)
-            videoArea.seek(mainWindow.currentTime)
+
         }
 
         onPressedChanged: {
@@ -64,6 +64,8 @@ Rectangle {
                 mainWindow.isPlay=false
                 mainWindow.stop()
             }
+            videoArea.seek(mainWindow.currentTime)
+            console.log("xxxxxx")
         }
         Shortcut{
             sequence: "Up"
