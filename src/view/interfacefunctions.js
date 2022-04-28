@@ -82,7 +82,13 @@ function playOrPauseFunction(){
     }
 }
 function solveStateChanged(){
-    console.log("state is :  "+videoArea.state)
+    videoArea.state
+    if(videoArea.state==1){
+        console.log("loading now")
+    }
+    else if(videoArea.state==0){
+        toPause()
+    }
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
 }
 function volumnUp(){
@@ -97,6 +103,7 @@ function volumnUp(){
         volumnSlider.value=100
     }
     mainWindow.volumnChange(mainWindow.volumn)
+    videoArea.setVolume(mainWindow.volumn)
 }
 function volumnDown(){
     if(mainWindow.volumn<0.1){
@@ -110,6 +117,7 @@ function volumnDown(){
         volumnSlider.value=mainWindow.volumn*100
     }
     mainWindow.volumnChange(mainWindow.volumn)
+    videoArea.setVolume(mainWindow.volumn)
 }
 function screenSizeFunction(){
     if(mainWindow.isFullScreen){
@@ -121,5 +129,11 @@ function screenSizeFunction(){
         mainWindow.visibility=showFullScreen()
     }
 }
-
+function toPause(){
+    mainWindow.cease()
+    mainWindow.isPlay=false
+    mainWindow.currentTime=0
+    videoSlide.value=0
+    videoArea.close()
+}
 

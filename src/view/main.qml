@@ -304,7 +304,11 @@ Window {
                         }
                     }
                 }
-
+                onVolumeChangedFail:{
+                    mainWindow.volumn=current
+                    mainWindow.beforeMute=current
+                    volumnSlider=current*100
+                }
                 onStateChanged:IF.solveStateChanged()
                 Component.onCompleted: {
                         mainWindow.start.connect(videoArea.start)
@@ -331,9 +335,7 @@ Window {
         anchors.bottom: parent.bottom
         Component.onCompleted: {
             mainWindow.setSpeed.connect(femo)
-            mainWindow.start.connect(statata)
         }
-        function statata(){console.log("start")}
         function femo(spe){
             console.log(spe)
         }

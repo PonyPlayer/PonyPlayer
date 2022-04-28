@@ -61,7 +61,6 @@ Rectangle {
 
         onPressedChanged: {
             videoArea.seek(mainWindow.currentTime)
-            console.log("xxxxxx")
         }
         Shortcut{
             sequence: "Up"
@@ -279,11 +278,7 @@ Rectangle {
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
             onClicked: {
-                mainWindow.cease()
-                mainWindow.isPlay=false
-                mainWindow.currentTime=0
-                videoSlide.value=0
-                videoArea.close()
+                IF.toPause()
             }
         }
     }
@@ -462,6 +457,7 @@ Rectangle {
                         volumnSlider.value=0
                     }
                     mainWindow.volumnChange(mainWindow.volumn)
+                    videoArea.setVolume(mainWindow.volumn)
                 }
             }
         }
