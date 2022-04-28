@@ -60,10 +60,6 @@ Rectangle {
         }
 
         onPressedChanged: {
-            if(mainWindow.isPlay){
-                mainWindow.isPlay=false
-                mainWindow.stop()
-            }
             videoArea.seek(mainWindow.currentTime)
             console.log("xxxxxx")
         }
