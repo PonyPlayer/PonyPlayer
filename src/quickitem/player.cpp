@@ -115,6 +115,9 @@ void VideoPlayWorker::syncTo(double pts) {
     auto target = static_cast<int64_t>(pts * 1000 * 1000); // us
     auto current = getAudioPlayingUSecs() + seekPoint; // us
     auto duration = target - current;
+    if (duration > 1000L * 100L) {
+        qWarning() << "Sleep long duration" << duration << "us";
+    }
     if (duration > 0) {
         QThread::usleep(static_cast<unsigned long>(duration));
     } else {
@@ -234,6 +237,7 @@ void VideoPlayWorker::slotSeek(qreal pos) {
     bool isSuspended = audioOutput->state() == QAudio::SuspendedState;
     seekPoint = t;
     closeAudio();
+    qWarning() << "Warning" << audioOutput->elapsedUSecs();
 
     // time consuming task
     demuxer->seek(t);

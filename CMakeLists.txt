@@ -23,6 +23,8 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
+set(PONY_ICON ${CMAKE_SOURCE_DIR}/assets/ponyicon.png)
+
 set(FFmpeg)
 foreach(LIB IN LISTS FFMPEG_LIBS)
     find_library(FFmpeg_FOUND_${LIB} NAMES ${LIB} HINTS "${FFMPEG_PREFIX_PATH}/lib/" REQUIRED)
