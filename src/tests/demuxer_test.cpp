@@ -17,5 +17,5 @@ TEST(audio_test, test_audio) {
 }
 
 TEST(seek_test, test_seek) {
-    test_seek("D:/test_video/weird.mov");
+    test_seek("D:/test_video/1.mp4");
 }

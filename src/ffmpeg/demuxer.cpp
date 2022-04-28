@@ -82,11 +82,13 @@ int Demuxer::initAudioState() {
 }
 
 int Demuxer::openFile(std::string inputFileName) {
+    std::unique_lock<std::mutex> ul(opLock);
     filename = inputFileName;
     needFlush = true;
     flushFinish = 0;
     while (flushFinish == 0) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        // std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        opCv.wait(ul);
     }
     return flushFinish;
 }
@@ -148,10 +150,13 @@ void Demuxer::initDemuxer() {
 }
 
 int Demuxer::seek(int64_t us) {
+    std::unique_lock<std::mutex> ul(opLock);
     isSeek = true;
+    seekFinish = false;
     targetUs = us;
-    while (!seekFinish)
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    while (!seekFinish) {
+        opCv.wait(ul);
+    }
     return seekRet;
 }
 
@@ -174,27 +179,34 @@ void Demuxer::demuxer() {
             break;
         }
 
-        if (isSeek) {
-            seekCleanUp();
-            if (fmtCtx) {
-                seekRet = av_seek_frame(fmtCtx, -1,
-                              targetUs / 1000000.0 * AV_TIME_BASE, AVSEEK_FLAG_BACKWARD);
-                if (seekRet < 0) {
-                    debugErr("av_seek_frame", seekRet);
+        {
+            std::unique_lock<std::mutex> ul(opLock);
+            if (isSeek) {
+                seekCleanUp();
+                if (fmtCtx) {
+                    seekRet = av_seek_frame(fmtCtx, -1,
+                                            static_cast<int64_t>(targetUs / 1000000.0 * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
+                    if (seekRet < 0) {
+                        debugErr("av_seek_frame", seekRet);
+                    }
+                    isPause = false;
+                    isEof = false;
                 }
-                isPause = false;
-                isEof = false;
+                seekFinish = true;
+                isSeek = false;
+                opCv.notify_all();
+                ul.unlock();
+                continue;
             }
-            seekFinish = true;
-            isSeek = false;
-            continue;
-        }
 
-        if (needFlush) {
-            cleanUp();
-            flushFinish = openFile();
-            needFlush = false;
-            continue;
+            if (needFlush) {
+                cleanUp();
+                flushFinish = openFile();
+                needFlush = false;
+                opCv.notify_all();
+                ul.unlock();
+                continue;
+            }
         }
 
         if (isPause || isEof) {

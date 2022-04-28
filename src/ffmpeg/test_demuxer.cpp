@@ -170,34 +170,32 @@ void test_seek(std::string filename) {
 
     demuxer.openFile(filename);
 
-    printf("%f %f\n", demuxer.videoDuration(), demuxer.audioDuration());
-
     int videoCnt = 0, audioCnt = 0;
     bool quit = false;
+    int sec = 5;
     auto worker = std::thread([&]() {
-        for (int i = 0; i < 5; i++) {
-            while (true) {
-                auto picture = demuxer.getPicture(true);
-                auto sample = demuxer.getSample(true);
-                if (picture.isValid()) {
-                    demuxer.popPicture();
-                    ++videoCnt;
-                    //printf("video: %d %f\n", videoCnt, picture.getPTS());
-                    picture.free();
-                }
-                else {
-                    break;
-                }
-                if (sample.isValid()) {
-                    demuxer.popSample();
-                    sample.free();
-                }
-                if (quit) {
-                    return ;
-                }
+        while (true) {
+            auto picture = demuxer.getPicture(true);
+            auto sample = demuxer.getSample(true);
+            if (picture.isValid()) {
+                demuxer.popPicture();
+                ++videoCnt;
+                printf("video: %f\n", picture.getPTS());
+                picture.free();
+            } else {
+                break;
             }
-            printf("round %d\n", i);
-            demuxer.seek(8*1000000);
+            if (sample.isValid()) {
+                demuxer.popSample();
+                printf("audio: %f\n\n", sample.getPTS());
+                sample.free();
+            }
+            demuxer.seek(sec * 1000000);
+            sec += 10;
+            printf("seek to %d\n", sec);
+            if (quit) {
+                return;
+            }
         }
     });
     std::this_thread::sleep_for(std::chrono::seconds(1));

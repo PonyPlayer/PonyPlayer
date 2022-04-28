@@ -65,6 +65,9 @@ private:
     bool isPause{};
     bool isEof{true};
 
+    std::mutex opLock;
+    std::condition_variable opCv;
+
     bool isSeek{};
     int targetUs{};
     int seekRet{};
