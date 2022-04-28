@@ -66,7 +66,6 @@ function backFiveSeconds(){
 
 function playOrPauseFunction(){
     console.log(videoArea.getVideoDuration())
-    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
     if(!mainWindow.isPlay){
         if(mainWindow.endTime!==0){
             mainWindow.isPlay=true

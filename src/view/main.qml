@@ -304,6 +304,10 @@ Window {
                         }
                     }
                 }
+                onStateChanged:{
+                    console.log("state is :  "+videoArea.state)
+                    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+                }
                 Component.onCompleted: {
                         mainWindow.start.connect(videoArea.start)
                         mainWindow.stop.connect(videoArea.pause)
@@ -336,6 +340,7 @@ Window {
             console.log(spe)
         }
     }
+
 //    MouseArea{
 //        anchors.fill: parent
 //        id:mainScreen
@@ -347,7 +352,6 @@ Window {
 //                mainWindow.isVideoListOpen=true
 //                mainWindow.isFooterVisable=true
 //            }
-//            console.log("xxxxx")
 //        }
 //    }
 }
