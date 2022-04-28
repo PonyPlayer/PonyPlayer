@@ -52,7 +52,7 @@ endfunction()
 function(macos_setup_deployment)
     if (APPLE)
         set_target_properties(${PROJECT_NAME} PROPERTIES
-                MACOSX_BUNDLE_GUI_IDENTIFIER net.colors_wind.ponyplayer
+                MACOSX_BUNDLE_GUI_IDENTIFIER scut.ponyplayer
                 MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
                 MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
                 MACOSX_BUNDLE TRUE
@@ -105,11 +105,13 @@ if (WIN32)
 
 elseif(UNIX)
     if (APPLE)
+        set_source_files_properties(${PONY_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
         set_target_properties(${PROJECT_NAME} PROPERTIES
                 MACOSX_BUNDLE_GUI_IDENTIFIER net.colors_wind.ponyplayer
                 MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
                 MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
                 MACOSX_BUNDLE TRUE
+                MACOSX_BUNDLE_ICON_FILE ponyicon
                 WIN32_EXECUTABLE TRUE
                 )
     endif()
