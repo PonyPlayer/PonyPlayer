@@ -223,8 +223,9 @@ public slots:
         }
         if (pos < 0 || pos > getVideoDuration())
             return;
-        emit signalSeek(pos, QPrivateSignal());
         qDebug() << "HurricanePlayer: Seek" << pos;
+        emit signalSeek(pos, QPrivateSignal());
+
 
     };
 

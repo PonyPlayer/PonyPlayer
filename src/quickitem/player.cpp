@@ -115,9 +115,12 @@ void VideoPlayWorker::syncTo(double pts) {
     auto target = static_cast<int64_t>(pts * 1000 * 1000); // us
     auto current = getAudioPlayingUSecs() + seekPoint; // us
     auto duration = target - current;
-    if (duration > 1000L * 100L) {
+    qDebug() << "Target" << target / 1000 / 1000;
+    qDebug() << "Current" << current / 1000 / 1000;
+    if (duration > 10 * 1000L * 100L) {
         qWarning() << "Sleep long duration" << duration << "us";
     }
+
     if (duration > 0) {
         QThread::usleep(static_cast<unsigned long>(duration));
     } else {
@@ -237,21 +240,23 @@ void VideoPlayWorker::slotSeek(qreal pos) {
     bool isSuspended = audioOutput->state() == QAudio::SuspendedState;
     seekPoint = t;
     closeAudio();
-    qWarning() << "Warning" << audioOutput->elapsedUSecs();
 
-    // time consuming task
+    // time-consuming task
     demuxer->seek(t);
     while(demuxer->getPicture(true).getPTS() < pos) {
+        qDebug() << "Ignore frame" << demuxer->getPicture(true).getPTS();
         demuxer->popPicture();
     }
+    qDebug() << "Current Frame" << demuxer->getPicture(true).getPTS();
     while(demuxer->getSample(true).getPTS() < pos) {
         demuxer->popSample();
     }
-
+    qDebug() << "Warning1" << getAudioPlayingUSecs() + seekPoint - t;
     audioInput = audioOutput->start();
     if (isSuspended)
         audioOutput->suspend();
     emit signalPositionChangedBySeek();
+    qDebug() << "Finished seek request" << pos;
 }
 
 void VideoPlayWorker::slotPause() {
