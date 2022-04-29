@@ -16,6 +16,7 @@ function forwardOneSecond(){
         mainWindow.currentTime=mainWindow.endTime
     }
     videoSlide.value=mainWindow.currentTime
+    videoArea.seek(mainWindow.currentTime)
 }
 function forwardFiveSeconds(){
     if(mainWindow.isPlay){
@@ -32,6 +33,7 @@ function forwardFiveSeconds(){
         mainWindow.currentTime=mainWindow.endTime
     }
     videoSlide.value=mainWindow.currentTime
+    videoArea.seek(mainWindow.currentTime)
 }
 function backOneSecond(){
     if(mainWindow.isPlay){
@@ -47,6 +49,7 @@ function backOneSecond(){
         mainWindow.currentTime=0
     }
     videoSlide.value=mainWindow.currentTime
+    videoArea.seek(mainWindow.currentTime)
 }
 function backFiveSeconds(){
     if(mainWindow.isPlay){
@@ -62,6 +65,7 @@ function backFiveSeconds(){
         mainWindow.currentTime=0
     }
     videoSlide.value=mainWindow.currentTime
+    videoArea.seek(mainWindow.currentTime)
 }
 
 function playOrPauseFunction(){
