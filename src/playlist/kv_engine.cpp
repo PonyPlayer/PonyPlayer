@@ -134,6 +134,13 @@ void PonyKVConnect::remove(const QString &tableName, const QObject *object) {
     db.exec(sql);
 }
 
+void PonyKVConnect::removeByKV(const QString &tableName, const QString &key, const QString &value) {
+    QSqlQuery query(db);
+    query.prepare("DELETE FROM `" + tableName + "` WHERE " + key + "= :value");
+    query.bindValue(0, value);
+    query.exec();
+}
+
 template<typename T>
 PonyKVList<T>::PonyKVList(QString _dbName, QString _tableName, QString _className) :engine(_dbName),
                                                                                     dbName(std::move(_dbName)),
@@ -154,7 +161,8 @@ void PonyKVList<T>::insert(T *item) {
 
 template<typename T>
 void PonyKVList<T>::remove(T *item) {
-//    engine.remove(item);
+    engine.remove(tableName, item);
+    data.erase(std::find(data.begin(), data.end(), item));
 }
 
 template
