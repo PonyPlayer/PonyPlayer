@@ -15,6 +15,7 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     qmlRegisterType<HurricanePlayer>("HurricanePlayer", 1, 0, "HurricanePlayer");
     qInstallMessageHandler(logMessageHandler);
+
     const QUrl url(u"qrc:/view/main.qml"_qs);
     QQmlApplicationEngine engine;
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

@@ -8,6 +8,7 @@ qt_add_qml_module(${PROJECT_NAME}
         PLUGIN_TARGET quickitem
         SOURCES
             player.cpp
+            videoworker.cpp
         )
 
 target_sources(${PROJECT_NAME} PRIVATE
