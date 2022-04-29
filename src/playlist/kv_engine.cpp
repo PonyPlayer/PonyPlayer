@@ -6,7 +6,10 @@
 #include <iomanip>
 #include "playlist.h"
 
-
+/*
+ * 在当前目录下新建 data 子目录，其中创建数据库
+ * @dnName: 数据库名
+ */
 PonyKVConnect::PonyKVConnect(const QString &dbName) {
     QDir dataBasePath = QDir::currentPath();
     dataBasePath.mkpath("data");
@@ -21,6 +24,11 @@ bool PonyKVConnect::hasTable(const QString &tableName) {
     return db.tables().contains(tableName);
 }
 
+/*
+ * 创建类对象表，列是类属性，主键是对象 id
+ * @className: 类名
+ * @tableName: 表名
+ */
 void PonyKVConnect::createTableFrom(const QString &className, const QString &tableName) {
     qInfo() << "Creating new table for class " << className;
 
@@ -41,12 +49,20 @@ void PonyKVConnect::createTableFrom(const QString &className, const QString &tab
     db.exec(tableDDL);
 }
 
+/*
+ *
+ */
 QString PonyKVConnect::qTypeToDDL(const QString &qType) {
     static std::unordered_map<QString, QString> lookUpTable = {{"QString", "text"},
                                                                {"QDir",    "text"}};
     return lookUpTable[qType];
 }
 
+/*
+ * 向表中插入一个对象
+ * @tableName: 表名
+ * @object: 被插入对象
+ */
 void PonyKVConnect::insert(const QString &tableName, const QObject *object) {
     const QMetaObject *metaObj = object->metaObject();
     QString sql = "INSERT INTO `" + tableName + "` VALUES (";
@@ -62,7 +78,12 @@ void PonyKVConnect::insert(const QString &tableName, const QObject *object) {
     db.exec(sql);
 }
 
-
+/*
+ * 获取表中所有对象
+ * @tableName: 表名
+ * @className: 类名(主要用户获取各种属性字段，即表的列)
+ * @return: 对象指针列表
+ */
 QList<QObject *> PonyKVConnect::retrieveData(const QString &tableName, const QString &className) {
     QList<QObject *> ret;
 
@@ -102,6 +123,11 @@ QList<T *> PonyKVConnect::retrieveDataByClass(const QString &tableName, const QS
     return ret;
 }
 
+/*
+ * 从表中移除对象
+ * @tableName: 表名
+ * @object: 被移除对象
+ */
 void PonyKVConnect::remove(const QString &tableName, const QObject *object) {
     QString sql = "DELETE FROM `" + tableName + "` WHERE _uuid_ = ";
     sql += object->property("_uuid_").value<QString>();

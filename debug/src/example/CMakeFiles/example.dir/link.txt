@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libexample.a CMakeFiles/example.dir/example_autogen/mocs_compilation.cpp.o CMakeFiles/example.dir/example_cpp.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libexample.a

@@ -1,0 +1,365 @@
+{
+    "classes": [
+        {
+            "className": "VideoPlayWorker",
+            "object": true,
+            "qualifiedClassName": "VideoPlayWorker",
+            "signals": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "pic",
+                            "type": "Picture"
+                        }
+                    ],
+                    "name": "signalImageChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "state",
+                            "type": "HurricaneState"
+                        }
+                    ],
+                    "name": "signalStateChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalPositionChangedBySeek",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "d",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "signalVolumeChangedFail",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "slotOpenFile",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "state",
+                            "type": "QAudio::State"
+                        }
+                    ],
+                    "name": "onAudioStateChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "slotThreadInit",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "slotOnWork",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "slotClose",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "v",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "slotVolumeChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "slotPause",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "pos",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "slotSeek",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        },
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Element",
+                    "value": "auto"
+                }
+            ],
+            "className": "HurricanePlayer",
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": true,
+                    "index": 0,
+                    "name": "state",
+                    "notify": "stateChanged",
+                    "read": "getState",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "HurricaneState",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "HurricanePlayer",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "stateChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "volumeChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "positionChangedBySeek",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "current",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "volumeChangedFail",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalPlayerInitializing",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalPause",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalResume",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalClose",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "v",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "signalVolumeChanging",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "url",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "signalOpenFile",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "pos",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "signalSeek",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "autoClose",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "openFile",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "openFile",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "start",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "pause",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "close",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "v",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "setVolume",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "getAudioDuration",
+                    "returnType": "qreal"
+                },
+                {
+                    "access": "public",
+                    "name": "getVideoDuration",
+                    "returnType": "qreal"
+                },
+                {
+                    "access": "public",
+                    "name": "getPTS",
+                    "returnType": "qreal"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "pos",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "seek",
+                    "returnType": "void"
+                },
+                {
+                    "access": "private",
+                    "arguments": [
+                        {
+                            "name": "s",
+                            "type": "HurricaneState"
+                        }
+                    ],
+                    "name": "slotStateChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "private",
+                    "name": "slotPositionChangedBySeek",
+                    "returnType": "void"
+                },
+                {
+                    "access": "private",
+                    "arguments": [
+                        {
+                            "name": "current",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "slotVolumeChangedFail",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "Hurricane"
+                }
+            ]
+        },
+        {
+            "className": "H",
+            "enums": [
+                {
+                    "isClass": false,
+                    "isFlag": false,
+                    "name": "HurricaneState",
+                    "values": [
+                        "CLOSING",
+                        "LOADING",
+                        "INVALID",
+                        "PRE_PLAY",
+                        "PLAYING",
+                        "PRE_PAUSE",
+                        "PAUSED"
+                    ]
+                }
+            ],
+            "namespace": true,
+            "qualifiedClassName": "H"
+        }
+    ],
+    "inputFile": "quickitem.h",
+    "outputRevision": 68
+}

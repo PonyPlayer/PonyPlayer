@@ -1,0 +1,5 @@
+if(EXISTS "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/tests/unit_tests[1]_tests.cmake")
+  include("/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/tests/unit_tests[1]_tests.cmake")
+else()
+  add_test(unit_tests_NOT_BUILT unit_tests_NOT_BUILT)
+endif()

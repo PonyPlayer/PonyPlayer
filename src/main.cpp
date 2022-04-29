@@ -5,6 +5,7 @@
 #include "hurricane.h"
 #include "logger.h"
 #include "quickitem.h"
+#include "controller.h"
 
 int main(int argc, char *argv[]) {
     QQuickWindow::setGraphicsApi(QSGRendererInterface::GraphicsApi::OpenGL);
@@ -14,6 +15,8 @@ int main(int argc, char *argv[]) {
     QSurfaceFormat::setDefaultFormat(format);
     QApplication app(argc, argv);
     qmlRegisterType<HurricanePlayer>("HurricanePlayer", 1, 0, "HurricanePlayer");
+    qmlRegisterType<Controller>("Controller",1,0,"Controller");
+    qRegisterMetaType<PlayListItem *>("PlayListItem");
     qInstallMessageHandler(logMessageHandler);
 
     const QUrl url(u"qrc:/view/main.qml"_qs);

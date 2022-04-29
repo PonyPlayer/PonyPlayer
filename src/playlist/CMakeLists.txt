@@ -1,6 +1,6 @@
 project(playlist)
 set(CPP_SOURCES
-        kv_engine.cpp playlist.cpp)
+        kv_engine.cpp playlist.cpp controller.cpp)
 
 qt_add_library(${PROJECT_NAME} STATIC
         ${CPP_SOURCES})
@@ -8,6 +8,7 @@ qt_add_library(${PROJECT_NAME} STATIC
 target_sources(playlist PRIVATE
         ${CMAKE_SOURCE_DIR}/include/kv_engine.h
         ${CMAKE_SOURCE_DIR}/include/playlist.h
+        ${CMAKE_SOURCE_DIR}/include/controller.h
         )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

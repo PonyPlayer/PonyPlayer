@@ -1,0 +1,129 @@
+{
+	"BUILD_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem/quickitem_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/quickitem",
+	"CMAKE_EXECUTABLE" : "/Applications/CMake.app/Contents/bin/cmake",
+	"CMAKE_LIST_FILES" : 
+	[
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/quickitem/CMakeLists.txt",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/cmake/Qt6Qml/Qt6QmlPluginTemplate.cpp.in",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/cmake/Qt6Core/Qt6CoreConfigureFileTemplate.in",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/cmake/Qt6Qml/Qt6QmlPluginTemplate.cpp.in",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/cmake/Qt6Qml/Qt6qmldirTemplate.cmake.in"
+	],
+	"CMAKE_SOURCE_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer",
+	"DEP_FILE" : "",
+	"DEP_FILE_RULE_NAME" : "",
+	"HEADERS" : 
+	[
+		[
+			"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/include/quickitem.h",
+			"Mu",
+			"DGKZTCOIDE/moc_quickitem.cpp",
+			null
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem/quickitem_autogen/include",
+	"MOC_COMPILATION_FILE" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem/quickitem_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : 
+	[
+		"QT_CORE_LIB",
+		"QT_DEPRECATED_WARNINGS",
+		"QT_GUI_LIB",
+		"QT_MULTIMEDIA_LIB",
+		"QT_NETWORK_LIB",
+		"QT_NO_DEBUG",
+		"QT_OPENGL_LIB",
+		"QT_PLUGIN",
+		"QT_QMLMODELS_LIB",
+		"QT_QML_LIB",
+		"QT_QUICK_LIB",
+		"QT_STATICPLUGIN"
+	],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/opt/homebrew/include",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/include",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/quickitem",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQml.framework/Headers/6.2.4",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQml.framework/Headers/6.2.4/QtQml",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtCore.framework/Headers/6.2.4",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtCore.framework/Headers/6.2.4/QtCore",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtCore.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtCore.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/mkspecs/macx-clang",
+		"/Users/aaronpeng/Qt/6.2.4/macos/include",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQml.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQml.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtNetwork.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtNetwork.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtGui.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtGui.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtMultimedia.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtMultimedia.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQuick.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQuick.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQmlModels.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQmlModels.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtOpenGL.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtOpenGL.framework/Headers",
+		"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/usr/include/c++/v1",
+		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.1.6/include",
+		"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/usr/include",
+		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE", "Q_NAMESPACE_EXPORT" ],
+	"MOC_OPTIONS" : [ "-Muri=quickitem", "--output-json" ],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++",
+		"-dM",
+		"-E",
+		"-c",
+		"/Applications/CMake.app/Contents/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem/quickitem_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : 
+	[
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem/.rcc/qrc_qmake_quickitem.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem/quickitem_qmltyperegistrations.cpp"
+	],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 8,
+	"PARSE_CACHE_FILE" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem/CMakeFiles/quickitem_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/Users/aaronpeng/Qt/6.2.4/macos/./libexec/moc",
+	"QT_UIC_EXECUTABLE" : "",
+	"QT_VERSION_MAJOR" : 6,
+	"QT_VERSION_MINOR" : 2,
+	"SETTINGS_FILE" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem/CMakeFiles/quickitem_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem/quickitem_quickitemPlugin.cpp",
+			"Mu",
+			null
+		],
+		[
+			"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/quickitem/player.cpp",
+			"Mu",
+			null
+		],
+		[
+			"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/quickitem/videoworker.cpp",
+			"Mu",
+			null
+		]
+	],
+	"VERBOSITY" : 0
+}

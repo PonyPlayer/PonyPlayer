@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libconfig.a CMakeFiles/config.dir/config_autogen/mocs_compilation.cpp.o CMakeFiles/config.dir/config.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libconfig.a

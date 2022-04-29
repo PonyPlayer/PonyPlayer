@@ -1,0 +1,14 @@
+# Target labels
+ gtest-populate
+# Source files and their labels
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/gtest-subbuild/CMakeFiles/gtest-populate
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/gtest-subbuild/CMakeFiles/gtest-populate.rule
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/gtest-subbuild/CMakeFiles/gtest-populate-complete.rule
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/gtest-subbuild/gtest-populate-prefix/src/gtest-populate-stamp/gtest-populate-build.rule
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/gtest-subbuild/gtest-populate-prefix/src/gtest-populate-stamp/gtest-populate-configure.rule
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/gtest-subbuild/gtest-populate-prefix/src/gtest-populate-stamp/gtest-populate-download.rule
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/gtest-subbuild/gtest-populate-prefix/src/gtest-populate-stamp/gtest-populate-install.rule
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/gtest-subbuild/gtest-populate-prefix/src/gtest-populate-stamp/gtest-populate-mkdir.rule
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/gtest-subbuild/gtest-populate-prefix/src/gtest-populate-stamp/gtest-populate-patch.rule
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/gtest-subbuild/gtest-populate-prefix/src/gtest-populate-stamp/gtest-populate-test.rule
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/gtest-subbuild/gtest-populate-prefix/src/gtest-populate-stamp/gtest-populate-update.rule
