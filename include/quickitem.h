@@ -68,14 +68,15 @@ public slots:
     void slotThreadInit();
     void slotOnWork();
     void slotClose();
-    void slotVolumeChanged(qreal v) { audioOutput->setVolume(v); emit signalVolumeChanged(audioOutput->volume()); }
+    void slotVolumeChanged(qreal v);
     void slotPause();;
     void slotSeek(qreal pos);
 signals:
     void signalImageChanged(Picture pic);
     void signalStateChanged(HurricaneState state);
-    void signalVolumeChanged(qreal v);
     void signalPositionChangedBySeek();
+
+    void signalVolumeChangedFail(qreal d);
 };
 
 /**
@@ -97,7 +98,6 @@ class HurricanePlayer : public Hurricane {
     Q_ENUM(HurricaneState)
     QML_ELEMENT
     Q_PROPERTY(HurricaneState state READ getState NOTIFY stateChanged FINAL)
-    Q_PROPERTY(qreal volume READ getVolume NOTIFY volumeChanged FINAL)
 private:
     HurricaneState state = HurricaneState::INVALID;
     qreal volume;
@@ -110,8 +110,6 @@ public:
     virtual ~HurricanePlayer();
 
     HurricaneState getState() { return state; }
-
-    qreal getVolume() { return volume; }
 
 signals:
 
@@ -190,7 +188,7 @@ public slots:
      * @param v 音量大小, 通常在[0, 1]
      * @see HurricanePlayer::volumeChanged()
      */
-    Q_INVOKABLE void setVolume(qreal v) { qDebug() << "setVolume" << v; emit signalVolumeChanging(v, QPrivateSignal()); }
+    Q_INVOKABLE void setVolume(qreal v);
 
     /**
      * 获取视频长度, 需要保证状态不是 INVALID
@@ -231,14 +229,12 @@ public slots:
             return;
         qDebug() << "HurricanePlayer: Seek" << pos;
         emit signalSeek(pos, QPrivateSignal());
-
-
     };
 
 private slots:
     void slotStateChanged(HurricaneState s);
-    void slotVolumeChanged(qreal v) { this->volume = v; emit volumeChanged(); };
     void slotPositionChangedBySeek() { emit positionChangedBySeek(); }
+    void slotVolumeChangedFail(qreal current) { emit volumeChangedFail(current); }
 };
 
 

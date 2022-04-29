@@ -19,12 +19,15 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoP
     connect(this, &HurricanePlayer::signalPlayerInitializing, &videoPlayWorker, &VideoPlayWorker::slotThreadInit);
     connect(this, &HurricanePlayer::signalResume, &videoPlayWorker, &VideoPlayWorker::slotOnWork);
     connect(this, &HurricanePlayer::signalPause, &videoPlayWorker, &VideoPlayWorker::slotPause);
-    connect(this, &HurricanePlayer::signalVolumeChanging, &videoPlayWorker, &VideoPlayWorker::slotVolumeChanged);
+
     connect(this, &HurricanePlayer::signalOpenFile, &videoPlayWorker, &VideoPlayWorker::slotOpenFile);
     connect(this, &HurricanePlayer::signalClose, &videoPlayWorker, &VideoPlayWorker::slotClose);
     connect(&videoPlayWorker, &VideoPlayWorker::signalImageChanged, this, &HurricanePlayer::setImage);
     connect(&videoPlayWorker, &VideoPlayWorker::signalStateChanged, this, &HurricanePlayer::slotStateChanged);
-    connect(&videoPlayWorker, &VideoPlayWorker::signalVolumeChanged, this, &HurricanePlayer::slotVolumeChanged);
+
+    // volume
+    connect(this, &HurricanePlayer::signalVolumeChanging, &videoPlayWorker, &VideoPlayWorker::slotVolumeChanged);
+    connect(&videoPlayWorker, &VideoPlayWorker::signalVolumeChangedFail, this, &HurricanePlayer::slotVolumeChangedFail);
 
     // seek
     connect(this, &HurricanePlayer::signalSeek, &videoPlayWorker, &VideoPlayWorker::slotSeek);
@@ -81,8 +84,6 @@ void HurricanePlayer::close() {
         state = HurricaneState::CLOSING;
         emit stateChanged();
         this->setImage(Picture());
-        // wait renderer thread to sync to ensure origin picture data is not used anymore
-        QCoreApplication::processEvents();
         emit signalClose(QPrivateSignal());
     }
 }
@@ -104,6 +105,11 @@ void HurricanePlayer::slotStateChanged(HurricaneState s) {
         return;
     state = s;
     emit stateChanged();
+}
+
+void HurricanePlayer::setVolume(qreal v) {
+    qDebug() << "setVolume" << v;
+    emit signalVolumeChanging(v, QPrivateSignal());
 }
 
 

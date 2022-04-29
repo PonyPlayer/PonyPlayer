@@ -20,7 +20,6 @@ void VideoPlayWorker::syncTo(double pts) {
     }
 }
 
-
 void VideoPlayWorker::slotOnWork() {
     qDebug() << "Start Video Work" << QThread::currentThread()->objectName();
     Picture currFrame;
@@ -150,12 +149,19 @@ void VideoPlayWorker::slotSeek(qreal pos) {
 
     // time-consuming task
     demuxer->seek(t);
-    while(demuxer->getPicture(true).getPTS() < pos) {
-        demuxer->popPicture();
+    {
+        Picture pic;
+        while(pic = demuxer->getPicture(true), pic.getPTS() < pos) {
+            demuxer->popPicture();
+            pic.free();
+        }
     }
-    qDebug() << "Current Frame" << demuxer->getPicture(true).getPTS();
-    while(demuxer->getSample(true).getPTS() < pos) {
-        demuxer->popSample();
+    {
+        Sample sample;
+        while(sample = demuxer->getSample(true), sample.getPTS() < pos) {
+            demuxer->popSample();
+            sample.free();
+        }
     }
     audioInput = audioOutput->start();
     if (isSuspended)
@@ -163,3 +169,13 @@ void VideoPlayWorker::slotSeek(qreal pos) {
     emit signalPositionChangedBySeek();
     qDebug() << "Finished seek request" << pos;
 }
+
+void VideoPlayWorker::slotVolumeChanged(qreal v) {
+    audioOutput->setVolume(v);
+    qreal current = audioOutput->volume();
+    if (abs(current - v) >= 1e-5) {
+        qWarning() << "Fail to set volume:" << v << "Current: " << current;
+        emit signalVolumeChangedFail(v);
+    }
+}
+
