@@ -1,8 +1,0 @@
-<RCC>
-  <qresource prefix="/render/">
-    <file alias="shader/vertex.vsh">/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/render/shader/vertex.vsh</file>
-    <file alias="shader/fragment.fsh">/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/render/shader/fragment.fsh</file>
-    <file alias="test.jpeg">/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/render/test.jpeg</file>
-  </qresource>
-</RCC>
-

@@ -1,2 +1,0 @@
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem/quickitem_autogen/include/../DGKZTCOIDE/moc_quickitem.cpp.json
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem/quickitem_autogen/include/quickitem_quickitemPlugin.moc.json

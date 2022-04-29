@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libffmpeg.a CMakeFiles/ffmpeg.dir/ffmpeg_autogen/mocs_compilation.cpp.o CMakeFiles/ffmpeg.dir/demuxer.cpp.o CMakeFiles/ffmpeg.dir/test_demuxer.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libffmpeg.a

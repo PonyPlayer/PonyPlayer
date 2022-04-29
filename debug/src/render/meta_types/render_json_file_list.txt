@@ -1,2 +1,0 @@
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/render/render_autogen/include/../DGKZTCOIDE/moc_hurricane.cpp.json
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/render/render_autogen/include/render_renderPlugin.moc.json

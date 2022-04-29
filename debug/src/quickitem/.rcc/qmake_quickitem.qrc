@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="/quickitem">
-    <file alias="qmldir">/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/quickitem/qmldir</file>
-  </qresource>
-</RCC>
-

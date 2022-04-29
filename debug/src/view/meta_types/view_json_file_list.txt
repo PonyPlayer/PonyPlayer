@@ -1,1 +1,0 @@
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/view_autogen/include/view_viewPlugin.moc.json
