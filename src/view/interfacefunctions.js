@@ -3,9 +3,6 @@ function mytest(path){
     console.log(path)
 }
 function forwardOneSecond(){
-    if(mainWindow.isPlay){
-        mainWindow.isPlay=false
-    }
     if(mainWindow.endTime==0){
         return
     }
@@ -16,12 +13,9 @@ function forwardOneSecond(){
         mainWindow.currentTime=mainWindow.endTime
     }
     videoSlide.value=mainWindow.currentTime
+    videoArea.seek(mainWindow.currentTime)
 }
 function forwardFiveSeconds(){
-    if(mainWindow.isPlay){
-        mainWindow.isPlay=false
-    }
-
     if(mainWindow.endTime==0){
         return
     }
@@ -32,11 +26,9 @@ function forwardFiveSeconds(){
         mainWindow.currentTime=mainWindow.endTime
     }
     videoSlide.value=mainWindow.currentTime
+    videoArea.seek(mainWindow.currentTime)
 }
 function backOneSecond(){
-    if(mainWindow.isPlay){
-        mainWindow.isPlay=false
-    }
     if(mainWindow.currentTime==0){
         return
     }
@@ -47,11 +39,9 @@ function backOneSecond(){
         mainWindow.currentTime=0
     }
     videoSlide.value=mainWindow.currentTime
+    videoArea.seek(mainWindow.currentTime)
 }
 function backFiveSeconds(){
-    if(mainWindow.isPlay){
-        mainWindow.isPlay=false
-    }
     if(mainWindow.currentTime==0){
         return
     }
@@ -62,6 +52,7 @@ function backFiveSeconds(){
         mainWindow.currentTime=0
     }
     videoSlide.value=mainWindow.currentTime
+    videoArea.seek(mainWindow.currentTime)
 }
 
 function playOrPauseFunction(){
@@ -85,9 +76,6 @@ function solveStateChanged(){
     videoArea.state
     if(videoArea.state==1){
         console.log("loading now")
-    }
-    else if(videoArea.state==0){
-        toPause()
     }
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
 }
@@ -132,8 +120,9 @@ function screenSizeFunction(){
 function toPause(){
     mainWindow.cease()
     mainWindow.isPlay=false
+    mainWindow.stop()
     mainWindow.currentTime=0
     videoSlide.value=0
-    videoArea.close()
+    videoArea.seek(0)
 }
 
