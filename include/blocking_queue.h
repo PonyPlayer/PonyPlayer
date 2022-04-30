@@ -4,6 +4,8 @@
 #include <condition_variable>
 #include <sstream>
 #include <vector>
+#include "demuxer.h"
+#include <functional>
 
 template<typename T>
 class BlockingQueue {
@@ -20,6 +22,8 @@ private:
     void enqueue(const T &);
 
     void dequeue();
+
+    void applyToAll(std::function<void(T)> func);
 
 public:
 
@@ -72,3 +76,6 @@ public:
 
 template
 class BlockingQueue<int>;
+
+template
+class BlockingQueue<AVFrame *>;

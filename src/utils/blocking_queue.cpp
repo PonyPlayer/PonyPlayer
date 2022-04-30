@@ -21,7 +21,8 @@ void BlockingQueue<T>::enqueue(const T &item) {
 }
 
 template<typename T>
-BlockingQueue<T>::BlockingQueue(const long long int &_capacity):capacity(_capacity), frontIdx(-1), rearIdx(-1), size(0) {
+BlockingQueue<T>::BlockingQueue(const long long int &_capacity):capacity(_capacity), frontIdx(-1), rearIdx(-1),
+                                                                size(0) {
     if (capacity < 1) throw std::runtime_error("blocking queue should have a capacity larger than 1!");
     queue = new T[capacity];
 }
@@ -92,10 +93,22 @@ template<typename T>
 long long int BlockingQueue<T>::clear() {
     std::unique_lock<std::shared_mutex> exLock(mutex);
     long long int ret = size;
-    while(!isEmpty()) {
-        dequeue();
-    }
+    frontIdx = rearIdx = -1;
+    size = 0;
     exLock.unlock();
     cond.notify_all();
     return ret;
 }
+
+template<typename T>
+void BlockingQueue<T>::applyToAll(std::function<void(T)> func) {
+    std::unique_lock<std::shared_mutex> exLock(mutex);
+    long long int ret = size;
+    if (frontIdx == -1 || rearIdx == -1) return;
+    for (long long int i = frontIdx; i != rearIdx; i = (i + 1) % capacity) {
+        func(queue[i]);
+    }
+    func(rearIdx);
+    exLock.unlock();
+}
+
