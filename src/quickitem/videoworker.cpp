@@ -26,18 +26,18 @@ void VideoPlayWorker::slotOnWork() {
     pauseRequested = false;
     audioOutput->resume();
     emit signalStateChanged(HurricaneState::PLAYING);
-    while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
+    while(!pauseRequested && (currFrame = demuxer->getPicture(), currFrame.isValid())) {
         demuxer->popPicture();
         emit signalImageChanged(currFrame);
         for (int i = 0; i < 5 && audioOutput->bytesFree() > 19200; ++i) {
-            Sample sample = demuxer->getSample(true);
+            Sample sample = demuxer->getSample();
             audioInput->write(reinterpret_cast<const char *>(sample.data), sample.len);
             demuxer->popSample();
             sample.free();
         }
         // process all events such as setVolume and pause request
         QCoreApplication::processEvents();
-        Picture nextFrame = demuxer->getPicture(true);
+        Picture nextFrame = demuxer->getPicture();
         if (nextFrame.isValid()) {
             syncTo(nextFrame.pts);
         }
@@ -49,27 +49,6 @@ void VideoPlayWorker::slotOnWork() {
     emit signalStateChanged(HurricaneState::PAUSED);
 }
 
-
-void VideoPlayWorker::slotOpenFile(const QString &path) {
-    seekPoint = 0;
-    idleDurationSum = 0;
-    audioInput = audioOutput->start();
-    audioOutput->suspend();
-    QUrl url(path);
-    QString localPath = url.toLocalFile();
-    qDebug() << "Open file" << localPath;
-    int ret = demuxer->openFile(localPath.toStdString());
-    HurricaneState state;
-    if (ret) {
-        state = HurricaneState::PAUSED;
-        Picture pic = demuxer->getPicture(true);
-        emit signalImageChanged(pic);
-    } else {
-        state = HurricaneState::INVALID;
-        qWarning() << "Fail to open video." << ret;
-    }
-    emit signalStateChanged(state);
-}
 
 void VideoPlayWorker::slotClose() {
     pauseRequested = true;
@@ -151,14 +130,14 @@ void VideoPlayWorker::slotSeek(qreal pos) {
     demuxer->seek(t);
     {
         Picture pic;
-        while(pic = demuxer->getPicture(true), pic.getPTS() < pos) {
+        while(pic = demuxer->getPicture(), pic.getPTS() < pos) {
             demuxer->popPicture();
             pic.free();
         }
     }
     {
         Sample sample;
-        while(sample = demuxer->getSample(true), sample.getPTS() < pos) {
+        while(sample = demuxer->getSample(), sample.getPTS() < pos) {
             demuxer->popSample();
             sample.free();
         }

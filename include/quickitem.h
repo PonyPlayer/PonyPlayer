@@ -13,7 +13,8 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include "hurricane.h"
-#include "demuxer.h"
+#include "demuxer2.h"
+
 
 
 typedef int64_t time_point;
@@ -44,7 +45,7 @@ using namespace H;
 class VideoPlayWorker : public QObject {
     Q_OBJECT
 private:
-    Demuxer *demuxer = nullptr;
+    Demuxer2 *demuxer = nullptr;
     bool pauseRequested = false;
     QAudioSink *audioOutput;
     QIODevice *audioInput;
@@ -54,8 +55,13 @@ private:
     time_duration idleDurationSum = 0;
 
 public:
-    VideoPlayWorker() : QObject(nullptr) { demuxer = new Demuxer; }
-    ~VideoPlayWorker() override { demuxer->quit(); delete demuxer; }
+    VideoPlayWorker() : QObject(nullptr) {
+        demuxer = new Demuxer2;
+        demuxer->move();
+        connect(demuxer, &Demuxer2::openFileResult, this, &VideoPlayWorker::slotOpenFileResult);
+        connect(this, &VideoPlayWorker::signalOpenFile, demuxer, &Demuxer2::openFile);
+    }
+    ~VideoPlayWorker() override { delete demuxer; }
     qreal getAudioDuration() { return demuxer->audioDuration(); }
     qreal getVideoDuration() { return demuxer->videoDuration(); }
 private:
@@ -63,7 +69,29 @@ private:
     inline void closeAudio();
     inline void syncTo(double pts);
 public slots:
-    void slotOpenFile(const QString &path);
+    void slotOpenFile(const QString &path) {
+        seekPoint = 0;
+        idleDurationSum = 0;
+        audioInput = audioOutput->start();
+        audioOutput->suspend();
+        QUrl url(path);
+        QString localPath = url.toLocalFile();
+        qDebug() << "Open file" << localPath;
+        emit signalOpenFile(localPath.toStdString());
+    }
+    void slotOpenFileResult(bool ret) {
+        HurricaneState state;
+        if (ret) {
+            demuxer->start();
+            state = HurricaneState::PAUSED;
+            Picture pic = demuxer->getPicture();
+            emit signalImageChanged(pic);
+        } else {
+            state = HurricaneState::INVALID;
+            qWarning() << "Fail to open video." << ret;
+        }
+        emit signalStateChanged(state);
+    }
     void onAudioStateChanged(QAudio::State state);
     void slotThreadInit();
     void slotOnWork();
@@ -72,6 +100,7 @@ public slots:
     void slotPause();;
     void slotSeek(qreal pos);
 signals:
+    void signalOpenFile(std::string fn);
     void signalImageChanged(Picture pic);
     void signalStateChanged(HurricaneState state);
     void signalPositionChangedBySeek();

@@ -22,8 +22,8 @@ target_link_libraries(${PROJECT_NAME}
         PRIVATE Qt::Widgets
         PRIVATE Qt::Multimedia
         PRIVATE ${FFmpeg}
-        ffmpeg
         utils
+        ffmpeg
         view
         render
         quickitem

@@ -2,7 +2,7 @@
 // Created by ColorsWind on 2022/4/21.
 //
 #include "quickitem.h"
-#include "demuxer.h"
+#include "demuxer2.h"
 
 #include <QUrl>
 #include <QTimer>

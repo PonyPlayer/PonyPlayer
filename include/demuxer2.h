@@ -6,6 +6,7 @@
 #ifndef PONYPLAYER_DEMUXER2_H
 #define PONYPLAYER_DEMUXER2_H
 #include <QtCore>
+#include <QTimer>
 #include "helper.h"
 #include "blocking_queue.h"
 
@@ -24,12 +25,15 @@ inline int ffmpegErrToString(int err) {
     return 0;
 }
 
-class DemuxWorkerBase {
+class DemuxWorkerBase: public QObject {
+Q_OBJECT
+public:
+    const std::string filename;
 protected:
-    std::string filename;
-    AVFormatContext *fmtCtx;
 
-    DemuxWorkerBase(const std::string &fn) {
+    AVFormatContext *fmtCtx = nullptr;
+
+    DemuxWorkerBase(const std::string &fn): filename(fn) {
         if (avformat_open_input(&fmtCtx, fn.c_str(), nullptr, nullptr) < 0) {
             throw std::runtime_error("Cannot open input file.");
         }
@@ -82,7 +86,9 @@ public:
 
     virtual bool pop() = 0;
 
-    virtual ~DecoderBase() = 0;
+    virtual qreal duration() = 0;
+
+    virtual ~DecoderBase() = default;
 };
 
 
@@ -117,6 +123,8 @@ public:
         if (avcodec_open2(codecCtx, codec, nullptr) < 0) {
             throw std::runtime_error("Cannot open codec.");
         }
+
+        frameBuf = av_frame_alloc();
         if constexpr(type == DecoderBase::DecoderType::Audio) {
             this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
                                               AV_SAMPLE_FMT_S16, 44100,
@@ -140,6 +148,10 @@ public:
         if (frameBuf) { av_frame_free(&frameBuf); }
         if (codecCtx) { avcodec_close(codecCtx); }
         if (codecCtx) { avcodec_free_context(&codecCtx); }
+    }
+
+    qreal duration() override {
+        return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
     }
 
     bool accept(AVPacket *pkt) override {
@@ -174,7 +186,7 @@ public:
 
     Picture getPicture() {
         if constexpr(type != DecoderBase::DecoderType::Video) { throw std::runtime_error("Unsupported operation."); }
-        AVFrame *frame = frameQueue.front();
+        AVFrame *frame = frameQueue.bfront();
         if (!frame) { return {}; }
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
         return {frame, pts};
@@ -182,7 +194,7 @@ public:
 
     Sample getSample() {
         if constexpr(type != DecoderBase::DecoderType::Audio) { throw std::runtime_error("Unsupported operation."); }
-        AVFrame *frame = frameQueue.front();
+        AVFrame *frame = frameQueue.bfront();
         if (!frame) { return {}; }
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
         int len = swr_convert(swrCtx, &audioOutBuf, 2 * MAX_AUDIO_FRAME_SIZE,
@@ -202,10 +214,11 @@ public:
 };
 
 class DecodeWorker : public DemuxWorkerBase {
+    Q_OBJECT
     std::vector<unsigned int> videoStreamIndex;
     std::vector<unsigned int> audioStreamIndex;
     std::vector<DecoderBase*> decoders;
-    bool interrupt = false;
+    std::atomic<bool> interrupt = false;
     AVPacket *packet = nullptr;
 public:
     DecodeWorker(const std::string &fn) : DemuxWorkerBase(fn) {
@@ -222,8 +235,8 @@ public:
         decoders.resize(fmtCtx->nb_streams);
         using DecoderBase::DecoderType::Audio;
         using DecoderBase::DecoderType::Video;
-        decoders[videoStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[videoStreamIndex.front()], 128);
-        decoders[audioStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 128);
+        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 128);
+        decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 128);
     }
 
     ~DecodeWorker() {
@@ -245,7 +258,7 @@ public:
             if (decoder) decoder->beforeSeek(us);
         }
         int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>(static_cast<double>(us) / 1000000.0 * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
-        if (ret < 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret);}
+        if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret);}
     }
 
     Picture getPicture() { return decoders[videoStreamIndex.front()]->getPicture(); }
@@ -255,20 +268,89 @@ public:
     Sample getSample() { return decoders[audioStreamIndex.front()]->getSample(); }
 
     bool popSample() { return decoders[audioStreamIndex.front()]->pop(); }
+
+    qreal getAudionLength() { return decoders[audioStreamIndex.front()]->duration(); }
+    qreal getVideoLength() { return decoders[videoStreamIndex.front()]->duration(); }
 public slots:
     void onWork() {
         interrupt = false;
         while(!interrupt) {
-            if (av_read_frame(fmtCtx, packet)) {
+            int ret = av_read_frame(fmtCtx, packet);
+            if (ret == 0) {
                 auto *decoder = decoders[static_cast<unsigned long>(packet->stream_index)];
                 if (decoder) {
                     if (!decoder->accept(packet)) { break; } // no more frame
                 }
+            } else {
+                qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
             }
             QCoreApplication::processEvents();
         }
         interrupt = true;
     }
 };
+
+
+class Demuxer2: public QObject {
+    Q_OBJECT
+private:
+    DecodeWorker *worker = nullptr;
+    QThread *qThread = nullptr;
+signals:
+    void startWorker();
+    void openFileResult(bool ret);
+public:
+    Demuxer2() {
+        qThread = new QThread();
+        qThread->setObjectName("DecoderThread");
+        qThread->start();
+    }
+
+    void move() {
+        this->moveToThread(qThread);
+    }
+
+    ~Demuxer2() {}
+
+    Picture getPicture() { return worker->getPicture(); }
+
+    bool popPicture() { return worker->popPicture(); }
+
+    Sample getSample() { return worker->getSample(); }
+
+    bool popSample() { return worker->popSample(); }
+
+    void seek(int64_t us);
+
+    void start();
+
+
+    qreal audioDuration() { return worker ? worker->getAudionLength() : 0.0 ; }
+
+    qreal videoDuration() { return worker ? worker->getVideoLength() : 0.0; }
+
+public slots:
+    void openFile(std::string fn) {
+        qDebug() << "OpenFile" << QString::fromUtf8(fn);
+        // call on video decoder thread
+        if (worker) {
+            qWarning() << "Already open file:" << QString::fromUtf8(worker->filename);
+            emit openFileResult(false);
+            return;
+        }
+        try {
+            worker = new DecodeWorker(fn);
+        } catch (std::runtime_error &ex) {
+            qWarning() << "Error opening file:" << ex.what();
+            worker = nullptr;
+            emit openFileResult(false);
+            return;
+        }
+        connect(this, &Demuxer2::startWorker, worker, &DecodeWorker::onWork);
+        emit openFileResult(true);
+    }
+};
+
+
 
 #endif //PONYPLAYER_DEMUXER2_H
