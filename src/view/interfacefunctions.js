@@ -127,4 +127,6 @@ function toPause(){
     videoSlide.value=0
     videoArea.seek(0)
 }
-
+function openWave(){
+    wavewindow.show()
+}
