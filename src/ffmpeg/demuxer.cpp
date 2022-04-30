@@ -14,15 +14,15 @@ void debugErr(std::string prefix, int err) {
 int Demuxer::initVideoState() {
     auto videoCodecPara = fmtCtx->streams[videoStreamIndex]->codecpar;
     if (!(videoCodec = const_cast<AVCodec *>(avcodec_find_decoder(videoCodecPara->codec_id)))) {
-        qWarning("Cannot find valid video decode codec.\n");
+        qWarning("Cannot find valid video decode codec.");
         return -1;
     }
     if (!(videoCodecCtx = avcodec_alloc_context3(videoCodec))) {
-        qWarning("Cannot find valid video decode codec context.\n");
+        qWarning("Cannot find valid video decode codec context.");
         return -1;
     }
     if (avcodec_parameters_to_context(videoCodecCtx, videoCodecPara) < 0) {
-        qWarning("Cannot initialize videoCodecCtx.\n");
+        qWarning("Cannot initialize videoCodecCtx.");
         return -1;
     }
     if (avcodec_open2(videoCodecCtx, videoCodec, nullptr) < 0) {
@@ -95,16 +95,20 @@ int Demuxer::openFile(std::string inputFileName) {
 
 int Demuxer::openFile() {
     if (avformat_open_input(&fmtCtx, filename.c_str(), nullptr, nullptr) < 0) {
-        qWarning("Cannot open input file.\n");
-        goto error;
+        qWarning("Cannot open input file.");
+        cleanUp();
+        isEof = true;
+        return -1;
     }
 
     if (avformat_find_stream_info(fmtCtx, nullptr) < 0) {
-        qWarning("Cannot find any stream in file.\n");
-        goto error;
+        qWarning("Cannot find any stream in file.");
+        cleanUp();
+        isEof = true;
+        return -1;
     }
 
-    for (int i = 0; i < static_cast<int>(fmtCtx->nb_streams); i++) {
+    for (unsigned int i = 0; i < fmtCtx->nb_streams; i++) {
         if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && videoStreamIndex == -1)
             videoStreamIndex = i;
 

@@ -24,4 +24,15 @@ _Pragma("GCC diagnostic ignored \"-Wimplicit-int-conversion\"")
 #define INCLUDE_FFMPEG_END \
 _Pragma("GCC diagnostic pop") \
 }
+
+
+
+#pragma GCC diagnostic push
+extern "C" {
+#include <libavutil/error.h>
+}
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+const int ERROR_EOF = AVERROR_EOF;
+#pragma GCC diagnostic pop
+
 #endif //PONYPLAYER_HELPER_H

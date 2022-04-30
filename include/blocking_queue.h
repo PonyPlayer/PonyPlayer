@@ -25,9 +25,7 @@ private:
 
     void applyToAll(std::function<void(T)> func);
 
-    long long int clearWith(std::function<void(T)> func);
 
-    void notify();
 
 public:
 
@@ -75,6 +73,9 @@ public:
      */
     long long int clear();
 
+    long long int clearWith(std::function<void(T)> func);
+
+    void notify();
 
 };
 

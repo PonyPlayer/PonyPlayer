@@ -33,7 +33,6 @@ INCLUDE_FFMPEG_END
  *          }
  *      }
  */
-
 class Demuxer {
 private:
     const int MAX_AUDIO_FRAME_SIZE = 192000;
