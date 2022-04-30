@@ -61,7 +61,10 @@ Rectangle {
         }
 
         onPressedChanged: {
-            videoArea.seek(mainWindow.currentTime)
+            if(!videoSlide.pressed){
+                console.log("i seek now")
+                videoArea.seek(mainWindow.currentTime)
+            }
         }
         Shortcut{
             sequence: "Up"

@@ -74,7 +74,6 @@ function playOrPauseFunction(){
     }
 }
 function solveStateChanged(){
-    videoArea.state
     if(videoArea.state==1){
         console.log("loading now")
     }
