@@ -25,6 +25,8 @@ private:
 
     void applyToAll(std::function<void(T)> func);
 
+    long long int clearWith(std::function<void(T)> func);
+
 public:
 
     explicit BlockingQueue(const long long int &_capacity);

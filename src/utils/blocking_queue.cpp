@@ -108,7 +108,23 @@ void BlockingQueue<T>::applyToAll(std::function<void(T)> func) {
     for (long long int i = frontIdx; i != rearIdx; i = (i + 1) % capacity) {
         func(queue[i]);
     }
-    func(rearIdx);
+    func(queue[rearIdx]);
     exLock.unlock();
+}
+
+template<typename T>
+long long int BlockingQueue<T>::clearWith(std::function<void(T)> func) {
+    std::unique_lock<std::shared_mutex> exLock(mutex);
+    long long int ret = size;
+    if (frontIdx == -1 || rearIdx == -1) return 0;
+    for (long long int i = frontIdx; i != rearIdx; i = (i + 1) % capacity) {
+        func(queue[i]);
+    }
+    func(queue[rearIdx]);
+    frontIdx = rearIdx = -1;
+    size = 0;
+    exLock.unlock();
+    cond.notify_all();
+    return ret;
 }
 
