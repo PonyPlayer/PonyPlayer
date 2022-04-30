@@ -2,6 +2,7 @@
 function mytest(path){
     console.log(path)
 }
+
 function forwardOneSecond(){
     if(mainWindow.endTime==0){
         return
@@ -108,6 +109,7 @@ function volumnDown(){
     videoArea.setVolume(mainWindow.volumn)
 }
 function screenSizeFunction(){
+    mainWindow.isVideoListOpen=false
     if(mainWindow.isFullScreen){
         mainWindow.showNormal()
         mainWindow.isFullScreen=false
