@@ -10,7 +10,9 @@ qt_add_qml_module(${PROJECT_NAME}
             main.qml
             PonyBody.qml
             PonyFooter.qml
+            MediaInfo.qml
             interfacefunctions.js
+            Wave.qml
         RESOURCES
             interfacepics/cease.png
             interfacepics/FileCloser.png
@@ -35,4 +37,5 @@ qt_add_qml_module(${PROJECT_NAME}
             interfacepics/Volumn1.png
             interfacepics/Volumn2.png
             interfacepics/Volumn3.png
+            interfacepics/defaultlogo.png
         )

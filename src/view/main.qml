@@ -33,8 +33,14 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import HurricanePlayer
+import Controller
 import "./interfacefunctions.js" as IF
 Window {
+    function rgb(r,g,b) {
+        var ret = (r << 16 | g << 8 | b)
+        return ("#"+ret.toString(16)).toUpperCase();
+    }
+
     id:mainWindow
     //是否是全屏
     property bool isFullScreen: false
@@ -130,12 +136,16 @@ Window {
     //    anchors.right: parent.right
     //    anchors.bottom: footer.top
     //}
+    Wave {
+        id: wavewindow
+    }
     Rectangle {
         id:body
+
         anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: footer.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: footer.top
         //左侧播放列表栏
         Rectangle{
             id:videoList
@@ -143,7 +153,12 @@ Window {
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            color:"black"
+            color: rgb(45, 48, 50)
+
+            Controller {
+                id: mediaLibController
+            }
+
             //列表文件操作项目
             Item{
                 id:videoListOperator
@@ -158,6 +173,7 @@ Window {
                     onAccepted: {
                         mainWindow.openFile(fileDialog.currentFile);
                         mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+                        mediaLibController.getFile(fileDialog.currentFile);
                         console.log(videoArea.getVideoDuration())
                     }
                     onRejected: {
@@ -205,6 +221,89 @@ Window {
                     }
                 }
             }
+
+            // 列表代理
+            Component {
+                id: listDelegate
+                Item {
+                    id: listitem
+
+                    height: listview.height / 10    // 每页显示 10 个
+                    width: listview.width
+
+                    MediaInfo {
+                        id: mediainfowindow
+                    }
+
+                    Item {
+                        id: raylayout
+                        anchors.top: parent.top
+                        anchors.right: deleteitem.left
+                        anchors.left: parent.left
+                        anchors.bottom: parent.bottom
+
+                        Image {
+                            id: preview
+                            source: "interfacepics/defaultlogo"
+                            anchors.left: parent.left
+                            anchors.leftMargin: parent.height*0.1
+                            height: parent.height*0.8
+                            width: height
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        Text {
+                            id: filaname
+                            text: name
+                            font.bold: true
+                            anchors.left : preview.right
+                            anchors.leftMargin: 6
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: rgb(173, 173, 173)
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: "PointingHandCursor"
+
+                            onClicked: {
+                                listview.currentIndex = index
+                                console.log(listview.currentIndex)
+                            }
+
+                            onDoubleClicked: {
+                                mediainfowindow.show()
+                            }
+                        }
+
+                    }
+
+                    Image {
+                        id: deleteitem
+                        height: preview.height*0.5
+                        width: preview.width*0.5
+                        source: "interfacepics/FileCloser"
+                        anchors.right: parent.right
+                        anchors.left: filename.left
+                        anchors.leftMargin: 6
+                        anchors.rightMargin: parent.height*0.1
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        MouseArea{
+                            anchors.fill: parent
+                            cursorShape: "PointingHandCursor"
+
+                            onClicked: {
+                                console.log("Image")
+                                listModel.remove(index,1)
+                            }
+
+                        }
+                    }
+                }
+
+            }
+
             ScrollView{
                 id:videoScroll
                 anchors.top: videoListOperator.bottom
@@ -240,44 +339,11 @@ Window {
                     highlight:Rectangle {
                         color: "red"
                     }
-                    delegate: Rectangle {
-                         color: "transparent"
-                         Text {
-                             text: name + "  "+index
-                             color: "white"
-                             lineHeight: 20
-                         }
-                         width: 200
-                         height: 24
-                         MouseArea{
-                             anchors.fill: parent
-                             cursorShape: "PointingHandCursor"
-                             onClicked: {
-                                 listview.currentIndex=index
-                             }
-                         }
-                         Image{
-                             height: 20
-                             width: 20
-                             source: "interfacepics/FileCloser"
-                             anchors.right: parent.right
-                             anchors.top: parent.top
-                             anchors.rightMargin: 2
-                             anchors.topMargin: 2
-                             MouseArea{
-                                 anchors.fill: parent
-                                 cursorShape: "PointingHandCursor"
-                                 onClicked: {
-                                     listModel.remove(index,1)
-                                 }
-                             }
-                         }
-                     }
+                    delegate: listDelegate
                  }
             }
-
-
         }
+
         //视频播放区域
         SwipeView{
             id:mainArea

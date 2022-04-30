@@ -25,6 +25,8 @@ public:
 
     void remove(const QString &tableName, const QObject *object);
 
+    void removeByKV(const QString &tableName, const QString &key, const QString &value);
+
     QList<QObject *> retrieveData(const QString &tableName, const QString &className);
 
     template<typename T>

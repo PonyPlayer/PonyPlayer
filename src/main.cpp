@@ -5,7 +5,8 @@
 #include "hurricane.h"
 #include "logger.h"
 #include "quickitem.h"
-#include "blocking_queue.h"
+#include "controller.h"
+#include "wave.h"
 
 int main(int argc, char *argv[]) {
     QQuickWindow::setGraphicsApi(QSGRendererInterface::GraphicsApi::OpenGL);
@@ -15,6 +16,9 @@ int main(int argc, char *argv[]) {
     QSurfaceFormat::setDefaultFormat(format);
     QApplication app(argc, argv);
     qmlRegisterType<HurricanePlayer>("HurricanePlayer", 1, 0, "HurricanePlayer");
+    qmlRegisterType<WaveView>("WaveView", 1, 0, "WaveView");
+    qmlRegisterType<Controller>("Controller",1,0,"Controller");
+    qRegisterMetaType<PlayListItem *>("PlayListItem");
     qInstallMessageHandler(logMessageHandler);
 
     const QUrl url(u"qrc:/view/main.qml"_qs);
@@ -26,6 +30,5 @@ int main(int argc, char *argv[]) {
             }, Qt::QueuedConnection);
     engine.load(url);
     qDebug() << "Start program";
-
     return QApplication::exec();
 }
