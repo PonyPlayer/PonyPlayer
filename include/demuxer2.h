@@ -80,15 +80,19 @@ public:
 
     virtual void beforeSeek(int64_t us) = 0;
 
-    virtual Picture getPicture() = 0;
+    virtual void afterSeek() = 0;
 
-    virtual Sample getSample() = 0;
+    virtual Picture getPicture(bool b) = 0;
 
-    virtual bool pop() = 0;
+    virtual Sample getSample(bool b) = 0;
+
+    virtual bool pop(bool b) = 0;
 
     virtual qreal duration() = 0;
 
     virtual ~DecoderBase() = default;
+
+
 };
 
 
@@ -181,10 +185,15 @@ public:
 
     void beforeSeek(int64_t us) override {
         frameQueue.clearWith([](AVFrame * frame) { av_frame_free(&frame);});
+        avcodec_flush_buffers(codecCtx);
         frameQueue.notify();
     }
 
-    Picture getPicture() {
+    void afterSeek() override {
+
+    }
+
+    Picture getPicture(bool b) {
         if constexpr(type != DecoderBase::DecoderType::Video) { throw std::runtime_error("Unsupported operation."); }
         AVFrame *frame = frameQueue.bfront();
         if (!frame) { return {}; }
@@ -192,7 +201,7 @@ public:
         return {frame, pts};
     }
 
-    Sample getSample() {
+    Sample getSample(bool b) {
         if constexpr(type != DecoderBase::DecoderType::Audio) { throw std::runtime_error("Unsupported operation."); }
         AVFrame *frame = frameQueue.bfront();
         if (!frame) { return {}; }
@@ -208,7 +217,7 @@ public:
     }
 
 
-    bool pop() override {
+    bool pop(bool b) override {
         return frameQueue.bpop();
     }
 };
@@ -235,8 +244,8 @@ public:
         decoders.resize(fmtCtx->nb_streams);
         using DecoderBase::DecoderType::Audio;
         using DecoderBase::DecoderType::Video;
-        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 128);
-        decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 128);
+        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 2048);
+        decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 512);
     }
 
     ~DecodeWorker() {
@@ -247,7 +256,7 @@ public:
 
     /**
      * 修改视频播放进度, 注意: 这个方法必须不在解码线程上调用.
-     * @param us 新的视频进度(单位: 微妙)
+     * @param us 新的视频进度(单位: 微秒)
      */
     void seek(int64_t us) {
         // case 1: currently decoding, interrupt
@@ -257,17 +266,25 @@ public:
             // interrupt
             if (decoder) decoder->beforeSeek(us);
         }
+        qDebug() << "a Seek:" << us;
         int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>(static_cast<double>(us) / 1000000.0 * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
-        if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret);}
+        if (ret == 0) {
+            for (const auto & decoder : decoders) {
+                if (decoder) decoder->afterSeek();
+            }
+        } else {
+            qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret);
+        }
+
     }
 
-    Picture getPicture() { return decoders[videoStreamIndex.front()]->getPicture(); }
+    Picture getPicture(bool b) { return decoders[videoStreamIndex.front()]->getPicture(b); }
 
-    bool popPicture() { return decoders[videoStreamIndex.front()]->pop(); }
+    bool popPicture(bool b) { return decoders[videoStreamIndex.front()]->pop(b); }
 
-    Sample getSample() { return decoders[audioStreamIndex.front()]->getSample(); }
+    Sample getSample(bool b) { return decoders[audioStreamIndex.front()]->getSample(b); }
 
-    bool popSample() { return decoders[audioStreamIndex.front()]->pop(); }
+    bool popSample(bool b) { return decoders[audioStreamIndex.front()]->pop(b); }
 
     qreal getAudionLength() { return decoders[audioStreamIndex.front()]->duration(); }
     qreal getVideoLength() { return decoders[videoStreamIndex.front()]->duration(); }
@@ -279,7 +296,12 @@ public slots:
             if (ret == 0) {
                 auto *decoder = decoders[static_cast<unsigned long>(packet->stream_index)];
                 if (decoder) {
-                    if (!decoder->accept(packet)) { break; } // no more frame
+                    if (decoder->accept(packet)) {
+                        av_packet_unref(packet);
+                    } else {
+                        break;
+                        // no more frame
+                    }
                 }
             } else {
                 qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
@@ -297,8 +319,10 @@ private:
     DecodeWorker *worker = nullptr;
     QThread *qThread = nullptr;
 signals:
-    void startWorker();
-    void openFileResult(bool ret);
+    void startWorker(QPrivateSignal);
+    void seekWorker(QPrivateSignal);
+    void openFileResult(bool ret, QPrivateSignal);
+    void seekCompleted(int64_t pos, QPrivateSignal);
 public:
     Demuxer2() {
         qThread = new QThread();
@@ -312,30 +336,40 @@ public:
 
     ~Demuxer2() {}
 
-    Picture getPicture() { return worker->getPicture(); }
+    Picture getPicture(bool b) { return worker->getPicture(b); }
 
-    bool popPicture() { return worker->popPicture(); }
+    bool popPicture(bool b) { return worker->popPicture(b); }
 
-    Sample getSample() { return worker->getSample(); }
+    Sample getSample(bool b) { return worker->getSample(b); }
 
-    bool popSample() { return worker->popSample(); }
-
-    void seek(int64_t us);
-
-    void start();
-
+    bool popSample(bool b) { return worker->popSample(b); }
 
     qreal audioDuration() { return worker ? worker->getAudionLength() : 0.0 ; }
 
     qreal videoDuration() { return worker ? worker->getVideoLength() : 0.0; }
 
 public slots:
-    void openFile(std::string fn) {
+    /**
+     * 调整视频进度
+     * @param us 视频进度(单位: 微秒)
+     */
+    void seek(int64_t us) {
+        // call on DecodeThread
+        worker->seek(us);
+//        emit seekCompleted(us, QPrivateSignal());
+//        emit startWorker(QPrivateSignal());
+    };
+
+    /**
+     * 打开文件
+     * @param fn 本地文件路径
+     */
+    void openFile(const std::string &fn) {
         qDebug() << "OpenFile" << QString::fromUtf8(fn);
         // call on video decoder thread
         if (worker) {
             qWarning() << "Already open file:" << QString::fromUtf8(worker->filename);
-            emit openFileResult(false);
+            emit openFileResult(false, QPrivateSignal());
             return;
         }
         try {
@@ -343,12 +377,21 @@ public slots:
         } catch (std::runtime_error &ex) {
             qWarning() << "Error opening file:" << ex.what();
             worker = nullptr;
-            emit openFileResult(false);
+            emit openFileResult(false, QPrivateSignal());
             return;
         }
         connect(this, &Demuxer2::startWorker, worker, &DecodeWorker::onWork);
-        emit openFileResult(true);
+        emit openFileResult(true, QPrivateSignal());
     }
+
+    /**
+     * 启动解码器
+     */
+    void start() {
+        qDebug() << "Try Start";
+        emit startWorker(QPrivateSignal());
+    }
+
 };
 
 

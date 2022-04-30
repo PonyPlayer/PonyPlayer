@@ -26,18 +26,23 @@ void VideoPlayWorker::slotOnWork() {
     pauseRequested = false;
     audioOutput->resume();
     emit signalStateChanged(HurricaneState::PLAYING);
-    while(!pauseRequested && (currFrame = demuxer->getPicture(), currFrame.isValid())) {
-        demuxer->popPicture();
+    while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
+        demuxer->popPicture(true);
         emit signalImageChanged(currFrame);
         for (int i = 0; i < 5 && audioOutput->bytesFree() > 19200; ++i) {
-            Sample sample = demuxer->getSample();
-            audioInput->write(reinterpret_cast<const char *>(sample.data), sample.len);
-            demuxer->popSample();
-            sample.free();
+            try {
+                Sample sample = demuxer->getSample(true);
+                demuxer->popSample(true);
+                audioInput->write(reinterpret_cast<const char *>(sample.data), sample.len);
+                sample.free();
+            } catch (std::runtime_error &ex) {
+                qWarning() << "Fail to get sample" << ex.what();
+                break;
+            }
         }
         // process all events such as setVolume and pause request
         QCoreApplication::processEvents();
-        Picture nextFrame = demuxer->getPicture();
+        Picture nextFrame = demuxer->getPicture(true);
         if (nextFrame.isValid()) {
             syncTo(nextFrame.pts);
         }
@@ -81,7 +86,7 @@ void VideoPlayWorker::slotThreadInit() {
     audioOutput = new QAudioSink(format, this);
     connect(audioOutput, &QAudioSink::stateChanged, this, &VideoPlayWorker::onAudioStateChanged, Qt::ConnectionType::DirectConnection);
     audioOutput->setVolume(100);
-    audioOutput->setBufferSize(19200 * 10);
+    audioOutput->setBufferSize(19200 * 2);
 }
 
 void VideoPlayWorker::onAudioStateChanged(QAudio::State state) {
@@ -122,31 +127,36 @@ void VideoPlayWorker::slotSeek(qreal pos) {
     // 2. Set seekPoint so syncTo can handle pts correctly
     // 3. Clear invalid frame
     auto t = static_cast<time_point>(pos * 1000 * 1000);
-    bool isSuspended = audioOutput->state() == QAudio::SuspendedState;
+    bool suspended = audioOutput->state() == QAudio::SuspendedState;
     seekPoint = t;
     closeAudio();
 
-    // time-consuming task
-    demuxer->seek(t);
+    // WARNING: must make sure everything (especially PTS) has been properly updated
+    // otherwise, the video thread will be BLOCKING for a long time.
+    emit signalDecoderSeek(t); // blocking connection
+    emit signalDecoderStart(); // queue connection
+
+    // time-consuming job
     {
         Picture pic;
-        while(pic = demuxer->getPicture(), pic.getPTS() < pos) {
-            demuxer->popPicture();
+        while(pic = demuxer->getPicture(true), pic.getPTS() < pos) {
+            demuxer->popPicture(true);
             pic.free();
         }
     }
     {
         Sample sample;
-        while(sample = demuxer->getSample(), sample.getPTS() < pos) {
-            demuxer->popSample();
+        while(sample = demuxer->getSample(true), sample.getPTS() < pos) {
+            demuxer->popSample(true);
             sample.free();
         }
     }
     audioInput = audioOutput->start();
-    if (isSuspended)
+    if (suspended)
         audioOutput->suspend();
     emit signalPositionChangedBySeek();
     qDebug() << "Finished seek request" << pos;
+
 }
 
 void VideoPlayWorker::slotVolumeChanged(qreal v) {
@@ -157,4 +167,6 @@ void VideoPlayWorker::slotVolumeChanged(qreal v) {
         emit signalVolumeChangedFail(current);
     }
 }
+
+
 

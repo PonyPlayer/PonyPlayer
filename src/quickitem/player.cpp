@@ -9,7 +9,7 @@
 #include <QDir>
 
 
-//#define DEBUG_FLAG_AUTO_OPEN
+#define DEBUG_FLAG_AUTO_OPEN
 
 HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoPlayWorker() {
     videoThread = new QThread;

@@ -58,8 +58,16 @@ public:
     VideoPlayWorker() : QObject(nullptr) {
         demuxer = new Demuxer2;
         demuxer->move();
-        connect(demuxer, &Demuxer2::openFileResult, this, &VideoPlayWorker::slotOpenFileResult);
+        // open file
         connect(this, &VideoPlayWorker::signalOpenFile, demuxer, &Demuxer2::openFile);
+        connect(demuxer, &Demuxer2::openFileResult, this, &VideoPlayWorker::slotOpenFileResult);
+
+        // seek
+        connect(this, &VideoPlayWorker::signalDecoderSeek, demuxer, &Demuxer2::seek, Qt::BlockingQueuedConnection);
+//        connect(demuxer, &Demuxer2::seekCompleted, this, &VideoPlayWorker::slotDecoderSeekCompleted);
+
+        // start
+        connect(this, &VideoPlayWorker::signalDecoderStart, demuxer, &Demuxer2::start);
     }
     ~VideoPlayWorker() override { delete demuxer; }
     qreal getAudioDuration() { return demuxer->audioDuration(); }
@@ -82,9 +90,9 @@ public slots:
     void slotOpenFileResult(bool ret) {
         HurricaneState state;
         if (ret) {
-            demuxer->start();
+            emit signalDecoderStart();
             state = HurricaneState::PAUSED;
-            Picture pic = demuxer->getPicture();
+            Picture pic = demuxer->getPicture(true);
             emit signalImageChanged(pic);
         } else {
             state = HurricaneState::INVALID;
@@ -101,11 +109,15 @@ public slots:
     void slotSeek(qreal pos);
 signals:
     void signalOpenFile(std::string fn);
+    void signalDecoderSeek(time_point pos);
+    void signalDecoderStart();
     void signalImageChanged(Picture pic);
     void signalStateChanged(HurricaneState state);
     void signalPositionChangedBySeek();
 
     void signalVolumeChangedFail(qreal d);
+
+
 };
 
 /**
