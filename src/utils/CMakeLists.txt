@@ -3,6 +3,7 @@ project(utils)
 set(CPP_SOURCES
         logger.cpp
         blocking_queue.cpp
+        countdown_latch.cpp
         )
 
 qt_add_library(${PROJECT_NAME} STATIC
@@ -10,6 +11,7 @@ qt_add_library(${PROJECT_NAME} STATIC
 
 target_sources(${PROJECT_NAME} PRIVATE
         ${CMAKE_SOURCE_DIR}/include/blocking_queue.h
+        ${CMAKE_SOURCE_DIR}/include/countdown_latch.h
         )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
