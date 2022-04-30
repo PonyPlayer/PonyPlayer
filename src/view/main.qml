@@ -344,8 +344,6 @@ Window {
             }
         }
 
-
-        }
         //视频播放区域
         SwipeView{
             id:mainArea
@@ -402,18 +400,11 @@ Window {
             }
         }
     }
-
     PonyFooter{
         id:footer
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        Component.onCompleted: {
-            mainWindow.setSpeed.connect(femo)
-        }
-        function femo(spe){
-            console.log(spe)
-        }
     }
 }
 
