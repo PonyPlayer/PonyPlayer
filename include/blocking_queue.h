@@ -27,6 +27,8 @@ private:
 
     long long int clearWith(std::function<void(T)> func);
 
+    void notify();
+
 public:
 
     explicit BlockingQueue(const long long int &_capacity);
@@ -41,7 +43,7 @@ public:
      * 向队列中插入元素(阻塞直到可以插入)
      */
 
-    void bpush(const T &item);
+    bool bpush(const T &item);
 
     /*
      * 从队列中弹出元素(非阻塞)
@@ -53,7 +55,7 @@ public:
      * 从队列中弹出元素(阻塞直到可以弹出)
      */
 
-    void bpop();
+    bool bpop();
 
     /*
      * 查看队列头(非阻塞)

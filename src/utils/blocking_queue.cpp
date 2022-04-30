@@ -37,12 +37,17 @@ void BlockingQueue<T>::push(const T &item) {
 }
 
 template<typename T>
-void BlockingQueue<T>::bpush(const T &item) {
+bool BlockingQueue<T>::bpush(const T &item) {
     std::unique_lock<std::shared_mutex> exLock(mutex);
-    if (isFull()) cond.wait(exLock, [&]() { return capacity - size > 0; });
+    if (isFull()) cond.wait(exLock);
+    if (capacity - size <= 0) {
+        exLock.unlock();
+        return false;
+    }
     enqueue(item);
     exLock.unlock();
     cond.notify_all();
+    return true;
 }
 
 template<typename T>
@@ -63,12 +68,17 @@ void BlockingQueue<T>::dequeue() {
 }
 
 template<typename T>
-void BlockingQueue<T>::bpop() {
+bool BlockingQueue<T>::bpop() {
     std::unique_lock<std::shared_mutex> exLock(mutex);
-    if (isEmpty()) cond.wait(exLock, [&]() { return size > 0; });
+    if (isEmpty()) cond.wait(exLock);
+    if (size <= 0) {
+        exLock.unlock();
+        return false;
+    }
     dequeue();
     exLock.unlock();
     cond.notify_all();
+    return true;
 }
 
 template<typename T>
@@ -83,7 +93,11 @@ T BlockingQueue<T>::front() {
 template<typename T>
 T BlockingQueue<T>::bfront() {
     std::unique_lock<std::shared_mutex> exLock(mutex);
-    if (isEmpty()) cond.wait(exLock, [&]() { return size > 0; });
+    if (isEmpty()) cond.wait(exLock);
+    if (size <= 0) {
+        exLock.unlock();
+        return T();
+    }
     T ret = queue[frontIdx];
     exLock.unlock();
     return ret;
@@ -126,5 +140,10 @@ long long int BlockingQueue<T>::clearWith(std::function<void(T)> func) {
     exLock.unlock();
     cond.notify_all();
     return ret;
+}
+
+template<typename T>
+void BlockingQueue<T>::notify() {
+    cond.notify_all();
 }
 
