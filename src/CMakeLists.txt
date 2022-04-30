@@ -8,6 +8,7 @@ add_subdirectory(render)
 add_subdirectory(quickitem)
 add_subdirectory(playlist)
 add_subdirectory(config)
+add_subdirectory(wave)
 #add_subdirectory(interpolate)
 include(${CMAKE_SOURCE_DIR}/cmake/platform.cmake)
 
@@ -28,6 +29,7 @@ target_link_libraries(${PROJECT_NAME}
         quickitem
         playlist
         config
+        wave
 #        interpolate
         )
 

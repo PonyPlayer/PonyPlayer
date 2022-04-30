@@ -136,6 +136,9 @@ Window {
     //    anchors.right: parent.right
     //    anchors.bottom: footer.top
     //}
+    Wave {
+        id: wavewindow
+    }
     Rectangle {
         id:body
 

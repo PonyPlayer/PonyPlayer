@@ -526,4 +526,20 @@ Rectangle {
             }
         }
     }
+    Image {
+        id: debug
+        width: 30
+        height: 20
+        anchors.verticalCenter: playOrPause.verticalCenter
+        anchors.left: fileList.right
+        anchors.leftMargin: 10
+        source: "interfacepics/NormalScreen"
+        MouseArea{
+            anchors.fill: parent
+            cursorShape: "PointingHandCursor"
+            onClicked: {
+                IF.openWave()
+            }
+        }
+    }
 }
