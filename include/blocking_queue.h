@@ -61,6 +61,12 @@ public:
 
     T bfront();
 
+    /**
+     * 清空队列元素
+     * @return 清理元素数量
+     */
+    long long int clear();
+
 
 };
 

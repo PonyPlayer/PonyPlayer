@@ -87,3 +87,15 @@ T BlockingQueue<T>::bfront() {
     exLock.unlock();
     return ret;
 }
+
+template<typename T>
+long long int BlockingQueue<T>::clear() {
+    std::unique_lock<std::shared_mutex> exLock(mutex);
+    long long int ret = size;
+    while(!isEmpty()) {
+        dequeue();
+    }
+    exLock.unlock();
+    cond.notify_all();
+    return ret;
+}
