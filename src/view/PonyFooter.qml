@@ -53,6 +53,7 @@ Rectangle {
                 videoSlide.value=0
                 mainWindow.isPlay=false
                 mainWindow.stop()
+                videoArea.seek(0)
             }
             mainWindow.currentTime=videoSlide.value
             mainWindow.currentTimeChange(videoSlide.value)
@@ -112,7 +113,6 @@ Rectangle {
             else if(mainWindow.currentTime>=mainWindow.endTime&&mainWindow.step==1){
                 mainWindow.isPlay=false
             }
-
             else{
                 mainWindow.currentTime=mainWindow.currentTime+mainWindow.step
                 videoSlide.value=currentTime
@@ -262,6 +262,7 @@ Rectangle {
             cursorShape: "PointingHandCursor"
             onClicked: {
                 mainWindow.nextOne()
+                videoArea.setVolume(-0.5)
             }
         }
     }
@@ -412,7 +413,7 @@ Rectangle {
             states: [
                 State {
                     name: "volumn0"
-                    when: mainWindow.volumn===0
+                    when: mainWindow.volumn<=0
                     PropertyChanges {
                         target: speaker
                         source:"interfacepics/Volumn0"

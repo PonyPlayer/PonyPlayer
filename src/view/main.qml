@@ -104,19 +104,29 @@ Window {
     visible: true
     title: "PonyPlayer"
 
+    MouseArea{
+        anchors.fill: parent
+        id:mainScreen
+        hoverEnabled: true //默认是false
+        onPositionChanged: {
+            if(mainWindow.isFullScreen){
+                holder.restart()
+                mainWindow.isFooterVisable=true
+            }
+        }
+    }
+    Timer {
+            id: holder
+            interval: 5000
+            repeat: false
+            running: mainWindow.isFullScreen
+            triggeredOnStart: false
+            onTriggered: {
+                mainWindow.isVideoListOpen=false
+                mainWindow.isFooterVisable=false
+            }
+    }
 
-//    Timer {
-//            id: holder
-//            interval: 5000
-//            repeat: false
-//            running: mainWindow.isFullScreen
-//            triggeredOnStart: false
-//            onTriggered: {
-//                mainWindow.isVideoListOpen=false
-//                mainWindow.isFooterVisable=false
-//            }
-
-//        }
     Timer{
         id:detechSize
         interval: 200
@@ -129,16 +139,6 @@ Window {
     }
 
 
-    //PonyBody{
-    //    id:body
-    //    anchors.top: parent.top
-    //    anchors.left: parent.left
-    //    anchors.right: parent.right
-    //    anchors.bottom: footer.top
-    //}
-    Wave {
-        id: wavewindow
-    }
     Rectangle {
         id:body
 
@@ -344,6 +344,8 @@ Window {
             }
         }
 
+
+        }
         //视频播放区域
         SwipeView{
             id:mainArea
@@ -357,7 +359,7 @@ Window {
                 id:videoArea
                 MouseArea{
                     anchors.fill: parent
-                    propagateComposedEvents: true
+                    hoverEnabled: true //默认是false
                     cursorShape: "PointingHandCursor"
                     onClicked: {
                         if(mainWindow.isPlay){
@@ -369,11 +371,18 @@ Window {
                             mainWindow.start()
                         }
                     }
+                    onPositionChanged: {
+                        if(mainWindow.isFullScreen){
+                            holder.restart()
+                            mainWindow.isFooterVisable=true
+                        }
+                    }
                 }
                 onVolumeChangedFail:{
+                    console.log("volume fail" + current)
                     mainWindow.volumn=current
                     mainWindow.beforeMute=current
-                    volumnSlider=current*100
+                    volumnSlide.value=current*100
                 }
                 onStateChanged:IF.solveStateChanged()
                 Component.onCompleted: {
@@ -406,20 +415,6 @@ Window {
             console.log(spe)
         }
     }
-
-//    MouseArea{
-//        anchors.fill: parent
-//        id:mainScreen
-//        hoverEnabled: true //默认是false
-//        propagateComposedEvents: true
-//        onPositionChanged: {
-//            if(mainWindow.isFullScreen){
-//                holder.restart()
-//                mainWindow.isVideoListOpen=true
-//                mainWindow.isFooterVisable=true
-//            }
-//        }
-//    }
 }
 
 
