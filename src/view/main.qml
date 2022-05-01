@@ -137,11 +137,21 @@ Window {
             mainWindow.userHeight=mainWindow.height
         }
     }
-
+    Dialog{
+        id:openFileFailedDialog
+        title: "打开文件失败"
+        width: 200
+        height: 150
+        standardButtons: Dialog.Ok
+        Text{
+            text: "打开文件失败，请选择正确路径"
+            anchors.centerIn: parent
+        }
+        onAccepted: console.log("Ok clicked")
+    }
 
     Rectangle {
         id:body
-
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
@@ -170,12 +180,7 @@ Window {
                 FileDialog{
                     id:fileDialog
                     title: "choose video"
-                    onAccepted: {
-                        mainWindow.openFile(fileDialog.currentFile);
-                        mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
-                        mediaLibController.getFile(fileDialog.currentFile);
-                        console.log(videoArea.getVideoDuration())
-                    }
+                    onAccepted: IF.videoListOperatorOnAccepted()
                     onRejected: {
                         console.log("reject")
                     }
@@ -196,9 +201,7 @@ Window {
                     MouseArea{
                         anchors.fill: parent
                         cursorShape: "PointingHandCursor"
-                        onClicked: {
-                            fileDialog.open()
-                        }
+                        onClicked: fileDialog.open()
                     }
                 }
 
@@ -217,6 +220,7 @@ Window {
                         cursorShape: "PointingHandCursor"
                         onClicked: {
                             mainWindow.isVideoListOpen=false
+
                         }
                     }
                 }
@@ -359,16 +363,7 @@ Window {
                     anchors.fill: parent
                     hoverEnabled: true //默认是false
                     cursorShape: "PointingHandCursor"
-                    onClicked: {
-                        if(mainWindow.isPlay){
-                            mainWindow.isPlay=false
-                            mainWindow.stop()
-                        }
-                        else{
-                            mainWindow.isPlay=true
-                            mainWindow.start()
-                        }
-                    }
+                    onClicked: IF.videoAreaOnClicked()
                     onPositionChanged: {
                         if(mainWindow.isFullScreen){
                             holder.restart()
@@ -376,20 +371,15 @@ Window {
                         }
                     }
                 }
-                onVolumeChangedFail:{
-                    console.log("volume fail" + current)
-                    mainWindow.volumn=current
-                    mainWindow.beforeMute=current
-                    volumnSlide.value=current*100
-                }
+                onVolumeChangedFail:IF.videoAreaOnVolumeChangedFail()
                 onStateChanged:IF.solveStateChanged()
-                Component.onCompleted: {
-                        mainWindow.start.connect(videoArea.start)
-                        mainWindow.stop.connect(videoArea.pause)
-                        mainWindow.openFile.connect(videoArea.openFile)
-                        mainWindow.setSpeed.connect(videoArea.setSpeed)
-                    }
+                Component.onCompleted: IF.mainAreaInit()
             }
+            //onOpenFileResult:{
+            //    if(!b){
+            //        openFileFailedDialog.open()
+            //    }
+            //}
             Rectangle{
                 id:mediaMessage
                 color:"green"
