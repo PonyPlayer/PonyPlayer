@@ -277,13 +277,19 @@ public:
         DemuxDispatcherBase::~DemuxDispatcherBase();
     }
 
-
-    void flush() {
+    void pause() {
         interrupt = true;
         for (auto && decoder : decoders) {
             if (decoder) {
-                decoder->getFrameQueue().clearWith([](AVFrame *frame){ av_frame_free(&frame);});
                 decoder->getFrameQueue().notify();
+            }
+        }
+    }
+
+    void flush() {
+        for (auto && decoder : decoders) {
+            if (decoder) {
+                decoder->getFrameQueue().clearWith([](AVFrame *frame){ av_frame_free(&frame);});
             }
         }
     }
@@ -426,9 +432,16 @@ public slots:
     }
 
     /**
-     * 暂停解码并清空缓冲区, 调用这个方法会尽快使解码器线程空闲. 注意: 这个方法必须不在解码器线程调用.
+     * 暂停编码并使解码器线程进入空闲状态
      */
     void interrupt() {
+        worker->pause();
+    }
+
+    /**
+     * 清空旧的帧
+     */
+    void flush() {
         worker->flush();
     }
 

@@ -136,8 +136,7 @@ void VideoPlayWorker::slotSeek(qreal pos) {
     // otherwise, the video thread will be BLOCKING for a long time.
     demuxer->interrupt();
     emit signalDecoderSeek(t); // blocking connection
-    // FIXME maybe some frame leave
-    demuxer->interrupt();
+    demuxer->flush();
     emit signalDecoderStart(); // queue connection
 
     // time-consuming job
