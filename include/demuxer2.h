@@ -25,7 +25,8 @@ inline int ffmpegErrToString(int err) {
     return 0;
 }
 
-class DemuxWorkerBase: public QObject {
+
+class DemuxDispatcherBase: public QObject {
 Q_OBJECT
 public:
     const std::string filename;
@@ -33,7 +34,7 @@ protected:
 
     AVFormatContext *fmtCtx = nullptr;
 
-    DemuxWorkerBase(const std::string &fn): filename(fn) {
+    explicit DemuxDispatcherBase(const std::string &fn): filename(fn) {
         if (avformat_open_input(&fmtCtx, fn.c_str(), nullptr, nullptr) < 0) {
             throw std::runtime_error("Cannot open input file.");
         }
@@ -41,34 +42,20 @@ protected:
             throw std::runtime_error("Cannot find any stream in file.");
         }
     }
-    virtual ~DemuxWorkerBase() {
+    virtual ~DemuxDispatcherBase() {
         if (fmtCtx) { avformat_close_input(&fmtCtx); }
     }
 };
 
-class DemuxMetaDataWorker : public DemuxWorkerBase {
-    std::vector<unsigned int> videoStreamIndex;
-    std::vector<unsigned int> audioStreamIndex;
+class DemuxDecoder {
 
 public:
-    void load() {
-        // find stream
-        for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
-            if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
-                videoStreamIndex.emplace_back(i);
-            } else if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
-                audioStreamIndex.emplace_back(i);
-            }
-        }
-    }
-
-};
-
-class DecoderBase {
-
-public:
+    /**
+     * 解码器类型
+     */
     enum class DecoderType {
-        Audio, Video
+        Audio, ///< 音频解码器
+        Video, ///< 视频解码器
     };
     /**
      * 接收一个包
@@ -77,27 +64,55 @@ public:
      */
     virtual bool accept(AVPacket *pkt) = 0;
 
-
+    /**
+     * 会在调整视频进度(FFmpeg seek)之前调用
+     * @param us 新的视频进度(单位: 微秒)
+     */
     virtual void beforeSeek(int64_t us) = 0;
 
+    /**
+     * 会在调整视频进度(FFmpeg seek)之后调用
+     */
     virtual void afterSeek() = 0;
 
+    /**
+     * 获取视频帧, 仅当当前解码器是视频解码器时有效
+     * @param b 是否阻塞
+     * @return 视频帧, 请用 isValid 判断是否有效
+     */
     virtual Picture getPicture(bool b) = 0;
 
+    /**
+    * 获取音频帧, 仅当当前解码器是音频解码器时有效
+    * @param b 是否阻塞
+    * @return 音频帧, 请用 isValid 判断是否有效
+    */
     virtual Sample getSample(bool b) = 0;
 
+    /**
+     * 从队列中删除视频帧/音频帧
+     * @param b 是否阻塞
+     * @return 是否成功
+     */
     virtual bool pop(bool b) = 0;
 
+    /**
+     * 获取流的长度
+     * @return
+     */
     virtual qreal duration() = 0;
 
-    virtual ~DecoderBase() = default;
+    virtual ~DemuxDecoder() = default;
 
 
 };
 
-
-template<DecoderBase::DecoderType type>
-class DecoderImpl : public DecoderBase {
+/**
+ * @brief 音视频解码器具体实现
+ * @tparam type 解码器类型
+ */
+template<DemuxDecoder::DecoderType type>
+class DecoderImpl : public DemuxDecoder {
 private:
     AVCodec *codec = nullptr;
     AVStream *stream = nullptr;
@@ -129,7 +144,7 @@ public:
         }
 
         frameBuf = av_frame_alloc();
-        if constexpr(type == DecoderBase::DecoderType::Audio) {
+        if constexpr(type == DemuxDecoder::DecoderType::Audio) {
             this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
                                               AV_SAMPLE_FMT_S16, 44100,
                                               static_cast<int64_t>(codecCtx->channel_layout), codecCtx->sample_fmt,
@@ -145,7 +160,7 @@ public:
         }
     }
 
-    ~DecoderImpl() {
+    ~DecoderImpl() override {
         if (sampleFrameBuf) { av_frame_free(&sampleFrameBuf); }
         if (audioOutBuf) { av_freep(audioOutBuf); }
         if (swrCtx) { swr_free(&swrCtx); }
@@ -193,16 +208,16 @@ public:
 
     }
 
-    Picture getPicture(bool b) {
-        if constexpr(type != DecoderBase::DecoderType::Video) { throw std::runtime_error("Unsupported operation."); }
+    Picture getPicture(bool b) override {
+        if constexpr(type != DemuxDecoder::DecoderType::Video) { throw std::runtime_error("Unsupported operation."); }
         AVFrame *frame = frameQueue.bfront();
         if (!frame) { return {}; }
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
         return {frame, pts};
     }
 
-    Sample getSample(bool b) {
-        if constexpr(type != DecoderBase::DecoderType::Audio) { throw std::runtime_error("Unsupported operation."); }
+    Sample getSample(bool b) override {
+        if constexpr(type != DemuxDecoder::DecoderType::Audio) { throw std::runtime_error("Unsupported operation."); }
         AVFrame *frame = frameQueue.bfront();
         if (!frame) { return {}; }
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
@@ -222,15 +237,18 @@ public:
     }
 };
 
-class DecodeWorker : public DemuxWorkerBase {
+/**
+ * @brief 解码器调度器, 将Packet分配给解码器进一步解码成Frame
+ */
+class DecodeDispatcher : public DemuxDispatcherBase {
     Q_OBJECT
     std::vector<unsigned int> videoStreamIndex;
     std::vector<unsigned int> audioStreamIndex;
-    std::vector<DecoderBase*> decoders;
+    std::vector<DemuxDecoder*> decoders;
     std::atomic<bool> interrupt = false;
     AVPacket *packet = nullptr;
 public:
-    DecodeWorker(const std::string &fn) : DemuxWorkerBase(fn) {
+    DecodeDispatcher(const std::string &fn) : DemuxDispatcherBase(fn) {
         packet = av_packet_alloc();
         for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
@@ -242,20 +260,20 @@ public:
         if (videoStreamIndex.empty()) { throw std::runtime_error("Cannot find video stream."); }
         if (audioStreamIndex.empty()) { throw std::runtime_error("Cannot find audio stream."); }
         decoders.resize(fmtCtx->nb_streams);
-        using DecoderBase::DecoderType::Audio;
-        using DecoderBase::DecoderType::Video;
+        using DemuxDecoder::DecoderType::Audio;
+        using DemuxDecoder::DecoderType::Video;
         decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 2048);
         decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 512);
     }
 
-    ~DecodeWorker() {
+    ~DecodeDispatcher() {
         for(auto && decoder : decoders) { delete decoder; }
         if(packet) { av_packet_free(&packet); }
-        DemuxWorkerBase::~DemuxWorkerBase();
+        DemuxDispatcherBase::DemuxDispatcherBase();
     }
 
     /**
-     * 修改视频播放进度, 注意: 这个方法必须不在解码线程上调用.
+     * 修改视频播放进度, 注意: 这个方法必须在解码线程上调用.
      * @param us 新的视频进度(单位: 微秒)
      */
     void seek(int64_t us) {
@@ -316,7 +334,7 @@ public slots:
 class Demuxer2: public QObject {
     Q_OBJECT
 private:
-    DecodeWorker *worker = nullptr;
+    DecodeDispatcher *worker = nullptr;
     QThread *qThread = nullptr;
 signals:
     void startWorker(QPrivateSignal);
@@ -373,14 +391,14 @@ public slots:
             return;
         }
         try {
-            worker = new DecodeWorker(fn);
+            worker = new DecodeDispatcher(fn);
         } catch (std::runtime_error &ex) {
             qWarning() << "Error opening file:" << ex.what();
             worker = nullptr;
             emit openFileResult(false, QPrivateSignal());
             return;
         }
-        connect(this, &Demuxer2::startWorker, worker, &DecodeWorker::onWork);
+        connect(this, &Demuxer2::startWorker, worker, &DecodeDispatcher::onWork);
         emit openFileResult(true, QPrivateSignal());
     }
 
