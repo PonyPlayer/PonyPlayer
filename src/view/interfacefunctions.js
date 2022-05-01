@@ -136,3 +136,102 @@ function loading(){
     mainWindow.currentTime=0
     videoSlide.value=0
 }
+function volumeSliderOnMoved(){
+    mainWindow.volumn=volumnSlider.value/100
+    mainWindow.beforeMute=volumnSlider.value/100
+    mainWindow.volumnChange(mainWindow.volumn)
+    videoArea.setVolume(mainWindow.volumn)
+}
+function speakerOnClicked(){
+    if(mainWindow.volumn===0){
+        mainWindow.volumn=mainWindow.beforeMute
+        volumnSlider.value=Math.floor(mainWindow.volumn*100)
+    }
+    else{
+        mainWindow.beforeMute=mainWindow.volumn
+        mainWindow.volumn=0
+        volumnSlider.value=0
+    }
+    mainWindow.volumnChange(mainWindow.volumn)
+    videoArea.setVolume(mainWindow.volumn)
+}
+function playModeOnClicked(){
+    if(playMode.state==="ordered"){
+        playMode.state="single"
+    }
+    else if(playMode.state==="single"){
+        playMode.state="random"
+    }
+    else{
+        playMode.state="ordered"
+    }
+    mainWindow.playModeChange(playMode.state)
+}
+function videoSpeedOnClicked(){
+    if(videoSpeed.state==="speed1"){
+        videoSpeed.state="speed2"
+        mainWindow.speed=2.0
+    }
+    else if(videoSpeed.state==="speed2"){
+        videoSpeed.state="speed4"
+        mainWindow.speed=4.0
+    }
+    else if(videoSpeed.state==="speed4"){
+        videoSpeed.state="speed8"
+        mainWindow.speed=8.0
+    }
+    else{
+        videoSpeed.state="speed1"
+        mainWindow.speed=1.0
+    }
+    mainWindow.setSpeed(mainWindow.speed)
+}
+function invertedOnClicked(){
+    if(mainWindow.step===1){
+        mainWindow.step=-1
+    }
+    else{
+        mainWindow.step=1
+    }
+    mainWindow.inverted(mainWindow.step)
+}
+function videoSlideOnValueChanged(){
+    if(mainWindow.currentTime<0){
+        mainWindow.currentTime=0
+        videoSlide.value=0
+    }
+    else if(mainWindow.currentTime>=mainWindow.endTime){
+        mainWindow.currentTime=0
+        videoSlide.value=0
+        mainWindow.isPlay=false
+        mainWindow.stop()
+        console.log("lei fu kai use seek")
+        videoArea.seek(0)
+    }
+    mainWindow.currentTime=videoSlide.value
+    mainWindow.currentTimeChange(videoSlide.value)
+}
+function fileListOnClicked(){
+    if(mainWindow.isVideoListOpen){
+        mainWindow.isVideoListOpen=false
+    }
+    else{
+        mainWindow.isVideoListOpen=true
+    }
+}
+function timerOnTriggered(){
+    if(mainWindow.currentTime<=0&&mainWindow.step==-1){
+        mainWindow.isPlay=false
+    }
+    else if(mainWindow.currentTime>=mainWindow.endTime&&mainWindow.step==1){
+        mainWindow.isPlay=false
+    }
+    else{
+        mainWindow.currentTime=mainWindow.currentTime+mainWindow.step
+        videoSlide.value=currentTime
+    }
+}
+function distanceStartText(){
+    return ((mainWindow.currentTime)>=3600?parseInt((mainWindow.currentTime)/3600)+":":"")+(((mainWindow.currentTime)>=60)?((parseInt((mainWindow.currentTime)/60)%60)>10?(parseInt((mainWindow.currentTime)/60)%60+":"):('0'+(parseInt((mainWindow.currentTime)/60)%60))+":"):"")+(((mainWindow.currentTime)%60)<10?'0'+(mainWindow.currentTime)%60:(mainWindow.currentTime)%60)
+
+}

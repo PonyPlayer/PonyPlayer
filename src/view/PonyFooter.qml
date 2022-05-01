@@ -16,7 +16,7 @@ Rectangle {
         anchors.leftMargin: 10
         anchors.top: parent.top
         anchors.topMargin: 5
-        text:((mainWindow.currentTime)>=3600?parseInt((mainWindow.currentTime)/3600)+":":"")+(((mainWindow.currentTime)>=60)?((parseInt((mainWindow.currentTime)/60)%60)>10?(parseInt((mainWindow.currentTime)/60)%60+":"):('0'+(parseInt((mainWindow.currentTime)/60)%60))+":"):"")+(((mainWindow.currentTime)%60)<10?'0'+(mainWindow.currentTime)%60:(mainWindow.currentTime)%60)
+        text:IF.distanceStartText()
         color: "white"
         font.bold: true
         lineHeight: 20
@@ -43,23 +43,7 @@ Rectangle {
         //        color: parent.pressed ? "#f0f0f0" : "#f6f6f6"
         //        border.color: "#bdbebf"
         //    }
-        onValueChanged: {
-            if(mainWindow.currentTime<0){
-                mainWindow.currentTime=0
-                videoSlide.value=0
-            }
-            else if(mainWindow.currentTime>=mainWindow.endTime){
-                mainWindow.currentTime=0
-                videoSlide.value=0
-                mainWindow.isPlay=false
-                mainWindow.stop()
-                console.log("lei fu kai use seek")
-                videoArea.seek(0)
-            }
-            mainWindow.currentTime=videoSlide.value
-            mainWindow.currentTimeChange(videoSlide.value)
-
-        }
+        onValueChanged: IF.videoSlideOnValueChanged()
 
         onPressedChanged: {
             if(!videoSlide.pressed){
@@ -110,18 +94,7 @@ Rectangle {
         interval: 1000/mainWindow.speed
         repeat: true
         running: mainWindow.isPlay
-        onTriggered:{
-            if(mainWindow.currentTime<=0&&mainWindow.step==-1){
-                mainWindow.isPlay=false
-            }
-            else if(mainWindow.currentTime>=mainWindow.endTime&&mainWindow.step==1){
-                mainWindow.isPlay=false
-            }
-            else{
-                mainWindow.currentTime=mainWindow.currentTime+mainWindow.step
-                videoSlide.value=currentTime
-            }
-        }
+        onTriggered:IF.timerOnTriggered()
     }
 
 
@@ -152,15 +125,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                if(mainWindow.isVideoListOpen){
-                    mainWindow.isVideoListOpen=false
-                }
-                else{
-                    mainWindow.isVideoListOpen=true
-                }
-
-            }
+            onClicked: IF.fileListOnClicked()
         }
     }
 
@@ -184,15 +149,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                if(mainWindow.step===1){
-                    mainWindow.step=-1
-                }
-                else{
-                    mainWindow.step=1
-                }
-                mainWindow.inverted(mainWindow.step)
-            }
+            onClicked: IF.invertedOnClicked()
         }
     }
 
@@ -209,9 +166,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                mainWindow.lastOne()
-            }
+            onClicked: mainWindow.lastOne()
         }
     }
 
@@ -282,9 +237,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                IF.toPause()
-            }
+            onClicked: IF.toPause()
         }
     }
     //播放速度调整
@@ -329,25 +282,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                if(videoSpeed.state==="speed1"){
-                    videoSpeed.state="speed2"
-                    mainWindow.speed=2.0
-                }
-                else if(videoSpeed.state==="speed2"){
-                    videoSpeed.state="speed4"
-                    mainWindow.speed=4.0
-                }
-                else if(videoSpeed.state==="speed4"){
-                    videoSpeed.state="speed8"
-                    mainWindow.speed=8.0
-                }
-                else{
-                    videoSpeed.state="speed1"
-                    mainWindow.speed=1.0
-                }
-                mainWindow.setSpeed(mainWindow.speed)
-            }
+            onClicked: IF.videoSpeedOnClicked()
         }
     }
     //播放模式(顺序, 单曲循环, 随机)
@@ -385,18 +320,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                if(playMode.state==="ordered"){
-                    playMode.state="single"
-                }
-                else if(playMode.state==="single"){
-                    playMode.state="random"
-                }
-                else{
-                    playMode.state="ordered"
-                }
-                mainWindow.playModeChange(playMode.state)
-            }
+            onClicked: IF.playModeOnClicked()
         }
     }
     //播放音量调节
@@ -425,7 +349,7 @@ Rectangle {
                 },
                 State {
                     name: "volumn1"
-                    when: mainWindow.volumn>0&&mainWindow.volumn<=33
+                    when: mainWindow.volumn>0&&mainWindow.volumn<=0.33
                     PropertyChanges {
                         target: speaker
                         source:"interfacepics/Volumn1"
@@ -433,7 +357,7 @@ Rectangle {
                 },
                 State {
                     name: "volumn2"
-                    when: mainWindow.volumn>33&&mainWindow.volumn<=66
+                    when: mainWindow.volumn>0.33&&mainWindow.volumn<=0.66
                     PropertyChanges {
                         target: speaker
                         source:"interfacepics/Volumn2"
@@ -441,7 +365,7 @@ Rectangle {
                 },
                 State {
                     name: "volumn3"
-                    when: mainWindow.volumn>66
+                    when: mainWindow.volumn>0.66
                     PropertyChanges {
                         target: speaker
                         source:"interfacepics/Volumn3"
@@ -451,19 +375,7 @@ Rectangle {
             MouseArea{
                 anchors.fill: parent
                 cursorShape: "PointingHandCursor"
-                onClicked: {
-                    if(mainWindow.volumn===0){
-                        mainWindow.volumn=mainWindow.beforeMute
-                        volumnSlider.value=Math.floor(mainWindow.volumn*100)
-                    }
-                    else{
-                        mainWindow.beforeMute=mainWindow.volumn
-                        mainWindow.volumn=0
-                        volumnSlider.value=0
-                    }
-                    mainWindow.volumnChange(mainWindow.volumn)
-                    videoArea.setVolume(mainWindow.volumn)
-                }
+                onClicked: IF.speakerOnClicked()
             }
         }
         //音量滑条, 可以调整音量
@@ -477,12 +389,7 @@ Rectangle {
             from: 0
             to: 100
             value: mainWindow.volumn*100
-            onMoved: {
-                mainWindow.volumn=volumnSlider.value/100
-                mainWindow.beforeMute=volumnSlider.value/100
-                mainWindow.volumnChange(mainWindow.volumn)
-                videoArea.setVolume(mainWindow.volumn)
-            }
+            onMoved: IF.volumeSliderOnMoved()
             Shortcut{
                 sequence: "Ctrl+Down"
                 onActivated: IF.volumnDown()
@@ -526,9 +433,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                IF.screenSizeFunction()
-            }
+            onClicked: IF.screenSizeFunction()
         }
     }
     Image {
