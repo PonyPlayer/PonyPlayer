@@ -15,8 +15,6 @@
 #include "hurricane.h"
 #include "demuxer2.h"
 
-
-
 typedef int64_t time_point;
 typedef int64_t time_duration;
 
@@ -39,7 +37,6 @@ namespace H {
     Q_ENUM_NS(HurricaneState)
 
 }
-
 using namespace H;
 
 class VideoPlayWorker : public QObject {
@@ -47,27 +44,15 @@ class VideoPlayWorker : public QObject {
 private:
     Demuxer2 *demuxer = nullptr;
     bool pauseRequested = false;
-    QAudioSink *audioOutput;
-    QIODevice *audioInput;
+    QAudioSink *audioOutput = nullptr;
+    QIODevice *audioInput = nullptr;
 
     time_point seekPoint = 0;
     time_point idlePoint = -1;
     time_duration idleDurationSum = 0;
 
 public:
-    VideoPlayWorker() : QObject(nullptr) {
-        demuxer = new Demuxer2;
-        // open file
-        connect(this, &VideoPlayWorker::signalOpenFile, demuxer, &Demuxer2::openFile);
-        connect(demuxer, &Demuxer2::openFileResult, this, &VideoPlayWorker::slotOpenFileResult);
-
-        // seek
-        connect(this, &VideoPlayWorker::signalDecoderSeek, demuxer, &Demuxer2::seek, Qt::BlockingQueuedConnection);
-//        connect(demuxer, &Demuxer2::seekCompleted, this, &VideoPlayWorker::slotDecoderSeekCompleted);
-
-        // start
-        connect(this, &VideoPlayWorker::signalDecoderStart, demuxer, &Demuxer2::start);
-    }
+    VideoPlayWorker();
     ~VideoPlayWorker() override { delete demuxer; }
     qreal getAudioDuration() { return demuxer->audioDuration(); }
     qreal getVideoDuration() { return demuxer->videoDuration(); }
@@ -76,30 +61,9 @@ private:
     inline void closeAudio();
     inline void syncTo(double pts);
 public slots:
-    void slotOpenFile(const QString &path) {
-        seekPoint = 0;
-        idleDurationSum = 0;
-        audioInput = audioOutput->start();
-        audioOutput->suspend();
-        QUrl url(path);
-        QString localPath = url.toLocalFile();
-        qDebug() << "Open file" << localPath;
-        emit signalOpenFile(localPath.toStdString());
-    }
-    void slotOpenFileResult(bool ret) {
-        HurricaneState state;
-        if (ret) {
-            emit signalDecoderStart();
-            state = HurricaneState::PAUSED;
-            Picture pic = demuxer->getPicture(true);
-            emit signalImageChanged(pic);
-        } else {
-            state = HurricaneState::INVALID;
-            qWarning() << "Fail to open video." << ret;
-        }
-        emit signalStateChanged(state);
-    }
     void onAudioStateChanged(QAudio::State state);
+    void slotOpenFile(const QString &path);
+    void slotOpenFileResult(bool ret);
     void slotThreadInit();
     void slotOnWork();
     void slotClose();
@@ -107,15 +71,13 @@ public slots:
     void slotPause();;
     void slotSeek(qreal pos);
 signals:
-    void signalOpenFile(std::string fn);
-    void signalDecoderSeek(time_point pos);
-    void signalDecoderStart();
     void signalImageChanged(Picture pic);
     void signalStateChanged(HurricaneState state);
     void signalPositionChangedBySeek();
-
     void signalVolumeChangedFail(qreal d);
-
+    void signalDecoderOpenFile(std::string fn);
+    void signalDecoderSeek(time_point pos);
+    void signalDecoderStart();
 
 };
 
@@ -167,7 +129,7 @@ signals:
 
     /**
      * 打开文件结果
-     * @param b 是否成果打开
+     * @param b 是否成功
      */
     void openFileResult(bool b);
 
@@ -260,22 +222,7 @@ public slots:
      * @param pos 播放进度(单位: 秒)
      * @see HurricanePlayer::positionChangedBySeek
      */
-    Q_INVOKABLE void seek(qreal pos) {
-        // only available on PLAY/PAUSE
-        switch(state) {
-            case HurricaneState::PAUSED:
-            case HurricaneState::PRE_PAUSE:
-            case HurricaneState::PLAYING:
-            case HurricaneState::PRE_PLAY:
-                break;
-            default:
-                return;
-        }
-        if (pos < 0 || pos > getVideoDuration())
-            return;
-        qDebug() << "HurricanePlayer: Seek" << pos;
-        emit signalSeek(pos, QPrivateSignal());
-    };
+    Q_INVOKABLE void seek(qreal pos);;
 
 private slots:
     void slotStateChanged(HurricaneState s);

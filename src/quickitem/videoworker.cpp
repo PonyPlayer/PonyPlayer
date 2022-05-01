@@ -171,5 +171,43 @@ void VideoPlayWorker::slotVolumeChanged(qreal v) {
     }
 }
 
+void VideoPlayWorker::slotOpenFileResult(bool ret) {
+    HurricaneState state;
+    if (ret) {
+        emit signalDecoderStart();
+        state = HurricaneState::PAUSED;
+        Picture pic = demuxer->getPicture(true);
+        emit signalImageChanged(pic);
+    } else {
+        state = HurricaneState::INVALID;
+        qWarning() << "Fail to open video." << ret;
+    }
+    emit signalStateChanged(state);
+}
+
+void VideoPlayWorker::slotOpenFile(const QString &path) {
+    seekPoint = 0;
+    idleDurationSum = 0;
+    audioInput = audioOutput->start();
+    audioOutput->suspend();
+    QUrl url(path);
+    QString localPath = url.toLocalFile();
+    qDebug() << "Open file" << localPath;
+    emit signalDecoderOpenFile(localPath.toStdString());
+}
+
+VideoPlayWorker::VideoPlayWorker() {
+    demuxer = new Demuxer2;
+    // open file
+    connect(this, &VideoPlayWorker::signalDecoderOpenFile, demuxer, &Demuxer2::openFile);
+    connect(demuxer, &Demuxer2::openFileResult, this, &VideoPlayWorker::slotOpenFileResult);
+
+    // seek
+    connect(this, &VideoPlayWorker::signalDecoderSeek, demuxer, &Demuxer2::seek, Qt::BlockingQueuedConnection);
+
+    // start
+    connect(this, &VideoPlayWorker::signalDecoderStart, demuxer, &Demuxer2::start);
+}
+
 
 

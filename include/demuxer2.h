@@ -27,25 +27,18 @@ inline int ffmpegErrToString(int err) {
 
 
 class DemuxDispatcherBase: public QObject {
-Q_OBJECT
+    Q_OBJECT
 public:
     const std::string filename;
 protected:
 
     AVFormatContext *fmtCtx = nullptr;
 
-    explicit DemuxDispatcherBase(const std::string &fn): filename(fn) {
-        if (avformat_open_input(&fmtCtx, fn.c_str(), nullptr, nullptr) < 0) {
-            throw std::runtime_error("Cannot open input file.");
-        }
-        if (avformat_find_stream_info(fmtCtx, nullptr) < 0) {
-            throw std::runtime_error("Cannot find any stream in file.");
-        }
-    }
-    ~DemuxDispatcherBase() override {
-        if (fmtCtx) { avformat_close_input(&fmtCtx); }
-    }
+    explicit DemuxDispatcherBase(const std::string &fn);
+    ~DemuxDispatcherBase() override;
 };
+
+
 
 class DemuxDecoder {
 
@@ -101,8 +94,8 @@ public:
 
     virtual ~DemuxDecoder() = default;
 
-
 };
+
 
 /**
  * @brief 音视频解码器具体实现
@@ -123,114 +116,29 @@ private:
     AVFrame * sampleFrameBuf = nullptr;
 
 public:
-    DecoderImpl(AVStream *vs, long long int capacity) : stream(vs), frameQueue(capacity) {
-        auto videoCodecPara = stream->codecpar;
-        if (!(codec = const_cast<AVCodec *>(avcodec_find_decoder(videoCodecPara->codec_id)))) {
-            throw std::runtime_error("Cannot find valid video decode codec.");
-        }
-        if (!(codecCtx = avcodec_alloc_context3(codec))) {
-            throw std::runtime_error("Cannot find valid video decode codec context.");
-        }
-        if (avcodec_parameters_to_context(codecCtx, videoCodecPara) < 0) {
-            throw std::runtime_error("Cannot initialize videoCodecCtx.");
-        }
-        if (avcodec_open2(codecCtx, codec, nullptr) < 0) {
-            throw std::runtime_error("Cannot open codec.");
-        }
+    DecoderImpl(AVStream *vs, long long int capacity);
 
-        frameBuf = av_frame_alloc();
-        if constexpr(type == DemuxDecoder::DecoderType::Audio) {
-            this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
-                                              AV_SAMPLE_FMT_S16, 44100,
-                                              static_cast<int64_t>(codecCtx->channel_layout), codecCtx->sample_fmt,
-                                              codecCtx->sample_rate, 0, nullptr);
+    ~DecoderImpl() override;
 
-            if (!swrCtx || swr_init(swrCtx) < 0) {
-                throw std::runtime_error("Cannot initialize swrCtx");
-            }
-            if (!(audioOutBuf = static_cast<uint8_t *>(av_malloc(2 * MAX_AUDIO_FRAME_SIZE)))) {
-                throw std::runtime_error("Cannot alloc audioOutBuf");
-            }
-            sampleFrameBuf = av_frame_alloc();
-        }
-    }
+    qreal duration() override;
 
-    ~DecoderImpl() override {
-        if (sampleFrameBuf) { av_frame_free(&sampleFrameBuf); }
-        if (audioOutBuf) { av_freep(&audioOutBuf); }
-        if (swrCtx) { swr_free(&swrCtx); }
-        if (frameBuf) { av_frame_free(&frameBuf); }
-        if (codecCtx) { avcodec_close(codecCtx); }
-        if (codecCtx) { avcodec_free_context(&codecCtx); }
-    }
+    bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override;
 
-    qreal duration() override {
-        return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
-    }
+    void flushFFmpegBuffers() override;
 
-    bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
-        int ret = avcodec_send_packet(codecCtx, pkt);
-        if (ret < 0) {
-            qWarning() << "Error avcodec_send_packet:" << ffmpegErrToString(ret);
-            return false;
-        }
-        while(ret >= 0 && !interrupt) {
-            ret = avcodec_receive_frame(codecCtx, frameBuf);
-            if (ret >= 0) {
-                ret = frameQueue.bpush(frameBuf);
-                frameBuf = av_frame_alloc();
-            } else if (ret == AVERROR(EAGAIN)) {
-                return true;
-            } else if (ret == ERROR_EOF) {
-                frameQueue.bpush(nullptr);
-                return false;
-            } else {
-                frameQueue.bpush(nullptr);
-                qWarning() << "Error avcodec_receive_frame:" << ffmpegErrToString(ret);
-                return false;
-            }
-        }
-        return false;
-    }
+    BlockingQueue<AVFrame *> &getFrameQueue() override;
 
-    void flushFFmpegBuffers() override {
-        avcodec_flush_buffers(codecCtx);
-    }
+    Picture getPicture(bool b) override;
 
+    Sample getSample(bool b) override;
 
-    BlockingQueue<AVFrame *> &getFrameQueue() override {
-        return frameQueue;
-    }
-
-
-    Picture getPicture(bool b) override {
-        if constexpr(type != DemuxDecoder::DecoderType::Video) { throw std::runtime_error("Unsupported operation."); }
-        AVFrame *frame = frameQueue.bfront();
-        if (!frame) { return {}; }
-        double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-        return {frame, pts};
-    }
-
-    Sample getSample(bool b) override {
-        if constexpr(type != DemuxDecoder::DecoderType::Audio) { throw std::runtime_error("Unsupported operation."); }
-        AVFrame *frame = frameQueue.bfront();
-        if (!frame) { return {}; }
-        double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-        int len = swr_convert(swrCtx, &audioOutBuf, 2 * MAX_AUDIO_FRAME_SIZE,
-                              const_cast<const uint8_t **>(frame->data), frame->nb_samples);
-
-        int out_size = av_samples_get_buffer_size(0, 2,
-                                                  len,
-                                                  AV_SAMPLE_FMT_S16,
-                                                  1);
-        return {audioOutBuf, out_size, pts, frame};
-    }
-
-
-    bool pop(bool b) override {
-        return frameQueue.bpop();
-    }
+    bool pop(bool b) override;
 };
+
+
+using DemuxDecoder::DecoderType::Audio;
+using DemuxDecoder::DecoderType::Video;
+
 
 /**
  * @brief 解码器调度器, 将Packet分配给解码器进一步解码成Frame
@@ -244,32 +152,9 @@ class DecodeDispatcher : public DemuxDispatcherBase {
     std::atomic<bool> interrupt = false;
     AVPacket *packet = nullptr;
 public:
-    explicit DecodeDispatcher(const std::string &fn) : DemuxDispatcherBase(fn) {
-        packet = av_packet_alloc();
-        for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
-            if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
-                videoStreamIndex.emplace_back(i);
-            } else if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
-                audioStreamIndex.emplace_back(i);
-            }
-        }
-        if (videoStreamIndex.empty()) { throw std::runtime_error("Cannot find video stream."); }
-        if (audioStreamIndex.empty()) { throw std::runtime_error("Cannot find audio stream."); }
-        decoders.resize(fmtCtx->nb_streams);
-        using DemuxDecoder::DecoderType::Audio;
-        using DemuxDecoder::DecoderType::Video;
-        // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
-        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 256);
-        decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 32);
-        interrupt = false; // happens before
-    }
+    explicit DecodeDispatcher(const std::string &fn);
 
-    ~DecodeDispatcher() {
-        qDebug() << "Destroy decode dispatcher " << filename.c_str();
-        for(auto && decoder : decoders) { delete decoder; }
-        decoders.clear();
-        if(packet) { av_packet_free(&packet); }
-    }
+    ~DecodeDispatcher() override;
 
     void pause() {
         interrupt = true;
@@ -280,31 +165,13 @@ public:
         }
     }
 
-    void flush() {
-        for (auto && decoder : decoders) {
-            if (decoder) {
-                decoder->getFrameQueue().clearWith([](AVFrame *frame){ av_frame_free(&frame);});
-            }
-        }
-    }
+    void flush();
 
     /**
      * 修改视频播放进度, 注意: 这个方法必须在解码线程上调用.
      * @param us 新的视频进度(单位: 微秒)
      */
-    void seek(int64_t us) {
-        // case 1: currently decoding, interrupt
-        // case 2: not decoding, seek
-        interrupt = true;
-        for (const auto & decoder : decoders) {
-            // interrupt
-            if (decoder) decoder->flushFFmpegBuffers();
-        }
-        qDebug() << "a Seek:" << us;
-        int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>(static_cast<double>(us) / 1000000.0 * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
-        if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
-
-    }
+    void seek(int64_t us);
 
     Picture getPicture(bool b) { return decoders[videoStreamIndex.front()]->getPicture(b); }
 
@@ -317,32 +184,12 @@ public:
     qreal getAudionLength() { return decoders[audioStreamIndex.front()]->duration(); }
     qreal getVideoLength() { return decoders[videoStreamIndex.front()]->duration(); }
 public slots:
-    void onWork() {
-        interrupt = false;
-        while(!interrupt) {
-            int ret = av_read_frame(fmtCtx, packet);
-            if (ret == 0) {
-                auto *decoder = decoders[static_cast<unsigned long>(packet->stream_index)];
-                if (decoder) {
-                    ret = decoder->accept(packet, interrupt);
-                    av_packet_unref(packet);
-                    if (!ret) {
-                        // no more packet
-                        break;
-                    }
-                } else { av_packet_unref(packet); }
-            } else {
-                qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
-            }
-            QCoreApplication::processEvents();
-        }
-        interrupt = true;
-    }
+    void onWork();
 };
 
 /**
  * @brief 视频解码器
- * 这个类不是RAII的
+ * 这个是RAII的
  */
 class Demuxer2: public QObject {
     Q_OBJECT

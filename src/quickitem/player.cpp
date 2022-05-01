@@ -115,6 +115,23 @@ void HurricanePlayer::setVolume(qreal v) {
     emit signalVolumeChanging(v, QPrivateSignal());
 }
 
+void HurricanePlayer::seek(qreal pos) {
+    // only available on PLAY/PAUSE
+    switch(state) {
+        case HurricaneState::PAUSED:
+        case HurricaneState::PRE_PAUSE:
+        case HurricaneState::PLAYING:
+        case HurricaneState::PRE_PLAY:
+            break;
+        default:
+            return;
+    }
+    if (pos < 0 || pos > getVideoDuration())
+        return;
+    qDebug() << "HurricanePlayer: Seek" << pos;
+    emit signalSeek(pos, QPrivateSignal());
+}
+
 
 
 
