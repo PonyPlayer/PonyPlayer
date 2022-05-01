@@ -34,15 +34,15 @@ Rectangle {
         from: 0
         to: mainWindow.endTime
         value: mainWindow.currentTime
-        handle: Rectangle {
-                x: parent.leftPadding + parent.visualPosition * (parent.availableWidth - width)
-                y: parent.topPadding + parent.availableHeight / 2 - height / 2
-                implicitWidth: 16
-                implicitHeight: 16
-                radius: 8
-                color: parent.pressed ? "#f0f0f0" : "#f6f6f6"
-                border.color: "#bdbebf"
-            }
+        //handle: Rectangle {
+        //        x: parent.leftPadding + parent.visualPosition * (parent.availableWidth - width)
+        //        y: parent.topPadding + parent.availableHeight / 2 - height / 2
+        //        implicitWidth: 16
+        //        implicitHeight: 16
+        //        radius: 8
+        //        color: parent.pressed ? "#f0f0f0" : "#f6f6f6"
+        //        border.color: "#bdbebf"
+        //    }
         onValueChanged: {
             if(mainWindow.currentTime<0){
                 mainWindow.currentTime=0

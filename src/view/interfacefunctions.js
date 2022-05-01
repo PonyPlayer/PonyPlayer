@@ -76,6 +76,7 @@ function playOrPauseFunction(){
 function solveStateChanged(){
     if(videoArea.state==1){
         console.log("loading now")
+        loading()
     }
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
 }
@@ -112,6 +113,7 @@ function screenSizeFunction(){
     if(mainWindow.isFullScreen){
         mainWindow.showNormal()
         mainWindow.isFullScreen=false
+        mainWindow.isFooterVisable=true
     }
     else{
         mainWindow.isFullScreen=true
@@ -128,4 +130,9 @@ function toPause(){
 }
 function openWave(){
     wavewindow.show()
+}
+function loading(){
+    mainWindow.isPlay=false
+    mainWindow.currentTime=0
+    videoSlide.value=0
 }
