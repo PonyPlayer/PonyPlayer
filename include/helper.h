@@ -33,6 +33,7 @@ extern "C" {
 }
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 const int ERROR_EOF = AVERROR_EOF;
+const size_t MAX_AUDIO_FRAME_SIZE = 192000;
 #pragma GCC diagnostic pop
 
 #endif //PONYPLAYER_HELPER_H

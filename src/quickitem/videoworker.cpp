@@ -134,7 +134,7 @@ void VideoPlayWorker::slotSeek(qreal pos) {
 
     // WARNING: must make sure everything (especially PTS) has been properly updated
     // otherwise, the video thread will be BLOCKING for a long time.
-    demuxer->flush();
+    demuxer->interrupt();
     emit signalDecoderSeek(t); // blocking connection
     emit signalDecoderStart(); // queue connection
 

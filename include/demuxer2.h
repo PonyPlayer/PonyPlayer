@@ -42,7 +42,7 @@ protected:
             throw std::runtime_error("Cannot find any stream in file.");
         }
     }
-    virtual ~DemuxDispatcherBase() {
+    ~DemuxDispatcherBase() override {
         if (fmtCtx) { avformat_close_input(&fmtCtx); }
     }
 };
@@ -123,7 +123,6 @@ private:
     AVFrame *frameBuf = nullptr;
 
     // Audio only
-    const int MAX_AUDIO_FRAME_SIZE = 192000;
     SwrContext *swrCtx = nullptr;
     uint8_t *audioOutBuf = nullptr;
     AVFrame * sampleFrameBuf = nullptr;
@@ -266,8 +265,9 @@ public:
         decoders.resize(fmtCtx->nb_streams);
         using DemuxDecoder::DecoderType::Audio;
         using DemuxDecoder::DecoderType::Video;
-        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 2048);
-        decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 512);
+        // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
+        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 128);
+        decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 32);
         interrupt = false; // happens before
     }
 
@@ -281,7 +281,7 @@ public:
         interrupt = true;
         for (auto && decoder : decoders) {
             if (decoder) {
-                decoder->getFrameQueue().clear();
+                decoder->getFrameQueue().clearWith([](AVFrame *frame){ av_frame_free(&frame);});
                 decoder->getFrameQueue().notify();
             }
         }
@@ -329,13 +329,13 @@ public slots:
             if (ret == 0) {
                 auto *decoder = decoders[static_cast<unsigned long>(packet->stream_index)];
                 if (decoder) {
-                    if (decoder->accept(packet, interrupt)) {
-                        av_packet_unref(packet);
-                    } else {
+                    ret = decoder->accept(packet, interrupt);
+                    av_packet_unref(packet);
+                    if (!ret) {
+                        // no more packet
                         break;
-                        // no more frame
                     }
-                }
+                } else { av_packet_unref(packet); }
             } else {
                 qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
             }
@@ -345,7 +345,10 @@ public slots:
     }
 };
 
-
+/**
+ * @brief 视频解码器
+ * 这个类不是RAII的
+ */
 class Demuxer2: public QObject {
     Q_OBJECT
 private:
@@ -353,9 +356,7 @@ private:
     QThread *qThread = nullptr;
 signals:
     void startWorker(QPrivateSignal);
-    void seekWorker(QPrivateSignal);
     void openFileResult(bool ret, QPrivateSignal);
-    void seekCompleted(int64_t pos, QPrivateSignal);
 public:
     Demuxer2() {
         qThread = new QThread();
@@ -383,14 +384,12 @@ public:
 
 public slots:
     /**
-     * 调整视频进度
+     * 调整视频进度, 必须保证解码器线程空闲.
      * @param us 视频进度(单位: 微秒)
+     * @see Demuxer2::interrupt
      */
     void seek(int64_t us) {
-        // call on DecodeThread
         worker->seek(us);
-//        emit seekCompleted(us, QPrivateSignal());
-//        emit startWorker(QPrivateSignal());
     };
 
     /**
@@ -425,7 +424,10 @@ public slots:
         emit startWorker(QPrivateSignal());
     }
 
-    void flush() {
+    /**
+     * 暂停解码并清空缓冲区, 调用这个方法会尽快使解码器线程空闲. 注意: 这个方法必须不在解码器线程调用.
+     */
+    void interrupt() {
         worker->flush();
     }
 
