@@ -57,10 +57,10 @@ void VideoPlayWorker::slotOnWork() {
 
 void VideoPlayWorker::slotClose() {
     pauseRequested = true;
+    demuxer->close();
     if (audioInput) {
         audioOutput->stop();
         audioInput = nullptr;
-
     }
     emit signalStateChanged(HurricaneState::INVALID);
 }

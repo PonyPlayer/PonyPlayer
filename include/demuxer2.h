@@ -65,15 +65,10 @@ public:
     virtual bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) = 0;
 
     /**
-     * 会在调整视频进度(FFmpeg seek)之前调用
-     * @param us 新的视频进度(单位: 微秒)
+     * 清空 FFmpeg 内部缓冲区
      */
-    virtual void beforeSeek(int64_t us) = 0;
+    virtual void flushFFmpegBuffers() = 0;
 
-    /**
-     * 会在调整视频进度(FFmpeg seek)之后调用
-     */
-    virtual void afterSeek() = 0;
 
     /**
      * 获取视频帧, 仅当当前解码器是视频解码器时有效
@@ -198,13 +193,10 @@ public:
         return false;
     }
 
-    void beforeSeek(int64_t us) override {
+    void flushFFmpegBuffers() override {
         avcodec_flush_buffers(codecCtx);
     }
 
-    void afterSeek() override {
-
-    }
 
     BlockingQueue<AVFrame *> &getFrameQueue() override {
         return frameQueue;
@@ -242,6 +234,7 @@ public:
 
 /**
  * @brief 解码器调度器, 将Packet分配给解码器进一步解码成Frame
+ * 这个类是RAII的
  */
 class DecodeDispatcher : public DemuxDispatcherBase {
     Q_OBJECT
@@ -251,7 +244,7 @@ class DecodeDispatcher : public DemuxDispatcherBase {
     std::atomic<bool> interrupt = false;
     AVPacket *packet = nullptr;
 public:
-    DecodeDispatcher(const std::string &fn) : DemuxDispatcherBase(fn) {
+    explicit DecodeDispatcher(const std::string &fn) : DemuxDispatcherBase(fn) {
         packet = av_packet_alloc();
         for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
@@ -272,9 +265,10 @@ public:
     }
 
     ~DecodeDispatcher() {
+        qDebug() << "Destroy decode dispatcher " << filename.c_str();
         for(auto && decoder : decoders) { delete decoder; }
+        decoders.clear();
         if(packet) { av_packet_free(&packet); }
-        DemuxDispatcherBase::~DemuxDispatcherBase();
     }
 
     void pause() {
@@ -304,17 +298,11 @@ public:
         interrupt = true;
         for (const auto & decoder : decoders) {
             // interrupt
-            if (decoder) decoder->beforeSeek(us);
+            if (decoder) decoder->flushFFmpegBuffers();
         }
         qDebug() << "a Seek:" << us;
         int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>(static_cast<double>(us) / 1000000.0 * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
-        if (ret == 0) {
-            for (const auto & decoder : decoders) {
-                if (decoder) decoder->afterSeek();
-            }
-        } else {
-            qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret);
-        }
+        if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
 
     }
 
@@ -369,13 +357,17 @@ public:
         qThread = new QThread();
         qThread->setObjectName("DecoderThread");
         qThread->start();
-    }
-
-    void move() {
         this->moveToThread(qThread);
     }
 
-    ~Demuxer2() {}
+    ~Demuxer2() {
+        if (worker) {
+            worker->pause();
+            worker->deleteLater();
+            worker = nullptr;
+        }
+        qThread->deleteLater();
+    }
 
     Picture getPicture(bool b) { return worker->getPicture(b); }
 
@@ -389,11 +381,25 @@ public:
 
     qreal videoDuration() { return worker ? worker->getVideoLength() : 0.0; }
 
+    /**
+     * 暂停编码并使解码器线程进入空闲状态, 这个方法是线程安全的.
+    */
+    void interrupt() {
+        worker->pause();
+    }
+
+    /**
+     * 清空旧的帧, 这个方法是线程安全的.
+     */
+    void flush() {
+        worker->flush();
+    }
 public slots:
     /**
-     * 调整视频进度, 必须保证解码器线程空闲.
+     * 调整视频进度, 必须保证解码器线程空闲且缓冲区为空.
      * @param us 视频进度(单位: 微秒)
      * @see Demuxer2::interrupt
+     * @see Demuxer2::flush
      */
     void seek(int64_t us) {
         worker->seek(us);
@@ -404,7 +410,7 @@ public slots:
      * @param fn 本地文件路径
      */
     void openFile(const std::string &fn) {
-        qDebug() << "OpenFile" << QString::fromUtf8(fn);
+        qDebug() << "Open file" << QString::fromUtf8(fn);
         // call on video decoder thread
         if (worker) {
             qWarning() << "Already open file:" << QString::fromUtf8(worker->filename);
@@ -423,6 +429,17 @@ public slots:
         emit openFileResult(true, QPrivateSignal());
     }
 
+    void close() {
+        if (worker) {
+            qDebug() << "Close file" << worker->filename.c_str();
+            worker->pause();
+            worker->deleteLater();
+            worker = nullptr;
+        } else {
+            qWarning() << "Try to close file while no file has been opened.";
+        }
+    }
+
     /**
      * 启动解码器
      */
@@ -431,19 +448,8 @@ public slots:
         emit startWorker(QPrivateSignal());
     }
 
-    /**
-     * 暂停编码并使解码器线程进入空闲状态
-     */
-    void interrupt() {
-        worker->pause();
-    }
 
-    /**
-     * 清空旧的帧
-     */
-    void flush() {
-        worker->flush();
-    }
+
 
 };
 

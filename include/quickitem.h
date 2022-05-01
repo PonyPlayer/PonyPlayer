@@ -57,7 +57,6 @@ private:
 public:
     VideoPlayWorker() : QObject(nullptr) {
         demuxer = new Demuxer2;
-        demuxer->move();
         // open file
         connect(this, &VideoPlayWorker::signalOpenFile, demuxer, &Demuxer2::openFile);
         connect(demuxer, &Demuxer2::openFileResult, this, &VideoPlayWorker::slotOpenFileResult);
