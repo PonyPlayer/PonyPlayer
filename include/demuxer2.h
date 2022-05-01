@@ -266,7 +266,7 @@ public:
         using DemuxDecoder::DecoderType::Audio;
         using DemuxDecoder::DecoderType::Video;
         // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
-        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 128);
+        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 256);
         decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 32);
         interrupt = false; // happens before
     }
@@ -276,6 +276,7 @@ public:
         if(packet) { av_packet_free(&packet); }
         DemuxDispatcherBase::~DemuxDispatcherBase();
     }
+
 
     void flush() {
         interrupt = true;

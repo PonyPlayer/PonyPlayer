@@ -29,7 +29,7 @@ void VideoPlayWorker::slotOnWork() {
     while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
         demuxer->popPicture(true);
         emit signalImageChanged(currFrame);
-        for (int i = 0; i < 5 && audioOutput->bytesFree() > 19200; ++i) {
+        for (int i = 0; i < 5 && audioOutput->bytesFree() > MAX_AUDIO_FRAME_SIZE; ++i) {
             try {
                 Sample sample = demuxer->getSample(true);
                 demuxer->popSample(true);
@@ -86,7 +86,7 @@ void VideoPlayWorker::slotThreadInit() {
     audioOutput = new QAudioSink(format, this);
     connect(audioOutput, &QAudioSink::stateChanged, this, &VideoPlayWorker::onAudioStateChanged, Qt::ConnectionType::DirectConnection);
     audioOutput->setVolume(100);
-    audioOutput->setBufferSize(19200 * 2);
+    audioOutput->setBufferSize(MAX_AUDIO_FRAME_SIZE * 2);
 }
 
 void VideoPlayWorker::onAudioStateChanged(QAudio::State state) {
@@ -136,6 +136,8 @@ void VideoPlayWorker::slotSeek(qreal pos) {
     // otherwise, the video thread will be BLOCKING for a long time.
     demuxer->interrupt();
     emit signalDecoderSeek(t); // blocking connection
+    // FIXME maybe some frame leave
+    demuxer->interrupt();
     emit signalDecoderStart(); // queue connection
 
     // time-consuming job
