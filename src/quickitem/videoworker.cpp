@@ -129,10 +129,12 @@ void VideoPlayWorker::slotSeek(qreal pos) {
     auto t = static_cast<time_point>(pos * 1000 * 1000);
     bool suspended = audioOutput->state() == QAudio::SuspendedState;
     seekPoint = t;
+    qDebug() << "Set seek point" << t / 1000 / 1000 << QThread::currentThread()->objectName();
     closeAudio();
 
     // WARNING: must make sure everything (especially PTS) has been properly updated
     // otherwise, the video thread will be BLOCKING for a long time.
+    demuxer->flush();
     emit signalDecoderSeek(t); // blocking connection
     emit signalDecoderStart(); // queue connection
 

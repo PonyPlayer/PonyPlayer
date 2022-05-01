@@ -62,7 +62,7 @@ public:
      * @param pkt
      * @return 如果还需要接收下一个 packet 返回 true, 否则返回 false
      */
-    virtual bool accept(AVPacket *pkt) = 0;
+    virtual bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) = 0;
 
     /**
      * 会在调整视频进度(FFmpeg seek)之前调用
@@ -102,6 +102,8 @@ public:
      */
     virtual qreal duration() = 0;
 
+    virtual BlockingQueue<AVFrame *>& getFrameQueue() = 0;
+
     virtual ~DemuxDecoder() = default;
 
 
@@ -120,13 +122,12 @@ private:
     BlockingQueue<AVFrame *> frameQueue;
     AVFrame *frameBuf = nullptr;
 
-
-
     // Audio only
     const int MAX_AUDIO_FRAME_SIZE = 192000;
     SwrContext *swrCtx = nullptr;
     uint8_t *audioOutBuf = nullptr;
     AVFrame * sampleFrameBuf = nullptr;
+
 public:
     DecoderImpl(AVStream *vs, long long int capacity) : stream(vs), frameQueue(capacity) {
         auto videoCodecPara = stream->codecpar;
@@ -173,13 +174,13 @@ public:
         return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
     }
 
-    bool accept(AVPacket *pkt) override {
+    bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
         int ret = avcodec_send_packet(codecCtx, pkt);
         if (ret < 0) {
             qWarning() << "Error avcodec_send_packet:" << ffmpegErrToString(ret);
             return false;
         }
-        while(ret >= 0) {
+        while(ret >= 0 && !interrupt) {
             ret = avcodec_receive_frame(codecCtx, frameBuf);
             if (ret >= 0) {
                 ret = frameQueue.bpush(frameBuf);
@@ -199,14 +200,17 @@ public:
     }
 
     void beforeSeek(int64_t us) override {
-        frameQueue.clearWith([](AVFrame * frame) { av_frame_free(&frame);});
         avcodec_flush_buffers(codecCtx);
-        frameQueue.notify();
     }
 
     void afterSeek() override {
 
     }
+
+    BlockingQueue<AVFrame *> &getFrameQueue() override {
+        return frameQueue;
+    }
+
 
     Picture getPicture(bool b) override {
         if constexpr(type != DemuxDecoder::DecoderType::Video) { throw std::runtime_error("Unsupported operation."); }
@@ -264,12 +268,23 @@ public:
         using DemuxDecoder::DecoderType::Video;
         decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 2048);
         decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 512);
+        interrupt = false; // happens before
     }
 
     ~DecodeDispatcher() {
         for(auto && decoder : decoders) { delete decoder; }
         if(packet) { av_packet_free(&packet); }
-        DemuxDispatcherBase::DemuxDispatcherBase();
+        DemuxDispatcherBase::~DemuxDispatcherBase();
+    }
+
+    void flush() {
+        interrupt = true;
+        for (auto && decoder : decoders) {
+            if (decoder) {
+                decoder->getFrameQueue().clear();
+                decoder->getFrameQueue().notify();
+            }
+        }
     }
 
     /**
@@ -314,7 +329,7 @@ public slots:
             if (ret == 0) {
                 auto *decoder = decoders[static_cast<unsigned long>(packet->stream_index)];
                 if (decoder) {
-                    if (decoder->accept(packet)) {
+                    if (decoder->accept(packet, interrupt)) {
                         av_packet_unref(packet);
                     } else {
                         break;
@@ -408,6 +423,10 @@ public slots:
     void start() {
         qDebug() << "Try Start";
         emit startWorker(QPrivateSignal());
+    }
+
+    void flush() {
+        worker->flush();
     }
 
 };
