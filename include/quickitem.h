@@ -100,6 +100,8 @@ class HurricanePlayer : public Hurricane {
     Q_ENUM(HurricaneState)
     QML_ELEMENT
     Q_PROPERTY(HurricaneState state READ getState NOTIFY stateChanged FINAL)
+
+
 private:
     HurricaneState state = HurricaneState::INVALID;
     qreal volume;
@@ -112,6 +114,7 @@ public:
     virtual ~HurricanePlayer();
 
     HurricaneState getState() { return state; }
+
 
 signals:
 

@@ -61,6 +61,10 @@ void Hurricane::sync() {
     if (picture.isValid()) {
         renderer->setImageView(picture);
     }
+    // sync uniform
+    renderer->brightness = this->brightness;
+    renderer->contrast = this->contrast;
+    renderer->saturation = this->saturation;
 
 }
 
@@ -109,6 +113,10 @@ void HurricaneRenderer::init() {
     program->addCacheableShaderFromSourceFile(QOpenGLShader::Fragment, u":/render/shader/fragment.fsh"_qs);
     program->link();
     program->bind();
+    brightness.init(program, "brightness");
+    contrast.init(program, "contrast");
+    saturation.init(program, "saturation");
+
     glClearColor(0.1f, 0.1f, 0.3f, 1.0f);
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
@@ -162,6 +170,7 @@ void HurricaneRenderer::render(const RenderState *state) {
 #endif
 //    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glViewport(glRect.x(), glRect.y(), glRect.width(), glRect.height());
+
 //    glScissor(glRect.x(), glRect.y(), glRect.width(), glRect.height());
     glEnable(GL_SCISSOR_TEST);
     glEnable(GL_BLEND);
@@ -169,6 +178,9 @@ void HurricaneRenderer::render(const RenderState *state) {
     glDisable(GL_DEPTH_TEST);
 
     program->bind();
+    brightness.render();
+    contrast.render();
+    saturation.render();
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
