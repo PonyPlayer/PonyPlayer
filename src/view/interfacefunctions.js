@@ -75,8 +75,14 @@ function playOrPauseFunction(){
 }
 function solveStateChanged(){
     if(videoArea.state==1){
-        console.log("loading now")
-        loading()
+        console.log("lei fu kai state == loading")
+        videoInit()
+    }
+    else if(videoArea.state==2){
+        console.log("lei fu kai state == invalid")
+        mainWindow.endTime=0
+        videoInit()
+        return
     }
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
 }
@@ -122,16 +128,14 @@ function screenSizeFunction(){
 }
 function toPause(){
     mainWindow.cease()
-    mainWindow.isPlay=false
     mainWindow.stop()
-    mainWindow.currentTime=0
-    videoSlide.value=0
+    videoInit()
     videoArea.seek(0)
 }
 function openWave(){
     wavewindow.show()
 }
-function loading(){
+function videoInit(){
     mainWindow.isPlay=false
     mainWindow.currentTime=0
     videoSlide.value=0
@@ -233,5 +237,32 @@ function timerOnTriggered(){
 }
 function distanceStartText(){
     return ((mainWindow.currentTime)>=3600?parseInt((mainWindow.currentTime)/3600)+":":"")+(((mainWindow.currentTime)>=60)?((parseInt((mainWindow.currentTime)/60)%60)>10?(parseInt((mainWindow.currentTime)/60)%60+":"):('0'+(parseInt((mainWindow.currentTime)/60)%60))+":"):"")+(((mainWindow.currentTime)%60)<10?'0'+(mainWindow.currentTime)%60:(mainWindow.currentTime)%60)
-
+}
+function videoAreaOnClicked(){
+    if(mainWindow.isPlay){
+        mainWindow.isPlay=false
+        mainWindow.stop()
+    }
+    else{
+        mainWindow.isPlay=true
+        mainWindow.start()
+    }
+}
+function videoAreaOnVolumeChangedFail(){
+    console.log("volume fail" + current)
+    mainWindow.volumn=current
+    mainWindow.beforeMute=current
+    volumnSlide.value=current*100
+}
+function mainAreaInit(){
+    mainWindow.start.connect(videoArea.start)
+    mainWindow.stop.connect(videoArea.pause)
+    mainWindow.openFile.connect(videoArea.openFile)
+    mainWindow.setSpeed.connect(videoArea.setSpeed)
+}
+function videoListOperatorOnAccepted(){
+    mainWindow.openFile(fileDialog.currentFile);
+    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+    mediaLibController.getFile(fileDialog.currentFile);
+    console.log(videoArea.getVideoDuration())
 }

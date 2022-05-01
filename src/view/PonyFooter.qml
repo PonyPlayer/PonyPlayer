@@ -221,7 +221,7 @@ Rectangle {
             cursorShape: "PointingHandCursor"
             onClicked: {
                 mainWindow.nextOne()
-                videoArea.setVolume(-0.5)
+                openFileFailedDialog.open()
             }
         }
     }
