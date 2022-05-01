@@ -53,6 +53,7 @@ Rectangle {
                 videoSlide.value=0
                 mainWindow.isPlay=false
                 mainWindow.stop()
+                console.log("lei fu kai use seek")
                 videoArea.seek(0)
             }
             mainWindow.currentTime=videoSlide.value
@@ -62,7 +63,7 @@ Rectangle {
 
         onPressedChanged: {
             if(!videoSlide.pressed){
-                console.log("i seek now")
+                console.log("lei fu kai use seek")
                 videoArea.seek(mainWindow.currentTime)
             }
         }
