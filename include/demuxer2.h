@@ -157,7 +157,7 @@ public:
 
     ~DecoderImpl() override {
         if (sampleFrameBuf) { av_frame_free(&sampleFrameBuf); }
-        if (audioOutBuf) { av_freep(audioOutBuf); }
+        if (audioOutBuf) { av_freep(&audioOutBuf); }
         if (swrCtx) { swr_free(&swrCtx); }
         if (frameBuf) { av_frame_free(&frameBuf); }
         if (codecCtx) { avcodec_close(codecCtx); }
