@@ -103,6 +103,9 @@ void HurricanePlayer::slotStateChanged(HurricaneState s) {
         return;
     if (s == HurricaneState::INVALID && state != HurricaneState::CLOSING)
         return;
+    if (state == HurricaneState::LOADING) {
+        emit openFileResult(state == HurricaneState::PAUSED);
+    }
     state = s;
     emit stateChanged();
 }
