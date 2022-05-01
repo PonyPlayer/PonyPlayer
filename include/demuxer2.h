@@ -19,10 +19,10 @@ INCLUDE_FFMPEG_BEGIN
 INCLUDE_FFMPEG_END
 
 
-inline int ffmpegErrToString(int err) {
+inline QString ffmpegErrToString(int err) {
     char errBuf[512];
     av_strerror(err, errBuf, sizeof(errBuf));
-    return 0;
+    return errBuf;
 }
 
 

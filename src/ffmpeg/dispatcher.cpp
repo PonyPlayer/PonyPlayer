@@ -33,7 +33,7 @@ DecodeDispatcher::DecodeDispatcher(const std::string &fn) : DemuxDispatcherBase(
     using DemuxDecoder::DecoderType::Video;
     // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
     decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 256);
-    decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 32);
+    decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 64);
     interrupt = false; // happens before
 }
 
@@ -82,6 +82,8 @@ void DecodeDispatcher::onWork() {
             } else { av_packet_unref(packet); }
         } else {
             qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
+            av_packet_unref(packet);
+            break;
         }
         QCoreApplication::processEvents();
     }

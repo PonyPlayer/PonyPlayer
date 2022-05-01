@@ -5,6 +5,15 @@
 #ifndef PONYPLAYER_AUDIOSINK_H
 #define PONYPLAYER_AUDIOSINK_H
 
+#include <portaudio.h>
+#include <vector>
+
+namespace PonyAudio {
+    std::vector<int> getDeviceList() {
+
+    }
+}
+
 enum class PlaybackState {
     PLAYING, ///< 正在播放
     STOPPED, ///< 停止状态
@@ -28,6 +37,7 @@ public:
         return format.bytesForDuration(duration);
     }
 
+
     /**
      * 计算音频数据长度对应的数据大小
      * @param format 音频格式
@@ -40,11 +50,11 @@ public:
 
     /**
      * 创建PonyAudioSink并attach到默认设备上
-     * @param systemBufferSize 系统buffer大小
+     * @param frameBufferSize 系统buffer大小
      * @param audioBufferSize PonyAudioSink的缓存大小
      * @param format 音频格式
      */
-    PonyAudioSink(size_t systemBufferSize, size_t audioBufferSize, QAudioFormat format);
+    PonyAudioSink(size_t frameBufferSize, size_t audioBufferSize, QAudioFormat format);
 
     /**
      * 析构即从deattach当前设备
