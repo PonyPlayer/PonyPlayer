@@ -8,6 +8,7 @@ qt_add_qml_module(${PROJECT_NAME}
         PLUGIN_TARGET wave
         SOURCES
         wave.cpp
+        RESOURCES
         )
 
 target_sources(${PROJECT_NAME} PRIVATE

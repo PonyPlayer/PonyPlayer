@@ -12,6 +12,7 @@ qt_add_qml_module(${PROJECT_NAME}
             PonyFooter.qml
             MediaInfo.qml
             interfacefunctions.js
+            RoundImage.qml
             Wave.qml
             AdditionalSettings.qml
         RESOURCES
@@ -40,4 +41,10 @@ qt_add_qml_module(${PROJECT_NAME}
             interfacepics/Volumn2.png
             interfacepics/Volumn3.png
             interfacepics/defaultlogo.png
+            img/pexels-flora-westbrook-2574614.jpg
+            img/pexels-izabella-arvai-953475.jpg
+            shader/roundImage.frag
+            shader/roundImage.frag.qsb
+            shader/roundImage.vert
+            shader/roundImage.vert.qsb
         )

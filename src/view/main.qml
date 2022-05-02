@@ -412,6 +412,9 @@ Window {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
     }
+    Wave {
+        id: wavewindow
+    }
 }
 
 

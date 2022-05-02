@@ -1,16 +1,22 @@
+#pragma once
+
 #include <QtCore>
 #include <QtQuick/QQuickItem>
 
 class WaveView : public QQuickItem {
 Q_OBJECT
+    Q_PROPERTY(float radiusRatio READ getRadiusRatio WRITE setRadiusRatio NOTIFY notifyRadiusRatio)
+    QML_ELEMENT
 private:
-    QPointF m_p1;
-    QPointF m_p2;
-    QPointF m_p3;
-    QPointF m_p4;
-    int m_segmentCount;
+    float m_radiusRatio{};
 public:
-    explicit WaveView(QQuickItem *parent = 0);
+    explicit WaveView(QQuickItem *parent = nullptr);
 
-    QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *) override;
+    Q_INVOKABLE [[nodiscard]] float getRadiusRatio() const { return m_radiusRatio; };
+public slots:
+    Q_INVOKABLE void setRadiusRatio(float radiusRatio) {
+        m_radiusRatio = radiusRatio; emit notifyRadiusRatio();
+    };
+signals:
+    void notifyRadiusRatio();
 };
