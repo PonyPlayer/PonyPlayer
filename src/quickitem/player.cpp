@@ -3,7 +3,6 @@
 //
 #include "quickitem.h"
 #include "demuxer2.h"
-#include "audiosink.h"
 
 #include <QUrl>
 #include <QTimer>

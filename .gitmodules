@@ -1,3 +1,0 @@
-[submodule "thirdparty/portaudio"]
-	path = thirdparty/portaudio
-	url = git@github.com:PortAudio/portaudio.git
