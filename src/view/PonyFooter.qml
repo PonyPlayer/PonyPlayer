@@ -166,7 +166,13 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: mainWindow.lastOne()
+            onClicked: {
+                mainWindow.lastOne()
+                addtionalSettings.open()
+                console.log("brightness: "+mainWindow.brightness)
+                console.log("saturation: "+mainWindow.saturation)
+                console.log("contrast: "+mainWindow.contrast)
+            }
         }
     }
 

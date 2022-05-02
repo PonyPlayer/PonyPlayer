@@ -68,6 +68,12 @@ Window {
     property int userHeight: 600
     //播放模式
     property string playState: "ordered"
+    //亮度
+    property real brightness: 0.0
+    //饱和度
+    property real saturation: 1.0
+    //对比度
+    property real contrast: 1.0
 
 
     //播放
@@ -149,7 +155,9 @@ Window {
         }
         onAccepted: console.log("Ok clicked")
     }
-
+    AdditionalSettings{
+        id:addtionalSettings
+    }
     Rectangle {
         id:body
         anchors.top: parent.top

@@ -13,6 +13,7 @@ qt_add_qml_module(${PROJECT_NAME}
             MediaInfo.qml
             interfacefunctions.js
             Wave.qml
+            AdditionalSettings.qml
         RESOURCES
             interfacepics/cease.png
             interfacepics/FileCloser.png
