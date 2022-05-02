@@ -23,7 +23,7 @@ public:
 
     Q_INVOKABLE void reload() {
 #ifdef QT_DEBUG
-        static std::string mainQML = std::filesystem::path(__FILE__).parent_path() / "view" / "main.qml";
+        static std::string mainQML = (std::filesystem::path(__FILE__).parent_path() / "view" / "main.qml").string();
 
         auto *rootObject = engine->rootObjects().first();
         auto* mainWindow = qobject_cast<QQuickWindow*>(rootObject);
