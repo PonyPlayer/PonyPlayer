@@ -10,8 +10,7 @@ unsigned PonyAudioSink::nextPowerOf2(unsigned val) {
     return ++val;
 }
 
-PonyAudioSink::PonyAudioSink(QAudioFormat format, size_t bufferSize, size_t internalQueueSize) :
-        m_bufsize(bufferSize), m_stream(nullptr), timeBase(0), m_state(PlaybackState::IDLED) {
+PonyAudioSink::PonyAudioSink(QAudioFormat format) : m_stream(nullptr), timeBase(0), m_state(PlaybackState::IDLED) {
     Pa_Initialize();
     param = new PaStreamParameters;
     param->device = Pa_GetDefaultOutputDevice();
@@ -28,7 +27,7 @@ PonyAudioSink::PonyAudioSink(QAudioFormat format, size_t bufferSize, size_t inte
             nullptr,
             param,
             m_sampleRate,
-            m_bufsize,
+            paFramesPerBufferUnspecified,
             paClipOff,
             &PonyAudioSink::paCallback,
             this
@@ -36,11 +35,12 @@ PonyAudioSink::PonyAudioSink(QAudioFormat format, size_t bufferSize, size_t inte
     if (err != paNoError)
         throw std::runtime_error("can not open audio stream!");
     Pa_SetStreamFinishedCallback(m_stream, &PonyAudioSink::paStreamFinished);
-    m_numSamples = nextPowerOf2(static_cast<unsigned int>(m_sampleRate * 0.5 * m_channelCount));
-    m_numBytes = m_numSamples * m_bytesPerSample;
+    m_bufferMaxBytes = nextPowerOf2(
+            static_cast<unsigned int>(static_cast<unsigned long>(m_sampleRate * m_channelCount) * m_bytesPerSample));
+    ringBufferData = PaUtil_AllocateMemory(static_cast<long>(m_bufferMaxBytes));
     if (PaUtil_InitializeRingBuffer(&ringBuffer,
                                     sizeof(std::byte),
-                                    static_cast<ring_buffer_size_t>(m_numSamples * m_bytesPerSample),
+                                    static_cast<ring_buffer_size_t>(m_bufferMaxBytes),
                                     ringBufferData) < 0)
         throw std::runtime_error("can not initialize ring buffer!");
 }
@@ -74,6 +74,7 @@ void PonyAudioSink::start() {
 }
 
 PonyAudioSink::~PonyAudioSink() {
+    m_state = PlaybackState::IDLED;
     PaError err = Pa_CloseStream(m_stream);
     m_stream = nullptr;
     if (err != paNoError)
@@ -90,7 +91,7 @@ int PonyAudioSink::paCallback(const void *inputBuffer, void *outputBuffer,
                                                                 timeInfo, statusFlags);
 }
 
-void PonyAudioSink::paStreamFinished(void *userData) {
+void PonyAudioSink::paStreamFinished(void *) {
     qDebug() << "audio stream finished";
 }
 
@@ -116,9 +117,14 @@ void PonyAudioSink::setProcessSecs(double t) {
     timeBase = Pa_GetStreamTime(m_stream) - t;
 }
 
-int PonyAudioSink::m_paCallback(const void *inputBuffer, void *outputBuffer, unsigned long framesPerBuffer,
-                                const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags statusFlags) {
-
+int PonyAudioSink::m_paCallback(const void *, void *outputBuffer, unsigned long framesPerBuffer,
+                                const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags) {
+    ring_buffer_size_t bytesAvailCount = PaUtil_GetRingBufferReadAvailable(&ringBuffer);
+    ring_buffer_size_t bytesToPlay = std::min(
+            static_cast<ring_buffer_size_t> (framesPerBuffer * static_cast<unsigned long>(m_channelCount) *
+                                             m_bytesPerSample),
+            static_cast<ring_buffer_size_t> (bytesAvailCount));
+    PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesToPlay);
 }
 
 size_t PonyAudioSink::freeByte() const {

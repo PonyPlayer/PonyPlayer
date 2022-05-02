@@ -1,21 +1,12 @@
-//
-// Created by ColorsWind on 2022/5/1.
-//
-
-#ifndef PONYPLAYER_AUDIOSINK_H
-#define PONYPLAYER_AUDIOSINK_H
+#pragma once
 
 #include <portaudio.h>
 #include <vector>
 #include <QtMultimedia/QtMultimedia>
 #include <QBuffer>
 #include "pa_ringbuffer.h"
+#include "pa_util.h"
 
-namespace PonyAudio {
-    std::vector<int> getDeviceList() {
-
-    }
-}
 
 enum class PlaybackState {
     PLAYING, ///< 正在播放
@@ -31,17 +22,13 @@ enum class PlaybackState {
 class PonyAudioSink : public QObject {
     Q_OBJECT
 private:
-    size_t m_bufsize;
-
     PaStream *m_stream;
     PaStreamParameters *param;
-
     PaTime timeBase;
     int m_sampleRate;
-    size_t m_numSamples;
+    size_t m_bufferMaxBytes;
     size_t m_bytesPerSample;
     int m_channelCount;
-    size_t m_numBytes;
     void *ringBufferData;
 
     static PaSampleFormat qSampleFormatToPortFormat(QAudioFormat::SampleFormat qFormat, size_t &numBytes);
@@ -82,16 +69,14 @@ public:
 
     /**
      * 创建PonyAudioSink并attach到默认设备上
-     * @param frameBufferSize 系统buffer大小
-     * @param bufferSize PonyAudioSink的缓存大小
      * @param format 音频格式
      */
-    PonyAudioSink(QAudioFormat format, size_t bufferSize = 0, size_t internalQueueSize = 200);
+    PonyAudioSink(QAudioFormat format);
 
     /**
      * 析构即从deattach当前设备
      */
-    ~PonyAudioSink();
+    ~PonyAudioSink() override;
 
     /**
      * 开始播放
@@ -160,6 +145,3 @@ public:
 
     static void paStreamFinished(void *userData);
 };
-
-
-#endif //PONYPLAYER_AUDIOSINK_H
