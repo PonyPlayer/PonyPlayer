@@ -131,7 +131,27 @@ Rectangle {
 
 
 
-
+    Image {
+            id: settings
+            source: "interfacepics/additionalsettings"
+            width: 20
+            height: 20
+            visible: true
+            anchors.left: debug.right
+            anchors.leftMargin: 10
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 15
+            MouseArea{
+                anchors.fill: parent
+                cursorShape: "PointingHandCursor"
+                onClicked: {
+                    additionalSettings.open()
+                    console.log("brightness: "+mainWindow.brightness)
+                    console.log("saturation: "+mainWindow.saturation)
+                    console.log("contrast: "+mainWindow.contrast)
+                }
+            }
+        }
 
 
 
@@ -168,10 +188,6 @@ Rectangle {
             cursorShape: "PointingHandCursor"
             onClicked: {
                 mainWindow.lastOne()
-                addtionalSettings.open()
-                console.log("brightness: "+mainWindow.brightness)
-                console.log("saturation: "+mainWindow.saturation)
-                console.log("contrast: "+mainWindow.contrast)
             }
         }
     }

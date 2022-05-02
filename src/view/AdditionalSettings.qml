@@ -29,6 +29,7 @@ Dialog{
             value: mainWindow.brightness
             onMoved: {
                 mainWindow.brightness=brightnessSlider.value
+                videoArea.brightness=brightnessSlider.value
             }
         }
     }
@@ -49,6 +50,7 @@ Dialog{
             value: mainWindow.saturation
             onMoved: {
                 mainWindow.saturation=saturationSlider.value
+                videoArea.saturation=saturationSlider.value
             }
         }
     }
@@ -69,6 +71,7 @@ Dialog{
             value: mainWindow.contrast
             onMoved: {
                 mainWindow.contrast=contrastSlider.value
+                videoArea.contrast=contrastSlider.value
             }
         }
     }

@@ -63,7 +63,7 @@ Window {
     //播放时滚动条的步长(倒放时为  -1)
     property int step: 1
     //播放器界面的当前宽度
-    property int userWidth: 800
+    property int userWidth: 900
     //播放器界面的当前高度
     property int userHeight: 600
     //播放模式
@@ -105,7 +105,7 @@ Window {
 
     width: mainWindow.userWidth
     height: mainWindow.userHeight
-    minimumWidth: 650
+    minimumWidth: 750
     minimumHeight: 500
     visible: true
     title: "PonyPlayer"
@@ -164,7 +164,7 @@ Window {
         onAccepted: console.log("Ok clicked")
     }
     AdditionalSettings{
-        id:addtionalSettings
+        id:additionalSettings
     }
     Rectangle {
         id:body

@@ -15,6 +15,7 @@ qt_add_qml_module(${PROJECT_NAME}
             Wave.qml
             AdditionalSettings.qml
         RESOURCES
+            interfacepics/additionalsettings.png
             interfacepics/cease.png
             interfacepics/FileCloser.png
             interfacepics/FileList.png
