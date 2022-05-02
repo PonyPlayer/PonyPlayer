@@ -3,7 +3,7 @@
 //
 #include "demuxer2.h"
 
-DemuxDispatcherBase::DemuxDispatcherBase(const std::string &fn) : filename(fn) {
+DemuxDispatcherBase::DemuxDispatcherBase(const std::string &fn, QObject *parent) : QObject(parent), filename(fn) {
     if (avformat_open_input(&fmtCtx, fn.c_str(), nullptr, nullptr) < 0) {
         throw std::runtime_error("Cannot open input file.");
     }
@@ -17,7 +17,7 @@ DemuxDispatcherBase::~DemuxDispatcherBase() {
 }
 
 
-DecodeDispatcher::DecodeDispatcher(const std::string &fn) : DemuxDispatcherBase(fn) {
+DecodeDispatcher::DecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent) {
     packet = av_packet_alloc();
     for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
         if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {

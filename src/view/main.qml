@@ -110,6 +110,14 @@ Window {
     visible: true
     title: "PonyPlayer"
 
+
+    Shortcut {
+        sequence: "F5"
+        onActivated: {
+            hotLoader.reload();
+        }
+    }
+
     MouseArea{
         anchors.fill: parent
         id:mainScreen

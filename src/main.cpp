@@ -2,11 +2,14 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QApplication>
+#include <QQmlContext>
 #include "hurricane.h"
 #include "logger.h"
 #include "quickitem.h"
+
 #include "controller.h"
 #include "wave.h"
+#include "hotloader.hpp"
 
 int main(int argc, char *argv[]) {
     QQuickWindow::setGraphicsApi(QSGRendererInterface::GraphicsApi::OpenGL);
@@ -24,12 +27,16 @@ int main(int argc, char *argv[]) {
 
     const QUrl url(u"qrc:/view/main.qml"_qs);
     QQmlApplicationEngine engine;
+    HotLoader hotLoader(&engine);
+    engine.rootContext()->setContextProperty("hotLoader", &hotLoader);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
                 if (!obj && url == objUrl)
                     QCoreApplication::exit(-1);
             }, Qt::QueuedConnection);
     engine.load(url);
+
+
     qDebug() << "Start program";
     return QApplication::exec();
 }

@@ -11,30 +11,25 @@
 
 //#define DEBUG_FLAG_AUTO_OPEN
 
-HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent), videoPlayWorker() {
-    videoThread = new QThread;
-    videoThread->setObjectName("VideoThread");
-    videoPlayWorker.moveToThread(videoThread);
-    videoThread->start();
-    connect(this, &HurricanePlayer::signalPlayerInitializing, &videoPlayWorker, &VideoPlayWorker::slotThreadInit);
-    connect(this, &HurricanePlayer::signalResume, &videoPlayWorker, &VideoPlayWorker::slotOnWork);
-    connect(this, &HurricanePlayer::signalPause, &videoPlayWorker, &VideoPlayWorker::slotPause);
+HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent) {
+    videoPlayWorker = new VideoPlayWorker(this);
+    connect(this, &HurricanePlayer::signalPlayerInitializing, videoPlayWorker, &VideoPlayWorker::slotThreadInit);
+    connect(this, &HurricanePlayer::signalResume, videoPlayWorker, &VideoPlayWorker::slotOnWork);
+    connect(this, &HurricanePlayer::signalPause, videoPlayWorker, &VideoPlayWorker::slotPause);
 
-    connect(this, &HurricanePlayer::signalOpenFile, &videoPlayWorker, &VideoPlayWorker::slotOpenFile);
-    connect(this, &HurricanePlayer::signalClose, &videoPlayWorker, &VideoPlayWorker::slotClose);
-    connect(&videoPlayWorker, &VideoPlayWorker::signalImageChanged, this, &HurricanePlayer::setImage);
-    connect(&videoPlayWorker, &VideoPlayWorker::signalStateChanged, this, &HurricanePlayer::slotStateChanged);
+    connect(this, &HurricanePlayer::signalOpenFile, videoPlayWorker, &VideoPlayWorker::slotOpenFile);
+    connect(this, &HurricanePlayer::signalClose, videoPlayWorker, &VideoPlayWorker::slotClose);
+    connect(videoPlayWorker, &VideoPlayWorker::signalImageChanged, this, &HurricanePlayer::setImage);
+    connect(videoPlayWorker, &VideoPlayWorker::signalStateChanged, this, &HurricanePlayer::slotStateChanged);
 
     // volume
-    connect(this, &HurricanePlayer::signalVolumeChanging, &videoPlayWorker, &VideoPlayWorker::slotVolumeChanged);
-    connect(&videoPlayWorker, &VideoPlayWorker::signalVolumeChangedFail, this, &HurricanePlayer::slotVolumeChangedFail);
+    connect(this, &HurricanePlayer::signalVolumeChanging, videoPlayWorker, &VideoPlayWorker::slotVolumeChanged);
+    connect(videoPlayWorker, &VideoPlayWorker::signalVolumeChangedFail, this, &HurricanePlayer::slotVolumeChangedFail);
 
     // seek
-    connect(this, &HurricanePlayer::signalSeek, &videoPlayWorker, &VideoPlayWorker::slotSeek);
-    connect(&videoPlayWorker, &VideoPlayWorker::signalPositionChangedBySeek, this, &HurricanePlayer::slotPositionChangedBySeek);
+    connect(this, &HurricanePlayer::signalSeek, videoPlayWorker, &VideoPlayWorker::slotSeek);
+    connect(videoPlayWorker, &VideoPlayWorker::signalPositionChangedBySeek, this, &HurricanePlayer::slotPositionChangedBySeek);
 
-    // debug
-    connect(videoThread, &QThread::destroyed, []{ qDebug() << "Video Thread delete.";});
     connect(this, &HurricanePlayer::stateChanged, [=]{
         qDebug() << "State Changed to" << QVariant::fromValue(state).toString();});
     emit signalPlayerInitializing(QPrivateSignal());
@@ -89,9 +84,9 @@ void HurricanePlayer::close() {
 }
 
 HurricanePlayer::~HurricanePlayer() {
-    emit signalPause(QPrivateSignal());
-    videoThread->quit();
-    videoThread->deleteLater();
+    videoPlayWorker->requestPause();
+    videoPlayWorker->deleteLater();
+    qWarning() << "Destroy HurricanePlayer.";
 }
 
 void HurricanePlayer::slotStateChanged(HurricaneState s) {

@@ -34,7 +34,7 @@ protected:
 
     AVFormatContext *fmtCtx = nullptr;
 
-    explicit DemuxDispatcherBase(const std::string &fn);
+    explicit DemuxDispatcherBase(const std::string &fn, QObject *parent);
     ~DemuxDispatcherBase() override;
 };
 
@@ -152,7 +152,7 @@ class DecodeDispatcher : public DemuxDispatcherBase {
     std::atomic<bool> interrupt = false;
     AVPacket *packet = nullptr;
 public:
-    explicit DecodeDispatcher(const std::string &fn);
+    explicit DecodeDispatcher(const std::string &fn, QObject *parent);
 
     ~DecodeDispatcher() override;
 
@@ -200,20 +200,20 @@ signals:
     void startWorker(QPrivateSignal);
     void openFileResult(bool ret, QPrivateSignal);
 public:
-    Demuxer2() {
-        qThread = new QThread();
+    Demuxer2(QObject *parent) : QObject(nullptr) {
+        qThread = new QThread(parent);
         qThread->setObjectName("DecoderThread");
         qThread->start();
         this->moveToThread(qThread);
     }
 
     ~Demuxer2() {
+        qDebug() << "Destroy Demuxer2";
         if (worker) {
             worker->pause();
             worker->deleteLater();
-            worker = nullptr;
         }
-        qThread->deleteLater();
+        qThread->quit();
     }
 
     Picture getPicture(bool b) { return worker->getPicture(b); }
@@ -265,7 +265,7 @@ public slots:
             return;
         }
         try {
-            worker = new DecodeDispatcher(fn);
+            worker = new DecodeDispatcher(fn, this);
         } catch (std::runtime_error &ex) {
             qWarning() << "Error opening file:" << ex.what();
             worker = nullptr;

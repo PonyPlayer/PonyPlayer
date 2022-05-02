@@ -196,11 +196,16 @@ void VideoPlayWorker::slotOpenFile(const QString &path) {
     emit signalDecoderOpenFile(localPath.toStdString());
 }
 
-VideoPlayWorker::VideoPlayWorker() {
-    demuxer = new Demuxer2;
+VideoPlayWorker::VideoPlayWorker(QObject *parent): QObject(nullptr) {
+    videoThread = new QThread;
+    videoThread->setObjectName("VideoThread");
+    this->moveToThread(videoThread);
+    videoThread->start();
+    demuxer = new Demuxer2(nullptr);
     // open file
     connect(this, &VideoPlayWorker::signalDecoderOpenFile, demuxer, &Demuxer2::openFile);
     connect(demuxer, &Demuxer2::openFileResult, this, &VideoPlayWorker::slotOpenFileResult);
+
 
     // seek
     connect(this, &VideoPlayWorker::signalDecoderSeek, demuxer, &Demuxer2::seek, Qt::BlockingQueuedConnection);
@@ -208,6 +213,7 @@ VideoPlayWorker::VideoPlayWorker() {
     // start
     connect(this, &VideoPlayWorker::signalDecoderStart, demuxer, &Demuxer2::start);
 }
+
 
 
 

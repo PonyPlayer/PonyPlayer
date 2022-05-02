@@ -125,7 +125,7 @@ public:
 
     [[nodiscard]] GLfloat getContrast() const { return brightness; }
 
-    void setContrast(GLfloat c) { Hurricane::contrast = c; };
+    void setContrast(GLfloat c) { Hurricane::contrast = c; qDebug() << "setContrast" << c; };
 
     [[nodiscard]] GLfloat getSaturation() const { return saturation; };
 

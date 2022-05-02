@@ -43,7 +43,8 @@ void Hurricane::handleWindowChanged(QQuickWindow *win)  {
 //        connect(this->window(), &QQuickWindow::widthChanged, this, &Hurricane::updateViewport);
 //        connect(this->window(), &QQuickWindow::heightChanged, this, &Hurricane::updateViewport);
         win->setColor(Qt::black);
-
+    } else {
+        qWarning() << "Window destroy.";
     }
 }
 

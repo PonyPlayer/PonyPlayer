@@ -42,6 +42,7 @@ using namespace H;
 class VideoPlayWorker : public QObject {
     Q_OBJECT
 private:
+    QThread *videoThread;
     Demuxer2 *demuxer = nullptr;
     bool pauseRequested = false;
     QAudioSink *audioOutput = nullptr;
@@ -52,14 +53,16 @@ private:
     time_duration idleDurationSum = 0;
 
 public:
-    VideoPlayWorker();
-    ~VideoPlayWorker() override { delete demuxer; }
+    VideoPlayWorker(QObject *parent);
+    ~VideoPlayWorker() { demuxer->deleteLater();  videoThread->quit(); };
     qreal getAudioDuration() { return demuxer->audioDuration(); }
     qreal getVideoDuration() { return demuxer->videoDuration(); }
+    void requestPause() {     pauseRequested = true; };
 private:
     inline time_point getAudioPlayingUSecs();
     inline void closeAudio();
     inline void syncTo(double pts);
+
 public slots:
     void onAudioStateChanged(QAudio::State state);
     void slotOpenFile(const QString &path);
@@ -79,12 +82,13 @@ signals:
     void signalDecoderSeek(time_point pos);
     void signalDecoderStart();
 
+
 };
 
 /**
  * @brief
  * 播放器 QuickItem 组件，提供暴露给 QML 的接口。
- * @details
+ *
  * 我们完全采用异步通信的思想，这里的大部分方法都会直接返回。我们只需要关注一些事件（信号）更新 UI 的状态即可。我们的部分方法仅在特定状态才能
  * 使用，需要特别注意。例如：打开视频文件可以分为两个操作：stop（如果当前正在播放视频，需要先停止播放）和 openFile。也就是说，如果正在播放视
  * 频，必须先调用 stop 确保停止播放后再调用 openFile，否则 openFile 请求会被忽略。因此，一种正确的做法是先判断 state 是否为 PLAYING
@@ -106,8 +110,8 @@ private:
     HurricaneState state = HurricaneState::INVALID;
     qreal volume;
 private:
-    QThread *videoThread;
-    VideoPlayWorker videoPlayWorker;
+
+    VideoPlayWorker *videoPlayWorker;
 public:
     HurricanePlayer(QQuickItem *parent = nullptr);
 
@@ -205,13 +209,13 @@ public slots:
      * 获取视频长度, 需要保证状态不是 INVALID
      * @return 长度(单位: 秒)
      */
-    Q_INVOKABLE qreal getAudioDuration() { return videoPlayWorker.getAudioDuration(); }
+    Q_INVOKABLE qreal getAudioDuration() { return videoPlayWorker->getAudioDuration(); }
 
     /**
      * 获取音频长度, 需要保证状态不是 INVALID
      * @return 长度(单位: 秒)
      */
-    Q_INVOKABLE qreal getVideoDuration() { return videoPlayWorker.getVideoDuration(); }
+    Q_INVOKABLE qreal getVideoDuration() { return videoPlayWorker->getVideoDuration(); }
 
     /**
      * 获取当前视频播放进度, 需要保证状态不是 INVALID
