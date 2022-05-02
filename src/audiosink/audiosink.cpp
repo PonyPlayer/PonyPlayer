@@ -67,8 +67,10 @@ PaSampleFormat PonyAudioSink::qSampleFormatToPortFormat(QAudioFormat::SampleForm
 
 void PonyAudioSink::start() {
     PaError err = Pa_StartStream(m_stream);
-    if (err != paNoError)
+    if (err != paNoError) {
+        qWarning() << "Error" << Pa_GetErrorText(err);
         throw std::runtime_error("can not start stream!");
+    }
     timeBase = Pa_GetStreamTime(m_stream);
     m_state = PlaybackState::PLAYING;
 }
@@ -112,6 +114,8 @@ PlaybackState PonyAudioSink::state() const {
 double PonyAudioSink::getProcessSecs() const {
     return Pa_GetStreamTime(m_stream) - timeBase;
 }
+
+
 
 void PonyAudioSink::setProcessSecs(double t) {
     timeBase = Pa_GetStreamTime(m_stream) - t;
