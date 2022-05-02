@@ -23,7 +23,7 @@ public:
 
     Q_INVOKABLE void reload() {
 #ifdef QT_DEBUG
-        static std::string mainQML = (std::filesystem::path(__FILE__).parent_path() / "view" / "main.qml").string();
+        static std::string mainQML = std::filesystem::path(__FILE__).parent_path().string() + "/view/main.qml";
 
         auto *rootObject = engine->rootObjects().first();
         auto* mainWindow = qobject_cast<QQuickWindow*>(rootObject);
@@ -31,7 +31,7 @@ public:
         mainWindow->close();
         engine->clearComponentCache();
         mainWindow->deleteLater();
-        engine->load(QUrl(QString::fromUtf8(mainQML)));
+        engine->load(QUrl::fromLocalFile(QString::fromUtf8(mainQML)));
         qWarning() << "Complete hot reloading.";
 #endif
     }
