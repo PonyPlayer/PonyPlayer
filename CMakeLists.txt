@@ -35,4 +35,7 @@ set(CMAKE_MACOSX_RPATH ON)
 include_directories(${FFMPEG_PREFIX_PATH}/include)
 
 include_directories(include)
+include_directories(thirdparty/include)
+include_directories(thirdparty/portaudio/src/common)
+add_subdirectory(thirdparty)
 add_subdirectory(src)
