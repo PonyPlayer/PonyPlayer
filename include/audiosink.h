@@ -7,6 +7,9 @@
 
 #include <portaudio.h>
 #include <vector>
+#include <QtMultimedia/QtMultimedia>
+#include <QBuffer>
+#include "pa_ringbuffer.h"
 
 namespace PonyAudio {
     std::vector<int> getDeviceList() {
@@ -25,7 +28,36 @@ enum class PlaybackState {
  *
  * 这个类的RAII的.
  */
-class PonyAudioSink {
+class PonyAudioSink : public QObject {
+    Q_OBJECT
+private:
+    size_t m_bufsize;
+
+    PaStream *m_stream;
+    PaStreamParameters *param;
+
+    PaTime timeBase;
+    int m_sampleRate;
+    size_t m_numSamples;
+    size_t m_bytesPerSample;
+    int m_channelCount;
+    size_t m_numBytes;
+    void *ringBufferData;
+
+    static PaSampleFormat qSampleFormatToPortFormat(QAudioFormat::SampleFormat qFormat, size_t &numBytes);
+
+    PlaybackState m_state;
+
+    int m_paCallback(const void *inputBuffer, void *outputBuffer,
+                     unsigned long framesPerBuffer,
+                     const PaStreamCallbackTimeInfo *timeInfo,
+                     PaStreamCallbackFlags statusFlags);
+
+    static unsigned nextPowerOf2(unsigned val);
+
+    PaUtilRingBuffer ringBuffer;
+
+
 public:
     /**
      * 计算音频长度对应的数据大小
@@ -51,10 +83,10 @@ public:
     /**
      * 创建PonyAudioSink并attach到默认设备上
      * @param frameBufferSize 系统buffer大小
-     * @param audioBufferSize PonyAudioSink的缓存大小
+     * @param bufferSize PonyAudioSink的缓存大小
      * @param format 音频格式
      */
-    PonyAudioSink(size_t frameBufferSize, size_t audioBufferSize, QAudioFormat format);
+    PonyAudioSink(QAudioFormat format, size_t bufferSize = 0, size_t internalQueueSize = 200);
 
     /**
      * 析构即从deattach当前设备
@@ -82,7 +114,6 @@ public:
      */
     PlaybackState state() const;
 
-
     /**
      * 获取AudioBuffer剩余空间
      * @return 剩余空间(单位: byte)
@@ -95,7 +126,7 @@ public:
      * @param len 长度(单位: byte)
      * @return 写入是否成功
      */
-    bool write(const char* buf, size_t len);
+    bool write(const char *buf, qint64 len);
 
     /**
      * 清空AudioBuffer, 将所有空间标记为可用. 这个操作保证在VideoThread上进行.
@@ -119,7 +150,16 @@ public:
      * 设置当前播放的时间,
      * @param t 新的播放时间(单位: 秒)
      */
-    void setProcessSecs(double t=0.0);
+    void setProcessSecs(double t = 0.0);
+
+    static int paCallback(const void *inputBuffer, void *outputBuffer,
+                          unsigned long framesPerBuffer,
+                          const PaStreamCallbackTimeInfo *timeInfo,
+                          PaStreamCallbackFlags statusFlags,
+                          void *userData);
+
+    static void paStreamFinished(void *userData);
 };
+
 
 #endif //PONYPLAYER_AUDIOSINK_H

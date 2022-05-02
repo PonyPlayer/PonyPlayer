@@ -13,6 +13,7 @@ int main(int argc, char *argv[]) {
     QSurfaceFormat format;
     format.setProfile(QSurfaceFormat::CoreProfile);
     format.setVersion(3, 3);
+    format.setSamples(16);
     QSurfaceFormat::setDefaultFormat(format);
     QApplication app(argc, argv);
     qmlRegisterType<HurricanePlayer>("HurricanePlayer", 1, 0, "HurricanePlayer");
