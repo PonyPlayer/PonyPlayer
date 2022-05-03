@@ -30,6 +30,7 @@ private:
     size_t m_bytesPerSample;
     int m_channelCount;
     void *ringBufferData;
+    PaTime prevPlayTime;
 
     static PaSampleFormat qSampleFormatToPortFormat(QAudioFormat::SampleFormat qFormat, size_t &numBytes);
 
@@ -144,4 +145,6 @@ public:
                           void *userData);
 
     static void paStreamFinished(void *userData);
+
+    void m_paStreamFinishedCallback();
 };
