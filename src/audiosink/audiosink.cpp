@@ -125,7 +125,6 @@ int PonyAudioSink::m_paCallback(const void *, void *outputBuffer, unsigned long 
                                              m_bytesPerSample),
             static_cast<ring_buffer_size_t> (bytesAvailCount));
     PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesToPlay);
-    qDebug() << "Read buffer:" << bytesToPlay;
     return 0;
 }
 
@@ -134,7 +133,6 @@ size_t PonyAudioSink::freeByte() const {
 }
 
 bool PonyAudioSink::write(const char *buf, qint64 len) {
-    qDebug() << "Write buffer:" << len;
     ring_buffer_size_t bufAvailCount = PaUtil_GetRingBufferWriteAvailable(&ringBuffer);
     if (bufAvailCount < len) return false;
     void *ptr[2] = {nullptr};

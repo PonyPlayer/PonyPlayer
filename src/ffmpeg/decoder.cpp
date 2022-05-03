@@ -65,6 +65,7 @@ bool DecoderImpl<type>::accept(AVPacket *pkt, std::atomic<bool> &interrupt) {
 #ifdef IGNORE_VIDEO_FRAME
             if constexpr(type == Video) {
                 if (frameQueue.getSize() > 10) {
+                    av_frame_unref(frameBuf);
                     av_frame_free(&frameBuf);
                 } else {
                     ret = frameQueue.bpush(frameBuf);

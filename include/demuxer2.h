@@ -18,7 +18,7 @@ INCLUDE_FFMPEG_BEGIN
 #include <libavutil/imgutils.h>
 INCLUDE_FFMPEG_END
 
-#define IGNORE_VIDEO_FRAME
+//#define IGNORE_VIDEO_FRAME
 
 inline QString ffmpegErrToString(int err) {
     char errBuf[512];
