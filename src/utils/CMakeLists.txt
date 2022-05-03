@@ -4,6 +4,7 @@ set(CPP_SOURCES
         logger.cpp
         blocking_queue.cpp
         countdown_latch.cpp
+        helper.cpp
         )
 
 qt_add_library(${PROJECT_NAME} STATIC

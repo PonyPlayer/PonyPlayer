@@ -1,17 +1,10 @@
 #include "audiosink.h"
+#include "helper.h"
 
-unsigned PonyAudioSink::nextPowerOf2(unsigned val) {
-    val--;
-    val = (val >> 1) | val;
-    val = (val >> 2) | val;
-    val = (val >> 4) | val;
-    val = (val >> 8) | val;
-    val = (val >> 16) | val;
-    return ++val;
-}
 
-PonyAudioSink::PonyAudioSink(QAudioFormat format) : m_stream(nullptr), timeBase(0), prevPlayTime(0),
-                                                    m_state(PlaybackState::IDLED) {
+PonyAudioSink::PonyAudioSink(QAudioFormat format, unsigned long bufferSizeAdvice)
+        : m_stream(nullptr), timeBase(0), prevPlayTime(0),
+          m_state(PlaybackState::IDLED) {
     Pa_Initialize();
     param = new PaStreamParameters;
     param->device = Pa_GetDefaultOutputDevice();
@@ -35,8 +28,7 @@ PonyAudioSink::PonyAudioSink(QAudioFormat format) : m_stream(nullptr), timeBase(
     );
     if (err != paNoError)
         throw std::runtime_error("can not open audio stream!");
-    m_bufferMaxBytes = nextPowerOf2(
-            static_cast<unsigned int>(static_cast<unsigned long>(m_sampleRate * m_channelCount) * m_bytesPerSample));
+    m_bufferMaxBytes = nextPowerOf2(bufferSizeAdvice);
     ringBufferData = PaUtil_AllocateMemory(static_cast<long>(m_bufferMaxBytes));
     if (PaUtil_InitializeRingBuffer(&ringBuffer,
                                     sizeof(std::byte),

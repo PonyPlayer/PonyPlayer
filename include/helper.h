@@ -1,9 +1,7 @@
 //
 // Created by ColorsWind on 2022/4/16.
 //
-
-#ifndef PONYPLAYER_HELPER_H
-#define PONYPLAYER_HELPER_H
+#pragma once
 
 #if defined(WIN32) || defined(linux)
 #define INCLUDE_FFMPEG_BEGIN \
@@ -36,4 +34,4 @@ const int ERROR_EOF = AVERROR_EOF;
 const int MAX_AUDIO_FRAME_SIZE = 192000;
 #pragma GCC diagnostic pop
 
-#endif //PONYPLAYER_HELPER_H
+unsigned nextPowerOf2(unsigned val);

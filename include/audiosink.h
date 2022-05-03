@@ -41,8 +41,6 @@ private:
                      const PaStreamCallbackTimeInfo *timeInfo,
                      PaStreamCallbackFlags statusFlags);
 
-    static unsigned nextPowerOf2(unsigned val);
-
     PaUtilRingBuffer ringBuffer;
 
 
@@ -72,7 +70,7 @@ public:
      * 创建PonyAudioSink并attach到默认设备上
      * @param format 音频格式
      */
-    PonyAudioSink(QAudioFormat format);
+    PonyAudioSink(QAudioFormat format, unsigned long bufferSizeAdvice);
 
     /**
      * 析构即从deattach当前设备
