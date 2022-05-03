@@ -139,6 +139,7 @@ size_t PonyAudioSink::freeByte() const {
 }
 
 bool PonyAudioSink::write(const char *buf, qint64 len) {
+    qDebug() << "Write buffer:" << len;
     ring_buffer_size_t bufAvailCount = PaUtil_GetRingBufferWriteAvailable(&ringBuffer);
     if (bufAvailCount < len) return false;
     void *ptr[2] = {nullptr};

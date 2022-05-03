@@ -23,7 +23,7 @@ void VideoPlayWorker::slotOnWork() {
     emit signalStateChanged(HurricaneState::PLAYING);
     while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
         demuxer->popPicture(true);
-        emit signalImageChanged(currFrame);
+//        emit signalImageChanged(currFrame);
         for (int i = 0; i < 5 && audioOutput->freeByte() > MAX_AUDIO_FRAME_SIZE; ++i) {
             try {
                 Sample sample = demuxer->getSample(true);
@@ -38,9 +38,9 @@ void VideoPlayWorker::slotOnWork() {
         // process all events such as setVolume and pause request
         QCoreApplication::processEvents();
         Picture nextFrame = demuxer->getPicture(true);
-        if (nextFrame.isValid()) {
-            syncTo(nextFrame.pts);
-        }
+//        if (nextFrame.isValid()) {
+//            syncTo(nextFrame.pts);
+//        }
 
     }
     qDebug() << "Stop work";
