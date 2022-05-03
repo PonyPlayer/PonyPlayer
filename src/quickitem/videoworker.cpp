@@ -8,6 +8,7 @@
 
 void VideoPlayWorker::syncTo(double pts) {
     auto duration = pts - audioOutput->getProcessSecs();
+    qDebug() << "PTS" << pts << "Current" << audioOutput->getProcessSecs();
     if (duration > 0) {
         QThread::usleep(static_cast<unsigned long>(pts * 1000 * 1000));
     } else {
@@ -22,8 +23,8 @@ void VideoPlayWorker::slotOnWork() {
     audioOutput->start();
     emit signalStateChanged(HurricaneState::PLAYING);
     while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
-        demuxer->popPicture(true);
-//        emit signalImageChanged(currFrame);
+//        demuxer->popPicture(true);
+        emit signalImageChanged(currFrame);
         for (int i = 0; i < 5 && audioOutput->freeByte() > MAX_AUDIO_FRAME_SIZE; ++i) {
             try {
                 Sample sample = demuxer->getSample(true);
@@ -37,7 +38,8 @@ void VideoPlayWorker::slotOnWork() {
         }
         // process all events such as setVolume and pause request
         QCoreApplication::processEvents();
-        Picture nextFrame = demuxer->getPicture(true);
+        QThread::msleep(1000/30); // assume 30fps
+//        Picture nextFrame = demuxer->getPicture(true);
 //        if (nextFrame.isValid()) {
 //            syncTo(nextFrame.pts);
 //        }
@@ -70,7 +72,7 @@ void VideoPlayWorker::slotThreadInit() {
     format.setSampleRate(44100);
     format.setChannelCount(2);
     format.setSampleFormat(QAudioFormat::Int16);
-    audioOutput = new PonyAudioSink(format);
+    audioOutput = new PonyAudioSink(format, MAX_AUDIO_FRAME_SIZE * 2);
 //    connect(audioOutput, &QAudioSink::stateChanged, this, &VideoPlayWorker::onAudioStateChanged, Qt::ConnectionType::DirectConnection);
 //    audioOutput->setVolume(100);
 //    audioOutput->setBufferSize(MAX_AUDIO_FRAME_SIZE * 2);
