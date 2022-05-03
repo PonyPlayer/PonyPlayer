@@ -145,10 +145,10 @@ Rectangle {
                 anchors.fill: parent
                 cursorShape: "PointingHandCursor"
                 onClicked: {
-                    additionalSettings.open()
+                    additionalSettings.show()
                     console.log("brightness: "+mainWindow.brightness)
-                    console.log("saturation: "+mainWindow.saturation)
-                    console.log("contrast: "+mainWindow.contrast)
+                                    console.log("saturation: "+mainWindow.saturation)
+                                    console.log("contrast: "+mainWindow.contrast)
                 }
             }
         }
