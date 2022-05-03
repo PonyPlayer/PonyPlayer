@@ -46,7 +46,7 @@ void VideoPlayWorker::slotOnWork() {
 
     }
     qDebug() << "Stop work";
-    audioOutput->stop();
+    audioOutput->pause();
     pauseRequested = true;
     emit signalStateChanged(HurricaneState::PAUSED);
 }
@@ -55,7 +55,7 @@ void VideoPlayWorker::slotOnWork() {
 void VideoPlayWorker::slotClose() {
     pauseRequested = true;
     demuxer->close();
-    audioOutput->abort();
+    audioOutput->stop();
     audioOutput->clear();
     emit signalStateChanged(HurricaneState::INVALID);
 }
@@ -115,8 +115,9 @@ void VideoPlayWorker::slotSeek(qreal pos) {
     // 1. Stop audio and clean buffer (invoke closeAudio)
     // 2. Set seekPoint so syncTo can handle pts correctly
     // 3. Clear invalid frame
-    audioOutput->abort();
-    audioOutput->setProcessSecs(pos);
+    audioOutput->stop();
+    audioOutput->clear();
+
 
     // WARNING: must make sure everything (especially PTS) has been properly updated
     // otherwise, the video thread will be BLOCKING for a long time.
@@ -139,8 +140,10 @@ void VideoPlayWorker::slotSeek(qreal pos) {
             demuxer->popSample(true);
             sample.free();
         }
+        audioOutput->setStartPoint(sample.getPTS());
     }
     audioOutput->start();
+
     emit signalPositionChangedBySeek();
     qDebug() << "Finished seek request" << pos;
 

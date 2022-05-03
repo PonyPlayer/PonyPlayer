@@ -11,7 +11,7 @@
 enum class PlaybackState {
     PLAYING, ///< 正在播放
     STOPPED, ///< 停止状态
-    IDLED,   ///< 空闲状态
+    PAUSED,  ///< 暂停状态
 };
 
 /**
@@ -85,12 +85,12 @@ public:
     /**
      * 尽快停止播放
      */
-    void stop();
+    void pause();
 
     /**
      * 放弃缓冲区的内容, 立即停止播放
      */
-    void abort();
+    void stop();
 
     /**
      * 获取播放状态
@@ -134,19 +134,18 @@ public:
      * 设置当前播放的时间,
      * @param t 新的播放时间(单位: 秒)
      */
-    void setProcessSecs(double t = 0.0);
-
-    static int paCallback(const void *inputBuffer, void *outputBuffer,
-                          unsigned long framesPerBuffer,
-                          const PaStreamCallbackTimeInfo *timeInfo,
-                          PaStreamCallbackFlags statusFlags,
-                          void *userData);
-
-    static void paStreamFinished(void *userData);
+    void setStartPoint(double t = 0.0);
 
     void m_paStreamFinishedCallback();
 
 signals:
-
+    /**
+     * 播放状态发生改变
+     */
     void stateChanged();
+
+    /**
+     * 由于缺少音频数据, 被迫暂停播放
+     */
+    void forceStopped();
 };
