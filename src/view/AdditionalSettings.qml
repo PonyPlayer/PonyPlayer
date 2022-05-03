@@ -5,17 +5,20 @@ import QtQuick.Layouts
 import QtQuick.Dialogs
 import "./interfacefunctions.js" as IF
 
-Dialog{
+Window{
     id:additionalSettings
     title: "additionalSettings"
-    standardButtons: Dialog.Ok
-    modal: false
-    height: 180
-    width: 200
-    onAccepted: console.log("additional Ok clicked")
+    maximumHeight: 120
+    maximumWidth:170
+    minimumHeight: 120
+    minimumWidth: 170
+    flags: Qt.Dialog
     Row{
         id:brightness
         anchors.top: parent.top
+        anchors.topMargin: 10
+        anchors.left: parent.left
+        anchors.leftMargin: 10
         Text {
             width: 50
             text: qsTr("亮度")
@@ -29,7 +32,6 @@ Dialog{
             value: mainWindow.brightness
             onMoved: {
                 mainWindow.brightness=brightnessSlider.value
-                videoArea.brightness=brightnessSlider.value
             }
         }
     }
@@ -37,6 +39,8 @@ Dialog{
         id:saturation
         anchors.top: brightness.bottom
         anchors.topMargin: 20
+        anchors.left: parent.left
+        anchors.leftMargin: 10
         Text {
             width: 50
             text: qsTr("饱和度")
@@ -50,7 +54,6 @@ Dialog{
             value: mainWindow.saturation
             onMoved: {
                 mainWindow.saturation=saturationSlider.value
-                videoArea.saturation=saturationSlider.value
             }
         }
     }
@@ -58,6 +61,8 @@ Dialog{
         id:contrast
         anchors.top: saturation.bottom
         anchors.topMargin: 20
+        anchors.left: parent.left
+        anchors.leftMargin: 10
         Text {
             width: 50
             text: qsTr("对比度")
@@ -71,7 +76,6 @@ Dialog{
             value: mainWindow.contrast
             onMoved: {
                 mainWindow.contrast=contrastSlider.value
-                videoArea.contrast=contrastSlider.value
             }
         }
     }
