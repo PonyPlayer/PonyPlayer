@@ -65,12 +65,14 @@ void PonyAudioSink::start() {
         qWarning() << "Error" << Pa_GetErrorText(err);
         throw std::runtime_error("can not start stream!");
     }
+    prevPlayTime = 0;
     timeBase = Pa_GetStreamTime(m_stream);
     m_state = PlaybackState::PLAYING;
+    emit stateChanged();
 }
 
 PonyAudioSink::~PonyAudioSink() {
-    m_state = PlaybackState::IDLED;
+    m_state = PlaybackState::STOPPED;
     PaError err = Pa_CloseStream(m_stream);
     m_stream = nullptr;
     if (err != paNoError)
@@ -105,26 +107,51 @@ PlaybackState PonyAudioSink::state() const {
 }
 
 double PonyAudioSink::getProcessSecs() const {
-    if (m_state != PlaybackState::PLAYING)
-        return prevPlayTime;
-    else return Pa_GetStreamTime(m_stream) - timeBase + prevPlayTime;
+    switch (m_state) {
+        case PlaybackState::PLAYING:
+            return Pa_GetStreamTime(m_stream) - timeBase + prevPlayTime;
+        case PlaybackState::IDLED:
+            return prevPlayTime;
+        case PlaybackState::STOPPED:
+            return 0;
+    }
+    return 0;
 }
 
 
 void PonyAudioSink::setProcessSecs(double t) {
-    if (m_state != PlaybackState::PLAYING)
-        prevPlayTime = t;
-    else timeBase = Pa_GetStreamTime(m_stream) + prevPlayTime - t;
+    switch (m_state) {
+        case PlaybackState::PLAYING:
+            timeBase = Pa_GetStreamTime(m_stream) + prevPlayTime - t;
+        case PlaybackState::IDLED:
+            prevPlayTime = t;
+        case PlaybackState::STOPPED:
+            throw std::runtime_error("trying to set process secs on a stopped audio stream!");
+    }
 }
 
 int PonyAudioSink::m_paCallback(const void *, void *outputBuffer, unsigned long framesPerBuffer,
-                                const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags) {
+                                const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags) {
     ring_buffer_size_t bytesAvailCount = PaUtil_GetRingBufferReadAvailable(&ringBuffer);
+    unsigned long bytesNeeded = framesPerBuffer * static_cast<unsigned long>(m_channelCount) * m_bytesPerSample;
     ring_buffer_size_t bytesToPlay = std::min(
-            static_cast<ring_buffer_size_t> (framesPerBuffer * static_cast<unsigned long>(m_channelCount) *
-                                             m_bytesPerSample),
+            static_cast<ring_buffer_size_t> (bytesNeeded),
             static_cast<ring_buffer_size_t> (bytesAvailCount));
-    PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesToPlay);
+    if (bytesToPlay != bytesNeeded) {
+        if (m_state == PlaybackState::PLAYING) {
+            m_state = PlaybackState::IDLED;
+            prevPlayTime += timeInfo->currentTime - timeBase;
+            memset(outputBuffer, 0, bytesNeeded);
+            emit stateChanged();
+        }
+        timeBase = timeInfo->currentTime;
+    } else {
+        if (m_state == PlaybackState::IDLED) {
+            m_state = PlaybackState::PLAYING;
+            emit stateChanged();
+        }
+        PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesToPlay);
+    }
     return 0;
 }
 
@@ -153,6 +180,7 @@ size_t PonyAudioSink::clear() {
 }
 
 void PonyAudioSink::m_paStreamFinishedCallback() {
-    prevPlayTime += Pa_GetStreamTime(&m_stream) - timeBase;
     m_state = PlaybackState::STOPPED;
+    prevPlayTime = 0;
+    emit stateChanged();
 }

@@ -20,7 +20,7 @@ enum class PlaybackState {
  * 这个类的RAII的.
  */
 class PonyAudioSink : public QObject {
-    Q_OBJECT
+Q_OBJECT
 private:
     PaStream *m_stream;
     PaStreamParameters *param;
@@ -145,4 +145,8 @@ public:
     static void paStreamFinished(void *userData);
 
     void m_paStreamFinishedCallback();
+
+signals:
+
+    void stateChanged();
 };
