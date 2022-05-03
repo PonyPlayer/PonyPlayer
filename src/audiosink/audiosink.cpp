@@ -64,6 +64,7 @@ PaSampleFormat PonyAudioSink::qSampleFormatToPortFormat(QAudioFormat::SampleForm
         case QAudioFormat::SampleFormat::NSampleFormats:
             throw std::runtime_error("unknown audio format!");
     }
+    return paCustomFormat;
 }
 
 void PonyAudioSink::start() {
@@ -132,6 +133,8 @@ int PonyAudioSink::m_paCallback(const void *, void *outputBuffer, unsigned long 
                                              m_bytesPerSample),
             static_cast<ring_buffer_size_t> (bytesAvailCount));
     PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesToPlay);
+    qDebug() << "Read buffer:" << bytesToPlay;
+    return 0;
 }
 
 size_t PonyAudioSink::freeByte() const {
@@ -145,15 +148,18 @@ bool PonyAudioSink::write(const char *buf, qint64 len) {
     void *ptr[2] = {nullptr};
     ring_buffer_size_t sizes[2] = {0};
 
-    PaUtil_GetRingBufferWriteRegions(&ringBuffer, len, &ptr[0], &sizes[0], &ptr[1], &sizes[1]);
+    PaUtil_GetRingBufferWriteRegions(&ringBuffer, static_cast<ring_buffer_size_t>(len), &ptr[0], &sizes[0], &ptr[1],
+                                     &sizes[1]);
     memcpy(ptr[0], buf, static_cast<size_t>(sizes[0]));
     memcpy(ptr[1], buf + sizes[0], static_cast<size_t>(sizes[1]));
-    PaUtil_AdvanceRingBufferWriteIndex(&ringBuffer, len);
+    PaUtil_AdvanceRingBufferWriteIndex(&ringBuffer, static_cast<ring_buffer_size_t>(len));
+    return true;
 }
 
 size_t PonyAudioSink::clear() {
     // 需要保证此刻没有读写操作
     PaUtil_FlushRingBuffer(&ringBuffer);
+    return 0;
 }
 
 void PonyAudioSink::m_paStreamFinishedCallback() {
