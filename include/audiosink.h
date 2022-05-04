@@ -28,6 +28,7 @@ private:
     PaStream *m_stream;
     PaStreamParameters *param;
     PaTime timeBase;
+    QAudioFormat m_format;
     int m_sampleRate;
     PaSampleFormat m_sampleFormat;
     size_t m_bufferMaxBytes;
@@ -35,6 +36,9 @@ private:
     int m_channelCount;
     void *ringBufferData;
     qreal m_volume;
+    std::atomic<int64_t> dataWritten = 0;
+    std::atomic<int64_t> dataLastWrote = 0;
+
 
     static PaSampleFormat qSampleFormatToPortFormat(QAudioFormat::SampleFormat qFormat, size_t &numBytes);
 
