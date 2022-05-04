@@ -85,6 +85,10 @@ function solveStateChanged(){
         return
     }
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+    let tmp=videoArea.getPTS()
+    mainWindow.currentTime=tmp
+    videoSlide.value=tmp
+
 }
 function volumnUp(){
     if(mainWindow.volumn<0.9){
