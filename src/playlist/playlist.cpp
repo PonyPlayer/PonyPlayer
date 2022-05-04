@@ -38,4 +38,5 @@ void PlayList::remove(PlayListItem *item){
 
 PlayListItem* PlayList::search(QString key){
     qDebug()<<"search";
+    throw std::runtime_error("Unsupported operation yet.");
 }
