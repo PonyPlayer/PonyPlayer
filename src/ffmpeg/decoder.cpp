@@ -62,7 +62,20 @@ bool DecoderImpl<type>::accept(AVPacket *pkt, std::atomic<bool> &interrupt) {
     while(ret >= 0 && !interrupt) {
         ret = avcodec_receive_frame(codecCtx, frameBuf);
         if (ret >= 0) {
+#ifdef IGNORE_VIDEO_FRAME
+            if constexpr(type == Video) {
+                if (frameQueue.getSize() > 10) {
+                    av_frame_unref(frameBuf);
+                    av_frame_free(&frameBuf);
+                } else {
+                    ret = frameQueue.bpush(frameBuf);
+                }
+            } else {
+                ret = frameQueue.bpush(frameBuf);
+            }
+#else
             ret = frameQueue.bpush(frameBuf);
+#endif
             frameBuf = av_frame_alloc();
         } else if (ret == AVERROR(EAGAIN)) {
             return true;

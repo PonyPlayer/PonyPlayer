@@ -31,6 +31,10 @@ public:
 
     explicit BlockingQueue(const long long int &_capacity);
 
+    long long int getSize() {
+        return size;
+    }
+
     /*
      * 向队列中插入元素(非阻塞)
      */

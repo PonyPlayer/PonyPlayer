@@ -1,24 +1,25 @@
 #include "audiosink.h"
+#include "helper.h"
 
-unsigned PonyAudioSink::nextPowerOf2(unsigned val) {
-    val--;
-    val = (val >> 1) | val;
-    val = (val >> 2) | val;
-    val = (val >> 4) | val;
-    val = (val >> 8) | val;
-    val = (val >> 16) | val;
-    return ++val;
-}
+PonyAudioSink::PonyAudioSink(QAudioFormat format, unsigned long bufferSizeAdvice)
+        : m_stream(nullptr), timeBase(0), m_volume(1.0),
+          m_state(PlaybackState::STOPPED) {
+    // initialize
+    static bool initialized = false;
+    if (!initialized) {
+        Pa_Initialize();
+        initialized = true;
+        qDebug() << "Initialize PonyAudioSink backend.";
+    }
 
-PonyAudioSink::PonyAudioSink(QAudioFormat format) : m_stream(nullptr), timeBase(0), m_state(PlaybackState::IDLED) {
-    Pa_Initialize();
     param = new PaStreamParameters;
     param->device = Pa_GetDefaultOutputDevice();
     if (param->device == paNoDevice)
         throw std::runtime_error("no audio device!");
     m_channelCount = format.channelCount();
+    m_sampleFormat = qSampleFormatToPortFormat(format.sampleFormat(), m_bytesPerSample);
     param->channelCount = m_channelCount;
-    param->sampleFormat = qSampleFormatToPortFormat(format.sampleFormat(), m_bytesPerSample);
+    param->sampleFormat = m_sampleFormat;
     param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
     param->hostApiSpecificStreamInfo = nullptr;
     m_sampleRate = format.sampleRate();
@@ -29,20 +30,29 @@ PonyAudioSink::PonyAudioSink(QAudioFormat format) : m_stream(nullptr), timeBase(
             m_sampleRate,
             paFramesPerBufferUnspecified,
             paClipOff,
-            &PonyAudioSink::paCallback,
+            [](const void *inputBuffer, void *outputBuffer,
+               unsigned long framesPerBuffer,
+               const PaStreamCallbackTimeInfo *timeInfo,
+               PaStreamCallbackFlags statusFlags,
+               void *userData) {
+                return static_cast<PonyAudioSink *>(userData)->m_paCallback(inputBuffer, outputBuffer,
+                                                                            framesPerBuffer,
+                                                                            timeInfo, statusFlags);
+            },
             this
     );
     if (err != paNoError)
         throw std::runtime_error("can not open audio stream!");
-    Pa_SetStreamFinishedCallback(m_stream, &PonyAudioSink::paStreamFinished);
-    m_bufferMaxBytes = nextPowerOf2(
-            static_cast<unsigned int>(static_cast<unsigned long>(m_sampleRate * m_channelCount) * m_bytesPerSample));
+    m_bufferMaxBytes = nextPowerOf2(bufferSizeAdvice);
     ringBufferData = PaUtil_AllocateMemory(static_cast<long>(m_bufferMaxBytes));
     if (PaUtil_InitializeRingBuffer(&ringBuffer,
                                     sizeof(std::byte),
                                     static_cast<ring_buffer_size_t>(m_bufferMaxBytes),
                                     ringBufferData) < 0)
         throw std::runtime_error("can not initialize ring buffer!");
+    Pa_SetStreamFinishedCallback(&m_stream, [](void *userData) {
+        static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
+    });
 }
 
 PaSampleFormat PonyAudioSink::qSampleFormatToPortFormat(QAudioFormat::SampleFormat qFormat, size_t &numBytes) {
@@ -63,68 +73,89 @@ PaSampleFormat PonyAudioSink::qSampleFormatToPortFormat(QAudioFormat::SampleForm
         case QAudioFormat::SampleFormat::NSampleFormats:
             throw std::runtime_error("unknown audio format!");
     }
+    return paCustomFormat;
 }
 
 void PonyAudioSink::start() {
+    if (m_state == PlaybackState::PLAYING) {
+        throw std::runtime_error("Already start.");
+    }
     PaError err = Pa_StartStream(m_stream);
-    if (err != paNoError)
-        throw std::runtime_error("can not start stream!");
-    timeBase = Pa_GetStreamTime(m_stream);
+    if (err != paNoError) {
+        qWarning() << "Error at starting stream" << Pa_GetErrorText(err);
+        throw std::runtime_error("Can not start stream!");
+    }
+    if (m_state == PlaybackState::STOPPED) {
+        timeBase = Pa_GetStreamTime(m_stream) - timeBase;
+    }
     m_state = PlaybackState::PLAYING;
+    emit stateChanged();
 }
 
-PonyAudioSink::~PonyAudioSink() {
-    m_state = PlaybackState::IDLED;
-    PaError err = Pa_CloseStream(m_stream);
-    m_stream = nullptr;
-    if (err != paNoError)
-        throw std::runtime_error("close audio failed!");
-}
-
-int PonyAudioSink::paCallback(const void *inputBuffer, void *outputBuffer,
-                              unsigned long framesPerBuffer,
-                              const PaStreamCallbackTimeInfo *timeInfo,
-                              PaStreamCallbackFlags statusFlags,
-                              void *userData) {
-    return static_cast<PonyAudioSink *>(userData)->m_paCallback(inputBuffer, outputBuffer,
-                                                                framesPerBuffer,
-                                                                timeInfo, statusFlags);
-}
-
-void PonyAudioSink::paStreamFinished(void *) {
-    qDebug() << "audio stream finished";
+void PonyAudioSink::pause() {
+    if (m_state == PlaybackState::PLAYING) {
+        Pa_StopStream(m_stream);
+        m_state = PlaybackState::PAUSED;
+    } else {
+        throw std::runtime_error("PonyAudioSink: Already paused.");
+    }
 }
 
 void PonyAudioSink::stop() {
-    Pa_StopStream(m_stream);
-    m_state = PlaybackState::STOPPED;
+    if (m_state == PlaybackState::PLAYING || m_state == PlaybackState::PAUSED) {
+        Pa_AbortStream(m_stream);
+        m_state = PlaybackState::STOPPED;
+    } else {
+        throw std::runtime_error("PonyAudioSink: Already stopped.");
+    }
 }
 
-void PonyAudioSink::abort() {
-    Pa_AbortStream(m_stream);
+PonyAudioSink::~PonyAudioSink() {
     m_state = PlaybackState::STOPPED;
+    PaError err = Pa_CloseStream(m_stream);
+    m_stream = nullptr;
+    if (err != paNoError) {
+        qWarning() << "Error at Destroying PonyAudioSink" << Pa_GetErrorText(err);
+    }
 }
+
 
 PlaybackState PonyAudioSink::state() const {
     return m_state;
 }
 
 double PonyAudioSink::getProcessSecs() const {
+    if (m_state == PlaybackState::STOPPED)
+        return 0;
     return Pa_GetStreamTime(m_stream) - timeBase;
 }
 
-void PonyAudioSink::setProcessSecs(double t) {
-    timeBase = Pa_GetStreamTime(m_stream) - t;
+
+void PonyAudioSink::setStartPoint(double t) {
+    if (m_state == PlaybackState::STOPPED) {
+        timeBase = t;
+    } else {
+        qWarning() << "setTimeBase make no effect when state != STOPPED";
+    }
+
 }
 
 int PonyAudioSink::m_paCallback(const void *, void *outputBuffer, unsigned long framesPerBuffer,
-                                const PaStreamCallbackTimeInfo *, PaStreamCallbackFlags) {
+                                const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags) {
     ring_buffer_size_t bytesAvailCount = PaUtil_GetRingBufferReadAvailable(&ringBuffer);
-    ring_buffer_size_t bytesToPlay = std::min(
-            static_cast<ring_buffer_size_t> (framesPerBuffer * static_cast<unsigned long>(m_channelCount) *
-                                             m_bytesPerSample),
-            static_cast<ring_buffer_size_t> (bytesAvailCount));
-    PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesToPlay);
+    auto bytesNeeded = static_cast<ring_buffer_size_t>(framesPerBuffer * m_channelCount * m_bytesPerSample);
+    if (bytesAvailCount == 0) {
+        return paAbort;
+    } else if (bytesNeeded > bytesAvailCount) {
+        PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesAvailCount);
+        memset(static_cast<std::byte *>(outputBuffer) + bytesAvailCount, 0, bytesNeeded - bytesAvailCount);
+        transformVolume(outputBuffer, framesPerBuffer);
+        return paComplete;
+    } else {
+        PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesNeeded);
+        transformVolume(outputBuffer, framesPerBuffer);
+        return paContinue;
+    }
 }
 
 size_t PonyAudioSink::freeByte() const {
@@ -137,13 +168,77 @@ bool PonyAudioSink::write(const char *buf, qint64 len) {
     void *ptr[2] = {nullptr};
     ring_buffer_size_t sizes[2] = {0};
 
-    PaUtil_GetRingBufferWriteRegions(&ringBuffer, len, &ptr[0], &sizes[0], &ptr[1], &sizes[1]);
+    PaUtil_GetRingBufferWriteRegions(&ringBuffer, static_cast<ring_buffer_size_t>(len), &ptr[0], &sizes[0], &ptr[1],
+                                     &sizes[1]);
     memcpy(ptr[0], buf, static_cast<size_t>(sizes[0]));
     memcpy(ptr[1], buf + sizes[0], static_cast<size_t>(sizes[1]));
-    PaUtil_AdvanceRingBufferWriteIndex(&ringBuffer, len);
+    PaUtil_AdvanceRingBufferWriteIndex(&ringBuffer, static_cast<ring_buffer_size_t>(len));
+    return true;
 }
 
 size_t PonyAudioSink::clear() {
+    if (m_state != PlaybackState::STOPPED) {
+        throw std::runtime_error("clear");
+    }
     // 需要保证此刻没有读写操作
     PaUtil_FlushRingBuffer(&ringBuffer);
+    return 0;
+}
+
+void PonyAudioSink::m_paStreamFinishedCallback() {
+    if (m_state == PlaybackState::PLAYING) {
+        emit resourceInsufficient();
+    }
+    m_state = PlaybackState::PAUSED;
+    emit stateChanged();
+}
+
+void PonyAudioSink::transformVolume(void *buffer, unsigned long framesPerBuffer) const {
+    for (size_t frameOffset = 0; frameOffset < framesPerBuffer; frameOffset++) {
+        for (int channelOffset = 0; channelOffset < m_channelCount; channelOffset++) {
+            switch (m_sampleFormat) {
+                case paFloat32:
+                {
+                    auto *sample = reinterpret_cast<float *>(static_cast<std::byte *> (buffer) +
+                                                              (frameOffset * m_channelCount + channelOffset) *
+                                                              m_bytesPerSample);
+                    *sample *= static_cast<float>(m_volume);
+                    break;
+                }
+                case paInt16:
+                {
+                    auto *sample = reinterpret_cast<int16_t *>(static_cast<std::byte *> (buffer) +
+                                                              (frameOffset * m_channelCount + channelOffset) *
+                                                              m_bytesPerSample);
+                    *sample *= m_volume;
+                    break;
+                }
+                case paInt32:
+                {
+                    auto *sample = reinterpret_cast<int32_t *>(static_cast<std::byte *> (buffer) +
+                                                               (frameOffset * m_channelCount + channelOffset) *
+                                                               m_bytesPerSample);
+                    *sample *= m_volume;
+                    break;
+                }
+                case paUInt8:
+                {
+                    auto *sample = reinterpret_cast<uint8_t *>(static_cast<std::byte *> (buffer) +
+                                                               (frameOffset * m_channelCount + channelOffset) *
+                                                               m_bytesPerSample);
+                    *sample *= m_volume;
+                    break;
+                }
+            }
+        }
+    }
+
+}
+
+void PonyAudioSink::setVolume(qreal newVolume) {
+    m_volume = newVolume;
+}
+
+qreal PonyAudioSink::volume() const {
+    return m_volume;
 }

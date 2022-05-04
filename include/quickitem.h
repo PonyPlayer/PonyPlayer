@@ -14,6 +14,7 @@
 #include <QAudioOutput>
 #include "hurricane.h"
 #include "demuxer2.h"
+#include "audiosink.h"
 
 typedef int64_t time_point;
 typedef int64_t time_duration;
@@ -45,12 +46,7 @@ private:
     QThread *videoThread;
     Demuxer2 *demuxer = nullptr;
     bool pauseRequested = false;
-    QAudioSink *audioOutput = nullptr;
-    QIODevice *audioInput = nullptr;
-
-    time_point seekPoint = 0;
-    time_point idlePoint = -1;
-    time_duration idleDurationSum = 0;
+    PonyAudioSink *audioOutput = nullptr;
 
 public:
     VideoPlayWorker(QObject *parent);
@@ -59,12 +55,10 @@ public:
     qreal getVideoDuration() { return demuxer->videoDuration(); }
     void requestPause() {     pauseRequested = true; };
 private:
-    inline time_point getAudioPlayingUSecs();
-    inline void closeAudio();
     inline void syncTo(double pts);
 
 public slots:
-    void onAudioStateChanged(QAudio::State state);
+//    void onAudioStateChanged(QAudio::State state);
     void slotOpenFile(const QString &path);
     void slotOpenFileResult(bool ret);
     void slotThreadInit();
