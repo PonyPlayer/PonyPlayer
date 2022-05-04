@@ -26,11 +26,12 @@ private:
     PaStreamParameters *param;
     PaTime timeBase;
     int m_sampleRate;
+    PaSampleFormat m_sampleFormat;
     size_t m_bufferMaxBytes;
     size_t m_bytesPerSample;
     int m_channelCount;
     void *ringBufferData;
-    PaTime prevPlayTime;
+    qreal volume;
 
     static PaSampleFormat qSampleFormatToPortFormat(QAudioFormat::SampleFormat qFormat, size_t &numBytes);
 
@@ -138,7 +139,10 @@ public:
 
     void m_paStreamFinishedCallback();
 
+    void transformVolume(void *buffer, unsigned long framesPerBuffer) const;
+
 signals:
+
     /**
      * 播放状态发生改变
      */
@@ -148,4 +152,7 @@ signals:
      * 由于缺少音频数据, 被迫暂停播放
      */
     void forceStopped();
+
+public slots:
+    void setVolume(qreal newVolume);
 };

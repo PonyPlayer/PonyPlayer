@@ -150,7 +150,7 @@ void VideoPlayWorker::slotSeek(qreal pos) {
 }
 
 void VideoPlayWorker::slotVolumeChanged(qreal v) {
-//    audioOutput->setVolume(v);
+    audioOutput->setVolume(v);
 //    qreal current = audioOutput->volume();
 //    if (abs(current - v) >= 1e-5) {
 //        qWarning() << "Fail to set volume:" << v << "Current: " << current;

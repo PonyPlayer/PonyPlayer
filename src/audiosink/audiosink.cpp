@@ -2,7 +2,7 @@
 #include "helper.h"
 
 PonyAudioSink::PonyAudioSink(QAudioFormat format, unsigned long bufferSizeAdvice)
-        : m_stream(nullptr), timeBase(0), prevPlayTime(0),
+        : m_stream(nullptr), timeBase(0), volume(1.0),
           m_state(PlaybackState::STOPPED) {
     // initialize
     static bool initialized = false;
@@ -17,8 +17,9 @@ PonyAudioSink::PonyAudioSink(QAudioFormat format, unsigned long bufferSizeAdvice
     if (param->device == paNoDevice)
         throw std::runtime_error("no audio device!");
     m_channelCount = format.channelCount();
+    m_sampleFormat = qSampleFormatToPortFormat(format.sampleFormat(), m_bytesPerSample);
     param->channelCount = m_channelCount;
-    param->sampleFormat = qSampleFormatToPortFormat(format.sampleFormat(), m_bytesPerSample);
+    param->sampleFormat = m_sampleFormat;
     param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
     param->hostApiSpecificStreamInfo = nullptr;
     m_sampleRate = format.sampleRate();
@@ -119,8 +120,6 @@ PonyAudioSink::~PonyAudioSink() {
 }
 
 
-
-
 PlaybackState PonyAudioSink::state() const {
     return m_state;
 }
@@ -147,10 +146,12 @@ int PonyAudioSink::m_paCallback(const void *, void *outputBuffer, unsigned long 
     auto bytesNeeded = static_cast<ring_buffer_size_t>(framesPerBuffer * m_channelCount * m_bytesPerSample);
     if (bytesNeeded > bytesAvailCount) {
         PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesAvailCount);
-        memset(static_cast<std::byte*>(outputBuffer) + bytesAvailCount, 0, bytesNeeded - bytesAvailCount);
+        memset(static_cast<std::byte *>(outputBuffer) + bytesAvailCount, 0, bytesNeeded - bytesAvailCount);
+        transformVolume(outputBuffer, framesPerBuffer);
         return paComplete;
     } else {
         PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesNeeded);
+        transformVolume(outputBuffer, framesPerBuffer);
         return paContinue;
     }
 }
@@ -188,4 +189,50 @@ void PonyAudioSink::m_paStreamFinishedCallback() {
     }
     m_state = PlaybackState::STOPPED;
     emit stateChanged();
+}
+
+void PonyAudioSink::transformVolume(void *buffer, unsigned long framesPerBuffer) const {
+    for (size_t frameOffset = 0; frameOffset < framesPerBuffer; frameOffset++) {
+        for (int channelOffset = 0; channelOffset < m_channelCount; channelOffset++) {
+            switch (m_sampleFormat) {
+                case paFloat32:
+                {
+                    auto *sample = reinterpret_cast<float *>(static_cast<std::byte *> (buffer) +
+                                                              (frameOffset * m_channelCount + channelOffset) *
+                                                              m_bytesPerSample);
+                    *sample *= static_cast<float>(volume);
+                    break;
+                }
+                case paInt16:
+                {
+                    auto *sample = reinterpret_cast<int16_t *>(static_cast<std::byte *> (buffer) +
+                                                              (frameOffset * m_channelCount + channelOffset) *
+                                                              m_bytesPerSample);
+                    *sample *= volume;
+                    break;
+                }
+                case paInt32:
+                {
+                    auto *sample = reinterpret_cast<int32_t *>(static_cast<std::byte *> (buffer) +
+                                                               (frameOffset * m_channelCount + channelOffset) *
+                                                               m_bytesPerSample);
+                    *sample *= volume;
+                    break;
+                }
+                case paUInt8:
+                {
+                    auto *sample = reinterpret_cast<uint8_t *>(static_cast<std::byte *> (buffer) +
+                                                               (frameOffset * m_channelCount + channelOffset) *
+                                                               m_bytesPerSample);
+                    *sample *= volume;
+                    break;
+                }
+            }
+        }
+    }
+
+}
+
+void PonyAudioSink::setVolume(qreal newVolume) {
+    volume = newVolume;
 }
