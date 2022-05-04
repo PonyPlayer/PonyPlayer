@@ -19,21 +19,23 @@ void VideoPlayWorker::slotOnWork() {
     qDebug() << "Start Video Work" << QThread::currentThread()->objectName();
     Picture currFrame;
     pauseRequested = false;
+    // ensure no noise
+    for (int i = 0; i < 5 && audioOutput->freeByte() > MAX_AUDIO_FRAME_SIZE; ++i) {
+        Sample sample = demuxer->getSample(true);
+        demuxer->popSample(true);
+        audioOutput->write(reinterpret_cast<const char *>(sample.data), sample.len);
+        sample.free();
+    }
     audioOutput->start();
     emit signalStateChanged(HurricaneState::PLAYING);
     while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
         demuxer->popPicture(true);
         emit signalImageChanged(currFrame);
         for (int i = 0; i < 10 && audioOutput->freeByte() > MAX_AUDIO_FRAME_SIZE; ++i) {
-            try {
-                Sample sample = demuxer->getSample(true);
-                demuxer->popSample(true);
-                audioOutput->write(reinterpret_cast<const char *>(sample.data), sample.len);
-                sample.free();
-            } catch (std::runtime_error &ex) {
-                qWarning() << "Fail to get sample" << ex.what();
-                break;
-            }
+            Sample sample = demuxer->getSample(true);
+            demuxer->popSample(true);
+            audioOutput->write(reinterpret_cast<const char *>(sample.data), sample.len);
+            sample.free();
         }
         // process all events such as setVolume and pause request
         QCoreApplication::processEvents();
@@ -140,7 +142,14 @@ void VideoPlayWorker::slotSeek(qreal pos) {
             demuxer->popSample(true);
             sample.free();
         }
+
         audioOutput->setStartPoint(sample.getPTS());
+        for (int i = 0; i < 5 && audioOutput->freeByte() > MAX_AUDIO_FRAME_SIZE; ++i) {
+            sample = demuxer->getSample(true);
+            demuxer->popSample(true);
+            audioOutput->write(reinterpret_cast<const char *>(sample.data), sample.len);
+            sample.free();
+        }
     }
     audioOutput->start();
 
