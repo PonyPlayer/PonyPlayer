@@ -61,7 +61,7 @@ public:
     }
 
     inline void log(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
-        qTextStream << currentDateTime << " " << types[type];
+        qTextStream << currentDateTime << " " << types.constFind(type).value();
         QString function = context.function; // convert to QString
         qsizetype colon = function.indexOf(':');
         qsizetype retType = function.indexOf(' ');
