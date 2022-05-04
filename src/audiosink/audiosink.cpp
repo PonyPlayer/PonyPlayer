@@ -147,7 +147,7 @@ int PonyAudioSink::m_paCallback(const void *, void *outputBuffer, unsigned long 
     auto bytesNeeded = static_cast<ring_buffer_size_t>(framesPerBuffer * m_channelCount * m_bytesPerSample);
     if (bytesNeeded > bytesAvailCount) {
         PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesAvailCount);
-        memset(static_cast<std::byte*>(outputBuffer ) + bytesNeeded, 0, bytesNeeded - bytesAvailCount);
+        memset(static_cast<std::byte*>(outputBuffer) + bytesAvailCount, 0, bytesNeeded - bytesAvailCount);
         return paComplete;
     } else {
         PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesNeeded);

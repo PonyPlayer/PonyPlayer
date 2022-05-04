@@ -30,7 +30,7 @@ DecodeDispatcher::DecodeDispatcher(const std::string &fn, QObject *parent) : Dem
     if (audioStreamIndex.empty()) { throw std::runtime_error("Cannot find audio stream."); }
     decoders.resize(fmtCtx->nb_streams);
     // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
-    decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 256);
+    decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 512);
     decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 64);
     interrupt = false; // happens before
 }
