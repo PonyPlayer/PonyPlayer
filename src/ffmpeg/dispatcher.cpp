@@ -30,8 +30,12 @@ DecodeDispatcher::DecodeDispatcher(const std::string &fn, QObject *parent) : Dem
     if (audioStreamIndex.empty()) { throw std::runtime_error("Cannot find audio stream."); }
     decoders.resize(fmtCtx->nb_streams);
     // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
-    decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], 512);
-    decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], 64);
+    videoQueue = new TwinsBlockQueue<AVFrame *>("VideoQueue", 16);
+    audioQueue = videoQueue->twins("AudioQueue", 16);
+    decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], videoQueue);
+    decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], audioQueue);
+
+
     interrupt = false; // happens before
 }
 
@@ -43,11 +47,8 @@ DecodeDispatcher::~DecodeDispatcher() {
 }
 
 void DecodeDispatcher::flush() {
-    for (auto && decoder : decoders) {
-        if (decoder) {
-            decoder->getFrameQueue().clearWith([](AVFrame *frame){ av_frame_free(&frame);});
-        }
-    }
+    videoQueue->clear([](AVFrame *frame){ av_frame_free(&frame);});
+    audioQueue->clear([](AVFrame *frame){ av_frame_free(&frame);});
 }
 
 void DecodeDispatcher::seek(int64_t us) {
@@ -66,6 +67,7 @@ void DecodeDispatcher::seek(int64_t us) {
 
 void DecodeDispatcher::onWork() {
     interrupt = false;
+    videoQueue->open();
     while(!interrupt) {
         int ret = av_read_frame(fmtCtx, packet);
         if (ret == 0) {

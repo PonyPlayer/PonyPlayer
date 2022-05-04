@@ -89,7 +89,7 @@ public:
     }
 #else
     inline void log(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
-        qTextStream << currentDateTime << " "<< types[type] << " " << msg << "\n";
+        qTextStream << currentDateTime << " "<< types.constFind(type).value() << " " << msg << "\n";
         qTextStream.flush();
     }
 #endif

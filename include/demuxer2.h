@@ -9,6 +9,8 @@
 #include <QTimer>
 #include "helper.h"
 #include "blocking_queue.h"
+#include "frame_queue.h"
+#include "twins_queue.h"
 
 INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
@@ -91,8 +93,6 @@ public:
      */
     virtual qreal duration() = 0;
 
-    virtual BlockingQueue<AVFrame *>& getFrameQueue() = 0;
-
     virtual ~DemuxDecoder() = default;
 
 };
@@ -108,7 +108,7 @@ private:
     AVCodec *codec = nullptr;
     AVStream *stream = nullptr;
     AVCodecContext *codecCtx = nullptr;
-    BlockingQueue<AVFrame *> frameQueue;
+    TwinsBlockQueue<AVFrame *> *frameQueue;
     AVFrame *frameBuf = nullptr;
 
     // Audio only
@@ -117,7 +117,7 @@ private:
     AVFrame * sampleFrameBuf = nullptr;
 
 public:
-    DecoderImpl(AVStream *vs, long long int capacity);
+    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *frameQueue);
 
     ~DecoderImpl() override;
 
@@ -126,8 +126,6 @@ public:
     bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override;
 
     void flushFFmpegBuffers() override;
-
-    BlockingQueue<AVFrame *> &getFrameQueue() override;
 
     Picture getPicture(bool b) override;
 
@@ -152,6 +150,8 @@ class DecodeDispatcher : public DemuxDispatcherBase {
     std::vector<DemuxDecoder*> decoders;
     std::atomic<bool> interrupt = false;
     AVPacket *packet = nullptr;
+    TwinsBlockQueue<AVFrame *> *videoQueue;
+    TwinsBlockQueue<AVFrame *> *audioQueue;
 public:
     explicit DecodeDispatcher(const std::string &fn, QObject *parent);
 
@@ -159,11 +159,7 @@ public:
 
     void pause() {
         interrupt = true;
-        for (auto && decoder : decoders) {
-            if (decoder) {
-                decoder->getFrameQueue().notify();
-            }
-        }
+        videoQueue->close();
     }
 
     void flush();
@@ -231,23 +227,31 @@ public:
 
     /**
      * 暂停编码并使解码器线程进入空闲状态, 这个方法是线程安全的.
+     * @see DecodeDispatcher::pause
     */
-    void interrupt() {
+    void pause() {
         worker->pause();
     }
 
     /**
      * 清空旧的帧, 这个方法是线程安全的.
+     * @see DecodeDispatcher::flush
      */
     void flush() {
         worker->flush();
     }
 public slots:
     /**
-     * 调整视频进度, 必须保证解码器线程空闲且缓冲区为空.
+     * 调整视频进度, 必须保证解码器线程空闲且缓冲区为空. \n
+     * 一次完整的调整进度操作应该为: \n
+     * 1. 在VideoThread线程调用 Demuxer2::pause 使解码器线程停止运行; \n
+     * 2. 在VideoThread线程调用 Demuxer2::seek 并阻塞等待函数返回, 接下来产生的帧是新的帧. \n
+     * 3. 在VideoThread线程调用 Demuxer2::flush 清空队列中的旧帧. \n
+     * 4. 在DeocdeThread线程中执行 Demuxer2::start, 恢复解码器线程线程运行. \n
      * @param us 视频进度(单位: 微秒)
-     * @see Demuxer2::interrupt
+     * @see Demuxer2::pause
      * @see Demuxer2::flush
+     * @see DecodeDispatcher::seek
      */
     void seek(int64_t us) {
         worker->seek(us);

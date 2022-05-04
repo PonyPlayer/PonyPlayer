@@ -3,9 +3,14 @@
 //
 #include <demuxer2.h>
 
+#include <utility>
+
 
 template<DemuxDecoder::DecoderType type>
-DecoderImpl<type>::DecoderImpl(AVStream *vs, long long int capacity) : stream(vs), frameQueue(capacity) {
+DecoderImpl<type>::DecoderImpl(
+    AVStream *vs,
+    TwinsBlockQueue<AVFrame *> *queue
+  ) : stream(vs), frameQueue(queue) {
     auto videoCodecPara = stream->codecpar;
     if (!(codec = const_cast<AVCodec *>(avcodec_find_decoder(videoCodecPara->codec_id)))) {
         throw std::runtime_error("Cannot find valid video decode codec.");
@@ -74,16 +79,16 @@ bool DecoderImpl<type>::accept(AVPacket *pkt, std::atomic<bool> &interrupt) {
                 ret = frameQueue.bpush(frameBuf);
             }
 #else
-            ret = frameQueue.bpush(frameBuf);
+            frameQueue->push(frameBuf);
 #endif
             frameBuf = av_frame_alloc();
         } else if (ret == AVERROR(EAGAIN)) {
             return true;
         } else if (ret == ERROR_EOF) {
-            frameQueue.bpush(nullptr);
+            frameQueue->push(nullptr);
             return false;
         } else {
-            frameQueue.bpush(nullptr);
+            frameQueue->push(nullptr);
             qWarning() << "Error avcodec_receive_frame:" << ffmpegErrToString(ret);
             return false;
         }
@@ -96,15 +101,11 @@ void DecoderImpl<type>::flushFFmpegBuffers() {
     avcodec_flush_buffers(codecCtx);
 }
 
-template<DemuxDecoder::DecoderType type>
-BlockingQueue<AVFrame *> &DecoderImpl<type>::getFrameQueue() {
-    return frameQueue;
-}
 
 template<DemuxDecoder::DecoderType type>
 Picture DecoderImpl<type>::getPicture(bool b) {
     if constexpr(type != DemuxDecoder::DecoderType::Video) { throw std::runtime_error("Unsupported operation."); }
-    AVFrame *frame = frameQueue.bfront();
+    AVFrame *frame = frameQueue->front();
     if (!frame) { return {}; }
     double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
     return {frame, pts};
@@ -113,7 +114,7 @@ Picture DecoderImpl<type>::getPicture(bool b) {
 template<DemuxDecoder::DecoderType type>
 Sample DecoderImpl<type>::getSample(bool b) {
     if constexpr(type != DemuxDecoder::DecoderType::Audio) { throw std::runtime_error("Unsupported operation."); }
-    AVFrame *frame = frameQueue.bfront();
+    AVFrame *frame = frameQueue->front();
     if (!frame) { return {}; }
     double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
     int len = swr_convert(swrCtx, &audioOutBuf, 2 * MAX_AUDIO_FRAME_SIZE,
@@ -128,7 +129,7 @@ Sample DecoderImpl<type>::getSample(bool b) {
 
 template<DemuxDecoder::DecoderType type>
 bool DecoderImpl<type>::pop(bool b) {
-    return frameQueue.bpop();
+    return frameQueue->pop();
 }
 
 
