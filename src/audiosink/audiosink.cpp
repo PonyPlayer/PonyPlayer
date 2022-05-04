@@ -2,7 +2,7 @@
 #include "helper.h"
 
 PonyAudioSink::PonyAudioSink(QAudioFormat format, unsigned long bufferSizeAdvice)
-        : m_stream(nullptr), timeBase(0), volume(1.0),
+        : m_stream(nullptr), timeBase(0), m_volume(1.0),
           m_state(PlaybackState::STOPPED) {
     // initialize
     static bool initialized = false;
@@ -144,7 +144,9 @@ int PonyAudioSink::m_paCallback(const void *, void *outputBuffer, unsigned long 
                                 const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags) {
     ring_buffer_size_t bytesAvailCount = PaUtil_GetRingBufferReadAvailable(&ringBuffer);
     auto bytesNeeded = static_cast<ring_buffer_size_t>(framesPerBuffer * m_channelCount * m_bytesPerSample);
-    if (bytesNeeded > bytesAvailCount) {
+    if (bytesAvailCount == 0) {
+        return paAbort;
+    } else if (bytesNeeded > bytesAvailCount) {
         PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesAvailCount);
         memset(static_cast<std::byte *>(outputBuffer) + bytesAvailCount, 0, bytesNeeded - bytesAvailCount);
         transformVolume(outputBuffer, framesPerBuffer);
@@ -185,9 +187,9 @@ size_t PonyAudioSink::clear() {
 
 void PonyAudioSink::m_paStreamFinishedCallback() {
     if (m_state == PlaybackState::PLAYING) {
-        emit forceStopped();
+        emit resourceInsufficient();
     }
-    m_state = PlaybackState::STOPPED;
+    m_state = PlaybackState::PAUSED;
     emit stateChanged();
 }
 
@@ -200,7 +202,7 @@ void PonyAudioSink::transformVolume(void *buffer, unsigned long framesPerBuffer)
                     auto *sample = reinterpret_cast<float *>(static_cast<std::byte *> (buffer) +
                                                               (frameOffset * m_channelCount + channelOffset) *
                                                               m_bytesPerSample);
-                    *sample *= static_cast<float>(volume);
+                    *sample *= static_cast<float>(m_volume);
                     break;
                 }
                 case paInt16:
@@ -208,7 +210,7 @@ void PonyAudioSink::transformVolume(void *buffer, unsigned long framesPerBuffer)
                     auto *sample = reinterpret_cast<int16_t *>(static_cast<std::byte *> (buffer) +
                                                               (frameOffset * m_channelCount + channelOffset) *
                                                               m_bytesPerSample);
-                    *sample *= volume;
+                    *sample *= m_volume;
                     break;
                 }
                 case paInt32:
@@ -216,7 +218,7 @@ void PonyAudioSink::transformVolume(void *buffer, unsigned long framesPerBuffer)
                     auto *sample = reinterpret_cast<int32_t *>(static_cast<std::byte *> (buffer) +
                                                                (frameOffset * m_channelCount + channelOffset) *
                                                                m_bytesPerSample);
-                    *sample *= volume;
+                    *sample *= m_volume;
                     break;
                 }
                 case paUInt8:
@@ -224,7 +226,7 @@ void PonyAudioSink::transformVolume(void *buffer, unsigned long framesPerBuffer)
                     auto *sample = reinterpret_cast<uint8_t *>(static_cast<std::byte *> (buffer) +
                                                                (frameOffset * m_channelCount + channelOffset) *
                                                                m_bytesPerSample);
-                    *sample *= volume;
+                    *sample *= m_volume;
                     break;
                 }
             }
@@ -234,5 +236,9 @@ void PonyAudioSink::transformVolume(void *buffer, unsigned long framesPerBuffer)
 }
 
 void PonyAudioSink::setVolume(qreal newVolume) {
-    volume = newVolume;
+    m_volume = newVolume;
+}
+
+qreal PonyAudioSink::volume() const {
+    return m_volume;
 }
