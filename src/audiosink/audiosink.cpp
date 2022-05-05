@@ -78,7 +78,8 @@ PaSampleFormat PonyAudioSink::qSampleFormatToPortFormat(QAudioFormat::SampleForm
 
 void PonyAudioSink::start() {
     if (m_state == PlaybackState::PLAYING) {
-        throw std::runtime_error("Already start.");
+        qDebug() << "AudioSink already started.";
+        return;
     }
     PaError err = Pa_StartStream(m_stream);
     if (err != paNoError) {
@@ -95,7 +96,7 @@ void PonyAudioSink::pause() {
         Pa_StopStream(m_stream);
         m_state = PlaybackState::PAUSED;
     } else {
-        throw std::runtime_error("PonyAudioSink: Already paused.");
+        throw std::runtime_error("AudioSink already paused.");
     }
     qDebug() << "Audio pause.";
 }
@@ -105,7 +106,7 @@ void PonyAudioSink::stop() {
         Pa_AbortStream(m_stream);
         m_state = PlaybackState::STOPPED;
     } else {
-        throw std::runtime_error("PonyAudioSink: Already stopped.");
+        qWarning() << "AudioSink already stopped.";
     }
 }
 
@@ -185,7 +186,7 @@ bool PonyAudioSink::write(const char *buf, qint64 len) {
 
 size_t PonyAudioSink::clear() {
     if (m_state != PlaybackState::STOPPED) {
-        throw std::runtime_error("clear");
+        qWarning() << "clear make no effect when state != STOPPED.";
     }
     // 需要保证此刻没有读写操作
     PaUtil_FlushRingBuffer(&ringBuffer);
