@@ -5,3 +5,4 @@ set_property(
         APPEND
         PROPERTY COMPILE_OPTIONS -w
 )
+include_directories(${sonic_SOURCE_DIR})
