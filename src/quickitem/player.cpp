@@ -88,14 +88,6 @@ HurricanePlayer::~HurricanePlayer() {
 }
 
 void HurricanePlayer::slotStateChanged(HurricaneState s) {
-    // some pre-state maybe be interrupted, ignore.
-    if (s == HurricaneState::PLAYING && state != HurricaneState::PRE_PLAY)
-        return;
-    if (s == HurricaneState::PAUSED && state != HurricaneState::PRE_PAUSE
-        && state != HurricaneState::LOADING)
-        return;
-    if (s == HurricaneState::INVALID && state != HurricaneState::CLOSING)
-        return;
     if (state == HurricaneState::LOADING) {
         emit openFileResult(state == HurricaneState::PAUSED);
     }
