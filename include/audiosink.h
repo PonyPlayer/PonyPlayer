@@ -82,7 +82,7 @@ private:
     size_t m_sonicBufferMaxBytes;
     size_t m_bytesPerSample;
     int m_channelCount;
-    unsigned m_speedFactor;
+    qreal m_speedFactor;
     void *ringBufferData;
     qreal m_volume;
     std::atomic<int64_t> dataWritten = 0;

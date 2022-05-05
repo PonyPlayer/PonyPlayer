@@ -181,8 +181,9 @@ bool PonyAudioSink::write(const char *buf, qint64 origLen) {
     int sonicBufferOffset = 0;
     switch (m_sampleFormat) {
         case PonySampleFormat::Int16:
-            if (origLen % 2 == 0) {
-                sonicWriteShortToStream(sonStream, reinterpret_cast<const short *>(buf), static_cast<int>(origLen) / 2);
+            if (origLen % (m_channelCount * m_bytesPerSample) == 0) {
+                sonicWriteShortToStream(sonStream, reinterpret_cast<const short *>(buf),
+                                        static_cast<int>(origLen) / (m_channelCount * m_bytesPerSample));
                 int currentLen = 0;
                 while ((currentLen = sonicReadShortFromStream(sonStream,
                                                               reinterpret_cast<short *>
@@ -196,7 +197,7 @@ bool PonyAudioSink::write(const char *buf, qint64 origLen) {
         default:
             break;
     }
-    len *= m_channelCount;
+    len *= m_channelCount * m_bytesPerSample;
     ring_buffer_size_t bufAvailCount = PaUtil_GetRingBufferWriteAvailable(&ringBuffer);
 
     if (bufAvailCount < len) return false;
