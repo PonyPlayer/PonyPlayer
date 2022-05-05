@@ -139,6 +139,7 @@ void VideoPlayWorker::slotSeek(qreal pos) {
             pic.free();
         }
         emit signalImageChanged(demuxer->getPicture(true));
+        demuxer->popPicture(true);
     }
     {
         Sample sample;
