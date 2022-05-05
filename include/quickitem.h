@@ -25,6 +25,10 @@ namespace H {
 
     Q_NAMESPACE
 
+    /**
+     * HurricanePlayer 组件的状态, 其中瞬时状态代表前端 HurricanePlayer 发起操作, 但并未同步到后端 VideoWorker.
+     * 由后端引起的状态改变不需要进入相应的瞬时状态. 如视频播放结束导致暂停的状态转换为: PLAYING -> PAUSED (中间不经过 PRE_PAUSED).
+     */
     enum HurricaneState {
         CLOSING,       ///< 正在关闭当前文件, 这是一个瞬时状态
         LOADING,       ///< 正在加载, 这是一个瞬时状态
@@ -45,15 +49,21 @@ class VideoPlayWorker : public QObject {
 private:
     QThread *videoThread;
     Demuxer2 *demuxer = nullptr;
-    bool pauseRequested = false;
+    std::atomic<bool> pauseRequested = false;
     PonyAudioSink *audioOutput = nullptr;
+    std::atomic<qreal> volume = 1.0;
 
 public:
     VideoPlayWorker(QObject *parent);
     ~VideoPlayWorker() { demuxer->deleteLater();  videoThread->quit(); };
     qreal getAudioDuration() { return demuxer->audioDuration(); }
     qreal getVideoDuration() { return demuxer->videoDuration(); }
-    void requestPause() {     pauseRequested = true; };
+    void setVolume(qreal v) { volume = v; }
+    void pause() {
+        pauseRequested = true;
+        demuxer->pause();
+        emit signalStateChanged(HurricaneState::PAUSED);
+    };
 private:
     inline void syncTo(double pts);
 
@@ -64,8 +74,11 @@ public slots:
     void slotThreadInit();
     void slotOnWork();
     void slotClose();
-    void slotVolumeChanged(qreal v);
-    void slotPause();;
+    /**
+     * 后端进行seek操作, 方法保证返回前调用一次 VideoPlayWorker::signalImageChanged, 使图片更新. 方法保证返回后 audioOuput 处于
+     * 停止状态, 缓存清空且 startPoint 正确设置. 方法保证返回后 getSample 和 getPicture 返回新的值.
+     * @param pos 新的位置(单位: s)
+     */
     void slotSeek(qreal pos);
 signals:
     void signalImageChanged(Picture pic);
@@ -102,7 +115,6 @@ class HurricanePlayer : public Hurricane {
 
 private:
     HurricaneState state = HurricaneState::INVALID;
-    qreal volume;
 private:
 
     VideoPlayWorker *videoPlayWorker;
@@ -123,10 +135,6 @@ signals:
      */
     void stateChanged();
 
-    /**
-     * 播放器音量发生改变
-     */
-    void volumeChanged();
 
     /**
      * 打开文件结果
@@ -151,10 +159,8 @@ Q_SIGNALS:
     // 约定两者通信的方法信号以 signal 开头, 槽函数以 slot 开头
     // 约定信号只能由所属的类的实例 emit
     void signalPlayerInitializing(QPrivateSignal);
-    void signalPause(QPrivateSignal);
     void signalResume(QPrivateSignal);
     void signalClose(QPrivateSignal);
-    void signalVolumeChanging(qreal v, QPrivateSignal);
     void signalOpenFile(const QString &url, QPrivateSignal);
     void signalSeek(qreal pos, QPrivateSignal);
 
@@ -179,7 +185,7 @@ public slots:
     Q_INVOKABLE void start();
 
     /**
-     * 暂停播放视频
+     * 暂停播放视频, 保证后端尽快停止视频播放进入空闲状态.
      * 需要保证调用时状态为 PLAYING / PRE_PLAY, 方法保证返回时状态为 PRE_PAUSE
      * 状态转移 PAUSED -> PRE_PAUSE -> PAUSED
      */

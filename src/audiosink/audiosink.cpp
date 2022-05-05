@@ -86,6 +86,7 @@ void PonyAudioSink::start() {
         throw std::runtime_error("Can not start stream!");
     }
     m_state = PlaybackState::PLAYING;
+    qDebug() << "Audio start.";
     emit stateChanged();
 }
 
@@ -96,6 +97,7 @@ void PonyAudioSink::pause() {
     } else {
         throw std::runtime_error("PonyAudioSink: Already paused.");
     }
+    qDebug() << "Audio pause.";
 }
 
 void PonyAudioSink::stop() {

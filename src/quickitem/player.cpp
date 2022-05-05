@@ -15,7 +15,6 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent) {
     videoPlayWorker = new VideoPlayWorker(this);
     connect(this, &HurricanePlayer::signalPlayerInitializing, videoPlayWorker, &VideoPlayWorker::slotThreadInit);
     connect(this, &HurricanePlayer::signalResume, videoPlayWorker, &VideoPlayWorker::slotOnWork);
-    connect(this, &HurricanePlayer::signalPause, videoPlayWorker, &VideoPlayWorker::slotPause);
 
     connect(this, &HurricanePlayer::signalOpenFile, videoPlayWorker, &VideoPlayWorker::slotOpenFile);
     connect(this, &HurricanePlayer::signalClose, videoPlayWorker, &VideoPlayWorker::slotClose);
@@ -23,7 +22,6 @@ HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent) {
     connect(videoPlayWorker, &VideoPlayWorker::signalStateChanged, this, &HurricanePlayer::slotStateChanged);
 
     // volume
-    connect(this, &HurricanePlayer::signalVolumeChanging, videoPlayWorker, &VideoPlayWorker::slotVolumeChanged);
     connect(videoPlayWorker, &VideoPlayWorker::signalVolumeChangedFail, this, &HurricanePlayer::slotVolumeChangedFail);
 
     // seek
@@ -68,7 +66,7 @@ void HurricanePlayer::pause() {
     if (state == HurricaneState::PLAYING || state == HurricaneState::PRE_PLAY) {
         state = HurricaneState::PRE_PAUSE;
         emit stateChanged();
-        emit signalPause(QPrivateSignal());
+        videoPlayWorker->pause();
         qDebug() << "Pause.";
     }
 }
@@ -84,7 +82,7 @@ void HurricanePlayer::close() {
 }
 
 HurricanePlayer::~HurricanePlayer() {
-    videoPlayWorker->requestPause();
+    videoPlayWorker->pause();
     videoPlayWorker->deleteLater();
     qWarning() << "Destroy HurricanePlayer.";
 }
@@ -107,24 +105,36 @@ void HurricanePlayer::slotStateChanged(HurricaneState s) {
 
 void HurricanePlayer::setVolume(qreal v) {
     qDebug() << "setVolume" << v;
-    emit signalVolumeChanging(v, QPrivateSignal());
+    videoPlayWorker->setVolume(v);
 }
 
 void HurricanePlayer::seek(qreal pos) {
     // only available on PLAY/PAUSE
+    bool playing = false;
     switch(state) {
-        case HurricaneState::PAUSED:
-        case HurricaneState::PRE_PAUSE:
         case HurricaneState::PLAYING:
         case HurricaneState::PRE_PLAY:
+            playing = true;
+            /* fall through */
+        case HurricaneState::PAUSED:
+        case HurricaneState::PRE_PAUSE:
             break;
         default:
             return;
     }
     if (pos < 0 || pos > getVideoDuration())
         return;
-    qDebug() << "HurricanePlayer: Seek" << pos;
+    state = PRE_PAUSE;
+    emit stateChanged();
+    videoPlayWorker->pause();
     emit signalSeek(pos, QPrivateSignal());
+    if (playing) {
+        state = PRE_PLAY;
+        emit stateChanged();
+        emit signalResume(QPrivateSignal());
+    }
+    qDebug() << "HurricanePlayer: Seek" << pos;
+
 }
 
 

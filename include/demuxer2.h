@@ -185,8 +185,9 @@ public slots:
 };
 
 /**
- * @brief 视频解码器
- * 这个是RAII的
+ * @brief 视频解码器, 负责从文件中读取视频帧和音频帧.
+ *
+ * 生命周期与打开文件相同. 这个类是RAII的.
  */
 class Demuxer2: public QObject {
     Q_OBJECT
@@ -234,7 +235,7 @@ public:
     }
 
     /**
-     * 清空旧的帧, 这个方法是线程安全的.
+     * 清空旧的帧, 这个方法必须在 VideoThread 上调用.
      * @see DecodeDispatcher::flush
      */
     void flush() {
@@ -296,7 +297,7 @@ public slots:
      * 启动解码器
      */
     void start() {
-        qDebug() << "Try Start";
+        qDebug() << "Start Decoder";
         emit startWorker(QPrivateSignal());
     }
 
