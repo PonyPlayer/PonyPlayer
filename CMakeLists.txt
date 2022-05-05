@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(thirdparty/portaudio.cmake)
 include(thirdparty/sonic.cmake)
+include(thirdparty/rwqueue.cmake)
 
 set(CMAKE_AUTOMOC ON)
 

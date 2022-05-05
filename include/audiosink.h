@@ -6,6 +6,15 @@
 #include <QBuffer>
 #include "pa_ringbuffer.h"
 #include "pa_util.h"
+#include "readerwriterqueue.h"
+#include "helper.h"
+#include "sonic.h"
+
+struct AudioDataInfo {
+    qint64 origLength;
+    qint64 processedLength;
+    qreal speedUpRate;
+};
 
 enum class PonySampleFormat {
     Unknown,
@@ -70,17 +79,20 @@ private:
     int m_sampleRate;
     PonySampleFormat m_sampleFormat;
     size_t m_bufferMaxBytes;
+    size_t m_sonicBufferMaxBytes;
     size_t m_bytesPerSample;
     int m_channelCount;
+    unsigned m_speedFactor;
     void *ringBufferData;
     qreal m_volume;
     std::atomic<int64_t> dataWritten = 0;
     std::atomic<int64_t> dataLastWrote = 0;
-
-
     PlaybackState m_state;
-
     PaUtilRingBuffer ringBuffer;
+    moodycamel::ReaderWriterQueue<AudioDataInfo> dataInfoQueue;
+    sonicStream sonStream;
+    char *sonicBuffer = nullptr;
+
 
     void m_paStreamFinishedCallback();
 
@@ -161,10 +173,10 @@ public:
     /**
      * 写AudioBuffer, 要么写入完全成功, 要么失败. 这个操作保证在VideoThread上进行.
      * @param buf 数据源
-     * @param len 长度(单位: byte)
+     * @param origLen 长度(单位: byte)
      * @return 写入是否成功
      */
-    bool write(const char *buf, qint64 len);
+    bool write(const char *buf, qint64 origLen);
 
     /**
      * 清空AudioBuffer, 将所有空间标记为可用. 这个操作保证在VideoThread上进行.

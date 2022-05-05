@@ -1,9 +1,9 @@
 #include "audiosink.h"
 #include "helper.h"
+#include "sonic.h"
 
 PonyAudioSink::PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdvice)
-        : m_stream(nullptr), timeBase(0), m_volume(1.0),
-          m_state(PlaybackState::STOPPED) {
+        : m_stream(nullptr), timeBase(0), m_volume(1.0), m_speedFactor(2), m_state(PlaybackState::STOPPED) {
     // initialize
     static bool initialized = false;
     if (!initialized) {
@@ -45,6 +45,7 @@ PonyAudioSink::PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdv
     if (err != paNoError)
         throw std::runtime_error("can not open audio stream!");
     m_bufferMaxBytes = nextPowerOf2(bufferSizeAdvice);
+    m_sonicBufferMaxBytes = m_bufferMaxBytes * 4;
     ringBufferData = PaUtil_AllocateMemory(static_cast<long>(m_bufferMaxBytes));
     if (PaUtil_InitializeRingBuffer(&ringBuffer,
                                     sizeof(std::byte),
@@ -54,6 +55,9 @@ PonyAudioSink::PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdv
     Pa_SetStreamFinishedCallback(&m_stream, [](void *userData) {
         static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
     });
+    sonicBuffer = new char[m_sonicBufferMaxBytes];
+    sonStream = sonicCreateStream(m_sampleRate, m_channelCount);
+    sonicSetSpeed(sonStream, m_speedFactor);
 }
 
 
@@ -127,23 +131,42 @@ void PonyAudioSink::setStartPoint(double t) {
 int PonyAudioSink::m_paCallback(const void *, void *outputBuffer, unsigned long framesPerBuffer,
                                 const PaStreamCallbackTimeInfo *timeInfo, PaStreamCallbackFlags) {
     ring_buffer_size_t bytesAvailCount = PaUtil_GetRingBufferReadAvailable(&ringBuffer);
-    auto bytesNeeded = static_cast<ring_buffer_size_t>(framesPerBuffer * m_channelCount * m_bytesPerSample);
+    auto bytesNeeded = static_cast<ring_buffer_size_t>(framesPerBuffer * static_cast<unsigned long>(m_channelCount) *
+                                                       m_bytesPerSample);
     if (bytesAvailCount == 0) {
         memset(outputBuffer, 0, static_cast<size_t>(bytesNeeded));
         qWarning() << "paAbort bytesAvailCount == 0";
-    } else if (bytesNeeded > bytesAvailCount) {
-        qWarning() << "paAbort bytesAvailCount < bytesNeeded";
-        PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesAvailCount);
-        memset(static_cast<std::byte *>(outputBuffer) + bytesAvailCount, 0,
-               static_cast<size_t>(bytesNeeded - bytesAvailCount));
-        dataWritten += bytesAvailCount;
-        dataLastWrote = bytesAvailCount;
-        transformVolume(outputBuffer, framesPerBuffer);
     } else {
-        PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesNeeded);
-        dataWritten += bytesNeeded;
-        dataLastWrote = bytesNeeded;
-        transformVolume(outputBuffer, framesPerBuffer);
+        qint64 timeAlignedByteWritten = 0; // 透明化加速的影响，表示在1x速度下，理应有多少个Byte被写入
+        qint64 byteToBeWritten = std::min(bytesNeeded, bytesAvailCount); // 实际要往PortAudio的Buffer里写多少Byte
+        qint64 byteRemainToAlign = byteToBeWritten; // 当前还需要处理多少个timeAlignedByteWritten
+        while (byteRemainToAlign) {
+            auto *audioDataInfo = dataInfoQueue.peek();
+            if (audioDataInfo->processedLength < byteRemainToAlign) {
+                timeAlignedByteWritten += audioDataInfo->origLength;
+                byteRemainToAlign -= audioDataInfo->processedLength;
+                dataInfoQueue.pop();
+            } else {
+                qint64 origLengthReduced = std::max(1ll, static_cast<qint64>(static_cast<double>(byteRemainToAlign) *
+                                                                             audioDataInfo->speedUpRate));
+                audioDataInfo->processedLength -= byteRemainToAlign;
+                audioDataInfo->origLength -= origLengthReduced;
+                timeAlignedByteWritten += origLengthReduced;
+                byteRemainToAlign = 0;
+            }
+        }
+        if (bytesNeeded > bytesAvailCount) {
+            qWarning() << "paAbort bytesAvailCount < bytesNeeded";
+            PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesAvailCount);
+            memset(static_cast<std::byte *>(outputBuffer) + byteToBeWritten, 0,
+                   static_cast<size_t>(bytesNeeded - byteToBeWritten));
+            transformVolume(outputBuffer, framesPerBuffer);
+        } else {
+            PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, byteToBeWritten);
+            transformVolume(outputBuffer, framesPerBuffer);
+        }
+        dataWritten += timeAlignedByteWritten;
+        dataLastWrote = timeAlignedByteWritten;
     }
     return paContinue;
 }
@@ -152,16 +175,39 @@ size_t PonyAudioSink::freeByte() const {
     return static_cast<size_t>(PaUtil_GetRingBufferWriteAvailable(&ringBuffer));
 }
 
-bool PonyAudioSink::write(const char *buf, qint64 len) {
+bool PonyAudioSink::write(const char *buf, qint64 origLen) {
+
+    int len = 0;
+    int sonicBufferOffset = 0;
+    switch (m_sampleFormat) {
+        case PonySampleFormat::Int16:
+            if (origLen % 2 == 0) {
+                sonicWriteShortToStream(sonStream, reinterpret_cast<const short *>(buf), static_cast<int>(origLen) / 2);
+                int currentLen = 0;
+                while ((currentLen = sonicReadShortFromStream(sonStream,
+                                                              reinterpret_cast<short *>
+                                                              (sonicBuffer + len * m_channelCount),
+                                                              0x7fffffff))) {
+                    len += currentLen;
+                }
+            } else throw std::runtime_error("Incomplete Int16!");
+            break;
+            // TODO: implementation required.
+        default:
+            break;
+    }
+    len *= m_channelCount;
     ring_buffer_size_t bufAvailCount = PaUtil_GetRingBufferWriteAvailable(&ringBuffer);
+
     if (bufAvailCount < len) return false;
     void *ptr[2] = {nullptr};
     ring_buffer_size_t sizes[2] = {0};
 
     PaUtil_GetRingBufferWriteRegions(&ringBuffer, static_cast<ring_buffer_size_t>(len), &ptr[0], &sizes[0], &ptr[1],
                                      &sizes[1]);
-    memcpy(ptr[0], buf, static_cast<size_t>(sizes[0]));
-    memcpy(ptr[1], buf + sizes[0], static_cast<size_t>(sizes[1]));
+    memcpy(ptr[0], sonicBuffer, static_cast<size_t>(sizes[0]));
+    memcpy(ptr[1], sonicBuffer + sizes[0], static_cast<size_t>(sizes[1]));
+    dataInfoQueue.enqueue({origLen, len, static_cast<qreal>(origLen) / len});
     PaUtil_AdvanceRingBufferWriteIndex(&ringBuffer, static_cast<ring_buffer_size_t>(len));
     return true;
 }

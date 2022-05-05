@@ -490,7 +490,7 @@ static int addFloatSamplesToInputBuffer(sonicStream stream, float* samples,
 }
 
 /* Add the input samples to the input buffer. */
-static int addShortSamplesToInputBuffer(sonicStream stream, short* samples,
+static int addShortSamplesToInputBuffer(sonicStream stream, const short* samples,
                                         int numSamples) {
   if (numSamples == 0) {
     return 1;
@@ -1207,7 +1207,7 @@ int sonicWriteFloatToStream(sonicStream stream, float* samples,
 
 /* Simple wrapper around sonicWriteFloatToStream that does the short to float
    conversion for you. */
-int sonicWriteShortToStream(sonicStream stream, short* samples,
+int sonicWriteShortToStream(sonicStream stream, const short* samples,
                             int numSamples) {
   if (!addShortSamplesToInputBuffer(stream, samples, numSamples)) {
     return 0;

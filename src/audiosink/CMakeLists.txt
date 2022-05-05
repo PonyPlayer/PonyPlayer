@@ -15,5 +15,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt::Core
         Qt::Gui
         Qt::Quick
-        portaudio_static)
+        portaudio_static
+        rwqueue
+        sonic
+        )
 

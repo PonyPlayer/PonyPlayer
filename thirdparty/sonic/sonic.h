@@ -84,7 +84,7 @@ void sonicDestroyStream(sonicStream stream);
 int sonicWriteFloatToStream(sonicStream stream, float* samples, int numSamples);
 /* Use this to write 16-bit data to be speed up or down into the stream.
    Return 0 if memory realloc failed, otherwise 1 */
-int sonicWriteShortToStream(sonicStream stream, short* samples, int numSamples);
+int sonicWriteShortToStream(sonicStream stream, const short* samples, int numSamples);
 /* Use this to write 8-bit unsigned data to be speed up or down into the stream.
    Return 0 if memory realloc failed, otherwise 1 */
 int sonicWriteUnsignedCharToStream(sonicStream stream, unsigned char* samples,
@@ -95,7 +95,7 @@ int sonicReadFloatFromStream(sonicStream stream, float* samples,
                              int maxSamples);
 /* Use this to read 16-bit data out of the stream.  Sometimes no data will
    be available, and zero is returned, which is not an error condition. */
-int sonicReadShortFromStream(sonicStream stream, short* samples,
+int  sonicReadShortFromStream(sonicStream stream, short* samples,
                              int maxSamples);
 /* Use this to read 8-bit unsigned data out of the stream.  Sometimes no data
    will be available, and zero is returned, which is not an error condition. */
