@@ -29,7 +29,7 @@ void VideoPlayWorker::slotOnWork() {
     }
     audioOutput->start();
     emit signalStateChanged(HurricaneState::PLAYING);
-    while(!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
+    while (!pauseRequested && (currFrame = demuxer->getPicture(true), currFrame.isValid())) {
         demuxer->popPicture(true);
         emit signalImageChanged(currFrame);
         for (int i = 0; i < 10 && audioOutput->freeByte() > MAX_AUDIO_FRAME_SIZE; ++i) {
@@ -74,13 +74,9 @@ void VideoPlayWorker::slotClose() {
 }
 
 
-
 void VideoPlayWorker::slotThreadInit() {
     // this function must be called on VideoPlayWorker's thread
-    QAudioFormat format;
-    format.setSampleRate(44100);
-    format.setChannelCount(2);
-    format.setSampleFormat(QAudioFormat::Int16);
+    PonyAudioFormat format(PonySampleFormat::Int16, 2, 44100);
     audioOutput = new PonyAudioSink(format, MAX_AUDIO_FRAME_SIZE * 2);
 //    connect(audioOutput, &QAudioSink::stateChanged, this, &VideoPlayWorker::onAudioStateChanged, Qt::ConnectionType::DirectConnection);
 //    audioOutput->setVolume(100);
@@ -134,7 +130,7 @@ void VideoPlayWorker::slotSeek(qreal pos) {
     // time-consuming job
     {
         Picture pic;
-        while(pic = demuxer->getPicture(true), pic.getPTS() < pos) {
+        while (pic = demuxer->getPicture(true), pic.getPTS() < pos) {
             demuxer->popPicture(true);
             pic.free();
         }
@@ -143,7 +139,7 @@ void VideoPlayWorker::slotSeek(qreal pos) {
     }
     {
         Sample sample;
-        while(sample = demuxer->getSample(true), sample.getPTS() < pos) {
+        while (sample = demuxer->getSample(true), sample.getPTS() < pos) {
             demuxer->popSample(true);
             sample.free();
         }
@@ -179,7 +175,7 @@ void VideoPlayWorker::slotOpenFile(const QString &path) {
     emit signalDecoderOpenFile(localPath.toStdString());
 }
 
-VideoPlayWorker::VideoPlayWorker(QObject *parent): QObject(nullptr) {
+VideoPlayWorker::VideoPlayWorker(QObject *parent) : QObject(nullptr) {
     videoThread = new QThread;
     videoThread->setObjectName("VideoThread");
     this->moveToThread(videoThread);
