@@ -17,19 +17,19 @@ template<typename T>
 class TwinsBlockQueue {
     std::queue<T> m_data;
     const std::string m_name;
-    const int m_prefer;
+    const size_t m_prefer;
 
 
-    TwinsBlockQueue<T> *m_twins;
-    std::mutex *m_mutex;
-    std::condition_variable *m_cond;
-    bool *m_open;
+    TwinsBlockQueue<T> *m_twins = nullptr;
+    std::mutex *m_mutex = nullptr;
+    std::condition_variable *m_cond = nullptr;
+    bool *m_open  = nullptr;
 private:
     TwinsBlockQueue(
         std::string name,
-        int prefer,
+        size_t prefer,
         TwinsBlockQueue<T> *twins
-    ) : m_name(std::move(name)), m_prefer(prefer), m_twins(twins) {
+    ) : m_name(std::move(name)), m_prefer(prefer), m_twins(twins){
         if (prefer < 2) { throw std::runtime_error("PreferSize must not less than 2."); }
         this->m_mutex = twins->m_mutex;
         this->m_cond = twins->m_cond;
@@ -39,15 +39,16 @@ private:
     inline bool isOpen() { return *m_open; }
 
 public:
-    TwinsBlockQueue(std::string name, int prefer) : m_prefer(prefer), m_name(std::move(name)) {
+    TwinsBlockQueue(std::string name, size_t prefer) : m_name(std::move(name)), m_prefer(prefer) {
         if (prefer < 2) { throw std::runtime_error("PreferSize must not less than 2."); }
         this->m_mutex = new std::mutex;
         this->m_cond = new std::condition_variable;
         this->m_open = new bool{true};
         this->m_twins = nullptr;
+
     }
 
-    TwinsBlockQueue<T> *twins(const std::string &name, int prefer) {
+    TwinsBlockQueue<T> *twins(const std::string &name, size_t prefer) {
         std::unique_lock lock(*m_mutex);
         if (m_twins) { throw std::runtime_error("Already generate twins."); }
         m_twins = new TwinsBlockQueue<T>{name, prefer, this};
@@ -58,6 +59,9 @@ public:
         std::unique_lock lock(*m_mutex);
         *m_open = false;
         m_cond->notify_all();
+#ifdef DEBUG_PRINT_FUNCTION_CALL
+        qDebug() << m_name.c_str() << "Close" << m_data.size();
+#endif
     }
 
     void clear(std::function<void(T)> freeFunc) {
@@ -66,6 +70,10 @@ public:
             freeFunc(m_data.front());
             m_data.pop();
         }
+        m_cond->notify_all();
+#ifdef DEBUG_PRINT_FUNCTION_CALL
+        qDebug() << m_name.c_str() << "Clear" << m_data.size();
+#endif
     }
 
     void open() {
@@ -76,7 +84,7 @@ public:
 
     bool push(const T item) {
         std::unique_lock lock(*m_mutex);
-        m_cond->wait(lock, [this]{ return this->m_data.size() < m_prefer || m_twins->m_data.size() < m_prefer || !isOpen();});
+        m_cond->wait(lock, [this]{ return this->m_data.size() < m_prefer || m_twins->m_data.size() < m_twins->m_prefer || !isOpen();});
         m_data.push(item);
         if (m_data.size() == 1) { m_cond->notify_all(); }
 #ifdef DEBUG_PRINT_FUNCTION_CALL
