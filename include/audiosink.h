@@ -7,6 +7,44 @@
 #include "pa_ringbuffer.h"
 #include "pa_util.h"
 
+enum class PonySampleFormat {
+    Unknown,
+    UInt8,
+    Int16,
+    Int32,
+    Float,
+    NSampleFormats
+};
+
+class PonyAudioFormat {
+private:
+    PonySampleFormat sampleFormat;
+    int channelCount{};
+    int sampleRate{};
+    PaSampleFormat paSampleFormat{};
+    size_t bytesPerSample{};
+public:
+    PonyAudioFormat() = default;
+
+    PonyAudioFormat(PonySampleFormat sampleFormat_, int channelCount_, int sampleRate_);
+
+    void setSampleFormat(PonySampleFormat sampleFormat_);
+
+    void setChannelCount(int channelCount_) { channelCount = channelCount_; }
+
+    void setSampleRate(int sampleRate_) { sampleRate = sampleRate_; }
+
+    PonySampleFormat getSampleFormat() const { return sampleFormat; }
+
+    PaSampleFormat getSampleFormatForPA() const;
+
+    int getChannelCount() const { return channelCount; }
+
+    int getSampleRate() const { return sampleRate; }
+
+    size_t getBytesPerSample() const;
+};
+
 
 enum class PlaybackState {
     PLAYING, ///< 正在播放
@@ -23,14 +61,14 @@ enum class PlaybackState {
  * 维护, 当需要播放音频时需要先调用 write 函数将音频数据写入 DataBuffer.
  */
 class PonyAudioSink : public QObject {
-    Q_OBJECT
+Q_OBJECT
 private:
     PaStream *m_stream;
     PaStreamParameters *param;
     PaTime timeBase;
-    QAudioFormat m_format;
+    PonyAudioFormat m_format;
     int m_sampleRate;
-    PaSampleFormat m_sampleFormat;
+    PonySampleFormat m_sampleFormat;
     size_t m_bufferMaxBytes;
     size_t m_bytesPerSample;
     int m_channelCount;
@@ -39,8 +77,6 @@ private:
     std::atomic<int64_t> dataWritten = 0;
     std::atomic<int64_t> dataLastWrote = 0;
 
-
-    static PaSampleFormat qSampleFormatToPortFormat(QAudioFormat::SampleFormat qFormat, size_t &numBytes);
 
     PlaybackState m_state;
 
@@ -54,6 +90,9 @@ private:
                      PaStreamCallbackFlags statusFlags);
 
     void transformVolume(void *buffer, unsigned long framesPerBuffer) const;
+
+    template<typename T>
+    void transformSampleVolume(std::byte *src_, qreal factor, unsigned long samples) const;
 
 
 public:
@@ -83,7 +122,7 @@ public:
      * @param format 音频格式
      * @param bufferSizeAdvice DataBuffer 的建议大小, PonyAudioSink 保证实际的 DataBuffer 不小于建议大小.
      */
-    PonyAudioSink(QAudioFormat format, unsigned long bufferSizeAdvice);
+    PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdvice);
 
     /**
      * 析构即从deattach当前设备
@@ -158,6 +197,7 @@ public:
      * @return
      */
     [[nodiscard]] qreal volume() const;
+
 signals:
 
     /**

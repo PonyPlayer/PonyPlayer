@@ -1,7 +1,7 @@
 #include "audiosink.h"
 #include "helper.h"
 
-PonyAudioSink::PonyAudioSink(QAudioFormat format, unsigned long bufferSizeAdvice)
+PonyAudioSink::PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdvice)
         : m_stream(nullptr), timeBase(0), m_volume(1.0),
           m_state(PlaybackState::STOPPED) {
     // initialize
@@ -16,13 +16,14 @@ PonyAudioSink::PonyAudioSink(QAudioFormat format, unsigned long bufferSizeAdvice
     param->device = Pa_GetDefaultOutputDevice();
     if (param->device == paNoDevice)
         throw std::runtime_error("no audio device!");
-    m_channelCount = format.channelCount();
-    m_sampleFormat = qSampleFormatToPortFormat(format.sampleFormat(), m_bytesPerSample);
+    m_channelCount = format.getChannelCount();
+    m_bytesPerSample = format.getBytesPerSample();
+    m_sampleFormat = format.getSampleFormat();
     param->channelCount = m_channelCount;
-    param->sampleFormat = m_sampleFormat;
+    param->sampleFormat = format.getSampleFormatForPA();
     param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
     param->hostApiSpecificStreamInfo = nullptr;
-    m_sampleRate = format.sampleRate();
+    m_sampleRate = format.getSampleRate();
     PaError err = Pa_OpenStream(
             &m_stream,
             nullptr,
@@ -55,26 +56,6 @@ PonyAudioSink::PonyAudioSink(QAudioFormat format, unsigned long bufferSizeAdvice
     });
 }
 
-PaSampleFormat PonyAudioSink::qSampleFormatToPortFormat(QAudioFormat::SampleFormat qFormat, size_t &numBytes) {
-    switch (qFormat) {
-        case QAudioFormat::SampleFormat::Float:
-            numBytes = 4;
-            return paFloat32;
-        case QAudioFormat::SampleFormat::Int16:
-            numBytes = 2;
-            return paInt16;
-        case QAudioFormat::SampleFormat::Int32:
-            numBytes = 4;
-            return paInt32;
-        case QAudioFormat::SampleFormat::UInt8:
-            numBytes = 1;
-            return paUInt8;
-        case QAudioFormat::SampleFormat::Unknown:
-        case QAudioFormat::SampleFormat::NSampleFormats:
-            throw std::runtime_error("unknown audio format!");
-    }
-    return paCustomFormat;
-}
 
 void PonyAudioSink::start() {
     if (m_state == PlaybackState::PLAYING) {
@@ -127,7 +108,8 @@ PlaybackState PonyAudioSink::state() const {
 double PonyAudioSink::getProcessSecs() const {
     if (m_state == PlaybackState::STOPPED)
         return 0;
-    return static_cast<double>((dataWritten - dataLastWrote ) / (m_channelCount * m_bytesPerSample)) / (m_sampleRate) + timeBase;
+    return static_cast<double>((dataWritten - dataLastWrote) / (m_channelCount * m_bytesPerSample)) / (m_sampleRate) +
+           timeBase;
 }
 
 
@@ -204,43 +186,22 @@ void PonyAudioSink::m_paStreamFinishedCallback() {
 }
 
 void PonyAudioSink::transformVolume(void *buffer, unsigned long framesPerBuffer) const {
-    for (size_t frameOffset = 0; frameOffset < framesPerBuffer; frameOffset++) {
-        for (int channelOffset = 0; channelOffset < m_channelCount; channelOffset++) {
-            switch (m_sampleFormat) {
-                case paFloat32:
-                {
-                    auto *sample = reinterpret_cast<float *>(static_cast<std::byte *> (buffer) +
-                                                              (frameOffset * m_channelCount + channelOffset) *
-                                                              m_bytesPerSample);
-                    *sample *= static_cast<float>(m_volume);
-                    break;
-                }
-                case paInt16:
-                {
-                    auto *sample = reinterpret_cast<int16_t *>(static_cast<std::byte *> (buffer) +
-                                                              (frameOffset * m_channelCount + channelOffset) *
-                                                              m_bytesPerSample);
-                    *sample *= m_volume;
-                    break;
-                }
-                case paInt32:
-                {
-                    auto *sample = reinterpret_cast<int32_t *>(static_cast<std::byte *> (buffer) +
-                                                               (frameOffset * m_channelCount + channelOffset) *
-                                                               m_bytesPerSample);
-                    *sample *= m_volume;
-                    break;
-                }
-                case paUInt8:
-                {
-                    auto *sample = reinterpret_cast<uint8_t *>(static_cast<std::byte *> (buffer) +
-                                                               (frameOffset * m_channelCount + channelOffset) *
-                                                               m_bytesPerSample);
-                    *sample *= m_volume;
-                    break;
-                }
-            }
-        }
+    unsigned long sampleCount = framesPerBuffer * static_cast<unsigned long>(m_channelCount);
+    switch (m_sampleFormat) {
+        case PonySampleFormat::Float:
+            transformSampleVolume<float>(static_cast<std::byte *>(buffer), m_volume, sampleCount);
+            break;
+        case PonySampleFormat::Int16:
+            transformSampleVolume<int16_t>(static_cast<std::byte *>(buffer), m_volume, sampleCount);
+            break;
+        case PonySampleFormat::Int32:
+            transformSampleVolume<int32_t>(static_cast<std::byte *>(buffer), m_volume, sampleCount);
+            break;
+        case PonySampleFormat::UInt8:
+            transformSampleVolume<uint8_t>(static_cast<std::byte *>(buffer), m_volume, sampleCount);
+            break;
+        default:
+            throw std::runtime_error("Unsupported sample format!");
     }
 
 }
@@ -251,4 +212,53 @@ void PonyAudioSink::setVolume(qreal newVolume) {
 
 qreal PonyAudioSink::volume() const {
     return m_volume;
+}
+
+template<typename T>
+void PonyAudioSink::transformSampleVolume(std::byte *src_, qreal factor, unsigned long samples) const {
+    T *src = static_cast<T *>(static_cast<void *>(src_));
+    for (size_t sampleOffset = 0; sampleOffset < samples; sampleOffset++) {
+        src[sampleOffset] = static_cast<T>(src[sampleOffset] * factor);
+    }
+}
+
+
+PonyAudioFormat::PonyAudioFormat(PonySampleFormat sampleFormat_, int channelCount_, int sampleRate_) {
+    setSampleFormat(sampleFormat_);
+    setChannelCount(channelCount_);
+    setSampleRate(sampleRate_);
+}
+
+size_t PonyAudioFormat::getBytesPerSample() const {
+    return bytesPerSample;
+}
+
+
+void PonyAudioFormat::setSampleFormat(PonySampleFormat sampleFormat_) {
+    sampleFormat = sampleFormat_;
+    switch (sampleFormat) {
+        case PonySampleFormat::Float:
+            paSampleFormat = paFloat32;
+            bytesPerSample = 4;
+            break;
+        case PonySampleFormat::Int16:
+            paSampleFormat = paInt16;
+            bytesPerSample = 2;
+            break;
+        case PonySampleFormat::Int32:
+            paSampleFormat = paInt32;
+            bytesPerSample = 4;
+            break;
+        case PonySampleFormat::UInt8:
+            paSampleFormat = paUInt8;
+            bytesPerSample = 1;
+            break;
+        case PonySampleFormat::Unknown:
+        case PonySampleFormat::NSampleFormats:
+            throw std::runtime_error("Unsupported audio format!");
+    }
+}
+
+PaSampleFormat PonyAudioFormat::getSampleFormatForPA() const {
+    return paSampleFormat;
 }
