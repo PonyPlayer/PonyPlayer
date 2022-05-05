@@ -10,19 +10,20 @@
 class Logger {
 private:
     QTextStream qTextStream{stderr};
-    QMap<QtMsgType, QString> types = {
+    QMutex mutex;
+    const QMap<QtMsgType, QString> types = {
             {QtDebugMsg, "D"},
             {QtWarningMsg, "W"},
             {QtInfoMsg, "I"},
             {QtFatalMsg, "F"},
             {QtCriticalMsg, "C"}
     };
-    QMap<QString, QString> classNames = {
+    const QMap<QString, QString> classNames = {
             {"HurricanePlayer", "HPlayer"},
             {"VideoPlayWorker", "VWorker"},
             {"HurricaneRenderer", "HRender"}
     };
-    QString currentDateTime = QDateTime::currentDateTime().toString("[yyyy-MM-dd hh:mm:ss]");
+    const QString currentDateTime = QDateTime::currentDateTime().toString("[yyyy-MM-dd hh:mm:ss]");
     enum class State{
         INITIAL, UPPER, LOWER
     };
@@ -55,12 +56,13 @@ public:
         return ret;
     }
 
-    inline QString getClassName(const QString &clazz) {
+    inline QString getClassName(const QString &clazz) const {
         auto iter = classNames.constFind(clazz);
         return iter == classNames.cend() ? clazz : iter.value();
     }
 
     inline void log(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
+        QMutexLocker locker(&mutex);
         qTextStream << currentDateTime << " " << types.constFind(type).value();
         QString function = context.function; // convert to QString
         qsizetype colon = function.indexOf(':');
@@ -89,6 +91,7 @@ public:
     }
 #else
     inline void log(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
+        QMutexLocker locker(&mutex);
         qTextStream << currentDateTime << " "<< types.constFind(type).value() << " " << msg << "\n";
         qTextStream.flush();
     }
