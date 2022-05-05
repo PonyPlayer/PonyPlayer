@@ -171,7 +171,7 @@ void VideoPlayWorker::slotOpenFileResult(bool ret) {
 }
 
 void VideoPlayWorker::slotOpenFile(const QString &path) {
-//    audioOutput->start();
+    audioOutput->setStartPoint();
     QUrl url(path);
     QString localPath = url.toLocalFile();
     qDebug() << "Open file" << localPath;
