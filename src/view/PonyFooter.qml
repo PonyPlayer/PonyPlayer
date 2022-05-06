@@ -34,20 +34,11 @@ Rectangle {
         from: 0
         to: mainWindow.endTime
         value: mainWindow.currentTime
-        //handle: Rectangle {
-        //        x: parent.leftPadding + parent.visualPosition * (parent.availableWidth - width)
-        //        y: parent.topPadding + parent.availableHeight / 2 - height / 2
-        //        implicitWidth: 16
-        //        implicitHeight: 16
-        //        radius: 8
-        //        color: parent.pressed ? "#f0f0f0" : "#f6f6f6"
-        //        border.color: "#bdbebf"
-        //    }
         onValueChanged: IF.videoSlideOnValueChanged()
-
         onPressedChanged: {
             if(!videoSlide.pressed){
-                console.log("lei fu kai use seek")
+                console.log("lei fu kai use seek"+videoSlide.value)
+                mainWindow.currentTime=videoSlide.value
                 videoArea.seek(mainWindow.currentTime)
             }
         }
@@ -91,7 +82,7 @@ Rectangle {
 
     Timer {
         id:timer
-        interval: 100/mainWindow.speed
+        interval: 1000/mainWindow.speed
         repeat: true
         running: mainWindow.isPlay
         onTriggered:IF.timerOnTriggered()

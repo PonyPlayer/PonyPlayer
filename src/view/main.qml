@@ -91,7 +91,7 @@ Window {
     //音量改变
     signal volumnChange(real vol)
     //播放进度改变
-    signal currentTimeChange(int cur)
+    signal currentTimeChange(real cur)
     //播放模式改变
     signal playModeChange(string state)
     //播放倍速改变

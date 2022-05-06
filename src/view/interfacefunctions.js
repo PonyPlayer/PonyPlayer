@@ -62,8 +62,8 @@ function playOrPauseFunction(){
         if(mainWindow.endTime!==0.0){
             mainWindow.isPlay=true
             if(mainWindow.currentTime===mainWindow.endTime){
-                videoSlide.value=0
-                mainWindow.currentTime=0
+                mainWindow.currentTime=0.0
+                videoSlide.value=0.0
             }
         }
         mainWindow.start()
@@ -235,9 +235,10 @@ function timerOnTriggered(){
         mainWindow.isPlay=false
     }
     else{
-        mainWindow.currentTime=mainWindow.currentTime+0.1
+        mainWindow.currentTime=mainWindow.currentTime+1.0
         videoSlide.value=mainWindow.currentTime
     }
+    console.log("time trigger")
 }
 function videoSlideDistance(flag){
     let tmp
