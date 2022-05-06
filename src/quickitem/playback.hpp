@@ -63,6 +63,7 @@ public:
         this->moveToThread(m_affinityThread);
         connect(this, &Playback::startWork, this, &Playback::onWork);
         connect(this, &Playback::stopWork, this, [=] { this->m_audioSink->stop(); });
+        connect(this, &Playback::setAudioStartPoint, this, [=](qreal t) {this->m_audioSink->setStartPoint(t);});
         connect(this, &Playback::clearRingBuffer, this, [=] {this->m_audioSink->clear(); });
         connect(m_affinityThread, &QThread::started, [=]{
             PonyAudioFormat format;
@@ -90,12 +91,17 @@ public:
      */
     bool isInterrupted() { return m_isInterrupt; }
 
+    void setStartPoint(qreal startPoint=0.0) {
+        m_isInterrupt = false;
+        emit setAudioStartPoint(startPoint, QPrivateSignal());
+    }
+
     /**
      * 开始进行处理, 发送信号后方法将立即返回.
      */
-    void start(qreal startPoint=0.0) {
+    void start() {
         m_isInterrupt = false;
-        emit startWork(startPoint, QPrivateSignal());
+        emit startWork(QPrivateSignal());
     }
 
     /**
@@ -127,11 +133,10 @@ private slots:
     /**
      * 播放音视频. 需要保证 demuxer 可以正常阻塞.
      */
-    void onWork(qreal startPoint) {
+    void onWork() {
         std::unique_lock lock(m_workMutex);
         changeState(true);
         writeAudio(5);
-        m_audioSink->setStartPoint(startPoint);
         m_audioSink->start();
         while(!m_isInterrupt) {
             Picture pic = m_demuxer->getPicture(true);
@@ -149,9 +154,10 @@ private slots:
 
 
 signals:
-    void startWork(qreal startPoint, QPrivateSignal);
+    void startWork(QPrivateSignal);
     void stopWork(QPrivateSignal);
     void clearRingBuffer(QPrivateSignal);
+    void setAudioStartPoint(qreal startPoint, QPrivateSignal);
     void setPicture(Picture pic);
     void stateChanged(bool isPlaying);
     void resourcesEnd();

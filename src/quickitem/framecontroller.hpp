@@ -110,8 +110,9 @@ public slots:
         }
         m_playback->clear();
         emit signalPositionChangedBySeek();
+        m_playback.setStartPoint(startPoint);
         if (isPlaying) {
-            m_playback->start(startPoint);
+            m_playback->start();
         }
     }
 
