@@ -15,6 +15,7 @@
 #include "hurricane.h"
 #include "demuxer2.h"
 #include "audiosink.h"
+#include "../src/quickitem/framecontroller.hpp"
 
 typedef int64_t time_point;
 typedef int64_t time_duration;
@@ -48,7 +49,7 @@ class VideoPlayWorker : public QObject {
     Q_OBJECT
 private:
     QThread *videoThread;
-    Demuxer2 *demuxer = nullptr;
+    Demuxer *demuxer = nullptr;
     std::atomic<bool> pauseRequested = false;
     PonyAudioSink *audioOutput = nullptr;
     std::atomic<qreal> volume = 1.0;
@@ -87,7 +88,6 @@ signals:
     void signalVolumeChangedFail(qreal d);
     void signalDecoderOpenFile(std::string fn);
     void signalDecoderSeek(time_point pos);
-    void signalDecoderStart();
 
 
 };
@@ -117,7 +117,8 @@ private:
     HurricaneState state = HurricaneState::INVALID;
 private:
 
-    VideoPlayWorker *videoPlayWorker;
+//    VideoPlayWorker *videoPlayWorker;
+    FrameController *frameController;
 public:
     HurricanePlayer(QQuickItem *parent = nullptr);
 
@@ -127,6 +128,8 @@ public:
 
 
 signals:
+
+
 
     /**
      * 播放器状态发生改变.
@@ -159,7 +162,8 @@ Q_SIGNALS:
     // 约定两者通信的方法信号以 signal 开头, 槽函数以 slot 开头
     // 约定信号只能由所属的类的实例 emit
     void signalPlayerInitializing(QPrivateSignal);
-    void signalResume(QPrivateSignal);
+    void signalStart(QPrivateSignal);
+    void signalPause(QPrivateSignal);
     void signalClose(QPrivateSignal);
     void signalOpenFile(const QString &url, QPrivateSignal);
     void signalSeek(qreal pos, QPrivateSignal);
@@ -209,13 +213,13 @@ public slots:
      * 获取视频长度, 需要保证状态不是 INVALID
      * @return 长度(单位: 秒)
      */
-    Q_INVOKABLE qreal getAudioDuration() { return videoPlayWorker->getAudioDuration(); }
+    Q_INVOKABLE qreal getAudioDuration() { return frameController->getAudioDuration(); }
 
     /**
      * 获取音频长度, 需要保证状态不是 INVALID
      * @return 长度(单位: 秒)
      */
-    Q_INVOKABLE qreal getVideoDuration() { return videoPlayWorker->getVideoDuration(); }
+    Q_INVOKABLE qreal getVideoDuration() { return frameController->getVideoDuration(); }
 
     /**
      * 获取当前视频播放进度, 需要保证状态不是 INVALID
@@ -229,12 +233,27 @@ public slots:
      * @param pos 播放进度(单位: 秒)
      * @see HurricanePlayer::positionChangedBySeek
      */
-    Q_INVOKABLE void seek(qreal pos);;
+    Q_INVOKABLE void seek(qreal pos);
 
 private slots:
-    void slotStateChanged(HurricaneState s);
     void slotPositionChangedBySeek() { emit positionChangedBySeek(); }
     void slotVolumeChangedFail(qreal current) { emit volumeChangedFail(current); }
+    void slotPlaybackStateChanged(bool isPlaying) {
+        if (isPlaying) {
+            state = PLAYING;
+        } else {
+            state = PAUSED;
+        }
+        emit stateChanged();
+    };
+    void slotOpenFileResult(bool success) {
+        if (success) {
+            state = PAUSED;
+        } else {
+            state = INVALID;
+        }
+        emit stateChanged();
+    }
 };
 
 

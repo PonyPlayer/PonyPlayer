@@ -90,7 +90,7 @@ public:
 #ifdef DEBUG_PRINT_FUNCTION_CALL
         qDebug() << m_name.c_str() << "Push" << m_data.size();
 #endif
-        return *m_open;
+        return m_data.size() <= m_prefer;
     }
 
     /**
@@ -104,10 +104,10 @@ public:
 #ifdef DEBUG_PRINT_FUNCTION_CALL
         qDebug() << m_name.c_str() << "IsEmpty" << m_data.empty() << "isOpen" << isOpen();
 #endif
-        if (*m_open) {
-            return m_data.front();
-        } else {
+        if (m_data.empty()) {
             return defaultValue;
+        } else {
+            return m_data.front();
         }
     }
 
@@ -132,6 +132,7 @@ public:
         std::unique_lock lock(*m_mutex);
         if (m_data.empty()) { return false; }
         m_data.pop();
+        // avoid bumpy
         if (m_data.size() < m_prefer / 2) { this->m_cond->notify_all(); }
 #ifdef DEBUG_PRINT_FUNCTION_CALL
         qDebug() << m_name.c_str() << "Pop" << m_data.size();

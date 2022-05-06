@@ -83,7 +83,7 @@ void PonyAudioSink::pause() {
     } else {
         throw std::runtime_error("AudioSink already paused.");
     }
-    qDebug() << "Audio pause.";
+    qDebug() << "Audio statePause.";
 }
 
 void PonyAudioSink::stop() {

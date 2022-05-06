@@ -9,6 +9,8 @@ qt_add_qml_module(${PROJECT_NAME}
         SOURCES
             player.cpp
             videoworker.cpp
+            playback.hpp
+            framecontroller.hpp
         )
 
 target_sources(${PROJECT_NAME} PRIVATE

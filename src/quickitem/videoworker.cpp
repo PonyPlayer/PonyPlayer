@@ -52,7 +52,7 @@ void VideoPlayWorker::slotOnWork() {
 
         // sync frame
         Picture nextFrame = demuxer->getPicture(true);
-        if (nextFrame.isValid()) {
+        if (nextFrame.isValid() && !pauseRequested ) {
             syncTo(nextFrame.pts);
         }
 
@@ -125,7 +125,7 @@ void VideoPlayWorker::slotSeek(qreal pos) {
     // otherwise, the video thread will be BLOCKING for a long time.
     emit signalDecoderSeek(static_cast<time_point>(pos * 1000 * 1000)); // blocking connection
     demuxer->flush();
-    emit signalDecoderStart(); // queue connection
+    demuxer->start(); // non-blocking, make sure pic and sample request can be blocked
 
     // time-consuming job
     {
@@ -143,7 +143,7 @@ void VideoPlayWorker::slotSeek(qreal pos) {
             demuxer->popSample(true);
             sample.free();
         }
-
+        qDebug() << sample.getPTS() << sample.isValid();
         audioOutput->setStartPoint(sample.getPTS());
     }
 
@@ -156,7 +156,7 @@ void VideoPlayWorker::slotSeek(qreal pos) {
 void VideoPlayWorker::slotOpenFileResult(bool ret) {
     HurricaneState state;
     if (ret) {
-        emit signalDecoderStart();
+        demuxer->start();
         state = HurricaneState::PAUSED;
         Picture pic = demuxer->getPicture(true);
         emit signalImageChanged(pic);
@@ -180,17 +180,15 @@ VideoPlayWorker::VideoPlayWorker(QObject *parent) : QObject(nullptr) {
     videoThread->setObjectName("VideoThread");
     this->moveToThread(videoThread);
     videoThread->start();
-    demuxer = new Demuxer2(nullptr);
+    demuxer = new Demuxer(nullptr);
     // open file
-    connect(this, &VideoPlayWorker::signalDecoderOpenFile, demuxer, &Demuxer2::openFile);
-    connect(demuxer, &Demuxer2::openFileResult, this, &VideoPlayWorker::slotOpenFileResult);
+    connect(this, &VideoPlayWorker::signalDecoderOpenFile, demuxer, &Demuxer::openFile);
+    connect(demuxer, &Demuxer::openFileResult, this, &VideoPlayWorker::slotOpenFileResult);
 
 
     // seek
-    connect(this, &VideoPlayWorker::signalDecoderSeek, demuxer, &Demuxer2::seek, Qt::BlockingQueuedConnection);
+    connect(this, &VideoPlayWorker::signalDecoderSeek, demuxer, &Demuxer::seek, Qt::BlockingQueuedConnection);
 
-    // start
-    connect(this, &VideoPlayWorker::signalDecoderStart, demuxer, &Demuxer2::start);
 }
 
 
