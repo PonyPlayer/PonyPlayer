@@ -81,7 +81,13 @@ struct Sample {
     bool valid{};
     AVFrame *frame{};
 
-    Sample() = default;
+    Sample()  {
+        data = nullptr;
+        len = 0;
+        pts = std::numeric_limits<double>::quiet_NaN();
+        valid = false;
+        frame = nullptr;
+    }
 
     Sample(uint8_t *data_, int len_, double pts_, AVFrame *frame_) :
             data(data_), len(len_), pts(pts_), valid(true), frame(frame_) {}

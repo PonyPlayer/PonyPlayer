@@ -131,6 +131,10 @@ public:
     bool pop() {
         std::unique_lock lock(*m_mutex);
         if (m_data.empty()) { return false; }
+#ifdef QT_DEBUG
+        // nullptr signals end of file
+        if (!m_data.front()) { throw std::runtime_error("Should not pop nullptr"); }
+#endif
         m_data.pop();
         // avoid bumpy
         if (m_data.size() < m_prefer / 2) { this->m_cond->notify_all(); }

@@ -34,6 +34,7 @@ public:
             connect(this, &FrameController::signalDecoderOpenFile, m_demuxer, &Demuxer::openFile);
             connect(this, &FrameController::signalDecoderSeek, m_demuxer, &Demuxer::seek);
             connect(m_demuxer, &Demuxer::openFileResult, this, &FrameController::openFileResult);
+            connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd);
         });
         m_affinityThread->start();
     }
@@ -86,7 +87,7 @@ public slots:
         // otherwise, the video thread will be BLOCKING for a long time.
         emit signalDecoderSeek(static_cast<qreal>(pos * 1000 * 1000)); // blocking connection
         m_demuxer->flush();
-        m_demuxer->start(); // non-blocking, make sure pic and sample request can be blocked
+        m_demuxer->start(); // blocking, make sure pic and sample request can be blocked
 
         // time-consuming job
         {
@@ -101,12 +102,13 @@ public slots:
             Sample sample;
             while(sample = m_demuxer->getSample(true), (sample.isValid() && sample.getPTS() < pos)) {
                 m_demuxer->popSample(true);
+                startPoint = sample.getPTS();
                 sample.free();
             }
             qDebug() << sample.getPTS() << sample.isValid();
-            startPoint = sample.getPTS();
-        }
 
+        }
+        m_playback->clear();
         emit signalPositionChangedBySeek();
         if (isPlaying) {
             m_playback->start(startPoint);
@@ -121,6 +123,7 @@ signals:
 
     void openFileResult(bool success);
     void playbackStateChanged(bool isPlaying);
+    void resourcesEnd();
     void setPicture(Picture pic);
 
 };

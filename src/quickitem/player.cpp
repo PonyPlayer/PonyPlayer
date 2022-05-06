@@ -122,11 +122,11 @@ void HurricanePlayer::seek(qreal pos) {
         return;
     state = PRE_PAUSE;
     emit stateChanged();
-    emit signalPause(QPrivateSignal());
+//    emit signalPause(QPrivateSignal());
     emit signalSeek(pos, QPrivateSignal());
-    if (playing) {
-        emit signalStart(QPrivateSignal());
-    }
+//    if (playing) {
+//        emit signalStart(QPrivateSignal());
+//    }
     qDebug() << "HurricanePlayer: Seek" << pos;
 
 }

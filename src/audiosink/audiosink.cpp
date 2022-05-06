@@ -3,7 +3,7 @@
 #include "sonic.h"
 
 PonyAudioSink::PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdvice)
-        : m_stream(nullptr), timeBase(0), m_volume(1.0), m_speedFactor(2), m_state(PlaybackState::STOPPED) {
+        : m_stream(nullptr), timeBase(0), m_volume(1.0), m_speedFactor(1), m_state(PlaybackState::STOPPED) {
     // initialize
     static bool initialized = false;
     if (!initialized) {
@@ -42,8 +42,10 @@ PonyAudioSink::PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdv
             },
             this
     );
-    if (err != paNoError)
+    if (err != paNoError) {
+        printError(err);
         throw std::runtime_error("can not open audio stream!");
+    }
     m_bufferMaxBytes = nextPowerOf2(bufferSizeAdvice);
     m_sonicBufferMaxBytes = m_bufferMaxBytes * 4;
     ringBufferData = PaUtil_AllocateMemory(static_cast<long>(m_bufferMaxBytes));

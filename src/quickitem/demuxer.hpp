@@ -61,7 +61,7 @@ public:
     }
 
     /**
-     * 在 DecodeThread 启动解码器, 这个方法是非阻塞的.
+     * 在 DecodeThread 启动解码器, 这个方法是非阻塞的, 但是可以保证返回后队里请求能够被阻塞.
      */
     void start() {
         qDebug() << "Start Decoder";
@@ -72,7 +72,7 @@ public:
 public slots:
 
     /**
-     * 调整视频进度, 必须保证解码器线程空闲且缓冲区为空. \n
+     * 调整视频进度, 必须保证解码器线程空闲且缓冲区为空. 方法返回后保证产生的帧是在时间正确. \n
      * 一次完整的调整进度操作应该为: \n
      * 1. 在VideoThread线程调用 Demuxer2::statePause 使解码器线程停止运行; \n
      * 2. 在VideoThread线程调用 Demuxer2::seek 并阻塞等待函数返回, 接下来产生的帧是新的帧. \n

@@ -62,11 +62,13 @@ public:
         m_affinityThread->setObjectName("PlayThread");
         this->moveToThread(m_affinityThread);
         connect(this, &Playback::startWork, this, &Playback::onWork);
+        connect(this, &Playback::stopWork, this, [=] { this->m_audioSink->stop(); });
+        connect(this, &Playback::clearRingBuffer, this, [=] {this->m_audioSink->clear(); });
         connect(m_affinityThread, &QThread::started, [=]{
-            QAudioFormat format;
+            PonyAudioFormat format;
             format.setSampleRate(44100);
             format.setChannelCount(2);
-            format.setSampleFormat(QAudioFormat::Int16);
+            format.setSampleFormat(PonySampleFormat::Int16);
             this->m_audioSink = new PonyAudioSink(format, MAX_AUDIO_FRAME_SIZE * 2);
         });
         m_affinityThread->start();
@@ -93,8 +95,14 @@ public:
      */
     void start(qreal startPoint=0.0) {
         m_isInterrupt = false;
-        m_audioSink->setStartPoint(startPoint);
-        emit startWork(QPrivateSignal());
+        emit startWork(startPoint, QPrivateSignal());
+    }
+
+    /**
+     * 清空内部缓冲区, 需要保证此刻没有读写操作.
+     */
+    void clear() {
+        emit clearRingBuffer(QPrivateSignal());
     }
 
     /**
@@ -111,7 +119,7 @@ public:
      */
     void stop() {
         pause();
-        m_audioSink->stop();
+        emit stopWork(QPrivateSignal());
     }
 
 private slots:
@@ -119,17 +127,18 @@ private slots:
     /**
      * 播放音视频. 需要保证 demuxer 可以正常阻塞.
      */
-    void onWork() {
+    void onWork(qreal startPoint) {
         std::unique_lock lock(m_workMutex);
         changeState(true);
         writeAudio(5);
+        m_audioSink->setStartPoint(startPoint);
         m_audioSink->start();
         while(!m_isInterrupt) {
             Picture pic = m_demuxer->getPicture(true);
-            if (!pic.isValid()) { break; }
+            if (!pic.isValid()) { break; emit resourcesEnd(); }
             emit setPicture(pic);
             m_demuxer->popPicture(true);
-            if (!writeAudio(10)) { break; }
+            if (!writeAudio(10)) { break; emit resourcesEnd(); }
             Picture next = m_demuxer->getPicture(true);
             if (next.isValid()) { syncTo(next.getPTS()); }
         }
@@ -138,10 +147,14 @@ private slots:
     };
 
 
+
 signals:
-    void startWork(QPrivateSignal);
+    void startWork(qreal startPoint, QPrivateSignal);
+    void stopWork(QPrivateSignal);
+    void clearRingBuffer(QPrivateSignal);
     void setPicture(Picture pic);
     void stateChanged(bool isPlaying);
+    void resourcesEnd();
 };
 
 #endif //PONYPLAYER_VIDEOWORKER_H

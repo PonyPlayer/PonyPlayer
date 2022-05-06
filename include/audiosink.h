@@ -106,28 +106,10 @@ private:
     template<typename T>
     void transformSampleVolume(std::byte *src_, qreal factor, unsigned long samples) const;
 
-
+    void printError(PaError error) {
+        qDebug() << "Error" << Pa_GetErrorText(error);
+    }
 public:
-    /**
-     * 计算音频长度对应的数据大小
-     * @param format 音频格式
-     * @param duration 音频时长(单位: us)
-     * @return 数据大小(单位: byte)
-     */
-    inline static int durationToSize(const QAudioFormat &format, int64_t duration) {
-        return format.bytesForDuration(duration);
-    }
-
-
-    /**
-     * 计算音频数据长度对应的数据大小
-     * @param format 音频格式
-     * @param bytes 数据大小(单位: byte)
-     * @return 音频时长(单位: us)
-     */
-    inline static int64_t sizeToDuration(const QAudioFormat &format, int bytes) {
-        return format.durationForBytes(bytes);
-    }
 
     /**
      * 创建PonyAudioSink并attach到默认设备上

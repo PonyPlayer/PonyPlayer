@@ -76,12 +76,19 @@ void DecodeDispatcher::onWork() {
                 ret = decoder->accept(packet, interrupt);
                 av_packet_unref(packet);
                 if (!ret) {
+                    videoQueue->push(nullptr);
+                    audioQueue->push(nullptr);
                     // no more packet
                     break;
                 }
             } else { av_packet_unref(packet); }
         } else {
-            qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
+            if (ret == ERROR_EOF) {
+                videoQueue->push(nullptr);
+                audioQueue->push(nullptr);
+            }  else {
+                qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
+            }
             av_packet_unref(packet);
             break;
         }
