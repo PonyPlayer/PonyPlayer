@@ -1,4 +1,4 @@
-#include "hurricane.h"
+#include "fireworks.h"
 
 #include <QOpenGLShaderProgram>
 #include <QDir>
@@ -52,8 +52,8 @@ void Fireworks::handleWindowChanged(QQuickWindow *win)  {
 void Fireworks::sync() {
     // call from renderer thread while GUI thread is blocking
     if (!renderer) {
-        renderer = new HurricaneRenderer(this);
-        connect(window(), &QQuickWindow::beforeRendering, renderer, &HurricaneRenderer::init, Qt::DirectConnection);
+        renderer = new FireworksRenderer(this);
+        connect(window(), &QQuickWindow::beforeRendering, renderer, &FireworksRenderer::init, Qt::DirectConnection);
         //
         //        connect(window(), &QQuickWindow::afterRenderPassRecording, renderer, &HurricaneRenderer::paint, Qt::DirectConnection);
         connect(window(), &QQuickWindow::afterRendering, this, &Fireworks::cleanupPicture);
@@ -83,12 +83,12 @@ QSGNode *Fireworks::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNodeDa
 }
 
 
-HurricaneRenderer::HurricaneRenderer(QQuickItem *item) : quickItem(item) {
+FireworksRenderer::FireworksRenderer(QQuickItem *item) : quickItem(item) {
 
     qDebug() << "Create Hurricane Renderer:" << static_cast<void *>(this) << ".";
 }
 
-HurricaneRenderer::~HurricaneRenderer(){
+FireworksRenderer::~FireworksRenderer(){
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -97,7 +97,7 @@ HurricaneRenderer::~HurricaneRenderer(){
 }
 
 
-void HurricaneRenderer::init() {
+void FireworksRenderer::init() {
     if (program) {
         // already initialized
         return;
@@ -149,7 +149,7 @@ void HurricaneRenderer::init() {
     createTextureBuffer(&textureV);
 }
 
-void HurricaneRenderer::render(const RenderState *state) {
+void FireworksRenderer::render(const RenderState *state) {
 
     // call on render thread
     if (!imageY || !imageU || !imageV) { return; }
@@ -217,7 +217,7 @@ void HurricaneRenderer::render(const RenderState *state) {
 //    quickItem->window()->endExternalCommands();
 }
 
-void HurricaneRenderer::setImageView(const Picture &pic) {
+void FireworksRenderer::setImageView(const Picture &pic) {
     // should call on sync stage
     flagUpdateImageContent = true;
     imageY = pic.getY();

@@ -8,7 +8,6 @@
 #include <QObject>
 #include "demuxer2.h"
 #include "playback.hpp"
-#include "quickitem.h"
 
 /**
  * @brief 将解码拿到的帧传递给输出.
@@ -110,7 +109,7 @@ public slots:
         }
         m_playback->clear();
         emit signalPositionChangedBySeek();
-        m_playback.setStartPoint(startPoint);
+        m_playback->setStartPoint(startPoint);
         if (isPlaying) {
             m_playback->start();
         }

@@ -15,7 +15,7 @@ qt_add_qml_module(${PROJECT_NAME}
         )
 
 target_sources(${PROJECT_NAME} PRIVATE
-        ${CMAKE_SOURCE_DIR}/include/hurricane.h)
+        ${CMAKE_SOURCE_DIR}/include/fireworks.h)
 
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

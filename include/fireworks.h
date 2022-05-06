@@ -58,7 +58,7 @@ template class UniformValue<GLfloat>;
 // QuickItem lives in the GUI thread and the rendering potentially happens on the render thread.
 // QuickItem may be deleted on the GUI thread while the render thread is rendering.
 // Therefore, we need to separate those two objects.
-class HurricaneRenderer : public QObject, public QSGRenderNode, protected QOpenGLFunctions_3_3_Core {
+class FireworksRenderer : public QObject, public QSGRenderNode, protected QOpenGLFunctions_3_3_Core {
     Q_OBJECT
     friend class Fireworks;
 private:
@@ -93,9 +93,9 @@ public slots:
     void init();
 
 public:
-    HurricaneRenderer(QQuickItem *item);
+    FireworksRenderer(QQuickItem *item);
     void render(const RenderState *state) override;
-    ~HurricaneRenderer() override;
+    ~FireworksRenderer() override;
 
     void setImageView(const Picture &pic);
 };
@@ -108,7 +108,7 @@ class Fireworks : public QQuickItem {
     Q_PROPERTY(GLfloat contrast READ getContrast WRITE setContrast)
     Q_PROPERTY(GLfloat saturation READ getSaturation WRITE setSaturation)
 private:
-    HurricaneRenderer *renderer = nullptr;
+    FireworksRenderer *renderer = nullptr;
     std::vector<Picture> cleanupPictureQueue;
 protected:
     Picture picture;

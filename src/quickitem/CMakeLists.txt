@@ -7,14 +7,13 @@ qt_add_qml_module(${PROJECT_NAME}
         STATIC
         PLUGIN_TARGET quickitem
         SOURCES
-            player.cpp
-            videoworker.cpp
             playback.hpp
             framecontroller.hpp
+            hurricane.hpp
         )
 
-target_sources(${PROJECT_NAME} PRIVATE
-        ${CMAKE_SOURCE_DIR}/include/quickitem.h)
+
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_LIST_DIR})
 
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

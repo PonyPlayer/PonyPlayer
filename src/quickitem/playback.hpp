@@ -64,6 +64,8 @@ public:
         connect(this, &Playback::startWork, this, &Playback::onWork);
         connect(this, &Playback::stopWork, this, [=] { this->m_audioSink->stop(); });
         connect(this, &Playback::setAudioStartPoint, this, [=](qreal t) {this->m_audioSink->setStartPoint(t);});
+        connect(this, &Playback::setAudioVolume, this, [=](qreal volume) {this->m_audioSink->setVolume(volume);});
+//        connect(this, &Playback::setAduioSpeed, this, [=](qreal speed) {this->m_audioSink.se})
         connect(this, &Playback::clearRingBuffer, this, [=] {this->m_audioSink->clear(); });
         connect(m_affinityThread, &QThread::started, [=]{
             PonyAudioFormat format;
@@ -77,6 +79,10 @@ public:
 
     virtual ~Playback() {
 //        m_affinityThread->quit();
+    }
+
+    void setVolume(qreal volume) {
+        emit setAudioVolume(volume, QPrivateSignal());
     }
 
     /**
@@ -158,6 +164,8 @@ signals:
     void stopWork(QPrivateSignal);
     void clearRingBuffer(QPrivateSignal);
     void setAudioStartPoint(qreal startPoint, QPrivateSignal);
+    void setAudioVolume(qreal volume, QPrivateSignal);
+    void setAduioSpeed(qreal speed, QPrivateSignal);
     void setPicture(Picture pic);
     void stateChanged(bool isPlaying);
     void resourcesEnd();
