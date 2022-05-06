@@ -3,7 +3,7 @@
 #include "sonic.h"
 
 PonyAudioSink::PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdvice)
-        : m_stream(nullptr), timeBase(0), m_volume(1.0), m_speedFactor(1), m_state(PlaybackState::STOPPED) {
+        : m_stream(nullptr), timeBase(0), m_speedFactor(1), m_volume(1.0), m_state(PlaybackState::STOPPED) {
     // initialize
     static bool initialized = false;
     if (!initialized) {
@@ -162,10 +162,8 @@ int PonyAudioSink::m_paCallback(const void *, void *outputBuffer, unsigned long 
             PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesAvailCount);
             memset(static_cast<std::byte *>(outputBuffer) + byteToBeWritten, 0,
                    static_cast<size_t>(bytesNeeded - byteToBeWritten));
-            transformVolume(outputBuffer, framesPerBuffer);
         } else {
             PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, byteToBeWritten);
-            transformVolume(outputBuffer, framesPerBuffer);
         }
         dataWritten += timeAlignedByteWritten;
         dataLastWrote = timeAlignedByteWritten;
@@ -178,7 +176,6 @@ size_t PonyAudioSink::freeByte() const {
 }
 
 bool PonyAudioSink::write(const char *buf, qint64 origLen) {
-
     int len = 0;
     int sonicBufferOffset = 0;
     switch (m_sampleFormat) {
@@ -257,6 +254,7 @@ void PonyAudioSink::transformVolume(void *buffer, unsigned long framesPerBuffer)
 
 void PonyAudioSink::setVolume(qreal newVolume) {
     m_volume = qBound(0.0, newVolume, 1.0);
+    sonicSetVolume(sonStream, static_cast<float>(newVolume));
 }
 
 qreal PonyAudioSink::volume() const {
@@ -269,6 +267,11 @@ void PonyAudioSink::transformSampleVolume(std::byte *src_, qreal factor, unsigne
     for (size_t sampleOffset = 0; sampleOffset < samples; sampleOffset++) {
         src[sampleOffset] = static_cast<T>(src[sampleOffset] * factor);
     }
+}
+
+void PonyAudioSink::setSpeed(qreal newSpeed) {
+    m_speedFactor = newSpeed;
+    sonicSetSpeed(sonStream, newSpeed);
 }
 
 

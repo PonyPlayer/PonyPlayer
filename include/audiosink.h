@@ -109,6 +109,7 @@ private:
     void printError(PaError error) {
         qDebug() << "Error" << Pa_GetErrorText(error);
     }
+
 public:
 
     /**
@@ -185,6 +186,12 @@ public:
      * @param newVolume
      */
     void setVolume(qreal newVolume);
+
+    /**
+     * 设置速度
+     * @param newSpeed
+     */
+    void setSpeed(qreal newSpeed);
 
     /**
      * 获取当前音量
