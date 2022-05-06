@@ -11,7 +11,7 @@
 
 //#define DEBUG_FLAG_AUTO_OPEN
 
-HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Hurricane(parent) {
+HurricanePlayer::HurricanePlayer(QQuickItem *parent) : Fireworks(parent) {
 //    videoPlayWorker = new VideoPlayWorker(this);
     frameController = new FrameController(this);
 //    connect(this, &HurricanePlayer::signalPlayerInitializing, videoPlayWorker, &VideoPlayWorker::slotThreadInit);

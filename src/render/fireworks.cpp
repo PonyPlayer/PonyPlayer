@@ -21,25 +21,25 @@ const static GLuint VERTEX_INDEX[] = {
         1, 2, 3,
 };
 
-Hurricane::Hurricane(QQuickItem *parent) : QQuickItem(parent) {
+Fireworks::Fireworks(QQuickItem *parent) : QQuickItem(parent) {
     this->setFlag(QQuickItem::ItemHasContents);
-    connect(this, &QQuickItem::windowChanged, this, &Hurricane::handleWindowChanged);
+    connect(this, &QQuickItem::windowChanged, this, &Fireworks::handleWindowChanged);
     qDebug() << "Create Hurricane QuickItem.";
 }
 
 
-Hurricane::~Hurricane() noexcept {
+Fireworks::~Fireworks() noexcept {
     picture.free();
     for(auto && pic : cleanupPictureQueue) {
         pic.free();
     }
 }
 
-void Hurricane::handleWindowChanged(QQuickWindow *win)  {
+void Fireworks::handleWindowChanged(QQuickWindow *win)  {
     qDebug() << "Window Size Changed:" << static_cast<void *>(win) << ".";
     if (win) {
 //        connect(this->window(), &QQuickWindow::sceneGraphInitialized, this->renderer, &HurricaneRenderer::init, Qt::DirectConnection);
-        connect(this->window(), &QQuickWindow::beforeSynchronizing, this, &Hurricane::sync, Qt::DirectConnection);
+        connect(this->window(), &QQuickWindow::beforeSynchronizing, this, &Fireworks::sync, Qt::DirectConnection);
 //        connect(this->window(), &QQuickWindow::widthChanged, this, &Hurricane::updateViewport);
 //        connect(this->window(), &QQuickWindow::heightChanged, this, &Hurricane::updateViewport);
         win->setColor(Qt::black);
@@ -49,14 +49,14 @@ void Hurricane::handleWindowChanged(QQuickWindow *win)  {
 }
 
 
-void Hurricane::sync() {
+void Fireworks::sync() {
     // call from renderer thread while GUI thread is blocking
     if (!renderer) {
         renderer = new HurricaneRenderer(this);
         connect(window(), &QQuickWindow::beforeRendering, renderer, &HurricaneRenderer::init, Qt::DirectConnection);
         //
         //        connect(window(), &QQuickWindow::afterRenderPassRecording, renderer, &HurricaneRenderer::paint, Qt::DirectConnection);
-        connect(window(), &QQuickWindow::afterRendering, this, &Hurricane::cleanupPicture);
+        connect(window(), &QQuickWindow::afterRendering, this, &Fireworks::cleanupPicture);
     }
     // sync state
     if (picture.isValid()) {
@@ -70,7 +70,7 @@ void Hurricane::sync() {
 }
 
 
-void Hurricane::cleanupPicture() {
+void Fireworks::cleanupPicture() {
     // call on GUI thread
     for(auto && pic : cleanupPictureQueue) {
         pic.free();
@@ -78,7 +78,7 @@ void Hurricane::cleanupPicture() {
     cleanupPictureQueue.clear();
 }
 
-QSGNode *Hurricane::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNodeData *data) {
+QSGNode *Fireworks::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNodeData *data) {
     return renderer;
 }
 

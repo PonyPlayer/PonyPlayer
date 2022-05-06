@@ -106,7 +106,7 @@ signals:
  * @see HurricaneState
  * @see HurricanePlayer::stateChanged()
  */
-class HurricanePlayer : public Hurricane {
+class HurricanePlayer : public Fireworks {
     Q_OBJECT
     Q_ENUM(HurricaneState)
     QML_ELEMENT

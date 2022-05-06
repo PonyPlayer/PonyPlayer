@@ -7,7 +7,7 @@ qt_add_qml_module(${PROJECT_NAME}
         STATIC
         PLUGIN_TARGET render
         SOURCES
-        hurricane.cpp
+        fireworks.cpp
         RESOURCES
             shader/vertex.vsh
             shader/fragment.fsh

@@ -60,7 +60,7 @@ template class UniformValue<GLfloat>;
 // Therefore, we need to separate those two objects.
 class HurricaneRenderer : public QObject, public QSGRenderNode, protected QOpenGLFunctions_3_3_Core {
     Q_OBJECT
-    friend class Hurricane;
+    friend class Fireworks;
 private:
     QOpenGLShaderProgram *program = nullptr; // late init
     GLuint vao = 0, vbo = 0, ebo = 0;
@@ -101,7 +101,7 @@ public:
 };
 
 
-class Hurricane : public QQuickItem {
+class Fireworks : public QQuickItem {
     Q_OBJECT
     QML_ELEMENT
     Q_PROPERTY(GLfloat brightness READ getBrightness WRITE setBrightness)
@@ -116,20 +116,20 @@ protected:
     GLfloat contrast = 1.0;
     GLfloat saturation = 1.0;
 public:
-    Hurricane(QQuickItem *parent = nullptr);
-    ~Hurricane() noexcept override;
+    Fireworks(QQuickItem *parent = nullptr);
+    ~Fireworks() noexcept override;
 
     [[nodiscard]] GLfloat getBrightness() const { return brightness; }
 
-    void setBrightness(GLfloat b) { Hurricane::brightness = b; }
+    void setBrightness(GLfloat b) { Fireworks::brightness = b; }
 
     [[nodiscard]] GLfloat getContrast() const { return brightness; }
 
-    void setContrast(GLfloat c) { Hurricane::contrast = c; qDebug() << "setContrast" << c; };
+    void setContrast(GLfloat c) { Fireworks::contrast = c; qDebug() << "setContrast" << c; };
 
     [[nodiscard]] GLfloat getSaturation() const { return saturation; };
 
-    void setSaturation(GLfloat s) { Hurricane::saturation = s; };
+    void setSaturation(GLfloat s) { Fireworks::saturation = s; };
 protected:
     QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *data) override;
 
