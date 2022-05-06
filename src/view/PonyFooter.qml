@@ -16,7 +16,7 @@ Rectangle {
         anchors.leftMargin: 10
         anchors.top: parent.top
         anchors.topMargin: 5
-        text:IF.distanceStartText()
+        text:IF.videoSlideDistance(true)
         color: "white"
         font.bold: true
         lineHeight: 20
@@ -79,7 +79,7 @@ Rectangle {
         anchors.rightMargin: 10
         anchors.top: parent.top
         anchors.topMargin: 5
-        text:((mainWindow.endTime-mainWindow.currentTime)>=3600?parseInt((mainWindow.endTime-mainWindow.currentTime)/3600)+":":"")+(((mainWindow.endTime-mainWindow.currentTime)>=60)?((parseInt((mainWindow.endTime-mainWindow.currentTime)/60)%60)>10?(parseInt((mainWindow.endTime-mainWindow.currentTime)/60)%60+":"):('0'+(parseInt((mainWindow.endTime-mainWindow.currentTime)/60)%60))+":"):"")+(((mainWindow.endTime-mainWindow.currentTime)%60)<10?'0'+(mainWindow.endTime-mainWindow.currentTime)%60:(mainWindow.endTime-mainWindow.currentTime)%60)
+        text:IF.videoSlideDistance(false)
         color: "white"
         font.bold: true
         lineHeight: 20
@@ -91,7 +91,7 @@ Rectangle {
 
     Timer {
         id:timer
-        interval: 1000/mainWindow.speed
+        interval: 100/mainWindow.speed
         repeat: true
         running: mainWindow.isPlay
         onTriggered:IF.timerOnTriggered()

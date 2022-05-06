@@ -51,9 +51,9 @@ Window {
     //音视频是否在播放
     property bool isPlay: false
     //音视频的当前时间
-    property int currentTime: 0
+    property real currentTime: 0.0
     //音视频的时间长度
-    property int endTime: 0
+    property real endTime: 0.0
     //播放倍速
     property real speed: 1.0
     //播放音量
@@ -61,7 +61,7 @@ Window {
     //播放音量的辅助(可无视)
     property real beforeMute: 0.25
     //播放时滚动条的步长(倒放时为  -1)
-    property int step: 1
+    property bool isInverted: false
     //播放器界面的当前宽度
     property int userWidth: 900
     //播放器界面的当前高度

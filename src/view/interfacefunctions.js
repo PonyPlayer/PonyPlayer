@@ -4,11 +4,11 @@ function mytest(path){
 }
 
 function forwardOneSecond(){
-    if(mainWindow.endTime==0){
+    if(mainWindow.endTime==0.0){
         return
     }
     if(mainWindow.endTime>mainWindow.currentTime){
-        mainWindow.currentTime=mainWindow.currentTime+1
+        mainWindow.currentTime=mainWindow.currentTime+1.0
     }
     else{
         mainWindow.currentTime=mainWindow.endTime
@@ -17,11 +17,11 @@ function forwardOneSecond(){
     videoArea.seek(mainWindow.currentTime)
 }
 function forwardFiveSeconds(){
-    if(mainWindow.endTime==0){
+    if(mainWindow.endTime==0.0){
         return
     }
-    if((mainWindow.endTime-mainWindow.currentTime)>5){
-        mainWindow.currentTime=mainWindow.currentTime+5
+    if((mainWindow.endTime-mainWindow.currentTime)>5.0){
+        mainWindow.currentTime=mainWindow.currentTime+5.0
     }
     else{
         mainWindow.currentTime=mainWindow.endTime
@@ -30,27 +30,27 @@ function forwardFiveSeconds(){
     videoArea.seek(mainWindow.currentTime)
 }
 function backOneSecond(){
-    if(mainWindow.currentTime==0){
+    if(mainWindow.currentTime==0.0){
         return
     }
-    if(mainWindow.currentTime>1){
-        mainWindow.currentTime=mainWindow.currentTime-1
+    if(mainWindow.currentTime>1.0){
+        mainWindow.currentTime=mainWindow.currentTime-1.0
     }
     else{
-        mainWindow.currentTime=0
+        mainWindow.currentTime=0.0
     }
     videoSlide.value=mainWindow.currentTime
     videoArea.seek(mainWindow.currentTime)
 }
 function backFiveSeconds(){
-    if(mainWindow.currentTime==0){
+    if(mainWindow.currentTime==0.0){
         return
     }
-    if(mainWindow.currentTime>5){
-        mainWindow.currentTime=mainWindow.currentTime-5
+    if(mainWindow.currentTime>5.0){
+        mainWindow.currentTime=mainWindow.currentTime-5.0
     }
     else{
-        mainWindow.currentTime=0
+        mainWindow.currentTime=0.0
     }
     videoSlide.value=mainWindow.currentTime
     videoArea.seek(mainWindow.currentTime)
@@ -59,7 +59,7 @@ function backFiveSeconds(){
 function playOrPauseFunction(){
     console.log(videoArea.getVideoDuration())
     if(!mainWindow.isPlay){
-        if(mainWindow.endTime!==0){
+        if(mainWindow.endTime!==0.0){
             mainWindow.isPlay=true
             if(mainWindow.currentTime===mainWindow.endTime){
                 videoSlide.value=0
@@ -195,13 +195,13 @@ function videoSpeedOnClicked(){
     mainWindow.setSpeed(mainWindow.speed)
 }
 function invertedOnClicked(){
-    if(mainWindow.step===1){
-        mainWindow.step=-1
+    if(mainWindow.isInverted){
+        mainWindow.isInverted=false
     }
     else{
-        mainWindow.step=1
+        mainWindow.isInverted=true
     }
-    mainWindow.inverted(mainWindow.step)
+    //mainWindow.inverted(mainWindow.step)
 }
 function videoSlideOnValueChanged(){
     if(mainWindow.currentTime<0){
@@ -228,19 +228,44 @@ function fileListOnClicked(){
     }
 }
 function timerOnTriggered(){
-    if(mainWindow.currentTime<=0&&mainWindow.step==-1){
+    if(mainWindow.currentTime<=0.0&&mainWindow.isInverted){
         mainWindow.isPlay=false
     }
-    else if(mainWindow.currentTime>=mainWindow.endTime&&mainWindow.step==1){
+    else if(mainWindow.currentTime>=mainWindow.endTime&&!mainWindow.isInverted){
         mainWindow.isPlay=false
     }
     else{
-        mainWindow.currentTime=mainWindow.currentTime+mainWindow.step
-        videoSlide.value=currentTime
+        mainWindow.currentTime=mainWindow.currentTime+0.1
+        videoSlide.value=mainWindow.currentTime
     }
 }
-function distanceStartText(){
-    return ((mainWindow.currentTime)>=3600?parseInt((mainWindow.currentTime)/3600)+":":"")+(((mainWindow.currentTime)>=60)?((parseInt((mainWindow.currentTime)/60)%60)>10?(parseInt((mainWindow.currentTime)/60)%60+":"):('0'+(parseInt((mainWindow.currentTime)/60)%60))+":"):"")+(((mainWindow.currentTime)%60)<10?'0'+(mainWindow.currentTime)%60:(mainWindow.currentTime)%60)
+function videoSlideDistance(flag){
+    let tmp
+    if(flag){tmp=Math.floor(mainWindow.currentTime)}
+    else{tmp=Math.floor(mainWindow.endTime-mainWindow.currentTime)}
+    if(tmp<60){
+        return tmp+''
+    }
+    else if(tmp>=60&&tmp<3600){
+        let tal=tmp%60
+        let mid=Math.floor(tmp/60)
+        if(tal<10){
+            tal='0'+tal
+        }
+        return mid+':'+tal
+    }
+    else{
+        let tal=tmp%60
+        let had=Math.floor(tmp/3600)
+        let mid=(Math.floor(tmp/60))%60
+        if(tal<10){
+            tal='0'+tal
+        }
+        if(mid<10){
+            mid='0'+mid
+        }
+        return had+':'+mid+':'+tal
+    }
 }
 function videoAreaOnClicked(){
     if(mainWindow.isPlay){
