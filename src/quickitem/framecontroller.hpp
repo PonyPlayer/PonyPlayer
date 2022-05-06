@@ -63,26 +63,31 @@ public slots:
     }
 
     void pause() {
+        qDebug() << "Pausing";
         m_playback->pause();
     }
 
     void stop() {
+        qDebug() << "Stopping";
         m_demuxer->close();
         m_demuxer->flush();
         m_playback->stop();
     }
 
     void close() {
+        qDebug() << "Closing";
         m_demuxer->close();
         m_playback->stop();
     }
 
     void start() {
+        qDebug() << "Starting";
         m_demuxer->start();
         m_playback->start();
     }
 
     void seek(qreal pos) {
+        qDebug() << "Start seek for" << pos;
         bool isPlaying = m_playback->isPlaying();
         m_playback->stop();
 
@@ -100,8 +105,9 @@ public slots:
                 pic.free();
             }
         }
-        qreal startPoint;
+        qreal startPoint = m_demuxer->getSample(true).getPTS();
         {
+
             Sample sample;
             while(sample = m_demuxer->getSample(true), (sample.isValid() && sample.getPTS() < pos)) {
                 m_demuxer->popSample(true);
@@ -114,9 +120,11 @@ public slots:
         m_playback->clear();
         emit signalPositionChangedBySeek();
         m_playback->setStartPoint(startPoint);
+        qDebug() << "start point" << startPoint;
         if (isPlaying) {
             m_playback->start();
         }
+        qDebug() << "End seek for" << pos;
     }
 
 signals:

@@ -103,6 +103,7 @@ public:
 
     void setStartPoint(qreal startPoint=0.0) {
         m_isInterrupt = false;
+        qDebug() << "SetStartPoint" << startPoint;
         emit setAudioStartPoint(startPoint, QPrivateSignal());
     }
 

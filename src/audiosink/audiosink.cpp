@@ -64,6 +64,7 @@ PonyAudioSink::PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdv
 
 
 void PonyAudioSink::start() {
+    qDebug() << "Audio start.";
     if (m_state == PlaybackState::PLAYING) {
         qDebug() << "AudioSink already started.";
         return;
@@ -74,27 +75,32 @@ void PonyAudioSink::start() {
         throw std::runtime_error("Can not start stream!");
     }
     m_state = PlaybackState::PLAYING;
-    qDebug() << "Audio start.";
+
     emit stateChanged();
 }
 
 void PonyAudioSink::pause() {
+    qDebug() << "Audio statePause.";
     if (m_state == PlaybackState::PLAYING) {
         Pa_StopStream(m_stream);
         m_state = PlaybackState::PAUSED;
+    } else if (m_state == PlaybackState::STOPPED) {
+        // ignore
     } else {
         throw std::runtime_error("AudioSink already paused.");
     }
-    qDebug() << "Audio statePause.";
+
 }
 
 void PonyAudioSink::stop() {
+    qDebug() << "Audio stateStop.";
     if (m_state == PlaybackState::PLAYING || m_state == PlaybackState::PAUSED) {
         Pa_AbortStream(m_stream);
         m_state = PlaybackState::STOPPED;
     } else {
         qWarning() << "AudioSink already stopped.";
     }
+
 }
 
 PonyAudioSink::~PonyAudioSink() {
@@ -113,7 +119,7 @@ PlaybackState PonyAudioSink::state() const {
 
 double PonyAudioSink::getProcessSecs() const {
     if (m_state == PlaybackState::STOPPED)
-        return 0;
+        return timeBase;
     return static_cast<double>((dataWritten - dataLastWrote) / (m_channelCount * m_bytesPerSample)) / (m_sampleRate) +
            timeBase;
 }
