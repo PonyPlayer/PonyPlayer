@@ -111,6 +111,7 @@ public:
      * 开始进行处理, 发送信号后方法将立即返回.
      */
     void start() {
+//        std::unique_lock lock(m_workMutex);
         m_isInterrupt = false;
         emit startWork(QPrivateSignal());
     }
@@ -132,10 +133,12 @@ public:
     }
 
     /**
-     * 立即停止, 这个方法将会阻塞直到当前工作停止. 这个方法将会放弃缓冲区中的所有数据.
+     * 放弃缓冲区中的所有数据. 需要保证 playback 已经停止.
      */
     void stop() {
-        pause();
+        m_isInterrupt = true;
+        m_interruptCond.notify_all();
+        std::unique_lock lock(m_workMutex);
         emit stopWork(QPrivateSignal());
     }
 
@@ -152,10 +155,10 @@ private slots:
         m_audioSink->start();
         while(!m_isInterrupt) {
             Picture pic = m_demuxer->getPicture(true);
-            if (!pic.isValid()) { break; emit resourcesEnd(); }
+            if (!pic.isValid()) { emit resourcesEnd(); break; }
             emit setPicture(pic);
             m_demuxer->popPicture(true);
-            if (!writeAudio(10)) { break; emit resourcesEnd(); }
+            if (!writeAudio(10)) { emit resourcesEnd(); break; }
             Picture next = m_demuxer->getPicture(true);
             QCoreApplication::processEvents(); // process setVolume setSpeed etc
             if (next.isValid()) { syncTo(next.getPTS()); }

@@ -28,12 +28,13 @@ public:
         connect(m_affinityThread, &QThread::started, [=]{
             this->m_demuxer = new Demuxer{this};
             this->m_playback = new Playback{m_demuxer, this};
-            connect(m_playback, &Playback::setPicture, this, &FrameController::setPicture);
-            connect(m_playback, &Playback::stateChanged, this, &FrameController::playbackStateChanged);
+            connect(m_playback, &Playback::setPicture, this, &FrameController::setPicture, Qt::DirectConnection);
+            connect(m_playback, &Playback::stateChanged, this, &FrameController::playbackStateChanged, Qt::DirectConnection);
             connect(this, &FrameController::signalDecoderOpenFile, m_demuxer, &Demuxer::openFile);
-            connect(this, &FrameController::signalDecoderSeek, m_demuxer, &Demuxer::seek);
+            // WARNING: BLOCKING_QUEUED_CONNECTION!!!
+            connect(this, &FrameController::signalDecoderSeek, m_demuxer, &Demuxer::seek, Qt::BlockingQueuedConnection);
             connect(m_demuxer, &Demuxer::openFileResult, this, &FrameController::openFileResult);
-            connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd);
+            connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd, Qt::DirectConnection);
         });
         m_affinityThread->start();
     }
@@ -88,9 +89,10 @@ public slots:
 
     void seek(qreal pos) {
         qDebug() << "Start seek for" << pos;
-        bool isPlaying = m_playback->isPlaying();
+        bool isPlaying = !m_playback->isInterrupted();
         m_playback->stop();
 
+        m_demuxer->pause();
         // WARNING: must make sure everything (especially PTS) has been properly updated
         // otherwise, the video thread will be BLOCKING for a long time.
         emit signalDecoderSeek(static_cast<qreal>(pos * 1000 * 1000)); // blocking connection
@@ -104,6 +106,7 @@ public slots:
                 m_demuxer->popPicture(true);
                 pic.free();
             }
+            qDebug() << pic.getPTS() << pic.isValid();
         }
         qreal startPoint = m_demuxer->getSample(true).getPTS();
         {
