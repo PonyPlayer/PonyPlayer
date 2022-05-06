@@ -197,10 +197,19 @@ public slots:
 
     /**
      * 设置音量大小, 音频的范围为[0, 1]
-     * @param v 音量大小
+     * @param volume 音量大小
      */
-    Q_INVOKABLE void setVolume(qreal v) {
-        qDebug() << "setVolume" << v;
+    Q_INVOKABLE void setVolume(qreal volume) {
+        qDebug() << "setVolume" << volume;
+        frameController->setVolume(volume);
+    }
+
+    /**
+     * 设置速度倍率, 要求倍率 > 0
+     * @param speed 速度倍率
+     */
+    Q_INVOKABLE void setSpeed(qreal speed) {
+        frameController->setSpeed(speed);
     }
 
     /**

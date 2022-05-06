@@ -50,6 +50,10 @@ public:
     qreal getAudioDuration() { return m_demuxer->audioDuration(); }
     qreal getVideoDuration() { return m_demuxer->videoDuration(); }
 
+    void setVolume(qreal volume) {m_playback->setVolume(volume); }
+    void setSpeed(qreal speed) {m_playback->setSpeed(speed); }
+
+
 public slots:
     void openFile(const QString &path) {
         QUrl url(path);

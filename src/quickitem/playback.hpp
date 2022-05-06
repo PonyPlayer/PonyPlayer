@@ -65,7 +65,7 @@ public:
         connect(this, &Playback::stopWork, this, [=] { this->m_audioSink->stop(); });
         connect(this, &Playback::setAudioStartPoint, this, [=](qreal t) {this->m_audioSink->setStartPoint(t);});
         connect(this, &Playback::setAudioVolume, this, [=](qreal volume) {this->m_audioSink->setVolume(volume);});
-//        connect(this, &Playback::setAduioSpeed, this, [=](qreal speed) {this->m_audioSink.se})
+        connect(this, &Playback::setAudioSpeed, this, [=](qreal speed) {this->m_audioSink->setSpeed(speed);});
         connect(this, &Playback::clearRingBuffer, this, [=] {this->m_audioSink->clear(); });
         connect(m_affinityThread, &QThread::started, [=]{
             PonyAudioFormat format;
@@ -83,6 +83,10 @@ public:
 
     void setVolume(qreal volume) {
         emit setAudioVolume(volume, QPrivateSignal());
+    }
+
+    void setSpeed(qreal speed) {
+        emit setAudioSpeed(speed, QPrivateSignal());
     }
 
     /**
@@ -140,7 +144,8 @@ private slots:
      * 播放音视频. 需要保证 demuxer 可以正常阻塞.
      */
     void onWork() {
-        std::unique_lock lock(m_workMutex);
+        std::unique_lock lock(m_workMutex, std::defer_lock);
+        if (!lock.try_lock()) { return; } // not allow neat run
         changeState(true);
         writeAudio(5);
         m_audioSink->start();
@@ -151,6 +156,7 @@ private slots:
             m_demuxer->popPicture(true);
             if (!writeAudio(10)) { break; emit resourcesEnd(); }
             Picture next = m_demuxer->getPicture(true);
+            QCoreApplication::processEvents(); // process setVolume setSpeed etc
             if (next.isValid()) { syncTo(next.getPTS()); }
         }
         m_audioSink->pause();
@@ -165,7 +171,7 @@ signals:
     void clearRingBuffer(QPrivateSignal);
     void setAudioStartPoint(qreal startPoint, QPrivateSignal);
     void setAudioVolume(qreal volume, QPrivateSignal);
-    void setAduioSpeed(qreal speed, QPrivateSignal);
+    void setAudioSpeed(qreal speed, QPrivateSignal);
     void setPicture(Picture pic);
     void stateChanged(bool isPlaying);
     void resourcesEnd();
