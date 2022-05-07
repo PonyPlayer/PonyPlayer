@@ -48,6 +48,8 @@ Window {
     property bool isVideoListOpen: true
     //音视频操作栏是否可视
     property bool isFooterVisable: true
+    //标题栏是否可见
+    property bool isTopBarVisible: true
     //音视频是否在播放
     property bool isPlay: false
     //音视频的当前时间
@@ -109,6 +111,7 @@ Window {
     minimumHeight: 500
     visible: true
     title: "PonyPlayer"
+    flags:  Qt.Window|Qt.FramelessWindowHint
 
 
     Shortcut {
@@ -126,6 +129,7 @@ Window {
             if(mainWindow.isFullScreen){
                 holder.restart()
                 mainWindow.isFooterVisable=true
+                mainWindow.isTopBarVisible=true
             }
         }
     }
@@ -138,9 +142,131 @@ Window {
             onTriggered: {
                 mainWindow.isVideoListOpen=false
                 mainWindow.isFooterVisable=false
+                mainWindow.isTopBarVisible=false
             }
     }
+    Rectangle{
+        id:topBar
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        height: mainWindow.isTopBarVisible?30:0
+        color: "#666666"
+        MouseArea { //为窗口添加鼠标事件
+            anchors.fill: parent
+            acceptedButtons: Qt.LeftButton //只处理鼠标左键
+            property point clickPos: "0,0"
+            onPressed: { //接收鼠标按下事件
+                clickPos  = Qt.point(mouse.x,mouse.y)
+            }
+            onPositionChanged: { //鼠标按下后改变位置
+                //鼠标偏移量
+                var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
 
+                //如果mainwindow继承自QWidget,用setPos
+                mainWindow.setX(mainWindow.x+delta.x)
+                mainWindow.setY(mainWindow.y+delta.y)
+            }
+        }
+        Rectangle{
+            id: innerBar
+            width: 80
+            height: 30
+            color: "transparent"
+            Text {
+                text: qsTr("PonyPlayer")
+                color: "white"
+                font.bold: true
+                anchors.centerIn: parent
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked: menu.open()
+                hoverEnabled: true
+                onEntered: {
+                    innerBar.color="#10FFFFFF"
+                }
+                onExited: innerBar.color="transparent"
+            }
+            Menu {
+                id: menu
+                width: 100
+                topMargin: parent.height
+                MenuItem {
+                    text: "New..."
+                }
+                MenuItem {
+                    text: "Open..."
+                }
+                MenuItem {
+                    text: "Save"
+                }
+            }
+        }
+        Rectangle{
+            id:mainWindowClose
+            width: 40
+            height: 30
+            color: "transparent"
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            Image {
+                width: 12
+                height: 12
+                source: "interfacepics/mainWindowClose"
+                anchors.centerIn: parent
+            }
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: mainWindowClose.color="red"
+                onExited: mainWindowClose.color="transparent"
+                onClicked: mainWindow.close()
+            }
+        }
+        Rectangle{
+            id:mainWindowReduction
+            width: 40
+            height: 30
+            color: "transparent"
+            anchors.right: mainWindowClose.left
+            anchors.verticalCenter: parent.verticalCenter
+            Image {
+                width: 16
+                height: 16
+                source: "interfacepics/mainWindowReduction"
+                anchors.centerIn: parent
+            }
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: mainWindowReduction.color="#10FFFFFF"
+                onExited: mainWindowReduction.color="transparent"
+                onClicked: mainWindow.lower()
+            }
+        }
+        Rectangle{
+            id:mainWindowMinimize
+            width: 40
+            height: 30
+            color: "transparent"
+            anchors.right: mainWindowReduction.left
+            anchors.verticalCenter: parent.verticalCenter
+            Image {
+                width: 16
+                height: 16
+                source: "interfacepics/mainWindowMinimize"
+                anchors.centerIn: parent
+            }
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: mainWindowMinimize.color="#10FFFFFF"
+                onExited: mainWindowMinimize.color="transparent"
+                onClicked: mainWindow.lower()
+            }
+        }
+    }
     Timer{
         id:detechSize
         interval: 200
@@ -169,9 +295,9 @@ Window {
     }
     Rectangle {
         id:body
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.top: topBar.bottom
+        anchors.left: leftSizeChange.right
+        anchors.right: rightSizeChange.left
         anchors.bottom: footer.top
         //左侧播放列表栏
         Rectangle{
@@ -383,6 +509,7 @@ Window {
                         if(mainWindow.isFullScreen){
                             holder.restart()
                             mainWindow.isFooterVisable=true
+                            mainWindow.isTopBarVisible=true
                         }
                     }
                 }
@@ -407,9 +534,37 @@ Window {
     }
     PonyFooter{
         id:footer
+        anchors.left: leftSizeChange.right
+        anchors.right: rightSizeChange.left
+        anchors.bottom: downSizeChange.top
+    }
+    LeftSizeChange{
+        id:leftSizeChange
+        anchors.top:topBar.bottom
         anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.bottom: downSizeChange.top
+    }
+    LeftDownSizeChange{
+        id:leftDownSizeChange
         anchors.bottom: parent.bottom
+        anchors.left: parent.left
+    }
+    DownSizeChange{
+        id:downSizeChange
+        anchors.bottom: parent.bottom
+        anchors.left: leftSizeChange.right
+        anchors.right: rightSizeChange.left
+    }
+    RightDownSizeChange{
+        id:rightDownSizeChange
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+    }
+    RightSizeChange{
+        id:rightSizeChange
+        anchors.right: parent.right
+        anchors.top:topBar.bottom
+        anchors.bottom: downSizeChange.top
     }
     Wave {
         id: wavewindow
