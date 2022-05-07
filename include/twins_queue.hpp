@@ -2,10 +2,10 @@
 // Created by ColorsWind on 2022/5/4.
 //
 #pragma once
-#ifndef PONYPLAYER_TWINS_QUEUE_H
-#define PONYPLAYER_TWINS_QUEUE_H
 #include <queue>
 #include <string>
+#include <mutex>
+#include <condition_variable>
 #include <utility>
 
 //#define DEBUG_PRINT_FUNCTION_CALL
@@ -148,5 +148,3 @@ public:
 };
 
 template class TwinsBlockQueue<AVFrame *>;
-
-#endif //PONYPLAYER_TWINS_QUEUE_H

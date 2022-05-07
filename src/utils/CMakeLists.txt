@@ -3,7 +3,6 @@ project(utils)
 set(CPP_SOURCES
         logger.cpp
         countdown_latch.cpp
-        helper.cpp
         )
 
 qt_add_library(${PROJECT_NAME} STATIC

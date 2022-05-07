@@ -2,10 +2,9 @@
 add_subdirectory(view)
 add_subdirectory(utils)
 add_subdirectory(example)
-add_subdirectory(ffmpeg)
+add_subdirectory(decoder)
 add_subdirectory(tests)
-add_subdirectory(render)
-add_subdirectory(quickitem)
+add_subdirectory(player)
 add_subdirectory(playlist)
 add_subdirectory(config)
 add_subdirectory(wave)
@@ -24,13 +23,12 @@ target_link_libraries(${PROJECT_NAME}
         PRIVATE Qt::Multimedia
         PRIVATE ${FFmpeg}
         utils
-        ffmpeg
+        decoder
         view
-        render
-        quickitem
         playlist
         config
         wave
+        player
         audiosink
         #        interpolate
         )

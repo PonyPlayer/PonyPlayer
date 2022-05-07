@@ -3,10 +3,7 @@
 //
 
 #pragma once
-#ifndef PONYPLAYER_FRAMECONTROLLER_HPP
-#define PONYPLAYER_FRAMECONTROLLER_HPP
 #include <QObject>
-#include "demuxer2.h"
 #include "playback.hpp"
 
 /**
@@ -96,7 +93,7 @@ public slots:
 
         // time-consuming job
         {
-            Picture pic;
+            VideoFrame pic;
             while(pic = m_demuxer->getPicture(true), (pic.isValid() && pic.getPTS() < pos)) {
                 m_demuxer->popPicture(true);
                 pic.free();
@@ -106,11 +103,10 @@ public slots:
         qreal startPoint = m_demuxer->getSample(true).getPTS();
         {
 
-            Sample sample;
+            AudioFrame sample;
             while(sample = m_demuxer->getSample(true), (sample.isValid() && sample.getPTS() < pos)) {
                 m_demuxer->popSample(true);
                 startPoint = sample.getPTS();
-                sample.free();
             }
             qDebug() << sample.getPTS() << sample.isValid();
 
@@ -134,8 +130,7 @@ signals:
     void openFileResult(bool success);
     void playbackStateChanged(bool isPlaying);
     void resourcesEnd();
-    void setPicture(Picture pic);
+    void setPicture(VideoFrame pic);
 
 };
 
-#endif //PONYPLAYER_FRAMECONTROLLER_HPP

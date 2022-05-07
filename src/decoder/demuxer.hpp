@@ -2,14 +2,12 @@
 // Created by ColorsWind on 2022/5/6.
 //
 #pragma once
-#ifndef PONYPLAYER_DEMUXER_H
-#define PONYPLAYER_DEMUXER_H
 
 #include <QObject>
-#include "demuxer2.h"
+#include "dispatcher.hpp"
 
 class Demuxer : public QObject {
-Q_OBJECT
+    Q_OBJECT
 private:
     DecodeDispatcher *m_worker = nullptr;
     QThread *m_affinityThread = nullptr;
@@ -27,11 +25,11 @@ public:
     }
 
 
-    Picture getPicture(bool b) { return m_worker->getPicture(b); }
+    VideoFrame getPicture(bool b) { return m_worker->getPicture(b); }
 
     bool popPicture(bool b) { return m_worker->popPicture(b); }
 
-    Sample getSample(bool b) { return m_worker->getSample(b); }
+    AudioFrame getSample(bool b) { return m_worker->getSample(b); }
 
     bool popSample(bool b) { return m_worker->popSample(b); }
 
@@ -127,4 +125,3 @@ signals:
 
 };
 
-#endif //PONYPLAYER_DEMUXER_H

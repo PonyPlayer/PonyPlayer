@@ -6,9 +6,11 @@
 #define PONYPLAYER_VIDEOWORKER_H
 #include <QObject>
 #include <QThread>
-#include "frame_queue.h"
-#include "demuxer.hpp"
+#include <QDebug>
+#include <QCoreApplication>
+#include "../decoder/demuxer.hpp"
 #include "audiosink.h"
+#include "../decoder/frame.hpp"
 
 /**
  * @brief 负责输出视频和音频.
@@ -47,11 +49,10 @@ private:
 
     inline bool writeAudio(int batch) {
         for (int i = 0; i < batch && m_audioSink->freeByte() > MAX_AUDIO_FRAME_SIZE; ++i) {
-            Sample sample = m_demuxer->getSample(true);
+            AudioFrame sample = m_demuxer->getSample(true);
             if (!sample.isValid()) { return false; }
+            m_audioSink->write(reinterpret_cast<const char *>(sample.getSampleData()), sample.getDataLen());
             m_demuxer->popSample(true);
-            m_audioSink->write(reinterpret_cast<const char *>(sample.data), sample.len);
-            sample.free();
         }
         return true;
     }
@@ -154,12 +155,12 @@ private slots:
         writeAudio(5);
         m_audioSink->start();
         while(!m_isInterrupt) {
-            Picture pic = m_demuxer->getPicture(true);
+            VideoFrame pic = m_demuxer->getPicture(true);
             if (!pic.isValid()) { emit resourcesEnd(); break; }
             emit setPicture(pic);
             m_demuxer->popPicture(true);
             if (!writeAudio(10)) { emit resourcesEnd(); break; }
-            Picture next = m_demuxer->getPicture(true);
+            VideoFrame next = m_demuxer->getPicture(true);
             QCoreApplication::processEvents(); // process setVolume setSpeed etc
             if (next.isValid()) { syncTo(next.getPTS()); }
         }
@@ -176,7 +177,7 @@ signals:
     void setAudioStartPoint(qreal startPoint, QPrivateSignal);
     void setAudioVolume(qreal volume, QPrivateSignal);
     void setAudioSpeed(qreal speed, QPrivateSignal);
-    void setPicture(Picture pic);
+    void setPicture(VideoFrame pic);
     void stateChanged(bool isPlaying);
     void resourcesEnd();
 };

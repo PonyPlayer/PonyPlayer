@@ -1,5 +1,6 @@
+#include <QDebug>
 #include "audiosink.h"
-#include "helper.h"
+#include "helper.hpp"
 #include "sonic.h"
 
 PonyAudioSink::PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdvice)

@@ -1,10 +1,115 @@
 //
 // Created by ColorsWind on 2022/5/1.
 //
-#include <demuxer2.h>
+#include "helper.hpp"
+#pragma once
+INCLUDE_FFMPEG_BEGIN
+#include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
+#include <libavutil/error.h>
+#include <libswresample/swresample.h>
+#include <libavutil/imgutils.h>
+INCLUDE_FFMPEG_END
+#include <QDEbug>
+#include "frame.hpp"
+#include "twins_queue.hpp"
+#include <atomic>
 
-#include <utility>
 
+class DemuxDecoder {
+
+public:
+    /**
+     * 解码器类型
+     */
+    enum class DecoderType {
+        Audio, ///< 音频解码器
+        Video, ///< 视频解码器
+    };
+    /**
+     * 接收一个包
+     * @param pkt
+     * @return 如果还需要接收下一个 packet 返回 true, 否则返回 false
+     */
+    virtual bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) = 0;
+
+    /**
+     * 清空 FFmpeg 内部缓冲区
+     */
+    virtual void flushFFmpegBuffers() = 0;
+
+
+    /**
+     * 获取视频帧, 仅当当前解码器是视频解码器时有效
+     * @param b 是否阻塞
+     * @return 视频帧, 请用 isValid 判断是否有效
+     */
+    virtual VideoFrame getPicture(bool b) = 0;
+
+    /**
+    * 获取音频帧, 仅当当前解码器是音频解码器时有效
+    * @param b 是否阻塞
+    * @return 音频帧, 请用 isValid 判断是否有效
+    */
+    virtual AudioFrame getSample(bool b) = 0;
+
+    /**
+     * 从队列中删除视频帧/音频帧
+     * @param b 是否阻塞
+     * @return 是否成功
+     */
+    virtual bool pop(bool b) = 0;
+
+    /**
+     * 获取流的长度
+     * @return
+     */
+    virtual double duration() = 0;
+
+    virtual ~DemuxDecoder() = default;
+
+};
+
+
+/**
+ * @brief 音视频解码器具体实现
+ * @tparam type 解码器类型
+ */
+template<DemuxDecoder::DecoderType type>
+class DecoderImpl : public DemuxDecoder {
+private:
+    AVCodec *codec = nullptr;
+    AVStream *stream = nullptr;
+    AVCodecContext *codecCtx = nullptr;
+    TwinsBlockQueue<AVFrame *> *frameQueue;
+    AVFrame *frameBuf = nullptr;
+
+    // Audio only
+    SwrContext *swrCtx = nullptr;
+    uint8_t *audioOutBuf = nullptr;
+    AVFrame * sampleFrameBuf = nullptr;
+
+public:
+    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *frameQueue);
+
+    ~DecoderImpl() override;
+
+    double duration() override;
+
+    bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override;
+
+    void flushFFmpegBuffers() override;
+
+    VideoFrame getPicture(bool b) override;
+
+    AudioFrame getSample(bool b) override;
+
+    bool pop(bool b) override;
+};
+
+
+using DemuxDecoder::DecoderType::Audio;
+using DemuxDecoder::DecoderType::Video;
 
 template<DemuxDecoder::DecoderType type>
 DecoderImpl<type>::DecoderImpl(
@@ -53,7 +158,7 @@ DecoderImpl<type>::~DecoderImpl() {
 }
 
 template<DemuxDecoder::DecoderType type>
-qreal DecoderImpl<type>::duration() {
+double DecoderImpl<type>::duration() {
     return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
 }
 
@@ -103,16 +208,16 @@ void DecoderImpl<type>::flushFFmpegBuffers() {
 
 
 template<DemuxDecoder::DecoderType type>
-Picture DecoderImpl<type>::getPicture(bool b) {
+VideoFrame DecoderImpl<type>::getPicture(bool b) {
     if constexpr(type != DemuxDecoder::DecoderType::Video) { throw std::runtime_error("Unsupported operation."); }
     AVFrame *frame = frameQueue->front();
     if (!frame) { return {}; }
     double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-    return {frame, pts};
+    return {frame, pts, nullptr};
 }
 
 template<DemuxDecoder::DecoderType type>
-Sample DecoderImpl<type>::getSample(bool b) {
+AudioFrame DecoderImpl<type>::getSample(bool b) {
     if constexpr(type != DemuxDecoder::DecoderType::Audio) { throw std::runtime_error("Unsupported operation."); }
     AVFrame *frame = frameQueue->front();
     if (!frame) { return {}; }
@@ -124,7 +229,7 @@ Sample DecoderImpl<type>::getSample(bool b) {
                                               len,
                                               AV_SAMPLE_FMT_S16,
                                               1);
-    return {audioOutBuf, out_size, pts, frame};
+    return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts, frame};
 }
 
 template<DemuxDecoder::DecoderType type>

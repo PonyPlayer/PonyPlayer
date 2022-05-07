@@ -1,13 +1,13 @@
 #pragma once
 
-#include <portaudio.h>
+#include "portaudio.h"
 #include <vector>
-#include <QtMultimedia/QtMultimedia>
 #include <QBuffer>
+#include <QDebug>
 #include "pa_ringbuffer.h"
 #include "pa_util.h"
 #include "readerwriterqueue.h"
-#include "helper.h"
+#include "helper.hpp"
 #include "sonic.h"
 
 struct AudioDataInfo {

@@ -7,8 +7,8 @@
 #define PONYPLAYER_HURRICANE_HPP
 
 #include <QObject>
-#include "fireworks.h"
 #include "framecontroller.hpp"
+#include "fireworks.hpp"
 
 /**
  * @brief
@@ -26,6 +26,10 @@
  */
 class Hurricane : public Fireworks {
     Q_OBJECT
+    QML_ADDED_IN_VERSION(1, 0)
+    QML_ELEMENT
+    QT_MODULE(HurricanePlayer)
+//    QML_NAMED_ELEMENT(HurricanePlayer)
 public:
     /**
      * HurricanePlayer 组件的状态, 其中瞬时状态代表前端 HurricanePlayer 发起操作, 但并未同步到后端 VideoWorker.
@@ -186,7 +190,7 @@ public slots:
         if (state == HurricaneState::PRE_PAUSE || state == HurricaneState::PAUSED) {
             state = HurricaneState::CLOSING;
             emit stateChanged();
-            this->setImage(Picture());
+            this->setImage(VideoFrame());
             emit signalClose(QPrivateSignal());
         }
     }
