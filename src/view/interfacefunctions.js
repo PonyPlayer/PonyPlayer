@@ -55,41 +55,6 @@ function backFiveSeconds(){
     videoSlide.value=mainWindow.currentTime
     videoArea.seek(mainWindow.currentTime)
 }
-
-function playOrPauseFunction(){
-    console.log(videoArea.getVideoDuration())
-    if(!mainWindow.isPlay){
-        if(mainWindow.endTime!==0.0){
-            mainWindow.isPlay=true
-            if(mainWindow.currentTime===mainWindow.endTime){
-                mainWindow.currentTime=0.0
-                videoSlide.value=0.0
-            }
-        }
-        mainWindow.start()
-    }
-    else{
-        mainWindow.isPlay=false
-        mainWindow.stop()
-    }
-}
-function solveStateChanged(){
-    if(videoArea.state==1){
-        console.log("lei fu kai state == loading")
-        videoInit()
-    }
-    else if(videoArea.state==2){
-        console.log("lei fu kai state == invalid")
-        mainWindow.endTime=0
-        videoInit()
-        return
-    }
-    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
-    let tmp=videoArea.getPTS()
-    mainWindow.currentTime=tmp
-    videoSlide.value=tmp
-
-}
 function volumnUp(){
     if(mainWindow.volumn<0.9){
         mainWindow.volumn=mainWindow.volumn+0.1
@@ -130,19 +95,8 @@ function screenSizeFunction(){
         mainWindow.visibility=showFullScreen()
     }
 }
-function toPause(){
-    mainWindow.cease()
-    mainWindow.stop()
-    videoInit()
-    videoArea.seek(0)
-}
 function openWave(){
     wavewindow.show()
-}
-function videoInit(){
-    mainWindow.isPlay=false
-    mainWindow.currentTime=0
-    videoSlide.value=0
 }
 function volumeSliderOnMoved(){
     mainWindow.volumn=volumnSlider.value/100
@@ -192,7 +146,7 @@ function videoSpeedOnClicked(){
         videoSpeed.state="speed1"
         mainWindow.speed=1.0
     }
-    mainWindow.setSpeed(mainWindow.speed)
+    videoArea.setSpeed(mainWindow.speed)
 }
 function invertedOnClicked(){
     if(mainWindow.isInverted){
@@ -203,22 +157,6 @@ function invertedOnClicked(){
     }
     //mainWindow.inverted(mainWindow.step)
 }
-function videoSlideOnValueChanged(){
-    if(mainWindow.currentTime<0){
-        mainWindow.currentTime=0
-        videoSlide.value=0
-    }
-    else if(mainWindow.currentTime>=mainWindow.endTime){
-        mainWindow.currentTime=0
-        videoSlide.value=0
-        mainWindow.isPlay=false
-        mainWindow.stop()
-        console.log("lei fu kai use seek")
-        videoArea.seek(0)
-    }
-    mainWindow.currentTime=videoSlide.value
-    mainWindow.currentTimeChange(videoSlide.value)
-}
 function fileListOnClicked(){
     if(mainWindow.isVideoListOpen){
         mainWindow.isVideoListOpen=false
@@ -226,19 +164,6 @@ function fileListOnClicked(){
     else{
         mainWindow.isVideoListOpen=true
     }
-}
-function timerOnTriggered(){
-    if(mainWindow.currentTime<=0.0&&mainWindow.isInverted){
-        mainWindow.isPlay=false
-    }
-    else if(mainWindow.currentTime>=mainWindow.endTime&&!mainWindow.isInverted){
-        mainWindow.isPlay=false
-    }
-    else{
-        mainWindow.currentTime=mainWindow.currentTime+1.0
-        videoSlide.value=mainWindow.currentTime
-    }
-    console.log("time trigger")
 }
 function videoSlideDistance(flag){
     let tmp
@@ -278,12 +203,6 @@ function videoAreaOnClicked(){
         mainWindow.start()
     }
 }
-function videoAreaOnVolumeChangedFail(){
-    console.log("volume fail" + current)
-    mainWindow.volumn=current
-    mainWindow.beforeMute=current
-    volumnSlide.value=current*100
-}
 function mainAreaInit(){
     mainWindow.start.connect(videoArea.start)
     mainWindow.stop.connect(videoArea.pause)
@@ -294,5 +213,79 @@ function videoListOperatorOnAccepted(){
     mainWindow.openFile(fileDialog.currentFile);
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
     mediaLibController.getFile(fileDialog.currentFile);
-    console.log(videoArea.getVideoDuration())
+}
+
+
+
+
+function isBoundary(){
+    //左边界
+    if(mainWindow.isInverted&&(mainWindow.currentTime<=0)){
+        toVideoBegining()
+        operationFailedDialogText.text="已到达开头，无法继续倒放"
+        operationFailedDialog.open()
+        return true
+    }
+    //右边界
+    else if(!mainWindow.isInverted&&(mainWindow.currentTime>=mainWindow.endTime)){
+        toVideoEnd()
+        mainWindow.nextOne()
+        return true
+    }
+    return false
+}
+function timerOnTriggered(){
+    if(mainWindow.isInverted){
+        mainWindow.currentTime=mainWindow.currentTime-1.0
+    }
+    else {
+        mainWindow.currentTime=mainWindow.currentTime+1.0
+    }
+    if(!isBoundary()){
+        videoSlide.value=mainWindow.currentTime
+    }
+}
+function toVideoBegining(){
+    mainWindow.isPlay=false
+    mainWindow.currentTime=0
+    videoSlide.value=0
+}
+function toVideoEnd(){
+    mainWindow.isPlay=false
+    mainWindow.currentTime=mainWindow.endTime
+    videoSlide.value=mainWindow.endTime
+}
+function toPause(){
+    toVideoBegining()
+    mainWindow.cease()
+    mainWindow.stop()
+    videoArea.seek(0)
+}
+function playOrPauseFunction(){
+    if(!mainWindow.isPlay){
+        if((mainWindow.endTime!==0.0)&&!isBoundary()){
+            mainWindow.isPlay=true
+            mainWindow.start()
+        }
+    }
+    else{
+        mainWindow.isPlay=false
+        mainWindow.stop()
+    }
+}
+function solveStateChanged(){
+    if(videoArea.state==1){
+        console.log("lei fu kai state == loading")
+        toVideoBegining()
+    }
+    else if(videoArea.state==2){
+        console.log("lei fu kai state == invalid")
+        mainWindow.endTime=0
+        toVideoBegining()
+        return
+    }
+    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+    //let tmp=videoArea.getPTS()
+    //mainWindow.currentTime=tmp
+    //videoSlide.value=tmp
 }
