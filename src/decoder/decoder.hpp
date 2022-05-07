@@ -111,7 +111,6 @@ using IDemuxDecoder::DecoderType::Audio;
 using IDemuxDecoder::DecoderType::Video;
 using IDemuxDecoder::DecoderType::Common;
 
-#include <readerwriterqueue.h>
 template<IDemuxDecoder::DecoderType type>
 class DecoderImpl : public DecoderContext, public IDemuxDecoder {
 protected:

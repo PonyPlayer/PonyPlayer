@@ -14,7 +14,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
         Qt::Gui
         Qt::Quick
         portaudio_static
-#        rwqueue
+        rwqueue
         sonic
         decoder
         )
