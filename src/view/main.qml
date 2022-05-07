@@ -387,7 +387,6 @@ Window {
                         }
                     }
                 }
-                onVolumeChangedFail:IF.videoAreaOnVolumeChangedFail()
                 onStateChanged:IF.solveStateChanged()
                 Component.onCompleted: IF.mainAreaInit()
             }
