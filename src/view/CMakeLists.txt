@@ -15,6 +15,11 @@ qt_add_qml_module(${PROJECT_NAME}
             RoundImage.qml
             Wave.qml
             AdditionalSettings.qml
+            DownSizeChange.qml
+            LeftSizeChange.qml
+            LeftDownSizeChange.qml
+            RightSizeChange.qml
+            RightDownSizeChange.qml
         RESOURCES
             interfacepics/additionalsettings.png
             interfacepics/cease.png

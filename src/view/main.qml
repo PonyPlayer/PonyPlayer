@@ -177,11 +177,11 @@ Window {
         Rectangle{
             id:videoList
             width: mainWindow.isVideoListOpen?200:0
-            anchors.left: parent.left
+            anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             color: rgb(45, 48, 50)
-
+            clip:true
             Controller {
                 id: mediaLibController
             }
@@ -368,10 +368,10 @@ Window {
         SwipeView{
             id:mainArea
             orientation: Qt.Horizontal
-            anchors.left: videoList.right
+            anchors.left: parent.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            anchors.right: parent.right
+            anchors.right: videoList.left
             clip:true
             HurricanePlayer{
                 id:videoArea
