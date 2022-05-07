@@ -285,7 +285,7 @@ function solveStateChanged(){
         return
     }
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
-    let tmp=videoArea.getPTS()
-    mainWindow.currentTime=tmp
-    videoSlide.value=tmp
+    //let tmp=videoArea.getPTS()
+    //mainWindow.currentTime=tmp
+    //videoSlide.value=tmp
 }

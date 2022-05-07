@@ -36,8 +36,6 @@ Rectangle {
         value: mainWindow.currentTime
         onValueChanged: {
             mainWindow.currentTime=videoSlide.value
-            console.log("-----------------------------------------------------------------"+videoSlide.value)
-            console.log("------------------------------------------------------+++++++++++"+mainWindow.currentTime)
         }
         onPressedChanged: {
             console.log("lei fu kai use seek"+videoSlide.value)
