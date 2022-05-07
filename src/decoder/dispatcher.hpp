@@ -57,7 +57,7 @@ class DecodeDispatcher : public DemuxDispatcherBase {
     Q_OBJECT
     std::vector<unsigned int> videoStreamIndex;
     std::vector<unsigned int> audioStreamIndex;
-    std::vector<DemuxDecoder*> decoders;
+    std::vector<IDemuxDecoder*> decoders;
     std::atomic<bool> interrupt = false;
     AVPacket *packet = nullptr;
     TwinsBlockQueue<AVFrame *> *videoQueue;
