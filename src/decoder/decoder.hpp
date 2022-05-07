@@ -13,6 +13,7 @@ INCLUDE_FFMPEG_END
 #include <QDEbug>
 #include "frame.hpp"
 #include "twins_queue.hpp"
+#include "concurrentqueue.h"
 #include <atomic>
 
 
@@ -110,19 +111,26 @@ using IDemuxDecoder::DecoderType::Audio;
 using IDemuxDecoder::DecoderType::Video;
 using IDemuxDecoder::DecoderType::Common;
 
-
+#include <readerwriterqueue.h>
 template<IDemuxDecoder::DecoderType type>
 class DecoderImpl : public DecoderContext, public IDemuxDecoder {
 protected:
     TwinsBlockQueue<AVFrame *> *frameQueue;
+    moodycamel::ConcurrentQueue<AVFrame *> freeQueue;
+
 public:
-    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue) : DecoderContext(vs), frameQueue(queue) {}
+    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue) : DecoderContext(vs), frameQueue(queue), freeQueue(1024) {}
 
     double duration() override {
         return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
     }
 
     bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
+        AVFrame *frame;
+        int debug = this->freeQueue.size_approx();
+        while(freeQueue.try_dequeue(frame)) {
+            av_frame_free(&frame);
+        }
         int ret = avcodec_send_packet(codecCtx, pkt);
         if (ret < 0) {
             qWarning() << "Error avcodec_send_packet:" << ffmpegErrToString(ret);
@@ -222,21 +230,45 @@ public:
                                                   1);
         return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts, frame};
     }
+
+    bool pop(bool b) override {
+        AVFrame *frame = frameQueue->front();
+        freeQueue.enqueue(frame);
+        return frameQueue->pop();
+    }
 };
 
+#include <unordered_map>
 /**
  * 视频解码器实现
  */
 template<> class DecoderImpl<Video>: public DecoderImpl<Common> {
-public:
-    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue) : DecoderImpl<Common>(vs, queue) {}
-
 private:
+    FrameFreeFunc freeFunc;
+    std::atomic<long long> count;
+public:
+    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue) : DecoderImpl<Common>(vs, queue) {
+        freeFunc = [&](AVFrame* frame){freeVideoFrame(frame);};
+    }
+
+    void freeVideoFrame(AVFrame* frame) {
+        freeQueue.enqueue(frame);
+        count--;
+    }
+
     VideoFrame getPicture(bool b) override {
         AVFrame *frame = frameQueue->front();
         if (!frame) { return {}; }
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-        return {frame, pts, nullptr};
+        return {frame, pts, freeFunc};
     }
+
+    bool pop(bool b) override {
+        bool ret = DecoderImpl<Common>::pop(b);
+        count++;
+        return ret;
+    }
+
+
 };
 

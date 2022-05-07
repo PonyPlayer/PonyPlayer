@@ -8,10 +8,11 @@ qt_add_library(${PROJECT_NAME} STATIC
 #target_sources(${PROJECT_NAME} PRIVATE demuxer.hpp)
 include_directories(include)
 target_include_directories(${PROJECT_NAME} INTERFACE "${CMAKE_CURRENT_LIST_DIR}")
-target_link_libraries(${PROJECT_NAME} PRIVATE
+target_link_libraries(${PROJECT_NAME} PUBLIC
         Qt::Core
         Qt::Gui
         Qt::Quick
         utils
+        concurrentqueue
         ${FFmpeg})
 

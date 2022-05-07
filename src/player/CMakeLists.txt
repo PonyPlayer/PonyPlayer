@@ -12,6 +12,7 @@ qt_add_qml_module(${PROJECT_NAME}
             framecontroller.hpp
             hurricane.hpp
             players.cpp
+            renderer.hpp
         RESOURCES
             shader/vertex.vsh
             shader/fragment.fsh

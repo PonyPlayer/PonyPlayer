@@ -9,55 +9,61 @@ INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
 INCLUDE_FFMPEG_END
 
-typedef std::function<void(AVFrame**)> FrameFreeFunc;
+typedef std::function<void(AVFrame*)> FrameFreeFunc;
 
 class VideoFrame {
 private:
     AVFrame *m_frame;
     double m_pts;
     FrameFreeFunc m_freeFunc;
+    bool m_isValid;
 public:
-    VideoFrame(AVFrame *frame, double pts, FrameFreeFunc freeFunc) : m_frame(frame), m_pts(pts), m_freeFunc(std::move(freeFunc)) {}
+    VideoFrame(AVFrame *frame, double pts, FrameFreeFunc freeFunc) : m_frame(frame), m_pts(pts), m_freeFunc(std::move(freeFunc)), m_isValid(true) {}
 
-    VideoFrame() : m_frame(nullptr), m_pts(std::numeric_limits<double>::quiet_NaN()) {}
+    VideoFrame() : m_frame(nullptr), m_pts(std::numeric_limits<double>::quiet_NaN()), m_isValid(false) {}
 
     /**
      * @return 图像数据是否有效
      */
-    [[nodiscard]] inline bool isValid() const {
-        return m_frame;
+    [[nodiscard]] bool isValid() const {
+        return m_isValid;
     }
 
-    [[nodiscard]] inline double getPTS() const {
+    [[nodiscard]] double getPTS() const {
         return m_pts;
     }
 
-    [[nodiscard]] inline std::byte *getY() const {
+    [[nodiscard]] std::byte *getY() const {
         return reinterpret_cast<std::byte*>(m_frame->data[0]);
     }
 
-    [[nodiscard]] inline std::byte *getU() const {
+    [[nodiscard]] std::byte *getU() const {
         return reinterpret_cast<std::byte*>(m_frame->data[1]);
     }
 
-    [[nodiscard]] inline std::byte *getV() const {
+    [[nodiscard]] std::byte *getV() const {
         return reinterpret_cast<std::byte*>(m_frame->data[2]);
     }
 
-    [[nodiscard]] inline int getLineSize() const {
+    [[nodiscard]] int getLineSize() const {
         return m_frame->linesize[0];
     }
 
-    [[nodiscard]] inline int getWidth() const {
+    [[nodiscard]] int getWidth() const {
         return m_frame->width;
     }
 
-    [[nodiscard]] inline int getHeight() const {
+    [[nodiscard]] int getHeight() const {
         return m_frame->height;
     }
 
-    [[nodiscard]] inline bool isFree() const {
-        return !m_frame;
+    [[nodiscard]] bool isSameSize(const VideoFrame &frame) const {
+        return (this->isValid()
+            && frame.isValid()
+            && getWidth() == frame.getWidth()
+            && getHeight() == frame.getHeight()
+            && getLineSize() == frame.getLineSize())
+            || (!this->isValid() && !frame.isValid());
     }
 
     bool operator==(const VideoFrame &frame) const {
@@ -68,11 +74,23 @@ public:
         return !this->operator==(frame);
     }
 
+    void makeInvalid() {
+        m_isValid = false;
+    }
+
     /**
      * 如果picture不包含有效数据，不要调用free
      */
     void free() {
-        if (m_frame) { m_freeFunc(&m_frame); }
+        // NOTE: CANNOT guarantee that it will NOT be double free under multithreading codition
+        if (!m_freeFunc) {
+            m_frame = nullptr;
+            m_isValid = false;
+        } else if (m_frame) {
+            m_freeFunc(m_frame);
+            m_frame = nullptr;
+            m_isValid = false;
+        }
     }
 };
 
