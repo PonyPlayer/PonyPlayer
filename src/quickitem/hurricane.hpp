@@ -108,11 +108,7 @@ signals:
      */
     void positionChangedBySeek();
 
-    /**
-     * 音频修改失败
-     * @param current 当前的音量
-     */
-    void volumeChangedFail(qreal current);
+
 
 Q_SIGNALS:
 

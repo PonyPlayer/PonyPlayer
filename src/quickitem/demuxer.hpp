@@ -15,7 +15,7 @@ private:
     QThread *m_affinityThread = nullptr;
 public:
     Demuxer(QObject *parent) : QObject(nullptr) {
-        m_affinityThread = new QThread(parent);
+        m_affinityThread = new QThread;
         m_affinityThread->setObjectName("DecoderThread");
         this->moveToThread(m_affinityThread);
         m_affinityThread->start();
@@ -23,10 +23,6 @@ public:
 
     ~Demuxer() {
         qDebug() << "Destroy Demuxer";
-        if (m_worker) {
-            m_worker->statePause();
-            m_worker->deleteLater();
-        }
         m_affinityThread->quit();
     }
 

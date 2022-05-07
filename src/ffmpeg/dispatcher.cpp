@@ -41,8 +41,9 @@ DecodeDispatcher::DecodeDispatcher(const std::string &fn, QObject *parent) : Dem
 
 DecodeDispatcher::~DecodeDispatcher() {
     qDebug() << "Destroy decode dispatcher " << filename.c_str();
+    if (videoQueue) { videoQueue->close(); }
+    if (audioQueue) { audioQueue->close(); }
     for(auto && decoder : decoders) { delete decoder; }
-    decoders.clear();
     if(packet) { av_packet_free(&packet); }
 }
 

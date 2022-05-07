@@ -58,7 +58,7 @@ private:
 
 public:
     Playback(Demuxer *demuxer, QObject *parent): QObject(nullptr), m_demuxer(demuxer) {
-        m_affinityThread = new QThread{parent};
+        m_affinityThread = new QThread;
         m_affinityThread->setObjectName("PlayThread");
         this->moveToThread(m_affinityThread);
         connect(this, &Playback::startWork, this, &Playback::onWork);
@@ -78,7 +78,7 @@ public:
     }
 
     virtual ~Playback() {
-//        m_affinityThread->quit();
+        m_affinityThread->quit();
     }
 
     void setVolume(qreal volume) {

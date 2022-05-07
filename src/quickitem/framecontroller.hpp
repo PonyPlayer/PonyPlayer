@@ -22,7 +22,7 @@ private:
     Playback *m_playback;
 public:
     FrameController(QObject *parent): QObject(nullptr) {
-        m_affinityThread = new QThread{parent};
+        m_affinityThread = new QThread;
         m_affinityThread->setObjectName("FrameControllerThread");
         this->moveToThread(m_affinityThread);
         connect(m_affinityThread, &QThread::started, [=]{
@@ -41,11 +41,6 @@ public:
 
     virtual ~FrameController() {
         m_affinityThread->quit();
-//        m_affinityThread->deleteLater();
-        m_playback->stop();
-        m_playback->deleteLater();
-        m_demuxer->close();
-        m_demuxer->deleteLater();
     }
 
     qreal getAudioDuration() { return m_demuxer->audioDuration(); }
