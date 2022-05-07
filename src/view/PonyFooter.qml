@@ -34,11 +34,14 @@ Rectangle {
         from: 0
         to: mainWindow.endTime
         value: mainWindow.currentTime
-        onValueChanged: IF.videoSlideOnValueChanged()
+        onValueChanged: {
+            mainWindow.currentTime=videoSlide.value
+            console.log("-----------------------------------------------------------------"+videoSlide.value)
+            console.log("------------------------------------------------------+++++++++++"+mainWindow.currentTime)
+        }
         onPressedChanged: {
+            console.log("lei fu kai use seek"+videoSlide.value)
             if(!videoSlide.pressed){
-                console.log("lei fu kai use seek"+videoSlide.value)
-                mainWindow.currentTime=videoSlide.value
                 videoArea.seek(mainWindow.currentTime)
             }
         }
@@ -137,9 +140,6 @@ Rectangle {
                 cursorShape: "PointingHandCursor"
                 onClicked: {
                     additionalSettings.show()
-                    console.log("brightness: "+mainWindow.brightness)
-                                    console.log("saturation: "+mainWindow.saturation)
-                                    console.log("contrast: "+mainWindow.contrast)
                 }
             }
         }

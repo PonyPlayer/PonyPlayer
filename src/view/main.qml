@@ -152,12 +152,13 @@ Window {
         }
     }
     Dialog{
-        id:openFileFailedDialog
-        title: "打开文件失败"
+        id:operationFailedDialog
+        title: "操作失败"
         width: 200
         height: 150
         standardButtons: Dialog.Ok
         Text{
+            id:operationFailedDialogText
             text: "打开文件失败，请选择正确路径"
             anchors.centerIn: parent
         }
@@ -236,7 +237,6 @@ Window {
                         cursorShape: "PointingHandCursor"
                         onClicked: {
                             mainWindow.isVideoListOpen=false
-
                         }
                     }
                 }
@@ -378,8 +378,7 @@ Window {
                 MouseArea{
                     anchors.fill: parent
                     hoverEnabled: true //默认是false
-                    cursorShape: "PointingHandCursor"
-                    onClicked: IF.videoAreaOnClicked()
+                    //onClicked: IF.videoAreaOnClicked()
                     onPositionChanged: {
                         if(mainWindow.isFullScreen){
                             holder.restart()
@@ -392,7 +391,8 @@ Window {
             }
             //onOpenFileResult:{
             //    if(!b){
-            //        openFileFailedDialog.open()
+            //        operationFailedDialogText.text="打开文件失败，请选择正确路径"
+            //        operationFailedDialog.open()
             //    }
             //}
             Rectangle{
