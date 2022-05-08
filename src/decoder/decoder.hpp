@@ -73,12 +73,11 @@ public:
 };
 
 class DecoderContext {
-protected:
+public:
     AVCodec *codec = nullptr;
     AVStream *stream = nullptr;
     AVCodecContext *codecCtx = nullptr;
     AVFrame *frameBuf = nullptr;
-public:
     DecoderContext(AVStream *vs): stream(vs) {
         auto *videoCodecPara = stream->codecpar;
         if (!(codec = const_cast<AVCodec *>(avcodec_find_decoder(videoCodecPara->codec_id)))) {
