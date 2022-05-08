@@ -64,6 +64,11 @@ public:
         if (imgCtx) sws_freeContext(imgCtx);
     }
 
+    /**
+     * 返回pos位置的图片
+     * @param pos 单位为秒
+     * @return pos位置的图片
+     */
     QImage previewRequest(qreal pos) {
         if (!videoStream)
             return {};
@@ -71,7 +76,7 @@ public:
         // 每次preview，都要先清空内部buffer，然后seek
         avcodec_flush_buffers(ctx->codecCtx);
         ret = av_seek_frame(fmtCtx, -1,
-                            static_cast<int64_t>(pos / 1e6 * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
+                            static_cast<int64_t>(pos * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
         if (ret < 0) {
             qWarning() << "Previewer: av_seek_frame failed";
             return {};
@@ -90,7 +95,7 @@ public:
                     break;
                 }
                 while ((ret = avcodec_receive_frame(ctx->codecCtx, ctx->frameBuf)) >= 0) {
-                    double pts =  static_cast<double>(ctx->frameBuf->pts) * av_q2d(videoStream->time_base) * 1e6;
+                    double pts =  static_cast<double>(ctx->frameBuf->pts) * av_q2d(videoStream->time_base);
                     if (pts < pos) {
                         av_frame_unref(ctx->frameBuf);
                     }
