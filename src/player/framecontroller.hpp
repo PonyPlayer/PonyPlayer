@@ -115,7 +115,7 @@ public slots:
 
         }
         m_playback->clear();
-        emit signalPositionChangedBySeek();
+        emit signalPositionChangedBySeek(); // block
         m_playback->setStartPoint(startPoint);
         emit setPicture(m_demuxer->getPicture(true, false));
         qDebug() << "start point" << startPoint;

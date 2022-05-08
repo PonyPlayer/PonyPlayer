@@ -181,7 +181,10 @@ public:
         }
 
 
-        if (!videoFrame.isValid()) { return; }
+        if (!videoFrame.isValid()) {
+            qDebug() << "Early return";
+            return;
+        }
         program->bind();
         brightness.render();
         contrast.render();
@@ -198,6 +201,11 @@ public:
         auto *imageV = videoFrame.getV();
 
         if (flagUpdateImageSize) {
+            // since FFmpeg may pad frame to align, we need to clip invalid data
+            viewMatrix.setToIdentity();
+            viewMatrix.ortho(0, static_cast<float>(imageWidth) / static_cast<float>(lineSize), 0, 1, -1, 1);
+            program->setUniformValue("view", viewMatrix);
+
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, textureY);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, lineSize, imageHeight, 0, GL_RED, GL_UNSIGNED_BYTE, imageY);
@@ -207,10 +215,6 @@ public:
             glActiveTexture(GL_TEXTURE2);
             glBindTexture(GL_TEXTURE_2D, textureV);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, lineSize / 2, imageHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, imageV);
-            // since FFmpeg may pad frame to align, we need to clip invalid data
-            viewMatrix.setToIdentity();
-            viewMatrix.ortho(0, static_cast<float>(imageWidth) / static_cast<float>(lineSize), 0, 1, -1, 1);
-            program->setUniformValue("view", viewMatrix);
         } else if (flagUpdateImageContent) {
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, textureY);
@@ -223,7 +227,6 @@ public:
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, lineSize / 2, imageHeight / 2, GL_RED, GL_UNSIGNED_BYTE, imageV);
         }
         glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, ZERO_OFFSET);
-        glDisable(GL_SCISSOR_TEST);
         program->release();
     }
 

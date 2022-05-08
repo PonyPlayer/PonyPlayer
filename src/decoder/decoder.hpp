@@ -12,7 +12,7 @@ INCLUDE_FFMPEG_BEGIN
 INCLUDE_FFMPEG_END
 #include <QDEbug>
 #include "frame.hpp"
-#include "../utils/include/twins_queue.hpp"
+#include "twins_queue.hpp"
 #include "concurrentqueue.h"
 #include <atomic>
 
@@ -125,7 +125,6 @@ public:
 
     bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
         AVFrame *frame;
-        int debug = this->freeQueue.size_approx();
         while(freeQueue.try_dequeue(frame)) {
             av_frame_free(&frame);
         }
