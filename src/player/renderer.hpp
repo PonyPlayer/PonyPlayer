@@ -222,7 +222,6 @@ public:
             glBindTexture(GL_TEXTURE_2D, textureV);
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, lineSize / 2, imageHeight / 2, GL_RED, GL_UNSIGNED_BYTE, imageV);
         }
-        videoFrame.free();
         glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, ZERO_OFFSET);
         glDisable(GL_SCISSOR_TEST);
         program->release();
@@ -233,6 +232,7 @@ public:
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
         program->release();
+        videoFrame.free();
         qDebug() << "Deconstruct Hurricane Renderer:" << static_cast<void *>(this) << ".";
     }
 

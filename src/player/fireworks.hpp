@@ -17,6 +17,7 @@ class Fireworks : public QQuickItem {
     Q_PROPERTY(GLfloat saturation READ getSaturation WRITE setSaturation)
 private:
     FireworksRenderer *renderer = nullptr;
+    bool updateVideoFrame;
 protected:
     VideoFrame picture;
     GLfloat brightness = 0.0;
@@ -43,9 +44,6 @@ public:
     }
     ~Fireworks() noexcept override {
         picture.free();
-//        for(auto && pic : cleanupPictureQueue) {
-//            pic.free();
-//        }
     }
 
     [[nodiscard]] GLfloat getBrightness() const { return brightness; }
@@ -68,9 +66,14 @@ public slots:
             renderer = new FireworksRenderer(this);
             connect(window(), &QQuickWindow::beforeRendering, renderer, &FireworksRenderer::init, Qt::DirectConnection);
         }
+
         // sync state
-        renderer->setPictureRef(picture);
-        picture.makeInvalid();
+        if (updateVideoFrame) {
+            renderer->setPictureRef(picture);
+            picture.makeInvalid();
+            updateVideoFrame = false;
+        }
+
 
         // sync uniform
         renderer->brightness = this->brightness;
@@ -87,6 +90,7 @@ public slots:
 
         // no change, return immediately
         if (pic == picture) { return; }
+        updateVideoFrame = true;
         // local picture has not been used, free
         // see sync
         if (picture.isValid()) { picture.free(); }
