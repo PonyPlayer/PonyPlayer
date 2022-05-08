@@ -19,12 +19,12 @@ public:
         m_affinityThread->setObjectName("PreviewThread");
         this->moveToThread(m_affinityThread);
         connect(m_affinityThread, &QThread::started, this, [=]{
-           // init here
+            // init here
         });
         m_affinityThread->start();
     }
 
-    ~Preview() {
+    ~Preview() override {
         // set interrupt flag
         m_affinityThread->quit();
     }

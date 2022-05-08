@@ -1,7 +1,7 @@
 project(decoder)
 
 set(CPP_SOURCES
-        decoder.hpp dispatcher.hpp frame.hpp helper.hpp demuxer.hpp)
+        decoder.hpp dispatcher.hpp frame.hpp helper.hpp demuxer.hpp previewer.hpp)
 
 qt_add_library(${PROJECT_NAME} STATIC
         ${CPP_SOURCES})
