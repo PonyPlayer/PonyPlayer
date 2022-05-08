@@ -85,7 +85,6 @@ public slots:
 
     void seek(qreal pos) {
         qDebug() << "Start seek for" << pos;
-        bool isPlaying = !m_playback->isInterrupted();
         m_playback->stop();
 
         m_demuxer->pause();
@@ -120,9 +119,6 @@ public slots:
         m_playback->setStartPoint(startPoint);
         emit setPicture(m_demuxer->getPicture(true, false));
         qDebug() << "start point" << startPoint;
-        if (isPlaying) {
-            m_playback->start();
-        }
         qDebug() << "End seek for" << pos;
     }
 

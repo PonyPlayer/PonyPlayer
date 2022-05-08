@@ -5,9 +5,6 @@
 #include <QOpenGLShaderProgram>
 #include "renderer.hpp"
 
-class VideoFrameRef {
-    VideoFrame frame;
-};
 
 class Fireworks : public QQuickItem {
     Q_OBJECT

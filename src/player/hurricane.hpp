@@ -256,9 +256,9 @@ public slots:
         emit stateChanged();
 //    emit signalPause(QPrivateSignal());
         emit signalSeek(pos, QPrivateSignal());
-//    if (playing) {
-//        emit signalStart(QPrivateSignal());
-//    }
+        if (playing) {
+            emit signalStart(QPrivateSignal());
+        }
         qDebug() << "HurricanePlayer: Seek" << pos;
     }
 
