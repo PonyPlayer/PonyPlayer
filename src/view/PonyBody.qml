@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Dialogs
 import HurricanePlayer
 Rectangle {
-    id:body
+    id: body
     //左侧播放列表栏
     Rectangle{
         id:videoList

@@ -5,12 +5,18 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(thirdparty/portaudio.cmake)
+include(thirdparty/sonic.cmake)
+include(thirdparty/rwqueue.cmake)
+include(thirdparty/concurrentqueue.cmake)
+
 set(CMAKE_AUTOMOC ON)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Wno-unused-parameter -Wold-style-cast -Woverloaded-virtual -Wpointer-arith -Wshadow")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Wno-unused-parameter -Wold-style-cast -Woverloaded-virtual -Wpointer-arith -Wshadow -Werror=return-type")
 
 set(FFMPEG_LIBS avformat avcodec avutil swresample swscale)
 include(cmake/find_dependence.cmake)
+
 
 find_package(Qt6 COMPONENTS
         Core

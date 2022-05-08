@@ -13,14 +13,30 @@ QString PlayListItem::getDirectory() {
 //    dir = item.dir;
 //}
 
+PlayList::PlayList(QString _dbName, QString _tableName, QString _className):pkvList(_dbName, _tableName, _className) {
+    qDebug()<<"PlayList init!\n";
+}
 
-PlayList::PlayList(const QString &name) {
-    qRegisterMetaType<PlayListItem *>("PlayListItem");
+//PlayList::PlayList(const QString &name) {
+//    qRegisterMetaType<PlayListItem *>("PlayListItem");
+//
+//    PonyKVList<PlayListItem> list(name, QString("playlist"), QString("PlayListItem"));
+//    auto *item = new PlayListItem("233", QDir("/usr/bin"));
+//
+//    list.insert(item);
+//
+////    qDebug() << data[0]->property("dir");
+//}
 
-    PonyKVList<PlayListItem> list(name, QString("playlist"), QString("PlayListItem"));
-    auto *item = new PlayListItem("233", QDir("/usr/bin"));
+void PlayList::insert(PlayListItem *item){
+    qDebug()<<"insert";
+}
 
-    list.insert(item);
+void PlayList::remove(PlayListItem *item){
+    qDebug()<<"remove";
+}
 
-//    qDebug() << data[0]->property("dir");
+PlayListItem* PlayList::search(QString key){
+    qDebug()<<"search";
+    throw std::runtime_error("Unsupported operation yet.");
 }

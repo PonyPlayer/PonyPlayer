@@ -16,7 +16,7 @@ Rectangle {
         anchors.leftMargin: 10
         anchors.top: parent.top
         anchors.topMargin: 5
-        text:((mainWindow.currentTime)>=3600?parseInt((mainWindow.currentTime)/3600)+":":"")+(((mainWindow.currentTime)>=60)?((parseInt((mainWindow.currentTime)/60)%60)>10?(parseInt((mainWindow.currentTime)/60)%60+":"):('0'+(parseInt((mainWindow.currentTime)/60)%60))+":"):"")+(((mainWindow.currentTime)%60)<10?'0'+(mainWindow.currentTime)%60:(mainWindow.currentTime)%60)
+        text:IF.videoSlideDistance(true)
         color: "white"
         font.bold: true
         lineHeight: 20
@@ -34,34 +34,14 @@ Rectangle {
         from: 0
         to: mainWindow.endTime
         value: mainWindow.currentTime
-        handle: Rectangle {
-                x: parent.leftPadding + parent.visualPosition * (parent.availableWidth - width)
-                y: parent.topPadding + parent.availableHeight / 2 - height / 2
-                implicitWidth: 16
-                implicitHeight: 16
-                radius: 8
-                color: parent.pressed ? "#f0f0f0" : "#f6f6f6"
-                border.color: "#bdbebf"
-            }
         onValueChanged: {
-            if(mainWindow.currentTime<0){
-                mainWindow.currentTime=0
-                videoSlide.value=0
-            }
-            else if(mainWindow.currentTime>=mainWindow.endTime){
-                mainWindow.currentTime=0
-                videoSlide.value=0
-                mainWindow.isPlay=false
-                mainWindow.stop()
-            }
             mainWindow.currentTime=videoSlide.value
-            mainWindow.currentTimeChange(videoSlide.value)
-
         }
-
         onPressedChanged: {
-            videoArea.seek(mainWindow.currentTime)
-            console.log("xxxxxx")
+            console.log("lei fu kai use seek"+videoSlide.value)
+            if(!videoSlide.pressed){
+                videoArea.seek(mainWindow.currentTime)
+            }
         }
         Shortcut{
             sequence: "Up"
@@ -91,7 +71,7 @@ Rectangle {
         anchors.rightMargin: 10
         anchors.top: parent.top
         anchors.topMargin: 5
-        text:((mainWindow.endTime-mainWindow.currentTime)>=3600?parseInt((mainWindow.endTime-mainWindow.currentTime)/3600)+":":"")+(((mainWindow.endTime-mainWindow.currentTime)>=60)?((parseInt((mainWindow.endTime-mainWindow.currentTime)/60)%60)>10?(parseInt((mainWindow.endTime-mainWindow.currentTime)/60)%60+":"):('0'+(parseInt((mainWindow.endTime-mainWindow.currentTime)/60)%60))+":"):"")+(((mainWindow.endTime-mainWindow.currentTime)%60)<10?'0'+(mainWindow.endTime-mainWindow.currentTime)%60:(mainWindow.endTime-mainWindow.currentTime)%60)
+        text:IF.videoSlideDistance(false)
         color: "white"
         font.bold: true
         lineHeight: 20
@@ -106,19 +86,7 @@ Rectangle {
         interval: 1000/mainWindow.speed
         repeat: true
         running: mainWindow.isPlay
-        onTriggered:{
-            if(mainWindow.currentTime<=0&&mainWindow.step==-1){
-                mainWindow.isPlay=false
-            }
-            else if(mainWindow.currentTime>=mainWindow.endTime&&mainWindow.step==1){
-                mainWindow.isPlay=false
-            }
-
-            else{
-                mainWindow.currentTime=mainWindow.currentTime+mainWindow.step
-                videoSlide.value=currentTime
-            }
-        }
+        onTriggered:IF.timerOnTriggered()
     }
 
 
@@ -149,21 +117,30 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                if(mainWindow.isVideoListOpen){
-                    mainWindow.isVideoListOpen=false
-                }
-                else{
-                    mainWindow.isVideoListOpen=true
-                }
-
-            }
+            onClicked: IF.fileListOnClicked()
         }
     }
 
 
 
-
+    Image {
+            id: settings
+            source: "interfacepics/additionalsettings"
+            width: 20
+            height: 20
+            visible: true
+            anchors.left: debug.right
+            anchors.leftMargin: 10
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 15
+            MouseArea{
+                anchors.fill: parent
+                cursorShape: "PointingHandCursor"
+                onClicked: {
+                    additionalSettings.show()
+                }
+            }
+        }
 
 
 
@@ -181,15 +158,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                if(mainWindow.step===1){
-                    mainWindow.step=-1
-                }
-                else{
-                    mainWindow.step=1
-                }
-                mainWindow.inverted(mainWindow.step)
-            }
+            onClicked: IF.invertedOnClicked()
         }
     }
 
@@ -263,6 +232,7 @@ Rectangle {
             cursorShape: "PointingHandCursor"
             onClicked: {
                 mainWindow.nextOne()
+                openFileFailedDialog.open()
             }
         }
     }
@@ -278,13 +248,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                mainWindow.cease()
-                mainWindow.isPlay=false
-                mainWindow.currentTime=0
-                videoSlide.value=0
-                videoArea.close()
-            }
+            onClicked: IF.toPause()
         }
     }
     //播放速度调整
@@ -329,25 +293,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                if(videoSpeed.state==="speed1"){
-                    videoSpeed.state="speed2"
-                    mainWindow.speed=2.0
-                }
-                else if(videoSpeed.state==="speed2"){
-                    videoSpeed.state="speed4"
-                    mainWindow.speed=4.0
-                }
-                else if(videoSpeed.state==="speed4"){
-                    videoSpeed.state="speed8"
-                    mainWindow.speed=8.0
-                }
-                else{
-                    videoSpeed.state="speed1"
-                    mainWindow.speed=1.0
-                }
-                mainWindow.setSpeed(mainWindow.speed)
-            }
+            onClicked: IF.videoSpeedOnClicked()
         }
     }
     //播放模式(顺序, 单曲循环, 随机)
@@ -385,18 +331,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                if(playMode.state==="ordered"){
-                    playMode.state="single"
-                }
-                else if(playMode.state==="single"){
-                    playMode.state="random"
-                }
-                else{
-                    playMode.state="ordered"
-                }
-                mainWindow.playModeChange(playMode.state)
-            }
+            onClicked: IF.playModeOnClicked()
         }
     }
     //播放音量调节
@@ -417,7 +352,7 @@ Rectangle {
             states: [
                 State {
                     name: "volumn0"
-                    when: mainWindow.volumn===0
+                    when: mainWindow.volumn<=0
                     PropertyChanges {
                         target: speaker
                         source:"interfacepics/Volumn0"
@@ -425,7 +360,7 @@ Rectangle {
                 },
                 State {
                     name: "volumn1"
-                    when: mainWindow.volumn>0&&mainWindow.volumn<=33
+                    when: mainWindow.volumn>0&&mainWindow.volumn<=0.33
                     PropertyChanges {
                         target: speaker
                         source:"interfacepics/Volumn1"
@@ -433,7 +368,7 @@ Rectangle {
                 },
                 State {
                     name: "volumn2"
-                    when: mainWindow.volumn>33&&mainWindow.volumn<=66
+                    when: mainWindow.volumn>0.33&&mainWindow.volumn<=0.66
                     PropertyChanges {
                         target: speaker
                         source:"interfacepics/Volumn2"
@@ -441,7 +376,7 @@ Rectangle {
                 },
                 State {
                     name: "volumn3"
-                    when: mainWindow.volumn>66
+                    when: mainWindow.volumn>0.66
                     PropertyChanges {
                         target: speaker
                         source:"interfacepics/Volumn3"
@@ -451,18 +386,7 @@ Rectangle {
             MouseArea{
                 anchors.fill: parent
                 cursorShape: "PointingHandCursor"
-                onClicked: {
-                    if(mainWindow.volumn===0){
-                        mainWindow.volumn=mainWindow.beforeMute
-                        volumnSlider.value=Math.floor(mainWindow.volumn*100)
-                    }
-                    else{
-                        mainWindow.beforeMute=mainWindow.volumn
-                        mainWindow.volumn=0
-                        volumnSlider.value=0
-                    }
-                    mainWindow.volumnChange(mainWindow.volumn)
-                }
+                onClicked: IF.speakerOnClicked()
             }
         }
         //音量滑条, 可以调整音量
@@ -476,12 +400,7 @@ Rectangle {
             from: 0
             to: 100
             value: mainWindow.volumn*100
-            onMoved: {
-                mainWindow.volumn=volumnSlider.value/100
-                mainWindow.beforeMute=volumnSlider.value/100
-                mainWindow.volumnChange(mainWindow.volumn)
-                videoArea.setVolume(mainWindow.volumn)
-            }
+            onMoved: IF.volumeSliderOnMoved()
             Shortcut{
                 sequence: "Ctrl+Down"
                 onActivated: IF.volumnDown()
@@ -525,8 +444,22 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
+            onClicked: IF.screenSizeFunction()
+        }
+    }
+    Image {
+        id: debug
+        width: 30
+        height: 20
+        anchors.verticalCenter: playOrPause.verticalCenter
+        anchors.left: fileList.right
+        anchors.leftMargin: 10
+        source: "interfacepics/NormalScreen"
+        MouseArea{
+            anchors.fill: parent
+            cursorShape: "PointingHandCursor"
             onClicked: {
-                IF.screenSizeFunction()
+                IF.openWave()
             }
         }
     }

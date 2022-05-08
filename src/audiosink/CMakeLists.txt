@@ -1,0 +1,21 @@
+project(audiosink)
+
+set(CPP_SOURCES
+        audiosink.cpp
+        )
+
+qt_add_library(${PROJECT_NAME} STATIC ${CPP_SOURCES})
+include_directories(include)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_sources(${PROJECT_NAME} PRIVATE include/audiosink.h)
+target_link_libraries(${PROJECT_NAME} PUBLIC
+        Qt::Core
+        Qt::Gui
+        Qt::Quick
+        portaudio_static
+        rwqueue
+        sonic
+        decoder
+        )
+
