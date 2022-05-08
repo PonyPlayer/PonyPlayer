@@ -30,7 +30,11 @@ public:
             connect(this, &FrameController::signalDecoderOpenFile, m_demuxer, &Demuxer::openFile);
             // WARNING: BLOCKING_QUEUED_CONNECTION!!!
             connect(this, &FrameController::signalDecoderSeek, m_demuxer, &Demuxer::seek, Qt::BlockingQueuedConnection);
-            connect(m_demuxer, &Demuxer::openFileResult, this, &FrameController::openFileResult);
+            connect(m_demuxer, &Demuxer::openFileResult, this, [=](bool success){
+                m_demuxer->start();
+                if (success) { emit setPicture(m_demuxer->getPicture(true, false)); }
+                emit openFileResult(success);
+            });
             connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd, Qt::DirectConnection);
         });
         m_affinityThread->start();
@@ -94,7 +98,7 @@ public slots:
         // time-consuming job
         {
             VideoFrame pic;
-            while(pic = m_demuxer->getPicture(true), (pic.isValid() && pic.getPTS() < pos)) {
+            while(pic = m_demuxer->getPicture(true, true), (pic.isValid() && pic.getPTS() < pos)) {
                 m_demuxer->popPicture(true);
                 pic.free();
             }
@@ -114,6 +118,7 @@ public slots:
         m_playback->clear();
         emit signalPositionChangedBySeek();
         m_playback->setStartPoint(startPoint);
+        emit setPicture(m_demuxer->getPicture(true, false));
         qDebug() << "start point" << startPoint;
         if (isPlaying) {
             m_playback->start();

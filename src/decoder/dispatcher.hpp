@@ -112,6 +112,7 @@ public:
      * 保证可以阻塞地获取 Picture 和 Sample. 这个方法是线程安全的.
      */
     void stateResume() {
+        interrupt = false;
         videoQueue->open();
         qDebug() << "Queue stateResume.";
     }
@@ -133,7 +134,7 @@ public:
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
-    VideoFrame getPicture(bool b) { return decoders[videoStreamIndex.front()]->getPicture(b); }
+    VideoFrame getPicture(bool b, bool own) { return decoders[videoStreamIndex.front()]->getPicture(b, own); }
 
     bool popPicture(bool b) { return decoders[videoStreamIndex.front()]->pop(b); }
 
@@ -145,7 +146,6 @@ public:
     qreal getVideoLength() { return decoders[videoStreamIndex.front()]->duration(); }
 public slots:
     void onWork() {
-        interrupt = false;
         videoQueue->open();
         while(!interrupt) {
             int ret = av_read_frame(fmtCtx, packet);
@@ -162,7 +162,6 @@ public slots:
             av_packet_unref(packet);
             QCoreApplication::processEvents();
         }
-        interrupt = true;
     };
 };
 

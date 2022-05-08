@@ -25,7 +25,7 @@ public:
     }
 
 
-    VideoFrame getPicture(bool b) { return m_worker->getPicture(b); }
+    VideoFrame getPicture(bool b, bool own) { return m_worker->getPicture(b, own); }
 
     bool popPicture(bool b) { return m_worker->popPicture(b); }
 

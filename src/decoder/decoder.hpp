@@ -46,7 +46,7 @@ public:
      * @param b 是否阻塞
      * @return 视频帧, 请用 isValid 判断是否有效
      */
-    virtual VideoFrame getPicture(bool b) = 0;
+    virtual VideoFrame getPicture(bool b, bool own) = 0;
 
     /**
     * 获取音频帧, 仅当当前解码器是音频解码器时有效
@@ -166,7 +166,7 @@ public:
         return false;
     }
 
-    VideoFrame getPicture(bool b) override {
+    VideoFrame getPicture(bool b, bool own) override {
         throw std::runtime_error("Unsupported operation.");
     }
 
@@ -254,11 +254,11 @@ public:
         count--;
     }
 
-    VideoFrame getPicture(bool b) override {
+    VideoFrame getPicture(bool b, bool own) override {
         AVFrame *frame = frameQueue->front();
         if (!frame) { return {}; }
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-        return {frame, pts, freeFunc};
+        return {frame, pts, own ? freeFunc : nullptr};
     }
 
     bool pop(bool b) override {

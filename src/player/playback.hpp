@@ -8,12 +8,12 @@
 #include <QThread>
 #include <QDebug>
 #include <QCoreApplication>
-#include "../decoder/demuxer.hpp"
+#include "demuxer.hpp"
 #include "audiosink.h"
-#include "../decoder/frame.hpp"
+#include "frame.hpp"
 
 /**
- * @brief 负责输出视频和音频.
+ * @brief 负责输出视频和音频(不含视频预览).
  *
  * 这个类负责将上层的帧输出到相应的设备. 这个类的RAII的. 如果没有特殊说明, 这个类的公有方法是线程安全的.
  */
@@ -155,12 +155,12 @@ private slots:
         writeAudio(5);
         m_audioSink->start();
         while(!m_isInterrupt) {
-            VideoFrame pic = m_demuxer->getPicture(true);
+            VideoFrame pic = m_demuxer->getPicture(true, true);
             if (!pic.isValid()) { emit resourcesEnd(); break; }
             emit setPicture(pic);
             m_demuxer->popPicture(true);
             if (!writeAudio(10)) { emit resourcesEnd(); break; }
-            VideoFrame next = m_demuxer->getPicture(true);
+            VideoFrame next = m_demuxer->getPicture(true, true);
             QCoreApplication::processEvents(); // process setVolume setSpeed etc
             if (next.isValid()) { syncTo(next.getPTS()); }
         }
