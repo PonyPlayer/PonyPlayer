@@ -67,6 +67,7 @@ public:
         connect(this, &Playback::setAudioStartPoint, this, [=](qreal t) {this->m_audioSink->setStartPoint(t);});
         connect(this, &Playback::setAudioVolume, this, [=](qreal volume) {this->m_audioSink->setVolume(volume);});
         connect(this, &Playback::setAudioSpeed, this, [=](qreal speed) {this->m_audioSink->setSpeed(speed);});
+        connect(this, &Playback::updateVideoFrame, this, [=]{ emit setPicture(m_demuxer->getPicture(true, false));});
         connect(this, &Playback::clearRingBuffer, this, [=] {this->m_audioSink->clear(); });
         connect(m_affinityThread, &QThread::started, [=]{
             PonyAudioFormat format;
@@ -88,6 +89,10 @@ public:
 
     void setSpeed(qreal speed) {
         emit setAudioSpeed(speed, QPrivateSignal());
+    }
+
+    void showFrame() {
+        emit updateVideoFrame(QPrivateSignal());
     }
 
     /**
@@ -177,9 +182,11 @@ signals:
     void setAudioStartPoint(qreal startPoint, QPrivateSignal);
     void setAudioVolume(qreal volume, QPrivateSignal);
     void setAudioSpeed(qreal speed, QPrivateSignal);
+    void updateVideoFrame(QPrivateSignal);
     void setPicture(VideoFrame pic);
     void stateChanged(bool isPlaying);
     void resourcesEnd();
+
 };
 
 #endif //PONYPLAYER_VIDEOWORKER_H

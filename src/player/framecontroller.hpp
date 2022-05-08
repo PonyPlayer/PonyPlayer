@@ -32,7 +32,7 @@ public:
             connect(this, &FrameController::signalDecoderSeek, m_demuxer, &Demuxer::seek, Qt::BlockingQueuedConnection);
             connect(m_demuxer, &Demuxer::openFileResult, this, [=](bool success){
                 m_demuxer->start();
-                if (success) { emit setPicture(m_demuxer->getPicture(true, false)); }
+                if (success) { m_playback->showFrame(); }
                 emit openFileResult(success);
             });
             connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd, Qt::DirectConnection);
@@ -97,7 +97,7 @@ public slots:
         // time-consuming job
         {
             VideoFrame pic;
-            while(pic = m_demuxer->getPicture(true, true), (pic.isValid() && pic.getPTS() < pos)) {
+            while (pic = m_demuxer->getPicture(true, true), (pic.isValid() && pic.getPTS() < pos)) {
                 m_demuxer->popPicture(true);
                 pic.free();
             }
@@ -107,7 +107,7 @@ public slots:
         {
 
             AudioFrame sample;
-            while(sample = m_demuxer->getSample(true), (sample.isValid() && sample.getPTS() < pos)) {
+            while (sample = m_demuxer->getSample(true), (sample.isValid() && sample.getPTS() < pos)) {
                 m_demuxer->popSample(true);
                 startPoint = sample.getPTS();
             }
@@ -117,7 +117,8 @@ public slots:
         m_playback->clear();
         emit signalPositionChangedBySeek(); // block
         m_playback->setStartPoint(startPoint);
-        emit setPicture(m_demuxer->getPicture(true, false));
+        m_playback->showFrame();
+
         qDebug() << "start point" << startPoint;
         qDebug() << "End seek for" << pos;
     }
