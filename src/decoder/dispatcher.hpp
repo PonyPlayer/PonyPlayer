@@ -119,9 +119,9 @@ public:
 
     /**
      * 修改视频播放进度, 注意: 这个方法必须在解码线程上调用.
-     * @param us 新的视频进度(单位: 微秒)
+     * @param secs 新的视频进度(单位: 秒)
      */
-    void seek(int64_t us) {
+    void seek(qreal secs) {
         // case 1: currently decoding, interrupt
         // case 2: not decoding, seek
         interrupt = true;
@@ -129,8 +129,8 @@ public:
             // interrupt
             if (decoder) decoder->flushFFmpegBuffers();
         }
-        qDebug() << "a Seek:" << us;
-        int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>(static_cast<double>(us) / 1000000.0 * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
+        qDebug() << "a Seek:" << secs;
+        int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>(secs * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
