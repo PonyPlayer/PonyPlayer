@@ -8,7 +8,7 @@
 #include <QTimer>
 #include "helper.hpp"
 #include "frame.hpp"
-#include "twins_queue.hpp"
+#include "../utils/include/twins_queue.hpp"
 #include "decoder.hpp"
 
 INCLUDE_FFMPEG_BEGIN

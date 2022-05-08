@@ -8,9 +8,8 @@ set(CPP_SOURCES
 qt_add_library(${PROJECT_NAME} STATIC
         ${CPP_SOURCES})
 
-target_sources(${PROJECT_NAME} PRIVATE
-        ${CMAKE_SOURCE_DIR}/include/countdown_latch.h
-        )
+
+target_include_directories(${PROJECT_NAME} INTERFACE "${PROJECT_SOURCE_DIR}/include")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt::Core

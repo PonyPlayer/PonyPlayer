@@ -3,7 +3,7 @@
 #include <QQmlApplicationEngine>
 #include <QApplication>
 #include <QQmlContext>
-#include "logger.h"
+#include "utils/include/logger.h"
 #include "players.h"
 #include "controller.h"
 #include "wave.h"

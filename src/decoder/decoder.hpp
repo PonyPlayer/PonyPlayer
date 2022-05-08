@@ -12,7 +12,7 @@ INCLUDE_FFMPEG_BEGIN
 INCLUDE_FFMPEG_END
 #include <QDEbug>
 #include "frame.hpp"
-#include "twins_queue.hpp"
+#include "../utils/include/twins_queue.hpp"
 #include "concurrentqueue.h"
 #include <atomic>
 
