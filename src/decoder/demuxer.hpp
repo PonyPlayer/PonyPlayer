@@ -72,13 +72,13 @@ public slots:
      * 2. 在VideoThread线程调用 Demuxer2::seek 并阻塞等待函数返回, 接下来产生的帧是新的帧. \n
      * 3. 在VideoThread线程调用 Demuxer2::flush 清空队列中的旧帧. \n
      * 4. 在DeocdeThread线程中执行 Demuxer2::start, 恢复解码器线程线程运行. \n
-     * @param us 视频进度(单位: 微秒)
+     * @param secs 视频进度(单位: s)
      * @see Demuxer2::statePause
      * @see Demuxer2::flush
      * @see DecodeDispatcher::seek
      */
-    void seek(int64_t us) {
-        m_worker->seek(us);
+    void seek(qreal secs) {
+        m_worker->seek(secs);
     }
 
     /**

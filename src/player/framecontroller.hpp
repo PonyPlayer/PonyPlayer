@@ -90,7 +90,7 @@ public slots:
         m_demuxer->pause();
         // WARNING: must make sure everything (especially PTS) has been properly updated
         // otherwise, the video thread will be BLOCKING for a long time.
-        emit signalDecoderSeek(static_cast<qreal>(pos * 1000 * 1000)); // blocking connection
+        emit signalDecoderSeek(pos); // blocking connection
         m_demuxer->flush();
         m_demuxer->start(); // blocking, make sure pic and sample request can be blocked
 
