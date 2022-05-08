@@ -99,10 +99,7 @@ private:
 
 public slots:
     void init() {
-        if (program) {
-            // already initialized
-            return;
-        }
+        if (program) { return; } // already initialized
         program = new QOpenGLShaderProgram;
         initializeOpenGLFunctions();
         qDebug() << "OpenGL version:"
@@ -152,36 +149,38 @@ public slots:
 
 public:
     FireworksRenderer(QQuickItem *item)  : quickItem(item) {
-
         qDebug() << "Create Hurricane Renderer:" << static_cast<void *>(this) << ".";
     }
-    void render(const RenderState *state) override  {
 
+    [[nodiscard]] RenderingFlags flags() const override {
+        return BoundedRectRendering | DepthAwareRendering;
+    }
+
+    [[nodiscard]] StateFlags changedStates() const override {
+        return BlendState | ScissorState | StencilState;
+    }
+
+    void render(const RenderState *state) override  {
         // call on render thread
         // since QuickItem position is relative position of its parent, we need to convert to scene coordinate
-        QPointF qtPos = quickItem->mapToScene(quickItem->position());
-        // scale to physical pixel
-        qreal ratio =  quickItem->window()->devicePixelRatio();
-        QRect glRect = {
-                static_cast<int>(qtPos.x() * ratio),
-                // in qt cartesian coordinate system, (0, 0) is at the left top corner
-                // while in OpenGL coordinate system, (0, 0) is at the left bottom corner
-                static_cast<int>((quickItem->window()->height() - quickItem->height() - qtPos.y()) * ratio),
-                static_cast<int>(quickItem->width() * ratio),
-                static_cast<int>(quickItem->height() * ratio),
-        };
-//    quickItem->window()->beginExternalCommands();
 #ifdef DEBUG_FlAG_PAINT_LOG
         qDebug() << "Paint" << "x =" << glRect.x() << "y =" << glRect.y() << "w =" << glRect.width() << "h =" << glRect.height();
 #endif
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glViewport(glRect.x(), glRect.y(), glRect.width(), glRect.height());
-
-//    glScissor(glRect.x(), glRect.y(), glRect.width(), glRect.height());
-        glEnable(GL_SCISSOR_TEST);
+        const QRect r = state->scissorRect();
+        glViewport(r.x(), r.y(), r.width(), r.height());
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glDisable(GL_DEPTH_TEST);
+        if (state->scissorEnabled()) {
+            glEnable(GL_SCISSOR_TEST);
+            glScissor(r.x(), r.y(), r.width(), r.height());
+        }
+        if (state->stencilEnabled()) {
+            glEnable(GL_STENCIL_TEST);
+            glStencilFunc(GL_EQUAL, state->stencilValue(), 0xFF);
+            glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+        }
+
+
         if (!videoFrame.isValid()) { return; }
         program->bind();
         brightness.render();
@@ -227,7 +226,6 @@ public:
         glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, ZERO_OFFSET);
         glDisable(GL_SCISSOR_TEST);
         program->release();
-//    quickItem->window()->endExternalCommands();
     }
 
     ~FireworksRenderer() override {
