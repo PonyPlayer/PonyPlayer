@@ -520,12 +520,26 @@ Window {
                 }
             }
             Rectangle{
-                id:mediaMessage
-                color:"green"
+                id:initScreen
+                color:"#4e4e4e"
+                Image{
+                    id:initImage
+                    width: 200
+                    height: 200
+                    source: "interfacepics/ponyback"
+                    anchors.centerIn: parent
+                }
+                Button {
+                    anchors.top: initImage.bottom
+                    anchors.horizontalCenter: initImage.horizontalCenter
+                    text: "打开文件"
+                    width: 120
+                    height: 30
+
+                }
             }
-            Rectangle{
-                id:audioWavedorm
-                color:"red"
+            Wave{
+                id:wave
             }
         }
     }
@@ -562,9 +576,6 @@ Window {
         anchors.right: parent.right
         anchors.top:topBar.bottom
         anchors.bottom: downSizeChange.top
-    }
-    Wave {
-        id: wavewindow
     }
 }
 

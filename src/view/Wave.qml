@@ -2,8 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import WaveView
 
-Window {
-    id: wavewindow
+Rectangle {
     width: 600
     height: 600
     Image {
