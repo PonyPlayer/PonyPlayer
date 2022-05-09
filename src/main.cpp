@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
     format.setSamples(16);
     QSurfaceFormat::setDefaultFormat(format);
     QApplication app(argc, argv);
+
 //    qmlRegisterType<Hurricane>("HurricanePlayer", 1, 0, "HurricanePlayer");
     registerPlayerQML();
     qmlRegisterType<WaveView>("WaveView", 1, 0, "WaveView");

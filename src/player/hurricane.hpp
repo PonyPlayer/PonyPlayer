@@ -9,6 +9,7 @@
 #include <QObject>
 #include "framecontroller.hpp"
 #include "fireworks.hpp"
+#include "preview.hpp"
 
 /**
  * @brief
@@ -53,13 +54,18 @@ private:
     HurricaneState state = HurricaneState::INVALID;
 private:
     FrameController *frameController;
+    Preview *preview;
 public:
     explicit Hurricane(QQuickItem *parent = nullptr) : Fireworks(parent) {
         frameController = new FrameController(this);
+        preview = new Preview(this);
         connect(this, &Hurricane::signalStart, frameController, &FrameController::start);
         connect(this, &Hurricane::signalPause, frameController, &FrameController::pause);
 
         connect(this, &Hurricane::signalOpenFile, frameController, &FrameController::openFile);
+        connect(this, &Hurricane::signalOpenFile, preview, &Preview::openFile);
+        connect(preview, &Preview::previewResult, this, &Hurricane::previewResult);
+        connect(this, &Hurricane::signalPreview, preview, &Preview::previewRequest);
         connect(frameController, &FrameController::openFileResult, this, &Hurricane::slotOpenFileResult);
         connect(this, &Hurricane::signalClose, frameController, &FrameController::close);
         connect(frameController, &FrameController::setPicture, this, &Hurricane::setImage);
@@ -112,6 +118,8 @@ signals:
      */
     void positionChangedBySeek();
 
+    void previewResult(qreal pos, QImage image);
+
 
 
 Q_SIGNALS:
@@ -123,6 +131,7 @@ Q_SIGNALS:
     void signalStart(QPrivateSignal);
     void signalPause(QPrivateSignal);
     void signalClose(QPrivateSignal);
+    void signalPreview(qreal pos, QPrivateSignal);
     void signalOpenFile(const QString &url, QPrivateSignal);
     void signalSeek(qreal pos, QPrivateSignal);
 
@@ -262,6 +271,14 @@ public slots:
         qDebug() << "HurricanePlayer: Seek" << pos;
     }
 
+    /**
+     * 请求预览
+     * @param pos
+     */
+    Q_INVOKABLE void previewRequest(qreal pos) {
+        emit signalPreview(pos, QPrivateSignal());
+    }
+
 private slots:
     void slotPositionChangedBySeek() { emit positionChangedBySeek(); }
     void slotPlaybackStateChanged(bool isPlaying) {
@@ -280,6 +297,7 @@ private slots:
         }
         emit stateChanged();
     }
+
 };
 
 

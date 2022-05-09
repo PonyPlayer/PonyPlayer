@@ -18,9 +18,6 @@ public:
         m_affinityThread = new QThread;
         m_affinityThread->setObjectName("PreviewThread");
         this->moveToThread(m_affinityThread);
-        connect(m_affinityThread, &QThread::started, this, [=]{
-            // init here
-        });
         m_affinityThread->start();
     }
 
@@ -37,15 +34,15 @@ public slots:
         emit previewResult(pos, res);
     };
 
-    void openFile(const std::string &fn) {
-        qDebug() << "Previewer: Open file" << QString::fromUtf8(fn);
+    void openFile(const QString &fn) {
+        qDebug() << "Previewer: Open file" << fn;
         if (m_worker) {
             qWarning() << "Previewer: Already open file:" << m_worker->filename.c_str();
             emit openFileResult(false, QPrivateSignal());
             return;
         }
         try {
-            m_worker = new Previewer(fn, this);
+            m_worker = new Previewer(fn.toStdString(), this);
         } catch (std::runtime_error &ex) {
             qWarning() << "Previewer: Error opening file:" << ex.what();
             m_worker = nullptr;
