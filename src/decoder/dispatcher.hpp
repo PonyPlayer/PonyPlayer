@@ -62,14 +62,16 @@ class DecodeDispatcher : public DemuxDispatcherBase {
     AVPacket *packet = nullptr;
     TwinsBlockQueue<AVFrame *> *videoQueue;
     TwinsBlockQueue<AVFrame *> *audioQueue;
-    moodycamel::ConcurrentQueue<AVFrame *> *m_freeQueue;
+    FrameFreeFunc *m_freeFunction;
+    FrameFreeQueue *m_freeQueue;
 
 public:
     explicit DecodeDispatcher(
-      const std::string &fn,
-      moodycamel::ConcurrentQueue<AVFrame *> *freeQueue,
-      QObject *parent
-    ) : DemuxDispatcherBase(fn, parent), m_freeQueue(freeQueue) {
+            const std::string &fn,
+            FrameFreeQueue *freeQueue,
+            FrameFreeFunc *freeFunc,
+            QObject *parent
+    ) : DemuxDispatcherBase(fn, parent), m_freeQueue(freeQueue), m_freeFunction(freeFunc) {
         packet = av_packet_alloc();
         for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
@@ -84,8 +86,8 @@ public:
         // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
         videoQueue = new TwinsBlockQueue<AVFrame *>("VideoQueue", 16);
         audioQueue = videoQueue->twins("AudioQueue", 16);
-        decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], videoQueue, freeQueue);
-        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], audioQueue, freeQueue);
+        decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], videoQueue, freeQueue, freeFunc);
+        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], audioQueue, freeQueue, freeFunc);
 
 
         interrupt = false; // happens before
@@ -95,6 +97,7 @@ public:
         qDebug() << "Destroy decode dispatcher " << filename.c_str();
         AVFrame *frame;
         while(m_freeQueue->try_dequeue(frame)) { av_frame_free(&frame); }
+        flush();
         if (videoQueue) { videoQueue->close(); }
         if (audioQueue) { audioQueue->close(); }
         for(auto && decoder : decoders) { delete decoder; }
