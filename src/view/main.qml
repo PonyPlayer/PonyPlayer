@@ -33,6 +33,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import HurricanePlayer
+import Thumbnail
 import Controller
 import Thumbnail
 import "./interfacefunctions.js" as IF
@@ -114,6 +115,12 @@ Window {
     title: "PonyPlayer"
     flags:  Qt.Window|Qt.FramelessWindowHint
 
+    Shortcut {
+        sequence: "F5"
+        onActivated: {
+            hotLoader.reload();
+        }
+    }
 
     Shortcut {
         sequence: "F5"
@@ -485,6 +492,7 @@ Window {
                     delegate: listDelegate
                  }
             }
+
         }
 
         //视频播放区域
@@ -539,11 +547,16 @@ Window {
 
                 }
             }
-            Wave{
-                id:wave
+            Thumbnail {
+                id: preview
+                player: videoArea
+                onPreviewResponse:{
+                    preview.visible=true
+                }
             }
         }
     }
+
     PonyFooter{
         id:footer
         anchors.left: leftSizeChange.right

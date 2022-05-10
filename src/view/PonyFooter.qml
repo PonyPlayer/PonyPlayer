@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import "interfacefunctions.js" as IF
 import HurricanePlayer
+import Thumbnail
 Rectangle {
     id:footer
     height: mainWindow.isFooterVisable?80:0
@@ -41,6 +42,7 @@ Rectangle {
             console.log("lei fu kai use seek"+videoSlide.value)
             if(!videoSlide.pressed){
                 videoArea.seek(mainWindow.currentTime)
+                previewImage.previewRequest(mainWindow.currentTime)
             }
         }
         Shortcut{
@@ -120,29 +122,6 @@ Rectangle {
             onClicked: IF.fileListOnClicked()
         }
     }
-
-
-
-    //Image {
-    //        id: settings
-    //        source: "interfacepics/additionalsettings"
-    //        width: 20
-    //        height: 20
-    //        visible: true
-    //        anchors.left: debug.right
-    //        anchors.leftMargin: 10
-    //        anchors.bottom: parent.bottom
-    //        anchors.bottomMargin: 15
-    //        MouseArea{
-    //            anchors.fill: parent
-    //            cursorShape: "PointingHandCursor"
-    //            onClicked: {
-    //                additionalSettings.show()
-    //            }
-    //        }
-    //    }
-
-
 
 
 
