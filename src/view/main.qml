@@ -551,6 +551,9 @@ Window {
                         operationFailedDialogText.text="打开文件失败，请选择正确路径"
                         operationFailedDialog.open()
                     }
+                    else{
+                        IF.toVideoBegining()
+                    }
                 }
             }
             Rectangle{
