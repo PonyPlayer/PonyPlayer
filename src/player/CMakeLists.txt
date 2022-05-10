@@ -14,6 +14,7 @@ qt_add_qml_module(${PROJECT_NAME}
             players.cpp
             renderer.hpp
             preview.hpp
+            thumbnail.hpp
         RESOURCES
             shader/vertex.vsh
             shader/fragment.fsh

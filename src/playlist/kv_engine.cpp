@@ -54,7 +54,9 @@ void PonyKVConnect::createTableFrom(const QString &className, const QString &tab
  */
 QString PonyKVConnect::qTypeToDDL(const QString &qType) {
     static std::unordered_map<QString, QString> lookUpTable = {{"QString", "text"},
-                                                               {"QDir",    "text"}};
+                                                               {"QDir",    "text"},
+                                                               {"float",   "float"},
+                                                               {"int",     "int"}};
     return lookUpTable[qType];
 }
 
@@ -64,7 +66,14 @@ QString PonyKVConnect::qTypeToDDL(const QString &qType) {
  * @object: 被插入对象
  */
 void PonyKVConnect::insert(const QString &tableName, const QObject *object) {
+
     const QMetaObject *metaObj = object->metaObject();
+
+    if (!metaObj)
+        qDebug() << "metaObj is NULL";
+    else
+        qDebug() << "metaObj is not NULL";
+
     QString sql = "INSERT INTO `" + tableName + "` VALUES (";
     for (int i = metaObj->propertyOffset(); i < metaObj->propertyCount(); ++i) {
         if (i != metaObj->propertyOffset()) sql += ",";
@@ -141,6 +150,32 @@ void PonyKVConnect::removeByKV(const QString &tableName, const QString &key, con
     query.exec();
 }
 
+/*
+ * 向数据库查询
+ * @tableName: 表名
+ * @key: 键
+ * @value: 值
+ */
+template<typename T>
+T* PonyKVConnect::search(const QString &tableName, const QString &className, const QString &key, const QString &value) {
+    const QMetaObject *metaObj = QMetaType::fromName(className.toUtf8()).metaObject();
+    QSqlQuery query(db);
+    query.prepare("SELECT * FROM `" + tableName + "` WHERE "+ key + "= :value");
+    query.bindValue(0,value);
+
+    query.exec();
+    QObject *obj = metaObj->newInstance();
+    while(query.next()) {
+        qDebug()<<"have";
+        for (int i = metaObj->propertyOffset(); i < metaObj->propertyCount(); ++i) {
+            obj->setProperty(query.record().fieldName(i - metaObj->propertyOffset()).toUtf8(),
+                             query.record().value(i - metaObj->propertyOffset()));
+        }
+        break;
+    }
+    return dynamic_cast<T *>(obj);
+}
+
 template<typename T>
 PonyKVList<T>::PonyKVList(QString _dbName, QString _tableName, QString _className) :engine(_dbName),
                                                                                     dbName(std::move(_dbName)),
@@ -160,9 +195,19 @@ void PonyKVList<T>::insert(T *item) {
 }
 
 template<typename T>
-void PonyKVList<T>::remove(T *item) {
-    engine.remove(tableName, item);
-    data.erase(std::find(data.begin(), data.end(), item));
+void PonyKVList<T>::remove(QString key,QString value) {
+    engine.removeByKV(tableName,key,value);
+}
+
+template<typename T>
+QList<T*> PonyKVList<T>::extract() {
+    // data = engine.retrieveData<T>(tableName,className);
+    return data;
+}
+
+template<typename T>
+T* PonyKVList<T>::extractInfo(QString key,QString value) {
+    return engine.search<T>(tableName,className,key,value);
 }
 
 template

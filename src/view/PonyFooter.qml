@@ -123,24 +123,24 @@ Rectangle {
 
 
 
-    Image {
-            id: settings
-            source: "interfacepics/additionalsettings"
-            width: 20
-            height: 20
-            visible: true
-            anchors.left: debug.right
-            anchors.leftMargin: 10
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 15
-            MouseArea{
-                anchors.fill: parent
-                cursorShape: "PointingHandCursor"
-                onClicked: {
-                    additionalSettings.show()
-                }
-            }
-        }
+    //Image {
+    //        id: settings
+    //        source: "interfacepics/additionalsettings"
+    //        width: 20
+    //        height: 20
+    //        visible: true
+    //        anchors.left: debug.right
+    //        anchors.leftMargin: 10
+    //        anchors.bottom: parent.bottom
+    //        anchors.bottomMargin: 15
+    //        MouseArea{
+    //            anchors.fill: parent
+    //            cursorShape: "PointingHandCursor"
+    //            onClicked: {
+    //                additionalSettings.show()
+    //            }
+    //        }
+    //    }
 
 
 
@@ -445,22 +445,6 @@ Rectangle {
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
             onClicked: IF.screenSizeFunction()
-        }
-    }
-    Image {
-        id: debug
-        width: 30
-        height: 20
-        anchors.verticalCenter: playOrPause.verticalCenter
-        anchors.left: fileList.right
-        anchors.leftMargin: 10
-        source: "interfacepics/NormalScreen"
-        MouseArea{
-            anchors.fill: parent
-            cursorShape: "PointingHandCursor"
-            onClicked: {
-                IF.openWave()
-            }
         }
     }
 }

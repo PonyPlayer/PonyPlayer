@@ -105,6 +105,28 @@ public slots:
         emit openFileResult(true, QPrivateSignal());
     }
 
+    /**
+     * 倒放视频, 必须保证解码器线程空闲且缓冲区为空. 方法返回后保证产生的帧是在时间正确.
+     * @param secs 视频进度(单位: s)
+     * @see Demuxer2::statePause
+     * @see Demuxer2::flush
+     * @see DecodeDispatcher::seek
+     */
+    void reverse() {
+
+    }
+
+    /**
+     * 正向播放视频, 必须保证解码器线程空闲且缓冲区为空. 方法返回后保证产生的帧是在时间正确.
+     * @param secs 视频进度(单位: s)
+     * @see Demuxer2::statePause
+     * @see Demuxer2::flush
+     * @see DecodeDispatcher::seek
+     */
+    void forward() {
+
+    };
+
     void close() {
         if (m_worker) {
             qDebug() << "Close file" << m_worker->filename.c_str();

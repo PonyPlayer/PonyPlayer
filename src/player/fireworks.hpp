@@ -36,6 +36,7 @@ public:
             } else {
                 qWarning() << "Window destroy.";
             }
+
         });
         qDebug() << "Create Hurricane QuickItem.";
     }

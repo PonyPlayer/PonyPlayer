@@ -9,6 +9,7 @@ add_subdirectory(playlist)
 add_subdirectory(config)
 add_subdirectory(wave)
 add_subdirectory(audiosink)
+add_subdirectory(puremusic)
 #add_subdirectory(interpolate)
 include(${CMAKE_SOURCE_DIR}/cmake/platform.cmake)
 
@@ -30,6 +31,8 @@ target_link_libraries(${PROJECT_NAME}
         wave
         player
         audiosink
+        lyrics
+        lrctools
         #        interpolate
         )
 

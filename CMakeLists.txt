@@ -9,6 +9,7 @@ include(thirdparty/portaudio.cmake)
 include(thirdparty/sonic.cmake)
 include(thirdparty/rwqueue.cmake)
 include(thirdparty/concurrentqueue.cmake)
+include(thirdparty/lrctools.cmake)
 
 set(CMAKE_AUTOMOC ON)
 
