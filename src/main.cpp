@@ -5,6 +5,7 @@
 #include "utils/include/logger.h"
 #include "players.h"
 #include "controller.h"
+#include "playlist.h"
 #include "wave.h"
 #include "hotloader.hpp"
 #include "lyrics.h"
@@ -23,7 +24,9 @@ int main(int argc, char *argv[]) {
 //    qmlRegisterType<Hurricane>("HurricanePlayer", 1, 0, "HurricanePlayer");
     registerPlayerQML();
     qmlRegisterType<WaveView>("WaveView", 1, 0, "WaveView");
-    qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
+    qmlRegisterType<Controller>("Controller",1,0,"Controller");
+    qmlRegisterType<PlayList>("PlayList",1,0,"PlayList");
+    qmlRegisterType<simpleListItem>("SimpleListItem",1,0,"SimpleListItem");
     qRegisterMetaType<PlayListItem *>("PlayListItem");
     qInstallMessageHandler(logMessageHandler);
 
