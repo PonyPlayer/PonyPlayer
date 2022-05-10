@@ -64,18 +64,12 @@ public:
 
         connect(this, &Hurricane::signalOpenFile, frameController, &FrameController::openFile);
         connect(this, &Hurricane::signalOpenFile, preview, &Preview::openFile);
-        connect(preview, &Preview::previewResult, this, &Hurricane::previewResult);
+        connect(preview, &Preview::previewResult, this, &Hurricane::previewResponse);
         connect(this, &Hurricane::signalPreview, preview, &Preview::previewRequest);
         connect(frameController, &FrameController::openFileResult, this, &Hurricane::slotOpenFileResult);
         connect(this, &Hurricane::signalClose, frameController, &FrameController::close);
         connect(frameController, &FrameController::setPicture, this, &Hurricane::setImage);
 
-        // volume
-//    connect(videoPlayWorker, &VideoPlayWorker::signalVolumeChangedFail, this, &HurricanePlayer::slotVolumeChangedFail);
-
-        // seek
-//    connect(this, &HurricanePlayer::signalSeek, videoPlayWorker, &VideoPlayWorker::slotSeek);
-//    connect(videoPlayWorker, &VideoPlayWorker::signalPositionChangedBySeek, this, &HurricanePlayer::slotPositionChangedBySeek);
         connect(this, &Hurricane::signalSeek, frameController, &FrameController::seek);
         connect(frameController, &FrameController::signalPositionChangedBySeek, this, &Hurricane::slotPositionChangedBySeek);
 
@@ -92,6 +86,8 @@ public:
     virtual ~Hurricane() override {
         frameController->pause();
         frameController->deleteLater();
+        preview->close();
+        preview->deleteLater();
         qWarning() << "Destroy HurricanePlayer.";
     }
 
@@ -118,7 +114,12 @@ signals:
      */
     void positionChangedBySeek();
 
-    void previewResult(qreal pos, QImage image);
+    /**
+     * 预览结果图像
+     * @param pos 位置(单位: s), 不一定和请求位置一致
+     * @param image 图像
+     */
+    void previewResponse(qreal pos, QImage image);
 
 
 
@@ -271,9 +272,10 @@ public slots:
         qDebug() << "HurricanePlayer: Seek" << pos;
     }
 
-    /**
-     * 请求预览
-     * @param pos
+    /*d*
+     * 请求预览, 当预览结果准备好之后, 将通过信号通知
+     * @param pos 请求预览的位置(单位: s)
+     * @see Hurricane::previewResponse
      */
     Q_INVOKABLE void previewRequest(qreal pos) {
         emit signalPreview(pos, QPrivateSignal());
