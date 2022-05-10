@@ -49,6 +49,7 @@ qt_add_qml_module(${PROJECT_NAME}
             interfacepics/mainWindowClose.png
             interfacepics/mainWindowReduction.png
             interfacepics/mainWindowMinimize.png
+            interfacepics/ponyback.png
             img/pexels-flora-westbrook-2574614.jpg
             img/pexels-izabella-arvai-953475.jpg
             shader/roundImage.frag

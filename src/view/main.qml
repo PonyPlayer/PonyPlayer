@@ -173,6 +173,8 @@ Window {
             width: 80
             height: 30
             color: "transparent"
+            anchors.left:parent.left
+            anchors.leftMargin:4
             Text {
                 text: qsTr("PonyPlayer")
                 color: "white"
@@ -193,13 +195,8 @@ Window {
                 width: 100
                 topMargin: parent.height
                 MenuItem {
-                    text: "New..."
-                }
-                MenuItem {
-                    text: "Open..."
-                }
-                MenuItem {
-                    text: "Save"
+                    text: "其他设置"
+                    onTriggered:additionalSettings.show()
                 }
             }
         }
@@ -307,7 +304,6 @@ Window {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             color: rgb(45, 48, 50)
-            clip:true
             Controller {
                 id: mediaLibController
             }
@@ -501,6 +497,7 @@ Window {
             clip:true
             HurricanePlayer{
                 id:videoArea
+                clip:true
                 MouseArea{
                     anchors.fill: parent
                     hoverEnabled: true //默认是false
@@ -515,20 +512,34 @@ Window {
                 }
                 onStateChanged:IF.solveStateChanged()
                 Component.onCompleted: IF.mainAreaInit()
-            }
-            //onOpenFileResult:{
-            //    if(!b){
-            //        operationFailedDialogText.text="打开文件失败，请选择正确路径"
-            //        operationFailedDialog.open()
-            //    }
-            //}
-            Rectangle{
-                id:mediaMessage
-                color:"green"
+                onOpenFileResult:{
+                    if(!b){
+                        operationFailedDialogText.text="打开文件失败，请选择正确路径"
+                        operationFailedDialog.open()
+                    }
+                }
             }
             Rectangle{
-                id:audioWavedorm
-                color:"red"
+                id:initScreen
+                color:"#4e4e4e"
+                Image{
+                    id:initImage
+                    width: 200
+                    height: 200
+                    source: "interfacepics/ponyback"
+                    anchors.centerIn: parent
+                }
+                Button {
+                    anchors.top: initImage.bottom
+                    anchors.horizontalCenter: initImage.horizontalCenter
+                    text: "打开文件"
+                    width: 120
+                    height: 30
+
+                }
+            }
+            Wave{
+                id:wave
             }
         }
     }
@@ -565,9 +576,6 @@ Window {
         anchors.right: parent.right
         anchors.top:topBar.bottom
         anchors.bottom: downSizeChange.top
-    }
-    Wave {
-        id: wavewindow
     }
 }
 
