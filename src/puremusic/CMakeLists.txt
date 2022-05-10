@@ -11,5 +11,4 @@ target_link_libraries(lyrics PRIVATE
         Qt::Core
         Qt::Gui
         Qt::Qml
-        Qt::Multimedia
         Qt::Quick)

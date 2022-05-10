@@ -29,7 +29,7 @@
 
 import QtQuick
 import QtQuick.Window
-import QtQuick.Controls
+import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import HurricanePlayer
@@ -435,8 +435,8 @@ Window {
                             text: fileName
                             elide: Text.ElideMiddle
                             font.bold: true
-                            anchors.left : preview.right
-                            width: parent.width - preview.width
+//                            anchors.left : preview.right
+//                            width: parent.width - preview.width
                             anchors.leftMargin: 6
                             anchors.rightMargin: 6
                             anchors.verticalCenter: parent.verticalCenter
@@ -575,13 +575,13 @@ Window {
 
                 }
             }
-            Thumbnail {
-                id: preview
-                player: videoArea
-                onPreviewResponse:{
-                    preview.visible=true
-                }
-            }
+//            Thumbnail {
+//                id: preview
+//                player: "videoArea"
+//                onPreviewResponse:{
+//                    preview.visible=true
+//                }
+//            }
         }
     }
 

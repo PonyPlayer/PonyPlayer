@@ -15,6 +15,7 @@ qt_add_qml_module(${PROJECT_NAME}
             renderer.hpp
             preview.hpp
             thumbnail.hpp
+            ponyslider.hpp
         RESOURCES
             shader/vertex.vsh
             shader/fragment.fsh
@@ -31,6 +32,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt::Core
         Qt::Gui
         Qt::Qml
+        Qt::Widgets
         Qt::Quick
         decoder
         audiosink
