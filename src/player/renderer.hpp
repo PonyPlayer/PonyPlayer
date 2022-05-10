@@ -181,10 +181,7 @@ public:
         }
 
 
-        if (!videoFrame.isValid()) {
-            qDebug() << "Early return";
-            return;
-        }
+        if (!videoFrame.isValid()) { return; }
         program->bind();
         brightness.render();
         contrast.render();

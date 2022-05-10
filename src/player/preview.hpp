@@ -25,13 +25,14 @@ public:
         // set interrupt flag
         m_affinityThread->quit();
     }
+
+
 public slots:
     void previewRequest(qreal pos) {
-        QImage res;
         if (m_worker) {
-            res = m_worker->previewRequest(pos);
+            auto ret = m_worker->previewRequest(pos);
+            emit previewResponse(pos, ret, QPrivateSignal());
         }
-        emit previewResult(pos, res);
     };
 
     void openFile(const QString &fn) {
@@ -63,7 +64,8 @@ public slots:
     }
 
 signals:
-    void previewResult(qreal pos, QImage image);
+    void previewResponse(qreal pos, VideoFrame frame, QPrivateSignal);
 
     void openFileResult(bool ret, QPrivateSignal);
+
 };

@@ -34,6 +34,7 @@ import QtQuick.Layouts
 import QtQuick.Dialogs
 import HurricanePlayer
 import Controller
+import Thumbnail
 import "./interfacefunctions.js" as IF
 Window {
     function rgb(r,g,b) {
@@ -542,6 +543,13 @@ Window {
                 id:wave
             }
         }
+    }
+    Thumbnail {
+        id: preview
+        anchors.left: leftSizeChange.right
+        anchors.right: rightSizeChange.left
+        anchors.bottom: downSizeChange.top
+        player: videoArea
     }
     PonyFooter{
         id:footer
