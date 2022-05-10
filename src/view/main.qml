@@ -544,13 +544,6 @@ Window {
             }
         }
     }
-    Thumbnail {
-        id: preview
-        anchors.left: leftSizeChange.right
-        anchors.right: rightSizeChange.left
-        anchors.bottom: downSizeChange.top
-        player: videoArea
-    }
     PonyFooter{
         id:footer
         anchors.left: leftSizeChange.right
