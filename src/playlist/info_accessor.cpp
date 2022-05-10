@@ -4,6 +4,19 @@
 
 #include "info_accessor.h"
 #include <QDebug>
+#include <QImage>
+
+/*
+ * 保存帧图像
+ */
+QString saveImage(QString abspath, QImage& image) {
+    QFileInfo fi(abspath);
+    QString bn = fi.baseName();
+    QString des = QDir::currentPath() + "/preview/" + bn + ".png";
+    image.save(des);
+    QUrl url = QUrl::fromLocalFile(des);
+    return url.toString();
+}
 
 void infoAccessor::getInfo(QString filename, PlayListItem& res) {
     AVFormatContext* input_AVFormat_context_ = avformat_alloc_context();
@@ -49,6 +62,7 @@ void infoAccessor::getInfo(QString filename, PlayListItem& res) {
         //判断是否为视频流
         if(input_stream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO){
 
+
             //avg_frame_rate -> AVRational(有理数),
             //avg_frame_rate.num : 分子
             //avg_frame_rate.den : 母
@@ -66,6 +80,75 @@ void infoAccessor::getInfo(QString filename, PlayListItem& res) {
 
             //利用avcodec_paramters_to_context()函数产生AVCodecContext对象
             //input_stream->codec已经被淘汰，不推荐使用这种方式生成AVCodecContext
+
+            /************************* 获取视频初帧 *************************/
+
+            AVPacket* pkt = av_packet_alloc();
+            AVFrame* temp_frame = av_frame_alloc();
+            SwsContext* sws_ctx = NULL;
+            int rets = 0;
+            QImage preview;
+            bool preview_done = false;
+
+            AVCodecParameters* codecPr = input_stream->codecpar;
+            const AVCodec* pCodec = avcodec_find_decoder(codecPr->codec_id);
+            AVCodecContext* pCodecCtx = avcodec_alloc_context3(pCodec);
+            avcodec_parameters_to_context(pCodecCtx, codecPr);
+
+            avcodec_open2(pCodecCtx, pCodec, nullptr);
+
+            // 读取视频帧
+            while(av_read_frame(input_AVFormat_context_, pkt) >= 0) {
+                if(pkt->stream_index == i) {
+                    av_frame_unref(temp_frame);
+
+                    while((rets = avcodec_receive_frame(pCodecCtx, temp_frame)) == AVERROR(EAGAIN)) {
+                        rets = avcodec_send_packet(pCodecCtx, pkt);
+                        if(rets < 0) break;
+                    }
+                    if(rets < 0 && rets != AVERROR_EOF) continue;
+                    int dstH = 240;
+                    int dstW = qRound(dstH * (float(temp_frame->width)/float(temp_frame->height)));
+                    dstH = (dstH >> 4) << 4;
+                    dstW = (dstW >> 4) << 4;
+                    sws_ctx = sws_getContext(temp_frame->width,
+                                             temp_frame->height,
+                                             static_cast<AVPixelFormat>(temp_frame->format),
+                                             dstW,
+                                             dstH,
+                                             static_cast<AVPixelFormat>(AV_PIX_FMT_RGBA),
+                                             SWS_FAST_BILINEAR,
+                                             nullptr,nullptr,nullptr);
+                    int linesize[AV_NUM_DATA_POINTERS];
+                    linesize[0] = dstW*4;
+                    // 生成图片
+                    preview = QImage(dstW, dstH, QImage::Format_RGBA8888);
+                    uint8_t* data = preview.bits();
+                    sws_scale(sws_ctx,
+                              temp_frame->data,
+                              temp_frame->linesize,
+                              0,
+                              temp_frame->height,
+                              &data,
+                              linesize);
+                    sws_freeContext(sws_ctx);
+
+                    avcodec_close(pCodecCtx);
+                    avcodec_free_context(&pCodecCtx);
+                    preview_done = true;
+                    break;
+                }
+
+            }
+            av_frame_free(&temp_frame);
+            av_packet_free(&pkt);
+            if(preview_done) {
+                QString des = saveImage(filename,preview);
+                res.setIconPath(des);
+                qDebug()<<"QImage done";
+            }
+            /****************************** 获取视频初帧 ****************************/
+
             AVCodecContext* avctx_video;
             avctx_video = avcodec_alloc_context3(NULL);
             int ret = avcodec_parameters_to_context(avctx_video, codec_par);

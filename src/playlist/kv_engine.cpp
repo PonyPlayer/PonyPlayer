@@ -13,6 +13,7 @@
 PonyKVConnect::PonyKVConnect(const QString &dbName) {
     QDir dataBasePath = QDir::currentPath();
     dataBasePath.mkpath("data");
+    dataBasePath.mkpath("preview");
     dataBasePath.cd("data");
 
     db = QSqlDatabase::addDatabase("QSQLITE");
