@@ -27,6 +27,9 @@ public:
 
     void removeByKV(const QString &tableName, const QString &key, const QString &value);
 
+    template<typename T>
+    T* search(const QString &tableName, const QString &className, const QString &key, const QString &value);
+
     QList<QObject *> retrieveData(const QString &tableName, const QString &className);
 
     template<typename T>
@@ -35,7 +38,7 @@ public:
 
 
 class ListItem : public QObject {
-Q_OBJECT
+    Q_OBJECT
     Q_PROPERTY(QString _uuid_ READ getUUID WRITE setUUID)
 protected:
     QString _uuid_;
@@ -59,13 +62,18 @@ private:
     QString tableName;
     QString className;
     QList<T *> data;
+    T* infoData;
 public:
     PonyKVList(QString _dbName, QString _tableName, QString _className);
 
+    QString getTableName() { return tableName; }
+
     void insert(T *item);
 
-    void remove(T *item);
+    void remove(QString key,QString value);
+
+    T* extractInfo(QString key,QString value);
+
+    QList<T*> extract();
+
 };
-
-
-

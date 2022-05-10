@@ -1,10 +1,35 @@
 import QtQuick
 import QtQuick.Controls
+import Controller
 
 Window {
-    id: mediainfowindow
+    id: infwin
     width: 300
     height: 600
+    property string filepath
+    property alias infomodel: medialistModel
+
+//    Controller {
+//            id: mediaInfoController
+
+//            onFinishGetInfo: {
+//                var infoitem = mediaLibController.getListItemInfo()
+////                        medialistModel.append(infoitem)
+//                console.log(infoitem["音频流大小"])
+//                for(var infokey in infoitem) {
+//                    medialistModel.append({"infokey":infokey, "infocontent":infoitem[infokey]})
+//                }
+
+////                        for(var i=0;i<items.length;i++) {
+////                            console.log(items[i]["fileName"])
+////                            // listModel.append({"name":items[i].getFileName,"file_path":items[i].getFilePath,"iconpath":"interfacepics/defaultlogo"})
+////                            listModel.append(items[i])
+////                            var appe = listModel.get(listModel.count-1)
+////                            if(appe.iconPath == "")
+////                                appe.iconPath = "interfacepics/defaultlogo"
+////                        }
+//            }
+//        }
 
     // 列表代理
     Component {
@@ -13,7 +38,7 @@ Window {
             id: mediaInfoListitem
 
             height: 20
-            width: parent.width
+            width: infwin.width
 
             Row {
                 id: raylay
@@ -21,20 +46,20 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 padding: 2
                 spacing: 2
-
-
                 Text {
-                    text: info_key
+                    id: info_key
+                    text: infokey
                     font.bold: true
                     font.pointSize: 18
-
                 }
 
                 Text {
-                    text: info_value
-                    font.bold: false
+                    text: infocontent
+                    elide: Text.ElideMiddle
                     font.pointSize: 18
+                    width: parent.width-info_key.contentWidth
                 }
+
             }
 
         }
@@ -52,26 +77,16 @@ Window {
             focus:true
             model: ListModel{
                 id:medialistModel
-                 ListElement{
-                     info_key:"7"
-                     info_value: 7
-                 }
-                 ListElement{
-                     info_key:"5"
-                     info_value: 6
-                 }
-                 ListElement{
-                     info_key:"3"
-                     info_value: 9
-                 }
-                 ListElement{
-                     name:"1"
-                     age: 45
-                 }
              }
 
             delegate: mediaInfoListDelegate
          }
     }
-}
 
+    // 调用 Controller 槽函数获取信息
+//    Component.onCompleted: {
+//        console.log("filepath:",mediainfowindow.filepath)
+//        mediaLibController.sendGetInfoRequirement(mediainfowindow.filepath)
+//    }
+
+}

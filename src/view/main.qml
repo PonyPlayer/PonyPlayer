@@ -102,7 +102,13 @@ Window {
     signal openFile(string path)
 
 
+    MediaInfo {
+        id:mediainfowindow
 
+        Component.onCompleted: {
+            console.log("mediainfo complete")
+        }
+    }
 
 
     width: mainWindow.userWidth
@@ -306,6 +312,28 @@ Window {
             color: rgb(45, 48, 50)
             Controller {
                 id: mediaLibController
+
+                onFinishExtractItems: {
+                    var items = mediaLibController.getSimpleListItemList()
+
+                    for(var i=0;i<items.length;i++) {
+                        console.log(items[i]["fileName"])
+                        // listModel.append({"name":items[i].getFileName,"file_path":items[i].getFilePath,"iconpath":"interfacepics/defaultlogo"})
+                        listModel.append(items[i])
+
+                        var appe = listModel.get(listModel.count-1)
+                        if(appe.iconPath == "")
+                            appe.iconPath = "interfacepics/defaultlogo"
+                    }
+                }
+
+                onFinishGetInfo: {
+                    var infoitem = mediaLibController.getListItemInfo()
+                    mediainfowindow.infomodel.clear()
+                    for(var infokey in infoitem) {
+                        mediainfowindow.infomodel.append({"infokey":infokey+":", "infocontent":infoitem[infokey]})
+                    }
+                }
             }
 
             //列表文件操作项目
@@ -373,20 +401,20 @@ Window {
                     height: listview.height / 10    // 每页显示 10 个
                     width: listview.width
 
-                    MediaInfo {
-                        id: mediainfowindow
-                    }
+//                    property string filepath
+//                    filepath: filePath
 
                     Item {
-                        id: raylayout
+                        id: rowlayout
                         anchors.top: parent.top
                         anchors.right: deleteitem.left
                         anchors.left: parent.left
                         anchors.bottom: parent.bottom
 
+
                         Image {
                             id: preview
-                            source: "interfacepics/defaultlogo"
+                            source: iconPath
                             anchors.left: parent.left
                             anchors.leftMargin: parent.height*0.1
                             height: parent.height*0.8
@@ -396,12 +424,21 @@ Window {
 
                         Text {
                             id: filaname
-                            text: name
+                            text: fileName
+                            elide: Text.ElideMiddle
                             font.bold: true
                             anchors.left : preview.right
+                            width: parent.width - preview.width
                             anchors.leftMargin: 6
+                            anchors.rightMargin: 6
                             anchors.verticalCenter: parent.verticalCenter
-                            color: rgb(173, 173, 173)
+                            color: rgb(173,173,173)
+                        }
+                        Text {
+                            id: fpath
+                            text: filePath
+                            visible: false
+                            width: 0
                         }
 
                         MouseArea {
@@ -410,11 +447,14 @@ Window {
 
                             onClicked: {
                                 listview.currentIndex = index
-                                console.log(listview.currentIndex)
+                                console.log("[P]selected file:"+listModel.get(index).filePath)
+                                mainWindow.openFile(listModel.get(index).filePath);
+                                mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
                             }
 
                             onDoubleClicked: {
-                                mediainfowindow.show()
+                                  mediaLibController.sendGetInfoRequirement(listModel.get(index).filePath)
+                                  mediainfowindow.show()
                             }
                         }
 
@@ -426,8 +466,6 @@ Window {
                         width: preview.width*0.5
                         source: "interfacepics/FileCloser"
                         anchors.right: parent.right
-                        anchors.left: filename.left
-                        anchors.leftMargin: 6
                         anchors.rightMargin: parent.height*0.1
                         anchors.verticalCenter: parent.verticalCenter
 
@@ -438,6 +476,7 @@ Window {
                             onClicked: {
                                 console.log("Image")
                                 listModel.remove(index,1)
+                                mediaLibController.sendRemoveRequirement(listModel.get(index).filePath)
                             }
 
                         }
@@ -461,28 +500,15 @@ Window {
                     focus:true
                     model: ListModel{
                         id:listModel
-                         ListElement{
-                             name:"7"
-                             age: 7
-                         }
-                         ListElement{
-                             name:"5"
-                             age: 6
-                         }
-                         ListElement{
-                             name:"3"
-                             age: 9
-                         }
-                         ListElement{
-                             name:"1"
-                             age: 45
-                         }
                      }
                     highlight:Rectangle {
                         color: "red"
                     }
                     delegate: listDelegate
                  }
+            }
+            Component.onCompleted: {
+                 mediaLibController.sendExtractRequirement()
             }
         }
 
