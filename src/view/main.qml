@@ -38,6 +38,8 @@ import Controller
 import Thumbnail
 import "./interfacefunctions.js" as IF
 Window {
+    Material.theme: Material.System
+    Material.accent: Material.Blue
     function rgb(r,g,b) {
         var ret = (r << 16 | g << 8 | b)
         return ("#"+ret.toString(16)).toUpperCase();
@@ -119,7 +121,7 @@ Window {
     minimumHeight: 500
     visible: true
     title: "PonyPlayer"
-    flags:  Qt.Window|Qt.FramelessWindowHint
+    flags:  Qt.Window | Qt.FramelessWindowHint
 
     Shortcut {
         sequence: "F5"
@@ -435,8 +437,8 @@ Window {
                             text: fileName
                             elide: Text.ElideMiddle
                             font.bold: true
-//                            anchors.left : preview.right
-//                            width: parent.width - preview.width
+                            anchors.left : preview.right
+                            width: parent.width - preview.width
                             anchors.leftMargin: 6
                             anchors.rightMargin: 6
                             anchors.verticalCenter: parent.verticalCenter
@@ -575,13 +577,13 @@ Window {
 
                 }
             }
-//            Thumbnail {
-//                id: preview
-//                player: "videoArea"
-//                onPreviewResponse:{
-//                    preview.visible=true
-//                }
-//            }
+            Thumbnail {
+                id: preview
+                player: "videoArea"
+                onPreviewResponse:{
+                    preview.visible=true
+                }
+            }
         }
     }
 
