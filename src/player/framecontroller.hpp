@@ -114,7 +114,6 @@ public slots:
             qDebug() << sample.getPTS() << sample.isValid();
 
         }
-        m_playback->clear();
         emit signalPositionChangedBySeek(); // block
         m_playback->setStartPoint(startPoint);
         m_playback->showFrame();
