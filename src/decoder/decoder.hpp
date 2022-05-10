@@ -15,7 +15,9 @@ INCLUDE_FFMPEG_END
 #include "twins_queue.hpp"
 #include "concurrentqueue.h"
 #include <atomic>
+#include <utility>
 
+typedef moodycamel::ConcurrentQueue<AVFrame *> FreeQueue;
 
 class IDemuxDecoder {
 
@@ -114,10 +116,14 @@ template<IDemuxDecoder::DecoderType type>
 class DecoderImpl : public DecoderContext, public IDemuxDecoder {
 protected:
     TwinsBlockQueue<AVFrame *> *frameQueue;
-    moodycamel::ConcurrentQueue<AVFrame *> freeQueue;
+    moodycamel::ConcurrentQueue<AVFrame *> *m_freeQueue;
 
 public:
-    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue) : DecoderContext(vs), frameQueue(queue), freeQueue(1024) {}
+    DecoderImpl(
+      AVStream *vs,
+      TwinsBlockQueue<AVFrame *> *queue,
+      moodycamel::ConcurrentQueue<AVFrame *> *freeQueue
+    ) : DecoderContext(vs), frameQueue(queue), m_freeQueue(freeQueue) {}
 
     double duration() override {
         return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
@@ -125,9 +131,6 @@ public:
 
     bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
         AVFrame *frame;
-        while(freeQueue.try_dequeue(frame)) {
-            av_frame_free(&frame);
-        }
         int ret = avcodec_send_packet(codecCtx, pkt);
         if (ret < 0) {
             qWarning() << "Error avcodec_send_packet:" << ffmpegErrToString(ret);
@@ -192,7 +195,7 @@ template<> class DecoderImpl<Audio>: public DecoderImpl<Common> {
     AVFrame * sampleFrameBuf = nullptr;
 
 public:
-    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue) : DecoderImpl<Common>(vs, queue) {
+    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue, FreeQueue *freeQueue) : DecoderImpl<Common>(vs, queue, freeQueue) {
         this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
                                           AV_SAMPLE_FMT_S16, 44100,
                                           static_cast<int64_t>(codecCtx->channel_layout), codecCtx->sample_fmt,
@@ -230,28 +233,23 @@ public:
 
     bool pop(bool b) override {
         AVFrame *frame = frameQueue->front();
-        freeQueue.enqueue(frame);
+        m_freeQueue->enqueue(frame);
         return frameQueue->pop();
     }
 };
 
-#include <unordered_map>
 /**
  * 视频解码器实现
  */
 template<> class DecoderImpl<Video>: public DecoderImpl<Common> {
 private:
     FrameFreeFunc freeFunc;
-    std::atomic<long long> count;
 public:
-    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue) : DecoderImpl<Common>(vs, queue) {
-        freeFunc = [&](AVFrame* frame){freeVideoFrame(frame);};
+    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue, FreeQueue *freeQueue) : DecoderImpl<Common>(vs, queue, freeQueue) {
+        freeFunc = [freeQueue](AVFrame *frame) { freeQueue->enqueue(frame); };
     }
 
-    void freeVideoFrame(AVFrame* frame) {
-        freeQueue.enqueue(frame);
-        count--;
-    }
+
 
     VideoFrame getPicture(bool b, bool own) override {
         AVFrame *frame = frameQueue->front();
@@ -262,7 +260,6 @@ public:
 
     bool pop(bool b) override {
         bool ret = DecoderImpl<Common>::pop(b);
-        count++;
         return ret;
     }
 

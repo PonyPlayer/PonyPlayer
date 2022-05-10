@@ -62,8 +62,14 @@ class DecodeDispatcher : public DemuxDispatcherBase {
     AVPacket *packet = nullptr;
     TwinsBlockQueue<AVFrame *> *videoQueue;
     TwinsBlockQueue<AVFrame *> *audioQueue;
+    moodycamel::ConcurrentQueue<AVFrame *> *m_freeQueue;
+
 public:
-    explicit DecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent) {
+    explicit DecodeDispatcher(
+      const std::string &fn,
+      moodycamel::ConcurrentQueue<AVFrame *> *freeQueue,
+      QObject *parent
+    ) : DemuxDispatcherBase(fn, parent), m_freeQueue(freeQueue) {
         packet = av_packet_alloc();
         for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
@@ -78,8 +84,8 @@ public:
         // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
         videoQueue = new TwinsBlockQueue<AVFrame *>("VideoQueue", 16);
         audioQueue = videoQueue->twins("AudioQueue", 16);
-        decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], videoQueue);
-        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], audioQueue);
+        decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], videoQueue, freeQueue);
+        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], audioQueue, freeQueue);
 
 
         interrupt = false; // happens before
@@ -87,10 +93,13 @@ public:
 
     ~DecodeDispatcher() override {
         qDebug() << "Destroy decode dispatcher " << filename.c_str();
+        AVFrame *frame;
+        while(m_freeQueue->try_dequeue(frame)) { av_frame_free(&frame); }
         if (videoQueue) { videoQueue->close(); }
         if (audioQueue) { audioQueue->close(); }
         for(auto && decoder : decoders) { delete decoder; }
         if(packet) { av_packet_free(&packet); }
+
     }
 
     /**
@@ -148,6 +157,8 @@ public slots:
     void onWork() {
         videoQueue->open();
         while(!interrupt) {
+            AVFrame *frame;
+            while(m_freeQueue->try_dequeue(frame)) { av_frame_free(&frame); }
             int ret = av_read_frame(fmtCtx, packet);
             if (ret == 0) {
                 auto *decoder = decoders[static_cast<unsigned long>(packet->stream_index)];
@@ -160,7 +171,6 @@ public slots:
                 qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
             }
             av_packet_unref(packet);
-            QCoreApplication::processEvents();
         }
     };
 };
