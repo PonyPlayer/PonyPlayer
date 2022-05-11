@@ -20,8 +20,6 @@ target_link_libraries(${PROJECT_NAME}
         PRIVATE Qt::Quick
         PRIVATE Qt::Qml
         PRIVATE Qt::QmlWorkerScript
-        PRIVATE Qt::Widgets
-        PRIVATE Qt::Multimedia
         PRIVATE ${FFmpeg}
         utils
         decoder

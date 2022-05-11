@@ -1,6 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QApplication>
+#include <QCoreApplication>
 #include <QQmlContext>
 #include "utils/include/logger.h"
 #include "players.h"
@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
     format.setVersion(3, 3);
     format.setSamples(16);
     QSurfaceFormat::setDefaultFormat(format);
-    QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
 
 //    qmlRegisterType<Hurricane>("HurricanePlayer", 1, 0, "HurricanePlayer");
     registerPlayerQML();
@@ -48,5 +48,5 @@ int main(int argc, char *argv[]) {
     for (auto it = lyrics->IteratorBegin(); it != lyrics->IteratorEnd(); it++) {
         qDebug() << it->lyric.data();
     }
-    return QApplication::exec();
+    return QGuiApplication::exec();
 }

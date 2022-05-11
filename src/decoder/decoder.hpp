@@ -125,14 +125,13 @@ public:
             TwinsBlockQueue<AVFrame *> *queue,
             FrameFreeQueue *freeQueue,
             FrameFreeFunc *freeFunc
-    ) : DecoderContext(vs), frameQueue(queue), m_freeQueue(freeQueue), m_freeFunc(freeFunc) {}
+    ) : DecoderContext(vs), frameQueue(queue), m_freeFunc(freeFunc), m_freeQueue(freeQueue) {}
 
     double duration() override {
         return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
     }
 
     bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
-        AVFrame *frame;
         int ret = avcodec_send_packet(codecCtx, pkt);
         if (ret < 0) {
             qWarning() << "Error avcodec_send_packet:" << ffmpegErrToString(ret);

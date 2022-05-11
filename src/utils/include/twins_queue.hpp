@@ -45,7 +45,10 @@ public:
         this->m_cond = new std::condition_variable;
         this->m_open = new bool{true};
         this->m_twins = nullptr;
+    }
 
+    ~TwinsBlockQueue() {
+        close();
     }
 
     TwinsBlockQueue<T> *twins(const std::string &name, size_t prefer) {
