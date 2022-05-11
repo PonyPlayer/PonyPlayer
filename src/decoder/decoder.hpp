@@ -266,6 +266,159 @@ public:
         return ret;
     }
 
+};
+
+#include <iostream>
+/**
+ * 反向Decoder
+ * @tparam type
+ */
+template<IDemuxDecoder::DecoderType type>
+class ReverseDecoderImpl : public DecoderContext, public IDemuxDecoder {
+protected:
+    TwinsBlockQueue<std::vector<AVFrame *>*> *frameQueue;
+    std::vector<AVFrame*> *frameStack;
+    qreal from;
+    qreal next{-1.0};
+
+public:
+    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<std::vector<AVFrame *>*> *queue) :
+        DecoderContext(vs), frameQueue(queue), frameStack(new std::vector<AVFrame*>) {
+        from = static_cast<double>(stream->duration) * av_q2d(stream->time_base);
+    }
+
+    double duration() override {
+        return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
+    }
+
+    ~ReverseDecoderImpl() {
+        if (frameStack) {
+            for (auto frame: *frameStack) {
+                av_frame_free(&frame);
+            }
+            delete frameStack;
+        }
+    }
+
+    void setStart(qreal secs) {
+        from = secs;
+        for (auto frame : *frameStack) {
+            av_frame_free(&frame);
+        }
+        frameStack->clear();
+    }
+
+    qreal nextSegment() {
+        auto res = next;
+        next = -1.0;
+        return res;
+    }
+
+    bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
+        AVFrame *frame;
+        int ret = avcodec_send_packet(codecCtx, pkt);
+        if (ret < 0) {
+            qWarning() << "Error avcodec_send_packet:" << ffmpegErrToString(ret);
+            return false;
+        }
+        while(ret >= 0 && !interrupt) {
+            ret = avcodec_receive_frame(codecCtx, frameBuf);
+            if (ret >= 0) {
+#ifdef IGNORE_VIDEO_FRAME
+                if constexpr(type == Video) {
+                if (frameQueue.getSize() > 10) {
+                    av_frame_unref(frameBuf);
+                    av_frame_free(&frameBuf);
+                } else {
+                    ret = frameQueue.bpush(frameBuf);
+                }
+            } else {
+                ret = frameQueue.bpush(frameBuf);
+            }
+#else
+                double pts = av_q2d(stream->time_base) * static_cast<double>(frameBuf->pts);
+                if (pts < from-1.0) {
+                    av_frame_unref(frameBuf);
+                    continue;
+                }
+                else if (pts <= from){
+                    //std::cerr << pts << " " << from << std::endl;
+                    frameStack->push_back(frameBuf);
+                }
+                else {
+                    //std::cerr << "push to queue"<< std::endl;
+                    av_frame_unref(frameBuf);
+                    frameQueue->push(frameStack);
+                    frameStack = new std::vector<AVFrame*>;
+                    if (from < 1.0)
+                        from = 0;
+                    else
+                        from -= 1.0;
+                    next = from;
+                    return true;
+                }
+#endif
+                frameBuf = av_frame_alloc();
+            } else if (ret == AVERROR(EAGAIN)) {
+                return true;
+            } else if (ret == ERROR_EOF) {
+                return false;
+            } else {
+                qWarning() << "Error avcodec_receive_frame:" << ffmpegErrToString(ret);
+                return false;
+            }
+        }
+        return false;
+    }
+
+    VideoFrame getPicture(bool b, bool own) override {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
+    AudioFrame getSample(bool b) override {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
+    bool pop(bool b) override {
+        return frameQueue->pop();
+    }
+
+    void flushFFmpegBuffers() override {
+        avcodec_flush_buffers(codecCtx);
+    }
+
+};
+
+/**
+ * 视频解码器实现
+ */
+template<> class ReverseDecoderImpl<Video>: public ReverseDecoderImpl<Common> {
+private:
+    FrameFreeFunc freeFunc;
+public:
+    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<std::vector<AVFrame *>*> *queue) : ReverseDecoderImpl<Common>(vs, queue) {
+        freeFunc = [&](AVFrame* frame){av_frame_free(&frame);};
+    }
+
+    VideoFrame getPicture(bool b, bool own) override {
+        auto stk = frameQueue->front();
+        if (!stk) { return {}; }
+        auto frame = stk->back();
+        double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
+        return {frame, pts, own ? freeFunc : nullptr};
+    }
+
+    bool pop(bool b) override {
+        auto stk = frameQueue->front();
+        if (stk) {
+            stk->pop_back();
+            if (stk->empty()) {
+                ReverseDecoderImpl<Common>::pop(b);
+                delete stk;
+            }
+        }
+        return true;
+    }
 
 };
 
