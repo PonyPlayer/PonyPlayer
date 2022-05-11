@@ -68,4 +68,9 @@ QVariantMap Controller::getListItemInfo() {
     res["音频采样率"] = QVariant::fromValue(QString::number(playListItemResult->getSampleRate()));
     res["音频流大小"] = QVariant::fromValue(QString::number(playListItemResult->getAudioSize()));
     return res;
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc

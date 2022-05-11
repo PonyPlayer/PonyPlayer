@@ -82,7 +82,10 @@ void PlayList::remove(QString filepath){
 
 PlayListItem* PlayList::search(QString key){
     qDebug()<<"search";
+<<<<<<< HEAD
     return NULL;
+=======
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 }
 
 void PlayList::getInfo(QString path) {
@@ -100,7 +103,11 @@ void PlayList::extractAndProcess() {
     QList<simpleListItem*> res;
     simpleListItem* slItem;
     foreach(PlayListItem* item, rce) {
+<<<<<<< HEAD
         slItem = new simpleListItem(item->getFileName(),item->getPath(),item->getIconPath());
+=======
+        slItem = new simpleListItem(item->getFileName(),item->getPath(),"");
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
         res.append(slItem);
     }
     emit extractDone(res);

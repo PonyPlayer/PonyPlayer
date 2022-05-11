@@ -6,11 +6,14 @@
 #include "players.h"
 #include "controller.h"
 #include "playlist.h"
+<<<<<<< HEAD
 #include "wave.h"
 #include "hotloader.hpp"
 #include "lyrics.h"
 #include "liblrc/lyrics.h"
 #include "liblrc/lrc_parser.h"
+=======
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 
 int main(int argc, char *argv[]) {
     QQuickWindow::setGraphicsApi(QSGRendererInterface::GraphicsApi::OpenGL);

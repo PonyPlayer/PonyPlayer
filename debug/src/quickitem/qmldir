@@ -1,0 +1,7 @@
+module quickitem
+linktarget quickitem
+optional plugin quickitem
+classname quickitemPlugin
+typeinfo quickitem.qmltypes
+prefer :/quickitem/
+

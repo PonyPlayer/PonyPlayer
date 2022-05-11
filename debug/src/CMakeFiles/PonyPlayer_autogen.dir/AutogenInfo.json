@@ -1,0 +1,98 @@
+{
+	"BUILD_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/PonyPlayer_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src",
+	"CMAKE_EXECUTABLE" : "/Applications/CMake.app/Contents/bin/cmake",
+	"CMAKE_LIST_FILES" : 
+	[
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/CMakeLists.txt",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/cmake/platform.cmake"
+	],
+	"CMAKE_SOURCE_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer",
+	"DEP_FILE" : "",
+	"DEP_FILE_RULE_NAME" : "",
+	"HEADERS" : [],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/PonyPlayer_autogen/include",
+	"MOC_COMPILATION_FILE" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/PonyPlayer_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : 
+	[
+		"QT_CORE_LIB",
+		"QT_GUI_LIB",
+		"QT_MULTIMEDIA_LIB",
+		"QT_NETWORK_LIB",
+		"QT_NO_DEBUG",
+		"QT_OPENGL_LIB",
+		"QT_QMLMODELS_LIB",
+		"QT_QMLWORKERSCRIPT_LIB",
+		"QT_QML_LIB",
+		"QT_QUICK_LIB",
+		"QT_WIDGETS_LIB"
+	],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/opt/homebrew/include",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/include",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtCore.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtCore.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/mkspecs/macx-clang",
+		"/Users/aaronpeng/Qt/6.2.4/macos/include",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtGui.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtGui.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQuick.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQuick.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQml.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQml.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtNetwork.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtNetwork.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQmlModels.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQmlModels.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtOpenGL.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtOpenGL.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQmlWorkerScript.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQmlWorkerScript.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtWidgets.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtWidgets.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtMultimedia.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtMultimedia.framework/Headers",
+		"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/usr/include/c++/v1",
+		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.1.6/include",
+		"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/usr/include",
+		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE", "Q_NAMESPACE_EXPORT" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++",
+		"-dM",
+		"-E",
+		"-c",
+		"/Applications/CMake.app/Contents/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/PonyPlayer_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 8,
+	"PARSE_CACHE_FILE" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/CMakeFiles/PonyPlayer_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/Users/aaronpeng/Qt/6.2.4/macos/./libexec/moc",
+	"QT_UIC_EXECUTABLE" : "",
+	"QT_VERSION_MAJOR" : 6,
+	"QT_VERSION_MINOR" : 2,
+	"SETTINGS_FILE" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/CMakeFiles/PonyPlayer_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[ "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/main.cpp", "Mu", null ]
+	],
+	"VERBOSITY" : 0
+}

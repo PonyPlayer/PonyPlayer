@@ -71,6 +71,15 @@ public:
     void insert(T *item);
 
     void remove(QString key,QString value);
+<<<<<<< HEAD
+=======
+
+    T* extractInfo(QString key,QString value);
+
+    QList<T*> extract();
+
+};
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 
     T* extractInfo(QString key,QString value);
 

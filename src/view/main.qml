@@ -24,7 +24,7 @@
 ** be met: https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
-**
+** 
 ****************************************************************************/
 
 import QtQuick
@@ -35,7 +35,12 @@ import QtQuick.Dialogs
 import HurricanePlayer
 import Thumbnail
 import Controller
+<<<<<<< HEAD
 import Thumbnail
+=======
+import SimpleListItem
+
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 import "./interfacefunctions.js" as IF
 Window {
     function rgb(r,g,b) {
@@ -128,12 +133,19 @@ Window {
         }
     }
 
+<<<<<<< HEAD
     Shortcut {
         sequence: "F5"
         onActivated: {
             hotLoader.reload();
         }
     }
+=======
+//    MediaInfo {
+//        id: mediainfowindow
+//    }
+
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 
     MouseArea{
         anchors.fill: parent
@@ -323,24 +335,40 @@ Window {
 
                 onFinishExtractItems: {
                     var items = mediaLibController.getSimpleListItemList()
+<<<<<<< HEAD
 
+=======
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
                     for(var i=0;i<items.length;i++) {
                         console.log(items[i]["fileName"])
                         // listModel.append({"name":items[i].getFileName,"file_path":items[i].getFilePath,"iconpath":"interfacepics/defaultlogo"})
                         listModel.append(items[i])
+<<<<<<< HEAD
 
                         var appe = listModel.get(listModel.count-1)
                         if(appe.iconPath === "")
+=======
+                        var appe = listModel.get(listModel.count-1)
+                        if(appe.iconPath == "")
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
                             appe.iconPath = "interfacepics/defaultlogo"
                     }
                 }
 
                 onFinishGetInfo: {
                     var infoitem = mediaLibController.getListItemInfo()
+<<<<<<< HEAD
                     mediainfowindow.infomodel.clear()
                     for(var infokey in infoitem) {
                         mediainfowindow.infomodel.append({"infokey":infokey+":", "infocontent":infoitem[infokey]})
                     }
+=======
+    //                        medialistModel.append(infoitem)
+                    for(var infokey in infoitem) {
+                        mediainfowindow.infomodel.append({"infokey":infokey+":", "infocontent":infoitem[infokey]})
+                    }
+
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
                 }
             }
 
@@ -355,7 +383,19 @@ Window {
                 FileDialog{
                     id:fileDialog
                     title: "choose video"
+<<<<<<< HEAD
                     onAccepted: IF.videoListOperatorOnAccepted()
+=======
+                    onAccepted: {
+                        mainWindow.openFile(fileDialog.currentFile);
+                        mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+                        let selectedFileName = fileDialog.currentFile.toString().substring(
+                        fileDialog.currentFolder.toString().length + 1)
+                        mediaLibController.getFile(selectedFileName, fileDialog.currentFile);
+                        listModel.append({"fileName":selectedFileName,"filePath":fileDialog.currentFile,"iconPath":"interfacepics/defaultlogo"})
+                        console.log(videoArea.getVideoDuration())
+                    }
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
                     onRejected: {
                         console.log("reject")
                     }
@@ -409,8 +449,11 @@ Window {
                     height: listview.height / 10    // 每页显示 10 个
                     width: listview.width
 
+<<<<<<< HEAD
 //                    property string filepath
 //                    filepath: filePath
+=======
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 
                     Item {
                         id: rowlayout
@@ -418,6 +461,9 @@ Window {
                         anchors.right: deleteitem.left
                         anchors.left: parent.left
                         anchors.bottom: parent.bottom
+                        property string filepath
+                        filepath: filePath
+
 
 
                         Image {
@@ -441,13 +487,17 @@ Window {
                             anchors.rightMargin: 6
                             anchors.verticalCenter: parent.verticalCenter
                             color: rgb(173,173,173)
+<<<<<<< HEAD
                         }
                         Text {
                             id: fpath
                             text: filePath
                             visible: false
                             width: 0
+=======
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
                         }
+
 
                         MouseArea {
                             anchors.fill: parent
@@ -461,7 +511,12 @@ Window {
                             }
 
                             onDoubleClicked: {
+<<<<<<< HEAD
                                   mediaLibController.sendGetInfoRequirement(listModel.get(index).filePath)
+=======
+
+                                  mediaLibController.sendGetInfoRequirement(rowlayout.filepath)
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
                                   mediainfowindow.show()
                             }
                         }
@@ -485,6 +540,7 @@ Window {
                                 console.log("Image")
                                 mediaLibController.sendRemoveRequirement(listModel.get(index).filePath, listModel.get(index).iconPath)
                                 listModel.remove(index,1)
+                                mediaLibController.sendRemoveRequirement(rowlayout.filepath)
                             }
 
                         }
@@ -515,8 +571,15 @@ Window {
                     delegate: listDelegate
                  }
             }
+<<<<<<< HEAD
             Component.onCompleted: {
                  mediaLibController.sendExtractRequirement()
+=======
+
+            Component.onCompleted: {
+                mediaLibController.sendExtractRequirement()
+
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
             }
         }
 
@@ -616,6 +679,26 @@ Window {
         anchors.top:topBar.bottom
         anchors.bottom: downSizeChange.top
     }
+<<<<<<< HEAD
+=======
+
+//    MouseArea{
+//        anchors.fill: parent
+//        id:mainScreen
+//        hoverEnabled: true //默认是false
+//        propagateComposedEvents: true
+//        onPositionChanged: {
+//            if(mainWindow.isFullScreen){
+//                holder.restart()
+//                mainWindow.isVideoListOpen=true
+//                mainWindow.isFooterVisable=true
+//            }
+//        }
+//    }
+    Component.onCompleted: {
+        console.log("window done")
+    }
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 }
 
 

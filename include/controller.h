@@ -11,9 +11,26 @@
 #include "playlist.h"
 #include "info_accessor.h"
 
+<<<<<<< HEAD
 class Controller : public QObject {
     Q_OBJECT
             QThread listOPThread;
+
+private:
+    QList<simpleListItem*> result;
+    PlayListItem* playListItemResult;
+=======
+// 对数据库的操作码
+enum MLOPCODE {
+    INSERTTO,
+    REMOVEFROM,
+    SEARCHFROM
+};
+
+class Controller : public QObject {
+Q_OBJECT
+    QThread listOPThread;
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 
 private:
     QList<simpleListItem*> result;
@@ -48,6 +65,7 @@ public slots:
             qDebug() << "Search Find!\n";
         else
             qDebug() << "Search Fail!\n";
+<<<<<<< HEAD
     }
 
     void getExtractRst(QList<simpleListItem*> rst) {
@@ -86,9 +104,50 @@ public slots:
 
     void sendExtractRequirement() { emit extractRequirement(); }
     void sendRemoveRequirement(QString filepath, QString iconPath) { emit removeRequirement(filepath); }
+=======
+    }
+
+    void getExtractRst(QList<simpleListItem*> rst) {
+        result.clear();
+        for(int i=0;i<rst.size();i++) {
+            result.append(rst[i]);
+        }
+        emit finishExtractItems();
+    }
+
+    void getInfoRst(PlayListItem* rst) {
+        playListItemResult = rst;
+        emit finishGetInfo();
+    }
+
+    void getFile(QString filename, QString path) {
+        PlayListItem *info = new PlayListItem;
+        info->setFileName(filename);
+        info->setPath(path);
+        infoAccessor::getInfo(path, *info);
+        qDebug() << "文件:" << info->getFileName();
+        qDebug() << "路径:" << info->getPath();
+        qDebug() << "帧率:" << info->getFrameRate();
+        qDebug() << "比特率:" << info->getBitRate();
+        qDebug() << "视频流大小:" << info->getVideoSize();
+        qDebug() << "画面尺寸:" << info->getVideoWidth() << "*" << info->getVideoHeight();
+        qDebug() << "视频格式:" << info->getVideoFormat();
+        qDebug() << "音频格式:" << info->getAudioFormat();
+        qDebug() << "音频平均比特率:" << info->getAudioAverageBitRate();
+        qDebug() << "音频通道数:" << info->getChannelNumbers();
+        qDebug() << "音频采样率:" << info->getSampleRate();
+        qDebug() << "音频流大小:" << info->getAudioSize();
+        qDebug() << "流数量:" << info->getStreamNumbers();
+        emit insertItem(info);
+    }
+
+    void sendExtractRequirement() { emit extractRequirement(); }
+    void sendRemoveRequirement(QString filepath) { emit removeRequirement(filepath); }
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
     void sendGetInfoRequirement(QString filepath) { emit getInfoRequirement(filepath); }
 
 signals:
+
     //发送信号触发线程
     void insertItem(PlayListItem *item);
 

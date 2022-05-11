@@ -3,6 +3,7 @@ import QtQuick.Controls
 import Controller
 
 Window {
+<<<<<<< HEAD
     id: infwin
     width: 300
     height: 340
@@ -23,6 +24,13 @@ Window {
 
 
 
+=======
+    width: 300
+    height: 600
+    property string filepath
+    property alias infomodel: medialistModel
+
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 //    Controller {
 //            id: mediaInfoController
 
@@ -60,20 +68,26 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 padding: 2
                 spacing: 2
+<<<<<<< HEAD
 
                 Text {
                     id: info_key
                     text: infokey
                     color: "red"
+=======
+                Text {
+                    id: info_key
+                    text: infokey
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
                     font.bold: true
                     font.pointSize: 18
-
                 }
 
 
                 Text {
                     text: infocontent
                     elide: Text.ElideMiddle
+<<<<<<< HEAD
                     color:"blue"
                     font.pointSize: 18
                     width: parent.width-info_key.contentWidth
@@ -84,6 +98,12 @@ Window {
 
 
 
+=======
+                    font.pointSize: 18
+                    width: parent.width-info_key.contentWidth
+                }
+
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
             }
 
         }
@@ -109,6 +129,17 @@ Window {
             delegate: mediaInfoListDelegate
          }
     }
+<<<<<<< HEAD
+=======
+
+    // 调用 Controller 槽函数获取信息
+//    Component.onCompleted: {
+//        console.log("filepath:",mediainfowindow.filepath)
+//        mediaLibController.sendGetInfoRequirement(mediainfowindow.filepath)
+//    }
+
+}
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 
     // 调用 Controller 槽函数获取信息
 //    Component.onCompleted: {

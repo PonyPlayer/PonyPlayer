@@ -145,6 +145,7 @@ void PonyKVConnect::remove(const QString &tableName, const QObject *object) {
 }
 
 void PonyKVConnect::removeByKV(const QString &tableName, const QString &key, const QString &value) {
+<<<<<<< HEAD
     PlayListItem* pli = search<PlayListItem>(tableName,"PlayListItem",key, value);
     QUrl url(pli->getIconPath());
     QString iconPath = url.toLocalFile();
@@ -153,6 +154,8 @@ void PonyKVConnect::removeByKV(const QString &tableName, const QString &key, con
         QFile::remove(iconPath);
         qDebug()<<"delete iconPath:"<<iconPath;
     }
+=======
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
     QSqlQuery query(db);
     query.prepare("DELETE FROM `" + tableName + "` WHERE " + key + "= :value");
     query.bindValue(0, value);

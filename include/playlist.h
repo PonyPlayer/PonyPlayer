@@ -25,7 +25,10 @@ class PlayListItem : public ListItem {
     Q_PROPERTY(float audioSize READ getAudioSize WRITE setAudioSize)  // 音频大小
     Q_PROPERTY(QString format READ getFormat WRITE setFormat)  // 封装格式
     Q_PROPERTY(QString path READ getPath WRITE setPath)  // 路径
+<<<<<<< HEAD
     Q_PROPERTY(QString iconPath READ getIconPath WRITE setIconPath) // icon 路径
+=======
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 
 
 protected:
@@ -46,7 +49,10 @@ protected:
     float audioSize;
     int streamNumbers;
     QString format;
+<<<<<<< HEAD
     QString iconPath;
+=======
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 
 public:
     Q_INVOKABLE PlayListItem(QString _fileName, const QDir &_dir)
@@ -58,9 +64,12 @@ public:
     Q_INVOKABLE QString getFileName();
     Q_INVOKABLE void setFileName(QString _fileName) { fileName = _fileName; }
 
+<<<<<<< HEAD
     Q_INVOKABLE QString getIconPath() { return iconPath; }
     Q_INVOKABLE void setIconPath(QString _iconPath) { iconPath = _iconPath; }
 
+=======
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
     Q_INVOKABLE QString getPath() { return path; }
     Q_INVOKABLE void setPath(QString _path) { path = _path; }
 
@@ -82,6 +91,7 @@ public:
 
     Q_INVOKABLE int getVideoWidth() { return videoWidth; }
     Q_INVOKABLE void setVideoWidth(int _videoWidth) { videoWidth = _videoWidth; }
+<<<<<<< HEAD
 
     Q_INVOKABLE int getVideoHeight() { return videoHeight; }
     Q_INVOKABLE void setVideoHeight(int _videoHeight) { videoHeight = _videoHeight; }
@@ -89,6 +99,15 @@ public:
     Q_INVOKABLE QString getVideoFormat() { return videoFormat; }
     Q_INVOKABLE void setVideoFormat(QString _videoFormat) { videoFormat = _videoFormat; }
 
+=======
+
+    Q_INVOKABLE int getVideoHeight() { return videoHeight; }
+    Q_INVOKABLE void setVideoHeight(int _videoHeight) { videoHeight = _videoHeight; }
+
+    Q_INVOKABLE QString getVideoFormat() { return videoFormat; }
+    Q_INVOKABLE void setVideoFormat(QString _videoFormat) { videoFormat = _videoFormat; }
+
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
     Q_INVOKABLE QString getAudioFormat() { return audioFormat; }
     Q_INVOKABLE void setAudioFormat(QString _audioFormat) { audioFormat = _audioFormat; }
 
@@ -128,7 +147,11 @@ public:
     Q_INVOKABLE simpleListItem() = default;
 
     Q_INVOKABLE simpleListItem(QString _fileName, QString _filePath, QString _iconPath)
+<<<<<<< HEAD
             : fileName(_fileName), filePath(_filePath), iconPath(_iconPath) { };
+=======
+    : fileName(_fileName), filePath(_filePath), iconPath(_iconPath) { };
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 
     Q_INVOKABLE QString getFileName() { return fileName; }
     Q_INVOKABLE void setFileName(QString _fileName) { fileName = _fileName; }
@@ -157,7 +180,11 @@ private:
 Q_DECLARE_METATYPE(simpleListItem);
 
 class PlayList : public QObject {
+<<<<<<< HEAD
     Q_OBJECT
+=======
+Q_OBJECT
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 //    Q_PROPERTY(QQmlListProperty<QObject*> playListItems READ playListItems)
 
 private:
@@ -172,12 +199,21 @@ public:
 //    QList<ListItem> getData();
     PlayList(QString _dbName, QString _tableName, QString _className);
 //    QQmlListProperty<QObject*> playListItems();
+<<<<<<< HEAD
 
 //    void appendPlayList(QObject *qobj);
 //    int playListCount() const;
 //    QObject* listItem(int) const;
 //    void clearPlayList();
 
+=======
+
+//    void appendPlayList(QObject *qobj);
+//    int playListCount() const;
+//    QObject* listItem(int) const;
+//    void clearPlayList();
+
+>>>>>>> 80995cf666d29295cf21f8b66b611f5fc3cd99fc
 //    void insert(ListItem item);
 
     explicit PlayList(const QString &name);

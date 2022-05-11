@@ -1,0 +1,7 @@
+module render
+linktarget render
+optional plugin render
+classname renderPlugin
+typeinfo render.qmltypes
+prefer :/render/
+
