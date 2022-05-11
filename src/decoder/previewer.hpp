@@ -19,11 +19,8 @@ private:
     DecoderContext* ctx{};
     AVPacket *pkt{};
 
-    AVFrame *rgbFrame{};
-    struct SwsContext *imgCtx{};
-    unsigned char *outBuffer{};
-
 public:
+
     explicit Previewer(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent) {
         for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
@@ -31,37 +28,16 @@ public:
                 videoStream = fmtCtx->streams[i];
                 ctx = new DecoderContext(videoStream);
                 pkt = av_packet_alloc();
-                rgbFrame = av_frame_alloc();
-                imgCtx = sws_getContext(ctx->codecCtx->width,
-                                         ctx->codecCtx->height,
-                                         ctx->codecCtx->pix_fmt,
-                                         ctx->codecCtx->width,
-                                         ctx->codecCtx->height,
-                                         AV_PIX_FMT_RGB32,
-                                         SWS_BICUBIC, nullptr,nullptr,nullptr);
-                if (!imgCtx) {
-                    throw std::runtime_error("Previewer: sws_getContext failed");
-                }
-                auto numBytes = av_image_get_buffer_size(AV_PIX_FMT_RGB32,ctx->codecCtx->width,ctx->codecCtx->height,1);
-                outBuffer = (unsigned char *)av_malloc(static_cast<size_t>(numBytes)*sizeof(unsigned char));
-                if (av_image_fill_arrays(
-                        rgbFrame->data,rgbFrame->linesize,
-                        outBuffer,AV_PIX_FMT_RGB32,
-                        ctx->codecCtx->width,ctx->codecCtx->height,1) < 0) {
-                    throw std::runtime_error("Previewer: av_image_fill_arrays failed");
-                }
                 return;
             }
         }
+        connect(this, &Previewer::freeVideoFrameSignal, this, &Previewer::freeVideoFrame);
         qWarning() << "Previewer: can not find video stream";
     }
 
     ~Previewer() {
         delete ctx;
         if (pkt) av_packet_free(&pkt);
-        if (rgbFrame) av_frame_free(&rgbFrame);
-        if (outBuffer) av_freep(&outBuffer);
-        if (imgCtx) sws_freeContext(imgCtx);
     }
 
     /**
@@ -69,7 +45,7 @@ public:
      * @param pos 单位为秒
      * @return pos位置的图片
      */
-    QImage previewRequest(qreal pos) {
+    VideoFrame previewRequest(qreal pos) {
         if (!videoStream)
             return {};
         int ret = 0;
@@ -98,22 +74,16 @@ public:
                     double pts =  static_cast<double>(ctx->frameBuf->pts) * av_q2d(videoStream->time_base);
                     if (pts < pos) {
                         av_frame_unref(ctx->frameBuf);
-                    }
-                    else {
-                        sws_scale(imgCtx,
-                                  ctx->frameBuf->data,ctx->frameBuf->linesize,
-                                  0,ctx->codecCtx->height,
-                                  rgbFrame->data,rgbFrame->linesize);
+                    } else {
+                        auto *frame = ctx->frameBuf;
                         av_frame_unref(ctx->frameBuf);
-
+                        ctx->frameBuf = av_frame_alloc();
                         av_packet_unref(pkt);
-                        return {outBuffer,
-                                   ctx->codecCtx->width,ctx->codecCtx->height,
-                                   QImage::Format_RGB32};
+                        return {frame, pts, [=](AVFrame *frame) {emit freeVideoFrame(frame);}};
                     }
                 }
                 if (ret < 0) {
-                    if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF);
+                    if (ret == AVERROR(EAGAIN) || ret == ERROR_EOF);
                     else {
                         qWarning() << "avcodec_receive_frame: " << ffmpegErrToString(ret);
                         break;
@@ -123,7 +93,15 @@ public:
             av_packet_unref(pkt);
         }
         return {};
-    };
+    }
+
+private slots:
+    void freeVideoFrame(AVFrame *frame) {
+        av_frame_free(&frame);
+    }
+
+signals:
+    void freeVideoFrameSignal(AVFrame *frame, QPrivateSignal);
 };
 
 #endif //PONYPLAYER_PREVIEW_H

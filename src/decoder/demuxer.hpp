@@ -11,17 +11,22 @@ class Demuxer : public QObject {
 private:
     DecodeDispatcher *m_worker = nullptr;
     QThread *m_affinityThread = nullptr;
+    FrameFreeQueue m_freeQueue;
+    FrameFreeFunc m_freeFunc;
+
 public:
-    Demuxer(QObject *parent) : QObject(nullptr) {
+    Demuxer(QObject *parent) : QObject(nullptr), m_freeQueue(1024) {
         m_affinityThread = new QThread;
         m_affinityThread->setObjectName("DecoderThread");
         this->moveToThread(m_affinityThread);
         m_affinityThread->start();
+        m_freeFunc = [this](AVFrame *frame){m_freeQueue.enqueue(frame);};
     }
 
     ~Demuxer() {
         qDebug() << "Destroy Demuxer";
         m_affinityThread->quit();
+
     }
 
 
@@ -94,7 +99,7 @@ public slots:
             return;
         }
         try {
-            m_worker = new DecodeDispatcher(fn, this);
+            m_worker = new DecodeDispatcher(fn, &m_freeQueue, &m_freeFunc, this);
         } catch (std::runtime_error &ex) {
             qWarning() << "Error opening file:" << ex.what();
             m_worker = nullptr;

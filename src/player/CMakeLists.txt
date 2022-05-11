@@ -18,6 +18,8 @@ qt_add_qml_module(${PROJECT_NAME}
         RESOURCES
             shader/vertex.vsh
             shader/fragment.fsh
+            filter/kodak_kaf_2001.png
+            filter/neutral-lut.png
             test.jpeg
         )
 

@@ -107,7 +107,7 @@ public:
      */
     bool isInterrupted() { return m_isInterrupt; }
 
-    void setStartPoint(qreal startPoint=0.0) {
+    void setStartPoint(qreal startPoint) {
         m_isInterrupt = false;
         qDebug() << "SetStartPoint" << startPoint;
         emit setAudioStartPoint(startPoint, QPrivateSignal());
@@ -139,13 +139,15 @@ public:
     }
 
     /**
-     * 放弃缓冲区中的所有数据. 需要保证 playback 已经停止.
+     * 立即停止, 清空缓冲区的数据.
      */
     void stop() {
         m_isInterrupt = true;
         m_interruptCond.notify_all();
-        std::unique_lock lock(m_workMutex);
+        std::unique_lock lock(m_workMutex); // make sure stop
         emit stopWork(QPrivateSignal());
+        emit setAudioStartPoint(0.0, QPrivateSignal());
+        emit clearRingBuffer(QPrivateSignal());
     }
 
 private slots:

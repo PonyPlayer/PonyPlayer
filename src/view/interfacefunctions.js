@@ -212,7 +212,11 @@ function mainAreaInit(){
 function videoListOperatorOnAccepted(){
     mainWindow.openFile(fileDialog.currentFile);
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
-    mediaLibController.getFile(fileDialog.currentFile);
+    let selectedFileName = fileDialog.currentFile.toString().substring(
+        fileDialog.currentFolder.toString().length + 1)
+    mediaLibController.getFile(selectedFileName, fileDialog.currentFile);
+    listModel.append({"fileName":selectedFileName,"filePath":fileDialog.currentFile,"iconPath":"interfacepics/defaultlogo"})
+    console.log(videoArea.getVideoDuration())
 }
 
 
