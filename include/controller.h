@@ -85,7 +85,7 @@ public slots:
     }
 
     void sendExtractRequirement() { emit extractRequirement(); }
-    void sendRemoveRequirement(QString filepath) { emit removeRequirement(filepath); }
+    void sendRemoveRequirement(QString filepath, QString iconPath) { emit removeRequirement(filepath); }
     void sendGetInfoRequirement(QString filepath) { emit getInfoRequirement(filepath); }
 
 signals:

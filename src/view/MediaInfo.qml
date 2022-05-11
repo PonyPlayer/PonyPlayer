@@ -5,9 +5,23 @@ import Controller
 Window {
     id: infwin
     width: 300
-    height: 600
+    height: 340
     property string filepath
     property alias infomodel: medialistModel
+
+    Rectangle {
+        id:wintitle
+        width: parent.width
+        height: 40
+        Text {
+            text:"媒体简介"
+            anchors.centerIn: parent
+            font.bold: true
+            font.pixelSize: 30
+        }
+    }
+
+
 
 //    Controller {
 //            id: mediaInfoController
@@ -46,19 +60,29 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 padding: 2
                 spacing: 2
+
                 Text {
                     id: info_key
                     text: infokey
+                    color: "red"
                     font.bold: true
                     font.pointSize: 18
+
                 }
+
 
                 Text {
                     text: infocontent
                     elide: Text.ElideMiddle
+                    color:"blue"
                     font.pointSize: 18
                     width: parent.width-info_key.contentWidth
+
                 }
+
+
+
+
 
             }
 
@@ -69,7 +93,10 @@ Window {
 
     ScrollView{
         id: mediainfolist
-        anchors.fill: parent
+        anchors.left:parent.left
+        anchors.right:parent.right
+        anchors.bottom: parent.bottom
+        anchors.top: wintitle.bottom
 
         ListView {
             anchors.fill: parent

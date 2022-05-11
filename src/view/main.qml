@@ -483,7 +483,7 @@ Window {
 
                             onClicked: {
                                 console.log("Image")
-                                mediaLibController.sendRemoveRequirement(listModel.get(index).filePath)
+                                mediaLibController.sendRemoveRequirement(listModel.get(index).filePath, listModel.get(index).iconPath)
                                 listModel.remove(index,1)
                             }
 
