@@ -87,6 +87,15 @@ public slots:
     }
 
     /**
+     * 设置音频索引, 必须保证解码器线程空闲且缓冲区为空
+     * @param index
+     * @see DecodeDispatcher::seek
+     */
+    void setAudioIndex(StreamIndex index) {
+        m_worker->setAudioIndex(index);
+    }
+
+    /**
      * 打开文件
      * @param fn 本地文件路径
      */
@@ -99,7 +108,7 @@ public slots:
             return;
         }
         try {
-            m_worker = new DecodeDispatcher(fn, &m_freeQueue, &m_freeFunc, this);
+            m_worker = new DecodeDispatcher(fn, &m_freeQueue, &m_freeFunc, DEFAULT_STREAM_INDEX, DEFAULT_STREAM_INDEX, this);
         } catch (std::runtime_error &ex) {
             qWarning() << "Error opening file:" << ex.what();
             m_worker = nullptr;
@@ -109,6 +118,8 @@ public slots:
         connect(this, &Demuxer::signalStartWorker, m_worker, &DecodeDispatcher::onWork);
         emit openFileResult(true, QPrivateSignal());
     }
+
+
 
     /**
      * 倒放视频, 必须保证解码器线程空闲且缓冲区为空. 方法返回后保证产生的帧是在时间正确.

@@ -6,9 +6,10 @@
 
 #include <QtCore>
 #include <QTimer>
+#include <unordered_map>
 #include "helper.hpp"
 #include "frame.hpp"
-#include "../utils/include/twins_queue.hpp"
+#include "twins_queue.hpp"
 #include "decoder.hpp"
 
 INCLUDE_FFMPEG_BEGIN
@@ -47,48 +48,83 @@ protected:
 };
 
 
+class StreamInfo {
+private:
+    int index;
+    std::unordered_map<std::string, std::string> dict;
+    qreal duration;
+public:
+    StreamInfo(AVStream *stream) : index(stream->index) {
+        AVDictionaryEntry *tag = nullptr;
+        while ((tag = av_dict_get(stream->metadata, "", tag, AV_DICT_IGNORE_SUFFIX))) {
+            dict[tag->key] = tag->value;
+        }
+        duration = static_cast<double>(stream->duration) * av_q2d(stream->time_base);
+    }
 
+    qreal getDuration() const { return duration; }
 
+    QString getFriendName() {
+        QString str;
+        return str;
+    }
+
+};
+
+typedef unsigned int StreamIndex;
+const StreamIndex DEFAULT_STREAM_INDEX = std::numeric_limits<StreamIndex>::max();
 /**
  * @brief 解码器调度器, 将Packet分配给解码器进一步解码成Frame
  * 这个类是RAII的
  */
 class DecodeDispatcher : public DemuxDispatcherBase {
     Q_OBJECT
-    std::vector<unsigned int> videoStreamIndex;
-    std::vector<unsigned int> audioStreamIndex;
-    std::vector<IDemuxDecoder*> decoders;
-    std::atomic<bool> interrupt = false;
-    AVPacket *packet = nullptr;
+    std::vector<StreamIndex> m_videoStreamsIndex;
+    std::vector<StreamIndex> m_audioStreamsIndex;
     TwinsBlockQueue<AVFrame *> *videoQueue;
     TwinsBlockQueue<AVFrame *> *audioQueue;
-    FrameFreeFunc *m_freeFunction;
+    StreamIndex m_audioStreamIndex;
+    StreamIndex m_videoStreamIndex;
+    IDemuxDecoder *audioDecoder;
+    IDemuxDecoder *videoDecoder;
+
+    std::vector<StreamInfo> streamInfos;
+    std::atomic<bool> interrupt = false;
+    AVPacket *packet = nullptr;
+    FrameFreeFunc *m_freeFunc;
     FrameFreeQueue *m_freeQueue;
 
 public:
     explicit DecodeDispatcher(
-            const std::string &fn,
-            FrameFreeQueue *freeQueue,
-            FrameFreeFunc *freeFunc,
-            QObject *parent
-    ) : DemuxDispatcherBase(fn, parent), m_freeQueue(freeQueue), m_freeFunction(freeFunc) {
+      const std::string &fn,
+      FrameFreeQueue *freeQueue,
+      FrameFreeFunc *freeFunc,
+      StreamIndex audioStreamIndex = DEFAULT_STREAM_INDEX,
+      StreamIndex videoStreamIndex = DEFAULT_STREAM_INDEX,
+      QObject *parent = nullptr
+    ) : DemuxDispatcherBase(fn, parent), m_audioStreamIndex(audioStreamIndex), m_videoStreamIndex(videoStreamIndex),
+        m_freeFunc(freeFunc), m_freeQueue(freeQueue){
         packet = av_packet_alloc();
-        for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
-            if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
-                videoStreamIndex.emplace_back(i);
-            } else if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
-                audioStreamIndex.emplace_back(i);
+        for (StreamIndex i = 0; i < fmtCtx->nb_streams; ++i) {
+            auto *stream = fmtCtx->streams[i];
+            if (stream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+                m_videoStreamsIndex.emplace_back(i);
+            } else if (stream->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
+                m_audioStreamsIndex.emplace_back(i);
             }
+            streamInfos.emplace_back(stream);
         }
-        if (videoStreamIndex.empty()) { throw std::runtime_error("Cannot find video stream."); }
-        if (audioStreamIndex.empty()) { throw std::runtime_error("Cannot find audio stream."); }
-        decoders.resize(fmtCtx->nb_streams);
+        if (m_videoStreamsIndex.empty()) { throw std::runtime_error("Cannot find video stream."); }
+        if (m_audioStreamsIndex.empty()) { throw std::runtime_error("Cannot find audio stream."); }
+        if (m_videoStreamIndex == DEFAULT_STREAM_INDEX) { m_videoStreamIndex = m_videoStreamsIndex.front(); }
+        if (m_audioStreamIndex == DEFAULT_STREAM_INDEX) { m_audioStreamIndex = m_audioStreamsIndex.front(); }
+
+
         // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
         videoQueue = new TwinsBlockQueue<AVFrame *>("VideoQueue", 16);
         audioQueue = videoQueue->twins("AudioQueue", 16);
-        decoders[videoStreamIndex.front()] = new DecoderImpl<Video>(fmtCtx->streams[videoStreamIndex.front()], videoQueue, freeQueue, freeFunc);
-        decoders[audioStreamIndex.front()] = new DecoderImpl<Audio>(fmtCtx->streams[audioStreamIndex.front()], audioQueue, freeQueue, freeFunc);
-
+        videoDecoder = new DecoderImpl<Video>(fmtCtx->streams[m_videoStreamIndex], videoQueue, freeQueue, freeFunc);
+        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, freeQueue, freeFunc);
 
         interrupt = false; // happens before
     }
@@ -98,9 +134,10 @@ public:
         AVFrame *frame;
         while(m_freeQueue->try_dequeue(frame)) { av_frame_free(&frame); }
         flush();
-        if (videoQueue) { videoQueue->close(); }
-        if (audioQueue) { audioQueue->close(); }
-        for(auto && decoder : decoders) { delete decoder; }
+        delete audioQueue;
+        delete videoQueue;
+        delete audioDecoder;
+        delete videoDecoder;
         if(packet) { av_packet_free(&packet); }
 
     }
@@ -137,25 +174,28 @@ public:
         // case 1: currently decoding, interrupt
         // case 2: not decoding, seek
         interrupt = true;
-        for (const auto & decoder : decoders) {
-            // interrupt
-            if (decoder) decoder->flushFFmpegBuffers();
-        }
+        if (audioDecoder) { audioDecoder->flushFFmpegBuffers(); }
+        if (videoDecoder) { videoDecoder->flushFFmpegBuffers(); }
         qDebug() << "a Seek:" << secs;
         int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>(secs * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
-    VideoFrame getPicture(bool b, bool own) { return decoders[videoStreamIndex.front()]->getPicture(b, own); }
+    VideoFrame getPicture(bool b, bool own) { return videoDecoder->getPicture(b, own); }
 
-    bool popPicture(bool b) { return decoders[videoStreamIndex.front()]->pop(b); }
+    bool popPicture(bool b) { return videoDecoder->pop(b); }
 
-    AudioFrame getSample(bool b) { return decoders[audioStreamIndex.front()]->getSample(b); }
+    AudioFrame getSample(bool b) { return audioDecoder->getSample(b); }
 
-    bool popSample(bool b) { return decoders[audioStreamIndex.front()]->pop(b); }
+    bool popSample(bool b) { return audioDecoder->pop(b); }
 
-    qreal getAudionLength() { return decoders[audioStreamIndex.front()]->duration(); }
-    qreal getVideoLength() { return decoders[videoStreamIndex.front()]->duration(); }
+    [[nodiscard]] qreal getAudionLength() { return audioDecoder->duration(); }
+    [[nodiscard]] qreal getVideoLength() { return videoDecoder->duration(); }
+
+    [[nodiscard]] const std::vector<StreamIndex>& audioIndex() const { return m_audioStreamsIndex; }
+    [[nodiscard]] const std::vector<StreamIndex>& videoIndex() const { return m_videoStreamsIndex; }
+    [[nodiscard]] const std::vector<StreamInfo>& streamsInfo() const { return streamInfos; }
+    [[nodiscard]] const StreamInfo& getStreamInfo(StreamIndex i) const { return streamInfos[i]; }
 public slots:
     void onWork() {
         videoQueue->open();
@@ -164,8 +204,11 @@ public slots:
             while(m_freeQueue->try_dequeue(frame)) { av_frame_free(&frame); }
             int ret = av_read_frame(fmtCtx, packet);
             if (ret == 0) {
-                auto *decoder = decoders[static_cast<unsigned long>(packet->stream_index)];
-                if (decoder) { decoder->accept(packet, interrupt); }
+                if (static_cast<StreamIndex>(packet->stream_index) == m_videoStreamIndex) {
+                    videoDecoder->accept(packet, interrupt);
+                } else if (static_cast<StreamIndex>(packet->stream_index) == m_audioStreamIndex) {
+                    audioDecoder->accept(packet, interrupt);
+                }
             } else if (ret == ERROR_EOF) {
                 videoQueue->push(nullptr);
                 audioQueue->push(nullptr);
@@ -176,6 +219,13 @@ public slots:
             av_packet_unref(packet);
         }
     };
+
+    void setAudioIndex(StreamIndex i) {
+        if (i == m_audioStreamIndex) { return; }
+        delete audioDecoder;
+        m_audioStreamIndex = i;
+        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_freeQueue, m_freeFunc);
+    }
 };
 
 
