@@ -25,6 +25,7 @@ class PlayListItem : public ListItem {
     Q_PROPERTY(float audioSize READ getAudioSize WRITE setAudioSize)  // 音频大小
     Q_PROPERTY(QString format READ getFormat WRITE setFormat)  // 封装格式
     Q_PROPERTY(QString path READ getPath WRITE setPath)  // 路径
+    Q_PROPERTY(QString iconPath READ getIconPath WRITE setIconPath) // icon 路径
 
 
 protected:
@@ -45,6 +46,7 @@ protected:
     float audioSize;
     int streamNumbers;
     QString format;
+    QString iconPath;
 
 public:
     Q_INVOKABLE PlayListItem(QString _fileName, const QDir &_dir)
@@ -55,6 +57,9 @@ public:
 
     Q_INVOKABLE QString getFileName();
     Q_INVOKABLE void setFileName(QString _fileName) { fileName = _fileName; }
+
+    Q_INVOKABLE QString getIconPath() { return iconPath; }
+    Q_INVOKABLE void setIconPath(QString _iconPath) { iconPath = _iconPath; }
 
     Q_INVOKABLE QString getPath() { return path; }
     Q_INVOKABLE void setPath(QString _path) { path = _path; }

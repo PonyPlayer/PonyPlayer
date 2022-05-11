@@ -339,7 +339,7 @@ Window {
                         listModel.append(items[i])
 
                         var appe = listModel.get(listModel.count-1)
-                        if(appe.iconPath == "")
+                        if(appe.iconPath === "")
                             appe.iconPath = "interfacepics/defaultlogo"
                     }
                 }
@@ -492,8 +492,8 @@ Window {
 
                             onClicked: {
                                 console.log("Image")
-                                listModel.remove(index,1)
                                 mediaLibController.sendRemoveRequirement(listModel.get(index).filePath)
+                                listModel.remove(index,1)
                             }
 
                         }
