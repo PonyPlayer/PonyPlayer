@@ -210,9 +210,16 @@ Window {
                 id: menu
                 width: 100
                 topMargin: parent.height
-                MenuItem {
-                    text: "其他设置"
+                Action {
+                    text: "画面"
                     onTriggered:additionalSettings.show()
+                }
+                Menu {
+                    title: "音轨"
+                    MenuItem {
+                        text: "音轨"
+
+                    }
                 }
             }
         }

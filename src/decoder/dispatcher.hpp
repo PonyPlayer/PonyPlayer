@@ -62,17 +62,25 @@ public:
         duration = static_cast<double>(stream->duration) * av_q2d(stream->time_base);
     }
 
-    qreal getDuration() const { return duration; }
+    [[nodiscard]] qreal getDuration() const { return duration; }
 
-    QString getFriendName() {
+    QString getFriendName() const {
         QString str;
+        if (auto iter=dict.find("language"); iter !=dict.cend()) {
+            str.append(iter->second.c_str());
+            str.append(" | ");
+        }
+        auto minutes = static_cast<int>(duration) / 60;
+        auto seconds = duration - minutes * 60;
+        if (minutes > 0) {str.append(QString::number(minutes)).append("m"); }
+        str.append(QString::number(seconds, 'f', 1).append("s"));
         return str;
     }
 
 };
 
 typedef unsigned int StreamIndex;
-const StreamIndex DEFAULT_STREAM_INDEX = std::numeric_limits<StreamIndex>::max();
+const constexpr StreamIndex DEFAULT_STREAM_INDEX = std::numeric_limits<StreamIndex>::max();
 /**
  * @brief 解码器调度器, 将Packet分配给解码器进一步解码成Frame
  * 这个类是RAII的
@@ -112,6 +120,7 @@ public:
             } else if (stream->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
                 m_audioStreamsIndex.emplace_back(i);
             }
+            StreamInfo info(stream);
             streamInfos.emplace_back(stream);
         }
         if (m_videoStreamsIndex.empty()) { throw std::runtime_error("Cannot find video stream."); }

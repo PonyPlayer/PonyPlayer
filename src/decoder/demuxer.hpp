@@ -8,6 +8,9 @@
 
 class Demuxer : public QObject {
     Q_OBJECT
+    Q_PROPERTY(QStringList tracks READ getTracks CONSTANT)
+    Q_PROPERTY(qreal audioDuration READ audioDuration CONSTANT)
+    Q_PROPERTY(qreal videoDuration READ videoDuration CONSTANT)
 private:
     DecodeDispatcher *m_worker = nullptr;
     QThread *m_affinityThread = nullptr;
@@ -41,6 +44,18 @@ public:
     qreal audioDuration() { return m_worker ? m_worker->getAudionLength() : 0.0; }
 
     qreal videoDuration() { return m_worker ? m_worker->getVideoLength() : 0.0; }
+
+    QStringList getTracks() {
+        QStringList ret;
+        if (m_worker) {
+            auto tracks = m_worker->audioIndex();
+            ret.reserve(static_cast<qsizetype>(tracks.size()));
+            std::transform(tracks.begin(), tracks.end(), ret.begin(), [this](StreamIndex i){
+                return m_worker->getStreamInfo(i).getFriendName();
+            });
+        }
+        return ret;
+    }
 
 
     /**
