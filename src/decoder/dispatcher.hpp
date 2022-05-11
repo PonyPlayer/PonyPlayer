@@ -303,7 +303,6 @@ public slots:
             av_packet_unref(packet);
             QCoreApplication::processEvents();
         }
-        videoQueue->close();
     };
 };
 
