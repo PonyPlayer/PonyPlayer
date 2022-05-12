@@ -233,7 +233,8 @@ function isBoundary(){
     //右边界
     else if(!mainWindow.isInverted&&(mainWindow.currentTime>=mainWindow.endTime)){
         toVideoEnd()
-        mainWindow.nextOne()
+        nextOnClicked()
+        toVideoBegining()
         return true
     }
     return false
@@ -290,4 +291,16 @@ function solveStateChanged(){
     //let tmp=videoArea.getPTS()
     //mainWindow.currentTime=tmp
     //videoSlide.value=tmp
+}
+function nextOnClicked(){
+    console.log("playState:",mainWindow.playState)
+    if(mainWindow.playState === "ordered")
+        listview.currentIndex = (listview.currentIndex + 1)%listview.count
+
+    else if(mainWindow.playState === "random")
+        listview.currentIndex = (listview.currentIndex + Math.floor(Math.random()*listview.count))%listview.count
+    else;
+    console.log("index:",listview.currentIndex)
+    mainWindow.openFile(listModel.get(listview.currentIndex).filePath);
+    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
 }
