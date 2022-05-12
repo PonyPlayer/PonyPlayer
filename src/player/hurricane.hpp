@@ -49,6 +49,7 @@ public:
     Q_PROPERTY(HurricaneState state READ getState NOTIFY stateChanged FINAL)
 
 
+
 private:
     HurricaneState state = HurricaneState::INVALID;
 private:
@@ -261,6 +262,13 @@ public slots:
         qDebug() << "HurricanePlayer: Seek" << pos;
     }
 
+    Q_INVOKABLE QStringList getTracks() {
+        return frameController->getTracks();
+    }
+
+    Q_INVOKABLE void setTrack(int i) {
+        qDebug() << "Set Music Track" << i;
+    }
 
 
 private slots:

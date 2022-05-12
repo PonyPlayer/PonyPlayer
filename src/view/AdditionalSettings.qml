@@ -3,7 +3,6 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
-import "./interfacefunctions.js" as IF
 
 Window{
     id:additionalSettings

@@ -29,7 +29,7 @@
 
 import QtQuick
 import QtQuick.Window
-import QtQuick.Controls
+import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import HurricanePlayer
@@ -38,6 +38,8 @@ import Controller
 import Thumbnail
 import "./interfacefunctions.js" as IF
 Window {
+    Material.theme: Material.System
+    Material.accent: Material.Blue
     function rgb(r,g,b) {
         var ret = (r << 16 | g << 8 | b)
         return ("#"+ret.toString(16)).toUpperCase();
@@ -119,7 +121,7 @@ Window {
     minimumHeight: 500
     visible: true
     title: "PonyPlayer"
-    flags:  Qt.Window|Qt.FramelessWindowHint
+    flags:  Qt.Window | Qt.FramelessWindowHint
 
     Shortcut {
         sequence: "F5"
@@ -209,9 +211,16 @@ Window {
                 id: menu
                 width: 100
                 topMargin: parent.height
-                MenuItem {
-                    text: "其他设置"
+                Action {
+                    text: "画面"
                     onTriggered:additionalSettings.show()
+                }
+                Menu {
+                    title: "音轨"
+                    MenuItem {
+                        text: "音轨"
+
+                    }
                 }
             }
         }
@@ -552,6 +561,9 @@ Window {
                         operationFailedDialogText.text="打开文件失败，请选择正确路径"
                         operationFailedDialog.open()
                     }
+                    else{
+                        IF.toVideoBegining()
+                    }
                 }
             }
             Rectangle{
@@ -575,7 +587,7 @@ Window {
             }
             Thumbnail {
                 id: preview
-                player: videoArea
+                player: "videoArea"
                 onPreviewResponse:{
                     preview.visible=true
                 }

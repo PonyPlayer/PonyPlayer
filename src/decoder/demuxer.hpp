@@ -8,6 +8,9 @@
 
 class Demuxer : public QObject {
     Q_OBJECT
+    Q_PROPERTY(QStringList tracks READ getTracks CONSTANT)
+    Q_PROPERTY(qreal audioDuration READ audioDuration CONSTANT)
+    Q_PROPERTY(qreal videoDuration READ videoDuration CONSTANT)
 private:
     DecodeDispatcher *m_worker = nullptr;
     QThread *m_affinityThread = nullptr;
@@ -41,6 +44,18 @@ public:
     qreal audioDuration() { return m_worker ? m_worker->getAudionLength() : 0.0; }
 
     qreal videoDuration() { return m_worker ? m_worker->getVideoLength() : 0.0; }
+
+    QStringList getTracks() {
+        QStringList ret;
+        if (m_worker) {
+            auto tracks = m_worker->audioIndex();
+            ret.reserve(static_cast<qsizetype>(tracks.size()));
+            std::transform(tracks.begin(), tracks.end(), ret.begin(), [this](StreamIndex i){
+                return m_worker->getStreamInfo(i).getFriendName();
+            });
+        }
+        return ret;
+    }
 
 
     /**
@@ -87,6 +102,15 @@ public slots:
     }
 
     /**
+     * 设置音频索引, 必须保证解码器线程空闲且缓冲区为空
+     * @param index
+     * @see DecodeDispatcher::seek
+     */
+    void setAudioIndex(StreamIndex index) {
+        m_worker->setAudioIndex(index);
+    }
+
+    /**
      * 打开文件
      * @param fn 本地文件路径
      */
@@ -99,7 +123,7 @@ public slots:
             return;
         }
         try {
-            m_worker = new DecodeDispatcher(fn, &m_freeQueue, &m_freeFunc, this);
+            m_worker = new DecodeDispatcher(fn, &m_freeQueue, &m_freeFunc, DEFAULT_STREAM_INDEX, DEFAULT_STREAM_INDEX, this);
         } catch (std::runtime_error &ex) {
             qWarning() << "Error opening file:" << ex.what();
             m_worker = nullptr;
@@ -109,6 +133,8 @@ public slots:
         connect(this, &Demuxer::signalStartWorker, m_worker, &DecodeDispatcher::onWork);
         emit openFileResult(true, QPrivateSignal());
     }
+
+
 
     /**
      * 倒放视频, 必须保证解码器线程空闲且缓冲区为空. 方法返回后保证产生的帧是在时间正确.

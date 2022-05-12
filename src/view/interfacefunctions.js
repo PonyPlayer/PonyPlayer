@@ -279,11 +279,9 @@ function playOrPauseFunction(){
 }
 function solveStateChanged(){
     if(videoArea.state==1){
-        console.log("lei fu kai state == loading")
         toVideoBegining()
     }
     else if(videoArea.state==2){
-        console.log("lei fu kai state == invalid")
         mainWindow.endTime=0
         toVideoBegining()
         return

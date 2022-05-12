@@ -44,12 +44,12 @@ public:
         m_affinityThread->quit();
     }
 
-    qreal getAudioDuration() { return m_demuxer->audioDuration(); }
-    qreal getVideoDuration() { return m_demuxer->videoDuration(); }
+    qreal getAudioDuration() { return m_demuxer->property("audioDuration").toDouble(); }
+    qreal getVideoDuration() { return m_demuxer->property("videoDuration").toDouble(); }
+    QStringList getTracks() { return m_demuxer->property("tracks").toStringList(); }
 
     void setVolume(qreal volume) {m_playback->setVolume(volume); }
     void setSpeed(qreal speed) {m_playback->setSpeed(speed); }
-
 
 public slots:
     void openFile(const QString &path) {
@@ -132,6 +132,7 @@ signals:
     void playbackStateChanged(bool isPlaying);
     void resourcesEnd();
     void setPicture(VideoFrame pic);
+
 
 };
 
