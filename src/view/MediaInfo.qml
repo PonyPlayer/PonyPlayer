@@ -4,11 +4,16 @@ import Controller
 
 Window {
     id: infwin
-    width: 300
-    height: 340
+    minimumHeight: 360
+    minimumWidth: 360
+    width: 360
+    height: 360
     property string filepath
     property alias infomodel: medialistModel
-
+    Rectangle{
+        color:"#666666"
+        anchors.fill:parent
+    }
     Rectangle {
         id:wintitle
         width: parent.width
@@ -51,7 +56,7 @@ Window {
         Item {
             id: mediaInfoListitem
 
-            height: 20
+            height: 30
             width: infwin.width
 
             Row {
@@ -64,17 +69,17 @@ Window {
                 Text {
                     id: info_key
                     text: infokey
-                    color: "red"
+                    color: "pink"
                     font.bold: true
+                    width:200
                     font.pointSize: 18
-
                 }
 
 
                 Text {
                     text: infocontent
                     elide: Text.ElideMiddle
-                    color:"blue"
+                    color:"white"
                     font.pointSize: 18
                     width: parent.width-info_key.contentWidth
 
