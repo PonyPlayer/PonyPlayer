@@ -155,7 +155,15 @@ Rectangle {
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
             onClicked: {
-                mainWindow.lastOne()
+                if(mainWindow.playState === "ordered")
+                    listview.currentIndex = (listview.currentIndex - 1 + listview.count)%listview.count
+
+                else if(mainWindow.playState === "random")
+                    listview.currentIndex = (listview.currentIndex - Math.floor(Math.random()*listview.count) + listview.count)%listview.count
+                else;
+                console.log("index:",listview.currentIndex)
+                mainWindow.openFile(listModel.get(listview.currentIndex).filePath);
+                mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
             }
         }
     }
@@ -210,8 +218,19 @@ Rectangle {
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
             onClicked: {
-                mainWindow.nextOne()
-                openFileFailedDialog.open()
+                console.log("playState:",mainWindow.playState)
+                if(mainWindow.playState === "ordered")
+                    listview.currentIndex = (listview.currentIndex + 1)%listview.count
+
+                else if(mainWindow.playState === "random")
+                    listview.currentIndex = (listview.currentIndex + Math.floor(Math.random()*listview.count))%listview.count
+                else;
+                console.log("index:",listview.currentIndex)
+                mainWindow.openFile(listModel.get(listview.currentIndex).filePath);
+                mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+
+//                mainWindow.nextOne()
+//                openFileFailedDialog.open()
             }
         }
     }

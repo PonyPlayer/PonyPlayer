@@ -118,16 +118,16 @@ function speakerOnClicked(){
     videoArea.setVolume(mainWindow.volumn)
 }
 function playModeOnClicked(){
-    if(playMode.state==="ordered"){
-        playMode.state="single"
+    if(mainWindow.playState==="ordered"){
+        mainWindow.playState="single"
     }
-    else if(playMode.state==="single"){
-        playMode.state="random"
+    else if(mainWindow.playState==="single"){
+        mainWindow.playState="random"
     }
     else{
-        playMode.state="ordered"
+        mainWindow.playState="ordered"
     }
-    mainWindow.playModeChange(playMode.state)
+    mainWindow.playModeChange(playSstate)
 }
 function videoSpeedOnClicked(){
     if(videoSpeed.state==="speed1"){

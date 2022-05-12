@@ -182,6 +182,7 @@ Window {
                 mainWindow.setY(mainWindow.y+delta.y)
             }
         }
+
         Rectangle{
             id: innerBar
             width: 80
