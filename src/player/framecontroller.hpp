@@ -95,16 +95,15 @@ public slots:
         m_demuxer->start(); // blocking, make sure pic and sample request can be blocked
 
         // time-consuming job
-        {
+        qreal startPoint = m_demuxer->getSample(true).getPTS();
+        if (!m_demuxer->isRewind()) {
+            // if rewinding, there is no need to skip frame. (dispatcher guarantee)
             VideoFrame pic;
             while (pic = m_demuxer->getPicture(true, true), (pic.isValid() && pic.getPTS() < pos)) {
                 m_demuxer->popPicture(true);
                 pic.free();
             }
             qDebug() << pic.getPTS() << pic.isValid();
-        }
-        qreal startPoint = m_demuxer->getSample(true).getPTS();
-        {
 
             AudioFrame sample;
             while (sample = m_demuxer->getSample(true), (sample.isValid() && sample.getPTS() < pos)) {
@@ -112,8 +111,8 @@ public slots:
                 startPoint = sample.getPTS();
             }
             qDebug() << sample.getPTS() << sample.isValid();
-
         }
+
         emit signalPositionChangedBySeek(); // block
         m_playback->setStartPoint(startPoint);
         m_playback->showFrame();

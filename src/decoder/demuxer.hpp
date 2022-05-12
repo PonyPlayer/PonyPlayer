@@ -29,7 +29,6 @@ public:
     ~Demuxer() {
         qDebug() << "Destroy Demuxer";
         m_affinityThread->quit();
-
     }
 
 
@@ -81,6 +80,14 @@ public:
         qDebug() << "Start Decoder";
         m_worker->stateResume();
         emit signalStartWorker(QPrivateSignal());
+    }
+
+    /**
+     * 当前是否倒放
+     * @return
+     */
+    bool isRewind() {
+        return dynamic_cast<ReverseDecodeDispatcher*>(m_worker);
     }
 
 public slots:

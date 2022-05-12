@@ -38,6 +38,7 @@ private:
 
     inline void syncTo(double pts) {
         double duration = pts - m_audioSink->getProcessSecs();
+        if (m_demuxer->isRewind()) { duration = -duration; }
         if (duration > 0) {
             if (duration > 1) { qWarning() << "Sleep long duration" << duration << "s"; }
             std::unique_lock lock(m_interruptMutex);
