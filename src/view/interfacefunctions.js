@@ -127,7 +127,7 @@ function playModeOnClicked(){
     else{
         mainWindow.playState="ordered"
     }
-    mainWindow.playModeChange(playSstate)
+    mainWindow.playModeChange(playState)
 }
 function videoSpeedOnClicked(){
     if(videoSpeed.state==="speed1"){
