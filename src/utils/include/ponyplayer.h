@@ -7,10 +7,6 @@
 
 #define NOT_IMPLEMENT_YET {throw std::runtime_error("Unsupported operation.");}
 
-#define PONY_THREAD_ANNOTATION(thread) static_assert(static_cast<PonyPlayer::PonyThread>(thread));
-#define PONY_GUARD_BY(thread) PONY_THREAD_ANNOTATION(PonyPlayer::thread)
-#define PONY_THREAD_AFFINITY(thread) PONY_THREAD_ANNOTATION(PonyPlayer::thread)
-#define PONY_THREAD_SAFE
 namespace PonyPlayer {
     using PonyThread = const char*;
     constexpr PonyThread PLAYBACK = "PlaybackThread";
@@ -22,4 +18,20 @@ namespace PonyPlayer {
 
     constexpr PonyThread ANY  = "__AnyThread";
     constexpr PonyThread SELF = "__SelfThread";
+
+    template<typename T0>
+    constexpr bool checkThreadType(T0) {
+        return std::is_same<T0, PonyThread>();
+    }
+
+    template<typename T0, typename ...T>
+    constexpr bool checkThreadType(T0, T ...t) {
+        return std::is_same<T0, PonyThread>() && checkThreadType(t...);
+    }
 }
+
+
+#define PONY_THREAD_ANNOTATION(...) static_assert([]{using namespace PonyPlayer; return checkThreadType(__VA_ARGS__);}());
+#define PONY_GUARD_BY(...) PONY_THREAD_ANNOTATION(__VA_ARGS__)
+#define PONY_THREAD_AFFINITY(thread) PONY_THREAD_ANNOTATION(thread)
+#define PONY_THREAD_SAFE
