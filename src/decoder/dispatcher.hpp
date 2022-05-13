@@ -184,10 +184,12 @@ public:
         // case 1: currently decoding, interrupt
         // case 2: not decoding, seek
         interrupt = true;
+        qDebug() << "a Seek:" << secs;
+        AVFrame *frame;
+        while(m_freeQueue->try_dequeue(frame)) { av_frame_free(&frame); }
+        int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>(secs * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
         if (audioDecoder) { audioDecoder->flushFFmpegBuffers(); }
         if (videoDecoder) { videoDecoder->flushFFmpegBuffers(); }
-        qDebug() << "a Seek:" << secs;
-        int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>(secs * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 

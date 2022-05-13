@@ -20,6 +20,17 @@ private:
 public:
     Thumbnail(QQuickItem *parent= nullptr) : Fireworks(parent) {
         preview = new Preview(this);
+        connect(this, &Thumbnail::signalPreviewRequest, preview, &Preview::previewRequest);
+        connect(this, &QQuickItem::windowChanged, [this](QQuickWindow *window){
+            if (!window) { return; }
+            hurricane = reinterpret_cast<Hurricane *>(qmlContext(this)->objectForName(player));
+            if (!hurricane) {
+                throw std::runtime_error("Cannot not get Hurricane by id:" + player.toStdString());
+            }
+            connect(hurricane, &Hurricane::signalOpenFile, preview, &Preview::openFile);
+            connect(hurricane, &Hurricane::signalClose, preview, &Preview::close);
+            connect(preview, &Preview::previewResponse, this, &Thumbnail::slotPreviewResponse);
+        });
     }
 
     [[nodiscard]] const QString &getPlayer() const {
@@ -43,21 +54,12 @@ public slots:
      * @see Hurricane::previewResponse
      */
     Q_INVOKABLE void previewRequest(qreal pos) {
-        if (!hurricane) {
-            hurricane = reinterpret_cast<Hurricane *>(qmlContext(this)->objectForName(player));
-            if (!hurricane) {
-                throw std::runtime_error("Cannot not get Hurricane by id:" + player.toStdString());
-            }
-            connect(hurricane, &Hurricane::signalOpenFile, preview, &Preview::openFile);
-            connect(hurricane, &Hurricane::signalClose, preview, &Preview::close);
-            connect(preview, &Preview::previewResponse, this, &Thumbnail::slotPreviewResponse);
-        }
         emit signalPreviewRequest(pos, QPrivateSignal());
     }
 private slots:
     void slotPreviewResponse(qreal pos, const VideoFrame& frame) {
         setVisible(false);
-        emit setImage(frame);
+        setImage(frame);
         emit previewResponse(pos, QPrivateSignal());
     };
 signals:

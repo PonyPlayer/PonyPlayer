@@ -100,14 +100,14 @@ public slots:
             // if rewinding, there is no need to skip frame. (dispatcher guarantee)
             VideoFrame pic;
             while (pic = m_demuxer->getPicture(true, true), (pic.isValid() && pic.getPTS() < pos)) {
-                m_demuxer->popPicture(true);
+                if (!m_demuxer->popPicture(true)) {throw std::runtime_error("Assets Fail: CANNOT pop VideoFrame."); }
                 pic.free();
             }
             qDebug() << pic.getPTS() << pic.isValid();
 
             AudioFrame sample;
             while (sample = m_demuxer->getSample(true), (sample.isValid() && sample.getPTS() < pos)) {
-                m_demuxer->popSample(true);
+                if (!m_demuxer->popSample(true)) {throw std::runtime_error("Assets Fail: CANNOT pop AudioFrame."); }
                 startPoint = sample.getPTS();
             }
             qDebug() << sample.getPTS() << sample.isValid();
