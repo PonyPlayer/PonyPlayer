@@ -80,6 +80,8 @@ Window {
     property real saturation: 1.0
     //对比度
     property real contrast: 1.0
+    //音轨列表
+    property var trackMenu
 
 
     //播放
@@ -216,11 +218,11 @@ Window {
                     onTriggered:additionalSettings.show()
                 }
                 Menu {
+                    id:trackmenu
                     title: "音轨"
-                    MenuItem {
-                        text: "音轨"
-
-                    }
+                }
+                Component.onCompleted: {
+                     IF.makeTrackMenu()
                 }
             }
         }
