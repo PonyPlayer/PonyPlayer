@@ -587,6 +587,9 @@ Window {
 
                 }
             }
+            Wave{
+                id: wave
+            }
         }
     }
 

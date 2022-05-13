@@ -95,9 +95,6 @@ function screenSizeFunction(){
         mainWindow.visibility=showFullScreen()
     }
 }
-function openWave(){
-    wavewindow.show()
-}
 function volumeSliderOnMoved(){
     mainWindow.volumn=volumnSlider.value/100
     mainWindow.beforeMute=volumnSlider.value/100

@@ -7,16 +7,27 @@ qt_add_qml_module(${PROJECT_NAME}
         STATIC
         PLUGIN_TARGET wave
         SOURCES
-        wave.cpp
+            wave.hpp
+            lyrics.cpp
         RESOURCES
         )
 
-target_sources(${PROJECT_NAME} PRIVATE
-        ${CMAKE_SOURCE_DIR}/include/wave.h)
+include_directories(include)
 
+target_sources(wave PRIVATE
+        ${CMAKE_SOURCE_DIR}/include/lyrics.h
+        )
+
+
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt::Core
         Qt::Gui
         Qt::Qml
-        Qt::Quick)
+        Qt::Quick
+        decoder
+        player
+        audiosink
+        lrctools
+        )

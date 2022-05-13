@@ -10,7 +10,7 @@ INCLUDE_FFMPEG_BEGIN
 #include <libswresample/swresample.h>
 #include <libavutil/imgutils.h>
 INCLUDE_FFMPEG_END
-#include <QDEbug>
+#include <QDebug>
 #include "frame.hpp"
 #include "twins_queue.hpp"
 #include "concurrentqueue.h"
