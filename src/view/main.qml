@@ -466,7 +466,6 @@ Window {
                                 listview.currentIndex = index
                                 console.log("[P]selected file:"+listModel.get(index).filePath)
                                 mainWindow.openFile(listModel.get(index).filePath);
-                                mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
                             }
 
                             onDoubleClicked: {
