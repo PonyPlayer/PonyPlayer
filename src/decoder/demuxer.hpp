@@ -12,7 +12,7 @@ class Demuxer : public QObject {
     Q_PROPERTY(qreal audioDuration READ audioDuration CONSTANT)
     Q_PROPERTY(qreal videoDuration READ videoDuration CONSTANT)
 private:
-    DecodeDispatcher *m_worker = nullptr;
+    DemuxDispatcherBase *m_worker = nullptr;
     QThread *m_affinityThread = nullptr;
     FrameFreeQueue m_freeQueue;
     FrameFreeFunc m_freeFunc;
@@ -137,7 +137,7 @@ public slots:
             emit openFileResult(false, QPrivateSignal());
             return;
         }
-        connect(this, &Demuxer::signalStartWorker, m_worker, &DecodeDispatcher::onWork);
+        connect(this, &Demuxer::signalStartWorker, m_worker, &DemuxDispatcherBase::onWork);
         emit openFileResult(true, QPrivateSignal());
     }
 

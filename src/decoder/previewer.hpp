@@ -76,7 +76,6 @@ public:
                         av_frame_unref(ctx->frameBuf);
                     } else {
                         auto *frame = ctx->frameBuf;
-                        av_frame_unref(ctx->frameBuf);
                         ctx->frameBuf = av_frame_alloc();
                         av_packet_unref(pkt);
                         return {frame, pts, [=](AVFrame *frame) {emit freeVideoFrame(frame);}};

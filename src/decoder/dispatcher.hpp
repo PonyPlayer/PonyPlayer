@@ -24,31 +24,6 @@ INCLUDE_FFMPEG_END
 //#define IGNORE_VIDEO_FRAME
 
 
-
-
-class DemuxDispatcherBase: public QObject {
-    Q_OBJECT
-public:
-    const std::string filename;
-protected:
-
-    AVFormatContext *fmtCtx = nullptr;
-
-    explicit DemuxDispatcherBase(const std::string &fn, QObject *parent) : QObject(parent), filename(fn) {
-        if (avformat_open_input(&fmtCtx, fn.c_str(), nullptr, nullptr) < 0) {
-            throw std::runtime_error("Cannot open input file.");
-        }
-        if (avformat_find_stream_info(fmtCtx, nullptr) < 0) {
-            throw std::runtime_error("Cannot find any stream in file.");
-        }
-    }
-
-    ~DemuxDispatcherBase() override {
-        if (fmtCtx) { avformat_close_input(&fmtCtx); }
-    }
-};
-
-
 class StreamInfo {
 private:
     int index;
@@ -82,6 +57,89 @@ public:
 
 typedef unsigned int StreamIndex;
 const constexpr StreamIndex DEFAULT_STREAM_INDEX = std::numeric_limits<StreamIndex>::max();
+
+class DemuxDispatcherBase: public QObject {
+    Q_OBJECT
+public:
+    const std::string filename;
+protected:
+
+    AVFormatContext *fmtCtx = nullptr;
+
+    explicit DemuxDispatcherBase(const std::string &fn, QObject *parent) : QObject(parent), filename(fn) {
+        if (avformat_open_input(&fmtCtx, fn.c_str(), nullptr, nullptr) < 0) {
+            throw std::runtime_error("Cannot open input file.");
+        }
+        if (avformat_find_stream_info(fmtCtx, nullptr) < 0) {
+            throw std::runtime_error("Cannot find any stream in file.");
+        }
+    }
+
+    ~DemuxDispatcherBase() override {
+        if (fmtCtx) { avformat_close_input(&fmtCtx); }
+    }
+public:
+    virtual void statePause() {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
+    virtual void flush() {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
+    virtual void stateResume() {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
+    virtual void seek(qreal secs) {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
+    virtual VideoFrame getPicture(bool b, bool own) {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
+    virtual bool popPicture(bool b) {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
+    virtual AudioFrame getSample(bool b) {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
+    virtual bool popSample(bool b) {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
+    virtual qreal getAudionLength() {
+        throw std::runtime_error("Unsupported operation.");
+    }
+    virtual qreal getVideoLength() {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
+    [[nodiscard]] virtual const std::vector<StreamIndex>& audioIndex() const {
+        throw std::runtime_error("Unsupported operation.");
+    }
+    [[nodiscard]] virtual const std::vector<StreamIndex>& videoIndex() const {
+        throw std::runtime_error("Unsupported operation.");
+    }
+    [[nodiscard]] virtual const std::vector<StreamInfo>& streamsInfo() const {
+        throw std::runtime_error("Unsupported operation.");
+    }
+    [[nodiscard]] virtual const StreamInfo& getStreamInfo(StreamIndex i)  const {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
+public slots:
+    virtual void onWork() {
+        throw std::runtime_error("Unsupported operation.");
+    }
+    virtual void setAudioIndex(StreamIndex i) {
+        throw std::runtime_error("Unsupported operation.");
+    }
+};
+
 /**
  * @brief 解码器调度器, 将Packet分配给解码器进一步解码成Frame
  * 这个类是RAII的
@@ -155,13 +213,13 @@ public:
     /**
      * 保证阻塞获取结果的线程尽快被唤醒, 同时请求 DecodeThread 的工作尽快停止.
      */
-    void statePause() {
+    void statePause() override {
         interrupt = true;
         videoQueue->close();
         qDebug() << "Queue close.";
     }
 
-    void flush() {
+    void flush() override {
         videoQueue->clear([](AVFrame *frame){ av_frame_free(&frame);});
         audioQueue->clear([](AVFrame *frame){ av_frame_free(&frame);});
     }
@@ -170,7 +228,7 @@ public:
     /**
      * 保证可以阻塞地获取 Picture 和 Sample. 这个方法是线程安全的.
      */
-    void stateResume() {
+    void stateResume() override {
         interrupt = false;
         videoQueue->open();
         qDebug() << "Queue stateResume.";
@@ -180,7 +238,7 @@ public:
      * 修改视频播放进度, 注意: 这个方法必须在解码线程上调用.
      * @param secs 新的视频进度(单位: 秒)
      */
-    void seek(qreal secs) {
+    void seek(qreal secs) override {
         // case 1: currently decoding, interrupt
         // case 2: not decoding, seek
         interrupt = true;
@@ -191,23 +249,23 @@ public:
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
-    VideoFrame getPicture(bool b, bool own) { return videoDecoder->getPicture(b, own); }
+    VideoFrame getPicture (bool b, bool own) override { return videoDecoder->getPicture(b, own); }
 
-    bool popPicture(bool b) { return videoDecoder->pop(b); }
+    bool popPicture(bool b) override { return videoDecoder->pop(b); }
 
-    AudioFrame getSample(bool b) { return audioDecoder->getSample(b); }
+    AudioFrame getSample(bool b) override { return audioDecoder->getSample(b); }
 
-    bool popSample(bool b) { return audioDecoder->pop(b); }
+    bool popSample(bool b) override { return audioDecoder->pop(b); }
 
-    [[nodiscard]] qreal getAudionLength() { return audioDecoder->duration(); }
-    [[nodiscard]] qreal getVideoLength() { return videoDecoder->duration(); }
+    [[nodiscard]] qreal getAudionLength() override { return audioDecoder->duration(); }
+    [[nodiscard]] qreal getVideoLength() override { return videoDecoder->duration(); }
 
-    [[nodiscard]] const std::vector<StreamIndex>& audioIndex() const { return m_audioStreamsIndex; }
-    [[nodiscard]] const std::vector<StreamIndex>& videoIndex() const { return m_videoStreamsIndex; }
-    [[nodiscard]] const std::vector<StreamInfo>& streamsInfo() const { return streamInfos; }
-    [[nodiscard]] const StreamInfo& getStreamInfo(StreamIndex i) const { return streamInfos[i]; }
+    [[nodiscard]] const std::vector<StreamIndex>& audioIndex() const override { return m_audioStreamsIndex; }
+    [[nodiscard]] const std::vector<StreamIndex>& videoIndex() const override { return m_videoStreamsIndex; }
+    [[nodiscard]] const std::vector<StreamInfo>& streamsInfo() const override { return streamInfos; }
+    [[nodiscard]] const StreamInfo& getStreamInfo(StreamIndex i) const override { return streamInfos[i]; }
 public slots:
-    void onWork() {
+    void onWork() override {
         videoQueue->open();
         while(!interrupt) {
             AVFrame *frame;
@@ -230,7 +288,7 @@ public slots:
         }
     };
 
-    void setAudioIndex(StreamIndex i) {
+    void setAudioIndex(StreamIndex i) override {
         if (i == m_audioStreamIndex) { return; }
         delete audioDecoder;
         m_audioStreamIndex = i;
@@ -241,22 +299,29 @@ public slots:
 /**
  * @brief 反向解码器调度器
  */
-#include <iostream>
+//#include <iostream>
 
 class ReverseDecodeDispatcher : public DemuxDispatcherBase {
 Q_OBJECT
     int videoStreamIndex{-1};
+    std::vector<StreamIndex> m_videoStreamsIndex;
+    std::vector<StreamIndex> m_audioStreamsIndex;
 
     AVStream *videoStream{};
 
     ReverseDecoderImpl<Video> *videoDecoder;
+
+    AudioFrame silenceFrame;
+    std::vector<StreamInfo> streamInfos;
+    std::byte silence[1024]{};
 
     std::atomic<bool> interrupt = false;
     AVPacket *packet = nullptr;
     TwinsBlockQueue<std::vector<AVFrame *>*> *videoQueue;
     TwinsBlockQueue<std::vector<AVFrame *>*> *audioQueue;
 public:
-    explicit ReverseDecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent) {
+    explicit ReverseDecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent),
+                                                                               silenceFrame(silence, 1024, std::numeric_limits<double>::max(), nullptr){
         packet = av_packet_alloc();
         for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && videoStreamIndex == -1) {
@@ -264,6 +329,7 @@ public:
                 videoStream = fmtCtx->streams[i];
             }
         }
+
         if (videoStreamIndex < 0) { throw std::runtime_error("Cannot find video stream."); }
 
         // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
@@ -285,13 +351,13 @@ public:
     /**
      * 保证阻塞获取结果的线程尽快被唤醒, 同时请求 DecodeThread 的工作尽快停止.
      */
-    void statePause() {
+    void statePause() override {
         interrupt = true;
         videoQueue->close();
         qDebug() << "Queue close.";
     }
 
-    void flush() {
+    void flush() override {
         videoQueue->clear([](std::vector<AVFrame *>* frameStk){
             for (auto frame : *frameStk)
                 av_frame_free(&frame);
@@ -306,7 +372,7 @@ public:
     /**
      * 保证可以阻塞地获取 Picture 和 Sample. 这个方法是线程安全的.
      */
-    void stateResume() {
+    void stateResume() override {
         interrupt = false;
         videoQueue->open();
         qDebug() << "Queue stateResume.";
@@ -316,7 +382,7 @@ public:
      * 修改视频播放进度, 注意: 这个方法必须在解码线程上调用.
      * @param secs 新的视频进度(单位: 秒)
      */
-    void seek(qreal secs) {
+    void seek(qreal secs) override {
         // case 1: currently decoding, interrupt
         // case 2: not decoding, seek
         interrupt = true;
@@ -328,19 +394,24 @@ public:
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
-    VideoFrame getPicture(bool b, bool own) { return videoDecoder->getPicture(b, own); }
+    VideoFrame getPicture(bool b, bool own) override { return videoDecoder->getPicture(b, own); }
 
-    bool popPicture(bool b) { return videoDecoder->pop(b); }
+    bool popPicture(bool b) override { return videoDecoder->pop(b); }
 
-    AudioFrame getSample(bool b) { return {}; }
+    AudioFrame getSample(bool b) override { return silenceFrame; }
 
-    bool popSample(bool b) { return true; }
+    bool popSample(bool b) override { return true; }
 
-    qreal getAudionLength() { return {}; }
-    qreal getVideoLength() { return videoDecoder->duration(); }
+    qreal getAudionLength() override { return {}; }
+    qreal getVideoLength() override { return videoDecoder->duration(); }
+
+    [[nodiscard]] const std::vector<StreamIndex>& audioIndex() const override { return m_audioStreamsIndex; }
+    [[nodiscard]] const std::vector<StreamIndex>& videoIndex() const override { return m_videoStreamsIndex; }
+    [[nodiscard]] const std::vector<StreamInfo>& streamsInfo() const override { return streamInfos; }
+    [[nodiscard]] const StreamInfo& getStreamInfo(StreamIndex i) const override { return streamInfos[i]; }
 
 public slots:
-    void onWork() {
+    void onWork() override {
         videoQueue->open();
         while(!interrupt) {
             int ret = av_read_frame(fmtCtx, packet);
@@ -373,7 +444,6 @@ public slots:
                 qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
             }
             av_packet_unref(packet);
-            QCoreApplication::processEvents();
         }
     };
 };
