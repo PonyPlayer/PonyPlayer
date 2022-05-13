@@ -31,7 +31,7 @@ public:
                 return;
             }
         }
-        connect(this, &Previewer::freeVideoFrameSignal, this, &Previewer::freeVideoFrame);
+        connect(this, &Previewer::signalFreeVideoFrame, [](AVFrame *frame){ av_frame_free(&frame); });
         qWarning() << "Previewer: can not find video stream";
     }
 
@@ -78,7 +78,7 @@ public:
                         auto *frame = ctx->frameBuf;
                         ctx->frameBuf = av_frame_alloc();
                         av_packet_unref(pkt);
-                        return {frame, pts, [=](AVFrame *frame) {emit freeVideoFrame(frame);}};
+                        return {frame, pts, [=](AVFrame *frame) { emit signalFreeVideoFrame(frame, QPrivateSignal());}};
                     }
                 }
                 if (ret < 0) {
@@ -94,13 +94,8 @@ public:
         return {};
     }
 
-private slots:
-    void freeVideoFrame(AVFrame *frame) {
-        av_frame_free(&frame);
-    }
-
 signals:
-    void freeVideoFrameSignal(AVFrame *frame, QPrivateSignal);
+    void signalFreeVideoFrame(AVFrame *frame, QPrivateSignal);
 };
 
 #endif //PONYPLAYER_PREVIEW_H
