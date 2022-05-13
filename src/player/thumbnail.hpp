@@ -23,7 +23,11 @@ public:
         connect(this, &Thumbnail::signalPreviewRequest, preview, &Preview::previewRequest);
         connect(this, &QQuickItem::windowChanged, [this](QQuickWindow *window){
             if (!window) { return; }
-            hurricane = reinterpret_cast<Hurricane *>(qmlContext(this)->objectForName(player));
+            auto *context = qmlContext(this);
+            while(!hurricane && context) {
+                hurricane = reinterpret_cast<Hurricane *>(context->objectForName(player));
+                context = context->parentContext();
+            }
             if (!hurricane) {
                 throw std::runtime_error("Cannot not get Hurricane by id:" + player.toStdString());
             }
