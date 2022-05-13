@@ -13,7 +13,7 @@ class Demuxer : public QObject {
     Q_PROPERTY(qreal videoDuration READ videoDuration CONSTANT)
     PONY_THREAD_AFFINITY(DECODER)
 private:
-    DemuxDispatcherBase *m_worker = nullptr;
+    DecodeDispatcher *m_worker = nullptr;
     QThread *m_affinityThread = nullptr;
     FrameFreeQueue m_freeQueue;
     FrameFreeFunc m_freeFunc;
