@@ -309,7 +309,6 @@ function makeTrackMenu(){
     if(mainWindow.trackMenu){
         mainWindow.trackMenu.destroy()
     }
-    console.log("...............................................bulid")
     var tmpList=videoArea.getTracks()
     console.log(tmpList)
     mainWindow.trackMenu = Qt.createQmlObject('import QtQuick 2.13; import QtQuick.Controls 2.13; Menu{}',menu)
