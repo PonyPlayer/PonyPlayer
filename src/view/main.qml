@@ -537,10 +537,10 @@ Window {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.right: videoList.left
-            clip:true
+            clip: true
             HurricanePlayer{
-                id:videoArea
-                clip:true
+                id: videoArea
+                clip: true
                 MouseArea{
                     anchors.fill: parent
                     hoverEnabled: true //默认是false

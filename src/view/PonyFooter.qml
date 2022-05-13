@@ -43,7 +43,7 @@ Rectangle {
             acceptedButtons: Qt.NoButton
             onEntered: preview.visible=true
             onExited: preview.visible=false
-            onPositionChanged:preview.previewResponse((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+            onPositionChanged: preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
         }
         onValueChanged: {
             mainWindow.currentTime=videoSlide.value
@@ -52,7 +52,7 @@ Rectangle {
             console.log("lei fu kai use seek"+videoSlide.value)
             if(!videoSlide.pressed){
                 videoArea.seek(mainWindow.currentTime)
-                preview.previewRequest(mainWindow.currentTime)
+//                preview.previewRequest(mainWindow.currentTime)
             }
         }
         Shortcut{
@@ -72,18 +72,23 @@ Rectangle {
             onActivated: IF.forwardFiveSeconds()
         }
     }
-    Thumbnail {
-        id: preview
+    Rectangle {
+        x:(videoSlide.x+previewDetector.mouseX-50)
         width:100
         height:80
-        player: "videoArea"
-        x:(videoSlide.x+previewDetector.mouseX-50)
         anchors.bottom: videoSlide.top
         anchors.bottomMargin: 10
-        onPreviewResponse: {
-            console.log("Preview Response!!!!!!!!!!!!!!!!!!!!!!")
+        clip: true
+        Thumbnail {
+            id: preview
+            player: "videoArea"
+            onPreviewResponse: {
+                console.log("Preview Response!!!!!!!!!!!!!!!!!!!!!!")
+            }
         }
+
     }
+
 
 
 

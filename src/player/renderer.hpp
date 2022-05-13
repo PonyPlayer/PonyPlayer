@@ -155,7 +155,7 @@ public slots:
         createTextureBuffer(&textureLUT);
         glBindTexture(GL_TEXTURE_2D, textureLUT);
 
-        lutTexture.load(u":/player/filter/kodak_kaf_2001.png"_qs);
+        lutTexture.load(u":/player/filter/neutral-lut.png"_qs);
         lutTexture.convertTo(QImage::Format_RGB888);
 
 
@@ -181,6 +181,9 @@ public:
 #ifdef DEBUG_FlAG_PAINT_LOG
         qDebug() << "Paint" << "x =" << glRect.x() << "y =" << glRect.y() << "w =" << glRect.width() << "h =" << glRect.height();
 #endif
+        // Due to QTBUG-97589, we are not able to get model-view matrix
+        // https://bugreports.qt.io/browse/QTBUG-97589
+        // workaround, assume parent clip hurricane
         const QRect r = state->scissorRect();
         glViewport(r.x(), r.y(), r.width(), r.height());
         glEnable(GL_BLEND);
@@ -188,6 +191,9 @@ public:
         if (state->scissorEnabled()) {
             glEnable(GL_SCISSOR_TEST);
             glScissor(r.x(), r.y(), r.width(), r.height());
+        } else {
+            throw std::runtime_error("Scissor Test must be enabled. For example: wrap Fireworks "
+                                     "in a Rectangle and set clip: true. ");
         }
         if (state->stencilEnabled()) {
             glEnable(GL_STENCIL_TEST);
