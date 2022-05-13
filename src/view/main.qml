@@ -559,9 +559,11 @@ Window {
                     if(!b){
                         operationFailedDialogText.text="打开文件失败，请选择正确路径"
                         operationFailedDialog.open()
+                        mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
                     }
                     else{
                         IF.toVideoBegining()
+                        mainWindow.endTime=0
                     }
                 }
             }

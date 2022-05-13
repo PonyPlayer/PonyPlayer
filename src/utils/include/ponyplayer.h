@@ -32,6 +32,15 @@ namespace PonyPlayer {
 
 
 #define PONY_THREAD_ANNOTATION(...) static_assert([]{using namespace PonyPlayer; return checkThreadType(__VA_ARGS__);}());
+
+/**
+ * 仅在指定线程调用可以保证线程安全
+ */
 #define PONY_GUARD_BY(...) PONY_THREAD_ANNOTATION(__VA_ARGS__)
+
+/**
+ * 仅在合适的时机调用可以保证线程安全. 通常通过Qt的信号机制保证.
+ */
+#define PONY_CONDITION(description)
 #define PONY_THREAD_AFFINITY(thread) PONY_THREAD_ANNOTATION(thread)
 #define PONY_THREAD_SAFE

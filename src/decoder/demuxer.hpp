@@ -11,10 +11,17 @@ class Demuxer : public QObject {
     PONY_THREAD_AFFINITY(DECODER)
 
 private:
-    DecodeDispatcher *m_worker = nullptr;
+    // openfile(MainThread) -> openfile(FrameThread) -> openfile(Decoder) -> openfile(MainThread)
+    // no addition synchronization is needed
+    DemuxDispatcherBase *m_worker = nullptr;
+    DecodeDispatcher *m_forward;
+    ReverseDecodeDispatcher *m_backward;
+
     QThread *m_affinityThread = nullptr;
     FrameFreeQueue m_freeQueue;
     FrameFreeFunc m_freeFunc;
+
+    std::mutex mutex;
 public:
     Demuxer(QObject *parent) : QObject(nullptr), m_freeQueue(1024) {
         m_affinityThread = new QThread;
@@ -29,33 +36,43 @@ public:
         m_affinityThread->quit();
     }
 
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) VideoFrame getPicture(bool b, bool own) { return m_worker->getPicture(b, own); }
 
-    VideoFrame getPicture(bool b, bool own) { return m_worker->getPicture(b, own); }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) bool popPicture(bool b) { return m_worker->popPicture(b); }
 
-    bool popPicture(bool b) { return m_worker->popPicture(b); }
-
-    AudioFrame getSample(bool b) { return m_worker->getSample(b); }
-
-    bool popSample(bool b) { return m_worker->popSample(b); }
-
-    qreal audioDuration() { return m_worker ? m_worker->getAudionLength() : 0.0; }
-
-    qreal videoDuration() { return m_worker ? m_worker->getVideoLength() : 0.0; }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) AudioFrame getSample(bool b) { return m_worker->getSample(b); }
 
 
-    PONY_GUARD_BY(MAIN, FRAME) QStringList getTracks() {
-        if (m_worker) {
-            return m_worker->getTracks();
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) bool popSample(bool b) { return m_worker->popSample(b); }
+
+    PONY_CONDITION("OpenFileResult")
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal audioDuration() { return m_forward ? m_forward->getAudionLength() : 0.0; }
+
+    PONY_CONDITION("OpenFileResult")
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal videoDuration() { return m_forward ? m_forward->getVideoLength() : 0.0; }
+
+    PONY_CONDITION("OpenFileResult")
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) QStringList getTracks() {
+        if (m_forward) {
+            return m_forward->getTracks();
         } else {
             return {u"Not Open File"_qs};
         }
     }
 
     /**
+     * 当前是否倒放
+     * @return
+     */
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) bool isRewind() {
+        return dynamic_cast<ReverseDecodeDispatcher*>(m_worker);
+    }
+
+    /**
      * 向 DecodeThread 发送信号尽快暂停解码, 并唤醒阻塞在上面的线程.
      * @see DecodeDispatcher::statePause
     */
-    void pause() {
+    PONY_THREAD_SAFE void pause() {
         m_worker->statePause();
     }
 
@@ -63,25 +80,17 @@ public:
      * 清空旧的帧, 这个方法会阻塞直到队列中的所有旧帧清理完成.
      * @see DecodeDispatcher::flush
      */
-    void flush() {
+    PONY_GUARD_BY(DECODER) void flush() {
         m_worker->flush();
     }
 
     /**
      * 在 DecodeThread 启动解码器, 这个方法是非阻塞的, 但是可以保证返回后队里请求能够被阻塞.
      */
-    void start() {
+    PONY_THREAD_SAFE void start() {
         qDebug() << "Start Decoder";
         m_worker->stateResume();
         emit signalStartWorker(QPrivateSignal());
-    }
-
-    /**
-     * 当前是否倒放
-     * @return
-     */
-    bool isRewind() {
-        return dynamic_cast<ReverseDecodeDispatcher*>(m_worker);
     }
 
 public slots:
@@ -123,14 +132,20 @@ public slots:
             emit openFileResult(false, QPrivateSignal());
             return;
         }
+        std::unique_lock lock(mutex);
         try {
-            m_worker = new DecodeDispatcher(fn, &m_freeQueue, &m_freeFunc, DEFAULT_STREAM_INDEX, DEFAULT_STREAM_INDEX, this);
+            m_forward = new DecodeDispatcher(fn, &m_freeQueue, &m_freeFunc, DEFAULT_STREAM_INDEX, DEFAULT_STREAM_INDEX, this);
+            m_backward = new ReverseDecodeDispatcher(fn, this);
+            m_worker = m_forward;
         } catch (std::runtime_error &ex) {
             qWarning() << "Error opening file:" << ex.what();
             m_worker = nullptr;
+            m_backward = nullptr;
+            m_forward = nullptr;
             emit openFileResult(false, QPrivateSignal());
             return;
         }
+        lock.unlock();
         connect(this, &Demuxer::signalStartWorker, m_worker, &DemuxDispatcherBase::onWork);
         emit openFileResult(true, QPrivateSignal());
     }

@@ -43,7 +43,7 @@ Rectangle {
             acceptedButtons: Qt.NoButton
             onEntered: preview.visible=true
             onExited: preview.visible=false
-            onPositionChanged: preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+//            onPositionChanged: preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
         }
         onValueChanged: {
             mainWindow.currentTime=videoSlide.value
@@ -189,7 +189,6 @@ Rectangle {
                 else;
                 console.log("index:",listview.currentIndex)
                 mainWindow.openFile(listModel.get(listview.currentIndex).filePath);
-                mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
             }
         }
     }

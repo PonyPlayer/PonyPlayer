@@ -133,7 +133,6 @@ private:
         std::vector<StreamIndex> m_videoStreamsIndex;
         std::vector<StreamIndex> m_audioStreamsIndex;
         std::vector<StreamInfo> streamInfos;
-        std::mutex mutex;
     } description;
 
     TwinsBlockQueue<AVFrame *> *videoQueue;
@@ -238,22 +237,16 @@ public:
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
-    VideoFrame getPicture (bool b, bool own) override { return videoDecoder->getPicture(b, own); }
+    PONY_THREAD_SAFE VideoFrame getPicture (bool b, bool own) override { return videoDecoder->getPicture(b, own); }
 
-    bool popPicture(bool b) override { return videoDecoder->pop(b); }
+    PONY_THREAD_SAFE bool popPicture(bool b) override { return videoDecoder->pop(b); }
 
-    AudioFrame getSample(bool b) override { return audioDecoder->getSample(b); }
+    PONY_THREAD_SAFE AudioFrame getSample(bool b) override { return audioDecoder->getSample(b); }
 
-    bool popSample(bool b) override { return audioDecoder->pop(b); }
+    PONY_THREAD_SAFE bool popSample(bool b) override { return audioDecoder->pop(b); }
 
-    PONY_THREAD_SAFE [[nodiscard]] qreal getAudionLength() {
-        std::unique_lock lock(description.mutex);
-        return description.audioDuration;
-    }
-    PONY_THREAD_SAFE [[nodiscard]] qreal getVideoLength() {
-        std::unique_lock lock(description.mutex);
-        return description.videoDuration;
-    }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getAudionLength() { return description.audioDuration; }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getVideoLength() { return description.videoDuration; }
 
 
 public slots:
@@ -288,7 +281,6 @@ public slots:
     }
 
     QStringList getTracks() {
-        std::unique_lock lock(description.mutex);
         QStringList ret;
         ret.reserve(static_cast<qsizetype>(description.m_audioStreamsIndex.size()));
         for(auto && i : description.m_audioStreamsIndex) {
