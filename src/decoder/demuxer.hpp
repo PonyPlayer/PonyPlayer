@@ -16,7 +16,18 @@ private:
     QThread *m_affinityThread = nullptr;
     FrameFreeQueue m_freeQueue;
     FrameFreeFunc m_freeFunc;
-
+private:
+    QStringList getTracks() {
+        QStringList ret;
+//        if (m_worker) {
+//            auto tracks = m_worker->audioIndex();
+//            ret.reserve(static_cast<qsizetype>(tracks.size()));
+//            std::transform(tracks.begin(), tracks.end(), ret.begin(), [this](StreamIndex i){
+//                return m_worker->getStreamInfo(i).getFriendName();
+//            });
+//        }
+        return ret;
+    }
 public:
     Demuxer(QObject *parent) : QObject(nullptr), m_freeQueue(1024) {
         m_affinityThread = new QThread;
@@ -44,17 +55,7 @@ public:
 
     qreal videoDuration() { return m_worker ? m_worker->getVideoLength() : 0.0; }
 
-    QStringList getTracks() {
-        QStringList ret;
-        if (m_worker) {
-            auto tracks = m_worker->audioIndex();
-            ret.reserve(static_cast<qsizetype>(tracks.size()));
-            std::transform(tracks.begin(), tracks.end(), ret.begin(), [this](StreamIndex i){
-                return m_worker->getStreamInfo(i).getFriendName();
-            });
-        }
-        return ret;
-    }
+
 
 
     /**

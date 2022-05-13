@@ -263,6 +263,9 @@ public slots:
     }
 
     Q_INVOKABLE QStringList getTracks() {
+        if (state == LOADING || state == INVALID) {
+            qWarning() << "Get tracks when" << state;
+        }
         return frameController->getTracks();
     }
 

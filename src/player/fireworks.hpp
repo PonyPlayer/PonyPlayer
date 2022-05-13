@@ -85,9 +85,6 @@ public slots:
         // this function must be called on GUI thread
         // setImage -> sync -> render
         // since picture may use on renderer thread, we CANNOT free now
-        if (pic.getU() == nullptr) {
-            int debug = 0;
-        }
         // no change, return immediately
         if (pic == picture) { return; }
         updateVideoFrame = true;

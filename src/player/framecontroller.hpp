@@ -44,8 +44,22 @@ public:
         m_affinityThread->quit();
     }
 
+    /**
+     * 这个方法是线程安全的
+     * @return
+     */
     qreal getAudioDuration() { return m_demuxer->property("audioDuration").toDouble(); }
+
+    /**
+     * 这个方法是线程安全的
+     * @return
+     */
     qreal getVideoDuration() { return m_demuxer->property("videoDuration").toDouble(); }
+
+    /**
+     * 这个方法是线程安全的
+     * @return
+     */
     QStringList getTracks() { return m_demuxer->property("tracks").toStringList(); }
 
     void setVolume(qreal volume) {m_playback->setVolume(volume); }
