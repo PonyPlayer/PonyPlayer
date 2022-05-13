@@ -221,9 +221,6 @@ Window {
                     id:trackmenu
                     title: "音轨"
                 }
-                Component.onCompleted: {
-                     IF.makeTrackMenu()
-                }
             }
         }
         Rectangle{
