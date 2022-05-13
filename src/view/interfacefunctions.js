@@ -280,10 +280,6 @@ function playOrPauseFunction(){
 }
 function solveStateChanged(){
     if(videoArea.state==1){
-        console.log("+++++++++++++++++++++++++++++++++++++++++++"+videoArea.state)
-        let ddd=["12",'1']
-        ddd=videoArea.getTracks()
-        console.log("+++++++++++++++++++++++++++++++++++++++++++"+ddd)
         toVideoBegining()
     }
     else if(videoArea.state==2){
@@ -291,6 +287,10 @@ function solveStateChanged(){
         toVideoBegining()
         return
     }
+    // else if(videoArea.state==6){
+    //     console.log("+++++++++++++++++++++++++6666666666666")
+    //     console.log(videoArea.getTracks())
+    // }
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
 
     //let tmp=videoArea.getPTS()

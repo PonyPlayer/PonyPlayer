@@ -587,14 +587,6 @@ Window {
 
                 }
             }
-            Thumbnail {
-                id: preview
-                player: "videoArea"
-                onPreviewResponse: {
-                    preview.visible=true
-                    console.log("Preview Response!!!!!!!!!!!!!!!!!!!!!!")
-                }
-            }
         }
     }
 
