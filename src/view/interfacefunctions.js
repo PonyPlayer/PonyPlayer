@@ -280,6 +280,10 @@ function playOrPauseFunction(){
 }
 function solveStateChanged(){
     if(videoArea.state==1){
+        console.log("+++++++++++++++++++++++++++++++++++++++++++"+videoArea.state)
+        let ddd=["12",'1']
+        ddd=videoArea.getTracks()
+        console.log("+++++++++++++++++++++++++++++++++++++++++++"+ddd)
         toVideoBegining()
     }
     else if(videoArea.state==2){
@@ -288,6 +292,7 @@ function solveStateChanged(){
         return
     }
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+
     //let tmp=videoArea.getPTS()
     //mainWindow.currentTime=tmp
     //videoSlide.value=tmp
@@ -303,4 +308,22 @@ function nextOnClicked(){
     console.log("index:",listview.currentIndex)
     mainWindow.openFile(listModel.get(listview.currentIndex).filePath);
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+}
+function makeTrackMenu(){
+    console.log("...............................................bulid")
+    if(mainWindow.trackMenu){
+        mainWindow.trackMenu.destory()
+    }
+    mainWindow.trackMenu = Qt.createQmlObject('import QtQuick 2.13; import QtQuick.Controls 2.13; Menu{}',menu)
+    mainWindow.trackMenu.title="testtrack"
+    menu.addItem(mainWindow.trackMenu)
+    let component=Qt.createComponent("TrackItem.qml")
+    for(let i=0;i<3;i++){
+        let item = component.createObject(mainWindow.trackMenu,{"text":("音轨:  "+i),"trackID":i})
+        item.setTrack.connect(funtst)
+        trackmenu.addItem(item)
+    }
+}
+function funtst(xxx){
+    console.log(xxx)
 }

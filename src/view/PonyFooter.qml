@@ -42,7 +42,7 @@ Rectangle {
             console.log("lei fu kai use seek"+videoSlide.value)
             if(!videoSlide.pressed){
                 videoArea.seek(mainWindow.currentTime)
-                previewImage.previewRequest(mainWindow.currentTime)
+                preview.previewRequest(mainWindow.currentTime)
             }
         }
         Shortcut{

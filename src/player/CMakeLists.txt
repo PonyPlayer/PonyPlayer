@@ -15,7 +15,6 @@ qt_add_qml_module(${PROJECT_NAME}
             renderer.hpp
             preview.hpp
             thumbnail.hpp
-            ponyslider.hpp
         RESOURCES
             shader/vertex.vsh
             shader/fragment.fsh

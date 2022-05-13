@@ -14,7 +14,7 @@ class Fireworks : public QQuickItem {
     Q_PROPERTY(GLfloat saturation READ getSaturation WRITE setSaturation)
 private:
     FireworksRenderer *renderer = nullptr;
-    bool updateVideoFrame;
+    bool updateVideoFrame = false;
 protected:
     VideoFrame picture;
     GLfloat brightness = 0.0;
@@ -85,7 +85,9 @@ public slots:
         // this function must be called on GUI thread
         // setImage -> sync -> render
         // since picture may use on renderer thread, we CANNOT free now
-
+        if (pic.getU() == nullptr) {
+            int debug = 0;
+        }
         // no change, return immediately
         if (pic == picture) { return; }
         updateVideoFrame = true;
