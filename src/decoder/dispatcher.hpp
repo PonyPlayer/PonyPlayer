@@ -286,6 +286,16 @@ public slots:
         m_audioStreamIndex = i;
         audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_freeQueue, m_freeFunc);
     }
+
+    QStringList getTracks() {
+        std::unique_lock lock(description.mutex);
+        QStringList ret;
+        ret.reserve(static_cast<qsizetype>(description.m_audioStreamsIndex.size()));
+        for(auto && i : description.m_audioStreamsIndex) {
+            ret.emplace_back(description.streamInfos[i].getFriendName());
+        }
+        return ret;
+    }
 };
 
 /**

@@ -8,27 +8,13 @@
 
 class Demuxer : public QObject {
     Q_OBJECT
-    Q_PROPERTY(QStringList tracks READ getTracks CONSTANT)
-    Q_PROPERTY(qreal audioDuration READ audioDuration CONSTANT)
-    Q_PROPERTY(qreal videoDuration READ videoDuration CONSTANT)
     PONY_THREAD_AFFINITY(DECODER)
+
 private:
     DecodeDispatcher *m_worker = nullptr;
     QThread *m_affinityThread = nullptr;
     FrameFreeQueue m_freeQueue;
     FrameFreeFunc m_freeFunc;
-private:
-    PONY_THREAD_SAFE QStringList getTracks() {
-        QStringList ret;
-//        if (m_worker) {
-//            auto tracks = m_worker->audioIndex();
-//            ret.reserve(static_cast<qsizetype>(tracks.size()));
-//            std::transform(tracks.begin(), tracks.end(), ret.begin(), [this](StreamIndex i){
-//                return m_worker->getStreamInfo(i).getFriendName();
-//            });
-//        }
-        return ret;
-    }
 public:
     Demuxer(QObject *parent) : QObject(nullptr), m_freeQueue(1024) {
         m_affinityThread = new QThread;
@@ -57,7 +43,13 @@ public:
     qreal videoDuration() { return m_worker ? m_worker->getVideoLength() : 0.0; }
 
 
-
+    PONY_GUARD_BY(MAIN, FRAME) QStringList getTracks() {
+        if (m_worker) {
+            return m_worker->getTracks();
+        } else {
+            return {u"Not Open File"_qs};
+        }
+    }
 
     /**
      * 向 DecodeThread 发送信号尽快暂停解码, 并唤醒阻塞在上面的线程.

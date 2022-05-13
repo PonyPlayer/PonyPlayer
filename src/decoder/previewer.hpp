@@ -22,9 +22,9 @@ private:
 public:
 
     explicit Previewer(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent) {
-        for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
+        for (StreamIndex i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
-                videoStreamIndex = i;
+                videoStreamIndex = static_cast<int>(i);
                 videoStream = fmtCtx->streams[i];
                 ctx = new DecoderContext(videoStream);
                 pkt = av_packet_alloc();

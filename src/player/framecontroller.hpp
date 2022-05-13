@@ -48,19 +48,19 @@ public:
      * 这个方法是线程安全的
      * @return
      */
-    qreal getAudioDuration() { return m_demuxer->property("audioDuration").toDouble(); }
+    qreal getAudioDuration() { return m_demuxer->audioDuration(); }
 
     /**
      * 这个方法是线程安全的
      * @return
      */
-    qreal getVideoDuration() { return m_demuxer->property("videoDuration").toDouble(); }
+    qreal getVideoDuration() { return m_demuxer->videoDuration(); }
 
     /**
      * 这个方法是线程安全的
      * @return
      */
-    QStringList getTracks() { return m_demuxer->property("tracks").toStringList(); }
+    QStringList getTracks() { return m_demuxer->getTracks(); }
 
     void setVolume(qreal volume) {m_playback->setVolume(volume); }
     void setSpeed(qreal speed) {m_playback->setSpeed(speed); }
