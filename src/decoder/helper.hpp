@@ -35,6 +35,7 @@ const int MAX_AUDIO_FRAME_SIZE = 192000;
 const int AUDIO_DATA_INFO_QUEUE_INITIAL = 100;
 #pragma GCC diagnostic pop
 
+
 inline unsigned nextPowerOf2(unsigned val) {
     val--;
     val = (val >> 1) | val;
@@ -52,3 +53,4 @@ inline QString ffmpegErrToString(int err) {
     av_strerror(err, errBuf, sizeof(errBuf));
     return errBuf;
 }
+

@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <unordered_map>
 #include <vector>
+#include "ponyplayer.h"
 #include "helper.hpp"
 #include "frame.hpp"
 #include "twins_queue.hpp"
@@ -40,7 +41,7 @@ public:
 
     [[nodiscard]] qreal getDuration() const { return duration; }
 
-    QString getFriendName() const {
+    [[nodiscard]] QString getFriendName() const {
         QString str;
         if (auto iter=dict.find("language"); iter !=dict.cend()) {
             str.append(iter->second.c_str());
@@ -79,55 +80,56 @@ protected:
         if (fmtCtx) { avformat_close_input(&fmtCtx); }
     }
 public:
-    virtual void statePause() {
+    PONY_GUARD_BY(FRAME) virtual void statePause() {
         throw std::runtime_error("Unsupported operation.");
     }
 
-    virtual void flush() {
+    PONY_GUARD_BY(FRAME) virtual void flush() {
         throw std::runtime_error("Unsupported operation.");
     }
 
-    virtual void stateResume() {
+    PONY_GUARD_BY(FRAME) virtual void stateResume() {
         throw std::runtime_error("Unsupported operation.");
     }
 
-    virtual void seek(qreal secs) {
+    PONY_GUARD_BY(FRAME) virtual void seek(qreal secs) {
         throw std::runtime_error("Unsupported operation.");
     }
 
-    virtual VideoFrame getPicture(bool b, bool own) {
+    PONY_GUARD_BY(FRAME) virtual VideoFrame getPicture(bool b, bool own) {
         throw std::runtime_error("Unsupported operation.");
     }
 
-    virtual bool popPicture(bool b) {
+    PONY_GUARD_BY(FRAME) virtual bool popPicture(bool b) {
         throw std::runtime_error("Unsupported operation.");
     }
 
-    virtual AudioFrame getSample(bool b) {
+    PONY_GUARD_BY(FRAME) virtual AudioFrame getSample(bool b) {
         throw std::runtime_error("Unsupported operation.");
     }
 
-    virtual bool popSample(bool b) {
+    PONY_GUARD_BY(FRAME) virtual bool popSample(bool b) {
+
         throw std::runtime_error("Unsupported operation.");
     }
 
-    virtual qreal getAudionLength() {
+    PONY_THREAD_SAFE virtual qreal getAudionLength() {
         throw std::runtime_error("Unsupported operation.");
     }
-    virtual qreal getVideoLength() {
+    PONY_THREAD_SAFE virtual qreal getVideoLength() {
         throw std::runtime_error("Unsupported operation.");
     }
 
-    [[nodiscard]] virtual const std::vector<StreamIndex>& audioIndex() const {
+    PONY_THREAD_SAFE [[nodiscard]] virtual const std::vector<StreamIndex>& audioIndex() const {
         throw std::runtime_error("Unsupported operation.");
     }
-    [[nodiscard]] virtual const std::vector<StreamIndex>& videoIndex() const {
+    PONY_THREAD_SAFE [[nodiscard]] virtual const std::vector<StreamIndex>& videoIndex() const {
         throw std::runtime_error("Unsupported operation.");
     }
-    [[nodiscard]] virtual const std::vector<StreamInfo>& streamsInfo() const {
+    PONY_THREAD_SAFE [[nodiscard]] virtual const std::vector<StreamInfo>& streamsInfo() const {
         throw std::runtime_error("Unsupported operation.");
     }
-    [[nodiscard]] virtual const StreamInfo& getStreamInfo(StreamIndex i)  const {
+    PONY_THREAD_SAFE [[nodiscard]] virtual const StreamInfo& getStreamInfo(StreamIndex i)  const {
         throw std::runtime_error("Unsupported operation.");
     }
 
@@ -201,7 +203,7 @@ public:
         qDebug() << "Destroy decode dispatcher " << filename.c_str();
         AVFrame *frame;
         while(m_freeQueue->try_dequeue(frame)) { av_frame_free(&frame); }
-        flush();
+        DecodeDispatcher::flush();
         delete audioQueue;
         delete videoQueue;
         delete audioDecoder;
@@ -304,7 +306,9 @@ public slots:
 //#include <iostream>
 
 class ReverseDecodeDispatcher : public DemuxDispatcherBase {
-Q_OBJECT
+    Q_OBJECT
+    PONY_THREAD_AFFINITY(DECODER)
+private:
     int videoStreamIndex{-1};
     std::vector<StreamIndex> m_videoStreamsIndex;
     std::vector<StreamIndex> m_audioStreamsIndex;
@@ -353,13 +357,13 @@ public:
     /**
      * 保证阻塞获取结果的线程尽快被唤醒, 同时请求 DecodeThread 的工作尽快停止.
      */
-    void statePause() override {
+    PONY_THREAD_SAFE void statePause() override {
         interrupt = true;
         videoQueue->close();
         qDebug() << "Queue close.";
     }
 
-    void flush() override {
+    PONY_THREAD_SAFE void flush() override {
         videoQueue->clear([](std::vector<AVFrame *>* frameStk){
             for (auto frame : *frameStk)
                 av_frame_free(&frame);
@@ -374,7 +378,7 @@ public:
     /**
      * 保证可以阻塞地获取 Picture 和 Sample. 这个方法是线程安全的.
      */
-    void stateResume() override {
+    PONY_THREAD_SAFE void stateResume() override {
         interrupt = false;
         videoQueue->open();
         qDebug() << "Queue stateResume.";
@@ -384,7 +388,7 @@ public:
      * 修改视频播放进度, 注意: 这个方法必须在解码线程上调用.
      * @param secs 新的视频进度(单位: 秒)
      */
-    void seek(qreal secs) override {
+    PONY_GUARD_BY(DECODER) void seek(qreal secs) override {
         // case 1: currently decoding, interrupt
         // case 2: not decoding, seek
         interrupt = true;
@@ -396,16 +400,16 @@ public:
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
-    VideoFrame getPicture(bool b, bool own) override { return videoDecoder->getPicture(b, own); }
+    PONY_GUARD_BY(FRAME) VideoFrame getPicture(bool b, bool own) override { return videoDecoder->getPicture(b, own); }
 
-    bool popPicture(bool b) override { return videoDecoder->pop(b); }
+    PONY_GUARD_BY(FRAME) bool popPicture(bool b) override { return videoDecoder->pop(b); }
 
-    AudioFrame getSample(bool b) override { return silenceFrame; }
+    PONY_GUARD_BY(FRAME) AudioFrame getSample(bool b) override { return silenceFrame; }
 
-    bool popSample(bool b) override { return true; }
+    PONY_GUARD_BY(FRAME) bool popSample(bool b) override { return true; }
 
-    qreal getAudionLength() override { return {}; }
-    qreal getVideoLength() override { return videoDecoder->duration(); }
+    PONY_GUARD_BY(MAIN) qreal getAudionLength() override { return {}; }
+    PONY_THREAD_SAFE qreal getVideoLength() override { return videoDecoder->duration(); }
 
     [[nodiscard]] const std::vector<StreamIndex>& audioIndex() const override { return m_audioStreamsIndex; }
     [[nodiscard]] const std::vector<StreamIndex>& videoIndex() const override { return m_videoStreamsIndex; }

@@ -11,13 +11,14 @@ class Demuxer : public QObject {
     Q_PROPERTY(QStringList tracks READ getTracks CONSTANT)
     Q_PROPERTY(qreal audioDuration READ audioDuration CONSTANT)
     Q_PROPERTY(qreal videoDuration READ videoDuration CONSTANT)
+    PONY_THREAD_AFFINITY(DECODER)
 private:
     DemuxDispatcherBase *m_worker = nullptr;
     QThread *m_affinityThread = nullptr;
     FrameFreeQueue m_freeQueue;
     FrameFreeFunc m_freeFunc;
 private:
-    QStringList getTracks() {
+    PONY_THREAD_SAFE QStringList getTracks() {
         QStringList ret;
 //        if (m_worker) {
 //            auto tracks = m_worker->audioIndex();
