@@ -292,6 +292,28 @@ public slots:
         qDebug() << "Set Music Track" << i;
     }
 
+    Q_INVOKABLE void forward() {
+        bool playing = false;
+        switch(state) {
+            case HurricaneState::PLAYING:
+            case HurricaneState::PRE_PLAY:
+                playing = true;
+                /* fall through */
+            case HurricaneState::PAUSED:
+            case HurricaneState::PRE_PAUSE:
+                break;
+            default:
+                return;
+        }
+        state = PRE_PAUSE;
+        emit stateChanged();
+        frameController->forward();
+        if (playing) {
+            emit signalStart(QPrivateSignal());
+        }
+        qDebug() << "forward";
+    }
+
     Q_INVOKABLE void backward() {
         bool playing = false;
         switch(state) {
