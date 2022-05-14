@@ -182,8 +182,8 @@ Window {
                 var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
 
                 //如果mainwindow继承自QWidget,用setPos
-                mainWindow.setX(mainWindow.x+delta.x)
-                mainWindow.setY(mainWindow.y+delta.y)
+                mainWindow.setX(mousePosition.cursorPos().x - clickPos.x)
+                mainWindow.setY(mousePosition.cursorPos().y - clickPos.y)
             }
         }
 

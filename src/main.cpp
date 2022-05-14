@@ -8,6 +8,7 @@
 #include "playlist.h"
 #include "wave/wave.hpp"
 #include "hotloader.hpp"
+#include "helper.hpp"
 #include "lyrics.h"
 #include "liblrc/lyrics.h"
 #include "liblrc/lrc_parser.h"
@@ -36,6 +37,9 @@ int main(int argc, char *argv[]) {
     QQmlApplicationEngine engine;
     HotLoader hotLoader(&engine);
     engine.rootContext()->setContextProperty("hotLoader", &hotLoader);
+
+    CursorPosProvider mousePosProvider;
+    engine.rootContext()->setContextProperty("mousePosition", &mousePosProvider);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
                 if (!obj && url == objUrl)
