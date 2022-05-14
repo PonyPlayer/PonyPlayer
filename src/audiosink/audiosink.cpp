@@ -118,12 +118,18 @@ PlaybackState PonyAudioSink::state() const {
     return m_state;
 }
 
-double PonyAudioSink::getProcessSecs() const {
-    if (m_state == PlaybackState::STOPPED)
-        return timeBase;
-    return static_cast<double>((dataWritten - dataLastWrote) / (m_channelCount * m_bytesPerSample)) / (m_sampleRate) +
-           timeBase;
+qreal PonyAudioSink::getProcessSecs(bool backward) const {
+    if (m_state == PlaybackState::STOPPED) { return timeBase; }
+    auto processSec = static_cast<double>(m_format.durationOfBytes(dataWritten - dataLastWrote));
+    if (backward) {
+        return timeBase - processSec;
+    } else {
+        return timeBase + processSec;
+    }
+
 }
+
+
 
 
 void PonyAudioSink::setStartPoint(double t) {
@@ -288,7 +294,7 @@ PonyAudioFormat::PonyAudioFormat(PonySampleFormat sampleFormat_, int channelCoun
     setSampleRate(sampleRate_);
 }
 
-size_t PonyAudioFormat::getBytesPerSample() const {
+int PonyAudioFormat::getBytesPerSample() const {
     return bytesPerSample;
 }
 
