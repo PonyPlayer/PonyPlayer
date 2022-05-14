@@ -29,13 +29,17 @@
 
 import QtQuick
 import QtQuick.Window
-import QtQuick.Controls
+import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import HurricanePlayer
+import Thumbnail
 import Controller
+import Thumbnail
 import "./interfacefunctions.js" as IF
 Window {
+    Material.theme: Material.System
+    Material.accent: Material.Blue
     function rgb(r,g,b) {
         var ret = (r << 16 | g << 8 | b)
         return ("#"+ret.toString(16)).toUpperCase();
@@ -76,6 +80,8 @@ Window {
     property real saturation: 1.0
     //对比度
     property real contrast: 1.0
+    //音轨列表
+    property var trackMenu
 
 
     //播放
@@ -117,8 +123,14 @@ Window {
     minimumHeight: 500
     visible: true
     title: "PonyPlayer"
-    flags:  Qt.Window|Qt.FramelessWindowHint
+    flags:  Qt.Window | Qt.FramelessWindowHint
 
+    Shortcut {
+        sequence: "F5"
+        onActivated: {
+            hotLoader.reload();
+        }
+    }
 
     Shortcut {
         sequence: "F5"
@@ -174,6 +186,7 @@ Window {
                 mainWindow.setY(mainWindow.y+delta.y)
             }
         }
+
         Rectangle{
             id: innerBar
             width: 80
@@ -200,9 +213,13 @@ Window {
                 id: menu
                 width: 100
                 topMargin: parent.height
-                MenuItem {
-                    text: "其他设置"
+                Action {
+                    text: "画面"
                     onTriggered:additionalSettings.show()
+                }
+                Menu {
+                    id:trackmenu
+                    title: "音轨"
                 }
             }
         }
@@ -322,7 +339,7 @@ Window {
                         listModel.append(items[i])
 
                         var appe = listModel.get(listModel.count-1)
-                        if(appe.iconPath == "")
+                        if(appe.iconPath === "")
                             appe.iconPath = "interfacepics/defaultlogo"
                     }
                 }
@@ -449,7 +466,6 @@ Window {
                                 listview.currentIndex = index
                                 console.log("[P]selected file:"+listModel.get(index).filePath)
                                 mainWindow.openFile(listModel.get(index).filePath);
-                                mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
                             }
 
                             onDoubleClicked: {
@@ -475,8 +491,8 @@ Window {
 
                             onClicked: {
                                 console.log("Image")
+                                mediaLibController.sendRemoveRequirement(listModel.get(index).filePath, listModel.get(index).iconPath)
                                 listModel.remove(index,1)
-                                mediaLibController.sendRemoveRequirement(listModel.get(index).filePath)
                             }
 
                         }
@@ -520,10 +536,10 @@ Window {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.right: videoList.left
-            clip:true
+            clip: true
             HurricanePlayer{
-                id:videoArea
-                clip:true
+                id: videoArea
+                clip: true
                 MouseArea{
                     anchors.fill: parent
                     hoverEnabled: true //默认是false
@@ -542,6 +558,11 @@ Window {
                     if(!b){
                         operationFailedDialogText.text="打开文件失败，请选择正确路径"
                         operationFailedDialog.open()
+                        mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+                    }
+                    else{
+                        IF.toVideoBegining()
+                        mainWindow.endTime=0
                     }
                 }
             }
@@ -565,10 +586,11 @@ Window {
                 }
             }
             Wave{
-                id:wave
+                id: wave
             }
         }
     }
+
     PonyFooter{
         id:footer
         anchors.left: leftSizeChange.right

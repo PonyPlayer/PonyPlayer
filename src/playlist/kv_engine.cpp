@@ -13,6 +13,7 @@
 PonyKVConnect::PonyKVConnect(const QString &dbName) {
     QDir dataBasePath = QDir::currentPath();
     dataBasePath.mkpath("data");
+    dataBasePath.mkpath("preview");
     dataBasePath.cd("data");
 
     db = QSqlDatabase::addDatabase("QSQLITE");
@@ -144,6 +145,14 @@ void PonyKVConnect::remove(const QString &tableName, const QObject *object) {
 }
 
 void PonyKVConnect::removeByKV(const QString &tableName, const QString &key, const QString &value) {
+    PlayListItem* pli = search<PlayListItem>(tableName,"PlayListItem",key, value);
+    QUrl url(pli->getIconPath());
+    QString iconPath = url.toLocalFile();
+    QFileInfo FileInfo(iconPath);
+    if (FileInfo.isFile()) {
+        QFile::remove(iconPath);
+        qDebug()<<"delete iconPath:"<<iconPath;
+    }
     QSqlQuery query(db);
     query.prepare("DELETE FROM `" + tableName + "` WHERE " + key + "= :value");
     query.bindValue(0, value);

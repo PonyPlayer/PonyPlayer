@@ -20,6 +20,7 @@ qt_add_qml_module(${PROJECT_NAME}
             LeftDownSizeChange.qml
             RightSizeChange.qml
             RightDownSizeChange.qml
+            TrackItem.qml
         RESOURCES
             interfacepics/additionalsettings.png
             interfacepics/cease.png

@@ -95,9 +95,6 @@ function screenSizeFunction(){
         mainWindow.visibility=showFullScreen()
     }
 }
-function openWave(){
-    wavewindow.show()
-}
 function volumeSliderOnMoved(){
     mainWindow.volumn=volumnSlider.value/100
     mainWindow.beforeMute=volumnSlider.value/100
@@ -118,16 +115,16 @@ function speakerOnClicked(){
     videoArea.setVolume(mainWindow.volumn)
 }
 function playModeOnClicked(){
-    if(playMode.state==="ordered"){
-        playMode.state="single"
+    if(mainWindow.playState==="ordered"){
+        mainWindow.playState="single"
     }
-    else if(playMode.state==="single"){
-        playMode.state="random"
+    else if(mainWindow.playState==="single"){
+        mainWindow.playState="random"
     }
     else{
-        playMode.state="ordered"
+        mainWindow.playState="ordered"
     }
-    mainWindow.playModeChange(playMode.state)
+    mainWindow.playModeChange(playState)
 }
 function videoSpeedOnClicked(){
     if(videoSpeed.state==="speed1"){
@@ -151,9 +148,11 @@ function videoSpeedOnClicked(){
 function invertedOnClicked(){
     if(mainWindow.isInverted){
         mainWindow.isInverted=false
+        videoArea.forward();
     }
     else{
         mainWindow.isInverted=true
+        videoArea.backward();
     }
     //mainWindow.inverted(mainWindow.step)
 }
@@ -233,7 +232,8 @@ function isBoundary(){
     //右边界
     else if(!mainWindow.isInverted&&(mainWindow.currentTime>=mainWindow.endTime)){
         toVideoEnd()
-        mainWindow.nextOne()
+        nextOnClicked()
+        toVideoBegining()
         return true
     }
     return false
@@ -279,17 +279,47 @@ function playOrPauseFunction(){
 }
 function solveStateChanged(){
     if(videoArea.state==1){
-        console.log("lei fu kai state == loading")
         toVideoBegining()
     }
     else if(videoArea.state==2){
-        console.log("lei fu kai state == invalid")
         mainWindow.endTime=0
         toVideoBegining()
         return
     }
+    else if(videoArea.state==6){
+        IF.makeTrackMenu()
+    }
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+
     //let tmp=videoArea.getPTS()
     //mainWindow.currentTime=tmp
     //videoSlide.value=tmp
+}
+function nextOnClicked(){
+    console.log("playState:",mainWindow.playState)
+    if(mainWindow.playState === "ordered")
+        listview.currentIndex = (listview.currentIndex + 1)%listview.count
+
+    else if(mainWindow.playState === "random")
+        listview.currentIndex = (listview.currentIndex + Math.floor(Math.random()*listview.count))%listview.count
+    else;
+    console.log("index:",listview.currentIndex)
+    mainWindow.openFile(listModel.get(listview.currentIndex).filePath);
+    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+}
+function makeTrackMenu(){
+    if(mainWindow.trackMenu){
+        mainWindow.trackMenu.destroy()
+    }
+    var tmpList=videoArea.getTracks()
+    console.log(tmpList)
+    mainWindow.trackMenu = Qt.createQmlObject('import QtQuick 2.13; import QtQuick.Controls 2.13; Menu{}',menu)
+    mainWindow.trackMenu.title="testtrack"
+    menu.addItem(mainWindow.trackMenu)
+    let component=Qt.createComponent("TrackItem.qml")
+    for(let i=0;i<tmpList.length;i++){
+        let item = component.createObject(mainWindow.trackMenu,{"text":tmpList[i],"trackID":i})
+        item.setTrack.connect(videoArea.setTrack)
+        trackmenu.addItem(item)
+    }
 }

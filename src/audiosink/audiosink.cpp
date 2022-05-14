@@ -47,7 +47,7 @@ PonyAudioSink::PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdv
         printError(err);
         throw std::runtime_error("can not open audio stream!");
     }
-    m_bufferMaxBytes = nextPowerOf2(bufferSizeAdvice);
+    m_bufferMaxBytes = nextPowerOf2(bufferSizeAdvice * m_channelCount);
     m_sonicBufferMaxBytes = m_bufferMaxBytes * 4;
     ringBufferData = PaUtil_AllocateMemory(static_cast<long>(m_bufferMaxBytes));
     if (PaUtil_InitializeRingBuffer(&ringBuffer,
@@ -118,12 +118,18 @@ PlaybackState PonyAudioSink::state() const {
     return m_state;
 }
 
-double PonyAudioSink::getProcessSecs() const {
-    if (m_state == PlaybackState::STOPPED)
-        return timeBase;
-    return static_cast<double>((dataWritten - dataLastWrote) / (m_channelCount * m_bytesPerSample)) / (m_sampleRate) +
-           timeBase;
+qreal PonyAudioSink::getProcessSecs(bool backward) const {
+    if (m_state == PlaybackState::STOPPED) { return timeBase; }
+    auto processSec = static_cast<double>(m_format.durationOfBytes(dataWritten - dataLastWrote));
+    if (backward) {
+        return timeBase - processSec;
+    } else {
+        return timeBase + processSec;
+    }
+
 }
+
+
 
 
 void PonyAudioSink::setStartPoint(double t) {
@@ -288,7 +294,7 @@ PonyAudioFormat::PonyAudioFormat(PonySampleFormat sampleFormat_, int channelCoun
     setSampleRate(sampleRate_);
 }
 
-size_t PonyAudioFormat::getBytesPerSample() const {
+int PonyAudioFormat::getBytesPerSample() const {
     return bytesPerSample;
 }
 

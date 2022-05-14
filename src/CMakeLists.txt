@@ -9,7 +9,6 @@ add_subdirectory(playlist)
 add_subdirectory(config)
 add_subdirectory(wave)
 add_subdirectory(audiosink)
-add_subdirectory(puremusic)
 #add_subdirectory(interpolate)
 include(${CMAKE_SOURCE_DIR}/cmake/platform.cmake)
 
@@ -20,21 +19,19 @@ target_link_libraries(${PROJECT_NAME}
         PRIVATE Qt::Quick
         PRIVATE Qt::Qml
         PRIVATE Qt::QmlWorkerScript
-        PRIVATE Qt::Widgets
-        PRIVATE Qt::Multimedia
         PRIVATE ${FFmpeg}
         utils
         decoder
         view
         playlist
         config
-        wave
         player
         audiosink
-        lyrics
         lrctools
+        wave
         #        interpolate
         )
+
 
 
 

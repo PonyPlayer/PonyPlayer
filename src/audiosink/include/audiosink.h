@@ -31,7 +31,7 @@ private:
     int channelCount{};
     int sampleRate{};
     PaSampleFormat paSampleFormat{};
-    size_t bytesPerSample{};
+    int bytesPerSample{};
 public:
     PonyAudioFormat() = default;
 
@@ -51,7 +51,10 @@ public:
 
     int getSampleRate() const { return sampleRate; }
 
-    size_t getBytesPerSample() const;
+    qreal durationOfBytes(int64_t bytes) const {
+        return static_cast<qreal>(bytes) / (sampleRate * channelCount * getBytesPerSample());
+    }
+    [[nodiscard]] int getBytesPerSample() const;
 };
 
 
@@ -172,7 +175,7 @@ public:
      * 获取当前播放的时间, 这个函数只能在 PlaybackState::PLAYING 或 PlaybackState::PAUSED 状态下使用.
      * @return 当前已播放音频的长度(单位: 秒)
      */
-    [[nodiscard]] qreal getProcessSecs() const;
+    [[nodiscard]] qreal getProcessSecs(bool b) const;
 
     /**
      * 设置下一次播放的计时器. 这个函数必须在 PlaybackState::STOPPED 状态下使用. 在播放开始后, 设置生效。

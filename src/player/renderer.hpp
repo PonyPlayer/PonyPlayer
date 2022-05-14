@@ -75,9 +75,10 @@ Q_OBJECT
 private:
     QOpenGLShaderProgram *program = nullptr; // late init
     GLuint vao = 0, vbo = 0, ebo = 0;
-    GLuint textureY = 0, textureU = 0, textureV = 0;
+    GLuint textureY = 0, textureU = 0, textureV = 0, textureLUT;
     QMatrix4x4 viewMatrix;
     QQuickItem *quickItem;
+    QImage lutTexture;
 
     // update flag
     VideoFrame videoFrame;
@@ -97,6 +98,7 @@ private:
         QOpenGLFunctions_3_3_Core::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     }
 
+
 public slots:
     void init() {
         if (program) { return; } // already initialized
@@ -110,6 +112,8 @@ public slots:
         qDebug() << "Renderer:" << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
         program->addCacheableShaderFromSourceFile(QOpenGLShader::Vertex, u":/player/shader/vertex.vsh"_qs);
         program->addCacheableShaderFromSourceFile(QOpenGLShader::Fragment, u":/player/shader/fragment.fsh"_qs);
+//        program->addCacheableShaderFromSourceFile(QOpenGLShader::Fragment, u":/player/shader/lut.fsh"_qs);
+
         program->link();
         program->bind();
         brightness.init(program, "brightness");
@@ -138,6 +142,7 @@ public slots:
         program->setUniformValue("tex_y", 0);
         program->setUniformValue("tex_u", 1);
         program->setUniformValue("tex_v", 2);
+        program->setUniformValue("tex_lut", 3);
         glEnable(GL_TEXTURE_2D);
         glActiveTexture(GL_TEXTURE0);
         createTextureBuffer(&textureY);
@@ -145,6 +150,16 @@ public slots:
         createTextureBuffer(&textureU);
         glActiveTexture(GL_TEXTURE2);
         createTextureBuffer(&textureV);
+
+        glActiveTexture(GL_TEXTURE3);
+        createTextureBuffer(&textureLUT);
+        glBindTexture(GL_TEXTURE_2D, textureLUT);
+
+        lutTexture.load(u":/player/filter/neutral-lut.png"_qs);
+        lutTexture.convertTo(QImage::Format_RGB888);
+
+
+
     };
 
 public:
@@ -166,6 +181,9 @@ public:
 #ifdef DEBUG_FlAG_PAINT_LOG
         qDebug() << "Paint" << "x =" << glRect.x() << "y =" << glRect.y() << "w =" << glRect.width() << "h =" << glRect.height();
 #endif
+        // Due to QTBUG-97589, we are not able to get model-view matrix
+        // https://bugreports.qt.io/browse/QTBUG-97589
+        // workaround, assume parent clip hurricane
         const QRect r = state->scissorRect();
         glViewport(r.x(), r.y(), r.width(), r.height());
         glEnable(GL_BLEND);
@@ -173,6 +191,9 @@ public:
         if (state->scissorEnabled()) {
             glEnable(GL_SCISSOR_TEST);
             glScissor(r.x(), r.y(), r.width(), r.height());
+        } else {
+            throw std::runtime_error("Scissor Test must be enabled. For example: wrap Fireworks "
+                                     "in a Rectangle and set clip: true. ");
         }
         if (state->stencilEnabled()) {
             glEnable(GL_STENCIL_TEST);
@@ -181,10 +202,7 @@ public:
         }
 
 
-        if (!videoFrame.isValid()) {
-            qDebug() << "Early return";
-            return;
-        }
+        if (!videoFrame.isValid()) { return; }
         program->bind();
         brightness.render();
         contrast.render();
@@ -215,6 +233,9 @@ public:
             glActiveTexture(GL_TEXTURE2);
             glBindTexture(GL_TEXTURE_2D, textureV);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, lineSize / 2, imageHeight / 2, 0, GL_RED, GL_UNSIGNED_BYTE, imageV);
+            glActiveTexture(GL_TEXTURE3);
+            glBindTexture(GL_TEXTURE_2D, textureLUT);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, lutTexture.width(), lutTexture.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, lutTexture.constBits());
         } else if (flagUpdateImageContent) {
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, textureY);
@@ -225,6 +246,11 @@ public:
             glActiveTexture(GL_TEXTURE2);
             glBindTexture(GL_TEXTURE_2D, textureV);
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, lineSize / 2, imageHeight / 2, GL_RED, GL_UNSIGNED_BYTE, imageV);
+            glBindTexture(GL_TEXTURE_2D, textureLUT);
+            glActiveTexture(GL_TEXTURE3);
+            glBindTexture(GL_TEXTURE_2D, textureLUT);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, lutTexture.width(), lutTexture.height(), GL_RED, GL_UNSIGNED_BYTE, lutTexture.constBits());
+
         }
         glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, ZERO_OFFSET);
         program->release();

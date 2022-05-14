@@ -9,7 +9,6 @@
 #include <QObject>
 #include "framecontroller.hpp"
 #include "fireworks.hpp"
-#include "preview.hpp"
 
 /**
  * @brief
@@ -29,7 +28,7 @@ class Hurricane : public Fireworks {
     Q_OBJECT
     QML_ADDED_IN_VERSION(1, 0)
     QML_ELEMENT
-    QT_MODULE(HurricanePlayer)
+//    QT_MODULE(HurricanePlayer)
 //    QML_NAMED_ELEMENT(HurricanePlayer)
 public:
     /**
@@ -50,22 +49,21 @@ public:
     Q_PROPERTY(HurricaneState state READ getState NOTIFY stateChanged FINAL)
 
 
+
 private:
     HurricaneState state = HurricaneState::INVALID;
 private:
     FrameController *frameController;
-    Preview *preview;
+
 public:
     explicit Hurricane(QQuickItem *parent = nullptr) : Fireworks(parent) {
         frameController = new FrameController(this);
-        preview = new Preview(this);
+
         connect(this, &Hurricane::signalStart, frameController, &FrameController::start);
         connect(this, &Hurricane::signalPause, frameController, &FrameController::pause);
 
         connect(this, &Hurricane::signalOpenFile, frameController, &FrameController::openFile);
-        connect(this, &Hurricane::signalOpenFile, preview, &Preview::openFile);
-        connect(preview, &Preview::previewResult, this, &Hurricane::previewResponse);
-        connect(this, &Hurricane::signalPreview, preview, &Preview::previewRequest);
+
         connect(frameController, &FrameController::openFileResult, this, &Hurricane::slotOpenFileResult);
         connect(this, &Hurricane::signalClose, frameController, &FrameController::close);
         connect(frameController, &FrameController::setPicture, this, &Hurricane::setImage);
@@ -86,8 +84,6 @@ public:
     virtual ~Hurricane() override {
         frameController->pause();
         frameController->deleteLater();
-        preview->close();
-        preview->deleteLater();
         qWarning() << "Destroy HurricanePlayer.";
     }
 
@@ -114,12 +110,6 @@ signals:
      */
     void positionChangedBySeek();
 
-    /**
-     * 预览结果图像
-     * @param pos 位置(单位: s), 不一定和请求位置一致
-     * @param image 图像
-     */
-    void previewResponse(qreal pos, QImage image);
 
 
 
@@ -132,9 +122,9 @@ Q_SIGNALS:
     void signalStart(QPrivateSignal);
     void signalPause(QPrivateSignal);
     void signalClose(QPrivateSignal);
-    void signalPreview(qreal pos, QPrivateSignal);
     void signalOpenFile(const QString &url, QPrivateSignal);
     void signalSeek(qreal pos, QPrivateSignal);
+
 
 public slots:
 
@@ -147,7 +137,10 @@ public slots:
      * @param autoClose 如果打开视频文件, 是否自动关闭
      */
     Q_INVOKABLE void openFile(const QString &path, bool autoClose = true) {
-        if (autoClose && state == HurricaneState::PAUSED) {
+        if (autoClose && (state == HurricaneState::PLAYING || state == PRE_PLAY)) {
+            emit pause();
+        }
+        if (autoClose && (state == HurricaneState::PAUSED || state == PRE_PAUSE)) {
             emit close();
         }
         if (state == HurricaneState::CLOSING || state == HurricaneState::INVALID) {
@@ -272,14 +265,80 @@ public slots:
         qDebug() << "HurricanePlayer: Seek" << pos;
     }
 
-    /*d*
-     * 请求预览, 当预览结果准备好之后, 将通过信号通知
-     * @param pos 请求预览的位置(单位: s)
-     * @see Hurricane::previewResponse
-     */
-    Q_INVOKABLE void previewRequest(qreal pos) {
-        emit signalPreview(pos, QPrivateSignal());
+    Q_INVOKABLE QStringList getTracks() {
+        if (state == LOADING || state == INVALID) {
+            qWarning() << "Get tracks when" << state;
+        }
+        return frameController->getTracks();
     }
+
+    Q_INVOKABLE void setTrack(int i) {
+        bool playing = false;
+        switch(state) {
+            case HurricaneState::PLAYING:
+            case HurricaneState::PRE_PLAY:
+                playing = true;
+                /* fall through */
+            case HurricaneState::PAUSED:
+            case HurricaneState::PRE_PAUSE:
+                break;
+            default:
+                return;
+        }
+        state = PRE_PAUSE;
+        emit stateChanged();
+        frameController->setTrack(i);
+        if (playing) {
+            emit signalStart(QPrivateSignal());
+        }
+
+        qDebug() << "Set Music Track" << i;
+    }
+
+    Q_INVOKABLE void forward() {
+        bool playing = false;
+        switch(state) {
+            case HurricaneState::PLAYING:
+            case HurricaneState::PRE_PLAY:
+                playing = true;
+                /* fall through */
+            case HurricaneState::PAUSED:
+            case HurricaneState::PRE_PAUSE:
+                break;
+            default:
+                return;
+        }
+        state = PRE_PAUSE;
+        emit stateChanged();
+        frameController->forward();
+        if (playing) {
+            emit signalStart(QPrivateSignal());
+        }
+        qDebug() << "forward";
+    }
+
+    Q_INVOKABLE void backward() {
+        bool playing = false;
+        switch(state) {
+            case HurricaneState::PLAYING:
+            case HurricaneState::PRE_PLAY:
+                playing = true;
+                /* fall through */
+            case HurricaneState::PAUSED:
+            case HurricaneState::PRE_PAUSE:
+                break;
+            default:
+                return;
+        }
+        state = PRE_PAUSE;
+        emit stateChanged();
+        frameController->backward();
+        if (playing) {
+            emit signalStart(QPrivateSignal());
+        }
+        qDebug() << "backward";
+    }
+
 
 private slots:
     void slotPositionChangedBySeek() { emit positionChangedBySeek(); }

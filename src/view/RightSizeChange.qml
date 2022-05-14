@@ -1,5 +1,5 @@
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Material
 
 Rectangle {//向右拖动
     id:rightSizeChange

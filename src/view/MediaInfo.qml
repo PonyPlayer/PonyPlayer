@@ -1,13 +1,32 @@
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Material
 import Controller
 
 Window {
     id: infwin
-    width: 300
-    height: 600
+    minimumHeight: 360
+    minimumWidth: 360
+    width: 360
+    height: 360
     property string filepath
     property alias infomodel: medialistModel
+    Rectangle{
+        color:"#666666"
+        anchors.fill:parent
+    }
+    Rectangle {
+        id:wintitle
+        width: parent.width
+        height: 40
+        Text {
+            text:"媒体简介"
+            anchors.centerIn: parent
+            font.bold: true
+            font.pixelSize: 30
+        }
+    }
+
+
 
 //    Controller {
 //            id: mediaInfoController
@@ -37,7 +56,7 @@ Window {
         Item {
             id: mediaInfoListitem
 
-            height: 20
+            height: 30
             width: infwin.width
 
             Row {
@@ -46,19 +65,29 @@ Window {
                 anchors.verticalCenter: parent.verticalCenter
                 padding: 2
                 spacing: 2
+
                 Text {
                     id: info_key
                     text: infokey
+                    color: "pink"
                     font.bold: true
+                    width:200
                     font.pointSize: 18
                 }
+
 
                 Text {
                     text: infocontent
                     elide: Text.ElideMiddle
+                    color:"white"
                     font.pointSize: 18
                     width: parent.width-info_key.contentWidth
+
                 }
+
+
+
+
 
             }
 
@@ -69,7 +98,10 @@ Window {
 
     ScrollView{
         id: mediainfolist
-        anchors.fill: parent
+        anchors.left:parent.left
+        anchors.right:parent.right
+        anchors.bottom: parent.bottom
+        anchors.top: wintitle.bottom
 
         ListView {
             anchors.fill: parent

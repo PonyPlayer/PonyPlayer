@@ -18,17 +18,21 @@ qt_add_qml_module(${PROJECT_NAME}
         RESOURCES
             shader/vertex.vsh
             shader/fragment.fsh
+            filter/kodak_kaf_2001.png
+            filter/neutral-lut.png
             test.jpeg
         )
 
 include_directories(include)
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR})
 
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt::Core
         Qt::Gui
         Qt::Qml
+        Qt::Widgets
         Qt::Quick
         decoder
         audiosink

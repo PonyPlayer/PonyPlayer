@@ -1,12 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QApplication>
+#include <QCoreApplication>
 #include <QQmlContext>
 #include "utils/include/logger.h"
 #include "players.h"
 #include "controller.h"
 #include "playlist.h"
-#include "wave.h"
+#include "wave/wave.hpp"
 #include "hotloader.hpp"
 #include "lyrics.h"
 #include "liblrc/lyrics.h"
@@ -19,14 +19,16 @@ int main(int argc, char *argv[]) {
     format.setVersion(3, 3);
     format.setSamples(16);
     QSurfaceFormat::setDefaultFormat(format);
-    QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
 
 //    qmlRegisterType<Hurricane>("HurricanePlayer", 1, 0, "HurricanePlayer");
     registerPlayerQML();
     qmlRegisterType<WaveView>("WaveView", 1, 0, "WaveView");
-    qmlRegisterType<Controller>("Controller",1,0,"Controller");
-    qmlRegisterType<PlayList>("PlayList",1,0,"PlayList");
-    qmlRegisterType<simpleListItem>("SimpleListItem",1,0,"SimpleListItem");
+    qmlRegisterType<Controller>("Controller", 1, 0, "Controller");
+    qmlRegisterType<PlayList>("PlayList", 1, 0, "PlayList");
+    qmlRegisterType<simpleListItem>("SimpleListItem", 1, 0, "SimpleListItem");
+    qmlRegisterType<LyricsData>("LyricsData", 1, 0, "LyricsData");
+    qmlRegisterType<LyricSentence>("LyricSentence", 1, 0, "LyricSentence");
     qRegisterMetaType<PlayListItem *>("PlayListItem");
     qInstallMessageHandler(logMessageHandler);
 
@@ -43,10 +45,6 @@ int main(int argc, char *argv[]) {
 
 
     qDebug() << "Start program";
-    LyricReader lyricReader;
-    std::unique_ptr<lrc::Lyrics> lyrics = LyricReader::readLyric("/home/gns/Fire on Fire - Sam Smith.lrc");
-    for (auto it = lyrics->IteratorBegin(); it != lyrics->IteratorEnd(); it++) {
-        qDebug() << it->lyric.data();
-    }
-    return QApplication::exec();
+    LyricsReader lyricReader;
+    return QGuiApplication::exec();
 }

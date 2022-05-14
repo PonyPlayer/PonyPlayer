@@ -1,6 +1,5 @@
 import QtQuick
-import QtQuick.Controls
-
+import QtQuick.Controls.Material
 Rectangle {//向左下拖动
     id:rightDownSizeChange
     height: 4;//远离发送的按钮

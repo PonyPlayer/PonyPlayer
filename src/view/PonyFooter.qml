@@ -1,15 +1,24 @@
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Material
 import QtQuick.Layouts
 import "interfacefunctions.js" as IF
 import HurricanePlayer
+import Thumbnail
 Rectangle {
     id:footer
     height: mainWindow.isFooterVisable?80:0
     visible: mainWindow.isFooterVisable
     color: "#666666"
 
-
+    Timer{
+        id:timerForThumbnail
+        interval:200
+        repeat:false
+        onTriggered:{
+            console.log("Preview Request!!!!!!!!!!!!!!!!!!!!!!"+(previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+            preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+        }
+    }
     Label{
         id:distanceStart
         anchors.left:parent.left
@@ -34,6 +43,19 @@ Rectangle {
         from: 0
         to: mainWindow.endTime
         value: mainWindow.currentTime
+        hoverEnabled:true
+        MouseArea{
+            id:previewDetector
+            hoverEnabled: true
+            anchors.fill: parent
+            acceptedButtons: Qt.NoButton
+            onEntered: timerForThumbnail.start()
+            onExited: timerForThumbnail.stop()
+            onPositionChanged:{
+                previewRect.visible=false
+                timerForThumbnail.restart()
+            }
+        }
         onValueChanged: {
             mainWindow.currentTime=videoSlide.value
         }
@@ -41,6 +63,7 @@ Rectangle {
             console.log("lei fu kai use seek"+videoSlide.value)
             if(!videoSlide.pressed){
                 videoArea.seek(mainWindow.currentTime)
+//                preview.previewRequest(mainWindow.currentTime)
             }
         }
         Shortcut{
@@ -59,6 +82,25 @@ Rectangle {
             sequence: "Right"
             onActivated: IF.forwardFiveSeconds()
         }
+    }
+    Rectangle {
+        id: previewRect
+        visible: false
+        x:(videoSlide.x+previewDetector.mouseX-50)
+        width:100
+        height:80
+        anchors.bottom: videoSlide.top
+        anchors.bottomMargin: 10
+        clip: true
+        Thumbnail {
+            id: preview
+            player: "videoArea"
+            onPreviewResponse: {
+                previewRect.visible=true
+                console.log("Preview Response!!!!!!!!!!!!!!!!!!!!!!")
+            }
+        }
+
     }
 
 
@@ -123,29 +165,6 @@ Rectangle {
 
 
 
-    //Image {
-    //        id: settings
-    //        source: "interfacepics/additionalsettings"
-    //        width: 20
-    //        height: 20
-    //        visible: true
-    //        anchors.left: debug.right
-    //        anchors.leftMargin: 10
-    //        anchors.bottom: parent.bottom
-    //        anchors.bottomMargin: 15
-    //        MouseArea{
-    //            anchors.fill: parent
-    //            cursorShape: "PointingHandCursor"
-    //            onClicked: {
-    //                additionalSettings.show()
-    //            }
-    //        }
-    //    }
-
-
-
-
-
     //倒放
     Image {
         id: inverted
@@ -176,7 +195,14 @@ Rectangle {
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
             onClicked: {
-                mainWindow.lastOne()
+                if(mainWindow.playState === "ordered")
+                    listview.currentIndex = (listview.currentIndex - 1 + listview.count)%listview.count
+
+                else if(mainWindow.playState === "random")
+                    listview.currentIndex = (listview.currentIndex - Math.floor(Math.random()*listview.count) + listview.count)%listview.count
+                else;
+                console.log("index:",listview.currentIndex)
+                mainWindow.openFile(listModel.get(listview.currentIndex).filePath);
             }
         }
     }
@@ -230,10 +256,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: {
-                mainWindow.nextOne()
-                openFileFailedDialog.open()
-            }
+            onClicked: IF.nextOnClicked()
         }
     }
     //停止

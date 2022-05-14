@@ -100,7 +100,7 @@ void PlayList::extractAndProcess() {
     QList<simpleListItem*> res;
     simpleListItem* slItem;
     foreach(PlayListItem* item, rce) {
-        slItem = new simpleListItem(item->getFileName(),item->getPath(),"");
+        slItem = new simpleListItem(item->getFileName(),item->getPath(),item->getIconPath());
         res.append(slItem);
     }
     emit extractDone(res);

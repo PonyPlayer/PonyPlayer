@@ -22,7 +22,7 @@ public:
         m_affinityThread = new QThread;
         m_affinityThread->setObjectName("FrameControllerThread");
         this->moveToThread(m_affinityThread);
-        connect(m_affinityThread, &QThread::started, [=]{
+        connect(m_affinityThread, &QThread::started, [this]{
             this->m_demuxer = new Demuxer{this};
             this->m_playback = new Playback{m_demuxer, this};
             connect(m_playback, &Playback::setPicture, this, &FrameController::setPicture, Qt::DirectConnection);
@@ -30,12 +30,35 @@ public:
             connect(this, &FrameController::signalDecoderOpenFile, m_demuxer, &Demuxer::openFile);
             // WARNING: BLOCKING_QUEUED_CONNECTION!!!
             connect(this, &FrameController::signalDecoderSeek, m_demuxer, &Demuxer::seek, Qt::BlockingQueuedConnection);
-            connect(m_demuxer, &Demuxer::openFileResult, this, [=](bool success){
+            connect(m_demuxer, &Demuxer::openFileResult, this, [this](bool success){
                 m_demuxer->start();
                 if (success) { m_playback->showFrame(); }
                 emit openFileResult(success);
             });
             connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd, Qt::DirectConnection);
+            connect(this, &FrameController::signalSetTrack, [this](int i){
+                qreal pos = m_playback->pos();
+                m_playback->stop();
+                m_demuxer->pause();
+                m_demuxer->setTrack(i);
+                seek(pos);
+            });
+            connect(this, &FrameController::signalBackward, [this]{
+                qreal pos = m_playback->pos();
+                m_playback->stop();
+                m_demuxer->pause();
+                m_demuxer->backward();
+                seek(pos);
+                m_demuxer->start();
+            });
+            connect(this, &FrameController::signalForward, [this]{
+                qreal pos = m_playback->pos();
+                m_playback->stop();
+                m_demuxer->pause();
+                m_demuxer->forward();
+                seek(pos);
+                m_demuxer->start();
+            });
         });
         m_affinityThread->start();
     }
@@ -44,12 +67,38 @@ public:
         m_affinityThread->quit();
     }
 
+    void setTrack(int i) {
+        emit signalSetTrack(i);
+    }
+
+    PONY_THREAD_SAFE void backward() {
+        emit signalBackward();
+    }
+
+    PONY_THREAD_SAFE void forward() {
+        emit signalForward();
+    }
+
+    /**
+     * 这个方法是线程安全的
+     * @return
+     */
     qreal getAudioDuration() { return m_demuxer->audioDuration(); }
+
+    /**
+     * 这个方法是线程安全的
+     * @return
+     */
     qreal getVideoDuration() { return m_demuxer->videoDuration(); }
+
+    /**
+     * 这个方法是线程安全的
+     * @return
+     */
+    QStringList getTracks() { return m_demuxer->getTracks(); }
 
     void setVolume(qreal volume) {m_playback->setVolume(volume); }
     void setSpeed(qreal speed) {m_playback->setSpeed(speed); }
-
 
 public slots:
     void openFile(const QString &path) {
@@ -58,6 +107,7 @@ public slots:
         qDebug() << "Open file" << localPath;
         emit signalDecoderOpenFile(localPath.toStdString());
     }
+
 
     void pause() {
         qDebug() << "Pausing";
@@ -87,34 +137,35 @@ public slots:
         qDebug() << "Start seek for" << pos;
         m_playback->stop();
 
-        m_demuxer->pause();
+        m_demuxer->pause();  // blocking, make sure pic and sample request can be blocked
         // WARNING: must make sure everything (especially PTS) has been properly updated
         // otherwise, the video thread will be BLOCKING for a long time.
         emit signalDecoderSeek(pos); // blocking connection
         m_demuxer->flush();
-        m_demuxer->start(); // blocking, make sure pic and sample request can be blocked
+        m_demuxer->start();
 
+        bool backward = m_demuxer->isRewind();
         // time-consuming job
-        {
+        // use audio frame pts may be more accurate, but it is not available in rewinding.
+        qreal startPoint = backward ? m_demuxer->getPicture(true, false).getPTS() : m_demuxer->getSample(true).getPTS();
+        if (!m_demuxer->isRewind()) {
+            // if rewinding, there is no need to skip frame. (dispatcher guarantee)
             VideoFrame pic;
             while (pic = m_demuxer->getPicture(true, true), (pic.isValid() && pic.getPTS() < pos)) {
-                m_demuxer->popPicture(true);
+                if (!m_demuxer->popPicture(true)) {throw std::runtime_error("Assets Fail: CANNOT pop VideoFrame."); }
                 pic.free();
+                if (backward) {startPoint = pic.getPTS(); }
             }
             qDebug() << pic.getPTS() << pic.isValid();
-        }
-        qreal startPoint = m_demuxer->getSample(true).getPTS();
-        {
 
             AudioFrame sample;
             while (sample = m_demuxer->getSample(true), (sample.isValid() && sample.getPTS() < pos)) {
-                m_demuxer->popSample(true);
-                startPoint = sample.getPTS();
+                if (!m_demuxer->popSample(true)) {throw std::runtime_error("Assets Fail: CANNOT pop AudioFrame."); }
+                if (!backward) { startPoint = sample.getPTS(); }
             }
             qDebug() << sample.getPTS() << sample.isValid();
-
         }
-        m_playback->clear();
+
         emit signalPositionChangedBySeek(); // block
         m_playback->setStartPoint(startPoint);
         m_playback->showFrame();
@@ -127,12 +178,17 @@ signals:
     void signalDecoderOpenFile(std::string path);
     void signalDecoderSeek(qreal pos);
     void signalPositionChangedBySeek();
-
+    void signalSetTrack(int i);
+    void signalBackward();
+    void signalForward();
 
     void openFileResult(bool success);
     void playbackStateChanged(bool isPlaying);
     void resourcesEnd();
     void setPicture(VideoFrame pic);
+
+
+
 
 };
 
