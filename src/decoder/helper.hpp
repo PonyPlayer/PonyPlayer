@@ -31,7 +31,7 @@ extern "C" {
 }
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 const int ERROR_EOF = AVERROR_EOF;
-const int MAX_AUDIO_FRAME_SIZE = 192000;
+const int MAX_AUDIO_FRAME_SIZE = 16384;
 const int AUDIO_DATA_INFO_QUEUE_INITIAL = 100;
 #pragma GCC diagnostic pop
 

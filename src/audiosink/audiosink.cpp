@@ -47,7 +47,7 @@ PonyAudioSink::PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdv
         printError(err);
         throw std::runtime_error("can not open audio stream!");
     }
-    m_bufferMaxBytes = nextPowerOf2(bufferSizeAdvice);
+    m_bufferMaxBytes = nextPowerOf2(bufferSizeAdvice * m_channelCount);
     m_sonicBufferMaxBytes = m_bufferMaxBytes * 4;
     ringBufferData = PaUtil_AllocateMemory(static_cast<long>(m_bufferMaxBytes));
     if (PaUtil_InitializeRingBuffer(&ringBuffer,
