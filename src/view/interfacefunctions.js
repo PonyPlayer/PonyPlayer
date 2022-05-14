@@ -252,7 +252,8 @@ function timerOnTriggered(){
 function toVideoBegining(){
     mainWindow.isPlay=false
     mainWindow.currentTime=0
-    videoSlide.value=0
+    // videoSlide.value=0
+    mainWindow.wakeSlide()
     mainWindow.lastStep=0.0
 }
 function toVideoEnd(){

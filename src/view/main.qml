@@ -107,6 +107,7 @@ Window {
     signal setSpeed(real speed)
     //打开文件
     signal openFile(string path)
+    signal wakeSlide()
 
 
     MediaInfo {

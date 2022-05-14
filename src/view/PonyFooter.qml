@@ -32,7 +32,10 @@ Rectangle {
         lineHeight: 20
     }
 
-
+    Connections{
+        target:mainWindow
+        onWakeSlide:videoSlide.value=0.0
+    }
     Slider{
         id:videoSlide
         anchors.top: parent.top
