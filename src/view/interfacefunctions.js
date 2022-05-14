@@ -2,6 +2,11 @@
 function mytest(path){
     console.log(path)
 }
+
+
+//下面三个函数中的url设定为json文件在view目录下的情况，根据实际情况需要额外添加前缀
+//例如在第20行的......"image":json[i].image  会把展示的image的路径读进对像中作为属性，更具实际需求可在json[i].image前添加前缀，才能正确读取到图片
+//例如在第20行的......"lut":json[i].lut  会把lut的路径读进对像中作为属性，更具实际需求可在json[i].lut前添加前缀
 function loadingFilterContrast() {
     let component=Qt.createComponent("FilterItem.qml")
     let url = "contrast.json"

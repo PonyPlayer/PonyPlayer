@@ -239,6 +239,12 @@ Window {
                     id:trackmenu
                     title: "音轨"
                 }
+                //当menu加载完后，读取json文件内容，动态添加menuItem
+                //Component.onCompleted: {
+                //    IF.loadingFilterFlim()
+                //    IF.loadingFilterContrast()
+                //    IF.loadingFilterVideo()
+                //}
             }
         }
         Rectangle{
