@@ -103,7 +103,7 @@ signals:
      * 打开文件结果
      * @param b 是否成功
      */
-    void openFileResult(bool b);
+    void openFileResult(bool b, QPrivateSignal);
 
     /**
      * 视频播放进度由于手动调整发送改变
@@ -356,6 +356,7 @@ private slots:
         } else {
             state = INVALID;
         }
+        emit openFileResult(success, QPrivateSignal());
         emit stateChanged();
     }
 
