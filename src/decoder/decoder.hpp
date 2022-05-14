@@ -298,7 +298,8 @@ public:
     ~ReverseDecoderImpl() {
         if (frameStack) {
             for (auto frame: *frameStack) {
-                av_frame_free(&frame);
+                if (frame)
+                    av_frame_free(&frame);
             }
             delete frameStack;
         }
@@ -346,12 +347,12 @@ public:
                     continue;
                 }
                 else if (pts <= from){
-                    qDebug() << "push frame: " << pts;
+                    //qDebug() << "push frame: " << pts;
                     frameStack->push_back(frameBuf);
                 }
                 else {
                     //std::cerr << "push to queue"<< std::endl;
-                    qDebug() << "push to queue";
+                    //qDebug() << "push to queue";
                     av_frame_unref(frameBuf);
                     frameQueue->push(frameStack);
                     frameStack = new std::vector<AVFrame*>;
@@ -402,16 +403,25 @@ private:
     FrameFreeFunc freeFunc;
 public:
     ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<std::vector<AVFrame *>*> *queue) : ReverseDecoderImpl<Common>(vs, queue) {
-        freeFunc = [&](AVFrame* frame){av_frame_free(&frame);};
+        freeFunc = [&](AVFrame* frame){if(frame) av_frame_free(&frame);};
+    }
+
+    void pushEOF() {
+        qDebug() << "pushEOF";
+        frameStack->push_back(nullptr);
+        frameQueue->push(frameStack);
     }
 
     VideoFrame getPicture(bool b, bool own) override {
         auto stk = frameQueue->front();
         if (!stk) { return {}; }
-        qDebug() << "before getPicture";
+        //qDebug() << "before getPicture";
         auto frame = stk->back();
+        if (!frame)
+            qDebug() << "get EOF Frame";
+        if (!frame) return {};
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-        qDebug() << "getPicture: " << pts ;
+        //qDebug() << "getPicture: " << pts ;
         return {frame, pts, own ? freeFunc : nullptr};
     }
 

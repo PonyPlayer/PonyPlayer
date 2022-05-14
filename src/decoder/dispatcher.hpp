@@ -375,11 +375,11 @@ public:
     PONY_THREAD_SAFE void flush() override {
         videoQueue->clear([](std::vector<AVFrame *>* frameStk){
             for (auto frame : *frameStk)
-                av_frame_free(&frame);
+                if (frame) av_frame_free(&frame);
         });
         audioQueue->clear([](std::vector<AVFrame *>* frameStk){
             for (auto frame : *frameStk)
-                av_frame_free(&frame);
+                if (frame) av_frame_free(&frame);
         });
     }
 
@@ -436,7 +436,7 @@ public slots:
                     }
                     else if (next == 0) {
                         av_packet_unref(packet);
-                        //std::cerr << "reverse finish" << std::endl;
+                        videoDecoder->pushEOF();
                         qDebug() << "reverse: finish";
                         break;
                     }
