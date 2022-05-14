@@ -45,14 +45,18 @@ public:
 
     PONY_GUARD_BY(MAIN, FRAME, DECODER) bool popSample(bool b) { return m_worker->popSample(b); }
 
-    PONY_CONDITION("OpenFileResult")
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal audioDuration() { return m_forward ? m_forward->getAudionLength() : 0.0; }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal audioDuration() {
+        std::unique_lock lock(mutex);
+        return m_forward ? m_forward->getAudionLength() : 0.0;
+    }
 
-    PONY_CONDITION("OpenFileResult")
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal videoDuration() { return m_forward ? m_forward->getVideoLength() : 0.0; }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal videoDuration() {
+        std::unique_lock lock(mutex);
+        return m_forward ? m_forward->getVideoLength() : 0.0;
+    }
 
-    PONY_CONDITION("OpenFileResult")
     PONY_GUARD_BY(MAIN, FRAME, DECODER) QStringList getTracks() {
+        std::unique_lock lock(mutex);
         if (m_forward) {
             return m_forward->getTracks();
         } else {
