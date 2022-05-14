@@ -19,3 +19,5 @@ public:
         return QCursor::pos();
     }
 };
+
+#endif //PONYPLAYER_CURSOR_H
