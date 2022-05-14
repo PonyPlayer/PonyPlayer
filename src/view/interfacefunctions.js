@@ -2,7 +2,54 @@
 function mytest(path){
     console.log(path)
 }
-
+function loadingFilterContrast() {
+    let component=Qt.createComponent("FilterItem.qml")
+    let url = "contrast.json"
+    let request = new XMLHttpRequest();
+    request.open("get", url);
+    request.send(null);
+    request.onload = function () {
+        if (request.status == 200) {
+            var json = JSON.parse(request.responseText);
+            for(let i=0;i<json.length;i++){
+                let item=component.createObject(filtercontrast,{"filterName":("contrast:  "+i),"image":json[i].image,"lut":json[i].lut})
+                filtercontrast.addItem(item)
+            }
+        }
+    }
+}
+function loadingFilterFlim() {
+    let component=Qt.createComponent("FilterItem.qml")
+    let url = "flim.json"
+    let request = new XMLHttpRequest();
+    request.open("get", url);
+    request.send(null);
+    request.onload = function () {
+        if (request.status == 200) {
+            var json = JSON.parse(request.responseText);
+            for(let i=0;i<json.length;i++){
+                let item=component.createObject(filterflim,{"filterName":("flim:  "+i),"image":json[i].image,"lut":json[i].lut})
+                filterflim.addItem(item)
+            }
+        }
+    }
+}
+function loadingFilterVideo() {
+    let component=Qt.createComponent("FilterItem.qml")
+    let url = "video.json"
+    let request = new XMLHttpRequest();
+    request.open("get", url);
+    request.send(null);
+    request.onload = function () {
+        if (request.status == 200) {
+            var json = JSON.parse(request.responseText);
+            for(let i=0;i<json.length;i++){
+                let item=component.createObject(filtervideo,{"filterName":("video:  "+i),"image":json[i].image,"lut":json[i].lut})
+                filtervideo.addItem(item)
+            }
+        }
+    }
+}
 function forwardOneSecond(){
     if(mainWindow.endTime==0.0){
         return

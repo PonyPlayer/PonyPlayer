@@ -219,6 +219,22 @@ Window {
                     text: "画面"
                     onTriggered:additionalSettings.show()
                 }
+                Menu{
+                    id: filter
+                    title: "滤镜"
+                    Menu{
+                        id:filtercontrast
+                        title: "contrast"
+                    }
+                    Menu{
+                        id:filterflim
+                        title: "flim"
+                    }
+                    Menu{
+                        id:filtervideo
+                        title: "video"
+                    }
+                }
                 Menu {
                     id:trackmenu
                     title: "音轨"
