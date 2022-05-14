@@ -8,7 +8,7 @@
 #include "playlist.h"
 #include "wave/wave.hpp"
 #include "hotloader.hpp"
-#include "helper.hpp"
+#include "cursor.hpp"
 #include "lyrics.h"
 #include "liblrc/lyrics.h"
 #include "liblrc/lrc_parser.h"
