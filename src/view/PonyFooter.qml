@@ -12,7 +12,7 @@ Rectangle {
 
     Timer{
         id:timerForThumbnail
-        interval:1000
+        interval:200
         repeat:false
         onTriggered:{
             console.log("Preview Request!!!!!!!!!!!!!!!!!!!!!!"+(previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
