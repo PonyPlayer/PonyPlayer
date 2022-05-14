@@ -97,7 +97,6 @@ Rectangle {
             player: "videoArea"
             onPreviewResponse: {
                 previewRect.visible=true
-                console.log("Preview Response!!!!!!!!!!!!!!!!!!!!!!")
             }
         }
 

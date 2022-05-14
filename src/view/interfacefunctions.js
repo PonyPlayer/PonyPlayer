@@ -289,7 +289,7 @@ function solveStateChanged(){
     else if(videoArea.state==6){
         IF.makeTrackMenu()
     }
-    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+    // mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
 
     //let tmp=videoArea.getPTS()
     //mainWindow.currentTime=tmp
