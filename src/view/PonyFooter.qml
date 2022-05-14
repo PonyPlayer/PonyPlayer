@@ -10,7 +10,15 @@ Rectangle {
     visible: mainWindow.isFooterVisable
     color: "#666666"
 
-
+    Timer{
+        id:timerForThumbnail
+        interval:1000
+        repeat:false
+        onTriggered:{
+            console.log("Preview Request!!!!!!!!!!!!!!!!!!!!!!"+(previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+            preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+        }
+    }
     Label{
         id:distanceStart
         anchors.left:parent.left
@@ -41,9 +49,12 @@ Rectangle {
             hoverEnabled: true
             anchors.fill: parent
             acceptedButtons: Qt.NoButton
-            onEntered: preview.visible=true
-            onExited: preview.visible=false
-//            onPositionChanged: preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+            onEntered: timerForThumbnail.start()
+            onExited: timerForThumbnail.stop()
+            onPositionChanged:{
+                previewRect.visible=false
+                timerForThumbnail.restart()
+            }
         }
         onValueChanged: {
             mainWindow.currentTime=videoSlide.value
@@ -73,6 +84,8 @@ Rectangle {
         }
     }
     Rectangle {
+        id: previewRect
+        visible: false
         x:(videoSlide.x+previewDetector.mouseX-50)
         width:100
         height:80
@@ -83,6 +96,7 @@ Rectangle {
             id: preview
             player: "videoArea"
             onPreviewResponse: {
+                previewRect.visible=true
                 console.log("Preview Response!!!!!!!!!!!!!!!!!!!!!!")
             }
         }
