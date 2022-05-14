@@ -50,9 +50,15 @@ public:
                 m_demuxer->backward();
                 seek(pos);
                 m_demuxer->start();
-
             });
-
+            connect(this, &FrameController::signalForward, [this]{
+                qreal pos = m_playback->pos();
+                m_playback->stop();
+                m_demuxer->pause();
+                m_demuxer->forward();
+                seek(pos);
+                m_demuxer->start();
+            });
         });
         m_affinityThread->start();
     }
@@ -69,6 +75,9 @@ public:
         emit signalBackward();
     }
 
+    PONY_THREAD_SAFE void forward() {
+        emit signalForward();
+    }
 
     /**
      * 这个方法是线程安全的
@@ -171,6 +180,7 @@ signals:
     void signalPositionChangedBySeek();
     void signalSetTrack(int i);
     void signalBackward();
+    void signalForward();
 
     void openFileResult(bool success);
     void playbackStateChanged(bool isPlaying);

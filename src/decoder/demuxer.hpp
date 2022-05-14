@@ -177,7 +177,8 @@ public slots:
      * @see DecodeDispatcher::seek
      */
     void forward() {
-
+        m_worker = m_forward;
+        m_backward->flush();
     };
 
     void close() {

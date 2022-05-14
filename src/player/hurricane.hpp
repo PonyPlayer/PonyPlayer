@@ -137,7 +137,10 @@ public slots:
      * @param autoClose 如果打开视频文件, 是否自动关闭
      */
     Q_INVOKABLE void openFile(const QString &path, bool autoClose = true) {
-        if (autoClose && state == HurricaneState::PAUSED) {
+        if (autoClose && (state == HurricaneState::PLAYING || state == PRE_PLAY)) {
+            emit pause();
+        }
+        if (autoClose && (state == HurricaneState::PAUSED || state == PRE_PAUSE)) {
             emit close();
         }
         if (state == HurricaneState::CLOSING || state == HurricaneState::INVALID) {
@@ -290,6 +293,28 @@ public slots:
         }
 
         qDebug() << "Set Music Track" << i;
+    }
+
+    Q_INVOKABLE void forward() {
+        bool playing = false;
+        switch(state) {
+            case HurricaneState::PLAYING:
+            case HurricaneState::PRE_PLAY:
+                playing = true;
+                /* fall through */
+            case HurricaneState::PAUSED:
+            case HurricaneState::PRE_PAUSE:
+                break;
+            default:
+                return;
+        }
+        state = PRE_PAUSE;
+        emit stateChanged();
+        frameController->forward();
+        if (playing) {
+            emit signalStart(QPrivateSignal());
+        }
+        qDebug() << "forward";
     }
 
     Q_INVOKABLE void backward() {
