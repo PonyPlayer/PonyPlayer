@@ -322,6 +322,7 @@ private:
 
     ReverseDecoderImpl<Video> *videoDecoder;
 
+    AVFrame *dummy;
     AudioFrame silenceFrame;
     std::vector<StreamInfo> streamInfos;
     std::byte silence[1024]{};
@@ -333,7 +334,8 @@ private:
     qreal m_videoDuration;
 public:
     explicit ReverseDecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent),
-    silenceFrame(silence, 1024, std::numeric_limits<double>::max(), nullptr){
+    dummy(av_frame_alloc()),
+    silenceFrame(silence, 1024, std::numeric_limits<double>::max(), dummy){
         packet = av_packet_alloc();
         for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && videoStreamIndex == -1) {
@@ -358,6 +360,7 @@ public:
         if (audioQueue) { audioQueue->close(); }
         delete videoDecoder;
         if(packet) { av_packet_free(&packet); }
+        if (dummy) { av_frame_free(&dummy);}
     }
 
     /**
@@ -423,6 +426,7 @@ public slots:
             if (ret == 0) {
                 if (packet->stream_index == videoStreamIndex) {
                     videoDecoder->accept(packet, interrupt);
+                    // qDebug() << "accept";
                     auto next = videoDecoder->nextSegment();
                     if (next > 0) {
                         videoDecoder->flushFFmpegBuffers();

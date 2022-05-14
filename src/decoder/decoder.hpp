@@ -346,11 +346,12 @@ public:
                     continue;
                 }
                 else if (pts <= from){
-                    //std::cerr << pts << " " << from << std::endl;
+                    qDebug() << "push frame: " << pts;
                     frameStack->push_back(frameBuf);
                 }
                 else {
                     //std::cerr << "push to queue"<< std::endl;
+                    qDebug() << "push to queue";
                     av_frame_unref(frameBuf);
                     frameQueue->push(frameStack);
                     frameStack = new std::vector<AVFrame*>;
@@ -407,8 +408,10 @@ public:
     VideoFrame getPicture(bool b, bool own) override {
         auto stk = frameQueue->front();
         if (!stk) { return {}; }
+        qDebug() << "before getPicture";
         auto frame = stk->back();
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
+        qDebug() << "getPicture: " << pts ;
         return {frame, pts, own ? freeFunc : nullptr};
     }
 
