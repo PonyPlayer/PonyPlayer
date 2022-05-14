@@ -148,9 +148,11 @@ function videoSpeedOnClicked(){
 function invertedOnClicked(){
     if(mainWindow.isInverted){
         mainWindow.isInverted=false
+        videoArea.forward();
     }
     else{
         mainWindow.isInverted=true
+        videoArea.backward();
     }
     //mainWindow.inverted(mainWindow.step)
 }

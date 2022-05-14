@@ -72,6 +72,7 @@ public:
      * 向 DecodeThread 发送信号尽快暂停解码, 并唤醒阻塞在上面的线程.
      * @see DecodeDispatcher::statePause
     */
+    PONY_CONDITION("OpenFileResult")
     PONY_THREAD_SAFE void pause() {
         m_worker->statePause();
     }
@@ -90,7 +91,6 @@ public:
     PONY_THREAD_SAFE void start() {
         qDebug() << "Start Decoder";
         m_worker->stateResume();
-        emit signalStartWorker(QPrivateSignal());
     }
 
     PONY_GUARD_BY(FRAME) void setTrack(int i) {
@@ -150,8 +150,9 @@ public slots:
             return;
         }
         lock.unlock();
-        connect(this, &Demuxer::signalStartWorker, m_worker, &DemuxDispatcherBase::onWork);
+        m_worker->stateResume();
         emit openFileResult(true, QPrivateSignal());
+        qDebug() << "Open file success.";
     }
 
 
@@ -163,8 +164,9 @@ public slots:
      * @see Demuxer2::flush
      * @see DecodeDispatcher::seek
      */
-    void reverse() {
-
+    void backward() {
+        m_worker = m_backward;
+        m_forward->flush();
     }
 
     /**
@@ -190,9 +192,6 @@ public slots:
     }
 
 signals:
-
-    void signalStartWorker(QPrivateSignal);
-
     void openFileResult(bool ret, QPrivateSignal);
 
 

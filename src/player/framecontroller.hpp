@@ -22,7 +22,7 @@ public:
         m_affinityThread = new QThread;
         m_affinityThread->setObjectName("FrameControllerThread");
         this->moveToThread(m_affinityThread);
-        connect(m_affinityThread, &QThread::started, [=]{
+        connect(m_affinityThread, &QThread::started, [this]{
             this->m_demuxer = new Demuxer{this};
             this->m_playback = new Playback{m_demuxer, this};
             connect(m_playback, &Playback::setPicture, this, &FrameController::setPicture, Qt::DirectConnection);
@@ -30,7 +30,7 @@ public:
             connect(this, &FrameController::signalDecoderOpenFile, m_demuxer, &Demuxer::openFile);
             // WARNING: BLOCKING_QUEUED_CONNECTION!!!
             connect(this, &FrameController::signalDecoderSeek, m_demuxer, &Demuxer::seek, Qt::BlockingQueuedConnection);
-            connect(m_demuxer, &Demuxer::openFileResult, this, [=](bool success){
+            connect(m_demuxer, &Demuxer::openFileResult, this, [this](bool success){
                 m_demuxer->start();
                 if (success) { m_playback->showFrame(); }
                 emit openFileResult(success);
@@ -43,6 +43,16 @@ public:
                 m_demuxer->setTrack(i);
                 seek(pos);
             });
+            connect(this, &FrameController::signalBackward, [this]{
+                qreal pos = m_playback->pos();
+                m_playback->stop();
+                m_demuxer->pause();
+                m_demuxer->backward();
+                seek(pos);
+                m_demuxer->start();
+
+            });
+
         });
         m_affinityThread->start();
     }
@@ -53,6 +63,10 @@ public:
 
     void setTrack(int i) {
         emit signalSetTrack(i);
+    }
+
+    PONY_THREAD_SAFE void backward() {
+        emit signalBackward();
     }
 
 
@@ -153,11 +167,13 @@ signals:
     void signalDecoderSeek(qreal pos);
     void signalPositionChangedBySeek();
     void signalSetTrack(int i);
+    void signalBackward();
 
     void openFileResult(bool success);
     void playbackStateChanged(bool isPlaying);
     void resourcesEnd();
     void setPicture(VideoFrame pic);
+
 
 
 

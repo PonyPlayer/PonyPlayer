@@ -148,7 +148,7 @@ private:
     IDemuxDecoder *audioDecoder;
     IDemuxDecoder *videoDecoder;
 
-    std::atomic<bool> interrupt = false;
+    std::atomic<bool> interrupt = true;
     AVPacket *packet = nullptr;
     FrameFreeFunc *m_freeFunc;
     FrameFreeQueue *m_freeQueue;
@@ -186,8 +186,7 @@ public:
         audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, freeQueue, freeFunc);
         description.videoDuration = videoDecoder->duration();
         description.audioDuration = audioDecoder->duration();
-
-        interrupt = false; // happens before
+        connect(this, &DecodeDispatcher::signalStartWorker, this, &DecodeDispatcher::onWork, Qt::QueuedConnection);
     }
 
     ~DecodeDispatcher() override {
@@ -221,9 +220,13 @@ public:
      * 保证可以阻塞地获取 Picture 和 Sample. 这个方法是线程安全的.
      */
     void stateResume() override {
-        interrupt = false;
-        videoQueue->open();
-        qDebug() << "Queue stateResume.";
+        if (interrupt.exchange(false)) {
+            videoQueue->open();
+            emit signalStartWorker(QPrivateSignal());
+            qDebug() << "Queue stateResume.";
+        }
+        // ignore when already start
+
     }
 
     /**
@@ -283,6 +286,7 @@ public slots:
             }
             av_packet_unref(packet);
         }
+        interrupt = true;
     };
 
     void setAudioIndex(StreamIndex i) override {
@@ -300,12 +304,13 @@ public slots:
         }
         return ret;
     }
+signals:
+    void signalStartWorker(QPrivateSignal);
 };
 
 /**
  * @brief 反向解码器调度器
  */
-//#include <iostream>
 
 class ReverseDecodeDispatcher : public DemuxDispatcherBase {
     Q_OBJECT
@@ -321,7 +326,7 @@ private:
     std::vector<StreamInfo> streamInfos;
     std::byte silence[1024]{};
 
-    std::atomic<bool> interrupt = false;
+    std::atomic<bool> interrupt = true;
     AVPacket *packet = nullptr;
     TwinsBlockQueue<std::vector<AVFrame *>*> *videoQueue;
     TwinsBlockQueue<std::vector<AVFrame *>*> *audioQueue;
@@ -344,7 +349,7 @@ public:
         audioQueue = videoQueue->twins("AudioQueue", 8);
         videoDecoder = new ReverseDecoderImpl<Video>(fmtCtx->streams[videoStreamIndex], videoQueue);
         m_videoDuration = videoDecoder->duration();
-        interrupt = false; // happens before
+        connect(this, &ReverseDecodeDispatcher::signalStartWorker, this, &ReverseDecodeDispatcher::onWork, Qt::QueuedConnection);
     }
 
     ~ReverseDecodeDispatcher() override {
@@ -382,6 +387,7 @@ public:
     PONY_THREAD_SAFE void stateResume() override {
         interrupt = false;
         videoQueue->open();
+        emit signalStartWorker(QPrivateSignal());
         qDebug() << "Queue stateResume.";
     }
 
@@ -444,7 +450,11 @@ public slots:
             }
             av_packet_unref(packet);
         }
+        interrupt = true;
     };
+
+signals:
+    void signalStartWorker(QPrivateSignal);
 };
 
 
