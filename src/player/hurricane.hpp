@@ -339,6 +339,13 @@ public slots:
         qDebug() << "backward";
     }
 
+    /**
+     * 设置LUT滤镜路径
+     * @param path
+     */
+    Q_INVOKABLE void setLUTFilter(QString path) {
+
+    }
 
 private slots:
     void slotPositionChangedBySeek() { emit positionChangedBySeek(); }
