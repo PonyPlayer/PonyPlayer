@@ -140,7 +140,7 @@ private:
         std::vector<StreamIndex> m_audioStreamsIndex;
         std::vector<StreamInfo> streamInfos;
     } description;
-
+    LifeCycleManager *m_lifeManager = new LifeCycleManager;
     TwinsBlockQueue<AVFrame *> *videoQueue;
     TwinsBlockQueue<AVFrame *> *audioQueue;
     StreamIndex m_audioStreamIndex;
@@ -150,19 +150,14 @@ private:
 
     std::atomic<bool> interrupt = true;
     AVPacket *packet = nullptr;
-    FrameFreeFunc *m_freeFunc;
-    FrameFreeQueue *m_freeQueue;
 
 public:
     explicit DecodeDispatcher(
       const std::string &fn,
-      FrameFreeQueue *freeQueue,
-      FrameFreeFunc *freeFunc,
       StreamIndex audioStreamIndex = DEFAULT_STREAM_INDEX,
       StreamIndex videoStreamIndex = DEFAULT_STREAM_INDEX,
       QObject *parent = nullptr
-    ) : DemuxDispatcherBase(fn, parent), m_audioStreamIndex(audioStreamIndex), m_videoStreamIndex(videoStreamIndex),
-        m_freeFunc(freeFunc), m_freeQueue(freeQueue){
+    ) : DemuxDispatcherBase(fn, parent), m_audioStreamIndex(audioStreamIndex), m_videoStreamIndex(videoStreamIndex) {
         packet = av_packet_alloc();
         for (StreamIndex i = 0; i < fmtCtx->nb_streams; ++i) {
             auto *stream = fmtCtx->streams[i];
@@ -179,7 +174,7 @@ public:
         if (description.m_audioStreamsIndex.empty()) { throw std::runtime_error("Cannot find audio stream."); }
         if (m_audioStreamIndex == DEFAULT_STREAM_INDEX) { m_audioStreamIndex = description.m_audioStreamsIndex.front(); }
         audioQueue = new TwinsBlockQueue<AVFrame *>("AudioQueue", 16);
-        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, freeQueue, freeFunc);
+        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_lifeManager);
         description.audioDuration = audioDecoder->duration();
 
         // video
@@ -189,7 +184,7 @@ public:
             videoDecoder = new VirtualVideoDecoder(description.audioDuration);
         } else {
             if (m_videoStreamIndex == DEFAULT_STREAM_INDEX) { m_videoStreamIndex = description.m_videoStreamsIndex.front(); }
-            videoDecoder = new DecoderImpl<Video>(fmtCtx->streams[m_videoStreamIndex], videoQueue, freeQueue, freeFunc);
+            videoDecoder = new DecoderImpl<Video>(fmtCtx->streams[m_videoStreamIndex], videoQueue, m_lifeManager);
         }
         description.videoDuration = videoDecoder->duration();
 
@@ -198,14 +193,13 @@ public:
 
     ~DecodeDispatcher() override {
         qDebug() << "Destroy decode dispatcher " << filename.c_str();
-        AVFrame *frame;
-        while(m_freeQueue->try_dequeue(frame)) { av_frame_free(&frame); }
         DecodeDispatcher::flush();
         delete audioQueue;
         delete videoQueue;
         delete audioDecoder;
         delete videoDecoder;
         if(packet) { av_packet_free(&packet); }
+        m_lifeManager->deleteLater();
     }
 
     /**
@@ -245,8 +239,6 @@ public:
         // case 2: not decoding, seek
         interrupt = true;
         qDebug() << "a Seek:" << secs;
-        AVFrame *frame;
-        while(m_freeQueue->try_dequeue(frame)) { av_frame_free(&frame); }
         int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>(secs * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
         if (audioDecoder) { audioDecoder->flushFFmpegBuffers(); }
         if (videoDecoder) { videoDecoder->flushFFmpegBuffers(); }
@@ -267,7 +259,7 @@ public:
     PONY_GUARD_BY(FRAME) void setTrack(int i) override {
         delete audioDecoder;
         m_audioStreamIndex = description.m_audioStreamsIndex[static_cast<size_t>(i)];
-        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_freeQueue, m_freeFunc);
+        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_lifeManager);
     }
 
 
@@ -276,7 +268,6 @@ public slots:
         videoQueue->open();
         while(!interrupt) {
             AVFrame *frame;
-            while(m_freeQueue->try_dequeue(frame)) { av_frame_free(&frame); }
             int ret = av_read_frame(fmtCtx, packet);
             if (ret == 0) {
                 if (static_cast<StreamIndex>(packet->stream_index) == m_videoStreamIndex) {
@@ -300,7 +291,7 @@ public slots:
         if (i == m_audioStreamIndex) { return; }
         delete audioDecoder;
         m_audioStreamIndex = i;
-        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_freeQueue, m_freeFunc);
+        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_lifeManager);
     }
 
     QStringList getTracks() {

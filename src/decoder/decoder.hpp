@@ -116,16 +116,13 @@ template<IDemuxDecoder::DecoderType type>
 class DecoderImpl : public DecoderContext, public IDemuxDecoder {
 protected:
     TwinsBlockQueue<AVFrame *> *frameQueue;
-    FrameFreeFunc *m_freeFunc;
-    FrameFreeQueue *m_freeQueue;
-
+    LifeCycleManager *m_lifeCycleManager = nullptr;
 public:
     DecoderImpl(
-            AVStream *vs,
-            TwinsBlockQueue<AVFrame *> *queue,
-            FrameFreeQueue *freeQueue,
-            FrameFreeFunc *freeFunc
-    ) : DecoderContext(vs), frameQueue(queue), m_freeFunc(freeFunc), m_freeQueue(freeQueue) {}
+      AVStream *vs,
+      TwinsBlockQueue<AVFrame *> *queue,
+      LifeCycleManager *lifeCycleManager
+    ) : DecoderContext(vs), frameQueue(queue), m_lifeCycleManager(lifeCycleManager) {}
 
     double duration() override {
         return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
@@ -195,13 +192,13 @@ template<> class DecoderImpl<Audio>: public DecoderImpl<Common> {
     uint8_t *audioOutBuf = nullptr;
     AVFrame * sampleFrameBuf = nullptr;
 
+
 public:
     DecoderImpl(
-            AVStream *vs,
-            TwinsBlockQueue<AVFrame *> *queue,
-            FrameFreeQueue *freeQueue,
-            FrameFreeFunc *freeFunc
-    ) : DecoderImpl<Common>(vs, queue, freeQueue, freeFunc) {
+      AVStream *vs,
+      TwinsBlockQueue<AVFrame *> *queue,
+      LifeCycleManager *lifeCycleManager
+    ) : DecoderImpl<Common>(vs, queue, lifeCycleManager) {
         this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
                                           AV_SAMPLE_FMT_S16, 44100,
                                           static_cast<int64_t>(codecCtx->channel_layout), codecCtx->sample_fmt,
@@ -239,7 +236,8 @@ public:
 
     bool pop(bool b) override {
         AVFrame *frame = frameQueue->front();
-        m_freeQueue->enqueue(frame);
+        m_lifeCycleManager->pop();
+        m_lifeCycleManager->freeFrame(frame);
         return frameQueue->pop();
     }
 };
@@ -274,59 +272,41 @@ public:
  */
 template<> class DecoderImpl<Video>: public DecoderImpl<Common> {
 private:
-    class PureAudioVirtual : public Life {
-        AVFrame *m_frame;
-        FrameFreeFunc m_func = [this](AVFrame *frame){ this->dec(); };
-    public:
-        PureAudioVirtual(AVFrame *frame) : m_frame(frame) {}
-
-        VideoFrame getPicture(bool own) {
-            return {m_frame, -1, own ? m_func : nullptr};
-        }
-
-        bool pop() {
-            this->inc();
-            return true;
-        }
-
-        ~PureAudioVirtual() override {
-            av_frame_free(&m_frame);
-        }
-    };
-    PureAudioVirtual* life = nullptr;
+    std::atomic<AVFrame *> stillVideoFrame = nullptr;
 public:
     DecoderImpl(
             AVStream *vs,
             TwinsBlockQueue<AVFrame *> *queue,
-            FrameFreeQueue *freeQueue,
-            FrameFreeFunc *freeFunc
-    ) : DecoderImpl<Common>(vs, queue, freeQueue, freeFunc) {}
+            LifeCycleManager *lifeCycleManager
+    ) : DecoderImpl<Common>(vs, queue, lifeCycleManager) {}
 
 
 
     VideoFrame getPicture(bool b, bool own) override {
+        if (stillVideoFrame != nullptr) { return {stillVideoFrame, -1, nullptr}; }
         AVFrame *frame = frameQueue->front();
         if (!frame) { return {}; }
-        if (frame->pts < 0) { life = new PureAudioVirtual(frame); }
-        if (life == nullptr) {
-            double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-            return {frame, pts, own ? *m_freeFunc : nullptr};
+        if (frame->pts < 0) {
+            stillVideoFrame = frame;
+            DecoderImpl<Common>::pop(b);
+            return {stillVideoFrame, -9, nullptr};
         } else {
-            return life->getPicture(own);
+            double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
+            return {frame, pts, own ? &m_lifeCycleManager->freeFunc : nullptr};
         }
-
     }
 
     bool pop(bool b) override {
-        if (life) {
-            return life->pop();
+        if (stillVideoFrame != nullptr) {
+            return true;
         } else {
+            m_lifeCycleManager->pop();
             return DecoderImpl<Common>::pop(b);
         }
     }
 
     ~DecoderImpl() {
-        if (life) {life->deleteLater(); }
+        m_lifeCycleManager->freeLater(stillVideoFrame);
     }
 
 };
@@ -512,7 +492,7 @@ public:
         if (!frame) return {};
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
         //qDebug() << "getPicture: " << pts ;
-        return {frame, pts, own ? freeFunc : nullptr};
+        return {frame, pts, own ? &freeFunc : nullptr};
     }
 
     bool pop(bool b) override {

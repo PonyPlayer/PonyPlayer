@@ -18,6 +18,7 @@ private:
     AVStream *videoStream{};
     DecoderContext* ctx{};
     AVPacket *pkt{};
+    FrameFreeFunc m_freeFunc = [this](AVFrame *frame) { emit signalFreeVideoFrame(frame, QPrivateSignal()); };
 
 public:
 
@@ -78,7 +79,7 @@ public:
                         auto *frame = ctx->frameBuf;
                         ctx->frameBuf = av_frame_alloc();
                         av_packet_unref(pkt);
-                        return {frame, pts, [=](AVFrame *frame) { emit signalFreeVideoFrame(frame, QPrivateSignal());}};
+                        return {frame, pts, &m_freeFunc};
                     }
                 }
                 if (ret < 0) {
