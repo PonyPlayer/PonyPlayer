@@ -244,10 +244,56 @@ public:
     }
 };
 
+class Life {
+protected:
+    std::atomic<bool> autoDelete = false;
+    std::atomic<int> refCount = 0;
+
+public:
+    void inc() {
+        refCount += 1;
+    }
+
+    void dec() {
+        if (--refCount == 0 && autoDelete) { delete this; }
+    }
+
+    void deleteLater() {
+        if (refCount == 0) {
+            delete this;
+        } else {
+            autoDelete = true;
+        }
+    }
+
+    virtual ~Life() = default;
+};
+
 /**
  * 视频解码器实现
  */
 template<> class DecoderImpl<Video>: public DecoderImpl<Common> {
+private:
+    class PureAudioVirtual : public Life {
+        AVFrame *m_frame;
+        FrameFreeFunc m_func = [this](AVFrame *frame){ this->dec(); };
+    public:
+        PureAudioVirtual(AVFrame *frame) : m_frame(frame) {}
+
+        VideoFrame getPicture(bool own) {
+            return {m_frame, -1, own ? m_func : nullptr};
+        }
+
+        bool pop() {
+            this->inc();
+            return true;
+        }
+
+        ~PureAudioVirtual() override {
+            av_frame_free(&m_frame);
+        }
+    };
+    PureAudioVirtual* life = nullptr;
 public:
     DecoderImpl(
             AVStream *vs,
@@ -261,18 +307,62 @@ public:
     VideoFrame getPicture(bool b, bool own) override {
         AVFrame *frame = frameQueue->front();
         if (!frame) { return {}; }
-        double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-        return {frame, pts, own ? *m_freeFunc : nullptr};
+        if (frame->pts < 0) { life = new PureAudioVirtual(frame); }
+        if (life == nullptr) {
+            double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
+            return {frame, pts, own ? *m_freeFunc : nullptr};
+        } else {
+            return life->getPicture(own);
+        }
+
     }
 
     bool pop(bool b) override {
-        bool ret = DecoderImpl<Common>::pop(b);
-        return ret;
+        if (life) {
+            return life->pop();
+        } else {
+            return DecoderImpl<Common>::pop(b);
+        }
+    }
+
+    ~DecoderImpl() {
+        if (life) {life->deleteLater(); }
     }
 
 };
 
-//#include <iostream>
+/**
+ * @brief 虚拟视频播放, 用于视频纯音频文件.
+ */
+class VirtualVideoDecoder : public IDemuxDecoder {
+private:
+    qreal m_audioDuration;
+public:
+    VirtualVideoDecoder(qreal audioDuration) : m_audioDuration(audioDuration) {}
+
+    bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
+        return !interrupt;
+    }
+
+    void flushFFmpegBuffers() override {}
+
+    VideoFrame getPicture(bool b, bool own) override {
+        return {nullptr, std::numeric_limits<qreal>::quiet_NaN(), nullptr, true};
+    }
+
+    AudioFrame getSample(bool b) override {
+        NOT_IMPLEMENT_YET
+    }
+
+    bool pop(bool b) override {
+        return true;
+    }
+
+    double duration() override {
+        return m_audioDuration;
+    }
+};
+
 /**
  * 反向Decoder
  * @tparam type

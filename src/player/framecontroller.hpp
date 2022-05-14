@@ -31,8 +31,10 @@ public:
             // WARNING: BLOCKING_QUEUED_CONNECTION!!!
             connect(this, &FrameController::signalDecoderSeek, m_demuxer, &Demuxer::seek, Qt::BlockingQueuedConnection);
             connect(m_demuxer, &Demuxer::openFileResult, this, [this](bool success){
-                m_demuxer->start();
-                if (success) { m_playback->showFrame(); }
+                if (success) {
+                    m_demuxer->start();
+                    m_playback->showFrame();
+                }
                 emit openFileResult(success);
             });
             connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd, Qt::DirectConnection);

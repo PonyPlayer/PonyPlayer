@@ -42,6 +42,9 @@ public:
     }
     ~Fireworks() noexcept override {
         picture.free();
+        // FIXME 保证 videoFrame不会重复释放
+        renderer->videoFrame.free();
+        renderer = nullptr;
     }
 
     [[nodiscard]] GLfloat getBrightness() const { return brightness; }

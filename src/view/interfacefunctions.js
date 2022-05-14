@@ -252,7 +252,9 @@ function timerOnTriggered(){
 function toVideoBegining(){
     mainWindow.isPlay=false
     mainWindow.currentTime=0
-    videoSlide.value=0
+    // videoSlide.value=0
+    mainWindow.wakeSlide()
+    mainWindow.lastStep=0.0
 }
 function toVideoEnd(){
     mainWindow.isPlay=false
@@ -289,7 +291,7 @@ function solveStateChanged(){
     else if(videoArea.state==6){
         IF.makeTrackMenu()
     }
-    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+    // mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
 
     //let tmp=videoArea.getPTS()
     //mainWindow.currentTime=tmp

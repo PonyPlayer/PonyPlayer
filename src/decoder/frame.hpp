@@ -7,6 +7,8 @@
 #include "helper.hpp"
 INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
+
+#include <utility>
 INCLUDE_FFMPEG_END
 
 typedef std::function<void(AVFrame*)> FrameFreeFunc;
@@ -18,7 +20,11 @@ private:
     FrameFreeFunc m_freeFunc;
     bool m_isValid;
 public:
-    VideoFrame(AVFrame *frame, double pts, FrameFreeFunc freeFunc) : m_frame(frame), m_pts(pts), m_freeFunc(std::move(freeFunc)), m_isValid(true) {}
+    VideoFrame(AVFrame *frame, double pts, FrameFreeFunc freeFunc, bool isValid) :
+        m_frame(frame), m_pts(pts), m_freeFunc(std::move(freeFunc)), m_isValid(isValid) {}
+
+    VideoFrame(AVFrame *frame, double pts, FrameFreeFunc freeFunc) :
+        m_frame(frame), m_pts(pts), m_freeFunc(std::move(freeFunc)), m_isValid(true) {}
 
     VideoFrame() : m_frame(nullptr), m_pts(std::numeric_limits<double>::quiet_NaN()), m_isValid(false) {}
 
@@ -64,6 +70,10 @@ public:
             && getHeight() == frame.getHeight()
             && getLineSize() == frame.getLineSize())
             || (!this->isValid() && !frame.isValid());
+    }
+
+    [[nodiscard]] bool isPlaceholderFrame() const {
+        return this->m_pts < 0;
     }
 
     bool operator==(const VideoFrame &frame) const {

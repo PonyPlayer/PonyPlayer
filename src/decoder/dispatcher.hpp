@@ -174,18 +174,25 @@ public:
             StreamInfo info(stream);
             description.streamInfos.emplace_back(stream);
         }
-        if (description.m_videoStreamsIndex.empty()) { throw std::runtime_error("Cannot find video stream."); }
-        if (description.m_audioStreamsIndex.empty()) { throw std::runtime_error("Cannot find audio stream."); }
-        if (m_videoStreamIndex == DEFAULT_STREAM_INDEX) { m_videoStreamIndex = description.m_videoStreamsIndex.front(); }
-        if (m_audioStreamIndex == DEFAULT_STREAM_INDEX) { m_audioStreamIndex = description.m_audioStreamsIndex.front(); }
 
-        // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
-        videoQueue = new TwinsBlockQueue<AVFrame *>("VideoQueue", 16);
-        audioQueue = videoQueue->twins("AudioQueue", 16);
-        videoDecoder = new DecoderImpl<Video>(fmtCtx->streams[m_videoStreamIndex], videoQueue, freeQueue, freeFunc);
+        // audio
+        if (description.m_audioStreamsIndex.empty()) { throw std::runtime_error("Cannot find audio stream."); }
+        if (m_audioStreamIndex == DEFAULT_STREAM_INDEX) { m_audioStreamIndex = description.m_audioStreamsIndex.front(); }
+        audioQueue = new TwinsBlockQueue<AVFrame *>("AudioQueue", 16);
         audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, freeQueue, freeFunc);
-        description.videoDuration = videoDecoder->duration();
         description.audioDuration = audioDecoder->duration();
+
+        // video
+        videoQueue = audioQueue->twins("VideoQueue", 16);
+        if (description.m_videoStreamsIndex.empty()) {
+            // no audio
+            videoDecoder = new VirtualVideoDecoder(description.audioDuration);
+        } else {
+            if (m_videoStreamIndex == DEFAULT_STREAM_INDEX) { m_videoStreamIndex = description.m_videoStreamsIndex.front(); }
+            videoDecoder = new DecoderImpl<Video>(fmtCtx->streams[m_videoStreamIndex], videoQueue, freeQueue, freeFunc);
+        }
+        description.videoDuration = videoDecoder->duration();
+
         connect(this, &DecodeDispatcher::signalStartWorker, this, &DecodeDispatcher::onWork, Qt::QueuedConnection);
     }
 

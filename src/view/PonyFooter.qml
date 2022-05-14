@@ -9,14 +9,15 @@ Rectangle {
     height: mainWindow.isFooterVisable?80:0
     visible: mainWindow.isFooterVisable
     color: "#666666"
-
     Timer{
         id:timerForThumbnail
-        interval:200
+        interval:500
         repeat:false
         onTriggered:{
-            console.log("Preview Request!!!!!!!!!!!!!!!!!!!!!!"+(previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
-            preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+            if(Math.abs(previewDetector.mouseX-mainWindow.lastStep)>10){
+                mainWindow.lastStep=previewDetector.mouseX
+                preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+            }
         }
     }
     Label{
@@ -31,7 +32,10 @@ Rectangle {
         lineHeight: 20
     }
 
-
+    Connections{
+        target:mainWindow
+        onWakeSlide:videoSlide.value=0.0
+    }
     Slider{
         id:videoSlide
         anchors.top: parent.top
@@ -97,7 +101,6 @@ Rectangle {
             player: "videoArea"
             onPreviewResponse: {
                 previewRect.visible=true
-                console.log("Preview Response!!!!!!!!!!!!!!!!!!!!!!")
             }
         }
 

@@ -82,7 +82,8 @@ Window {
     property real contrast: 1.0
     //音轨列表
     property var trackMenu
-
+    //预览图限界位置
+    property real lastStep:0.0
 
     //播放
     signal start()
@@ -106,6 +107,7 @@ Window {
     signal setSpeed(real speed)
     //打开文件
     signal openFile(string path)
+    signal wakeSlide()
 
 
     MediaInfo {
@@ -558,11 +560,11 @@ Window {
                     if(!b){
                         operationFailedDialogText.text="打开文件失败，请选择正确路径"
                         operationFailedDialog.open()
-                        mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+                        mainWindow.endTime=0
                     }
                     else{
                         IF.toVideoBegining()
-                        mainWindow.endTime=0
+                        mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
                     }
                 }
             }
