@@ -20,6 +20,8 @@ UI框架采用 QML（Qt 6.2.4）
 
 需求文档：https://hm18q8qgif.feishu.cn/docs/doccnuBpe1USF4dx8MTZXgjEZEf
 
+交互设计文档：https://hoa42m.axshare.com
+
 FFmpeg文档：https://ffmpeg.org/documentation.html
 
 CMake文档：https://cmake.org/documentation/
