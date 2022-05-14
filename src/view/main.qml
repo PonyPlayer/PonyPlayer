@@ -82,7 +82,8 @@ Window {
     property real contrast: 1.0
     //音轨列表
     property var trackMenu
-
+    //预览图限界位置
+    property real lastStep:0.0
 
     //播放
     signal start()
@@ -561,8 +562,6 @@ Window {
                         mainWindow.endTime=0
                     }
                     else{
-
-                        console.log("open+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                         IF.toVideoBegining()
                         mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
                     }

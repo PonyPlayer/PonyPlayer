@@ -253,6 +253,7 @@ function toVideoBegining(){
     mainWindow.isPlay=false
     mainWindow.currentTime=0
     videoSlide.value=0
+    mainWindow.lastStep=0.0
 }
 function toVideoEnd(){
     mainWindow.isPlay=false
