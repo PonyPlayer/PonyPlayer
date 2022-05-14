@@ -177,10 +177,10 @@ public:
 
     void render(const RenderState *state) override  {
         // call on render thread
-        // since QuickItem position is relative position of its parent, we need to convert to scene coordinate
 #ifdef DEBUG_FlAG_PAINT_LOG
         qDebug() << "Paint" << "x =" << glRect.x() << "y =" << glRect.y() << "w =" << glRect.width() << "h =" << glRect.height();
 #endif
+
         // Due to QTBUG-97589, we are not able to get model-view matrix
         // https://bugreports.qt.io/browse/QTBUG-97589
         // workaround, assume parent clip hurricane
@@ -202,7 +202,7 @@ public:
         }
 
 
-        if (!videoFrame.isValid()) { return; }
+
         program->bind();
         brightness.render();
         contrast.render();
@@ -210,7 +210,7 @@ public:
         glBindVertexArray(vao);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-
+        if (!videoFrame.isValid()) { return; }
         int lineSize = videoFrame.getLineSize();
         int imageHeight = videoFrame.getHeight();
         int imageWidth = videoFrame.getWidth();

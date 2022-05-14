@@ -18,17 +18,13 @@ private:
     ReverseDecodeDispatcher *m_backward;
 
     QThread *m_affinityThread = nullptr;
-    FrameFreeQueue m_freeQueue;
-    FrameFreeFunc m_freeFunc;
-
     std::mutex mutex;
 public:
-    Demuxer(QObject *parent) : QObject(nullptr), m_freeQueue(1024) {
+    Demuxer(QObject *parent) : QObject(nullptr) {
         m_affinityThread = new QThread;
         m_affinityThread->setObjectName("DecoderThread");
         this->moveToThread(m_affinityThread);
         m_affinityThread->start();
-        m_freeFunc = [this](AVFrame *frame){m_freeQueue.enqueue(frame);};
     }
 
     ~Demuxer() {
@@ -142,7 +138,7 @@ public slots:
         }
         std::unique_lock lock(mutex);
         try {
-            m_forward = new DecodeDispatcher(fn, &m_freeQueue, &m_freeFunc, DEFAULT_STREAM_INDEX, DEFAULT_STREAM_INDEX, this);
+            m_forward = new DecodeDispatcher(fn, DEFAULT_STREAM_INDEX, DEFAULT_STREAM_INDEX, this);
             m_backward = new ReverseDecodeDispatcher(fn, this);
             m_worker = m_forward;
         } catch (std::runtime_error &ex) {
