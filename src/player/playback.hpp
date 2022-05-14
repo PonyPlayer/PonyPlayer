@@ -36,10 +36,16 @@ private:
         emit stateChanged(isPlaying);
     }
 
-    inline void syncTo(double pts) {
-        bool backward = m_demuxer->isRewind();
-        double duration = pts - m_audioSink->getProcessSecs(backward);
-        if (backward) { duration = -duration; }
+    inline void syncTo(const VideoFrame &frame) {
+        if (!frame.isValid()) { return; }
+        double duration;
+        if (frame.isPlaceholderFrame()) {
+            duration = 1. / 30;
+        } else {
+            bool backward = m_demuxer->isRewind();
+            duration = frame.getPTS() - m_audioSink->getProcessSecs(backward);
+            if (backward) { duration = -duration; }
+        }
         if (duration > 0) {
             if (duration > 1) { qWarning() << "Sleep long duration" << duration << "s"; }
             std::unique_lock lock(m_interruptMutex);
@@ -175,7 +181,7 @@ private slots:
             if (!writeAudio(10)) { emit resourcesEnd(); break; }
             VideoFrame next = m_demuxer->getPicture(true, true);
             QCoreApplication::processEvents(); // process setVolume setSpeed etc
-            if (next.isValid()) { syncTo(next.getPTS()); }
+            syncTo(next);
         }
         m_audioSink->pause();
         changeState(false);
