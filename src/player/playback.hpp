@@ -80,6 +80,10 @@ public:
         m_affinityThread->start();
     }
 
+    qreal pos() {
+        return m_audioSink->getProcessSecs();
+    }
+
     virtual ~Playback() {
         m_affinityThread->quit();
     }
@@ -189,6 +193,7 @@ signals:
     void setPicture(VideoFrame pic);
     void stateChanged(bool isPlaying);
     void resourcesEnd();
+
 
 };
 

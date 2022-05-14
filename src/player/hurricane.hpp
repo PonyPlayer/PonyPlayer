@@ -270,6 +270,25 @@ public slots:
     }
 
     Q_INVOKABLE void setTrack(int i) {
+        bool playing = false;
+        switch(state) {
+            case HurricaneState::PLAYING:
+            case HurricaneState::PRE_PLAY:
+                playing = true;
+                /* fall through */
+            case HurricaneState::PAUSED:
+            case HurricaneState::PRE_PAUSE:
+                break;
+            default:
+                return;
+        }
+        state = PRE_PAUSE;
+        emit stateChanged();
+        frameController->setTrack(i);
+        if (playing) {
+            emit signalStart(QPrivateSignal());
+        }
+
         qDebug() << "Set Music Track" << i;
     }
 

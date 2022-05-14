@@ -317,10 +317,7 @@ function makeTrackMenu(){
     let component=Qt.createComponent("TrackItem.qml")
     for(let i=0;i<tmpList.length;i++){
         let item = component.createObject(mainWindow.trackMenu,{"text":tmpList[i],"trackID":i})
-        item.setTrack.connect(funtst)
+        item.setTrack.connect(videoArea.setTrack)
         trackmenu.addItem(item)
     }
-}
-function funtst(xxx){
-    console.log(xxx)
 }

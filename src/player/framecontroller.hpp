@@ -36,6 +36,13 @@ public:
                 emit openFileResult(success);
             });
             connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd, Qt::DirectConnection);
+            connect(this, &FrameController::signalSetTrack, [this](int i){
+                qreal pos = m_playback->pos();
+                m_playback->stop();
+                m_demuxer->pause();
+                m_demuxer->setTrack(i);
+                seek(pos);
+            });
         });
         m_affinityThread->start();
     }
@@ -43,6 +50,11 @@ public:
     virtual ~FrameController() {
         m_affinityThread->quit();
     }
+
+    void setTrack(int i) {
+        emit signalSetTrack(i);
+    }
+
 
     /**
      * 这个方法是线程安全的
@@ -73,6 +85,7 @@ public slots:
         emit signalDecoderOpenFile(localPath.toStdString());
     }
 
+
     void pause() {
         qDebug() << "Pausing";
         m_playback->pause();
@@ -101,12 +114,12 @@ public slots:
         qDebug() << "Start seek for" << pos;
         m_playback->stop();
 
-        m_demuxer->pause();
+        m_demuxer->pause();  // blocking, make sure pic and sample request can be blocked
         // WARNING: must make sure everything (especially PTS) has been properly updated
         // otherwise, the video thread will be BLOCKING for a long time.
         emit signalDecoderSeek(pos); // blocking connection
         m_demuxer->flush();
-        m_demuxer->start(); // blocking, make sure pic and sample request can be blocked
+        m_demuxer->start();
 
         // time-consuming job
         qreal startPoint = m_demuxer->getSample(true).getPTS();
@@ -139,12 +152,13 @@ signals:
     void signalDecoderOpenFile(std::string path);
     void signalDecoderSeek(qreal pos);
     void signalPositionChangedBySeek();
-
+    void signalSetTrack(int i);
 
     void openFileResult(bool success);
     void playbackStateChanged(bool isPlaying);
     void resourcesEnd();
     void setPicture(VideoFrame pic);
+
 
 
 };

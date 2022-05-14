@@ -111,6 +111,10 @@ public:
         throw std::runtime_error("Unsupported operation.");
     }
 
+    PONY_GUARD_BY(FRAME) virtual void setTrack(int i) {
+        throw std::runtime_error("Unsupported operation.");
+    }
+
 public slots:
     virtual void onWork() {
         throw std::runtime_error("Unsupported operation.");
@@ -118,6 +122,8 @@ public slots:
     virtual void setAudioIndex(StreamIndex i) {
         throw std::runtime_error("Unsupported operation.");
     }
+
+
 };
 
 /**
@@ -247,6 +253,12 @@ public:
 
     PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getAudionLength() { return description.audioDuration; }
     PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getVideoLength() { return description.videoDuration; }
+
+    PONY_GUARD_BY(FRAME) void setTrack(int i) override {
+        delete audioDecoder;
+        m_audioStreamIndex = description.m_audioStreamsIndex[static_cast<size_t>(i)];
+        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_freeQueue, m_freeFunc);
+    }
 
 
 public slots:

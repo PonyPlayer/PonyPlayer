@@ -80,7 +80,7 @@ public:
      * 清空旧的帧, 这个方法会阻塞直到队列中的所有旧帧清理完成.
      * @see DecodeDispatcher::flush
      */
-    PONY_GUARD_BY(DECODER) void flush() {
+    PONY_GUARD_BY(FRAME) void flush() {
         m_worker->flush();
     }
 
@@ -91,6 +91,10 @@ public:
         qDebug() << "Start Decoder";
         m_worker->stateResume();
         emit signalStartWorker(QPrivateSignal());
+    }
+
+    PONY_GUARD_BY(FRAME) void setTrack(int i) {
+        m_worker->setTrack(i);
     }
 
 public slots:
@@ -190,6 +194,7 @@ signals:
     void signalStartWorker(QPrivateSignal);
 
     void openFileResult(bool ret, QPrivateSignal);
+
 
 
 };
