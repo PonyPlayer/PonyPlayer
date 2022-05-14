@@ -137,7 +137,10 @@ public slots:
      * @param autoClose 如果打开视频文件, 是否自动关闭
      */
     Q_INVOKABLE void openFile(const QString &path, bool autoClose = true) {
-        if (autoClose && state == HurricaneState::PAUSED) {
+        if (autoClose && (state == HurricaneState::PLAYING || state == PRE_PLAY)) {
+            emit pause();
+        }
+        if (autoClose && (state == HurricaneState::PAUSED || state == PRE_PAUSE)) {
             emit close();
         }
         if (state == HurricaneState::CLOSING || state == HurricaneState::INVALID) {
