@@ -98,6 +98,7 @@ public:
      */
     void free() {
         // NOTE: CANNOT guarantee that it will NOT be double free under multithreading codition
+        if(!m_isValid) { return; }
         if (!m_freeFunc) {
             m_frame = nullptr;
             m_isValid = false;
@@ -173,7 +174,9 @@ public:
      */
     PONY_THREAD_SAFE void freeFrame(AVFrame *frame) {
         int ret = --refCount;
-        if (ret < 0) {throw std::runtime_error("Negative refCount, Potential double free."); }
+        if (ret < 0) {
+            throw std::runtime_error("Negative refCount, Potential double free.");
+        }
         av_frame_free(&frame);
         if (ret == 0 && autoDelete) { delete this; }
     }

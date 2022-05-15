@@ -15,6 +15,7 @@ class Fireworks : public QQuickItem {
 private:
     FireworksRenderer *renderer = nullptr;
     bool updateVideoFrame = false;
+
 protected:
     VideoFrame picture;
     GLfloat brightness = 0.0;
@@ -40,10 +41,8 @@ public:
         });
         qDebug() << "Create Hurricane QuickItem.";
     }
-    ~Fireworks() noexcept override {
+    ~Fireworks() override {
         picture.free();
-        // FIXME 保证 videoFrame不会重复释放
-        renderer->videoFrame.free();
         renderer = nullptr;
     }
 
