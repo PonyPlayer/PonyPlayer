@@ -63,7 +63,7 @@ Window {
     //播放倍速
     property real speed: 1.0
     //播放音量
-    property real volumn: 0.25
+    property real volumn: 1.0
     //播放音量的辅助(可无视)
     property real beforeMute: 0.25
     //播放时滚动条的步长(倒放时为  -1)
