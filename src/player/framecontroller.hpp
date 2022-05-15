@@ -99,6 +99,8 @@ public:
      */
     QStringList getTracks() { return m_demuxer->getTracks(); }
 
+    bool hasVideo() { return m_demuxer->hasVideo(); }
+
     void setVolume(qreal volume) {m_playback->setVolume(volume); }
     void setSpeed(qreal speed) {m_playback->setSpeed(speed); }
 
@@ -154,8 +156,10 @@ public slots:
             // if rewinding, there is no need to skip frame. (dispatcher guarantee)
             startPoint = m_demuxer->frontPicture();
         } else {
-            while (m_demuxer->frontPicture() < pos) {
-                m_demuxer->getPicture().free();
+            if (m_demuxer->hasVideo()) {
+                while (m_demuxer->frontPicture() < pos) {
+                    m_demuxer->getPicture().free();
+                }
             }
             while (startPoint = m_demuxer->frontSample(), startPoint < pos) {
                 m_demuxer->getSample();
@@ -182,9 +186,5 @@ signals:
     void playbackStateChanged(bool isPlaying);
     void resourcesEnd();
     void setPicture(VideoFrame pic);
-
-
-
-
 };
 
