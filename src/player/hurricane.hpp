@@ -318,6 +318,7 @@ public slots:
     }
 
     Q_INVOKABLE void backward() {
+        if (!frameController->hasVideo()) { return; }
         bool playing = false;
         switch(state) {
             case HurricaneState::PLAYING:

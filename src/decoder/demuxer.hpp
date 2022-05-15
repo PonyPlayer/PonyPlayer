@@ -95,7 +95,7 @@ public:
 
     PONY_THREAD_SAFE bool hasVideo() {
         std::unique_lock lock(mutex);
-        return m_worker->hasVideo();
+        return m_forward->hasVideo();
     }
 
 
