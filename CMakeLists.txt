@@ -13,7 +13,7 @@ include(thirdparty/lrctools.cmake)
 
 set(CMAKE_AUTOMOC ON)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Wno-unused-parameter -Wold-style-cast -Woverloaded-virtual -Wpointer-arith -Wshadow -Werror=return-type")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Wno-unused-parameter -Wold-style-cast -Woverloaded-virtual -Wpointer-arith -Wshadow -Werror=return-type -fstack-protector-all")
 
 set(FFMPEG_LIBS avformat avcodec avutil swresample swscale)
 include(cmake/find_dependence.cmake)
@@ -36,6 +36,9 @@ foreach(LIB IN LISTS FFMPEG_LIBS)
     find_library(FFmpeg_FOUND_${LIB} NAMES ${LIB} HINTS "${FFMPEG_PREFIX_PATH}/lib/" REQUIRED)
     list(APPEND FFmpeg "${FFmpeg_FOUND_${LIB}}")
 endforeach()
+
+file(GLOB_RECURSE ASSETS_FILTER CONFIGURE_DEPENDS assets/filters/**.jpg )
+message(${ASSETS_FILTER})
 find_library(FFmpeg COMPONENTS ${FFMPEG_LIBS} "${FFMPEG_PREFIX_PATH}/lib/")
 set(CMAKE_MACOSX_RPATH ON)
 include_directories(${FFMPEG_PREFIX_PATH}/include)

@@ -1,14 +1,12 @@
 project(audiosink)
 
-set(CPP_SOURCES
-        audiosink.cpp
-        )
+set(CPP_SOURCES audiosink.hpp audiofomrat.hpp)
 
 qt_add_library(${PROJECT_NAME} STATIC ${CPP_SOURCES})
 include_directories(include)
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_sources(${PROJECT_NAME} PRIVATE include/audiosink.h)
+target_include_directories(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR})
+target_sources(${PROJECT_NAME} PRIVATE audiosink.hpp)
 target_link_libraries(${PROJECT_NAME} PUBLIC
         Qt::Core
         Qt::Gui

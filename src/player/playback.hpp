@@ -9,7 +9,7 @@
 #include <QDebug>
 #include <QCoreApplication>
 #include "demuxer.hpp"
-#include "audiosink.h"
+#include "../audiosink/audiosink.hpp"
 #include "frame.hpp"
 
 /**
@@ -92,10 +92,7 @@ public:
         });
         connect(this, &Playback::clearRingBuffer, this, [this] {this->m_audioSink->clear(); });
         connect(m_affinityThread, &QThread::started, [this]{
-            PonyAudioFormat format;
-            format.setSampleRate(44100);
-            format.setChannelCount(2);
-            format.setSampleFormat(PonySampleFormat::Int16);
+            PonyAudioFormat format(PonyPlayer::Int16, 44100, 2);
             this->m_audioSink = new PonyAudioSink(format, MAX_AUDIO_FRAME_SIZE * 2);
         });
         m_affinityThread->start();
