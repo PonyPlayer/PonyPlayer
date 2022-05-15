@@ -138,66 +138,59 @@ Rectangle {
 
 
 
-
-
-
-
-
-
-
-
-
-
     //打开文件列表
-    Image {
+    AnimatedButton {
         id: fileList
         visible: screenSize.state==="normalScreen"
         width: 20
         height: 20
+        color: "transparent"
+        normalColor: "transparent"
+        hoverColor: "#10FFFFFF"
         anchors.left: parent.left
         anchors.leftMargin: 10
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 15
-        source: "interfacepics/FileList"
-        MouseArea{
-            anchors.fill: parent
-            cursorShape: "PointingHandCursor"
-            onClicked: IF.fileListOnClicked()
-        }
+        image_width: 20
+        image_height: 20
+        imageSource: "interfacepics/FileList"
+        mouseArea.onClicked: IF.fileListOnClicked()
     }
 
-
-
     //倒放
-    Image {
+    AnimatedButton {
         id: inverted
-        source: "interfacepics/Inverted"
         width: 30
         height: 30
+        color: "transparent"
+        normalColor: "transparent"
+        hoverColor: "#10FFFFFF"
         anchors.verticalCenter: playOrPause.verticalCenter
         anchors.right: last.left
         anchors.rightMargin: 5
-        MouseArea{
-            anchors.fill: parent
-            cursorShape: "PointingHandCursor"
-            onClicked: IF.invertedOnClicked()
-        }
+        image_width: 30
+        image_height: 30
+        imageSource: "interfacepics/Inverted"
+        mouseArea.onClicked: IF.invertedOnClicked()
     }
 
 
+
     //上一个视频
-    Image {
+    AnimatedButton {
         id: last
-        source: "interfacepics/Last"
         width: 30
         height: 30
-        anchors.verticalCenter: playOrPause.verticalCenter
+        color: "transparent"
+        normalColor: "transparent"
+        hoverColor: "#10FFFFFF"
+       anchors.verticalCenter: playOrPause.verticalCenter
         anchors.right: playOrPause.left
         anchors.rightMargin: 5
-        MouseArea{
-            anchors.fill: parent
-            cursorShape: "PointingHandCursor"
-            onClicked: {
+        image_width: 30
+        image_height: 30
+        imageSource: "interfacepics/Next"
+        mouseArea.onClicked: {
                 if(mainWindow.playState === "ordered")
                     listview.currentIndex = (listview.currentIndex - 1 + listview.count)%listview.count
 
@@ -206,41 +199,41 @@ Rectangle {
                 else;
                 console.log("index:",listview.currentIndex)
                 mainWindow.openFile(listModel.get(listview.currentIndex).filePath);
-            }
         }
     }
 
 
     //播放或是暂停
-    Image {
-        id: playOrPause
+    AnimatedButton {
+        id:playOrPause
         width: 40
         height: 40
+        color: "transparent"
+        normalColor: "transparent"
+        hoverColor: "#10FFFFFF"
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 5
         anchors.horizontalCenter: parent.horizontalCenter
+        image_width: 40
+        image_height: 40
         state:  mainWindow.isPlay?"play":"pause"
         states: [
             State {
                 name: "pause"
                 PropertyChanges {
                     target: playOrPause
-                    source: "interfacepics/Play"
+                    imageSource: "interfacepics/Play"
                 }
             },
             State {
                 name: "play"
                 PropertyChanges {
                     target: playOrPause
-                    source: "interfacepics/Pause"
+                    imageSource: "interfacepics/Pause"
                 }
             }
         ]
-        MouseArea{
-            anchors.fill: parent
-            cursorShape: "PointingHandCursor"
-            onClicked: IF.playOrPauseFunction()
-        }
+        mouseArea.onClicked: IF.playOrPauseFunction()
         Shortcut{
             sequence: "Space"
             onActivated: IF.playOrPauseFunction()
@@ -248,118 +241,126 @@ Rectangle {
     }
 
     //下一个视频
-    Image {
+    AnimatedButton {
         id: next
-        source: "interfacepics/Next"
         width: 30
         height: 30
+        color: "transparent"
+        normalColor: "transparent"
+        hoverColor: "#10FFFFFF"
         anchors.verticalCenter: playOrPause.verticalCenter
         anchors.left: playOrPause.right
         anchors.leftMargin: 5
-        MouseArea{
-            anchors.fill: parent
-            cursorShape: "PointingHandCursor"
-            onClicked: IF.nextOnClicked()
-        }
+        image_width: 30
+        image_height: 30
+        imageSource: "interfacepics/Next"
+        mouseArea.onClicked: IF.nextOnClicked()
     }
+
     //停止
-    Image {
+    AnimatedButton {
         id: cease
-        source: "interfacepics/cease"
         width: 30
         height: 30
+        color: "transparent"
+        normalColor: "transparent"
+        hoverColor: "#10FFFFFF"
         anchors.verticalCenter: playOrPause.verticalCenter
         anchors.left: next.right
         anchors.leftMargin: 5
-        MouseArea{
-            anchors.fill: parent
-            cursorShape: "PointingHandCursor"
-            onClicked: IF.toPause()
-        }
+        image_width: 30
+        image_height: 30
+        imageSource: "interfacepics/cease"
+        mouseArea.onClicked: IF.toPause()
     }
     //播放速度调整
-    Image{
+    AnimatedButton {
         id: videoSpeed
         width: 30
         height: 12
+        color: "transparent"
+        normalColor: "transparent"
+        hoverColor: "#10FFFFFF"
         anchors.right: playMode.left
         anchors.rightMargin: 10
         anchors.verticalCenter: playOrPause.verticalCenter
+        image_width: 30
+        image_height: 12
         state:  "speed1"
         states: [
             State {
                 name: "speed1"
                 PropertyChanges {
                     target: videoSpeed
-                    source: "interfacepics/Speed1"
+                    imageSource: "interfacepics/Speed1"
                 }
             },
             State {
                 name: "speed2"
                 PropertyChanges {
                     target: videoSpeed
-                    source: "interfacepics/Speed2"
+                    imageSource: "interfacepics/Speed2"
                 }
             },
             State {
                 name: "speed4"
                 PropertyChanges {
                     target: videoSpeed
-                    source: "interfacepics/Speed4"
+                    imageSource: "interfacepics/Speed4"
                 }
             },
             State {
                 name: "speed8"
                 PropertyChanges {
                     target: videoSpeed
-                    source: "interfacepics/Speed8"
+                    imageSource: "interfacepics/Speed8"
                 }
             }
         ]
-        MouseArea{
-            anchors.fill: parent
-            cursorShape: "PointingHandCursor"
-            onClicked: IF.videoSpeedOnClicked()
-        }
+        mouseArea.onClicked: IF.videoSpeedOnClicked()
     }
+    
     //播放模式(顺序, 单曲循环, 随机)
-    Image{
+    AnimatedButton {
         id: playMode
         width: 20
         height: 20
+        color: "transparent"
+        normalColor: "transparent"
+        hoverColor: "#10FFFFFF"
         anchors.right: videoVolumn.left
         anchors.rightMargin: 10
         anchors.verticalCenter: playOrPause.verticalCenter
+        image_width: 20
+        image_height: 20
         state:  mainWindow.playState
         states: [
             State {
                 name: "ordered"
                 PropertyChanges {
                     target: playMode
-                    source: "interfacepics/Ordered"
+                    imageSource: "interfacepics/Ordered"
                 }
             },
             State {
                 name: "single"
                 PropertyChanges {
                     target: playMode
-                    source: "interfacepics/Single"
+                    imageSource: "interfacepics/Single"
                 }
             },
             State {
                 name: "random"
                 PropertyChanges {
                     target: playMode
-                    source: "interfacepics/Random"
+                    imageSource: "interfacepics/Random"
                 }
             }
         ]
-        MouseArea{
-            anchors.fill: parent
-            cursorShape: "PointingHandCursor"
-            onClicked: IF.playModeOnClicked()
-        }
+        mouseArea.onClicked: IF.playModeOnClicked()
     }
+
+
     //播放音量调节
     Item{
         id:videoVolumn
@@ -369,19 +370,24 @@ Rectangle {
         anchors.right: screenSize.right
         anchors.rightMargin: 10
         //喇叭图标, 单击可静音
-        Image {
+        AnimatedButton {
             id: speaker
             width: 20
             height: 20
+            color: "transparent"
+            normalColor: "transparent"
+            hoverColor: "#10FFFFFF"
             anchors.left: parent.left
             anchors.top: parent.top
+            image_width: 20
+            image_height: 20
             states: [
                 State {
                     name: "volumn0"
                     when: mainWindow.volumn<=0
                     PropertyChanges {
                         target: speaker
-                        source:"interfacepics/Volumn0"
+                        imageSource:"interfacepics/Volumn0"
                     }
                 },
                 State {
@@ -389,7 +395,7 @@ Rectangle {
                     when: mainWindow.volumn>0&&mainWindow.volumn<=0.33
                     PropertyChanges {
                         target: speaker
-                        source:"interfacepics/Volumn1"
+                        imageSource:"interfacepics/Volumn1"
                     }
                 },
                 State {
@@ -397,7 +403,7 @@ Rectangle {
                     when: mainWindow.volumn>0.33&&mainWindow.volumn<=0.66
                     PropertyChanges {
                         target: speaker
-                        source:"interfacepics/Volumn2"
+                        imageSource:"interfacepics/Volumn2"
                     }
                 },
                 State {
@@ -405,15 +411,11 @@ Rectangle {
                     when: mainWindow.volumn>0.66
                     PropertyChanges {
                         target: speaker
-                        source:"interfacepics/Volumn3"
+                        imageSource:"interfacepics/Volumn3"
                     }
                 }
             ]
-            MouseArea{
-                anchors.fill: parent
-                cursorShape: "PointingHandCursor"
-                onClicked: IF.speakerOnClicked()
-            }
+            mouseArea.onClicked: IF.speakerOnClicked()
         }
         //音量滑条, 可以调整音量
         Slider{
@@ -438,27 +440,32 @@ Rectangle {
         }
     }
     //屏幕大小, 可调全屏或是退出全屏
-    Image {
+    AnimatedButton {
         id: screenSize
         width: 30
         height: 20
+        color: "transparent"
+        normalColor: "transparent"
+        hoverColor: "#10FFFFFF"
         anchors.verticalCenter: playOrPause.verticalCenter
         anchors.right: parent.right
         anchors.rightMargin: 10
+        image_width: 30
+        image_height: 20
         state:  mainWindow.isFullScreen?"fullScreen":"normalScreen"
         states: [
             State {
                 name: "fullScreen"
                 PropertyChanges {
                     target: screenSize
-                    source: "interfacepics/NormalScreen"
+                    imageSource: "interfacepics/NormalScreen"
                 }
             },
             State {
                 name: "normalScreen"
                 PropertyChanges {
                     target: screenSize
-                    source: "interfacepics/FullScreen"
+                    imageSource: "interfacepics/FullScreen"
                 }
             }
         ]
@@ -466,11 +473,7 @@ Rectangle {
             sequence: "Ctrl+F"
             onActivated: IF.screenSizeFunction()
         }
-
-        MouseArea{
-            anchors.fill: parent
-            cursorShape: "PointingHandCursor"
-            onClicked: IF.screenSizeFunction()
-        }
+        mouseArea.onClicked: IF.screenSizeFunction()
     }
+
 }

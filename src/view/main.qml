@@ -134,12 +134,6 @@ Window {
         }
     }
 
-    Shortcut {
-        sequence: "F5"
-        onActivated: {
-            hotLoader.reload();
-        }
-    }
 
     MouseArea{
         anchors.fill: parent
@@ -240,74 +234,46 @@ Window {
                 //}
             }
         }
-        Rectangle{
+        AnimatedButton {
             id:mainWindowClose
             width: 40
             height: 30
             color: "transparent"
+            normalColor: "transparent"
+            hoverColor: "red"
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            Image {
-                width: 10
-                height: 10
-                source: "interfacepics/mainWindowClose"
-                anchors.centerIn: parent
-            }
-            MouseArea{
-                anchors.fill: parent
-                hoverEnabled: true
-                onEntered: {mainWindowCloseExitAnimation.ani.stop();mainWindowCloseHoverAnimation.ani.start();}
-                onExited: {mainWindowCloseHoverAnimation.ani.stop();mainWindowCloseExitAnimation.ani.start();}
-                onClicked: mainWindow.close()
-            }
-            ButtonColorAnimation {id: mainWindowCloseHoverAnimation; target: mainWindowClose; to: "red";}
-            ButtonColorAnimation {id: mainWindowCloseExitAnimation; target: mainWindowClose; to: "transparent";}
+            image_width: 10
+            image_height: 10
+            imageSource: "interfacepics/mainWindowClose"
+            mouseArea.onClicked: mainWindow.close()
         }
-        Rectangle{
+        AnimatedButton{
             id:mainWindowReduction
             width: 40
             height: 30
             color: "transparent"
+            normalColor: "transparent"
+            hoverColor: "#10FFFFFF"
             anchors.right: mainWindowClose.left
             anchors.verticalCenter: parent.verticalCenter
-            Image {
-                width: 16
-                height: 16
-                source: "interfacepics/mainWindowReduction"
-                anchors.centerIn: parent
-            }
-            MouseArea{
-                anchors.fill: parent
-                hoverEnabled: true
-                onEntered: {mainWindowReductionExitAnimation.ani.stop();mainWindowReductionHoverAnimation.ani.start();}
-                onExited: {mainWindowReductionHoverAnimation.ani.stop();mainWindowReductionExitAnimation.ani.start();}
-                onClicked: mainWindow.lower()
-            }
-            ButtonColorAnimation {id: mainWindowReductionHoverAnimation; target: mainWindowReduction; to: "#10FFFFFF";}
-            ButtonColorAnimation {id: mainWindowReductionExitAnimation; target: mainWindowReduction; to: "transparent";}
+            image_width: 10
+            image_height: 10
+            imageSource: "interfacepics/mainWindowReduction"
         }
-        Rectangle{
+        AnimatedButton{
             id:mainWindowMinimize
             width: 40
             height: 30
             color: "transparent"
+            normalColor: "transparent"
+            hoverColor: "#10FFFFFF"
             anchors.right: mainWindowReduction.left
             anchors.verticalCenter: parent.verticalCenter
-            Image {
-                width: 16
-                height: 16
-                source: "interfacepics/mainWindowMinimize"
-                anchors.centerIn: parent
-            }
-            MouseArea{
-                anchors.fill: parent
-                hoverEnabled: true
-                onEntered: {mainWindowMinimizeExitAnimation.ani.stop();mainWindowMinimizeHoverAnimation.ani.start();}
-                onExited: {mainWindowMinimizeHoverAnimation.ani.stop();mainWindowMinimizeExitAnimation.ani.start();}
-                onClicked: mainWindow.lower()
-            }
-            ButtonColorAnimation {id: mainWindowMinimizeHoverAnimation; target: mainWindowMinimize; to: "#10FFFFFF";}
-            ButtonColorAnimation {id: mainWindowMinimizeExitAnimation; target: mainWindowMinimize; to: "transparent";}
+            image_width: 10
+            image_height: 10
+            imageSource: "interfacepics/mainWindowMinimize"
+            mouseArea.onClicked: mainWindow.lower()
         }
     }
     Timer{
