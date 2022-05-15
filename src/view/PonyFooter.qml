@@ -25,7 +25,7 @@ Rectangle {
         anchors.left:parent.left
         anchors.leftMargin: 10
         anchors.top: parent.top
-        anchors.topMargin: 5
+        anchors.topMargin: 13
         text:IF.videoSlideDistance(true)
         color: "white"
         font.bold: true
@@ -39,7 +39,7 @@ Rectangle {
     Slider{
         id:videoSlide
         anchors.top: parent.top
-        anchors.topMargin: 5
+        anchors.topMargin: 0
         anchors.left: distanceStart.right
         anchors.leftMargin: 10
         anchors.right: distanceEnd.left
@@ -115,7 +115,7 @@ Rectangle {
         anchors.right:parent.right
         anchors.rightMargin: 10
         anchors.top: parent.top
-        anchors.topMargin: 5
+        anchors.topMargin: 13
         text:IF.videoSlideDistance(false)
         color: "white"
         font.bold: true
