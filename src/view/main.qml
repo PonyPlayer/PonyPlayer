@@ -167,9 +167,9 @@ Window {
     }
     Rectangle{
         id:topBar
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
+        anchors.left: leftSizeChange.right
+        anchors.right: rightSizeChange.left
+        anchors.top: topSizeChange.bottom
         height: mainWindow.isTopBarVisible?30:0
         color: "#666666"
         MouseArea { //为窗口添加鼠标事件
@@ -614,9 +614,15 @@ Window {
         anchors.right: rightSizeChange.left
         anchors.bottom: downSizeChange.top
     }
+    TopSizeChange{
+        id:topSizeChange
+        anchors.left: leftTopSizeChange.right
+        anchors.right: rightTopSizeChange.left
+        anchors.top: parent.top
+    }
     LeftSizeChange{
         id:leftSizeChange
-        anchors.top:topBar.bottom
+        anchors.top: leftTopSizeChange.bottom
         anchors.left: parent.left
         anchors.bottom: downSizeChange.top
     }
@@ -625,6 +631,8 @@ Window {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
     }
+
+
     DownSizeChange{
         id:downSizeChange
         anchors.bottom: parent.bottom
@@ -636,11 +644,21 @@ Window {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
     }
+    LeftTopSizeChange{
+        id:leftTopSizeChange
+        anchors.top: parent.top
+        anchors.left: parent.left
+    }
     RightSizeChange{
         id:rightSizeChange
         anchors.right: parent.right
-        anchors.top:topBar.bottom
+        anchors.top: rightTopSizeChange.bottom
         anchors.bottom: downSizeChange.top
+    }
+    RightTopSizeChange{
+        id:rightTopSizeChange
+        anchors.top: parent.top
+        anchors.right: parent.right
     }
 }
 

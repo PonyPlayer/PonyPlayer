@@ -8,9 +8,9 @@ Rectangle {
     color: "#666666"
     MouseArea{
         anchors.fill:parent
-        cursorShape:Qt.SizeFDiagCursor
+        cursorShape:Qt.SizeBDiagCursor
         onPressed: {
-            mainWindow.startSystemResize(Qt.RightEdge | Qt.BottomEdge);
+            mainWindow.startSystemResize(Qt.RightEdge | Qt.TopEdge);
         }
     }
 }
