@@ -320,7 +320,6 @@ private:
     std::atomic<bool> interrupt = true;
     AVPacket *packet = nullptr;
     TwinsBlockQueue<std::vector<AVFrame *>*> *videoQueue;
-    TwinsBlockQueue<std::vector<AVFrame *>*> *audioQueue;
     qreal m_videoDuration;
 public:
     explicit ReverseDecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent),
@@ -337,8 +336,7 @@ public:
         if (videoStreamIndex < 0) { throw std::runtime_error("Cannot find video stream."); }
 
         // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
-        videoQueue = new TwinsBlockQueue<std::vector<AVFrame *>*>("VideoQueue", 8);
-        audioQueue = videoQueue->twins("AudioQueue", 8);
+        videoQueue = new TwinsBlockQueue<std::vector<AVFrame *>*>("VideoQueue", 4);
         videoDecoder = new ReverseDecoderImpl<Video>(fmtCtx->streams[videoStreamIndex], videoQueue);
         m_videoDuration = videoDecoder->duration();
         connect(this, &ReverseDecodeDispatcher::signalStartWorker, this, &ReverseDecodeDispatcher::onWork, Qt::QueuedConnection);
@@ -347,9 +345,8 @@ public:
     ~ReverseDecodeDispatcher() override {
         qDebug() << "Destroy decode dispatcher " << filename.c_str();
         if (videoQueue) { videoQueue->close(); }
-        if (audioQueue) { audioQueue->close(); }
         delete videoDecoder;
-        if(packet) { av_packet_free(&packet); }
+        if (packet) { av_packet_free(&packet); }
         if (dummy) { av_frame_free(&dummy);}
     }
 
@@ -366,10 +363,7 @@ public:
         videoQueue->clear([](std::vector<AVFrame *>* frameStk){
             for (auto frame : *frameStk)
                 if (frame) av_frame_free(&frame);
-        });
-        audioQueue->clear([](std::vector<AVFrame *>* frameStk){
-            for (auto frame : *frameStk)
-                if (frame) av_frame_free(&frame);
+            delete frameStk;
         });
     }
 
@@ -403,6 +397,10 @@ public:
     PONY_THREAD_SAFE VideoFrame getPicture() override { return videoDecoder->getPicture(); }
 
     PONY_THREAD_SAFE qreal frontPicture() override { return videoDecoder->viewFront(); }
+
+    PONY_THREAD_SAFE AudioFrame getSample() override { return silenceFrame; }
+
+    PONY_THREAD_SAFE qreal frontSample() override { NOT_IMPLEMENT_YET }
 
 private slots:
     void onWork() {
