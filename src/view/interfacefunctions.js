@@ -135,20 +135,6 @@ function volumnDown(){
     mainWindow.volumnChange(mainWindow.volumn)
     videoArea.setVolume(mainWindow.volumn)
 }
-function screenSizeFunction(){
-    mainWindow.isVideoListOpen=false
-    if(mainWindow.isFullScreen){
-        mainWindow.showNormal()
-        mainWindow.isFullScreen=false
-        showComponents()
-        holder.stop()
-    }
-    else{
-        mainWindow.isFullScreen=true
-        mainWindow.showFullScreen()
-        holder.start()
-    }
-}
 function volumeSliderOnMoved(){
     mainWindow.volumn=volumnSlider.value/100
     mainWindow.beforeMute=volumnSlider.value/100
@@ -180,25 +166,25 @@ function playModeOnClicked(){
     }
     mainWindow.playModeChange(playState)
 }
-function videoSpeedOnClicked(){
-    if(videoSpeed.state==="speed1"){
-        videoSpeed.state="speed2"
-        mainWindow.speed=2.0
-    }
-    else if(videoSpeed.state==="speed2"){
-        videoSpeed.state="speed4"
-        mainWindow.speed=4.0
-    }
-    else if(videoSpeed.state==="speed4"){
-        videoSpeed.state="speed8"
-        mainWindow.speed=8.0
-    }
-    else{
-        videoSpeed.state="speed1"
-        mainWindow.speed=1.0
-    }
-    videoArea.setSpeed(mainWindow.speed)
-}
+//function videoSpeedOnClicked(){
+//    if(videoSpeed.state==="speed1"){
+//        videoSpeed.state="speed2"
+//        mainWindow.speed=2.0
+//    }
+//    else if(videoSpeed.state==="speed2"){
+//        videoSpeed.state="speed4"
+//        mainWindow.speed=4.0
+//    }
+//    else if(videoSpeed.state==="speed4"){
+//        videoSpeed.state="speed8"
+//        mainWindow.speed=8.0
+//    }
+//    else{
+//        videoSpeed.state="speed1"
+//        mainWindow.speed=1.0
+//    }
+//    videoArea.setSpeed(mainWindow.speed)
+//}
 function invertedOnClicked(){
     if(mainWindow.isInverted){
         mainWindow.isInverted=false
@@ -389,13 +375,26 @@ function holderOnTriggered(){
 function hideComponents(){
     mainWindow.isVideoListOpen=false
     mainWindow.isFooterVisible=false
-    console.log(mainWindow.isFooterVisible+"................"+footer.visible+"................"+footer.height)
     mainWindow.isTopBarVisible=false
-    console.log(mainWindow.isTopBarVisible+"................"+topBar.visible+"................"+topBar.height)
+    mainWindow.mouseFlag=true
     console.log("++++++++++++++++++++++++++holder")
 }
 function showComponents(){
     holder.restart()
     mainWindow.isFooterVisible=true
     mainWindow.isTopBarVisible=true
+}
+function screenSizeFunction(){
+    if(mainWindow.isFullScreen){
+        mainWindow.isFullScreen=false
+        mainWindow.showNormal()
+        showComponents()
+        holder.stop()
+    }
+    else{
+        mainWindow.isFullScreen=true
+        mainWindow.isVideoListOpen=false
+        mainWindow.showFullScreen()
+        holder.start()
+    }
 }
