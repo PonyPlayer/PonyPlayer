@@ -165,13 +165,9 @@ public:
         return false;
     }
 
-    VideoFrame getPicture() {
-        NOT_IMPLEMENT_YET
-    }
+    VideoFrame getPicture() override { NOT_IMPLEMENT_YET }
 
-    AudioFrame getSample() {
-        NOT_IMPLEMENT_YET
-    }
+    AudioFrame getSample() override { NOT_IMPLEMENT_YET }
 
 
     qreal viewFront() override {
@@ -219,7 +215,7 @@ public:
         sampleFrameBuf = av_frame_alloc();
     }
 
-    virtual ~DecoderImpl() {
+    virtual ~DecoderImpl() override {
         if (sampleFrameBuf) { av_frame_free(&sampleFrameBuf); }
         if (audioOutBuf) { av_freep(&audioOutBuf); }
         if (swrCtx) { swr_free(&swrCtx); }
@@ -272,7 +268,7 @@ public:
     }
 
 
-    ~DecoderImpl() {
+    ~DecoderImpl() override {
         m_lifeCycleManager->freeLater(stillVideoFrame);
     }
 
@@ -332,7 +328,7 @@ public:
         return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
     }
 
-    ~ReverseDecoderImpl() {
+    ~ReverseDecoderImpl() override {
         if (frameStack) {
             for (auto frame: *frameStack) {
                 if (frame)

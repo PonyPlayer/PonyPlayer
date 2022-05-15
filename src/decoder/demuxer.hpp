@@ -77,9 +77,18 @@ public:
      * 当前是否倒放
      * @return
      */
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) bool isRewind() {
+    PONY_THREAD_SAFE bool isRewind() {
+        std::unique_lock lock(mutex);
         return dynamic_cast<ReverseDecodeDispatcher*>(m_worker);
     }
+
+
+    PONY_THREAD_SAFE bool hasVideo() {
+        std::unique_lock lock(mutex);
+        return m_worker->hasVideo();
+    }
+
+
 
     /**
      * 向 DecodeThread 发送信号尽快暂停解码, 并唤醒阻塞在上面的线程.

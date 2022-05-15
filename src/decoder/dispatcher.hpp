@@ -96,16 +96,8 @@ public:
     PONY_GUARD_BY(FRAME) virtual qreal frontSample() { NOT_IMPLEMENT_YET }
 
     PONY_GUARD_BY(FRAME) virtual void setTrack(int i) { NOT_IMPLEMENT_YET }
-//
-//public slots:
-//    virtual void onWork() {
-//        throw std::runtime_error("Unsupported operation.");
-//    }
-//    virtual void setAudioIndex(StreamIndex i) {
-//        throw std::runtime_error("Unsupported operation.");
-//    }
-//
 
+    PONY_GUARD_BY(FRAME) virtual bool hasVideo() { NOT_IMPLEMENT_YET }
 };
 
 /**
@@ -114,8 +106,6 @@ public:
  */
 class DecodeDispatcher : public DemuxDispatcherBase {
     Q_OBJECT
-
-
 private:
     struct {
         qreal videoDuration = std::numeric_limits<qreal>::quiet_NaN();
@@ -240,13 +230,13 @@ public:
     PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getAudionLength() { return description.audioDuration; }
     PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getVideoLength() { return description.videoDuration; }
 
-    PONY_GUARD_BY(FRAME) void setTrack(int i) override {
+    PONY_GUARD_BY(DECODER) void setTrack(int i) override {
         delete audioDecoder;
         m_audioStreamIndex = description.m_audioStreamsIndex[static_cast<size_t>(i)];
         audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_lifeManager);
     }
 
-    PONY_GUARD_BY(FRAME) QStringList getTracks() {
+    PONY_GUARD_BY(DECODER) QStringList getTracks() {
         QStringList ret;
         ret.reserve(static_cast<qsizetype>(description.m_audioStreamsIndex.size()));
         for(auto && i : description.m_audioStreamsIndex) {
@@ -255,12 +245,19 @@ public:
         return ret;
     }
 
-    void setAudioIndex(StreamIndex i) {
+    PONY_GUARD_BY(DECODER) void setAudioIndex(StreamIndex i) {
         if (i == m_audioStreamIndex) { return; }
         delete audioDecoder;
         m_audioStreamIndex = i;
         audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_lifeManager);
     }
+
+
+    PONY_GUARD_BY(DECODER) bool hasVideo() {
+        return !description.m_videoStreamsIndex.empty() && fmtCtx->streams[m_videoStreamIndex]->nb_frames > 0;
+    }
+
+
 
 
 private slots:

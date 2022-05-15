@@ -40,7 +40,7 @@ private:
     inline void syncTo(qreal pos) {
         if (isnan(pos)) { return; }
         double duration;
-        if (false) {
+        if (!m_demuxer->hasVideo()) {
             duration = 1. / 30;
         } else {
             bool backward = m_demuxer->isRewind();
