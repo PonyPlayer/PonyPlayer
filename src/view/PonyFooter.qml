@@ -90,11 +90,11 @@ Rectangle {
     Rectangle {
         id: previewRect
         visible: false
-        x:(videoSlide.x+previewDetector.mouseX-50)
-        width:100
+        x:(videoSlide.x+previewDetector.mouseX-60)
+        width:120
         height:80
         anchors.bottom: videoSlide.top
-        anchors.bottomMargin: 10
+        anchors.bottomMargin: 5
         clip: true
         Thumbnail {
             id: preview
