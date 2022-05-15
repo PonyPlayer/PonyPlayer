@@ -20,7 +20,7 @@ class TwinsBlockQueue {
     const size_t m_prefer;
 
 
-    TwinsBlockQueue<T> *m_twins = nullptr;
+    TwinsBlockQueue<T> *m_twins;
     std::mutex *m_mutex = nullptr;
     std::condition_variable *m_cond = nullptr;
     bool *m_open  = nullptr;
@@ -44,7 +44,7 @@ public:
         this->m_mutex = new std::mutex;
         this->m_cond = new std::condition_variable;
         this->m_open = new bool{true};
-        this->m_twins = nullptr;
+        this->m_twins = this;
     }
 
     ~TwinsBlockQueue() {
@@ -53,10 +53,11 @@ public:
 
     TwinsBlockQueue<T> *twins(const std::string &name, size_t prefer) {
         std::unique_lock lock(*m_mutex);
-        if (m_twins) { throw std::runtime_error("Already generate twins."); }
+        if (m_twins != this) { throw std::runtime_error("Already generate twins."); }
         m_twins = new TwinsBlockQueue<T>{name, prefer, this};
         return m_twins;
     }
+
 
     void close() {
         std::unique_lock lock(*m_mutex);

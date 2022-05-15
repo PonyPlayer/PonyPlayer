@@ -402,6 +402,8 @@ public:
 
     PONY_THREAD_SAFE qreal frontSample() override { NOT_IMPLEMENT_YET }
 
+    bool hasVideo() override { return true; }
+
 private slots:
     void onWork() {
         videoQueue->open();
