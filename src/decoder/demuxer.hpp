@@ -14,8 +14,8 @@ private:
     // openfile(MainThread) -> openfile(FrameThread) -> openfile(Decoder) -> openfile(MainThread)
     // no addition synchronization is needed
     DemuxDispatcherBase *m_worker = nullptr;
-    DecodeDispatcher *m_forward;
-    ReverseDecodeDispatcher *m_backward;
+    DecodeDispatcher *m_forward = nullptr;
+    ReverseDecodeDispatcher *m_backward = nullptr;
 
     QThread *m_affinityThread = nullptr;
     std::mutex mutex;
@@ -167,12 +167,13 @@ public slots:
     void openFile(const std::string &fn) {
         qDebug() << "Open file" << QString::fromUtf8(fn);
         // call on video decoder thread
+        std::unique_lock lock(mutex);
         if (m_worker) {
             qWarning() << "Already open file:" << m_worker->filename.c_str();
             emit openFileResult(false, QPrivateSignal());
             return;
         }
-        std::unique_lock lock(mutex);
+
         try {
             m_forward = new DecodeDispatcher(fn, DEFAULT_STREAM_INDEX, DEFAULT_STREAM_INDEX, this);
             m_backward = new ReverseDecodeDispatcher(fn, this);
