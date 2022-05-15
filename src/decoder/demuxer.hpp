@@ -22,7 +22,7 @@ private:
 public:
     Demuxer(QObject *parent) : QObject(nullptr) {
         m_affinityThread = new QThread;
-        m_affinityThread->setObjectName("DecoderThread");
+        m_affinityThread->setObjectName(PonyPlayer::DECODER);
         this->moveToThread(m_affinityThread);
         m_affinityThread->start();
     }
@@ -43,6 +43,7 @@ public:
     }
 
     PONY_THREAD_SAFE int skipPicture(const std::function<bool(qreal)> &predicate) {
+        std::unique_lock lock(mutex);
         return m_worker->skipPicture(predicate);
     }
 
@@ -58,6 +59,7 @@ public:
     }
 
     PONY_THREAD_SAFE int skipSample(const std::function<bool(qreal)> &predicate) {
+        std::unique_lock lock(mutex);
         return m_worker->skipSample(predicate);
     }
 
@@ -104,6 +106,7 @@ public:
     */
     PONY_CONDITION("OpenFileResult")
     PONY_THREAD_SAFE void pause() {
+        std::unique_lock lock(mutex);
         m_worker->statePause();
     }
 
@@ -112,6 +115,7 @@ public:
      * @see DecodeDispatcher::flush
      */
     PONY_GUARD_BY(FRAME) void flush() {
+        std::unique_lock lock(mutex);
         m_worker->flush();
     }
 
@@ -119,11 +123,13 @@ public:
      * 在 DecodeThread 启动解码器, 这个方法是非阻塞的, 但是可以保证返回后队里请求能够被阻塞.
      */
     PONY_THREAD_SAFE void start() {
+        std::unique_lock lock(mutex);
         qDebug() << "Start Decoder";
         m_worker->stateResume();
     }
 
     PONY_GUARD_BY(FRAME) void setTrack(int i) {
+        std::unique_lock lock(mutex);
         m_worker->setTrack(i);
     }
 

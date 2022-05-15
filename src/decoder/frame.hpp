@@ -137,6 +137,9 @@ public:
 };
 
 
+/**
+ * @brief 生命周期管理器, 管理脱离 Queue 的 Frame 的生命周期
+ */
 class LifeCycleManager {
     // memory_order_seq_cst
 protected:
@@ -191,7 +194,7 @@ public:
      * 将非 LifeCycleManager 所有的 Frame 移入清理队列, 当 LifeCycleManager 释放时, 这些 Frame 会被释放.
      * @param frame
      */
-    void freeLater(AVFrame *frame) {
+    PONY_THREAD_SAFE void freeLater(AVFrame *frame) {
         std::unique_lock lock(mutex);
         freeQueue.push(frame);
     }
