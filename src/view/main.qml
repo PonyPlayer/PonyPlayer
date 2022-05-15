@@ -29,6 +29,7 @@
 
 import QtQuick
 import QtQuick.Window
+import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
@@ -39,7 +40,7 @@ import Thumbnail
 import "./interfacefunctions.js" as IF
 Window {
     Material.theme: Material.System
-    Material.accent: Material.Blue
+    Material.accent: Material.Grey
     function rgb(r,g,b) {
         var ret = (r << 16 | g << 8 | b)
         return ("#"+ret.toString(16)).toUpperCase();
@@ -527,6 +528,8 @@ Window {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.right: videoList.left
+            interactive: false
+            currentIndex: 1
             clip: true
             HurricanePlayer{
                 id: videoArea
@@ -552,6 +555,7 @@ Window {
                         mainWindow.endTime=0
                     }
                     else{
+                        mainArea.currentIndex = 0;
                         IF.toVideoBegining()
                         mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
                     }
@@ -573,6 +577,7 @@ Window {
                     text: "打开文件"
                     width: 120
                     height: 30
+                    onClicked: fileDialog.open()
 
                 }
             }
