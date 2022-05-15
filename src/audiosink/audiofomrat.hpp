@@ -95,7 +95,6 @@ private:
     int m_channelCount;
     int m_sampleRate;
 public:
-//    PonyAudioFormat() : PonyAudioFormat()
 
     PonyAudioFormat(
         PonySampleFormat sampleFormat,
@@ -122,6 +121,10 @@ public:
         return m_sampleFormat.getBytesPerSample();
     }
 
+    [[nodiscard]] int getBytesPerSampleChannels() const {
+        return m_sampleFormat.getBytesPerSample() * m_channelCount;
+    }
+
     [[nodiscard]] int getSampleRate() const {
         return m_sampleRate;
     }
@@ -130,7 +133,10 @@ public:
         return m_channelCount;
     }
 
-    [[nodiscard]] int64_t suggestedRingBuffer() const {
-        return std::max(bytesOfDuration(0.5), static_cast<int64_t>(2 * 1024 * m_channelCount * m_sampleFormat.getBytesPerSample()));
+    [[nodiscard]] int64_t suggestedRingBuffer(qreal speedFactor) const {
+        return std::max(
+            bytesOfDuration(0.5 * speedFactor),
+            static_cast<int64_t>(2 * 1024 * m_channelCount * m_sampleFormat.getBytesPerSample())
+        );
     }
 };

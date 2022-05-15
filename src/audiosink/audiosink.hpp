@@ -27,26 +27,28 @@ enum class PlaybackState {
  * 维护, 当需要播放音频时需要先调用 write 函数将音频数据写入 DataBuffer.
  */
 class PonyAudioSink : public QObject {
-Q_OBJECT
+    Q_OBJECT
 private:
+    constexpr const static qreal MAX_SPEED_FACTOR = 8.0;
     PaStream *m_stream;
     PaStreamParameters *param;
-    PaTime timeBase;
+    qreal m_volume;
+    PlaybackState m_state;
+
     PonyAudioFormat m_format;
     size_t m_bufferMaxBytes;
     size_t m_sonicBufferMaxBytes;
-    size_t m_bytesPerSample;
     qreal m_speedFactor;
-    void *ringBufferData;
-    qreal m_volume;
-    std::atomic<int64_t> dataWritten = 0;
-    std::atomic<int64_t> dataLastWrote = 0;
-    PlaybackState m_state;
-    PaUtilRingBuffer ringBuffer;
+    PaUtilRingBuffer m_ringBuffer;
+    std::byte *m_ringBufferData;
     moodycamel::ReaderWriterQueue<AudioDataInfo> dataInfoQueue;
-    sonicStream sonStream;
-    char *sonicBuffer = nullptr;
 
+    sonicStream sonStream;
+    std::byte *sonicBuffer = nullptr;
+
+    PaTime m_startPoint;
+    std::atomic<int64_t> m_dataWritten = 0;
+    std::atomic<int64_t> m_dataLastWrote = 0;
 
     void m_paStreamFinishedCallback() {
         if (m_state == PlaybackState::PLAYING) {
@@ -61,10 +63,9 @@ private:
                      unsigned long framesPerBuffer,
                      const PaStreamCallbackTimeInfo *timeInfo,
                      PaStreamCallbackFlags statusFlags) {
-        ring_buffer_size_t bytesAvailCount = PaUtil_GetRingBufferReadAvailable(&ringBuffer);
+        ring_buffer_size_t bytesAvailCount = PaUtil_GetRingBufferReadAvailable(&m_ringBuffer);
         auto bytesNeeded = static_cast<ring_buffer_size_t>(framesPerBuffer *
-                                                           static_cast<unsigned long>(m_format.getChannelCount()) *
-                                                           m_bytesPerSample);
+                                                           static_cast<unsigned long>(m_format.getBytesPerSampleChannels()));
         if (bytesAvailCount == 0) {
             memset(outputBuffer, 0, static_cast<size_t>(bytesNeeded));
             qWarning() << "paAbort bytesAvailCount == 0";
@@ -79,7 +80,7 @@ private:
                     byteRemainToAlign -= audioDataInfo->processedLength;
                     dataInfoQueue.pop();
                 } else {
-                    qint64 origLengthReduced = std::max(1ll,
+                    qint64 origLengthReduced = std::max(1LL,
                                                         static_cast<qint64>(static_cast<double>(byteRemainToAlign) *
                                                                             audioDataInfo->speedUpRate));
                     audioDataInfo->processedLength -= byteRemainToAlign;
@@ -90,14 +91,14 @@ private:
             }
             if (bytesNeeded > bytesAvailCount) {
                 qWarning() << "paAbort bytesAvailCount < bytesNeeded";
-                PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, bytesAvailCount);
+                PaUtil_ReadRingBuffer(&m_ringBuffer, outputBuffer, bytesAvailCount);
                 memset(static_cast<std::byte *>(outputBuffer) + byteToBeWritten, 0,
                        static_cast<size_t>(bytesNeeded - byteToBeWritten));
             } else {
-                PaUtil_ReadRingBuffer(&ringBuffer, outputBuffer, byteToBeWritten);
+                PaUtil_ReadRingBuffer(&m_ringBuffer, outputBuffer, byteToBeWritten);
             }
-            dataWritten += timeAlignedByteWritten;
-            dataLastWrote = timeAlignedByteWritten;
+            m_dataWritten += timeAlignedByteWritten;
+            m_dataLastWrote = timeAlignedByteWritten;
         }
         return paContinue;
     }
@@ -114,9 +115,9 @@ public:
      * @param format 音频格式
      * @param bufferSizeAdvice DataBuffer 的建议大小, PonyAudioSink 保证实际的 DataBuffer 不小于建议大小.
      */
-    PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdvice) : m_format(format), m_speedFactor(1),
-                                                                            m_volume(0.5),
-                                                                            m_state(PlaybackState::STOPPED) {
+    PonyAudioSink(const PonyAudioFormat& format) : m_volume(0.5), m_state(PlaybackState::STOPPED),
+                                                                            m_format(format),
+                                                                            m_speedFactor(1.0) {
         // initialize
         static bool initialized = false;
         if (!initialized) {
@@ -129,8 +130,6 @@ public:
         param->channelCount = format.getChannelCount();
         if (param->device == paNoDevice)
             throw std::runtime_error("no audio device!");
-        m_bytesPerSample = format.getBytesPerSample();
-        m_bytesPerSample = format.getBytesPerSample();
         param->channelCount = format.getChannelCount();
         param->sampleFormat = format.getSampleFormatForPA();
         param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
@@ -157,20 +156,20 @@ public:
             printError(err);
             throw std::runtime_error("can not open audio stream!");
         }
-        m_bufferMaxBytes = nextPowerOf2(bufferSizeAdvice * m_format.getChannelCount());
+        m_bufferMaxBytes = nextPowerOf2(static_cast<unsigned>(m_format.suggestedRingBuffer(MAX_SPEED_FACTOR)));
         m_sonicBufferMaxBytes = m_bufferMaxBytes * 4;
-        ringBufferData = PaUtil_AllocateMemory(static_cast<long>(m_bufferMaxBytes));
-        if (PaUtil_InitializeRingBuffer(&ringBuffer,
+        m_ringBufferData = static_cast<std::byte *>(PaUtil_AllocateMemory(static_cast<long>(m_bufferMaxBytes)));
+        if (PaUtil_InitializeRingBuffer(&m_ringBuffer,
                                         sizeof(std::byte),
                                         static_cast<ring_buffer_size_t>(m_bufferMaxBytes),
-                                        ringBufferData) < 0)
+                                        m_ringBufferData) < 0)
             throw std::runtime_error("can not initialize ring buffer!");
         Pa_SetStreamFinishedCallback(&m_stream, [](void *userData) {
             static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
         });
-        sonicBuffer = new char[m_sonicBufferMaxBytes];
+        sonicBuffer = new std::byte[m_sonicBufferMaxBytes];
         sonStream = sonicCreateStream(m_format.getSampleRate(), m_format.getChannelCount());
-        sonicSetSpeed(sonStream, m_speedFactor);
+        sonicSetSpeed(sonStream, static_cast<float>(m_speedFactor));
     }
 
     /**
@@ -246,8 +245,9 @@ public:
      * 获取AudioBuffer剩余空间
      * @return 剩余空间(单位: byte)
      */
-    [[nodiscard]] size_t freeByte() const {
-        return static_cast<size_t>(PaUtil_GetRingBufferWriteAvailable(&ringBuffer));
+    [[nodiscard]] int64_t freeByte() const {
+        return static_cast<int64_t>(PaUtil_GetRingBufferWriteAvailable(&m_ringBuffer))
+            - static_cast<int64_t>((MAX_SPEED_FACTOR - m_speedFactor) * static_cast<qreal>(m_bufferMaxBytes) / MAX_SPEED_FACTOR);
     }
 
     /**
@@ -262,9 +262,9 @@ public:
         if (m_format.getSampleFormat() != PonyPlayer::Int16) {
             throw std::runtime_error("Only support Int16!");
         }
-        if (origLen % (m_format.getChannelCount() * m_bytesPerSample) == 0) {
+        if (origLen % m_format.getBytesPerSampleChannels() == 0) {
             sonicWriteShortToStream(sonStream, reinterpret_cast<const short *>(buf),
-                                    static_cast<int>(origLen) / (m_format.getChannelCount() * m_bytesPerSample));
+                                    static_cast<int>(origLen) / m_format.getBytesPerSampleChannels());
             int currentLen = 0;
             while ((currentLen = sonicReadShortFromStream(sonStream,
                                                           reinterpret_cast<short *>
@@ -273,19 +273,19 @@ public:
                 len += currentLen;
             }
         } else throw std::runtime_error("Incomplete Int16!");
-        len *= m_format.getChannelCount() * m_bytesPerSample;
-        ring_buffer_size_t bufAvailCount = PaUtil_GetRingBufferWriteAvailable(&ringBuffer);
+        len *= m_format.getBytesPerSampleChannels();
+        ring_buffer_size_t bufAvailCount = PaUtil_GetRingBufferWriteAvailable(&m_ringBuffer);
 
         if (bufAvailCount < len) return false;
         void *ptr[2] = {nullptr};
         ring_buffer_size_t sizes[2] = {0};
 
-        PaUtil_GetRingBufferWriteRegions(&ringBuffer, static_cast<ring_buffer_size_t>(len), &ptr[0], &sizes[0], &ptr[1],
+        PaUtil_GetRingBufferWriteRegions(&m_ringBuffer, static_cast<ring_buffer_size_t>(len), &ptr[0], &sizes[0], &ptr[1],
                                          &sizes[1]);
         memcpy(ptr[0], sonicBuffer, static_cast<size_t>(sizes[0]));
         memcpy(ptr[1], sonicBuffer + sizes[0], static_cast<size_t>(sizes[1]));
         dataInfoQueue.enqueue({origLen, len, static_cast<qreal>(origLen) / len});
-        PaUtil_AdvanceRingBufferWriteIndex(&ringBuffer, static_cast<ring_buffer_size_t>(len));
+        PaUtil_AdvanceRingBufferWriteIndex(&m_ringBuffer, static_cast<ring_buffer_size_t>(len));
         return true;
     }
 
@@ -298,7 +298,7 @@ public:
             qWarning() << "clear make no effect when state != STOPPED.";
         }
         // 需要保证此刻没有读写操作
-        PaUtil_FlushRingBuffer(&ringBuffer);
+        PaUtil_FlushRingBuffer(&m_ringBuffer);
         return 0;
     }
 
@@ -308,12 +308,12 @@ public:
      * @return 当前已播放音频的长度(单位: 秒)
      */
     [[nodiscard]] qreal getProcessSecs(bool backward) const {
-        if (m_state == PlaybackState::STOPPED) { return timeBase; }
-        auto processSec = static_cast<double>(m_format.durationOfBytes(dataWritten - dataLastWrote));
+        if (m_state == PlaybackState::STOPPED) { return m_startPoint; }
+        auto processSec = static_cast<double>(m_format.durationOfBytes(m_dataWritten - m_dataLastWrote));
         if (backward) {
-            return timeBase - processSec;
+            return m_startPoint - processSec;
         } else {
-            return timeBase + processSec;
+            return m_startPoint + processSec;
         }
     }
 
@@ -323,9 +323,9 @@ public:
      */
     void setStartPoint(double t = 0.0) {
         if (m_state == PlaybackState::STOPPED) {
-            timeBase = t;
-            dataWritten = 0;
-            dataLastWrote = 0;
+            m_startPoint = t;
+            m_dataWritten = 0;
+            m_dataLastWrote = 0;
         } else {
             qWarning() << "setTimeBase make no effect when state != STOPPED";
         }
@@ -346,8 +346,8 @@ public:
      * @param newSpeed
      */
     void setSpeed(qreal newSpeed) {
-        m_speedFactor = newSpeed;
-        sonicSetSpeed(sonStream, newSpeed);
+        m_speedFactor = qBound(0.0, newSpeed, MAX_SPEED_FACTOR);
+        sonicSetSpeed(sonStream, static_cast<float>(newSpeed));
     }
 
     /**

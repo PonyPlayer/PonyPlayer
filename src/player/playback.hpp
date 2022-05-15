@@ -93,7 +93,7 @@ public:
         connect(this, &Playback::clearRingBuffer, this, [this] {this->m_audioSink->clear(); });
         connect(m_affinityThread, &QThread::started, [this]{
             PonyAudioFormat format(PonyPlayer::Int16, 44100, 2);
-            this->m_audioSink = new PonyAudioSink(format, MAX_AUDIO_FRAME_SIZE * 2);
+            this->m_audioSink = new PonyAudioSink(format);
         });
         m_affinityThread->start();
     }
