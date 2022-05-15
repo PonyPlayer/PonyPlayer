@@ -223,7 +223,7 @@ public:
 
 
     PONY_THREAD_SAFE AudioFrame getSample() override {
-        AVFrame *frame = frameQueue->remove();
+        AVFrame *frame = frameQueue->remove(true);
         if (!frame) { return {}; }
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
         int len = swr_convert(swrCtx, &audioOutBuf, 2 * MAX_AUDIO_FRAME_SIZE,
@@ -256,7 +256,7 @@ public:
 
     VideoFrame getPicture() override {
         if (stillVideoFrame != nullptr) { return {stillVideoFrame, -1, nullptr}; }
-        AVFrame *frame = frameQueue->remove();
+        AVFrame *frame = frameQueue->remove(true);
         if (!frame) { return {}; }
         m_lifeCycleManager->pop();
         if (frame->pts < 0) {
@@ -457,7 +457,7 @@ public:
         stk->pop_back();
         if (stk->empty()) {
             delete stk;
-            frameQueue->remove();
+            frameQueue->remove(true);
         }
         if (!frame) {
             qDebug() << "Reverse: get EOF Frame";

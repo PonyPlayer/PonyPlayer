@@ -109,13 +109,14 @@ public:
         }
     }
 
-    T&& remove() {
+    T &&remove(bool protectNull) {
         std::unique_lock lock(*m_mutex);
         m_cond->wait(lock, [this]{ return !this->m_data.empty() || !isOpen();});
         if (m_data.empty()) {
             return std::move(T{});
         } else {
             T&& ret = std::move(m_data.front());
+            if (protectNull && !ret) { return std::move(T{}); }
             m_data.pop();
             if (m_data.size() < m_prefer / 2 && isOpen()) { this->m_cond->notify_all(); }
             return std::move(ret);
