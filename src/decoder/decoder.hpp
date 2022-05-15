@@ -239,7 +239,7 @@ public:
                                                   1);
         m_lifeCycleManager->pop();
         m_lifeCycleManager->freeFrame(frame);
-        return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts, nullptr};
+        return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts};
     }
 
 };

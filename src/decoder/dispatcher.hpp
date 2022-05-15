@@ -267,7 +267,6 @@ private slots:
     void onWork()  {
         videoQueue->open();
         while(!interrupt) {
-            AVFrame *frame;
             int ret = av_read_frame(fmtCtx, packet);
             if (ret == 0) {
                 if (static_cast<StreamIndex>(packet->stream_index) == m_videoStreamIndex) {
@@ -319,7 +318,7 @@ private:
 public:
     explicit ReverseDecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent),
     dummy(av_frame_alloc()),
-    silenceFrame(silence, 1024, std::numeric_limits<double>::max(), dummy){
+    silenceFrame(silence, 1024, std::numeric_limits<double>::max()){
         packet = av_packet_alloc();
         for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && videoStreamIndex == -1) {
