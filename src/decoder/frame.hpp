@@ -146,14 +146,28 @@ protected:
     std::mutex mutex;
     std::queue<AVFrame *> freeQueue;
 public:
+    /**
+     * 释放 LifeCycleManager 所有的 Frame
+     */
     const FrameFreeFunc freeFunc = [this](AVFrame *frame) { this->freeFrame(frame); };
+
+    /**
+     * 直接释放非 LifeCycleManager 所有的 Frame
+     */
     const FrameFreeFunc freeDirectFunc = [this](AVFrame *frame) { refCount.load(std::memory_order::seq_cst);
         av_frame_free(&frame); };
 
+    /**
+     * Frame 的所有权从 Queue 交给 LifeCycleManager, 引用计数 +1
+     */
     PONY_THREAD_SAFE void pop() {
         refCount += 1;
     }
 
+    /**
+     * 释放 LifeCycleManager 所有的 Frame, 且引用计数 -1
+     * @param frame
+     */
     PONY_THREAD_SAFE void freeFrame(AVFrame *frame) {
         int ret = --refCount;
         if (ret < 0) {throw std::runtime_error("Negative refCount, Potential double free."); }
@@ -161,6 +175,9 @@ public:
         if (ret == 0 && autoDelete) { delete this; }
     }
 
+    /**
+     * 保证不再会有新的 pop 请求, 当 LifeCycleManager 所有的 Frame 被释放后, LifeCycleManager 会自动删除.
+     */
     PONY_THREAD_SAFE void deleteLater() {
         int expect = 0;
         if (refCount.compare_exchange_strong(expect, -1)) {
@@ -170,6 +187,10 @@ public:
         }
     }
 
+    /**
+     * 将非 LifeCycleManager 所有的 Frame 移入清理队列, 当 LifeCycleManager 释放时, 这些 Frame 会被释放.
+     * @param frame
+     */
     void freeLater(AVFrame *frame) {
         std::unique_lock lock(mutex);
         freeQueue.push(frame);
