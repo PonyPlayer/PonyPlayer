@@ -340,7 +340,11 @@ function solveStateChanged(){
         toVideoBegining()
         return
     }
+    else if(videoArea.state==4){
+        mainWindow.isPlay=true
+    }
     else if(videoArea.state==6){
+        mainWindow.isPlay=false
         IF.makeTrackMenu()
     }
     // mainWindow.endTime=Math.floor(videoArea.getVideoDuration())

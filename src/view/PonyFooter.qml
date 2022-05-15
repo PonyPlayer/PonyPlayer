@@ -6,8 +6,8 @@ import HurricanePlayer
 import Thumbnail
 Rectangle {
     id:footer
-    height: mainWindow.isFooterVisable?80:0
-    visible: mainWindow.isFooterVisable
+    height: mainWindow.isFooterVisible?80:0
+    visible: mainWindow.isFooterVisible
     color: "#666666"
     Timer{
         id:timerForThumbnail

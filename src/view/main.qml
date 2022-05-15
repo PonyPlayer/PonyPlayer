@@ -51,7 +51,7 @@ Window {
     //音视频播放列表是否可视
     property bool isVideoListOpen: true
     //音视频操作栏是否可视
-    property bool isFooterVisable: true
+    property bool isFooterVisible: true
     //标题栏是否可见
     property bool isTopBarVisible: true
     //音视频是否在播放
@@ -63,7 +63,7 @@ Window {
     //播放倍速
     property real speed: 1.0
     //播放音量
-    property real volumn: 1.0
+    property real volumn: 0.5
     //播放音量的辅助(可无视)
     property real beforeMute: 0.25
     //播放时滚动条的步长(倒放时为  -1)
@@ -142,21 +142,23 @@ Window {
         onPositionChanged: {
             if(mainWindow.isFullScreen){
                 holder.restart()
-                mainWindow.isFooterVisable=true
+                mainWindow.isFooterVisible=true
                 mainWindow.isTopBarVisible=true
             }
         }
     }
     Timer {
             id: holder
-            interval: 5000
+            interval: 3000
             repeat: false
             running: mainWindow.isFullScreen
             triggeredOnStart: false
             onTriggered: {
+
                 mainWindow.isVideoListOpen=false
-                mainWindow.isFooterVisable=false
+                mainWindow.isFooterVisible=false
                 mainWindow.isTopBarVisible=false
+                console.log("++++++++++++++++++++++++++holder")
             }
     }
     Rectangle{
@@ -165,6 +167,7 @@ Window {
         anchors.right: rightSizeChange.left
         anchors.top: topSizeChange.bottom
         height: mainWindow.isTopBarVisible?30:0
+        visible:mainWindow.isTopBarVisible
         color: "#666666"
         MouseArea { //为窗口添加鼠标事件
             anchors.fill: parent
@@ -173,7 +176,6 @@ Window {
             onPressed: { //接收鼠标按下事件
                 mainWindow.startSystemMove();
             }
-
         }
 
         Rectangle{
