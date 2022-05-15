@@ -27,7 +27,7 @@ enum class PlaybackState {
  * 维护, 当需要播放音频时需要先调用 write 函数将音频数据写入 DataBuffer.
  */
 class PonyAudioSink : public QObject {
-    Q_OBJECT
+Q_OBJECT
 private:
     PaStream *m_stream;
     PaStreamParameters *param;
@@ -62,7 +62,8 @@ private:
                      const PaStreamCallbackTimeInfo *timeInfo,
                      PaStreamCallbackFlags statusFlags) {
         ring_buffer_size_t bytesAvailCount = PaUtil_GetRingBufferReadAvailable(&ringBuffer);
-        auto bytesNeeded = static_cast<ring_buffer_size_t>(framesPerBuffer * static_cast<unsigned long>(m_format.getChannelCount()) *
+        auto bytesNeeded = static_cast<ring_buffer_size_t>(framesPerBuffer *
+                                                           static_cast<unsigned long>(m_format.getChannelCount()) *
                                                            m_bytesPerSample);
         if (bytesAvailCount == 0) {
             memset(outputBuffer, 0, static_cast<size_t>(bytesNeeded));
@@ -78,8 +79,9 @@ private:
                     byteRemainToAlign -= audioDataInfo->processedLength;
                     dataInfoQueue.pop();
                 } else {
-                    qint64 origLengthReduced = std::max(1ll, static_cast<qint64>(static_cast<double>(byteRemainToAlign) *
-                                                                                 audioDataInfo->speedUpRate));
+                    qint64 origLengthReduced = std::max(1ll,
+                                                        static_cast<qint64>(static_cast<double>(byteRemainToAlign) *
+                                                                            audioDataInfo->speedUpRate));
                     audioDataInfo->processedLength -= byteRemainToAlign;
                     audioDataInfo->origLength -= origLengthReduced;
                     timeAlignedByteWritten += origLengthReduced;
@@ -112,7 +114,9 @@ public:
      * @param format 音频格式
      * @param bufferSizeAdvice DataBuffer 的建议大小, PonyAudioSink 保证实际的 DataBuffer 不小于建议大小.
      */
-    PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdvice): m_format(format), m_volume(0.5) {
+    PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdvice) : m_format(format), m_speedFactor(1),
+                                                                            m_volume(0.5),
+                                                                            m_state(PlaybackState::STOPPED) {
         // initialize
         static bool initialized = false;
         if (!initialized) {
@@ -255,7 +259,7 @@ public:
     bool write(const char *buf, qint64 origLen) {
         int len = 0;
         int sonicBufferOffset = 0;
-        if(m_format.getSampleFormat() != PonyPlayer::Int16) {
+        if (m_format.getSampleFormat() != PonyPlayer::Int16) {
             throw std::runtime_error("Only support Int16!");
         }
         if (origLen % (m_format.getChannelCount() * m_bytesPerSample) == 0) {
