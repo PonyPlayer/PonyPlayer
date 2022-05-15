@@ -386,6 +386,7 @@ public:
                 else if (pts <= from){
                     //qDebug() << "push frame: " << pts;
                     frameStack->push_back(frameBuf);
+                    frameBuf = av_frame_alloc();
                 }
                 else {
                     //std::cerr << "push to queue"<< std::endl;
@@ -401,7 +402,6 @@ public:
                     return true;
                 }
 #endif
-                frameBuf = av_frame_alloc();
             } else if (ret == AVERROR(EAGAIN)) {
                 return true;
             } else if (ret == ERROR_EOF) {
@@ -436,7 +436,10 @@ private:
     FrameFreeFunc freeFunc;
 public:
     ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<std::vector<AVFrame *>*> *queue) : ReverseDecoderImpl<Common>(vs, queue) {
-        freeFunc = [&](AVFrame* frame){if(frame) av_frame_free(&frame);};
+        freeFunc = [&](AVFrame* frame){
+            // qDebug() << (frame != nullptr) << " " << "free func called";
+            if(frame) av_frame_free(&frame);
+        };
     }
 
     void pushEOF() {
@@ -448,22 +451,43 @@ public:
 
 
     VideoFrame getPicture() override {
-        NOT_IMPLEMENT_YET
-//        auto stk = frameQueue->front();
-//        if (!stk || stk->empty()) { return {}; }
-//        //qDebug() << "before getPicture";
-//        auto frame = stk->back();
-//        if (!frame)
-//            qDebug() << "get EOF Frame";
-//        if (!frame) return {};
-//        double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-//        //qDebug() << "getPicture: " << pts ;
-//        return {frame, pts, own ? &freeFunc : nullptr};
+        auto stk = frameQueue->viewFront<std::vector<AVFrame *>*>([](std::vector<AVFrame *>* stk){
+            return stk;
+        });
+        if (!stk) return {};
+        if (stk->empty()) {
+            throw std::runtime_error("reverse getPicture");
+        }
+        auto frame = stk->back();
+        stk->pop_back();
+        if (stk->empty()) {
+            delete stk;
+            frameQueue->remove();
+        }
+        if (!frame) {
+            qDebug() << "Reverse: get EOF Frame";
+            return {};
+        }
+        qreal pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
+        return {frame, pts, &freeFunc};
     }
 
     qreal viewFront() override {
-        NOT_IMPLEMENT_YET
-    }
+        return frameQueue->viewFront<qreal>([&](std::vector<AVFrame *>* stk) {
+            if (stk) {
+                if (stk->empty()) {
+                    throw std::runtime_error("reverse viewFront");
+                }
+                auto frame = stk->back();
+                if (!frame)
+                    return std::numeric_limits<qreal>::quiet_NaN();
 
+                return static_cast<qreal>(frame->pts) * av_q2d(stream->time_base);
+            }
+            else {
+                return std::numeric_limits<qreal>::quiet_NaN();
+            }
+        });
+    }
 };
 
