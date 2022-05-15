@@ -177,16 +177,9 @@ Window {
             acceptedButtons: Qt.LeftButton //只处理鼠标左键
             property point clickPos: "0,0"
             onPressed: { //接收鼠标按下事件
-                clickPos  = Qt.point(mouse.x,mouse.y)
+                mainWindow.startSystemMove();
             }
-            onPositionChanged: { //鼠标按下后改变位置
-                //鼠标偏移量
-                var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
 
-                //如果mainwindow继承自QWidget,用setPos
-                mainWindow.setX(mousePosition.cursorPos().x - clickPos.x)
-                mainWindow.setY(mousePosition.cursorPos().y - clickPos.y)
-            }
         }
 
         Rectangle{
