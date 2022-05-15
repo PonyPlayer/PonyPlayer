@@ -4,7 +4,7 @@
 #include "sonic.h"
 
 PonyAudioSink::PonyAudioSink(PonyAudioFormat format, unsigned long bufferSizeAdvice)
-        : m_stream(nullptr), timeBase(0), m_speedFactor(1), m_volume(1.0), m_state(PlaybackState::STOPPED) {
+        : m_stream(nullptr), timeBase(0), m_speedFactor(1), m_volume(0.5), m_state(PlaybackState::STOPPED) {
     // initialize
     static bool initialized = false;
     if (!initialized) {
