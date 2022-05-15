@@ -14,15 +14,15 @@ private:
     // openfile(MainThread) -> openfile(FrameThread) -> openfile(Decoder) -> openfile(MainThread)
     // no addition synchronization is needed
     DemuxDispatcherBase *m_worker = nullptr;
-    DecodeDispatcher *m_forward;
-    ReverseDecodeDispatcher *m_backward;
+    DecodeDispatcher *m_forward = nullptr;
+    ReverseDecodeDispatcher *m_backward = nullptr;
 
     QThread *m_affinityThread = nullptr;
     std::mutex mutex;
 public:
     Demuxer(QObject *parent) : QObject(nullptr) {
         m_affinityThread = new QThread;
-        m_affinityThread->setObjectName("DecoderThread");
+        m_affinityThread->setObjectName(PonyPlayer::DECODER);
         this->moveToThread(m_affinityThread);
         m_affinityThread->start();
     }
@@ -43,6 +43,7 @@ public:
     }
 
     PONY_THREAD_SAFE int skipPicture(const std::function<bool(qreal)> &predicate) {
+        std::unique_lock lock(mutex);
         return m_worker->skipPicture(predicate);
     }
 
@@ -58,6 +59,7 @@ public:
     }
 
     PONY_THREAD_SAFE int skipSample(const std::function<bool(qreal)> &predicate) {
+        std::unique_lock lock(mutex);
         return m_worker->skipSample(predicate);
     }
 
@@ -104,6 +106,7 @@ public:
     */
     PONY_CONDITION("OpenFileResult")
     PONY_THREAD_SAFE void pause() {
+        std::unique_lock lock(mutex);
         m_worker->statePause();
     }
 
@@ -112,6 +115,7 @@ public:
      * @see DecodeDispatcher::flush
      */
     PONY_GUARD_BY(FRAME) void flush() {
+        std::unique_lock lock(mutex);
         m_worker->flush();
     }
 
@@ -119,11 +123,13 @@ public:
      * 在 DecodeThread 启动解码器, 这个方法是非阻塞的, 但是可以保证返回后队里请求能够被阻塞.
      */
     PONY_THREAD_SAFE void start() {
+        std::unique_lock lock(mutex);
         qDebug() << "Start Decoder";
         m_worker->stateResume();
     }
 
     PONY_GUARD_BY(FRAME) void setTrack(int i) {
+        std::unique_lock lock(mutex);
         m_worker->setTrack(i);
     }
 
@@ -161,12 +167,13 @@ public slots:
     void openFile(const std::string &fn) {
         qDebug() << "Open file" << QString::fromUtf8(fn);
         // call on video decoder thread
+        std::unique_lock lock(mutex);
         if (m_worker) {
             qWarning() << "Already open file:" << m_worker->filename.c_str();
             emit openFileResult(false, QPrivateSignal());
             return;
         }
-        std::unique_lock lock(mutex);
+
         try {
             m_forward = new DecodeDispatcher(fn, DEFAULT_STREAM_INDEX, DEFAULT_STREAM_INDEX, this);
             m_backward = new ReverseDecodeDispatcher(fn, this);
