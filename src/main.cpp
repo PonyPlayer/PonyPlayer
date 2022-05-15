@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
     format.setProfile(QSurfaceFormat::CoreProfile);
     format.setVersion(3, 3);
     format.setSamples(16);
+//    format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
     QSurfaceFormat::setDefaultFormat(format);
     QGuiApplication app(argc, argv);
 

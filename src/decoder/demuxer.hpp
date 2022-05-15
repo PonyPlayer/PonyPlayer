@@ -32,14 +32,15 @@ public:
         m_affinityThread->quit();
     }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) VideoFrame getPicture(bool b, bool own) { return m_worker->getPicture(b, own); }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) VideoFrame getPicture() { return m_worker->getPicture(); }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) bool popPicture(bool b) { return m_worker->popPicture(b); }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal frontPicture() { return m_worker->frontPicture(); }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) AudioFrame getSample(bool b) { return m_worker->getSample(b); }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) AudioFrame getSample() { return m_worker->getSample(); }
 
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) bool popSample(bool b) { return m_worker->popSample(b); }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal frontSample() { return m_worker->frontSample(); }
+
 
     PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal audioDuration() {
         std::unique_lock lock(mutex);
@@ -121,7 +122,7 @@ public slots:
      * @see DecodeDispatcher::seek
      */
     void setAudioIndex(StreamIndex index) {
-        m_worker->setAudioIndex(index);
+        m_forward->setAudioIndex(index);
     }
 
     /**

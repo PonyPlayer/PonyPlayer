@@ -174,10 +174,9 @@ private slots:
         writeAudio(5);
         m_audioSink->start();
         while(!m_isInterrupt) {
-            VideoFrame pic = m_demuxer->getPicture(true, true);
+            VideoFrame pic = m_demuxer->getPicture();
             if (!pic.isValid()) { emit resourcesEnd(); break; }
             emit setPicture(pic);
-            m_demuxer->popPicture(true);
             if (!writeAudio(10)) { emit resourcesEnd(); break; }
             VideoFrame next = m_demuxer->getPicture(true, true);
             QCoreApplication::processEvents(); // process setVolume setSpeed etc

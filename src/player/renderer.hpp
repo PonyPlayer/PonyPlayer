@@ -210,7 +210,9 @@ public:
         glBindVertexArray(vao);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-        if (!videoFrame.isValid()) { return; }
+        if (!videoFrame.isValid()) {
+             return;
+        }
         int lineSize = videoFrame.getLineSize();
         int imageHeight = videoFrame.getHeight();
         int imageWidth = videoFrame.getWidth();
