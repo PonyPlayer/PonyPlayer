@@ -262,13 +262,9 @@ public:
         audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_lifeManager);
     }
 
-
     PONY_GUARD_BY(DECODER) bool hasVideo() {
         return !description.m_videoStreamsIndex.empty() && fmtCtx->streams[m_videoStreamIndex]->nb_frames > 0;
     }
-
-
-
 
 private slots:
     void onWork()  {
@@ -311,8 +307,6 @@ private:
     AVStream *videoStream{};
 
     ReverseDecoderImpl<Video> *videoDecoder;
-
-    AVFrame *dummy;
     AudioFrame silenceFrame;
     std::vector<StreamInfo> streamInfos;
     std::byte silence[1024]{};
@@ -321,9 +315,9 @@ private:
     AVPacket *packet = nullptr;
     TwinsBlockQueue<std::vector<AVFrame *>*> *videoQueue;
     qreal m_videoDuration;
+    LifeCycleManager *m_lifeManager = new LifeCycleManager;
 public:
     explicit ReverseDecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent),
-    dummy(av_frame_alloc()),
     silenceFrame(silence, 1024, std::numeric_limits<double>::max()){
         packet = av_packet_alloc();
         for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
@@ -336,18 +330,19 @@ public:
         if (videoStreamIndex < 0) { throw std::runtime_error("Cannot find video stream."); }
 
         // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
-        videoQueue = new TwinsBlockQueue<std::vector<AVFrame *>*>("VideoQueue", 4);
-        videoDecoder = new ReverseDecoderImpl<Video>(fmtCtx->streams[videoStreamIndex], videoQueue);
+        videoQueue = new TwinsBlockQueue<std::vector<AVFrame *>*>("VideoQueue", 6);
+        videoDecoder = new ReverseDecoderImpl<Video>(fmtCtx->streams[videoStreamIndex], videoQueue, m_lifeManager);
         m_videoDuration = videoDecoder->duration();
         connect(this, &ReverseDecodeDispatcher::signalStartWorker, this, &ReverseDecodeDispatcher::onWork, Qt::QueuedConnection);
     }
 
     ~ReverseDecodeDispatcher() override {
         qDebug() << "Destroy decode dispatcher " << filename.c_str();
-        if (videoQueue) { videoQueue->close(); }
+        flush();
+        // if (videoQueue) { videoQueue->close(); }
         delete videoDecoder;
         if (packet) { av_packet_free(&packet); }
-        if (dummy) { av_frame_free(&dummy);}
+        m_lifeManager->deleteLater();
     }
 
     /**

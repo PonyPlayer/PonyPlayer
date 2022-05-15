@@ -318,14 +318,16 @@ public:
 template<IDemuxDecoder::DecoderType type>
 class ReverseDecoderImpl : public DecoderContext, public IDemuxDecoder {
 protected:
+    LifeCycleManager *m_lifeCycleManager;
     TwinsBlockQueue<std::vector<AVFrame *>*> *frameQueue;
     std::vector<AVFrame*> *frameStack;
     qreal from;
     qreal next{-1.0};
 
 public:
-    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<std::vector<AVFrame *>*> *queue) :
-        DecoderContext(vs), frameQueue(queue), frameStack(new std::vector<AVFrame*>) {
+    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<std::vector<AVFrame *>*> *queue, LifeCycleManager *lifeCycleManager) :
+        DecoderContext(vs), m_lifeCycleManager(lifeCycleManager),
+        frameQueue(queue), frameStack(new std::vector<AVFrame*>) {
         from = static_cast<double>(stream->duration) * av_q2d(stream->time_base);
     }
 
@@ -433,23 +435,15 @@ public:
  * 视频解码器实现
  */
 template<> class ReverseDecoderImpl<Video>: public ReverseDecoderImpl<Common> {
-private:
-    FrameFreeFunc freeFunc;
 public:
-    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<std::vector<AVFrame *>*> *queue) : ReverseDecoderImpl<Common>(vs, queue) {
-        freeFunc = [&](AVFrame* frame){
-            // qDebug() << (frame != nullptr) << " " << "free func called";
-            if(frame) av_frame_free(&frame);
-        };
-    }
+    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<std::vector<AVFrame *>*> *queue, LifeCycleManager *lifeCycleManager)
+    : ReverseDecoderImpl<Common>(vs, queue, lifeCycleManager) {}
 
     void pushEOF() {
         qDebug() << "pushEOF";
         frameStack->push_back(nullptr);
         frameQueue->push(frameStack);
     }
-
-
 
     VideoFrame getPicture() override {
         auto stk = frameQueue->viewFront<std::vector<AVFrame *>*>([](std::vector<AVFrame *>* stk){
@@ -469,8 +463,9 @@ public:
             qDebug() << "Reverse: get EOF Frame";
             return {};
         }
+        m_lifeCycleManager->pop();
         qreal pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-        return {frame, pts, &freeFunc};
+        return {frame, pts, &m_lifeCycleManager->freeFunc};
     }
 
     qreal viewFront() override {
