@@ -248,18 +248,20 @@ Window {
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             Image {
-                width: 12
-                height: 12
+                width: 10
+                height: 10
                 source: "interfacepics/mainWindowClose"
                 anchors.centerIn: parent
             }
             MouseArea{
                 anchors.fill: parent
                 hoverEnabled: true
-                onEntered: mainWindowClose.color="red"
-                onExited: mainWindowClose.color="transparent"
+                onEntered: {mainWindowCloseExitAnimation.ani.stop();mainWindowCloseHoverAnimation.ani.start();}
+                onExited: {mainWindowCloseHoverAnimation.ani.stop();mainWindowCloseExitAnimation.ani.start();}
                 onClicked: mainWindow.close()
             }
+            ButtonColorAnimation {id: mainWindowCloseHoverAnimation; target: mainWindowClose; to: "red";}
+            ButtonColorAnimation {id: mainWindowCloseExitAnimation; target: mainWindowClose; to: "transparent";}
         }
         Rectangle{
             id:mainWindowReduction
@@ -277,10 +279,12 @@ Window {
             MouseArea{
                 anchors.fill: parent
                 hoverEnabled: true
-                onEntered: mainWindowReduction.color="#10FFFFFF"
-                onExited: mainWindowReduction.color="transparent"
+                onEntered: {mainWindowReductionExitAnimation.ani.stop();mainWindowReductionHoverAnimation.ani.start();}
+                onExited: {mainWindowReductionHoverAnimation.ani.stop();mainWindowReductionExitAnimation.ani.start();}
                 onClicked: mainWindow.lower()
             }
+            ButtonColorAnimation {id: mainWindowReductionHoverAnimation; target: mainWindowReduction; to: "#10FFFFFF";}
+            ButtonColorAnimation {id: mainWindowReductionExitAnimation; target: mainWindowReduction; to: "transparent";}
         }
         Rectangle{
             id:mainWindowMinimize
@@ -298,10 +302,12 @@ Window {
             MouseArea{
                 anchors.fill: parent
                 hoverEnabled: true
-                onEntered: mainWindowMinimize.color="#10FFFFFF"
-                onExited: mainWindowMinimize.color="transparent"
+                onEntered: {mainWindowMinimizeExitAnimation.ani.stop();mainWindowMinimizeHoverAnimation.ani.start();}
+                onExited: {mainWindowMinimizeHoverAnimation.ani.stop();mainWindowMinimizeExitAnimation.ani.start();}
                 onClicked: mainWindow.lower()
             }
+            ButtonColorAnimation {id: mainWindowMinimizeHoverAnimation; target: mainWindowMinimize; to: "#10FFFFFF";}
+            ButtonColorAnimation {id: mainWindowMinimizeExitAnimation; target: mainWindowMinimize; to: "transparent";}
         }
     }
     Timer{

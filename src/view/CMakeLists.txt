@@ -25,6 +25,7 @@ qt_add_qml_module(${PROJECT_NAME}
             FilterItem.qml
             LeftTopSizeChange.qml
             RightTopSizeChange.qml
+            ButtonColorAnimation.qml
         RESOURCES
             interfacepics/additionalsettings.png
             interfacepics/cease.png
