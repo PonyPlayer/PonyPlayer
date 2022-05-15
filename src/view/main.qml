@@ -85,7 +85,8 @@ Window {
     property var trackMenu
     //预览图限界位置
     property real lastStep:0.0
-
+    //容错机制
+    property bool mouseFlag:true
     //播放
     signal start()
     //暂停
@@ -575,6 +576,22 @@ Window {
                     height: 30
                     onClicked: fileDialog.open()
 
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true //默认是false
+                    propagateComposedEvents: true
+                    onPositionChanged: {
+                        if(mainWindow.isFullScreen){
+                            if(mainWindow.mouseFlag){
+                                mainWindow.mouseFlag=false
+                            }
+                            else{
+                                IF.showComponents()
+                                console.log("init"+"triggered+++++++++++++"+mouseX)
+                            }
+                        }
+                    }
                 }
             }
             Wave{
