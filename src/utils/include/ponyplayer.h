@@ -5,7 +5,14 @@
 #include <utility>
 #pragma once
 
-#define NOT_IMPLEMENT_YET {throw std::runtime_error("Unsupported operation.");}
+#ifdef NDEBUG
+#define NOT_IMPLEMENT_YET { throw std::runtime_error(std::string("Unsupported operation:"); }
+#else
+#define NOT_IMPLEMENT_YET { \
+throw std::runtime_error(std::string("Unsupported operation: ").append(__FILE__).append(":").append(std::to_string(__LINE__))); \
+}
+#endif
+
 
 namespace PonyPlayer {
     using PonyThread = const char*;

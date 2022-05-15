@@ -67,7 +67,7 @@ public:
 #endif
     }
 
-    void clear(std::function<void(T)> freeFunc) {
+    void clear(const std::function<void(T)> &freeFunc) {
         std::unique_lock lock(*m_mutex);
         while(!m_data.empty()) {
             freeFunc(m_data.front());
@@ -119,6 +119,22 @@ public:
             if (m_data.size() < m_prefer / 2 && isOpen()) { this->m_cond->notify_all(); }
             return std::move(ret);
         }
+    }
+
+    int skip(const std::function<bool(T)> &predicate, const std::function<void(T)> &freeFunc) {
+        int ret = 0;
+        while(true) {
+            std::unique_lock lock(*m_mutex);
+            if (m_data.empty()) { m_cond->wait(lock, [this]{ return !this->m_data.empty() || !isOpen();});}
+            auto && element = m_data.front();
+            if (predicate(element)) {
+                m_data.pop();
+                lock.unlock();
+                freeFunc(element);
+                ++ret;
+            } else break;
+        }
+        return ret;
     }
 
 //    /**

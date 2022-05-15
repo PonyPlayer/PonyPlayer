@@ -42,6 +42,10 @@ public:
         return m_worker->frontPicture();
     }
 
+    PONY_THREAD_SAFE int skipPicture(const std::function<bool(qreal)> &predicate) {
+        return m_worker->skipPicture(predicate);
+    }
+
     PONY_GUARD_BY(MAIN, FRAME, DECODER) AudioFrame getSample() {
         std::unique_lock lock(mutex);
         return m_worker->getSample();
@@ -51,6 +55,10 @@ public:
     PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal frontSample() {
         std::unique_lock lock(mutex);
         return m_worker->frontSample();
+    }
+
+    PONY_THREAD_SAFE int skipSample(const std::function<bool(qreal)> &predicate) {
+        return m_worker->skipSample(predicate);
     }
 
 

@@ -87,17 +87,23 @@ public:
 
     PONY_GUARD_BY(FRAME) virtual void seek(qreal secs) { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual VideoFrame getPicture() { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE virtual VideoFrame getPicture() { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual qreal frontPicture() { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE virtual qreal frontPicture() { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual AudioFrame getSample()  { NOT_IMPLEMENT_YET }
+    virtual int skipPicture(const std::function<bool(qreal)> &function) { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual qreal frontSample() { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE virtual AudioFrame getSample()  { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual void setTrack(int i) { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE virtual qreal frontSample() { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual bool hasVideo() { NOT_IMPLEMENT_YET }
+    virtual int skipSample(const std::function<bool(qreal)> &function) { NOT_IMPLEMENT_YET }
+
+    virtual void setTrack(int i) { NOT_IMPLEMENT_YET }
+
+    virtual bool hasVideo() { NOT_IMPLEMENT_YET }
+
+
 };
 
 /**
@@ -223,9 +229,13 @@ public:
 
     PONY_THREAD_SAFE qreal frontPicture() override { return videoDecoder->viewFront(); }
 
+    PONY_THREAD_SAFE int skipPicture(const std::function<bool(qreal)> &predicate) override { return videoDecoder->skip(predicate); }
+
     PONY_THREAD_SAFE AudioFrame getSample() override { return audioDecoder->getSample(); }
 
     PONY_THREAD_SAFE qreal frontSample() override { return audioDecoder->viewFront(); }
+
+    PONY_THREAD_SAFE int skipSample(const std::function<bool(qreal)> &predicate) override { return audioDecoder->skip(predicate); }
 
     PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getAudionLength() { return description.audioDuration; }
     PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getVideoLength() { return description.videoDuration; }

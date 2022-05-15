@@ -137,14 +137,14 @@ public slots:
         m_playback->start();
     }
 
-    void seek(qreal pos) {
-        qDebug() << "Start seek for" << pos;
+    void seek(qreal seekPos) {
+        qDebug() << "Start seek for" << seekPos;
         m_playback->stop();
 
         m_demuxer->pause();  // blocking, make sure pic and sample request can be blocked
         // WARNING: must make sure everything (especially PTS) has been properly updated
         // otherwise, the video thread will be BLOCKING for a long time.
-        emit signalDecoderSeek(pos); // blocking connection
+        emit signalDecoderSeek(seekPos); // blocking connection
         m_demuxer->flush();
         m_demuxer->start();
 
@@ -157,13 +157,10 @@ public slots:
             startPoint = m_demuxer->frontPicture();
         } else {
             if (m_demuxer->hasVideo()) {
-                while (m_demuxer->frontPicture() < pos) {
-                    m_demuxer->getPicture().free();
-                }
+                m_demuxer->skipPicture([seekPos](qreal framePos) { return framePos < seekPos; });
             }
-            while (startPoint = m_demuxer->frontSample(), startPoint < pos) {
-                m_demuxer->getSample();
-            }
+            m_demuxer->skipSample([seekPos, &startPoint](qreal framePos) { return startPoint = framePos, framePos < seekPos;});
+
         }
 
         emit signalPositionChangedBySeek(); // block
@@ -171,7 +168,7 @@ public slots:
         m_playback->showFrame();
 
         qDebug() << "start point" << startPoint;
-        qDebug() << "End seek for" << pos;
+        qDebug() << "End seek for" << seekPos;
     }
 
 signals:

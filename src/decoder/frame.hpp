@@ -147,6 +147,8 @@ protected:
     std::queue<AVFrame *> freeQueue;
 public:
     const FrameFreeFunc freeFunc = [this](AVFrame *frame) { this->freeFrame(frame); };
+    const FrameFreeFunc freeDirectFunc = [this](AVFrame *frame) { refCount.load(std::memory_order::seq_cst);
+        av_frame_free(&frame); };
 
     PONY_THREAD_SAFE void pop() {
         refCount += 1;
@@ -154,6 +156,7 @@ public:
 
     PONY_THREAD_SAFE void freeFrame(AVFrame *frame) {
         int ret = --refCount;
+        if (ret < 0) {throw std::runtime_error("Negative refCount, Potential double free."); }
         av_frame_free(&frame);
         if (ret == 0 && autoDelete) { delete this; }
     }

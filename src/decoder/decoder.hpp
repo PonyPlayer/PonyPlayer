@@ -64,6 +64,13 @@ public:
     virtual qreal viewFront() = 0;
 
     /**
+     * 线性扫描移除满足条件的帧, 当发现帧不满足条件时, 结束扫描
+     * @param predicate 条件
+     * @return 移除帧的个数
+     */
+    virtual int skip(const std::function<bool(qreal)> &predicate) = 0;
+
+    /**
      * 获取流的长度
      * @return
      */
@@ -115,7 +122,7 @@ template<IDemuxDecoder::DecoderType type>
 class DecoderImpl : public DecoderContext, public IDemuxDecoder {
 protected:
     TwinsBlockQueue<AVFrame *> *frameQueue;
-    LifeCycleManager *m_lifeCycleManager = nullptr;
+    LifeCycleManager *m_lifeCycleManager;
 public:
     DecoderImpl(
       AVStream *vs,
@@ -123,11 +130,11 @@ public:
       LifeCycleManager *lifeCycleManager
     ) : DecoderContext(vs), frameQueue(queue), m_lifeCycleManager(lifeCycleManager) {}
 
-    double duration() override {
+    PONY_THREAD_SAFE double duration() override {
         return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
     }
 
-    bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
+    PONY_GUARD_BY(DECODER) bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
         int ret = avcodec_send_packet(codecCtx, pkt);
         if (ret < 0) {
             qWarning() << "Error avcodec_send_packet:" << ffmpegErrToString(ret);
@@ -136,20 +143,7 @@ public:
         while(ret >= 0 && !interrupt) {
             ret = avcodec_receive_frame(codecCtx, frameBuf);
             if (ret >= 0) {
-#ifdef IGNORE_VIDEO_FRAME
-                if constexpr(type == Video) {
-                if (frameQueue.getSize() > 10) {
-                    av_frame_unref(frameBuf);
-                    av_frame_free(&frameBuf);
-                } else {
-                    ret = frameQueue.bpush(frameBuf);
-                }
-            } else {
-                ret = frameQueue.bpush(frameBuf);
-            }
-#else
                 frameQueue->push(frameBuf);
-#endif
                 frameBuf = av_frame_alloc();
             } else if (ret == AVERROR(EAGAIN)) {
                 return true;
@@ -165,12 +159,12 @@ public:
         return false;
     }
 
-    VideoFrame getPicture() override { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE VideoFrame getPicture() override { NOT_IMPLEMENT_YET }
 
-    AudioFrame getSample() override { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE AudioFrame getSample() override { NOT_IMPLEMENT_YET }
 
 
-    qreal viewFront() override {
+    PONY_THREAD_SAFE qreal viewFront() override {
         return frameQueue->viewFront<qreal>([this](AVFrame * frame) {
             if (frame) {
                 return static_cast<qreal>(frame->pts) * av_q2d(stream->time_base);
@@ -180,7 +174,13 @@ public:
         });
     }
 
-    void flushFFmpegBuffers() override {
+    PONY_THREAD_SAFE int skip(const std::function<bool(qreal)> &predicate) override {
+        return frameQueue->skip([this, predicate](AVFrame *frame){
+           return frame && predicate(static_cast<qreal>(frame->pts) * av_q2d(stream->time_base));
+        }, m_lifeCycleManager->freeDirectFunc);
+    }
+
+    PONY_GUARD_BY(DECODER) void flushFFmpegBuffers() override {
         avcodec_flush_buffers(codecCtx);
     }
 
@@ -222,7 +222,7 @@ public:
     }
 
 
-    AudioFrame getSample() override {
+    PONY_THREAD_SAFE AudioFrame getSample() override {
         AVFrame *frame = frameQueue->remove();
         if (!frame) { return {}; }
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
@@ -258,6 +258,7 @@ public:
         if (stillVideoFrame != nullptr) { return {stillVideoFrame, -1, nullptr}; }
         AVFrame *frame = frameQueue->remove();
         if (!frame) { return {}; }
+        m_lifeCycleManager->pop();
         if (frame->pts < 0) {
             stillVideoFrame = frame;
             return {stillVideoFrame, -9, nullptr};
@@ -283,26 +284,30 @@ private:
 public:
     VirtualVideoDecoder(qreal audioDuration) : m_audioDuration(audioDuration) {}
 
-    bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
+    PONY_THREAD_SAFE bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
         return !interrupt;
     }
 
-    void flushFFmpegBuffers() override {}
+    PONY_THREAD_SAFE void flushFFmpegBuffers() override {}
 
-    VideoFrame getPicture() override {
+    PONY_THREAD_SAFE VideoFrame getPicture() override {
         return {nullptr, std::numeric_limits<qreal>::quiet_NaN(), nullptr, true};
     }
 
-    AudioFrame getSample() override {
+    PONY_THREAD_SAFE AudioFrame getSample() override {
         NOT_IMPLEMENT_YET
     }
 
-    double duration() override {
+    PONY_THREAD_SAFE double duration() override {
         return m_audioDuration;
     }
 
-    qreal viewFront() override {
+    PONY_THREAD_SAFE qreal viewFront() override {
         return std::numeric_limits<qreal>::quiet_NaN();
+    }
+
+    PONY_THREAD_SAFE int skip(const std::function<bool(qreal)> &predicate) override {
+        return 0;
     }
 };
 
@@ -461,5 +466,8 @@ public:
         NOT_IMPLEMENT_YET
     }
 
+    int skip(const std::function<bool(qreal)> &predicate) override {
+        return 0;
+    }
 };
 
