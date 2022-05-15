@@ -35,6 +35,7 @@ public:
         return m_isValid;
     }
 
+
     [[nodiscard]] double getPTS() const {
         return m_pts;
     }
@@ -84,6 +85,10 @@ public:
         return !this->operator==(frame);
     }
 
+    /**
+     * 将当前 VideoFrame 标记为 Invalid
+     * e.g 当前 VideoFrame 内部数据交由令一个 VideoFrame 管理
+     */
     void makeInvalid() {
         m_isValid = false;
     }

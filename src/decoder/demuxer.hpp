@@ -32,14 +32,26 @@ public:
         m_affinityThread->quit();
     }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) VideoFrame getPicture() { return m_worker->getPicture(); }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) VideoFrame getPicture() {
+        std::unique_lock lock(mutex);
+        return m_worker->getPicture();
+    }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal frontPicture() { return m_worker->frontPicture(); }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal frontPicture() {
+        std::unique_lock lock(mutex);
+        return m_worker->frontPicture();
+    }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) AudioFrame getSample() { return m_worker->getSample(); }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) AudioFrame getSample() {
+        std::unique_lock lock(mutex);
+        return m_worker->getSample();
+    }
 
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal frontSample() { return m_worker->frontSample(); }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal frontSample() {
+        std::unique_lock lock(mutex);
+        return m_worker->frontSample();
+    }
 
 
     PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal audioDuration() {
