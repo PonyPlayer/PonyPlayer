@@ -149,23 +149,17 @@ public slots:
         bool backward = m_demuxer->isRewind();
         // time-consuming job
         // use audio frame pts may be more accurate, but it is not available in rewinding.
-        qreal startPoint = backward ? m_demuxer->getPicture(true, false).getPTS() : m_demuxer->getSample(true).getPTS();
-        if (!m_demuxer->isRewind()) {
+        qreal startPoint;
+        if (backward) {
             // if rewinding, there is no need to skip frame. (dispatcher guarantee)
-            VideoFrame pic;
-            while (pic = m_demuxer->getPicture(true, true), (pic.isValid() && pic.getPTS() < pos)) {
-                if (!m_demuxer->popPicture(true)) {throw std::runtime_error("Assets Fail: CANNOT pop VideoFrame."); }
-                pic.free();
-                if (backward) {startPoint = pic.getPTS(); }
+            startPoint = m_demuxer->frontPicture();
+        } else {
+            while (m_demuxer->frontPicture() < pos) {
+                m_demuxer->getPicture().free();
             }
-            qDebug() << pic.getPTS() << pic.isValid();
-
-            AudioFrame sample;
-            while (sample = m_demuxer->getSample(true), (sample.isValid() && sample.getPTS() < pos)) {
-                if (!m_demuxer->popSample(true)) {throw std::runtime_error("Assets Fail: CANNOT pop AudioFrame."); }
-                if (!backward) { startPoint = sample.getPTS(); }
+            while (startPoint = m_demuxer->frontSample(), startPoint < pos) {
+                m_demuxer->getSample();
             }
-            qDebug() << sample.getPTS() << sample.isValid();
         }
 
         emit signalPositionChangedBySeek(); // block

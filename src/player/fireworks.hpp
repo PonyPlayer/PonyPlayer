@@ -89,6 +89,9 @@ public slots:
         // setImage -> sync -> render
         // since picture may use on renderer thread, we CANNOT free now
         // no change, return immediately
+//        if (!pic.isValid()) {
+//            int debughere = 0;
+//        }
         if (pic == picture) { return; }
         updateVideoFrame = true;
         // local picture has not been used, free

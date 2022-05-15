@@ -79,50 +79,32 @@ protected:
         if (fmtCtx) { avformat_close_input(&fmtCtx); }
     }
 public:
-    PONY_GUARD_BY(FRAME) virtual void statePause() {
-        throw std::runtime_error("Unsupported operation.");
-    }
+    PONY_GUARD_BY(FRAME) virtual void statePause() { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual void flush() {
-        throw std::runtime_error("Unsupported operation.");
-    }
+    PONY_GUARD_BY(FRAME) virtual void flush() { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual void stateResume() {
-        throw std::runtime_error("Unsupported operation.");
-    }
+    PONY_GUARD_BY(FRAME) virtual void stateResume() { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual void seek(qreal secs) {
-        throw std::runtime_error("Unsupported operation.");
-    }
+    PONY_GUARD_BY(FRAME) virtual void seek(qreal secs) { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual VideoFrame getPicture(bool b, bool own) {
-        throw std::runtime_error("Unsupported operation.");
-    }
+    PONY_GUARD_BY(FRAME) virtual VideoFrame getPicture() { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual bool popPicture(bool b) {
-        throw std::runtime_error("Unsupported operation.");
-    }
+    PONY_GUARD_BY(FRAME) virtual qreal frontPicture() { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual AudioFrame getSample(bool b) {
-        throw std::runtime_error("Unsupported operation.");
-    }
+    PONY_GUARD_BY(FRAME) virtual AudioFrame getSample()  { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual bool popSample(bool b) {
-        throw std::runtime_error("Unsupported operation.");
-    }
+    PONY_GUARD_BY(FRAME) virtual qreal frontSample() { NOT_IMPLEMENT_YET }
 
-    PONY_GUARD_BY(FRAME) virtual void setTrack(int i) {
-        throw std::runtime_error("Unsupported operation.");
-    }
-
-public slots:
-    virtual void onWork() {
-        throw std::runtime_error("Unsupported operation.");
-    }
-    virtual void setAudioIndex(StreamIndex i) {
-        throw std::runtime_error("Unsupported operation.");
-    }
-
+    PONY_GUARD_BY(FRAME) virtual void setTrack(int i) { NOT_IMPLEMENT_YET }
+//
+//public slots:
+//    virtual void onWork() {
+//        throw std::runtime_error("Unsupported operation.");
+//    }
+//    virtual void setAudioIndex(StreamIndex i) {
+//        throw std::runtime_error("Unsupported operation.");
+//    }
+//
 
 };
 
@@ -132,6 +114,8 @@ public slots:
  */
 class DecodeDispatcher : public DemuxDispatcherBase {
     Q_OBJECT
+
+
 private:
     struct {
         qreal videoDuration = std::numeric_limits<qreal>::quiet_NaN();
@@ -245,13 +229,13 @@ public:
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
-    PONY_THREAD_SAFE VideoFrame getPicture (bool b, bool own) override { return videoDecoder->getPicture(b, own); }
+    PONY_THREAD_SAFE VideoFrame getPicture() override { return videoDecoder->getPicture(); }
 
-    PONY_THREAD_SAFE bool popPicture(bool b) override { return videoDecoder->pop(b); }
+    PONY_THREAD_SAFE qreal frontPicture() override { return videoDecoder->viewFront(); }
 
-    PONY_THREAD_SAFE AudioFrame getSample(bool b) override { return audioDecoder->getSample(b); }
+    PONY_THREAD_SAFE AudioFrame getSample() override { return audioDecoder->getSample(); }
 
-    PONY_THREAD_SAFE bool popSample(bool b) override { return audioDecoder->pop(b); }
+    PONY_THREAD_SAFE qreal frontSample() override { return audioDecoder->viewFront(); }
 
     PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getAudionLength() { return description.audioDuration; }
     PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getVideoLength() { return description.videoDuration; }
@@ -262,12 +246,27 @@ public:
         audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_lifeManager);
     }
 
+    PONY_GUARD_BY(FRAME) QStringList getTracks() {
+        QStringList ret;
+        ret.reserve(static_cast<qsizetype>(description.m_audioStreamsIndex.size()));
+        for(auto && i : description.m_audioStreamsIndex) {
+            ret.emplace_back(description.streamInfos[i].getFriendName());
+        }
+        return ret;
+    }
 
-public slots:
-    void onWork() override {
+    void setAudioIndex(StreamIndex i) {
+        if (i == m_audioStreamIndex) { return; }
+        delete audioDecoder;
+        m_audioStreamIndex = i;
+        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_lifeManager);
+    }
+
+
+private slots:
+    void onWork()  {
         videoQueue->open();
         while(!interrupt) {
-            AVFrame *frame;
             int ret = av_read_frame(fmtCtx, packet);
             if (ret == 0) {
                 if (static_cast<StreamIndex>(packet->stream_index) == m_videoStreamIndex) {
@@ -287,21 +286,7 @@ public slots:
         interrupt = true;
     };
 
-    void setAudioIndex(StreamIndex i) override {
-        if (i == m_audioStreamIndex) { return; }
-        delete audioDecoder;
-        m_audioStreamIndex = i;
-        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_lifeManager);
-    }
 
-    QStringList getTracks() {
-        QStringList ret;
-        ret.reserve(static_cast<qsizetype>(description.m_audioStreamsIndex.size()));
-        for(auto && i : description.m_audioStreamsIndex) {
-            ret.emplace_back(description.streamInfos[i].getFriendName());
-        }
-        return ret;
-    }
 signals:
     void signalStartWorker(QPrivateSignal);
 };
@@ -333,7 +318,7 @@ private:
 public:
     explicit ReverseDecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent),
     dummy(av_frame_alloc()),
-    silenceFrame(silence, 1024, std::numeric_limits<double>::max(), dummy){
+    silenceFrame(silence, 1024, std::numeric_limits<double>::max()){
         packet = av_packet_alloc();
         for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && videoStreamIndex == -1) {
@@ -408,16 +393,12 @@ public:
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
-    PONY_GUARD_BY(FRAME) VideoFrame getPicture(bool b, bool own) override { return videoDecoder->getPicture(b, own); }
+    PONY_THREAD_SAFE VideoFrame getPicture() override { return videoDecoder->getPicture(); }
 
-    PONY_GUARD_BY(FRAME) bool popPicture(bool b) override { return videoDecoder->pop(b); }
+    PONY_THREAD_SAFE qreal frontPicture() override { return videoDecoder->viewFront(); }
 
-    PONY_GUARD_BY(FRAME) AudioFrame getSample(bool b) override { return silenceFrame; }
-
-    PONY_GUARD_BY(FRAME) bool popSample(bool b) override { return true; }
-
-public slots:
-    void onWork() override {
+private slots:
+    void onWork() {
         videoQueue->open();
         while(!interrupt) {
             int ret = av_read_frame(fmtCtx, packet);

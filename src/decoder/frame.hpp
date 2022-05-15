@@ -106,17 +106,16 @@ public:
 
 class AudioFrame {
 private:
-    AVFrame *m_frame;
     std::byte *m_data;
     int m_len;
     double m_pts;
 public:
-    AudioFrame(): m_frame(nullptr), m_data(nullptr), m_len(0), m_pts(std::numeric_limits<double>::quiet_NaN())  {}
+    AudioFrame(): m_data(nullptr), m_len(0), m_pts(std::numeric_limits<double>::quiet_NaN())  {}
 
-    AudioFrame(std::byte *data, int len, double pts, AVFrame *frame) : m_frame(frame), m_data(data), m_len(len), m_pts(pts) {}
+    AudioFrame(std::byte *data, int len, double pts) : m_data(data), m_len(len), m_pts(pts) {}
 
     bool isValid() {
-        return m_frame;
+        return m_data;
     }
 
     [[nodiscard]] std::byte *getSampleData() const{

@@ -44,25 +44,24 @@ public:
 
 
     /**
-     * 获取视频帧, 仅当当前解码器是视频解码器时有效
+     * 获取视频帧并从队列中删除, 仅当当前解码器是视频解码器时有效
      * @param b 是否阻塞
      * @return 视频帧, 请用 isValid 判断是否有效
      */
-    virtual VideoFrame getPicture(bool b, bool own) = 0;
+    virtual VideoFrame getPicture() = 0;
 
     /**
-    * 获取音频帧, 仅当当前解码器是音频解码器时有效
+    * 获取音频帧并从队列中删除, 仅当当前解码器是音频解码器时有效
     * @param b 是否阻塞
     * @return 音频帧, 请用 isValid 判断是否有效
     */
-    virtual AudioFrame getSample(bool b) = 0;
+    virtual AudioFrame getSample() = 0;
 
     /**
-     * 从队列中删除视频帧/音频帧
-     * @param b 是否阻塞
-     * @return 是否成功
+     * 获取队首帧的PTS, 若不存在, 返回NaN
+     * @return 队首帧的PTS
      */
-    virtual bool pop(bool b) = 0;
+    virtual qreal viewFront() = 0;
 
     /**
      * 获取流的长度
@@ -166,16 +165,23 @@ public:
         return false;
     }
 
-    VideoFrame getPicture(bool b, bool own) override {
-        throw std::runtime_error("Unsupported operation.");
+    VideoFrame getPicture() {
+        NOT_IMPLEMENT_YET
     }
 
-    AudioFrame getSample(bool b) override {
-        throw std::runtime_error("Unsupported operation.");
+    AudioFrame getSample() {
+        NOT_IMPLEMENT_YET
     }
 
-    bool pop(bool b) override {
-        return frameQueue->pop();
+
+    qreal viewFront() override {
+        return frameQueue->viewFront<qreal>([this](AVFrame * frame) {
+            if (frame) {
+                return static_cast<qreal>(frame->pts) * av_q2d(stream->time_base);
+            } else {
+                return std::numeric_limits<qreal>::quiet_NaN();
+            }
+        });
     }
 
     void flushFFmpegBuffers() override {
@@ -220,8 +226,8 @@ public:
     }
 
 
-    AudioFrame getSample(bool b) override {
-        AVFrame *frame = frameQueue->front();
+    AudioFrame getSample() override {
+        AVFrame *frame = frameQueue->remove();
         if (!frame) { return {}; }
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
         int len = swr_convert(swrCtx, &audioOutBuf, 2 * MAX_AUDIO_FRAME_SIZE,
@@ -231,40 +237,11 @@ public:
                                                   len,
                                                   AV_SAMPLE_FMT_S16,
                                                   1);
-        return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts, frame};
-    }
-
-    bool pop(bool b) override {
-        AVFrame *frame = frameQueue->front();
         m_lifeCycleManager->pop();
         m_lifeCycleManager->freeFrame(frame);
-        return frameQueue->pop();
-    }
-};
-
-class Life {
-protected:
-    std::atomic<bool> autoDelete = false;
-    std::atomic<int> refCount = 0;
-
-public:
-    void inc() {
-        refCount += 1;
+        return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts};
     }
 
-    void dec() {
-        if (--refCount == 0 && autoDelete) { delete this; }
-    }
-
-    void deleteLater() {
-        if (refCount == 0) {
-            delete this;
-        } else {
-            autoDelete = true;
-        }
-    }
-
-    virtual ~Life() = default;
 };
 
 /**
@@ -281,29 +258,19 @@ public:
     ) : DecoderImpl<Common>(vs, queue, lifeCycleManager) {}
 
 
-
-    VideoFrame getPicture(bool b, bool own) override {
+    VideoFrame getPicture() override {
         if (stillVideoFrame != nullptr) { return {stillVideoFrame, -1, nullptr}; }
-        AVFrame *frame = frameQueue->front();
+        AVFrame *frame = frameQueue->remove();
         if (!frame) { return {}; }
         if (frame->pts < 0) {
             stillVideoFrame = frame;
-            DecoderImpl<Common>::pop(b);
             return {stillVideoFrame, -9, nullptr};
         } else {
             double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-            return {frame, pts, own ? &m_lifeCycleManager->freeFunc : nullptr};
+            return {frame, pts, &m_lifeCycleManager->freeFunc};
         }
     }
 
-    bool pop(bool b) override {
-        if (stillVideoFrame != nullptr) {
-            return true;
-        } else {
-            m_lifeCycleManager->pop();
-            return DecoderImpl<Common>::pop(b);
-        }
-    }
 
     ~DecoderImpl() {
         m_lifeCycleManager->freeLater(stillVideoFrame);
@@ -326,20 +293,20 @@ public:
 
     void flushFFmpegBuffers() override {}
 
-    VideoFrame getPicture(bool b, bool own) override {
+    VideoFrame getPicture() override {
         return {nullptr, std::numeric_limits<qreal>::quiet_NaN(), nullptr, true};
     }
 
-    AudioFrame getSample(bool b) override {
+    AudioFrame getSample() override {
         NOT_IMPLEMENT_YET
-    }
-
-    bool pop(bool b) override {
-        return true;
     }
 
     double duration() override {
         return m_audioDuration;
+    }
+
+    qreal viewFront() override {
+        return std::numeric_limits<qreal>::quiet_NaN();
     }
 };
 
@@ -447,16 +414,12 @@ public:
         return false;
     }
 
-    VideoFrame getPicture(bool b, bool own) override {
-        throw std::runtime_error("Unsupported operation.");
+    VideoFrame getPicture() override {
+        NOT_IMPLEMENT_YET
     }
 
-    AudioFrame getSample(bool b) override {
-        throw std::runtime_error("Unsupported operation.");
-    }
-
-    bool pop(bool b) override {
-        return frameQueue->pop();
+    AudioFrame getSample() override {
+        NOT_IMPLEMENT_YET
     }
 
     void flushFFmpegBuffers() override {
@@ -482,29 +445,24 @@ public:
         frameQueue->push(frameStack);
     }
 
-    VideoFrame getPicture(bool b, bool own) override {
-        auto stk = frameQueue->front();
-        if (!stk) { return {}; }
-        //qDebug() << "before getPicture";
-        auto frame = stk->back();
-        if (!frame)
-            qDebug() << "get EOF Frame";
-        if (!frame) return {};
-        double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-        //qDebug() << "getPicture: " << pts ;
-        return {frame, pts, own ? &freeFunc : nullptr};
+
+
+    VideoFrame getPicture() override {
+        NOT_IMPLEMENT_YET
+//        auto stk = frameQueue->front();
+//        if (!stk || stk->empty()) { return {}; }
+//        //qDebug() << "before getPicture";
+//        auto frame = stk->back();
+//        if (!frame)
+//            qDebug() << "get EOF Frame";
+//        if (!frame) return {};
+//        double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
+//        //qDebug() << "getPicture: " << pts ;
+//        return {frame, pts, own ? &freeFunc : nullptr};
     }
 
-    bool pop(bool b) override {
-        auto stk = frameQueue->front();
-        if (stk) {
-            stk->pop_back();
-            if (stk->empty()) {
-                ReverseDecoderImpl<Common>::pop(b);
-                delete stk;
-            }
-        }
-        return true;
+    qreal viewFront() override {
+        NOT_IMPLEMENT_YET
     }
 
 };

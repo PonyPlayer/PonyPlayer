@@ -22,6 +22,7 @@ class Playback : public QObject {
 private:
     QThread *m_affinityThread;
     Demuxer *m_demuxer;
+    VideoFrame cacheVideoFrame;
 
 
     PonyAudioSink *m_audioSink;
@@ -36,14 +37,14 @@ private:
         emit stateChanged(isPlaying);
     }
 
-    inline void syncTo(const VideoFrame &frame) {
-        if (!frame.isValid()) { return; }
+    inline void syncTo(qreal pos) {
+        if (isnan(pos)) { return; }
         double duration;
-        if (frame.isPlaceholderFrame()) {
+        if (false) {
             duration = 1. / 30;
         } else {
             bool backward = m_demuxer->isRewind();
-            duration = frame.getPTS() - m_audioSink->getProcessSecs(backward);
+            duration = pos - m_audioSink->getProcessSecs(backward);
             if (backward) { duration = -duration; }
         }
         if (duration > 0) {
@@ -57,27 +58,40 @@ private:
 
     inline bool writeAudio(int batch) {
         for (int i = 0; i < batch && m_audioSink->freeByte() > MAX_AUDIO_FRAME_SIZE; ++i) {
-            AudioFrame sample = m_demuxer->getSample(true);
+            AudioFrame sample = m_demuxer->getSample();
             if (!sample.isValid()) { return false; }
             m_audioSink->write(reinterpret_cast<const char *>(sample.getSampleData()), sample.getDataLen());
-            m_demuxer->popSample(true);
         }
         return true;
+    }
+
+    PONY_GUARD_BY(PLAYBACK) VideoFrame getVideoFrame() {
+        if (cacheVideoFrame.isValid()) {
+            VideoFrame ret = cacheVideoFrame;
+            cacheVideoFrame.makeInvalid();
+            return ret;
+        } else {
+            return m_demuxer->getPicture();
+        }
     }
 
 public:
     Playback(Demuxer *demuxer, QObject *parent): QObject(nullptr), m_demuxer(demuxer) {
         m_affinityThread = new QThread;
-        m_affinityThread->setObjectName("PlayThread");
+        m_affinityThread->setObjectName(PonyPlayer::PLAYBACK);
         this->moveToThread(m_affinityThread);
         connect(this, &Playback::startWork, this, &Playback::onWork);
-        connect(this, &Playback::stopWork, this, [=] { this->m_audioSink->stop(); });
-        connect(this, &Playback::setAudioStartPoint, this, [=](qreal t) {this->m_audioSink->setStartPoint(t);});
-        connect(this, &Playback::setAudioVolume, this, [=](qreal volume) {this->m_audioSink->setVolume(volume);});
-        connect(this, &Playback::setAudioSpeed, this, [=](qreal speed) {this->m_audioSink->setSpeed(speed);});
-        connect(this, &Playback::updateVideoFrame, this, [=]{ emit setPicture(m_demuxer->getPicture(true, false));});
-        connect(this, &Playback::clearRingBuffer, this, [=] {this->m_audioSink->clear(); });
-        connect(m_affinityThread, &QThread::started, [=]{
+        connect(this, &Playback::stopWork, this, [this] { this->m_audioSink->stop(); });
+        connect(this, &Playback::setAudioStartPoint, this, [this](qreal t) {this->m_audioSink->setStartPoint(t);});
+        connect(this, &Playback::setAudioVolume, this, [this](qreal volume) {this->m_audioSink->setVolume(volume);});
+        connect(this, &Playback::setAudioSpeed, this, [this](qreal speed) {this->m_audioSink->setSpeed(speed);});
+        connect(this, &Playback::updateVideoFrame, this, [this]{
+            if (!cacheVideoFrame.isValid()) { cacheVideoFrame = m_demuxer->getPicture(); }
+            emit setPicture(cacheVideoFrame);
+            cacheVideoFrame.makeInvalid();
+        });
+        connect(this, &Playback::clearRingBuffer, this, [this] {this->m_audioSink->clear(); });
+        connect(m_affinityThread, &QThread::started, [this]{
             PonyAudioFormat format;
             format.setSampleRate(44100);
             format.setChannelCount(2);
@@ -162,6 +176,7 @@ public:
         emit clearRingBuffer(QPrivateSignal());
     }
 
+
 private slots:
 
     /**
@@ -174,12 +189,11 @@ private slots:
         writeAudio(5);
         m_audioSink->start();
         while(!m_isInterrupt) {
-            VideoFrame pic = m_demuxer->getPicture(true, true);
+            VideoFrame pic = getVideoFrame();
             if (!pic.isValid()) { emit resourcesEnd(); break; }
             emit setPicture(pic);
-            m_demuxer->popPicture(true);
             if (!writeAudio(10)) { emit resourcesEnd(); break; }
-            VideoFrame next = m_demuxer->getPicture(true, true);
+            qreal next = m_demuxer->frontPicture();
             QCoreApplication::processEvents(); // process setVolume setSpeed etc
             syncTo(next);
         }

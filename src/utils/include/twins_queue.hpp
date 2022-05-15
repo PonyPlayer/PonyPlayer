@@ -96,57 +96,82 @@ public:
         return m_data.size() <= m_prefer;
     }
 
-    /**
-     * 取出队首元素, 若缺少元素, 则阻塞直到有元素.
-     * @return
-     */
-    const T& front() {
+    template<typename R>
+    R viewFront(const std::function<R(T)> &func) {
         const static T defaultValue = {};
         std::unique_lock lock(*m_mutex);
         m_cond->wait(lock, [this]{ return !this->m_data.empty() || !isOpen();});
-#ifdef DEBUG_PRINT_FUNCTION_CALL
-        qDebug() << m_name.c_str() << "IsEmpty" << m_data.empty() << "isOpen" << isOpen();
-#endif
         if (m_data.empty()) {
-            return defaultValue;
+            return func(defaultValue);
         } else {
-            return m_data.front();
+            return func(m_data.front());
+        }
+    }
+
+    T&& remove() {
+        std::unique_lock lock(*m_mutex);
+        m_cond->wait(lock, [this]{ return !this->m_data.empty() || !isOpen();});
+        if (m_data.empty()) {
+            return std::move(T{});
+        } else {
+            T&& ret = std::move(m_data.front());
+            m_data.pop();
+            if (m_data.size() < m_prefer / 2 && isOpen()) { this->m_cond->notify_all(); }
+            return std::move(ret);
         }
     }
 
 //    /**
-//     * 删除队首元素并返回, 需要保证 size >= 1.
+//     * 取出队首元素, 若缺少元素, 则阻塞直到有元素.
+//     * @return
 //     */
-//    T remove() {
-//        std::unique_lock lock(mutex);
-//        if (this->data.empty()) {
-//            cond.wait(lock);
+//    const T& front() {
+//        const static T defaultValue = {};
+//        std::unique_lock lock(*m_mutex);
+//        m_cond->wait(lock, [this]{ return !this->m_data.empty() || !isOpen();});
+//#ifdef DEBUG_PRINT_FUNCTION_CALL
+//        qDebug() << m_name.c_str() << "IsEmpty" << m_data.empty() << "isOpen" << isOpen();
+//#endif
+//        if (m_data.empty()) {
+//            return defaultValue;
+//        } else {
+//            return m_data.front();
 //        }
-//        auto ret = data.front();
-//        data.pop();
-//
-//        return ret;
 //    }
-
-    /**
-     * 删除队首元素, 需要保证 size >= 1.
-     */
-    bool pop() {
-        std::unique_lock lock(*m_mutex);
-        if (m_data.empty()) { return false; }
-#ifdef QT_DEBUG
-        // nullptr signals end of file
-        if (!m_data.front()) { throw std::runtime_error("Should not pop nullptr"); }
-#endif
-        m_data.pop();
-        // avoid bumpy
-        if (m_data.size() < m_prefer / 2) { this->m_cond->notify_all(); }
-#ifdef DEBUG_PRINT_FUNCTION_CALL
-        qDebug() << m_name.c_str() << "Pop" << m_data.size();
-#endif
-        return *m_open;
-    }
-
+//
+////    /**
+////     * 删除队首元素并返回, 需要保证 size >= 1.
+////     */
+////    T remove() {
+////        std::unique_lock lock(mutex);
+////        if (this->data.empty()) {
+////            cond.wait(lock);
+////        }
+////        auto ret = data.front();
+////        data.pop();
+////
+////        return ret;
+////    }
+//
+//    /**
+//     * 删除队首元素, 需要保证 size >= 1.
+//     */
+//    bool pop() {
+//        std::unique_lock lock(*m_mutex);
+//        if (m_data.empty()) { return false; }
+//#ifdef QT_DEBUG
+//        // nullptr signals end of file
+//        if (!m_data.front()) { throw std::runtime_error("Should not pop nullptr"); }
+//#endif
+//        m_data.pop();
+//        // avoid bumpy
+//        if (m_data.size() < m_prefer / 2) { this->m_cond->notify_all(); }
+//#ifdef DEBUG_PRINT_FUNCTION_CALL
+//        qDebug() << m_name.c_str() << "Pop" << m_data.size();
+//#endif
+//        return *m_open;
+//    }
+//
 
 };
 
