@@ -6,8 +6,6 @@ import HurricanePlayer
 import Thumbnail
 Rectangle {
     id:footer
-    height: mainWindow.isFooterVisible?80:0
-    visible: mainWindow.isFooterVisible
     color: "#666666"
     Timer{
         id:timerForThumbnail
@@ -274,51 +272,51 @@ Rectangle {
         mouseArea.onClicked: IF.toPause()
     }
     //播放速度调整
-    AnimatedButton {
-        id: videoSpeed
-        width: 30
-        height: 12
-        color: "transparent"
-        normalColor: "transparent"
-        hoverColor: "#10FFFFFF"
-        anchors.right: playMode.left
-        anchors.rightMargin: 10
-        anchors.verticalCenter: playOrPause.verticalCenter
-        image_width: 30
-        image_height: 12
-        state:  "speed1"
-        states: [
-            State {
-                name: "speed1"
-                PropertyChanges {
-                    target: videoSpeed
-                    imageSource: "interfacepics/Speed1"
-                }
-            },
-            State {
-                name: "speed2"
-                PropertyChanges {
-                    target: videoSpeed
-                    imageSource: "interfacepics/Speed2"
-                }
-            },
-            State {
-                name: "speed4"
-                PropertyChanges {
-                    target: videoSpeed
-                    imageSource: "interfacepics/Speed4"
-                }
-            },
-            State {
-                name: "speed8"
-                PropertyChanges {
-                    target: videoSpeed
-                    imageSource: "interfacepics/Speed8"
-                }
-            }
-        ]
-        mouseArea.onClicked: IF.videoSpeedOnClicked()
-    }
+    //AnimatedButton {
+    //    id: videoSpeed
+    //    width: 30
+    //    height: 12
+    //    color: "transparent"
+    //    normalColor: "transparent"
+    //    hoverColor: "#10FFFFFF"
+    //    anchors.right: playMode.left
+    //    anchors.rightMargin: 10
+    //    anchors.verticalCenter: playOrPause.verticalCenter
+    //    image_width: 30
+    //    image_height: 12
+    //    state:  "speed1"
+    //    states: [
+    //        State {
+    //            name: "speed1"
+    //            PropertyChanges {
+    //                target: videoSpeed
+    //                imageSource: "interfacepics/Speed1"
+    //            }
+    //        },
+    //        State {
+    //            name: "speed2"
+    //            PropertyChanges {
+    //                target: videoSpeed
+    //                imageSource: "interfacepics/Speed2"
+    //            }
+    //        },
+    //        State {
+    //            name: "speed4"
+    //            PropertyChanges {
+    //                target: videoSpeed
+    //                imageSource: "interfacepics/Speed4"
+    //            }
+    //        },
+    //        State {
+    //            name: "speed8"
+    //            PropertyChanges {
+    //                target: videoSpeed
+    //                imageSource: "interfacepics/Speed8"
+    //            }
+    //        }
+    //    ]
+    //    mouseArea.onClicked: IF.videoSpeedOnClicked()
+    //}
     
     //播放模式(顺序, 单曲循环, 随机)
     AnimatedButton {

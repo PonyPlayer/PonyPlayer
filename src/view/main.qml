@@ -137,30 +137,25 @@ Window {
 
 
     MouseArea{
-        anchors.fill: parent
-        id:mainScreen
-        hoverEnabled: true //默认是false
-        onPositionChanged: {
-            if(mainWindow.isFullScreen){
-                holder.restart()
-                mainWindow.isFooterVisible=true
-                mainWindow.isTopBarVisible=true
+            anchors.fill: parent
+            id:mainScreen
+            hoverEnabled: true //默认是false
+            onPositionChanged: {
+                if(mainWindow.isFullScreen){
+                    holder.restart()
+                    mainWindow.isVideoListOpen=true
+                    mainWindow.isFooterVisible=true
+                    mainWindow.isTopBarVisible=true
+                }
             }
         }
-    }
     Timer {
-            id: holder
-            interval: 3000
-            repeat: false
-            running: mainWindow.isFullScreen
-            triggeredOnStart: false
-            onTriggered: {
-
-                mainWindow.isVideoListOpen=false
-                mainWindow.isFooterVisible=false
-                mainWindow.isTopBarVisible=false
-                console.log("++++++++++++++++++++++++++holder")
-            }
+        id: holder
+        interval: 3000
+        repeat: false
+        running: mainWindow.isFullScreen
+        triggeredOnStart: false
+        onTriggered: IF.hideComponents()
     }
     Rectangle{
         id:topBar
@@ -203,11 +198,14 @@ Window {
             }
             Menu {
                 id: menu
-                width: 100
+                width: 120
                 topMargin: parent.height
                 Action {
                     text: "画面"
                     onTriggered:additionalSettings.show()
+                }
+                SpeedMenu{
+
                 }
                 Menu{
                     id: filter
@@ -540,9 +538,7 @@ Window {
                     //onClicked: IF.videoAreaOnClicked()
                     onPositionChanged: {
                         if(mainWindow.isFullScreen){
-                            holder.restart()
-                            mainWindow.isFooterVisable=true
-                            mainWindow.isTopBarVisible=true
+                            IF.showComponents()
                         }
                     }
                 }
@@ -589,6 +585,8 @@ Window {
 
     PonyFooter{
         id:footer
+        height: mainWindow.isFooterVisible?80:0
+        visible: mainWindow.isFooterVisible
         anchors.left: leftSizeChange.right
         anchors.right: rightSizeChange.left
         anchors.bottom: downSizeChange.top

@@ -27,6 +27,7 @@ qt_add_qml_module(${PROJECT_NAME}
             RightTopSizeChange.qml
             ButtonColorAnimation.qml
             AnimatedButton.qml
+            SpeedMenu.qml
         RESOURCES
             interfacepics/additionalsettings.png
             interfacepics/cease.png

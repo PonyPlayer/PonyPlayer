@@ -140,11 +140,13 @@ function screenSizeFunction(){
     if(mainWindow.isFullScreen){
         mainWindow.showNormal()
         mainWindow.isFullScreen=false
-        mainWindow.isFooterVisable=true
+        showComponents()
+        holder.stop()
     }
     else{
         mainWindow.isFullScreen=true
-        mainWindow.visibility=showFullScreen()
+        mainWindow.showFullScreen()
+        holder.start()
     }
 }
 function volumeSliderOnMoved(){
@@ -380,4 +382,20 @@ function makeTrackMenu(){
         item.setTrack.connect(videoArea.setTrack)
         trackmenu.addItem(item)
     }
+}
+function holderOnTriggered(){
+
+}
+function hideComponents(){
+    mainWindow.isVideoListOpen=false
+    mainWindow.isFooterVisible=false
+    console.log(mainWindow.isFooterVisible+"................"+footer.visible+"................"+footer.height)
+    mainWindow.isTopBarVisible=false
+    console.log(mainWindow.isTopBarVisible+"................"+topBar.visible+"................"+topBar.height)
+    console.log("++++++++++++++++++++++++++holder")
+}
+function showComponents(){
+    holder.restart()
+    mainWindow.isFooterVisible=true
+    mainWindow.isTopBarVisible=true
 }
