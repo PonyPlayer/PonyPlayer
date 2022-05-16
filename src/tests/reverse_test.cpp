@@ -9,21 +9,20 @@
 void testGetFrame() {
     auto fn = "D:/test_video/dj.mp4";
     ReverseDecodeDispatcher dispatcher(fn, nullptr);
-    auto thread = std::thread([&]() {
-        std::cerr << dispatcher.getVideoLength() << std::endl;
+    auto t1 = std::thread([&]() {
         dispatcher.seek(5.0);
         dispatcher.stateResume();
         dispatcher.onWork();
+        std::cerr << "finish" << std::endl;
     });
-    thread.join();
-    std::cerr << std::endl;
-    VideoFrame vf;
+    t1.join();
     do {
-        vf = dispatcher.getPicture(false, true);
-        std::cerr << vf.getPTS() << std::endl;
-        dispatcher.popPicture(false);
-    } while (vf.isValid());
-    //std::this_thread::sleep_for(std::chrono::seconds(5));
+        auto vf = dispatcher.getPicture();
+        auto af = dispatcher.getSample();
+        if (!af.isValid() || !vf.isValid())
+            break;
+        std::cerr << vf.getPTS() << " " << af.getPTS() << std::endl;
+    } while (true);
 }
 
 TEST(reverse_test, testGetFrame) {

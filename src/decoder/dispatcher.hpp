@@ -308,10 +308,13 @@ class ReverseDecodeDispatcher : public DemuxDispatcherBase {
     PONY_THREAD_AFFINITY(DECODER)
 private:
     int videoStreamIndex{-1};
+    int audioStreamIndex{-1};
 
     AVStream *videoStream{};
+    AVStream *audioStream{};
 
     ReverseDecoderImpl<Video> *videoDecoder;
+    ReverseDecoderImpl<Audio> *audioDecoder;
     AudioFrame silenceFrame;
     std::vector<StreamInfo> streamInfos;
     std::byte silence[1024]{};
@@ -319,6 +322,7 @@ private:
     std::atomic<bool> interrupt = true;
     AVPacket *packet = nullptr;
     TwinsBlockQueue<std::vector<AVFrame *>*> *videoQueue;
+    TwinsBlockQueue<std::vector<AVFrame *>*> *audioQueue;
     qreal m_videoDuration;
     LifeCycleManager *m_lifeManager = new LifeCycleManager;
 public:
@@ -330,13 +334,21 @@ public:
                 videoStreamIndex = i;
                 videoStream = fmtCtx->streams[i];
             }
+            else if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && audioStreamIndex == -1) {
+                audioStreamIndex = i;
+                audioStream = fmtCtx->streams[i];
+            }
         }
 
         if (videoStreamIndex < 0) { throw std::runtime_error("Cannot find video stream."); }
+        if (audioStreamIndex < 0) { throw std::runtime_error("Cannot find audio stream."); }
 
         // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
-        videoQueue = new TwinsBlockQueue<std::vector<AVFrame *>*>("VideoQueue", 6);
-        videoDecoder = new ReverseDecoderImpl<Video>(fmtCtx->streams[videoStreamIndex], videoQueue, m_lifeManager);
+        videoQueue = new TwinsBlockQueue<std::vector<AVFrame *>*>("VideoQueue", 3);
+        audioQueue = videoQueue->twins("AudioQueue", 3);
+
+        audioDecoder = new ReverseDecoderImpl<Audio>(audioStream, audioQueue, m_lifeManager, nullptr);
+        videoDecoder = new ReverseDecoderImpl<Video>(videoStream, videoQueue, m_lifeManager, audioDecoder);
         m_videoDuration = videoDecoder->duration();
         connect(this, &ReverseDecodeDispatcher::signalStartWorker, this, &ReverseDecodeDispatcher::onWork, Qt::QueuedConnection);
     }
@@ -344,8 +356,10 @@ public:
     ~ReverseDecodeDispatcher() override {
         qDebug() << "Destroy decode dispatcher " << filename.c_str();
         flush();
-        // if (videoQueue) { videoQueue->close(); }
+        delete audioQueue;
+        delete videoQueue;
         delete videoDecoder;
+        delete audioDecoder;
         if (packet) { av_packet_free(&packet); }
         m_lifeManager->deleteLater();
     }
@@ -360,11 +374,13 @@ public:
     }
 
     PONY_THREAD_SAFE void flush() override {
-        videoQueue->clear([](std::vector<AVFrame *>* frameStk){
+        auto freeFunc = [](std::vector<AVFrame *>* frameStk){
             for (auto frame : *frameStk)
                 if (frame) av_frame_free(&frame);
             delete frameStk;
-        });
+        };
+        videoQueue->clear(freeFunc);
+        audioQueue->clear(freeFunc);
     }
 
 
@@ -387,9 +403,11 @@ public:
         // case 2: not decoding, seek
         interrupt = true;
         videoDecoder->flushFFmpegBuffers();
+        audioDecoder->flushFFmpegBuffers();
         qDebug() << "a Seek:" << secs;
         secs = fmax(secs, 0.0);
         videoDecoder->setStart(secs);
+        audioDecoder->setStart(secs);
         int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>((secs-1.0) * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
@@ -398,7 +416,7 @@ public:
 
     PONY_THREAD_SAFE qreal frontPicture() override { return videoDecoder->viewFront(); }
 
-    PONY_THREAD_SAFE AudioFrame getSample() override { return silenceFrame; }
+    PONY_THREAD_SAFE AudioFrame getSample() override { return audioDecoder->getSample(); }
 
     PONY_THREAD_SAFE qreal frontSample() override { NOT_IMPLEMENT_YET }
 
@@ -420,26 +438,37 @@ private slots:
                     // qDebug() << "accept";
                     auto next = videoDecoder->nextSegment();
                     if (next > 0) {
+                        //std::cerr << "next: " << next << std::endl;
+                        videoDecoder->setStart(next);
+                        audioDecoder->setStart(next);
                         videoDecoder->flushFFmpegBuffers();
+                        audioDecoder->flushFFmpegBuffers();
                         av_seek_frame(fmtCtx, videoStreamIndex,
                                       static_cast<int64_t>((next-1.0) / av_q2d(videoStream->time_base)),
                                       AVSEEK_FLAG_BACKWARD);
                     }
                     else if (next == 0) {
+                        //std::cerr << "reverse: finish" << std::endl;
                         av_packet_unref(packet);
                         videoDecoder->pushEOF();
-                        qDebug() << "reverse: finish";
+                        audioDecoder->pushEOF();
+                        // qDebug() << "reverse: finish";
                         break;
                     }
+                }
+                else if (packet->stream_index == audioStreamIndex) {
+                    audioDecoder->accept(packet, interrupt);
                 }
             } else if (ret == ERROR_EOF) {
                 //std::cerr << "reverse reach eof" << std::endl;
                 qDebug() << "reverse: reach eof";
                 videoDecoder->flushFFmpegBuffers();
-                av_seek_frame(fmtCtx, videoStreamIndex,
-                              static_cast<int64_t>((m_videoDuration-2.0) / av_q2d(videoStream->time_base)),
+                audioDecoder->flushFFmpegBuffers();
+                av_seek_frame(fmtCtx, -1,
+                              static_cast<int64_t>((m_videoDuration-2.0) * AV_TIME_BASE),
                               AVSEEK_FLAG_BACKWARD);
                 videoDecoder->setStart(m_videoDuration-1.0);
+                audioDecoder->setStart(m_videoDuration-1.0);
             } else {
                 qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
             }
