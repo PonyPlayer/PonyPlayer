@@ -166,25 +166,6 @@ function playModeOnClicked(){
     }
     mainWindow.playModeChange(playState)
 }
-//function videoSpeedOnClicked(){
-//    if(videoSpeed.state==="speed1"){
-//        videoSpeed.state="speed2"
-//        mainWindow.speed=2.0
-//    }
-//    else if(videoSpeed.state==="speed2"){
-//        videoSpeed.state="speed4"
-//        mainWindow.speed=4.0
-//    }
-//    else if(videoSpeed.state==="speed4"){
-//        videoSpeed.state="speed8"
-//        mainWindow.speed=8.0
-//    }
-//    else{
-//        videoSpeed.state="speed1"
-//        mainWindow.speed=1.0
-//    }
-//    videoArea.setSpeed(mainWindow.speed)
-//}
 function invertedOnClicked(){
     if(mainWindow.isInverted){
         mainWindow.isInverted=false
@@ -336,7 +317,6 @@ function solveStateChanged(){
         IF.makeTrackMenu()
     }
     // mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
-
     //let tmp=videoArea.getPTS()
     //mainWindow.currentTime=tmp
     //videoSlide.value=tmp
@@ -369,15 +349,11 @@ function makeTrackMenu(){
         trackmenu.addItem(item)
     }
 }
-function holderOnTriggered(){
-
-}
 function hideComponents(){
     mainWindow.isVideoListOpen=false
     mainWindow.isFooterVisible=false
     mainWindow.isTopBarVisible=false
     mainWindow.mouseFlag=true
-    console.log("++++++++++++++++++++++++++holder")
 }
 function showComponents(){
     holder.restart()

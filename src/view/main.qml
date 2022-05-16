@@ -109,17 +109,39 @@ Window {
     signal setSpeed(real speed)
     //打开文件
     signal openFile(string path)
+    //更新滑动条
     signal wakeSlide()
 
 
     MediaInfo {
         id:mediainfowindow
-
         Component.onCompleted: {
             console.log("mediainfo complete")
         }
     }
-
+    Timer{
+        id:detechSize
+        interval: 1000
+        repeat: true
+        running:true
+        onTriggered: {
+            mainWindow.userWidth=mainWindow.width
+            mainWindow.userHeight=mainWindow.height
+        }
+    }
+    Dialog{
+        id:operationFailedDialog
+        title: "操作失败"
+        width: 200
+        height: 150
+        standardButtons: Dialog.Ok
+        Text{
+            id:operationFailedDialogText
+            text: "打开文件失败，请选择正确路径"
+            anchors.centerIn: parent
+        }
+        onAccepted: console.log("Ok clicked")
+    }
 
     width: mainWindow.userWidth
     height: mainWindow.userHeight
@@ -278,29 +300,7 @@ Window {
             mouseArea.onClicked: mainWindow.lower()
         }
     }
-    Timer{
-        id:detechSize
-        interval: 200
-        repeat: true
-        running:true
-        onTriggered: {
-            mainWindow.userWidth=mainWindow.width
-            mainWindow.userHeight=mainWindow.height
-        }
-    }
-    Dialog{
-        id:operationFailedDialog
-        title: "操作失败"
-        width: 200
-        height: 150
-        standardButtons: Dialog.Ok
-        Text{
-            id:operationFailedDialogText
-            text: "打开文件失败，请选择正确路径"
-            anchors.centerIn: parent
-        }
-        onAccepted: console.log("Ok clicked")
-    }
+
     AdditionalSettings{
         id:additionalSettings
     }
@@ -523,7 +523,7 @@ Window {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.right: videoList.left
-            interactive: false
+            interactive: true
             currentIndex: 1
             clip: true
             HurricanePlayer{
@@ -532,13 +532,23 @@ Window {
                 MouseArea{
                     anchors.fill: parent
                     hoverEnabled: true //默认是false
-                    //onClicked: IF.videoAreaOnClicked()
+                    propagateComposedEvents: true
                     onPositionChanged: {
                         if(mainWindow.isFullScreen){
-                            IF.showComponents()
+                            if(mainWindow.mouseFlag){
+                                mainWindow.mouseFlag=false
+                            }
+                            else{
+                                IF.showComponents()
+                            }
                         }
                     }
                 }
+                //onResourcesEnd:{
+                //    toVideoEnd()
+                //    nextOnClicked()
+                //    toVideoBegining()
+                //}
                 onStateChanged:IF.solveStateChanged()
                 Component.onCompleted: IF.mainAreaInit()
                 onOpenFileResult:{
@@ -564,15 +574,6 @@ Window {
                     source: "interfacepics/ponyback"
                     anchors.centerIn: parent
                 }
-                Button {
-                    anchors.top: initImage.bottom
-                    anchors.horizontalCenter: initImage.horizontalCenter
-                    text: "打开文件"
-                    width: 120
-                    height: 30
-                    onClicked: fileDialog.open()
-
-                }
                 MouseArea{
                     anchors.fill: parent
                     hoverEnabled: true //默认是false
@@ -584,14 +585,25 @@ Window {
                             }
                             else{
                                 IF.showComponents()
-                                console.log("init"+"triggered+++++++++++++"+mouseX)
                             }
                         }
                     }
                 }
+                Button {
+                    anchors.top: initImage.bottom
+                    anchors.horizontalCenter: initImage.horizontalCenter
+                    text: "打开文件"
+                    width: 120
+                    height: 30
+                    onClicked: fileDialog.open()
+
+                }
             }
             Wave{
                 id: wave
+                Component.onCompleted: {
+                    wave.waveView.readLyrics("Fire on Fire - Sam Smith.lrc")
+                }
             }
         }
     }

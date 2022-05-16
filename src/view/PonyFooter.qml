@@ -7,17 +7,6 @@ import Thumbnail
 Rectangle {
     id:footer
     color: "#666666"
-    Timer{
-        id:timerForThumbnail
-        interval:500
-        repeat:false
-        onTriggered:{
-            if(Math.abs(previewDetector.mouseX-mainWindow.lastStep)>10){
-                mainWindow.lastStep=previewDetector.mouseX
-                preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
-            }
-        }
-    }
     Label{
         id:distanceStart
         anchors.left:parent.left
@@ -85,6 +74,17 @@ Rectangle {
             onActivated: IF.forwardFiveSeconds()
         }
     }
+    Timer{
+        id:timerForThumbnail
+        interval:500
+        repeat:false
+        onTriggered:{
+            if(Math.abs(previewDetector.mouseX-mainWindow.lastStep)>10){
+                mainWindow.lastStep=previewDetector.mouseX
+                preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+            }
+        }
+    }
     Rectangle {
         id: previewRect
         visible: false
@@ -103,11 +103,6 @@ Rectangle {
         }
 
     }
-
-
-
-
-
     Label{
         id:distanceEnd
         anchors.right:parent.right
@@ -119,11 +114,6 @@ Rectangle {
         font.bold: true
         lineHeight: 20
     }
-
-
-
-
-
     Timer {
         id:timer
         interval: 1000/mainWindow.speed
@@ -271,53 +261,6 @@ Rectangle {
         imageSource: "interfacepics/cease"
         mouseArea.onClicked: IF.toPause()
     }
-    //播放速度调整
-    //AnimatedButton {
-    //    id: videoSpeed
-    //    width: 30
-    //    height: 12
-    //    color: "transparent"
-    //    normalColor: "transparent"
-    //    hoverColor: "#10FFFFFF"
-    //    anchors.right: playMode.left
-    //    anchors.rightMargin: 10
-    //    anchors.verticalCenter: playOrPause.verticalCenter
-    //    image_width: 30
-    //    image_height: 12
-    //    state:  "speed1"
-    //    states: [
-    //        State {
-    //            name: "speed1"
-    //            PropertyChanges {
-    //                target: videoSpeed
-    //                imageSource: "interfacepics/Speed1"
-    //            }
-    //        },
-    //        State {
-    //            name: "speed2"
-    //            PropertyChanges {
-    //                target: videoSpeed
-    //                imageSource: "interfacepics/Speed2"
-    //            }
-    //        },
-    //        State {
-    //            name: "speed4"
-    //            PropertyChanges {
-    //                target: videoSpeed
-    //                imageSource: "interfacepics/Speed4"
-    //            }
-    //        },
-    //        State {
-    //            name: "speed8"
-    //            PropertyChanges {
-    //                target: videoSpeed
-    //                imageSource: "interfacepics/Speed8"
-    //            }
-    //        }
-    //    ]
-    //    mouseArea.onClicked: IF.videoSpeedOnClicked()
-    //}
-    
     //播放模式(顺序, 单曲循环, 随机)
     AnimatedButton {
         id: playMode
