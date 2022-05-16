@@ -20,6 +20,8 @@ QString saveImage(QString abspath, QImage& image) {
 
 void infoAccessor::getInfo(QString filename, PlayListItem& res) {
     AVFormatContext* input_AVFormat_context_ = avformat_alloc_context();
+    QUrl url(filename);
+    filename = url.toLocalFile();
     if(avformat_open_input(&input_AVFormat_context_, filename.toStdString().c_str(), 0, NULL) < 0){
         qDebug()<<"file open error!";
         return;
