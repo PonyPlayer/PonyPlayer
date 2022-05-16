@@ -38,7 +38,6 @@ foreach(LIB IN LISTS FFMPEG_LIBS)
 endforeach()
 
 file(GLOB_RECURSE ASSETS_FILTER CONFIGURE_DEPENDS assets/filters/**.jpg )
-message(${ASSETS_FILTER})
 find_library(FFmpeg COMPONENTS ${FFMPEG_LIBS} "${FFMPEG_PREFIX_PATH}/lib/")
 set(CMAKE_MACOSX_RPATH ON)
 include_directories(${FFMPEG_PREFIX_PATH}/include)
