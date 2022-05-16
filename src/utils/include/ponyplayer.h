@@ -6,7 +6,7 @@
 #pragma once
 
 #ifdef NDEBUG
-#define NOT_IMPLEMENT_YET { throw std::runtime_error(std::string("Unsupported operation:"); }
+#define NOT_IMPLEMENT_YET { throw std::runtime_error("Unsupported operation:"); }
 #else
 #define NOT_IMPLEMENT_YET { \
 throw std::runtime_error(std::string("Unsupported operation: ").append(__FILE__).append(":").append(std::to_string(__LINE__))); \
