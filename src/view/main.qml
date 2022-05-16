@@ -325,13 +325,9 @@ Window {
                     var items = mediaLibController.getSimpleListItemList()
 
                     for(var i=0;i<items.length;i++) {
-                        console.log(items[i]["fileName"])
-                        // listModel.append({"name":items[i].getFileName,"file_path":items[i].getFilePath,"iconpath":"interfacepics/defaultlogo"})
-                        listModel.append(items[i])
-
-                        var appe = listModel.get(listModel.count-1)
-                        if(appe.iconPath === "")
-                            appe.iconPath = "interfacepics/defaultlogo"
+                        listModel.append({"fileName":items[i].getFileName(),
+                        "filePath":items[i].getFilePath(),
+                        "iconPath":items[i].getIconPath()==="" ? "interfacepics/defaultlogo" : items[i].getIconPath()})
                     }
                 }
 

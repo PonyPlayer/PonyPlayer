@@ -12,12 +12,12 @@
 #include "info_accessor.h"
 
 class Controller : public QObject {
-    Q_OBJECT
-            QThread listOPThread;
+Q_OBJECT
+    QThread listOPThread;
 
 private:
-    QList<simpleListItem*> result;
-    PlayListItem* playListItemResult;
+    QList<simpleListItem *> result;
+    PlayListItem *playListItemResult;
 
 public:
     explicit Controller(QObject *parent = nullptr);
@@ -25,6 +25,7 @@ public:
     ~Controller();
 
     Q_INVOKABLE QVariantList getSimpleListItemList();
+
     Q_INVOKABLE QVariantMap getListItemInfo();
 
 public slots:
@@ -50,15 +51,16 @@ public slots:
             qDebug() << "Search Fail!\n";
     }
 
-    void getExtractRst(QList<simpleListItem*> rst) {
+    void getExtractRst(QList<simpleListItem *> rst) {
         result.clear();
-        for(int i=0;i<rst.size();i++) {
+
+        for (int i = 0; i < rst.size(); i++) {
             result.append(rst[i]);
         }
         emit finishExtractItems();
     }
 
-    void getInfoRst(PlayListItem* rst) {
+    void getInfoRst(PlayListItem *rst) {
         playListItemResult = rst;
         emit finishGetInfo();
     }
@@ -85,10 +87,13 @@ public slots:
     }
 
     void sendExtractRequirement() { emit extractRequirement(); }
+
     void sendRemoveRequirement(QString filepath, QString iconPath) { emit removeRequirement(filepath); }
+
     void sendGetInfoRequirement(QString filepath) { emit getInfoRequirement(filepath); }
 
 signals:
+
     //发送信号触发线程
     void insertItem(PlayListItem *item);
 
