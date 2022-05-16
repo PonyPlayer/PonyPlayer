@@ -95,6 +95,10 @@ public slots:
     void pushLyricSentence(LyricSentence *sentence) {
         m_sentences.push_back(sentence);
     };
+
+    void pushLyricSentenceCompleted(){
+        emit lyricsChange();
+    }
 };
 
 class LyricsReader : public QObject {
@@ -109,4 +113,5 @@ public slots:
 signals:
 
     void lyricReadCompleted(std::shared_ptr<lrc::Lyrics> response);
+
 };

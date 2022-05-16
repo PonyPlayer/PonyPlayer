@@ -50,7 +50,6 @@ void LyricsData::clearSentences(QQmlListProperty<LyricSentence> *list) {
 }
 
 void LyricsData::appendSentences(LyricSentence *p) {
-    qDebug() << "APPENDED";
     m_sentences.append(p);
 }
 

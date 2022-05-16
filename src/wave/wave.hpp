@@ -40,8 +40,9 @@ public:
             }
             connect(hurricane, &Hurricane::signalOpenFile, lyricsReader, &LyricsReader::readLyric);
             connect(lyricsReader, &LyricsReader::lyricReadCompleted, this, &WaveView::readLyricsResponse);
-            connect(this,&WaveView::signalPushLyricSentence,lyricsData,&LyricsData::pushLyricSentence);
-            lyricsReader->readLyric("/home/gns/Fire on Fire - Sam Smith.lrc");
+            connect(this, &WaveView::signalPushLyricSentence, lyricsData, &LyricsData::pushLyricSentence);
+            connect(this, &WaveView::signalPushLyricSentenceCompleted, lyricsData,
+                    &LyricsData::pushLyricSentenceCompleted);
 
         });
     };
@@ -78,6 +79,12 @@ public slots:
                                       QString(it->lyric.data())));
 
         }
+        emit signalPushLyricSentenceCompleted();
+    }
+
+    Q_INVOKABLE bool readLyrics(const QString &filePath) {
+        lyricsReader->readLyric(filePath);
+        return true;
     }
 
 signals:
@@ -85,5 +92,7 @@ signals:
     void signalPushLyricSentence(LyricSentence *lyricSentence);
 
     void notifyRadiusRatio();
+
+    void signalPushLyricSentenceCompleted();
 
 };

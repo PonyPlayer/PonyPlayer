@@ -6,6 +6,7 @@ import LyricSentence
 import "./interfacefunctions.js" as IF
 
 Rectangle {
+    property alias waveArea: waveArea
     width: 600
     height: 600
     Image {
