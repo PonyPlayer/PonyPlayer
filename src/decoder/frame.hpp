@@ -178,7 +178,8 @@ public:
             throw std::runtime_error("Negative refCount, Potential double free.");
         }
         av_frame_free(&frame);
-        if (ret == 0 && autoDelete) { delete this; }
+        int expect = 0;
+        if (refCount.compare_exchange_strong(expect, -1) && autoDelete) { delete this; }
     }
 
     /**

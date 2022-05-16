@@ -104,6 +104,7 @@ public:
     virtual bool hasVideo() { NOT_IMPLEMENT_YET }
 
 
+    virtual void setEnableAudio(bool enable) { NOT_IMPLEMENT_YET }
 };
 
 /**
@@ -266,6 +267,10 @@ public:
         return !description.m_videoStreamsIndex.empty() && fmtCtx->streams[m_videoStreamIndex]->nb_frames > 0;
     }
 
+    PONY_GUARD_BY(DECODER) void setEnableAudio(bool enable) {
+        audioDecoder->setEnable(false);
+    }
+
 private slots:
     void onWork()  {
         videoQueue->open();
@@ -396,6 +401,11 @@ public:
     PONY_THREAD_SAFE AudioFrame getSample() override { return silenceFrame; }
 
     PONY_THREAD_SAFE qreal frontSample() override { NOT_IMPLEMENT_YET }
+
+    PONY_GUARD_BY(DECODER) void setEnableAudio(bool enable) {
+//        audioDecoder->setEnable(false);
+    }
+
 
     bool hasVideo() override { return true; }
 

@@ -87,7 +87,7 @@ public:
      * 当前是否倒放
      * @return
      */
-    PONY_THREAD_SAFE bool isRewind() {
+    PONY_THREAD_SAFE bool isBackward() {
         std::unique_lock lock(mutex);
         return dynamic_cast<ReverseDecodeDispatcher*>(m_worker);
     }
@@ -131,6 +131,10 @@ public:
     PONY_GUARD_BY(FRAME) void setTrack(int i) {
         std::unique_lock lock(mutex);
         m_worker->setTrack(i);
+    }
+
+    void setEnableAudio(bool enable) {
+        m_worker->setEnableAudio(enable);
     }
 
 public slots:

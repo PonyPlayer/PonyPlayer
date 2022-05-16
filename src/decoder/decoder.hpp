@@ -76,6 +76,9 @@ public:
      */
     virtual double duration() = 0;
 
+
+    virtual void setEnable(bool b) = 0;
+
     virtual ~IDemuxDecoder() = default;
 
 };
@@ -180,6 +183,10 @@ public:
         }, m_lifeCycleManager->freeDirectFunc);
     }
 
+    PONY_THREAD_SAFE void setEnable(bool b) override {
+        frameQueue->setEnable(b);
+    }
+
     PONY_GUARD_BY(DECODER) void flushFFmpegBuffers() override {
         avcodec_flush_buffers(codecCtx);
     }
@@ -273,6 +280,7 @@ public:
         m_lifeCycleManager->freeLater(stillVideoFrame);
     }
 
+
 };
 
 /**
@@ -309,6 +317,10 @@ public:
     PONY_THREAD_SAFE int skip(const std::function<bool(qreal)> &predicate) override {
         return 0;
     }
+
+    PONY_THREAD_SAFE void setEnable(bool b) override {}
+
+
 };
 
 /**
@@ -429,6 +441,17 @@ public:
         avcodec_flush_buffers(codecCtx);
     }
 
+    PONY_THREAD_SAFE void setEnable(bool b) override {
+        NOT_IMPLEMENT_YET
+    }
+
+    qreal viewFront() override {
+        NOT_IMPLEMENT_YET
+    }
+
+    int skip(const std::function<bool(qreal)> &predicate) override {
+        NOT_IMPLEMENT_YET
+    }
 };
 
 /**
@@ -490,5 +513,8 @@ public:
     int skip(const std::function<bool(qreal)> &predicate) override {
         return 0;
     }
+
+
+
 };
 

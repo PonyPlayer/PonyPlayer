@@ -32,23 +32,44 @@ private:
     std::mutex m_workMutex;
     std::condition_variable m_interruptCond;
 
+    // playback 的速度, 不受倍速限制
+    qreal m_speedFactor = 1.0;
+
+    std::atomic<qreal> m_videoPos = 0.0;
+
     inline void changeState(bool isPlaying) {
         m_isPlaying = isPlaying;
         emit stateChanged(isPlaying);
     }
 
-    inline void syncTo(qreal pos) {
+    inline void syncTo(qreal current) {
+        qreal pos = m_demuxer->frontPicture();
         if (isnan(pos)) { return; }
         double duration;
         if (!m_demuxer->hasVideo()) {
+            // 纯音频
             duration = 1. / 30;
         } else {
-            bool backward = m_demuxer->isRewind();
-            duration = pos - m_audioSink->getProcessSecs(backward);
+            bool backward = m_demuxer->isBackward();
+            if (m_audioSink->isBlock()) {
+                // 由于没有音频
+                duration = (current - pos) / m_audioSink->speed();
+            } else {
+                if (m_audioSink->speed() > 2 - 1e-5) {
+                    if (!backward) {
+                        m_demuxer->skipPicture([this, backward](qreal framePos){ return framePos < m_audioSink->getProcessSecs(backward);});
+                    } else {
+                        m_demuxer->skipPicture([this, backward](qreal framePos){ return framePos > m_audioSink->getProcessSecs(backward);});
+                    }
+                }
+                duration = m_demuxer->frontPicture() - m_audioSink->getProcessSecs(backward);
+            }
             if (backward) { duration = -duration; }
         }
         if (duration > 0) {
-            if (duration > 1) { qWarning() << "Sleep long duration" << duration << "s"; }
+            if (duration > 1) {
+                qWarning() << "Sleep long duration" << duration << "s";
+            }
             std::unique_lock lock(m_interruptMutex);
             m_interruptCond.wait_for(lock, std::chrono::duration<double>(duration));
         } else {
@@ -57,6 +78,7 @@ private:
     }
 
     inline bool writeAudio(int batch) {
+        if (m_audioSink->isBlock()) { return true; }
         for (int i = 0; i < batch && m_audioSink->freeByte() > MAX_AUDIO_FRAME_SIZE; ++i) {
             AudioFrame sample = m_demuxer->getSample();
             if (!sample.isValid()) { return false; }
@@ -84,7 +106,21 @@ public:
         connect(this, &Playback::stopWork, this, [this] { this->m_audioSink->stop(); });
         connect(this, &Playback::setAudioStartPoint, this, [this](qreal t) {this->m_audioSink->setStartPoint(t);});
         connect(this, &Playback::setAudioVolume, this, [this](qreal volume) {this->m_audioSink->setVolume(volume);});
-        connect(this, &Playback::setAudioSpeed, this, [this](qreal speed) {this->m_audioSink->setSpeed(speed);});
+        connect(this, &Playback::setAudioSpeed, this, [this](qreal speed) {
+            m_speedFactor = speed;
+            this->m_audioSink->setSpeed(speed);
+            if (speed > PonyAudioSink::MAX_SPEED_FACTOR) {
+                if (this->m_audioSink->isBlock()) { return; }
+                // 需要禁用音频
+                this->m_audioSink->setBlockState(true);
+                emit requestResynchronization(true); // queue connection
+            } else if (speed <= PonyAudioSink::MAX_SPEED_FACTOR) {
+                if (!this->m_audioSink->isBlock()) { return; }
+                // 需要重新启动音频
+                this->m_audioSink->setBlockState(false);
+                emit requestResynchronization(false); // queue connection
+            }
+        });
         connect(this, &Playback::updateVideoFrame, this, [this]{
             if (!cacheVideoFrame.isValid()) { cacheVideoFrame = m_demuxer->getPicture(); }
             emit setPicture(cacheVideoFrame);
@@ -98,8 +134,16 @@ public:
         m_affinityThread->start();
     }
 
-    qreal pos() {
-        return m_audioSink->getProcessSecs(false);
+    qreal getAudioPos(bool backward) const {
+        if (m_speedFactor < PonyAudioSink::MAX_SPEED_FACTOR) {
+            return m_audioSink->getProcessSecs(backward);
+        } else {
+            throw std::runtime_error("AudioPos not available.");
+        }
+    }
+
+    qreal getVideoPos() const {
+        return m_videoPos.load();
     }
 
     virtual ~Playback() {
@@ -156,8 +200,10 @@ public:
      * 尽快暂停处理, 这个方法将会阻塞直到当前工作停止. 这个方法不会丢失数据.
      */
     void pause() {
+        std::unique_lock cond_lock(m_interruptMutex);
         m_isInterrupt = true;
         m_interruptCond.notify_all();
+        cond_lock.unlock();
         std::unique_lock lock(m_workMutex);
     }
 
@@ -165,8 +211,10 @@ public:
      * 立即停止, 清空缓冲区的数据.
      */
     void stop() {
+        std::unique_lock cond_lock(m_interruptMutex);
         m_isInterrupt = true;
         m_interruptCond.notify_all();
+        cond_lock.unlock();
         std::unique_lock lock(m_workMutex); // make sure stop
         emit stopWork(QPrivateSignal());
         emit setAudioStartPoint(0.0, QPrivateSignal());
@@ -188,14 +236,15 @@ private slots:
         while(!m_isInterrupt) {
             VideoFrame pic = getVideoFrame();
             if (!pic.isValid()) { emit resourcesEnd(); break; }
+            m_videoPos = pic.getPTS();
             emit setPicture(pic);
-            if (!writeAudio(10)) { emit resourcesEnd(); break; }
-            qreal next = m_demuxer->frontPicture();
+            if (!writeAudio(10 * static_cast<int>(m_audioSink->speed()))) { emit resourcesEnd(); break; }
             QCoreApplication::processEvents(); // process setVolume setSpeed etc
-            syncTo(next);
+            syncTo(pic.getPTS());
         }
         m_audioSink->pause();
         changeState(false);
+        lock.unlock();
     };
 
 
@@ -211,6 +260,11 @@ signals:
     void setPicture(VideoFrame pic);
     void stateChanged(bool isPlaying);
     void resourcesEnd();
+
+    /**
+     * 由于设备切换, 音频倍速调整等原因需要下层重新同步
+     */
+    void requestResynchronization(bool enableAudio);
 
 
 };

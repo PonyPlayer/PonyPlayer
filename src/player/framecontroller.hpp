@@ -38,29 +38,39 @@ public:
                 emit openFileResult(success);
             });
             connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd, Qt::DirectConnection);
-            connect(this, &FrameController::signalSetTrack, [this](int i){
-                qreal pos = m_playback->pos();
+            connect(this, &FrameController::signalSetTrack, this, [this](int i){
+                qreal pos = m_playback->getAudioPos(m_demuxer->isBackward());
                 m_playback->stop();
                 m_demuxer->pause();
                 m_demuxer->setTrack(i);
                 seek(pos);
             });
-            connect(this, &FrameController::signalBackward, [this]{
-                qreal pos = m_playback->pos();
+            connect(this, &FrameController::signalBackward, this, [this]{
+                qreal pos = m_playback->getAudioPos(m_demuxer->isBackward());
                 m_playback->stop();
                 m_demuxer->pause();
                 m_demuxer->backward();
                 seek(pos);
                 m_demuxer->start();
             });
-            connect(this, &FrameController::signalForward, [this]{
-                qreal pos = m_playback->pos();
+            connect(this, &FrameController::signalForward, this, [this]{
+                qreal pos = m_playback->getAudioPos(m_demuxer->isBackward());
                 m_playback->stop();
                 m_demuxer->pause();
                 m_demuxer->forward();
                 seek(pos);
                 m_demuxer->start();
             });
+            connect(m_playback, &Playback::requestResynchronization, this, [this](bool enableAudio){
+                bool isPlay = m_playback->isPlaying();
+                qreal pos = m_playback->getVideoPos();
+                m_playback->stop();
+                m_demuxer->pause();
+                seek(pos);
+                m_demuxer->setEnableAudio(enableAudio);
+                m_demuxer->start();
+                if (isPlay) {m_playback->start(); }
+            }, Qt::QueuedConnection);
         });
         m_affinityThread->start();
     }
@@ -148,7 +158,7 @@ public slots:
         m_demuxer->flush();
         m_demuxer->start();
 
-        bool backward = m_demuxer->isRewind();
+        bool backward = m_demuxer->isBackward();
         // time-consuming job
         // use audio frame pts may be more accurate, but it is not available in rewinding.
         qreal startPoint;

@@ -16,6 +16,7 @@
 template<typename T>
 class TwinsBlockQueue {
     std::queue<T> m_data;
+    std::atomic<bool> m_enable;
     const std::string m_name;
     const size_t m_prefer;
 
@@ -56,6 +57,14 @@ public:
         if (m_twins != this) { throw std::runtime_error("Already generate twins."); }
         m_twins = new TwinsBlockQueue<T>{name, prefer, this};
         return m_twins;
+    }
+
+    void setEnable(bool b) {
+        m_enable = b;
+    }
+
+    bool isEnable() const {
+        return m_enable;
     }
 
 
@@ -129,7 +138,7 @@ public:
             std::unique_lock lock(*m_mutex);
             if (m_data.empty()) { m_cond->wait(lock, [this]{ return !this->m_data.empty() || !isOpen();});}
             auto && element = m_data.front();
-            if (predicate(element)) {
+            if (element && predicate(element)) {
                 m_data.pop();
                 lock.unlock();
                 freeFunc(element);
@@ -190,6 +199,7 @@ public:
 //        return *m_open;
 //    }
 //
+
 
 };
 

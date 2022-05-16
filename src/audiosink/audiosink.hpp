@@ -18,6 +18,12 @@ enum class PlaybackState {
     PAUSED,  ///< 暂停状态
 };
 
+enum class BlockingState {
+    BLOCKING_WITHOUT_CLEANING, ///< 屏蔽状态, 但还没清空缓存
+    BLOCKING_CLEANED,          ///< 屏蔽状态, 已经清空缓存
+    NON_BLOCKING,              ///< 非屏蔽状态
+};
+
 /**
  * @brief 播放音频裸流, 用于代替QAudioSink.
  *
@@ -29,7 +35,7 @@ enum class PlaybackState {
 class PonyAudioSink : public QObject {
     Q_OBJECT
 private:
-    constexpr const static qreal MAX_SPEED_FACTOR = 8.0;
+
     PaStream *m_stream;
     PaStreamParameters *param;
     qreal m_volume;
@@ -46,9 +52,12 @@ private:
     sonicStream sonStream;
     std::byte *sonicBuffer = nullptr;
 
-    PaTime m_startPoint;
+    PaTime m_startPoint = 0.0;
     std::atomic<int64_t> m_dataWritten = 0;
     std::atomic<int64_t> m_dataLastWrote = 0;
+
+    std::atomic<bool> m_blockingState = false;
+//    std::mutex setBlockingMutex;
 
     void m_paStreamFinishedCallback() {
         if (m_state == PlaybackState::PLAYING) {
@@ -66,7 +75,9 @@ private:
         ring_buffer_size_t bytesAvailCount = PaUtil_GetRingBufferReadAvailable(&m_ringBuffer);
         auto bytesNeeded = static_cast<ring_buffer_size_t>(framesPerBuffer *
                                                            static_cast<unsigned long>(m_format.getBytesPerSampleChannels()));
-        if (bytesAvailCount == 0) {
+        if (m_blockingState) {
+            memset(outputBuffer, 0, static_cast<size_t>(bytesNeeded));
+        } else if (bytesAvailCount == 0) {
             memset(outputBuffer, 0, static_cast<size_t>(bytesNeeded));
             qWarning() << "paAbort bytesAvailCount == 0";
         } else {
@@ -109,6 +120,7 @@ private:
     }
 
 public:
+    constexpr const static qreal MAX_SPEED_FACTOR = 4;
 
     /**
      * 创建PonyAudioSink并attach到默认设备上
@@ -233,6 +245,14 @@ public:
         }
     }
 
+    void setBlockState(bool state) {
+        m_blockingState = state;
+    }
+
+    bool isBlock() {
+        return m_blockingState;
+    }
+
     /**
      * 获取播放状态
      * @return 当前状态
@@ -309,7 +329,7 @@ public:
      */
     [[nodiscard]] qreal getProcessSecs(bool backward) const {
         if (m_state == PlaybackState::STOPPED) { return m_startPoint; }
-        auto processSec = static_cast<double>(m_format.durationOfBytes(m_dataWritten - m_dataLastWrote));
+        auto processSec = static_cast<double>(m_format.durationOfBytes(m_dataWritten));
         if (backward) {
             return m_startPoint - processSec;
         } else {
@@ -358,6 +378,10 @@ public:
         return m_volume;
     }
 
+    [[nodiscard]]  qreal speed() const {
+        return m_speedFactor;
+    }
+
 signals:
 
     /**
@@ -369,5 +393,6 @@ signals:
      * 由于缺少音频数据, 被迫暂停播放
      */
     void resourceInsufficient();
+
 
 };

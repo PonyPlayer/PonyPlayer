@@ -134,9 +134,10 @@ public:
     }
 
     [[nodiscard]] int64_t suggestedRingBuffer(qreal speedFactor) const {
-        return std::max(
-            bytesOfDuration(0.5 * speedFactor),
-            static_cast<int64_t>(2 * 1024 * m_channelCount * m_sampleFormat.getBytesPerSample())
+        return qBound<int64_t>(
+            static_cast<int64_t>(2 * 1024 * m_channelCount * m_sampleFormat.getBytesPerSample()),
+            bytesOfDuration(0.2 * speedFactor),
+            256 << 20
         );
     }
 };
