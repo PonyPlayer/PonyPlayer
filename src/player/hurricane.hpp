@@ -231,7 +231,7 @@ public slots:
      * 获取当前视频播放进度, 需要保证状态不是 INVALID
      * @return 播放进度(单位: 秒)
      */
-    Q_INVOKABLE qreal getPTS() { return picture.getPTS(); }
+    Q_INVOKABLE qreal getPTS() { return frameController->getPreferablePos(); }
 
     /**
      * 改变视频播放的进度, 不保证马上生效, 请关注信号

@@ -260,12 +260,13 @@ function isBoundary(){
     return false
 }
 function timerOnTriggered(){
-    if(mainWindow.isInverted){
-        mainWindow.currentTime=mainWindow.currentTime-1.0
-    }
-    else {
-        mainWindow.currentTime=mainWindow.currentTime+1.0
-    }
+    // if(mainWindow.isInverted){
+    //     mainWindow.currentTime=mainWindow.currentTime-1.0
+    // }
+    // else {
+    //     mainWindow.currentTime=mainWindow.currentTime+1.0
+    // }
+    mainWindow.currentTime = videoArea.getPTS()
     if(!isBoundary()){
         videoSlide.value=mainWindow.currentTime
     }

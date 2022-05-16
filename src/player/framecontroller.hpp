@@ -63,7 +63,7 @@ public:
             });
             connect(m_playback, &Playback::requestResynchronization, this, [this](bool enableAudio){
                 bool isPlay = m_playback->isPlaying();
-                qreal pos = m_playback->getVideoPos();
+                qreal pos = m_playback->getPreferablePos();
                 m_playback->stop();
                 m_demuxer->pause();
                 seek(pos);
@@ -89,6 +89,10 @@ public:
 
     PONY_THREAD_SAFE void forward() {
         emit signalForward();
+    }
+
+    PONY_THREAD_SAFE qreal getPreferablePos() {
+        return m_playback->getPreferablePos();
     }
 
     /**
@@ -193,5 +197,7 @@ signals:
     void playbackStateChanged(bool isPlaying);
     void resourcesEnd();
     void setPicture(VideoFrame pic);
+
+
 };
 

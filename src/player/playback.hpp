@@ -35,7 +35,7 @@ private:
     // playback 的速度, 不受倍速限制
     qreal m_speedFactor = 1.0;
 
-    std::atomic<qreal> m_videoPos = 0.0;
+    std::atomic<qreal> m_preferablePos = 0.0;
 
     inline void changeState(bool isPlaying) {
         m_isPlaying = isPlaying;
@@ -45,12 +45,14 @@ private:
     inline void syncTo(qreal current) {
         qreal pos = m_demuxer->frontPicture();
         if (isnan(pos)) { return; }
+        bool backward = m_demuxer->isBackward();
         double duration;
         if (!m_demuxer->hasVideo()) {
             // 纯音频
             duration = 1. / 30;
+            m_preferablePos = m_audioSink->getProcessSecs(backward);
         } else {
-            bool backward = m_demuxer->isBackward();
+            m_preferablePos = current;
             if (m_audioSink->isBlock()) {
                 // 由于没有音频
                 duration = (current - pos) / m_audioSink->speed();
@@ -136,6 +138,10 @@ public:
         m_affinityThread->start();
     }
 
+    PONY_THREAD_SAFE qreal getPreferablePos() {
+        return m_preferablePos;
+    }
+
     qreal getAudioPos(bool backward) const {
         if (m_speedFactor < PonyAudioSink::MAX_SPEED_FACTOR) {
             return m_audioSink->getProcessSecs(backward);
@@ -144,9 +150,9 @@ public:
         }
     }
 
-    qreal getVideoPos() const {
-        return m_videoPos.load();
-    }
+//    qreal getVideoPos() const {
+//        return m_preferablePos.load();
+//    }
 
     virtual ~Playback() {
         m_affinityThread->quit();
@@ -238,7 +244,7 @@ private slots:
         while(!m_isInterrupt) {
             VideoFrame pic = getVideoFrame();
             if (!pic.isValid()) { emit resourcesEnd(); break; }
-            m_videoPos = pic.getPTS();
+//            m_videoPos = pic.getPTS();
             emit setPicture(pic);
             if (!writeAudio(10 * static_cast<int>(m_audioSink->speed()))) { emit resourcesEnd(); break; }
             QCoreApplication::processEvents(); // process setVolume setSpeed etc
@@ -267,6 +273,7 @@ signals:
      * 由于设备切换, 音频倍速调整等原因需要下层重新同步
      */
     void requestResynchronization(bool enableAudio);
+
 
 
 };
