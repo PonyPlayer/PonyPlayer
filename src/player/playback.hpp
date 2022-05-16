@@ -246,7 +246,7 @@ private slots:
             if (!pic.isValid()) { emit resourcesEnd(); break; }
 //            m_videoPos = pic.getPTS();
             emit setPicture(pic);
-            if (!writeAudio(10 * static_cast<int>(m_audioSink->speed()))) { emit resourcesEnd(); break; }
+            if (!writeAudio(static_cast<int>(10 * m_audioSink->speed()))) { emit resourcesEnd(); break; }
             QCoreApplication::processEvents(); // process setVolume setSpeed etc
             syncTo(pic.getPTS());
         }
