@@ -71,7 +71,9 @@ private:
                 qWarning() << "Sleep long duration" << duration << "s";
             }
             std::unique_lock lock(m_interruptMutex);
-            m_interruptCond.wait_for(lock, std::chrono::duration<double>(duration));
+            if (!m_isInterrupt) {
+                m_interruptCond.wait_for(lock, std::chrono::duration<double>(duration));
+            }
         } else {
             qWarning() << "Sleep negative duration" << duration << "s";
         }
