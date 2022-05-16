@@ -231,11 +231,23 @@ function mainAreaInit(){
 }
 function videoListOperatorOnAccepted(){
     mainWindow.openFile(fileDialog.currentFile);
-    mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
-    let selectedFileName = fileDialog.currentFile.toString().substring(
-        fileDialog.currentFolder.toString().length + 1)
-    mediaLibController.getFile(selectedFileName, fileDialog.currentFile);
-    listModel.append({"fileName":selectedFileName,"filePath":fileDialog.currentFile,"iconPath":"interfacepics/defaultlogo"})
+    mainWindow.endTime=Math.floor(videoArea.getVideoDuration());
+    var exists = false;
+    for(var i=0;i<listModel.count;i++) {
+        if(listModel.get(i).filePath == fileDialog.currentFile) {
+            listview.currentIndex = i;
+            exists = true;
+            break;
+        }
+    }
+    if(!exists) {
+        let selectedFileName = fileDialog.currentFile.toString().substring(
+            fileDialog.currentFolder.toString().length + 1)
+        mediaLibController.getFile(selectedFileName, fileDialog.currentFile);
+        listModel.append({"fileName":selectedFileName,"filePath":fileDialog.currentFile,"iconPath":"interfacepics/defaultlogo"});
+        listview.currentIndex = listModel.count-1;
+    }
+
     console.log(videoArea.getVideoDuration())
 }
 
