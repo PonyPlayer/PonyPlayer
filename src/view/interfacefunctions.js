@@ -230,25 +230,27 @@ function mainAreaInit(){
     mainWindow.setSpeed.connect(videoArea.setSpeed)
 }
 function videoListOperatorOnAccepted(){
-    mainWindow.openFile(fileDialog.currentFile);
+    let acceptedFileName = fileDialog.currentFile;
+    let acceptedFileFold = fileDialog.currentFolder;
+    mainWindow.openFile(acceptedFileName);
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration());
     var exists = false;
     for(var i=0;i<listModel.count;i++) {
-        if(listModel.get(i).filePath == fileDialog.currentFile) {
+        if(listModel.get(i).filePath == acceptedFileName) {
             listview.currentIndex = i;
             exists = true;
             break;
         }
     }
     if(!exists) {
-        let selectedFileName = fileDialog.currentFile.toString().substring(
-            fileDialog.currentFolder.toString().length + 1)
-        mediaLibController.getFile(selectedFileName, fileDialog.currentFile);
-        listModel.append({"fileName":selectedFileName,"filePath":fileDialog.currentFile,"iconPath":"interfacepics/defaultlogo"});
+        let selectedFileName = acceptedFileName.toString().substring(
+            acceptedFileFold.toString().length + 1)
+        mediaLibController.getFile(selectedFileName, acceptedFileName);
+        listModel.append({"fileName":selectedFileName,"filePath":acceptedFileName,"iconPath":"interfacepics/defaultlogo"});
         listview.currentIndex = listModel.count-1;
     }
 
-    console.log(videoArea.getVideoDuration())
+    console.log("QML D:",listModel.get(listview.currentIndex).filePath);
 }
 
 
