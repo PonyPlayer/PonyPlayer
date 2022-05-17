@@ -194,7 +194,10 @@ Window {
                 mainWindow.startSystemMove();
             }
         }
-
+        Shortcut{
+            sequence: "Ctrl+I"
+            onActivated: fileDialog.open();
+        }
         Rectangle{
             id: innerBar
             width: 80
@@ -224,6 +227,10 @@ Window {
                 Action {
                     text: "画面"
                     onTriggered:additionalSettings.show()
+                }
+                Action {
+                    text: "打开文件"
+                    onTriggered:fileDialog.open()
                 }
                 SpeedMenu{
 
@@ -355,24 +362,24 @@ Window {
                     }
                 }
                 //启动打开文件
-                Image{
-                    id:openFile
-                    width: 25
-                    height: 20
-                    anchors.left: parent.left
-                    anchors.leftMargin: 5
-                    anchors.verticalCenter: minimize.verticalCenter
-                    source: "interfacepics/FileOpener"
-                    Shortcut{
-                        sequence: "Ctrl+I"
-                        onActivated: fileDialog.open();
-                    }
-                    MouseArea{
-                        anchors.fill: parent
-                        cursorShape: "PointingHandCursor"
-                        onClicked: fileDialog.open()
-                    }
-                }
+                //Image{
+                //    id:openFile
+                //    width: 25
+                //    height: 20
+                //    anchors.left: parent.left
+                //    anchors.leftMargin: 5
+                //    anchors.verticalCenter: minimize.verticalCenter
+                //    source: "interfacepics/FileOpener"
+                //    Shortcut{
+                //        sequence: "Ctrl+I"
+                //        onActivated: fileDialog.open();
+                //    }
+                //    MouseArea{
+                //        anchors.fill: parent
+                //        cursorShape: "PointingHandCursor"
+                //        onClicked: fileDialog.open()
+                //    }
+                //}
 
                 //关闭播放栏列表
                 Image {
