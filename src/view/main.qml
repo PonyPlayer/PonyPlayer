@@ -141,8 +141,8 @@ Window {
         onAccepted: console.log("Ok clicked")
     }
 
-    width: mainWindow.userWidth
-    height: mainWindow.userHeight
+    width: 900
+    height: 600
     minimumWidth: 750
     minimumHeight: 500
     visible: true
@@ -289,6 +289,14 @@ Window {
             image_width: 10
             image_height: 10
             imageSource: "interfacepics/mainWindowReduction"
+            mouseArea.onClicked:{
+                if(mainWindow.visibility==4){
+                    mainWindow.visibility=2
+                }
+                else{
+                    mainWindow.visibility=4
+                }
+            }
         }
         AnimatedButton{
             id:mainWindowMinimize
