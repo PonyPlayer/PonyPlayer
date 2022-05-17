@@ -5,6 +5,8 @@ import "interfacefunctions.js" as IF
 import HurricanePlayer
 import Thumbnail
 Rectangle {
+    //预览图限界位置
+    property bool previewLock: true
     id:footer
     color: "#666666"
     Label{
@@ -21,7 +23,7 @@ Rectangle {
 
     Connections{
         target:mainWindow
-        onWakeSlide:videoSlide.value=0.0
+        onWakeSlide:{videoSlide.value=0.0}
     }
     Slider{
         id:videoSlide
@@ -40,21 +42,23 @@ Rectangle {
             hoverEnabled: true
             anchors.fill: parent
             acceptedButtons: Qt.NoButton
-            onEntered: timerForThumbnail.start()
+            onEntered: preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
             onExited: timerForThumbnail.stop()
             onPositionChanged:{
                 previewRect.visible=false
-                timerForThumbnail.restart()
+                if(footer.previewLock){
+                    footer.previewLock=false
+                    preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+                    timerForThumbnail.start()
+                }
             }
         }
         onValueChanged: {
             mainWindow.currentTime=videoSlide.value
         }
         onPressedChanged: {
-            console.log("lei fu kai use seek"+videoSlide.value)
             if(!videoSlide.pressed){
                 videoArea.seek(mainWindow.currentTime)
-//                preview.previewRequest(mainWindow.currentTime)
             }
         }
         Shortcut{
@@ -78,12 +82,7 @@ Rectangle {
         id:timerForThumbnail
         interval:500
         repeat:false
-        onTriggered:{
-            if(Math.abs(previewDetector.mouseX-mainWindow.lastStep)>10){
-                mainWindow.lastStep=previewDetector.mouseX
-                preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
-            }
-        }
+        onTriggered:footer.previewLock=true
     }
     Rectangle {
         id: previewRect
@@ -99,6 +98,7 @@ Rectangle {
             player: "videoArea"
             onPreviewResponse: {
                 previewRect.visible=true
+                console.log("preview       response")
             }
         }
 

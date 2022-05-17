@@ -83,8 +83,6 @@ Window {
     property real contrast: 1.0
     //音轨列表
     property var trackMenu
-    //预览图限界位置
-    property real lastStep:0.0
     //容错机制
     property bool mouseFlag:true
     //播放
@@ -602,7 +600,9 @@ Window {
             Wave{
                 id: wave
                 Component.onCompleted: {
-                    wave.waveView.readLyrics("Fire on Fire - Sam Smith.lrc")
+                    //wave.waveArea.readLyrics("F:/Fire on Fire - Sam Smith.lrc")
+                    //wave.waveArea.readLyrics("../../cmake-build-debug-mingw/src/Fire on Fire - Sam Smith.lrc")
+                    //console.log("wave  complete")
                 }
             }
         }
