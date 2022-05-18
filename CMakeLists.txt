@@ -27,6 +27,7 @@ find_package(Qt6 COMPONENTS
         QmlWorkerScript
         Sql
         Widgets
+        Multimedia
         REQUIRED)
 
 set(PONY_ICON ${CMAKE_SOURCE_DIR}/assets/ponyicon.png)
