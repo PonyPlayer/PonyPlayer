@@ -84,6 +84,8 @@ Window {
     property real contrast: 1.0
     //音轨列表
     property var trackMenu
+    //最近打开的文件(中转站)
+    property var currentFilePathStation
     //容错机制
     property bool mouseFlag:true
     //播放
@@ -232,6 +234,10 @@ Window {
                 Action {
                     text: "打开文件"
                     onTriggered:fileDialog.open()
+                }
+                Menu{
+                    id:currentFilePathList
+                    title:"最近打开的文件"
                 }
                 SpeedMenu{
 

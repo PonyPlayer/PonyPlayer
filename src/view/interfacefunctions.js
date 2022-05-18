@@ -232,6 +232,7 @@ function mainAreaInit(){
 function videoListOperatorOnAccepted(){
     let acceptedFileName = fileDialog.currentFile;
     let acceptedFileFold = fileDialog.currentFolder;
+    //mediaLibController.updateRecentFile(acceptedFileName)
     mainWindow.openFile(acceptedFileName);
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration());
     var exists = false;
@@ -353,14 +354,27 @@ function makeTrackMenu(){
         mainWindow.trackMenu.destroy()
     }
     var tmpList=videoArea.getTracks()
-    console.log(tmpList)
     mainWindow.trackMenu = Qt.createQmlObject('import QtQuick 2.13; import QtQuick.Controls 2.13; Menu{}',menu)
-    mainWindow.trackMenu.title="testtrack"
     menu.addItem(mainWindow.trackMenu)
     let component=Qt.createComponent("TrackItem.qml")
     for(let i=0;i<tmpList.length;i++){
         let item = component.createObject(mainWindow.trackMenu,{"text":tmpList[i],"trackID":i})
         item.setTrack.connect(videoArea.setTrack)
+        trackmenu.addItem(item)
+    }
+}
+function makeFileList(){
+    if(mainWindow.currentFilePathStation){
+        mainWindow.currentFilePathStation.destroy()
+    }
+    var tmpList= mediaLibController.getRecentFiles()
+    console.log(tmpList)
+    mainWindow.currentFilePathStation = Qt.createQmlObject('import QtQuick 2.13; import QtQuick.Controls 2.13; Menu{}',menu)
+    menu.addItem(mainWindow.currentFilePathStation)
+    let component=Qt.createComponent("CurrentFileItem.qml")
+    for(let i=0;i<tmpList.length;i++){
+        let item = component.createObject(mainWindow.currentFilePathStation,{"text":tmpList[i][0],"filePath":tmpList[i][1]})
+        item.addFilePath.connect(videoArea.setTrack)
         trackmenu.addItem(item)
     }
 }

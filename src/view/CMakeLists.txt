@@ -28,6 +28,7 @@ qt_add_qml_module(${PROJECT_NAME}
             ButtonColorAnimation.qml
             AnimatedButton.qml
             SpeedMenu.qml
+            CurrentFileItem.qml
         RESOURCES
             interfacepics/additionalsettings.png
             interfacepics/cease.png
