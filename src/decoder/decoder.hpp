@@ -363,14 +363,18 @@ public:
         return lastPts;
     }
 
-    ~ReverseDecoderImpl() override {
+    void clearFrameStack() {
         if (frameStack) {
             for (auto frame: *frameStack) {
-                if (frame)
-                    av_frame_free(&frame);
+                if (frame) av_frame_free(&frame);
             }
-            delete frameStack;
+            frameStack->clear();
         }
+    }
+
+    ~ReverseDecoderImpl() override {
+        clearFrameStack();
+        delete frameStack;
     }
 
     void setStart(qreal secs) {
@@ -434,13 +438,6 @@ public:
                     }
                 }
                 else {
-                    /*
-                    if (follower) {
-                        // std::cerr << "video frame: " <<  lastPts << std::endl;
-                    }
-                    else
-                        std::cerr << "audio frame: "<< lastPts << std::endl;
-                        */
                     frameStack->push_back(frameBuf);
                     frameBuf = av_frame_alloc();
                 }
@@ -495,7 +492,7 @@ public:
         std::cerr << "pushEOF";
         frameStack->push_back(nullptr);
         frameQueue->push(frameStack);
-        frameStack = nullptr;
+        frameStack = new std::vector<AVFrame*>;
     }
 
     VideoFrame getPicture() override {

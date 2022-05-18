@@ -384,6 +384,8 @@ public:
         };
         videoQueue->clear(freeFunc);
         audioQueue->clear(freeFunc);
+        videoDecoder->clearFrameStack();
+        audioDecoder->clearFrameStack();
     }
 
 
