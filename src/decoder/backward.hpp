@@ -125,6 +125,25 @@ public:
         avcodec_flush_buffers(codecCtx);
     }
 
+    VideoFrame getPicture() override {
+        NOT_IMPLEMENT_YET
+    }
+
+    AudioFrame getSample() override {
+        NOT_IMPLEMENT_YET
+    }
+
+    PONY_THREAD_SAFE void setEnable(bool b) override {
+        NOT_IMPLEMENT_YET
+    }
+
+    qreal viewFront() override {
+        NOT_IMPLEMENT_YET
+    }
+
+    int skip(const std::function<bool(qreal)> &predicate) override {
+        NOT_IMPLEMENT_YET
+    }
 };
 
 /**
