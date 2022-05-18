@@ -12,8 +12,9 @@
 template<IDemuxDecoder::DecoderType type>
 class ReverseDecoderImpl : public DecoderContext, public IDemuxDecoder {
 protected:
+    const qreal interval = 2.0;
     LifeCycleManager *m_lifeCycleManager;
-    TwinsBlockQueue<std::vector<AVFrame *>*> *frameQueue;
+    TwinsBlockQueue<AVFrame *> *frameQueue;
     std::vector<AVFrame*> *frameStack;
     ReverseDecoderImpl<Common>* follower{};
     qreal lastPts{-1.0};
@@ -21,7 +22,7 @@ protected:
     qreal next{-1.0};
 
 public:
-    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<std::vector<AVFrame *>*> *queue,
+    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue,
                        LifeCycleManager *lifeCycleManager, ReverseDecoderImpl<Common>* another) :
             DecoderContext(vs), m_lifeCycleManager(lifeCycleManager),
             frameQueue(queue), frameStack(new std::vector<AVFrame*>) {
@@ -30,9 +31,9 @@ public:
     }
 
     void pushFrameStack() {
-        if (!frameStack->empty()) {
-            frameQueue->push(frameStack);
-            frameStack = new std::vector<AVFrame *>;
+        while (!frameStack->empty()) {
+            frameQueue->push(frameStack->back());
+            frameStack->pop_back();
         }
     }
 
@@ -61,11 +62,7 @@ public:
     void setStart(qreal secs) {
         from = secs;
         lastPts = -1.0;
-        for (auto frame : *frameStack) {
-            if (frame)
-                av_frame_free(&frame);
-        }
-        frameStack->clear();
+        clearFrameStack();
     }
 
     qreal nextSegment() {
@@ -84,7 +81,7 @@ public:
             ret = avcodec_receive_frame(codecCtx, frameBuf);
             if (ret >= 0) {
                 lastPts = av_q2d(stream->time_base) * static_cast<double>(frameBuf->pts);
-                if (lastPts < from-1.0) {
+                if (lastPts < from-interval) {
                     av_frame_unref(frameBuf);
                     continue;
                 }
@@ -97,10 +94,10 @@ public:
                         //std::cerr << "push to queue"<< std::endl;
                         pushFrameStack();
                         follower->pushFrameStack();
-                        if (from < 1.0)
+                        if (from < interval)
                             from = 0;
                         else
-                            from -= 1.0;
+                            from -= interval;
                         next = from;
                         return true;
                     }
@@ -152,47 +149,25 @@ public:
 template<>
 class ReverseDecoderImpl<Video>: public ReverseDecoderImpl<Common> {
 public:
-    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<std::vector<AVFrame *>*> *queue,
+    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue,
                        LifeCycleManager *lifeCycleManager, ReverseDecoderImpl<Common>* follower)
             : ReverseDecoderImpl<Common>(vs, queue, lifeCycleManager, follower) {}
 
     void pushEOF() {
-        std::cerr << "pushEOF";
-        frameStack->push_back(nullptr);
-        frameQueue->push(frameStack);
-        frameStack = new std::vector<AVFrame*>;
+        frameQueue->push(nullptr);
     }
 
     VideoFrame getPicture() override {
-        //std::cerr << "video get picture"<< std::endl;
-        auto stk = frameQueue->viewFront<std::vector<AVFrame *>*>([](std::vector<AVFrame *>* stk){
-            return stk;
-        });
-        if (!stk) return {};
-        if (stk->empty()) {
-            throw std::runtime_error("reverse getPicture");
-        }
-        auto *frame = std::forward<AVFrame*>(stk->back()); // just to suppress clanged warnings
-        stk->pop_back();
-        if (stk->empty()) {
-            frameQueue->remove(true);
-            delete stk;
-        }
-        if (!frame) {
-            qDebug() << "Reverse: get EOF Frame";
-            return {};
-        }
+        AVFrame *frame = frameQueue->remove(true);
+        if (!frame) { return {}; }
         m_lifeCycleManager->pop();
-        qreal pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
+        double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
         return {frame, pts, &m_lifeCycleManager->freeFunc};
     }
 
     qreal viewFront() override {
-        return frameQueue->viewFront<qreal>([&](std::vector<AVFrame *>* stk) {
-            if (stk) {
-                if (stk->empty()) { throw std::runtime_error("reverse viewFront"); }
-                auto frame = stk->back();
-                if (!frame) { return std::numeric_limits<qreal>::quiet_NaN(); }
+        return frameQueue->viewFront<qreal>([this](AVFrame * frame) {
+            if (frame) {
                 return static_cast<qreal>(frame->pts) * av_q2d(stream->time_base);
             } else {
                 return std::numeric_limits<qreal>::quiet_NaN();
@@ -212,7 +187,7 @@ template<> class ReverseDecoderImpl<Audio>: public ReverseDecoderImpl<Common> {
 public:
     ReverseDecoderImpl(
             AVStream *vs,
-            TwinsBlockQueue<std::vector<AVFrame*>*> *queue,
+            TwinsBlockQueue<AVFrame*> *queue,
             LifeCycleManager *lifeCycleManager, ReverseDecoderImpl<Common>* follower
     ) : ReverseDecoderImpl<Common>(vs, queue, lifeCycleManager, follower) {
         this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
@@ -237,9 +212,7 @@ public:
 
     void pushEOF() {
         std::cerr << "audio: pushEOF";
-        frameStack->push_back(nullptr);
-        frameQueue->push(frameStack);
-        frameStack = nullptr;
+        frameQueue->push(nullptr);
     }
 
     void reverseSample(uint8_t *samples, int len) {
@@ -253,23 +226,8 @@ public:
 
     PONY_THREAD_SAFE AudioFrame getSample() override {
         //std::cerr << "audio get sample"<< std::endl;
-        auto stk = frameQueue->viewFront<std::vector<AVFrame *>*>([](std::vector<AVFrame *>* stk){
-            return stk;
-        });
-        if (!stk) return {};
-        if (stk->empty()) {
-            throw std::runtime_error("reverse getPicture");
-        }
-        auto frame = stk->back();
-        stk->pop_back();
-        if (stk->empty()) {
-            delete stk;
-            frameQueue->remove(true);
-        }
-        if (!frame) {
-            qDebug() << "Reverse: get EOF Frame";
-            return {};
-        }
+        AVFrame *frame = frameQueue->remove(true);
+        if (!frame) { return {}; }
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
         int len = swr_convert(swrCtx, &audioOutBuf, 2 * MAX_AUDIO_FRAME_SIZE,
                               const_cast<const uint8_t **>(frame->data), frame->nb_samples);

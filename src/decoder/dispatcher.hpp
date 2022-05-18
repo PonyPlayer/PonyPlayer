@@ -325,8 +325,8 @@ private:
 
     std::atomic<bool> interrupt = true;
     AVPacket *packet = nullptr;
-    TwinsBlockQueue<std::vector<AVFrame *>*> *videoQueue;
-    TwinsBlockQueue<std::vector<AVFrame *>*> *audioQueue;
+    TwinsBlockQueue<AVFrame *> *videoQueue;
+    TwinsBlockQueue<AVFrame *> *audioQueue;
     qreal m_videoDuration;
     LifeCycleManager *m_lifeManager = new LifeCycleManager;
 public:
@@ -348,8 +348,8 @@ public:
         if (audioStreamIndex < 0) { throw std::runtime_error("Cannot find audio stream."); }
 
         // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
-        videoQueue = new TwinsBlockQueue<std::vector<AVFrame *>*>("VideoQueue", 3);
-        audioQueue = videoQueue->twins("AudioQueue", 3);
+        videoQueue = new TwinsBlockQueue<AVFrame *>("VideoQueue", 16);
+        audioQueue = videoQueue->twins("AudioQueue", 16);
 
         audioDecoder = new ReverseDecoderImpl<Audio>(audioStream, audioQueue, m_lifeManager, nullptr);
         videoDecoder = new ReverseDecoderImpl<Video>(videoStream, videoQueue, m_lifeManager, audioDecoder);
@@ -378,10 +378,8 @@ public:
     }
 
     PONY_THREAD_SAFE void flush() override {
-        auto freeFunc = [](std::vector<AVFrame *>* frameStk){
-            for (auto frame : *frameStk)
-                if (frame) av_frame_free(&frame);
-            delete frameStk;
+        auto freeFunc = [](AVFrame * frame){
+            if (frame) av_frame_free(&frame);
         };
         videoQueue->clear(freeFunc);
         audioQueue->clear(freeFunc);
@@ -414,7 +412,7 @@ public:
         secs = fmax(secs, 0.0);
         videoDecoder->setStart(secs);
         audioDecoder->setStart(secs);
-        int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>((secs-1.0) * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
+        int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>((secs-2.0) * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
@@ -450,7 +448,7 @@ private slots:
                         videoDecoder->flushFFmpegBuffers();
                         audioDecoder->flushFFmpegBuffers();
                         av_seek_frame(fmtCtx, videoStreamIndex,
-                                      static_cast<int64_t>((next-1.0) / av_q2d(videoStream->time_base)),
+                                      static_cast<int64_t>((next-2.0) / av_q2d(videoStream->time_base)),
                                       AVSEEK_FLAG_BACKWARD);
                     }
                     else if (next == 0) {
@@ -471,10 +469,10 @@ private slots:
                 videoDecoder->flushFFmpegBuffers();
                 audioDecoder->flushFFmpegBuffers();
                 av_seek_frame(fmtCtx, -1,
-                              static_cast<int64_t>((m_videoDuration-2.0) * AV_TIME_BASE),
+                              static_cast<int64_t>((m_videoDuration-4.0) * AV_TIME_BASE),
                               AVSEEK_FLAG_BACKWARD);
-                videoDecoder->setStart(m_videoDuration-1.0);
-                audioDecoder->setStart(m_videoDuration-1.0);
+                videoDecoder->setStart(m_videoDuration-2.0);
+                audioDecoder->setStart(m_videoDuration-2.0);
             } else {
                 qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
             }
