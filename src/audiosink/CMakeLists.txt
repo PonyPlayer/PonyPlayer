@@ -1,6 +1,6 @@
 project(audiosink)
 
-set(CPP_SOURCES audiosink.hpp audiofomrat.hpp)
+set(CPP_SOURCES audiosink.hpp audioformat.hpp)
 
 qt_add_library(${PROJECT_NAME} STATIC ${CPP_SOURCES})
 include_directories(include)

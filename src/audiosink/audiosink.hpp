@@ -9,7 +9,7 @@
 #include "readerwriterqueue.h"
 #include "helper.hpp"
 #include "sonic.h"
-#include "audiofomrat.hpp"
+#include "audioformat.hpp"
 
 
 enum class PlaybackState {
