@@ -59,6 +59,9 @@ public:
 typedef unsigned int StreamIndex;
 const constexpr StreamIndex DEFAULT_STREAM_INDEX = std::numeric_limits<StreamIndex>::max();
 
+/**
+ * 生命周期与打开的文件相同.
+ */
 class DemuxDispatcherBase: public QObject {
     Q_OBJECT
 public:

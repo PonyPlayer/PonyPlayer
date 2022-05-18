@@ -6,6 +6,9 @@
 #include <QObject>
 #include "dispatcher.hpp"
 
+/**
+ * 生命周期伴随整个程序运行.
+ */
 class Demuxer : public QObject {
     Q_OBJECT
     PONY_THREAD_AFFINITY(DECODER)
@@ -206,6 +209,7 @@ public slots:
      * @see DecodeDispatcher::seek
      */
     void backward() {
+        std::unique_lock lock(mutex);
         m_worker = m_backward;
         m_forward->flush();
     }
@@ -218,19 +222,31 @@ public slots:
      * @see DecodeDispatcher::seek
      */
     void forward() {
+        std::unique_lock lock(mutex);
         m_worker = m_forward;
         m_backward->flush();
     };
 
     void close() {
+        std::unique_lock lock(mutex);
         if (m_worker) {
             qDebug() << "Close file" << m_worker->filename.c_str();
-            m_worker->statePause();
-            m_worker->deleteLater();
             m_worker = nullptr;
+            if (m_forward) {
+                m_forward->statePause();
+                m_forward->deleteLater();
+                m_forward = nullptr;
+            }
+            if (m_backward) {
+                m_backward->statePause();
+                m_backward->deleteLater();
+                m_backward = nullptr;
+            }
         } else {
             qWarning() << "Try to close file while no file has been opened.";
         }
+
+
     }
 
 signals:
