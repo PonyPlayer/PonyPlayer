@@ -10,7 +10,9 @@
 #include "helper.hpp"
 #include "sonic.h"
 #include "audioformat.hpp"
+#include "hotplug.h"
 
+class HotPlugDetector;
 
 enum class PlaybackState {
     PLAYING, ///< 正在播放
@@ -33,13 +35,14 @@ enum class BlockingState {
  * 维护, 当需要播放音频时需要先调用 write 函数将音频数据写入 DataBuffer.
  */
 class PonyAudioSink : public QObject {
-    Q_OBJECT
+Q_OBJECT
 private:
 
     PaStream *m_stream;
     PaStreamParameters *param;
     qreal m_volume;
     PlaybackState m_state;
+    HotPlugDetector *hotPlugDetector;
 
     PonyAudioFormat m_format;
     size_t m_bufferMaxBytes;
@@ -127,9 +130,10 @@ public:
      * @param format 音频格式
      * @param bufferSizeAdvice DataBuffer 的建议大小, PonyAudioSink 保证实际的 DataBuffer 不小于建议大小.
      */
-    PonyAudioSink(const PonyAudioFormat& format) : m_volume(0.5), m_state(PlaybackState::STOPPED),
-                                                                            m_format(format),
-                                                                            m_speedFactor(1.0) {
+    PonyAudioSink(const PonyAudioFormat &format) : m_volume(0.5), m_state(PlaybackState::STOPPED),
+                                                   m_format(format),
+                                                   m_speedFactor(1.0) {
+        hotPlugDetector = new HotPlugDetector(this);
         // initialize
         static bool initialized = false;
         if (!initialized) {
@@ -267,7 +271,8 @@ public:
      */
     [[nodiscard]] int64_t freeByte() const {
         return static_cast<int64_t>(PaUtil_GetRingBufferWriteAvailable(&m_ringBuffer))
-            - static_cast<int64_t>((MAX_SPEED_FACTOR - m_speedFactor) * static_cast<qreal>(m_bufferMaxBytes) / MAX_SPEED_FACTOR);
+               - static_cast<int64_t>((MAX_SPEED_FACTOR - m_speedFactor) * static_cast<qreal>(m_bufferMaxBytes) /
+                                      MAX_SPEED_FACTOR);
     }
 
     /**
@@ -300,7 +305,8 @@ public:
         void *ptr[2] = {nullptr};
         ring_buffer_size_t sizes[2] = {0};
 
-        PaUtil_GetRingBufferWriteRegions(&m_ringBuffer, static_cast<ring_buffer_size_t>(len), &ptr[0], &sizes[0], &ptr[1],
+        PaUtil_GetRingBufferWriteRegions(&m_ringBuffer, static_cast<ring_buffer_size_t>(len), &ptr[0], &sizes[0],
+                                         &ptr[1],
                                          &sizes[1]);
         memcpy(ptr[0], sonicBuffer, static_cast<size_t>(sizes[0]));
         memcpy(ptr[1], sonicBuffer + sizes[0], static_cast<size_t>(sizes[1]));
@@ -382,6 +388,7 @@ public:
         return m_speedFactor;
     }
 
+
 signals:
 
     /**
@@ -393,6 +400,12 @@ signals:
      * 由于缺少音频数据, 被迫暂停播放
      */
     void resourceInsufficient();
+
+public slots:
+
+    void audioOutputDevicesChanged() const {
+        qDebug() << "Audio output devices changed!";
+    }
 
 
 };

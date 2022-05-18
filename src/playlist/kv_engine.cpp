@@ -14,6 +14,14 @@ PonyKVConnect::PonyKVConnect(const QString &dbName) {
     QDir dataBasePath = QDir::currentPath();
     dataBasePath.mkpath("data");
     dataBasePath.mkpath("preview");
+
+    QString currentOpenFile = dataBasePath.absoluteFilePath("recentOpenFiles.txt");
+    QFile newfile(currentOpenFile);
+    if (!newfile.exists()) {
+        newfile.open(QIODevice::WriteOnly);
+        newfile.close();
+    }
+
     dataBasePath.cd("data");
 
     db = QSqlDatabase::addDatabase("QSQLITE");

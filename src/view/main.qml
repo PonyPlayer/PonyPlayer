@@ -38,6 +38,7 @@ import Thumbnail
 import Controller
 import Thumbnail
 import "./interfacefunctions.js" as IF
+
 Window {
     Material.theme: Material.System
     Material.accent: Material.Grey

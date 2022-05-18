@@ -50,6 +50,78 @@ QVariantList Controller::getSimpleListItemList() {
     return res;
 }
 
+/*
+ * 获取最近打开的文件
+ */
+QVariantList Controller::getRecentFiles() {
+    QVariantList res;
+    QString source = QDir::currentPath() + "/recentOpenFiles.txt";
+    QFile file(source);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug()<< "Can't open the file!";
+    }
+
+    QTextStream in(&file);
+    while (true) {
+        QString line = in.readLine();
+        if (line.isNull())
+            break;
+        QStringList parts = line.split(",");
+        QVariantList temp;
+        for(int i=0;i<parts.size();i++)
+            temp.append(QVariant::fromValue<QString>(parts[i]));
+        res.append(QVariant::fromValue<QVariantList>(temp));
+    }
+    file.close();
+    return res;
+}
+
+/*
+ * 写入最近打开的文件
+ */
+void Controller::updateRecentFile(QString filePath) {
+    QUrl url(filePath);
+    QString fileName = QFileInfo(url.path()).fileName();  // 文件名
+    QString source = QDir::currentPath() + "/recentOpenFiles.txt";
+    QFile file(source);
+    QStringList readyWrite;  // 将要写的内容
+    readyWrite.append(fileName+","+filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug()<< "Can't open the file!";
+    }
+
+    QTextStream in(&file);
+    int count=0;
+    while (true) {
+        QString line = in.readLine();
+        if (line.isNull())
+            break;
+        if(line==readyWrite[0])
+            continue;
+        else {
+            if(count<9) {
+                readyWrite.append(line);
+                count += 1;
+            }
+            else
+                break;
+        }
+    }
+    file.close();
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QFile::Truncate))
+    {
+        qDebug()<< "Can't open the file!";
+    }
+    QTextStream out(&file);
+    for(int i=0;i<readyWrite.size();i++) {
+        out<<readyWrite[i]<<"\n";
+    }
+    file.close();
+}
+
+
 QVariantMap Controller::getListItemInfo() {
     QVariantMap res;
     qDebug()<<playListItemResult->getVideoWidth()+"*"+playListItemResult->getVideoHeight();
