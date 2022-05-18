@@ -26,6 +26,12 @@ public:
 
     Q_INVOKABLE QVariantList getSimpleListItemList();
 
+    // 获取最近打开的文件
+    Q_INVOKABLE QVariantList getRecentFiles();
+
+    // 向最近打开的文件中写入最新的
+    Q_INVOKABLE void updateRecentFile(QString filePath);
+
     Q_INVOKABLE QVariantMap getListItemInfo();
 
 public slots:
