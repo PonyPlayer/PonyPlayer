@@ -7,6 +7,7 @@ import Thumbnail
 Rectangle {
     //预览图限界位置
     property bool previewLock: true
+    property real lastPositionOnSlider:0.0
     id:footer
     color: "#666666"
     Label{
@@ -42,10 +43,19 @@ Rectangle {
             hoverEnabled: true
             anchors.fill: parent
             acceptedButtons: Qt.NoButton
-            onEntered: preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
-            onExited: timerForThumbnail.stop()
-            onPositionChanged:{
+            onEntered: {
+                footer.lastPositionOnSlider=previewDetector.mouseX
+                preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+            }
+            onExited: {
                 previewRect.visible=false
+                timerForThumbnail.stop()
+            }
+            onPositionChanged:{
+                if(Math.abs(previewDetector.mouseX-footer.lastPositionOnSlider)>20){
+                    previewRect.visible=false
+                    footer.lastPositionOnSlider=previewDetector.mouseX
+                }
                 if(footer.previewLock){
                     footer.previewLock=false
                     preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
