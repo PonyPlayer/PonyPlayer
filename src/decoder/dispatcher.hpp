@@ -12,7 +12,8 @@
 #include "helper.hpp"
 #include "frame.hpp"
 #include "twins_queue.hpp"
-#include "decoder.hpp"
+#include "forward.hpp"
+#include "backward.hpp"
 
 INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
@@ -59,6 +60,9 @@ public:
 typedef unsigned int StreamIndex;
 const constexpr StreamIndex DEFAULT_STREAM_INDEX = std::numeric_limits<StreamIndex>::max();
 
+/**
+ * 生命周期与打开的文件相同.
+ */
 class DemuxDispatcherBase: public QObject {
     Q_OBJECT
 public:
@@ -381,6 +385,8 @@ public:
         };
         videoQueue->clear(freeFunc);
         audioQueue->clear(freeFunc);
+        videoDecoder->clearFrameStack();
+        audioDecoder->clearFrameStack();
     }
 
 

@@ -140,6 +140,12 @@ public:
 
 /**
  * @brief 生命周期管理器, 管理脱离 Queue 的 Frame 的生命周期
+ * 使用指南: \n
+ * 1. 在构造函数中使用new关键字创建 LifeCycleManager \n
+ * 2. 在析构函数调用 deleteLater  \n
+ * 3. 每次将 AVFrame 所有权交给 LifeCycleManager 时调用 pop \n
+ * 4. 使用 LifeCycleManager 的 freeFunc 作为 AVFrame 的清理函数 \n
+ * 5. 如果希望 AVFrame 的生命周期与 LifeCycleManager 一致, 调用 freeLater 且不需要调用 pop
  */
 class LifeCycleManager {
     // memory_order_seq_cst

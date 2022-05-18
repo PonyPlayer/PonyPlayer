@@ -18,7 +18,7 @@ private:
     AVStream *videoStream{};
     DecoderContext* ctx{};
     AVPacket *pkt{};
-    FrameFreeFunc m_freeFunc = [this](AVFrame *frame) { emit signalFreeVideoFrame(frame, QPrivateSignal()); };
+    LifeCycleManager *m_lifeManager{};
 
 public:
 
@@ -29,16 +29,17 @@ public:
                 videoStream = fmtCtx->streams[i];
                 ctx = new DecoderContext(videoStream);
                 pkt = av_packet_alloc();
+                m_lifeManager = new LifeCycleManager;
                 return;
             }
         }
-        connect(this, &Previewer::signalFreeVideoFrame, [](AVFrame *frame){ av_frame_free(&frame); });
         qWarning() << "Previewer: can not find video stream";
     }
 
     ~Previewer() {
         delete ctx;
         if (pkt) av_packet_free(&pkt);
+        if (m_lifeManager) m_lifeManager->deleteLater();
     }
 
     /**
@@ -79,7 +80,8 @@ public:
                         auto *frame = ctx->frameBuf;
                         ctx->frameBuf = av_frame_alloc();
                         av_packet_unref(pkt);
-                        return {frame, pts, &m_freeFunc};
+                        m_lifeManager->pop();
+                        return {frame, pts, &m_lifeManager->freeFunc};
                     }
                 }
                 if (ret < 0) {
@@ -94,9 +96,6 @@ public:
         }
         return {};
     }
-
-signals:
-    void signalFreeVideoFrame(AVFrame *frame, QPrivateSignal);
 };
 
 #endif //PONYPLAYER_PREVIEW_H
