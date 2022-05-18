@@ -12,7 +12,8 @@
 #include "helper.hpp"
 #include "frame.hpp"
 #include "twins_queue.hpp"
-#include "decoder.hpp"
+#include "forward.hpp"
+#include "backward.hpp"
 
 INCLUDE_FFMPEG_BEGIN
 #include <libavformat/avformat.h>
