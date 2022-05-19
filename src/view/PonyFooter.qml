@@ -45,22 +45,24 @@ Rectangle {
             acceptedButtons: Qt.NoButton
             onEntered: {
                 footer.lastPositionOnSlider=previewDetector.mouseX
+                //footer.previewLock=false
                 preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+                //timerForThumbnail.start()
             }
             onExited: {
                 previewRect.visible=false
-                timerForThumbnail.stop()
+                //timerForThumbnail.stop()
             }
             onPositionChanged:{
                 if(Math.abs(previewDetector.mouseX-footer.lastPositionOnSlider)>20){
-                    previewRect.visible=false
                     footer.lastPositionOnSlider=previewDetector.mouseX
-                }
-                if(footer.previewLock){
-                    footer.previewLock=false
                     preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
-                    timerForThumbnail.start()
                 }
+                //if(footer.previewLock){
+                //    footer.previewLock=false
+                //    preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+                //    timerForThumbnail.start()
+                //}
             }
         }
         onValueChanged: {
@@ -88,12 +90,12 @@ Rectangle {
             onActivated: IF.forwardFiveSeconds()
         }
     }
-    Timer{
-        id:timerForThumbnail
-        interval:500
-        repeat:false
-        onTriggered:footer.previewLock=true
-    }
+    //Timer{
+    //    id:timerForThumbnail
+    //    interval:500
+    //    repeat:false
+    //    onTriggered:footer.previewLock=true
+    //}
     Rectangle {
         id: previewRect
         visible: false
@@ -108,7 +110,6 @@ Rectangle {
             player: "videoArea"
             onPreviewResponse: {
                 previewRect.visible=true
-                console.log("preview       response")
             }
         }
 

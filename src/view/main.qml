@@ -579,7 +579,6 @@ Window {
                 onStateChanged:IF.solveStateChanged()
                 Component.onCompleted: IF.mainAreaInit()
                 onAudioOutputDevicesChanged:{
-                    console.log("make  audio  device --------------------------------------------------------------------------")
                     IF.makeDeviceMenu(devices)
                 }
                 onOpenFileResult:{
