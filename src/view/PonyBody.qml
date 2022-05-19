@@ -1,5 +1,5 @@
 import QtQuick
-import QtQuick.Controls.Material
+import QtQuick.Controls.Universal
 import QtQuick.Dialogs
 import HurricanePlayer
 Rectangle {

@@ -5,6 +5,8 @@ import "interfacefunctions.js" as IF
 import HurricanePlayer
 import Thumbnail
 Rectangle {
+    Material.theme: Material.System
+    Material.accent: Material.Grey
     //预览图限界位置
     property bool previewLock: true
     property real lastPositionOnSlider:0.0
