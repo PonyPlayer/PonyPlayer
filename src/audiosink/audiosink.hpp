@@ -11,6 +11,8 @@
 #include "sonic.h"
 #include "audioformat.hpp"
 #include "hotplug.h"
+#include <mutex>
+#include <shared_mutex>
 
 class HotPlugDetector;
 
@@ -43,6 +45,10 @@ private:
     qreal m_volume;
     PlaybackState m_state;
     HotPlugDetector *hotPlugDetector;
+    QList<QString> devicesList;
+    QString selectedOutputDevice;
+    static std::mutex paStreamLock;
+    static std::atomic_bool paInitialized;
 
     PonyAudioFormat m_format;
     size_t m_bufferMaxBytes;
@@ -58,6 +64,7 @@ private:
     PaTime m_startPoint = 0.0;
     std::atomic<int64_t> m_dataWritten = 0;
     std::atomic<int64_t> m_dataLastWrote = 0;
+
 
     std::atomic<bool> m_blockingState = false;
 //    std::mutex setBlockingMutex;
@@ -122,32 +129,32 @@ private:
         qDebug() << "Error" << Pa_GetErrorText(error);
     }
 
-public:
-    constexpr const static qreal MAX_SPEED_FACTOR = 4;
+    PaDeviceIndex getCurrentOutputDeviceIndex() {
+        int deviceCount = Pa_GetDeviceCount();
+        for (auto index = 0; index < deviceCount; index++) {
+            if (!strcmp(Pa_GetDeviceInfo(index)->name, selectedOutputDevice.toStdString().data())) {
+                return index;
+            }
+        }
+        return Pa_GetDefaultOutputDevice();
+    }
 
-    /**
-     * 创建PonyAudioSink并attach到默认设备上
-     * @param format 音频格式
-     * @param bufferSizeAdvice DataBuffer 的建议大小, PonyAudioSink 保证实际的 DataBuffer 不小于建议大小.
-     */
-    PonyAudioSink(const PonyAudioFormat &format) : m_volume(0.5), m_state(PlaybackState::STOPPED),
-                                                   m_format(format),
-                                                   m_speedFactor(1.0) {
-        hotPlugDetector = new HotPlugDetector(this);
-        // initialize
-        static bool initialized = false;
-        if (!initialized) {
+    // this should be guarded by paStreamLock
+    void initializeStream() {
+        if (!paInitialized) {
             Pa_Initialize();
-            initialized = true;
+            paInitialized = true;
             qDebug() << "Initialize PonyAudioSink backend.";
         }
         param = new PaStreamParameters;
-        param->device = Pa_GetDefaultOutputDevice();
-        param->channelCount = format.getChannelCount();
+        if (selectedOutputDevice.isNull())
+            selectedOutputDevice = Pa_GetDeviceInfo(Pa_GetDefaultOutputDevice())->name;
+        param->device = getCurrentOutputDeviceIndex();
+        param->channelCount = m_format.getChannelCount();
         if (param->device == paNoDevice)
             throw std::runtime_error("no audio device!");
-        param->channelCount = format.getChannelCount();
-        param->sampleFormat = format.getSampleFormatForPA();
+        param->channelCount = m_format.getChannelCount();
+        param->sampleFormat = m_format.getSampleFormatForPA();
         param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
         param->hostApiSpecificStreamInfo = nullptr;
         PaError err = Pa_OpenStream(
@@ -172,6 +179,26 @@ public:
             printError(err);
             throw std::runtime_error("can not open audio stream!");
         }
+        Pa_SetStreamFinishedCallback(&m_stream, [](void *userData) {
+            static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
+        });
+    }
+
+public:
+    constexpr const static qreal MAX_SPEED_FACTOR = 4;
+
+    /**
+     * 创建PonyAudioSink并attach到默认设备上
+     * @param format 音频格式
+     * @param bufferSizeAdvice DataBuffer 的建议大小, PonyAudioSink 保证实际的 DataBuffer 不小于建议大小.
+     */
+    PonyAudioSink(const PonyAudioFormat &format) : m_volume(0.5), m_state(PlaybackState::STOPPED),
+                                                   m_format(format),
+                                                   m_speedFactor(1.0) {
+
+        paStreamLock.lock();
+        initializeStream();
+        paStreamLock.unlock();
         m_bufferMaxBytes = nextPowerOf2(static_cast<unsigned>(m_format.suggestedRingBuffer(MAX_SPEED_FACTOR)));
         m_sonicBufferMaxBytes = m_bufferMaxBytes * 4;
         m_ringBufferData = static_cast<std::byte *>(PaUtil_AllocateMemory(static_cast<long>(m_bufferMaxBytes)));
@@ -180,18 +207,18 @@ public:
                                         static_cast<ring_buffer_size_t>(m_bufferMaxBytes),
                                         m_ringBufferData) < 0)
             throw std::runtime_error("can not initialize ring buffer!");
-        Pa_SetStreamFinishedCallback(&m_stream, [](void *userData) {
-            static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
-        });
         sonicBuffer = new std::byte[m_sonicBufferMaxBytes];
         sonStream = sonicCreateStream(m_format.getSampleRate(), m_format.getChannelCount());
         sonicSetSpeed(sonStream, static_cast<float>(m_speedFactor));
+        // HotPlugDetector should be created after PA stream open
+        hotPlugDetector = new HotPlugDetector(this);
     }
 
     /**
      * 析构即从deattach当前设备
      */
     ~PonyAudioSink() override {
+        std::lock_guard lock(paStreamLock);
         m_state = PlaybackState::STOPPED;
         PaError err = Pa_CloseStream(m_stream);
         m_stream = nullptr;
@@ -206,6 +233,7 @@ public:
      * @see PonyAudioSink::resourceInsufficient
      */
     void start() {
+        std::lock_guard lock(paStreamLock);
         qDebug() << "Audio start.";
         if (m_state == PlaybackState::PLAYING) {
             qDebug() << "AudioSink already started.";
@@ -225,6 +253,7 @@ public:
      * 暂停播放, 状态变为 PlaybackState::PAUSED. 但已经写入AudioBuffer的音频将会继续播放.
      */
     void pause() {
+        std::lock_guard lock(paStreamLock);
         qDebug() << "Audio statePause.";
         if (m_state == PlaybackState::PLAYING) {
             Pa_StopStream(m_stream);
@@ -240,6 +269,7 @@ public:
      * 停止播放, 状态变为 PlaybackState::STOPPED, 且已写入AudioBuffer的音频将会被放弃, 播放会立即停止.
      */
     void stop() {
+        std::lock_guard lock(paStreamLock);
         qDebug() << "Audio stateStop.";
         if (m_state == PlaybackState::PLAYING || m_state == PlaybackState::PAUSED) {
             Pa_AbortStream(m_stream);
@@ -388,6 +418,27 @@ public:
         return m_speedFactor;
     }
 
+    void refreshDevicesList() {
+        qDebug() << "Refreshing Devices list...";
+        std::lock_guard lock(paStreamLock);
+        if (paInitialized) {
+            Pa_AbortStream(m_stream);
+            Pa_Terminate();
+        }
+        Pa_Initialize();
+        paInitialized = true;
+        devicesList.clear();
+        int devicesCount = Pa_GetDeviceCount();
+        for (auto index = 0; index < devicesCount; index++) {
+            QString deviceName = Pa_GetDeviceInfo(index)->name;
+            devicesList.push_back(deviceName);
+        }
+        initializeStream();
+        if (m_state == PlaybackState::PLAYING) {
+            Pa_StartStream(m_stream);
+        }
+    }
+
 
 signals:
 
@@ -401,11 +452,27 @@ signals:
      */
     void resourceInsufficient();
 
+    void signalAudioOutputDevicesChanged(QList<QString>);
+
 public slots:
 
-    void audioOutputDevicesChanged() const {
-        qDebug() << "Audio output devices changed!";
+    void audioOutputDevicesChanged() {
+        refreshDevicesList();
+        emit signalAudioOutputDevicesChanged(devicesList);
     }
 
-
+    void changeAudioOutputDevice(QString device) {
+        qDebug() << "change audio output device to " << device;
+        selectedOutputDevice = device;
+        std::lock_guard lock(paStreamLock);
+        if (paInitialized) {
+            Pa_AbortStream(m_stream);
+            Pa_Terminate();
+        }
+        paInitialized = false;
+        initializeStream();
+        if (m_state == PlaybackState::PLAYING) {
+            Pa_StartStream(m_stream);
+        }
+    }
 };
