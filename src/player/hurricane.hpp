@@ -25,7 +25,7 @@
  * @see HurricanePlayer::stateChanged()
  */
 class Hurricane : public Fireworks {
-    Q_OBJECT
+Q_OBJECT
     QML_ADDED_IN_VERSION(1, 0)
     QML_ELEMENT
 //    QT_MODULE(HurricanePlayer)
@@ -44,10 +44,11 @@ public:
         PRE_PAUSE,     ///< 请求暂停, 这是一个瞬时状态
         PAUSED         ///< 已暂停
     };
+
     Q_ENUM(HurricaneState)
+
     QML_ELEMENT
     Q_PROPERTY(HurricaneState state READ getState NOTIFY stateChanged FINAL)
-
 
 
 private:
@@ -69,12 +70,17 @@ public:
         connect(frameController, &FrameController::setPicture, this, &Hurricane::setImage);
 
         connect(this, &Hurricane::signalSeek, frameController, &FrameController::seek);
-        connect(frameController, &FrameController::signalPositionChangedBySeek, this, &Hurricane::slotPositionChangedBySeek);
+        connect(frameController, &FrameController::signalPositionChangedBySeek, this,
+                &Hurricane::slotPositionChangedBySeek);
 
         connect(frameController, &FrameController::playbackStateChanged, this, &Hurricane::slotPlaybackStateChanged);
 
-        connect(this, &Hurricane::stateChanged, [=]{
-            qDebug() << "State Changed to" << QVariant::fromValue(state).toString();});
+        connect(this, &Hurricane::stateChanged, [=] {
+            qDebug() << "State Changed to" << QVariant::fromValue(state).toString();
+        });
+
+        connect(frameController, &FrameController::signalAudioOutputDevicesChanged, this,
+                &Hurricane::slotAudioOutputDevicesChanged);
         emit signalPlayerInitializing(QPrivateSignal());
 #ifdef DEBUG_FLAG_AUTO_OPEN
         openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/581518754-1-208.mp4"_qs)).url());
@@ -110,7 +116,7 @@ signals:
      */
     void positionChangedBySeek();
 
-
+    void audioOutputDevicesChanged(QList<QString>);
 
 
 Q_SIGNALS:
@@ -119,10 +125,15 @@ Q_SIGNALS:
     // 约定两者通信的方法信号以 signal 开头, 槽函数以 slot 开头
     // 约定信号只能由所属的类的实例 emit
     void signalPlayerInitializing(QPrivateSignal);
+
     void signalStart(QPrivateSignal);
+
     void signalPause(QPrivateSignal);
+
     void signalClose(QPrivateSignal);
+
     void signalOpenFile(const QString &url, QPrivateSignal);
+
     void signalSeek(qreal pos, QPrivateSignal);
 
 
@@ -216,6 +227,14 @@ public slots:
     }
 
     /**
+     * 设置音频输出设备名称
+     * @param deviceName 设备名称
+     */
+    Q_INVOKABLE void setSelectedAudioOutputDevice(QString deviceName) {
+        frameController->setSelectedAudioOutputDevice(deviceName);
+    }
+
+    /**
      * 获取视频长度, 需要保证状态不是 INVALID
      * @return 长度(单位: 秒)
      */
@@ -242,7 +261,7 @@ public slots:
     Q_INVOKABLE void seek(qreal pos) {
         // only available on PLAY/PAUSE
         bool playing = false;
-        switch(state) {
+        switch (state) {
             case HurricaneState::PLAYING:
             case HurricaneState::PRE_PLAY:
                 playing = true;
@@ -274,7 +293,7 @@ public slots:
 
     Q_INVOKABLE void setTrack(int i) {
         bool playing = false;
-        switch(state) {
+        switch (state) {
             case HurricaneState::PLAYING:
             case HurricaneState::PRE_PLAY:
                 playing = true;
@@ -297,7 +316,7 @@ public slots:
 
     Q_INVOKABLE void forward() {
         bool playing = false;
-        switch(state) {
+        switch (state) {
             case HurricaneState::PLAYING:
             case HurricaneState::PRE_PLAY:
                 playing = true;
@@ -320,7 +339,7 @@ public slots:
     Q_INVOKABLE void backward() {
         if (!frameController->hasVideo()) { return; }
         bool playing = false;
-        switch(state) {
+        switch (state) {
             case HurricaneState::PLAYING:
             case HurricaneState::PRE_PLAY:
                 playing = true;
@@ -352,8 +371,11 @@ public slots:
         qDebug() << "Set LUT Filter" << path;
     }
 
+
 private slots:
+
     void slotPositionChangedBySeek() { emit positionChangedBySeek(); }
+
     void slotPlaybackStateChanged(bool isPlaying) {
         if (isPlaying) {
             state = PLAYING;
@@ -362,6 +384,7 @@ private slots:
         }
         emit stateChanged();
     };
+
     void slotOpenFileResult(bool success) {
         if (success) {
             state = PAUSED;
@@ -370,6 +393,10 @@ private slots:
         }
         emit openFileResult(success, QPrivateSignal());
         emit stateChanged();
+    }
+
+    void slotAudioOutputDevicesChanged(QList<QString> devices) {
+        emit audioOutputDevicesChanged(devices);
     }
 
 };

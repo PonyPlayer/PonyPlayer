@@ -4,6 +4,7 @@
 #pragma once
 #ifndef PONYPLAYER_VIDEOWORKER_H
 #define PONYPLAYER_VIDEOWORKER_H
+
 #include <QObject>
 #include <QThread>
 #include <QDebug>
@@ -18,7 +19,7 @@
  * 这个类负责将上层的帧输出到相应的设备. 这个类的RAII的. 如果没有特殊说明, 这个类的公有方法是线程安全的.
  */
 class Playback : public QObject {
-    Q_OBJECT
+Q_OBJECT
 private:
     QThread *m_affinityThread;
     Demuxer *m_demuxer;
@@ -59,9 +60,13 @@ private:
             } else {
                 if (m_audioSink->speed() > 2 - 1e-5) {
                     if (!backward) {
-                        m_demuxer->skipPicture([this, backward](qreal framePos){ return framePos < m_audioSink->getProcessSecs(backward);});
+                        m_demuxer->skipPicture([this, backward](qreal framePos) {
+                            return framePos < m_audioSink->getProcessSecs(backward);
+                        });
                     } else {
-                        m_demuxer->skipPicture([this, backward](qreal framePos){ return framePos > m_audioSink->getProcessSecs(backward);});
+                        m_demuxer->skipPicture([this, backward](qreal framePos) {
+                            return framePos > m_audioSink->getProcessSecs(backward);
+                        });
                     }
                 }
                 duration = m_demuxer->frontPicture() - m_audioSink->getProcessSecs(backward);
@@ -91,7 +96,9 @@ private:
         return true;
     }
 
-    PONY_GUARD_BY(PLAYBACK) VideoFrame getVideoFrame() {
+    PONY_GUARD_BY(PLAYBACK)
+
+    VideoFrame getVideoFrame() {
         if (cacheVideoFrame.isValid()) {
             VideoFrame ret = cacheVideoFrame;
             cacheVideoFrame.makeInvalid();
@@ -102,14 +109,16 @@ private:
     }
 
 public:
-    Playback(Demuxer *demuxer, QObject *parent): QObject(nullptr), m_demuxer(demuxer) {
+    Playback(Demuxer *demuxer, QObject *parent) : QObject(nullptr), m_demuxer(demuxer) {
         m_affinityThread = new QThread;
         m_affinityThread->setObjectName(PonyPlayer::PLAYBACK);
         this->moveToThread(m_affinityThread);
         connect(this, &Playback::startWork, this, &Playback::onWork);
         connect(this, &Playback::stopWork, this, [this] { this->m_audioSink->stop(); });
-        connect(this, &Playback::setAudioStartPoint, this, [this](qreal t) {this->m_audioSink->setStartPoint(t);});
-        connect(this, &Playback::setAudioVolume, this, [this](qreal volume) {this->m_audioSink->setVolume(volume);});
+        connect(this, &Playback::setAudioStartPoint, this, [this](qreal t) { this->m_audioSink->setStartPoint(t); });
+        connect(this, &Playback::setAudioVolume, this, [this](qreal volume) { this->m_audioSink->setVolume(volume); });
+        connect(this, &Playback::signalSetSelectedAudioOutputDevice, m_audioSink,
+                &PonyAudioSink::changeAudioOutputDevice);
         connect(this, &Playback::setAudioSpeed, this, [this](qreal speed) {
             m_speedFactor = speed;
             this->m_audioSink->setSpeed(speed);
@@ -125,16 +134,18 @@ public:
                 emit requestResynchronization(false); // queue connection
             }
         });
-        connect(this, &Playback::updateVideoFrame, this, [this]{
+        connect(this, &Playback::updateVideoFrame, this, [this] {
             if (!cacheVideoFrame.isValid()) { cacheVideoFrame = m_demuxer->getPicture(); }
             emit setPicture(cacheVideoFrame);
             cacheVideoFrame.makeInvalid();
         });
-        connect(this, &Playback::clearRingBuffer, this, [this] {this->m_audioSink->clear(); });
-        connect(m_affinityThread, &QThread::started, [this]{
+        connect(this, &Playback::clearRingBuffer, this, [this] { this->m_audioSink->clear(); });
+        connect(m_affinityThread, &QThread::started, [this] {
             PonyAudioFormat format(PonyPlayer::Int16, 44100, 2);
             this->m_audioSink = new PonyAudioSink(format);
         });
+        connect(m_audioSink, &PonyAudioSink::signalAudioOutputDevicesChanged, this,
+                &Playback::slotAudioOutputDevicesChanged);
         m_affinityThread->start();
     }
 
@@ -164,6 +175,10 @@ public:
 
     void setSpeed(qreal speed) {
         emit setAudioSpeed(speed, QPrivateSignal());
+    }
+
+    void setSelectedAudioOutputDevice(QString deviceName) {
+        emit signalSetSelectedAudioOutputDevice(deviceName);
     }
 
     void showFrame() {
@@ -241,12 +256,18 @@ private slots:
         changeState(true);
         writeAudio(5);
         m_audioSink->start();
-        while(!m_isInterrupt) {
+        while (!m_isInterrupt) {
             VideoFrame pic = getVideoFrame();
-            if (!pic.isValid()) { emit resourcesEnd(); break; }
+            if (!pic.isValid()) {
+                emit resourcesEnd();
+                break;
+            }
 //            m_videoPos = pic.getPTS();
             emit setPicture(pic);
-            if (!writeAudio(static_cast<int>(10 * m_audioSink->speed()))) { emit resourcesEnd(); break; }
+            if (!writeAudio(static_cast<int>(10 * m_audioSink->speed()))) {
+                emit resourcesEnd();
+                break;
+            }
             QCoreApplication::processEvents(); // process setVolume setSpeed etc
             syncTo(pic.getPTS());
         }
@@ -255,25 +276,41 @@ private slots:
         lock.unlock();
     };
 
+    void slotAudioOutputDevicesChanged(QList<QString> devices) {
+        emit signalAudioOutputDevicesChanged(devices);
+    }
 
 
 signals:
+
     void startWork(QPrivateSignal);
+
     void stopWork(QPrivateSignal);
+
     void clearRingBuffer(QPrivateSignal);
+
     void setAudioStartPoint(qreal startPoint, QPrivateSignal);
+
     void setAudioVolume(qreal volume, QPrivateSignal);
+
     void setAudioSpeed(qreal speed, QPrivateSignal);
+
+    void signalSetSelectedAudioOutputDevice(QString);
+
     void updateVideoFrame(QPrivateSignal);
+
     void setPicture(VideoFrame pic);
+
     void stateChanged(bool isPlaying);
+
     void resourcesEnd();
+
+    void signalAudioOutputDevicesChanged(QList<QString>);
 
     /**
      * 由于设备切换, 音频倍速调整等原因需要下层重新同步
      */
     void requestResynchronization(bool enableAudio);
-
 
 
 };
