@@ -30,7 +30,7 @@
 import QtQuick
 import QtQuick.Window
 import Qt5Compat.GraphicalEffects
-import QtQuick.Controls.Universal
+import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import HurricanePlayer
@@ -40,8 +40,8 @@ import Thumbnail
 import "./interfacefunctions.js" as IF
 
 Window {
-    Universal.theme: Universal.System
-    Universal.accent: Universal.Grey
+    Material.theme: Material.System
+    Material.accent: Material.Grey
     function rgb(r,g,b) {
         var ret = (r << 16 | g << 8 | b)
         return ("#"+ret.toString(16)).toUpperCase();
