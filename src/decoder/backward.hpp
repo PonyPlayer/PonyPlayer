@@ -12,7 +12,7 @@
 template<IDemuxDecoder::DecoderType type>
 class ReverseDecoderImpl : public DecoderContext, public IDemuxDecoder {
 protected:
-    const qreal interval = 2.0;
+    const qreal interval = 5.0;
     LifeCycleManager *m_lifeCycleManager;
     TwinsBlockQueue<AVFrame *> *frameQueue;
     std::vector<AVFrame*> *frameStack;
@@ -154,12 +154,16 @@ public:
             : ReverseDecoderImpl<Common>(vs, queue, lifeCycleManager, follower) {}
 
     void pushEOF() {
+        qDebug() << "video push EOF";
         frameQueue->push(nullptr);
     }
 
     VideoFrame getPicture() override {
         AVFrame *frame = frameQueue->remove(true);
-        if (!frame) { return {}; }
+        if (!frame) {
+            qDebug() << "getPicture: get EOF";
+            return {};
+        }
         m_lifeCycleManager->pop();
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
         return {frame, pts, &m_lifeCycleManager->freeFunc};
@@ -211,7 +215,7 @@ public:
     }
 
     void pushEOF() {
-        std::cerr << "audio: pushEOF";
+        qDebug() << "audio: pushEOF";
         frameQueue->push(nullptr);
     }
 
@@ -227,7 +231,10 @@ public:
     PONY_THREAD_SAFE AudioFrame getSample() override {
         //std::cerr << "audio get sample"<< std::endl;
         AVFrame *frame = frameQueue->remove(true);
-        if (!frame) { return {}; }
+        if (!frame) {
+            qDebug() << "getSample: get EOF";
+            return {};
+        }
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
         int len = swr_convert(swrCtx, &audioOutBuf, 2 * MAX_AUDIO_FRAME_SIZE,
                               const_cast<const uint8_t **>(frame->data), frame->nb_samples);
