@@ -229,30 +229,7 @@ function mainAreaInit(){
     mainWindow.openFile.connect(videoArea.openFile)
     mainWindow.setSpeed.connect(videoArea.setSpeed)
 }
-function videoListOperatorOnAccepted(){
-    let acceptedFileName = fileDialog.currentFile;
-    let acceptedFileFold = fileDialog.currentFolder;
-    //mediaLibController.updateRecentFile(acceptedFileName)
-    mainWindow.openFile(acceptedFileName);
-    mainWindow.endTime=Math.floor(videoArea.getVideoDuration());
-    var exists = false;
-    for(var i=0;i<listModel.count;i++) {
-        if(listModel.get(i).filePath == acceptedFileName) {
-            listview.currentIndex = i;
-            exists = true;
-            break;
-        }
-    }
-    if(!exists) {
-        let selectedFileName = acceptedFileName.toString().substring(
-            acceptedFileFold.toString().length + 1)
-        mediaLibController.getFile(selectedFileName, acceptedFileName);
-        listModel.append({"fileName":selectedFileName,"filePath":acceptedFileName,"iconPath":"interfacepics/defaultlogo"});
-        listview.currentIndex = listModel.count-1;
-    }
 
-    console.log("QML D:",listModel.get(listview.currentIndex).filePath);
-}
 
 
 
@@ -368,15 +345,48 @@ function makeFileList(){
         mainWindow.currentFilePathStation.destroy()
     }
     var tmpList= mediaLibController.getRecentFiles()
-    console.log(tmpList)
     mainWindow.currentFilePathStation = Qt.createQmlObject('import QtQuick 2.13; import QtQuick.Controls 2.13; Menu{}',menu)
     menu.addItem(mainWindow.currentFilePathStation)
     let component=Qt.createComponent("CurrentFileItem.qml")
     for(let i=0;i<tmpList.length;i++){
-        let item = component.createObject(mainWindow.currentFilePathStation,{"text":tmpList[i][0],"filePath":tmpList[i][1]})
-        item.addFilePath.connect(videoArea.setTrack)
-        trackmenu.addItem(item)
+        let item = component.createObject(mainWindow.currentFilePathStation,{"text":tmpList[i][0],"filePath":tmpList[i][1],"fileName":tmpList[i][0]})
+        item.addFilePath.connect(videoListOperatorOnAccepted)
+        currentFilePathList.addItem(item)
     }
+}
+function videoListOperatorOnAccepted(path="",name=""){
+    let acceptedFileName = fileDialog.currentFile;
+    let acceptedFileFold = fileDialog.currentFolder;
+    if(path!=""){
+        acceptedFileName=path
+        let folder=path.replace(name,"")
+        folder=folder.substring(0,folder.length-1)
+        acceptedFileFold=folder
+    }
+    mediaLibController.updateRecentFile(acceptedFileName)
+    mainWindow.openFile(acceptedFileName);
+    mainWindow.endTime=Math.floor(videoArea.getVideoDuration());
+    var exists = false;
+    for(var i=0;i<listModel.count;i++) {
+        if(listModel.get(i).filePath == acceptedFileName) {
+            listview.currentIndex = i;
+            exists = true;
+            break;
+        }
+    }
+    if(!exists) {
+        let selectedFileName = acceptedFileName.toString().substring(
+            acceptedFileFold.toString().length + 1)
+        mediaLibController.getFile(selectedFileName, acceptedFileName);
+        listModel.append({"fileName":selectedFileName,"filePath":acceptedFileName,"iconPath":"interfacepics/defaultlogo"});
+        listview.currentIndex = listModel.count-1;
+    }
+
+    console.log("QML D:",listModel.get(listview.currentIndex).filePath);
+}
+function trans(path,name){
+    let folder=path.replace(name,"")
+    console.log(folder)
 }
 function hideComponents(){
     mainWindow.isVideoListOpen=false
