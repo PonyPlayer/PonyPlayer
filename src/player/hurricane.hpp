@@ -116,7 +116,7 @@ signals:
      */
     void positionChangedBySeek();
 
-    void audioOutputDevicesChanged(QList<QString>);
+    void audioOutputDevicesChanged(QList<QString> devices);
 
 
 Q_SIGNALS:

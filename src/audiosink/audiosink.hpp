@@ -430,7 +430,9 @@ public:
         devicesList.clear();
         int devicesCount = Pa_GetDeviceCount();
         for (auto index = 0; index < devicesCount; index++) {
+            auto deviceInfo = Pa_GetDeviceInfo(index);
             QString deviceName = Pa_GetDeviceInfo(index)->name;
+            if (deviceInfo->maxOutputChannels < 2) continue;
             devicesList.push_back(deviceName);
         }
         initializeStream();

@@ -117,8 +117,6 @@ public:
         connect(this, &Playback::stopWork, this, [this] { this->m_audioSink->stop(); });
         connect(this, &Playback::setAudioStartPoint, this, [this](qreal t) { this->m_audioSink->setStartPoint(t); });
         connect(this, &Playback::setAudioVolume, this, [this](qreal volume) { this->m_audioSink->setVolume(volume); });
-        connect(this, &Playback::signalSetSelectedAudioOutputDevice, m_audioSink,
-                &PonyAudioSink::changeAudioOutputDevice);
         connect(this, &Playback::setAudioSpeed, this, [this](qreal speed) {
             m_speedFactor = speed;
             this->m_audioSink->setSpeed(speed);
@@ -143,9 +141,12 @@ public:
         connect(m_affinityThread, &QThread::started, [this] {
             PonyAudioFormat format(PonyPlayer::Int16, 44100, 2);
             this->m_audioSink = new PonyAudioSink(format);
+            connect(m_audioSink, &PonyAudioSink::signalAudioOutputDevicesChanged, this,
+                    &Playback::slotAudioOutputDevicesChanged);
+            connect(this, &Playback::signalSetSelectedAudioOutputDevice, m_audioSink,
+                    &PonyAudioSink::changeAudioOutputDevice);
         });
-        connect(m_audioSink, &PonyAudioSink::signalAudioOutputDevicesChanged, this,
-                &Playback::slotAudioOutputDevicesChanged);
+
         m_affinityThread->start();
     }
 
