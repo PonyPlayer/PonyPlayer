@@ -326,6 +326,19 @@ function nextOnClicked(){
     mainWindow.openFile(listModel.get(listview.currentIndex).filePath);
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
 }
+function makeDeviceMenu(list){
+    if(mainWindow.devicesMenuStation){
+        mainWindow.devicesMenuStation.destroy()
+    }
+    mainWindow.devicesMenuStation = Qt.createQmlObject('import QtQuick 2.13; import QtQuick.Controls 2.13; Menu{}',menu)
+    menu.addItem(mainWindow.devicesMenuStation)
+    let component=Qt.createComponent("OutputDevice.qml")
+    for(let i=0;i<list.length;i++){
+        let item = component.createObject(mainWindow.devicesMenuStation,{"text":list[i],"deviceName":list[i]})
+        item.selectDevice.connect(videoArea.setSelectedAudioOutputDevice)
+        devicesMenu.addItem(item)
+    }
+}
 function makeTrackMenu(){
     if(mainWindow.trackMenu){
         mainWindow.trackMenu.destroy()

@@ -82,10 +82,12 @@ Window {
     property real saturation: 1.0
     //对比度
     property real contrast: 1.0
-    //音轨列表
+    //音轨列表(中转站)
     property var trackMenu
     //最近打开的文件(中转站)
     property var currentFilePathStation
+    //输出设备选择(中转站)
+    property var devicesMenuStation
     //容错机制
     property bool mouseFlag:true
     //播放
@@ -257,6 +259,10 @@ Window {
                         id:filtervideo
                         title: "video"
                     }
+                }
+                Menu{
+                    id:devicesMenu
+                    title:"输出设备选择"
                 }
                 Menu {
                     id:trackmenu
@@ -572,6 +578,10 @@ Window {
                 //}
                 onStateChanged:IF.solveStateChanged()
                 Component.onCompleted: IF.mainAreaInit()
+                onAudioOutputDevicesChanged:{
+                    console.log("make  audio  device --------------------------------------------------------------------------")
+                    IF.makeDeviceMenu(devices)
+                }
                 onOpenFileResult:{
                     if(!b){
                         operationFailedDialogText.text="打开文件失败，请选择正确路径"
