@@ -220,7 +220,7 @@ signals:
 
     void resourcesEnd();
 
-    void setPicture(VideoFrame pic);
+    void setPicture(VideoFrameRef pic);
 
 
 };

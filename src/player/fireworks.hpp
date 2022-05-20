@@ -17,7 +17,7 @@ private:
     bool updateVideoFrame = false;
 
 protected:
-    VideoFrame picture;
+    VideoFrameRef picture;
     GLfloat brightness = 0.0;
     GLfloat contrast = 1.0;
     GLfloat saturation = 1.0;
@@ -42,7 +42,6 @@ public:
         qDebug() << "Create Hurricane QuickItem.";
     }
     ~Fireworks() override {
-        picture.free();
         renderer = nullptr;
     }
 
@@ -70,7 +69,6 @@ public slots:
         // sync state
         if (updateVideoFrame) {
             renderer->setPictureRef(picture);
-            picture.makeInvalid();
             updateVideoFrame = false;
         }
 
@@ -83,7 +81,7 @@ public slots:
 
     }
 
-    void setImage(const VideoFrame &pic) {
+    void setImage(const VideoFrameRef &pic) {
         // this function must be called on GUI thread
         // setImage -> sync -> render
         // since picture may use on renderer thread, we CANNOT free now
@@ -95,7 +93,6 @@ public slots:
         updateVideoFrame = true;
         // local picture has not been used, free
         // see sync
-        if (picture.isValid()) { picture.free(); }
         // update ref
         picture = pic;
         // make dirty

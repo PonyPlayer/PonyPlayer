@@ -23,7 +23,7 @@ Q_OBJECT
 private:
     QThread *m_affinityThread;
     Demuxer *m_demuxer;
-    VideoFrame cacheVideoFrame;
+    VideoFrameRef cacheVideoFrame;
 
 
     PonyAudioSink *m_audioSink;
@@ -96,12 +96,10 @@ private:
         return true;
     }
 
-    PONY_GUARD_BY(PLAYBACK)
-
-    VideoFrame getVideoFrame() {
+    PONY_GUARD_BY(PLAYBACK) VideoFrameRef getVideoFrame() {
         if (cacheVideoFrame.isValid()) {
-            VideoFrame ret = cacheVideoFrame;
-            cacheVideoFrame.makeInvalid();
+            VideoFrameRef ret = std::move(cacheVideoFrame);
+            cacheVideoFrame = {};
             return ret;
         } else {
             return m_demuxer->getPicture();
@@ -132,10 +130,9 @@ public:
                 emit requestResynchronization(false); // queue connection
             }
         });
-        connect(this, &Playback::updateVideoFrame, this, [this] {
+        connect(this, &Playback::showFirstVideoFrame, this, [this] {
             if (!cacheVideoFrame.isValid()) { cacheVideoFrame = m_demuxer->getPicture(); }
             emit setPicture(cacheVideoFrame);
-            cacheVideoFrame.makeInvalid();
         });
         connect(this, &Playback::clearRingBuffer, this, [this] { this->m_audioSink->clear(); });
         connect(m_affinityThread, &QThread::started, [this] {
@@ -183,7 +180,7 @@ public:
     }
 
     void showFrame() {
-        emit updateVideoFrame(QPrivateSignal());
+        emit showFirstVideoFrame(QPrivateSignal());
     }
 
     /**
@@ -258,7 +255,7 @@ private slots:
         writeAudio(5);
         m_audioSink->start();
         while (!m_isInterrupt) {
-            VideoFrame pic = getVideoFrame();
+            VideoFrameRef pic = getVideoFrame();
             if (!pic.isValid()) {
                 emit resourcesEnd();
                 break;
@@ -298,9 +295,9 @@ signals:
 
     void signalSetSelectedAudioOutputDevice(QString);
 
-    void updateVideoFrame(QPrivateSignal);
+    void showFirstVideoFrame(QPrivateSignal);
 
-    void setPicture(VideoFrame pic);
+    void setPicture(VideoFrameRef pic);
 
     void stateChanged(bool isPlaying);
 

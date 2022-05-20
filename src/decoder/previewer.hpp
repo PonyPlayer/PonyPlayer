@@ -47,7 +47,7 @@ public:
      * @param pos 单位为秒
      * @return pos位置的图片
      */
-    VideoFrame previewRequest(qreal pos) {
+    VideoFrameRef previewRequest(qreal pos) {
         if (!videoStream)
             return {};
         int ret = 0;
@@ -80,8 +80,8 @@ public:
                         auto *frame = ctx->frameBuf;
                         ctx->frameBuf = av_frame_alloc();
                         av_packet_unref(pkt);
-                        m_lifeManager->pop();
-                        return {frame, pts, &m_lifeManager->freeFunc};
+//                        m_lifeManager->pop();
+                        return {frame, true, pts};
                     }
                 }
                 if (ret < 0) {

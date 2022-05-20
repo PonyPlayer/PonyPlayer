@@ -81,7 +81,10 @@ private:
     QImage lutTexture;
 
     // update flag
-    VideoFrame videoFrame;
+    /**
+     * WARNING: 只能在 sync 阶段修改
+     */
+    VideoFrameRef videoFrame;
     bool flagUpdateImageContent = false;
     bool flagUpdateImageSize = false;
 
@@ -225,7 +228,6 @@ public:
             viewMatrix.setToIdentity();
             viewMatrix.ortho(0, static_cast<float>(imageWidth) / static_cast<float>(lineSize), 0, 1, -1, 1);
             program->setUniformValue("view", viewMatrix);
-
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, textureY);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, lineSize, imageHeight, 0, GL_RED, GL_UNSIGNED_BYTE, imageY);
@@ -252,7 +254,6 @@ public:
             glActiveTexture(GL_TEXTURE3);
             glBindTexture(GL_TEXTURE_2D, textureLUT);
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, lutTexture.width(), lutTexture.height(), GL_RED, GL_UNSIGNED_BYTE, lutTexture.constBits());
-
         }
         glDrawElements(GL_TRIANGLES, sizeof(VERTEX_INDEX) / sizeof(GLuint), GL_UNSIGNED_INT, ZERO_OFFSET);
         program->release();
@@ -263,16 +264,26 @@ public:
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
         program->release();
-        videoFrame.free();
         qDebug() << "Deconstruct Hurricane Renderer:" << static_cast<void *>(this) << ".";
     }
 
-    void setPictureRef(const VideoFrame &pic) {
+    /**
+     * WARNING: 只能在 sync 阶段调用
+     * @param pic
+     */
+    void setPictureRef(VideoFrameRef &&pic) {
         // should call on sync stage
         flagUpdateImageContent = true;
         if (!videoFrame.isSameSize(pic)) { flagUpdateImageSize = true; }
         // not free on render stage
-        if (videoFrame.isValid()) { videoFrame.free(); }
-        videoFrame = pic;
+        videoFrame = std::move(pic);
+    }
+
+    /**
+     * WARNING: 只能在 sync 阶段调用
+     * @param pic
+     */
+    void setPictureRef(const VideoFrameRef &pic) {
+        return setPictureRef(VideoFrameRef(pic));
     }
 };

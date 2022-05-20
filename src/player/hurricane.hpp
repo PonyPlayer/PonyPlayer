@@ -204,7 +204,7 @@ public slots:
         if (state == HurricaneState::PRE_PAUSE || state == HurricaneState::PAUSED) {
             state = HurricaneState::CLOSING;
             emit stateChanged();
-            this->setImage(VideoFrame());
+            this->setImage(VideoFrameRef());
             emit signalClose(QPrivateSignal());
         }
     }

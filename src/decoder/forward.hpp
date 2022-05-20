@@ -46,7 +46,7 @@ public:
         return false;
     }
 
-    PONY_THREAD_SAFE VideoFrame getPicture() override { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE VideoFrameRef getPicture() override { NOT_IMPLEMENT_YET }
 
     PONY_THREAD_SAFE AudioFrame getSample() override { NOT_IMPLEMENT_YET }
 
@@ -136,6 +136,9 @@ public:
  */
 template<> class DecoderImpl<Video>: public DecoderImpl<Common> {
 private:
+    /**
+     * 如果视频的第一帧 pts < 0, 则说明第一帧为封面. 保存下来.
+     */
     std::atomic<AVFrame *> stillVideoFrame = nullptr;
 public:
     DecoderImpl(
@@ -145,23 +148,22 @@ public:
     ) : DecoderImpl<Common>(vs, queue, lifeCycleManager) {}
 
 
-    VideoFrame getPicture() override {
-        if (stillVideoFrame != nullptr) { return {stillVideoFrame, -1, nullptr}; }
+    VideoFrameRef getPicture() override {
+        if (stillVideoFrame != nullptr) { return {stillVideoFrame, true, -1}; }
         AVFrame *frame = frameQueue->remove(true);
         if (!frame) { return {}; }
-        m_lifeCycleManager->pop();
         if (frame->pts < 0) {
             stillVideoFrame = frame;
-            return {stillVideoFrame, -9, nullptr};
-        } else {
-            double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-            return {frame, pts, &m_lifeCycleManager->freeFunc};
+            return {frame, true, -9};
+        } else {double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
+            return {frame, true, pts};
         }
     }
 
 
     ~DecoderImpl() override {
-        m_lifeCycleManager->freeLater(stillVideoFrame);
+        auto *frame = stillVideoFrame.load();
+        if (frame) { av_frame_free(&frame); }
     }
 
 
@@ -182,8 +184,8 @@ public:
 
     PONY_THREAD_SAFE void flushFFmpegBuffers() override {}
 
-    PONY_THREAD_SAFE VideoFrame getPicture() override {
-        return {nullptr, std::numeric_limits<qreal>::quiet_NaN(), nullptr, true};
+    PONY_THREAD_SAFE VideoFrameRef getPicture() override {
+        return {nullptr, true, std::numeric_limits<qreal>::quiet_NaN()};
     }
 
     PONY_THREAD_SAFE AudioFrame getSample() override {

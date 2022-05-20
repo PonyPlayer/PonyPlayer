@@ -35,7 +35,7 @@ public:
         m_affinityThread->quit();
     }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) VideoFrame getPicture() {
+    PONY_GUARD_BY(MAIN, FRAME, DECODER) VideoFrameRef getPicture() {
         std::unique_lock lock(mutex);
         return m_worker->getPicture();
     }

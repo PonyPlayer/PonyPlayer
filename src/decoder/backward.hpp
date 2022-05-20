@@ -122,7 +122,7 @@ public:
         avcodec_flush_buffers(codecCtx);
     }
 
-    VideoFrame getPicture() override {
+    VideoFrameRef getPicture() override {
         NOT_IMPLEMENT_YET
     }
 
@@ -158,15 +158,15 @@ public:
         frameQueue->push(nullptr);
     }
 
-    VideoFrame getPicture() override {
+    VideoFrameRef getPicture() override {
         AVFrame *frame = frameQueue->remove(true);
         if (!frame) {
             qDebug() << "getPicture: get EOF";
             return {};
         }
-        m_lifeCycleManager->pop();
+//        m_lifeCycleManager->pop();
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
-        return {frame, pts, &m_lifeCycleManager->freeFunc};
+        return {frame, true, pts};
     }
 
     qreal viewFront() override {
@@ -230,7 +230,7 @@ public:
 
     PONY_THREAD_SAFE AudioFrame getSample() override {
         //std::cerr << "audio get sample"<< std::endl;
-        AVFrame *frame = frameQueue->remove(true);
+        auto *frame = std::forward<AVFrame *>(frameQueue->remove(true)); // suppress warning
         if (!frame) {
             qDebug() << "getSample: get EOF";
             return {};

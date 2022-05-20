@@ -31,7 +31,7 @@ public slots:
     void previewRequest(qreal pos) {
         if (m_worker) {
             auto ret = m_worker->previewRequest(pos);
-            emit previewResponse(pos, ret, QPrivateSignal());
+            emit previewResponse(pos, std::move(ret), QPrivateSignal());
         }
     };
 
@@ -64,7 +64,7 @@ public slots:
     }
 
 signals:
-    void previewResponse(qreal pos, VideoFrame frame, QPrivateSignal);
+    void previewResponse(qreal pos, VideoFrameRef frame, QPrivateSignal);
 
     void openFileResult(bool ret, QPrivateSignal);
 

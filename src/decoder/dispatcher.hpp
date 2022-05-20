@@ -91,7 +91,7 @@ public:
 
     PONY_GUARD_BY(FRAME) virtual void seek(qreal secs) { NOT_IMPLEMENT_YET }
 
-    PONY_THREAD_SAFE virtual VideoFrame getPicture() { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE virtual VideoFrameRef getPicture() { NOT_IMPLEMENT_YET }
 
     PONY_THREAD_SAFE virtual qreal frontPicture() { NOT_IMPLEMENT_YET }
 
@@ -230,7 +230,7 @@ public:
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
-    PONY_THREAD_SAFE VideoFrame getPicture() override { return videoDecoder->getPicture(); }
+    PONY_THREAD_SAFE VideoFrameRef getPicture() override { return videoDecoder->getPicture(); }
 
     PONY_THREAD_SAFE qreal frontPicture() override { return videoDecoder->viewFront(); }
 
@@ -417,7 +417,7 @@ public:
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
-    PONY_THREAD_SAFE VideoFrame getPicture() override { return videoDecoder->getPicture(); }
+    PONY_THREAD_SAFE VideoFrameRef getPicture() override { return videoDecoder->getPicture(); }
 
     PONY_THREAD_SAFE qreal frontPicture() override { return videoDecoder->viewFront(); }
 

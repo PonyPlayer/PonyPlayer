@@ -47,7 +47,7 @@ public:
      * @param b 是否阻塞
      * @return 视频帧, 请用 isValid 判断是否有效
      */
-    virtual VideoFrame getPicture() = 0;
+    virtual VideoFrameRef getPicture() = 0;
 
     /**
     * 获取音频帧并从队列中删除, 仅当当前解码器是音频解码器时有效

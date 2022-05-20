@@ -61,7 +61,7 @@ public slots:
         emit signalPreviewRequest(pos, QPrivateSignal());
     }
 private slots:
-    void slotPreviewResponse(qreal pos, const VideoFrame& frame) {
+    void slotPreviewResponse(qreal pos, const VideoFrameRef& frame) {
 //        setVisible(false);
         setImage(frame);
         emit previewResponse(pos, QPrivateSignal());
