@@ -125,7 +125,6 @@ private:
         std::vector<StreamIndex> m_audioStreamsIndex;
         std::vector<StreamInfo> streamInfos;
     } description;
-    LifeCycleManager *m_lifeManager = new LifeCycleManager;
     TwinsBlockQueue<AVFrame *> *videoQueue;
     TwinsBlockQueue<AVFrame *> *audioQueue;
     StreamIndex m_audioStreamIndex;
@@ -159,7 +158,7 @@ public:
         if (description.m_audioStreamsIndex.empty()) { throw std::runtime_error("Cannot find audio stream."); }
         if (m_audioStreamIndex == DEFAULT_STREAM_INDEX) { m_audioStreamIndex = description.m_audioStreamsIndex.front(); }
         audioQueue = new TwinsBlockQueue<AVFrame *>("AudioQueue", 16);
-        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_lifeManager);
+        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue);
         description.audioDuration = audioDecoder->duration();
 
         // video
@@ -169,7 +168,7 @@ public:
             videoDecoder = new VirtualVideoDecoder(description.audioDuration);
         } else {
             if (m_videoStreamIndex == DEFAULT_STREAM_INDEX) { m_videoStreamIndex = description.m_videoStreamsIndex.front(); }
-            videoDecoder = new DecoderImpl<Video>(fmtCtx->streams[m_videoStreamIndex], videoQueue, m_lifeManager);
+            videoDecoder = new DecoderImpl<Video>(fmtCtx->streams[m_videoStreamIndex], videoQueue);
         }
         description.videoDuration = videoDecoder->duration();
 
@@ -184,7 +183,6 @@ public:
         delete audioDecoder;
         delete videoDecoder;
         if(packet) { av_packet_free(&packet); }
-        m_lifeManager->deleteLater();
     }
 
     /**
@@ -248,7 +246,7 @@ public:
     PONY_GUARD_BY(DECODER) void setTrack(int i) override {
         delete audioDecoder;
         m_audioStreamIndex = description.m_audioStreamsIndex[static_cast<size_t>(i)];
-        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_lifeManager);
+        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue);
     }
 
     PONY_GUARD_BY(DECODER) QStringList getTracks() {
@@ -264,7 +262,7 @@ public:
         if (i == m_audioStreamIndex) { return; }
         delete audioDecoder;
         m_audioStreamIndex = i;
-        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue, m_lifeManager);
+        audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue);
     }
 
     PONY_GUARD_BY(DECODER) bool hasVideo() {
@@ -329,7 +327,6 @@ private:
     TwinsBlockQueue<AVFrame *> *videoQueue;
     TwinsBlockQueue<AVFrame *> *audioQueue;
     qreal m_videoDuration;
-    LifeCycleManager *m_lifeManager = new LifeCycleManager;
 public:
     explicit ReverseDecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent),
     silenceFrame(silence, 1024, std::numeric_limits<double>::max()){
@@ -352,8 +349,8 @@ public:
         videoQueue = new TwinsBlockQueue<AVFrame *>("VideoQueue", 200);
         audioQueue = videoQueue->twins("AudioQueue", 200);
 
-        audioDecoder = new ReverseDecoderImpl<Audio>(audioStream, audioQueue, m_lifeManager, nullptr);
-        videoDecoder = new ReverseDecoderImpl<Video>(videoStream, videoQueue, m_lifeManager, audioDecoder);
+        audioDecoder = new ReverseDecoderImpl<Audio>(audioStream, audioQueue, nullptr);
+        videoDecoder = new ReverseDecoderImpl<Video>(videoStream, videoQueue, audioDecoder);
         m_videoDuration = videoDecoder->duration();
         connect(this, &ReverseDecodeDispatcher::signalStartWorker, this, &ReverseDecodeDispatcher::onWork, Qt::QueuedConnection);
     }
@@ -366,7 +363,6 @@ public:
         delete audioDecoder;
         delete videoDecoder;
         if(packet) { av_packet_free(&packet); }
-        m_lifeManager->deleteLater();
     }
 
     /**

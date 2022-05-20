@@ -9,13 +9,9 @@ template<IDemuxDecoder::DecoderType type>
 class DecoderImpl : public DecoderContext, public IDemuxDecoder {
 protected:
     TwinsBlockQueue<AVFrame *> *frameQueue;
-    LifeCycleManager *m_lifeCycleManager;
 public:
-    DecoderImpl(
-      AVStream *vs,
-      TwinsBlockQueue<AVFrame *> *queue,
-      LifeCycleManager *lifeCycleManager
-    ) : DecoderContext(vs), frameQueue(queue), m_lifeCycleManager(lifeCycleManager) {}
+    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue)
+            : DecoderContext(vs), frameQueue(queue) {}
 
     PONY_THREAD_SAFE double duration() override {
         return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
@@ -64,7 +60,7 @@ public:
     PONY_THREAD_SAFE int skip(const std::function<bool(qreal)> &predicate) override {
         return frameQueue->skip([this, predicate](AVFrame *frame){
            return frame && predicate(static_cast<qreal>(frame->pts) * av_q2d(stream->time_base));
-        }, m_lifeCycleManager->freeDirectFunc);
+        }, [](AVFrame *frame) { av_frame_free(&frame); });
     }
 
     PONY_THREAD_SAFE void setEnable(bool b) override {
@@ -87,11 +83,7 @@ template<> class DecoderImpl<Audio>: public DecoderImpl<Common> {
 
 
 public:
-    DecoderImpl(
-      AVStream *vs,
-      TwinsBlockQueue<AVFrame *> *queue,
-      LifeCycleManager *lifeCycleManager
-    ) : DecoderImpl<Common>(vs, queue, lifeCycleManager) {
+    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue) : DecoderImpl<Common>(vs, queue) {
         this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
                                           AV_SAMPLE_FMT_S16, 44100,
                                           static_cast<int64_t>(codecCtx->channel_layout), codecCtx->sample_fmt,
@@ -124,8 +116,6 @@ public:
                                                   len,
                                                   AV_SAMPLE_FMT_S16,
                                                   1);
-        m_lifeCycleManager->pop();
-        m_lifeCycleManager->freeFrame(frame);
         return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts};
     }
 
@@ -141,11 +131,7 @@ private:
      */
     std::atomic<AVFrame *> stillVideoFrame = nullptr;
 public:
-    DecoderImpl(
-            AVStream *vs,
-            TwinsBlockQueue<AVFrame *> *queue,
-            LifeCycleManager *lifeCycleManager
-    ) : DecoderImpl<Common>(vs, queue, lifeCycleManager) {}
+    DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue) : DecoderImpl<Common>(vs, queue) {}
 
 
     VideoFrameRef getPicture() override {

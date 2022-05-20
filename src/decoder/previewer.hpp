@@ -18,7 +18,6 @@ private:
     AVStream *videoStream{};
     DecoderContext* ctx{};
     AVPacket *pkt{};
-    LifeCycleManager *m_lifeManager{};
 
 public:
 
@@ -29,7 +28,6 @@ public:
                 videoStream = fmtCtx->streams[i];
                 ctx = new DecoderContext(videoStream);
                 pkt = av_packet_alloc();
-                m_lifeManager = new LifeCycleManager;
                 return;
             }
         }
@@ -39,7 +37,6 @@ public:
     ~Previewer() {
         delete ctx;
         if (pkt) av_packet_free(&pkt);
-        if (m_lifeManager) m_lifeManager->deleteLater();
     }
 
     /**

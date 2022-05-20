@@ -13,7 +13,6 @@ template<IDemuxDecoder::DecoderType type>
 class ReverseDecoderImpl : public DecoderContext, public IDemuxDecoder {
 protected:
     const qreal interval = 5.0;
-    LifeCycleManager *m_lifeCycleManager;
     TwinsBlockQueue<AVFrame *> *frameQueue;
     std::vector<AVFrame*> *frameStack;
     ReverseDecoderImpl<Common>* follower{};
@@ -22,10 +21,8 @@ protected:
     qreal next{-1.0};
 
 public:
-    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue,
-                       LifeCycleManager *lifeCycleManager, ReverseDecoderImpl<Common>* another) :
-            DecoderContext(vs), m_lifeCycleManager(lifeCycleManager),
-            frameQueue(queue), frameStack(new std::vector<AVFrame*>) {
+    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue, ReverseDecoderImpl<Common> *another) :
+            DecoderContext(vs), frameQueue(queue), frameStack(new std::vector<AVFrame*>) {
         follower = another;
         from = static_cast<double>(stream->duration) * av_q2d(stream->time_base);
     }
@@ -149,9 +146,8 @@ public:
 template<>
 class ReverseDecoderImpl<Video>: public ReverseDecoderImpl<Common> {
 public:
-    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue,
-                       LifeCycleManager *lifeCycleManager, ReverseDecoderImpl<Common>* follower)
-            : ReverseDecoderImpl<Common>(vs, queue, lifeCycleManager, follower) {}
+    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue, ReverseDecoderImpl<Common> *follower)
+            : ReverseDecoderImpl<Common>(vs, queue, follower) {}
 
     void pushEOF() {
         qDebug() << "video push EOF";
@@ -189,11 +185,8 @@ template<> class ReverseDecoderImpl<Audio>: public ReverseDecoderImpl<Common> {
     uint8_t *audioOutBuf = nullptr;
     AVFrame * sampleFrameBuf = nullptr;
 public:
-    ReverseDecoderImpl(
-            AVStream *vs,
-            TwinsBlockQueue<AVFrame*> *queue,
-            LifeCycleManager *lifeCycleManager, ReverseDecoderImpl<Common>* follower
-    ) : ReverseDecoderImpl<Common>(vs, queue, lifeCycleManager, follower) {
+    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue, ReverseDecoderImpl<Common> *follower)
+            : ReverseDecoderImpl<Common>(vs, queue, follower) {
         this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
                                           AV_SAMPLE_FMT_S16, 44100,
                                           static_cast<int64_t>(codecCtx->channel_layout), codecCtx->sample_fmt,
@@ -243,8 +236,6 @@ public:
                                                   len,
                                                   AV_SAMPLE_FMT_S16,
                                                   1);
-        m_lifeCycleManager->pop();
-        m_lifeCycleManager->freeFrame(frame);
         reverseSample(audioOutBuf, out_size);
         return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts};
     }

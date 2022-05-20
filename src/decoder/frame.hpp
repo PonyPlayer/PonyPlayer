@@ -73,7 +73,7 @@ public:
 
 
     ~VideoFrameRef() {
-        m_videoFrame->unref();
+        if (m_videoFrame) { m_videoFrame->unref(); }
     }
 
     bool operator==(const VideoFrameRef &frame) const {
@@ -157,89 +157,4 @@ public:
         return m_pts;
     }
 };
-
-
-/**
- * @brief 生命周期管理器, 管理脱离 Queue 的 Frame 的生命周期
- * 使用指南: \n
- * 1. 在构造函数中使用new关键字创建 LifeCycleManager \n
- * 2. 在析构函数调用 deleteLater  \n
- * 3. 每次将 AVFrame 所有权交给 LifeCycleManager 时调用 pop \n
- * 4. 使用 LifeCycleManager 的 freeFunc 作为 AVFrame 的清理函数 \n
- * 5. 如果希望 AVFrame 的生命周期与 LifeCycleManager 一致, 调用 freeLater 且不需要调用 pop
- */
-class LifeCycleManager {
-    // memory_order_seq_cst
-protected:
-    std::atomic<int> refCount = 0;
-    bool autoDelete = false;
-
-    std::mutex mutex;
-    std::queue<AVFrame *> freeQueue;
-public:
-    /**
-     * 释放 LifeCycleManager 所有的 Frame
-     */
-    const FrameFreeFunc freeFunc = [this](AVFrame *frame) { this->freeFrame(frame); };
-
-    /**
-     * 直接释放非 LifeCycleManager 所有的 Frame
-     */
-    const FrameFreeFunc freeDirectFunc = [this](AVFrame *frame) { refCount.load(std::memory_order::seq_cst);
-        av_frame_free(&frame); };
-
-    /**
-     * Frame 的所有权从 Queue 交给 LifeCycleManager, 引用计数 +1
-     */
-    PONY_THREAD_SAFE void pop() {
-        int ret = refCount++;
-        if (ret < 0) {
-            throw std::runtime_error("Negative refCount, Potential double free at pop.");
-        }
-    }
-
-    /**
-     * 释放 LifeCycleManager 所有的 Frame, 且引用计数 -1
-     * @param frame
-     */
-    PONY_THREAD_SAFE void freeFrame(AVFrame *frame) {
-        int ret = --refCount;
-        if (ret < 0) {
-            throw std::runtime_error("Negative refCount, Potential double free.");
-        }
-        av_frame_free(&frame);
-        int expect = 0;
-        if (refCount.compare_exchange_strong(expect, -1) && autoDelete) { delete this; }
-    }
-
-    /**
-     * 保证不再会有新的 pop 请求, 当 LifeCycleManager 所有的 Frame 被释放后, LifeCycleManager 会自动删除.
-     */
-    PONY_THREAD_SAFE void deleteLater() {
-        int expect = 0;
-        if (refCount.compare_exchange_strong(expect, -1)) {
-            delete this;
-        } else {
-            autoDelete = true;
-        }
-    }
-
-    /**
-     * 将非 LifeCycleManager 所有的 Frame 移入清理队列, 当 LifeCycleManager 释放时, 这些 Frame 会被释放.
-     * @param frame
-     */
-    PONY_THREAD_SAFE void freeLater(AVFrame *frame) {
-        std::unique_lock lock(mutex);
-        freeQueue.push(frame);
-    }
-
-    ~LifeCycleManager() {
-        std::unique_lock lock(mutex);
-        while(!freeQueue.empty()) {
-            av_frame_free(&freeQueue.front());
-            freeQueue.pop();
-        }
-    }
-};
-
 
