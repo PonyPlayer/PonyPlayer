@@ -92,7 +92,7 @@ Rectangle {
     }
     Timer{
         id:timerForThumbnail
-        interval:500
+        interval:200
         repeat:false
         onTriggered:preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
     }
