@@ -106,6 +106,12 @@ if (WIN32)
 elseif(UNIX)
     if (APPLE)
         set_source_files_properties(${PONY_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+#        set_source_files_properties(${ASSETS_FILTER} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${CMAKE_SOURCE_DIR}/assets/filters"
+                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/../Resources/filters"
+                )
         set_target_properties(${PROJECT_NAME} PROPERTIES
                 MACOSX_BUNDLE_GUI_IDENTIFIER net.colors_wind.ponyplayer
                 MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}

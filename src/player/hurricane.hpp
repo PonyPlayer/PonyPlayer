@@ -67,7 +67,7 @@ public:
 
         connect(frameController, &FrameController::openFileResult, this, &Hurricane::slotOpenFileResult);
         connect(this, &Hurricane::signalClose, frameController, &FrameController::close);
-        connect(frameController, &FrameController::setPicture, this, &Hurricane::setImage);
+        connect(frameController, &FrameController::setPicture, this, &Hurricane::setVideoFrame);
 
         connect(this, &Hurricane::signalSeek, frameController, &FrameController::seek);
         connect(frameController, &FrameController::signalPositionChangedBySeek, this,
@@ -204,7 +204,7 @@ public slots:
         if (state == HurricaneState::PRE_PAUSE || state == HurricaneState::PAUSED) {
             state = HurricaneState::CLOSING;
             emit stateChanged();
-            this->setImage(VideoFrameRef());
+            this->setVideoFrame(VideoFrameRef());
             emit signalClose(QPrivateSignal());
         }
     }

@@ -9,15 +9,10 @@
 class Fireworks : public QQuickItem {
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(GLfloat brightness READ getBrightness WRITE setBrightness)
-    Q_PROPERTY(GLfloat contrast READ getContrast WRITE setContrast)
-    Q_PROPERTY(GLfloat saturation READ getSaturation WRITE setSaturation)
 private:
-    FireworksRenderer *renderer = nullptr;
-    bool updateVideoFrame = false;
+    FireworksRenderer *renderer;
 
 protected:
-    VideoFrameRef picture;
     GLfloat brightness = 0.0;
     GLfloat contrast = 1.0;
     GLfloat saturation = 1.0;
@@ -27,12 +22,13 @@ protected:
     }
 
 public:
-    Fireworks(QQuickItem *parent = nullptr): QQuickItem(parent) {
+    Fireworks(QQuickItem *parent = nullptr): QQuickItem(parent), renderer(new FireworksRenderer) {
         this->setFlag(QQuickItem::ItemHasContents);
         connect(this, &QQuickItem::windowChanged, this, [=](QQuickWindow *win){
             qDebug() << "Window Size Changed:" << static_cast<void *>(win) << ".";
             if (win) {
-                connect(this->window(), &QQuickWindow::beforeSynchronizing, this, &Fireworks::sync, Qt::DirectConnection);
+                connect(this->window(), &QQuickWindow::beforeSynchronizing, renderer, &FireworksRenderer::sync, Qt::DirectConnection);
+                connect(this->window(), &QQuickWindow::beforeRendering, renderer, &FireworksRenderer::init, Qt::DirectConnection);
                 win->setColor(Qt::black);
             } else {
                 qWarning() << "Window destroy.";
@@ -59,47 +55,24 @@ public:
 
 public slots:
 
-    void sync() {
-        // call from renderer thread while GUI thread is blocking
-        if (!renderer) {
-            renderer = new FireworksRenderer(this);
-            connect(window(), &QQuickWindow::beforeRendering, renderer, &FireworksRenderer::init, Qt::DirectConnection);
-        }
-
-        // sync state
-        if (updateVideoFrame) {
-            renderer->setPictureRef(picture);
-            updateVideoFrame = false;
-        }
 
 
-        // sync uniform
-        renderer->brightness = this->brightness;
-        renderer->contrast = this->contrast;
-        renderer->saturation = this->saturation;
-
-
-    }
-
-    void setImage(const VideoFrameRef &pic) {
+    void setVideoFrame(const VideoFrameRef &pic) {
         // this function must be called on GUI thread
         // setImage -> sync -> render
         // since picture may use on renderer thread, we CANNOT free now
         // no change, return immediately
-//        if (!pic.isValid()) {
-//            int debughere = 0;
-//        }
-        if (pic == picture) { return; }
-        updateVideoFrame = true;
-        // local picture has not been used, free
-        // see sync
-        // update ref
-        picture = pic;
-        // make dirty
-        this->update();
+
+        if (renderer->setVideoFrame(pic)) {
+            // make dirty
+            this->update();
+        }
+
 
     }
 };
+
+
 
 
 

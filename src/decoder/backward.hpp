@@ -33,7 +33,6 @@ public:
             frameStack->pop_back();
         }
     }
-
     double duration() override {
         return static_cast<double>(stream->duration) * av_q2d(stream->time_base);
     }

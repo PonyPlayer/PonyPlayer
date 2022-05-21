@@ -22,6 +22,8 @@
 #include <QVector>
 #include <QSGSimpleTextureNode>
 #include <QSGRenderNode>
+#include <utility>
+#include "updatevalue.hpp"
 #include "frame.hpp"
 
 const static void* ZERO_OFFSET = nullptr;
@@ -36,61 +38,57 @@ const static GLuint VERTEX_INDEX[] = {
         1, 2, 3,
 };
 
+struct RenderSettings {
+    UpdateValueVideoFrameRef videoFrame;
+    UpdateValue<GLfloat> brightness{0.0F};
+    UpdateValue<GLfloat> contrast{1.0F};
+    UpdateValue<GLfloat> saturation{1.0F};
+    UpdateValue<QImage> lutFilter;
 
-template<class T>
-class UniformValue {
-private:
-    int location = -1;
-    QOpenGLShaderProgram *shaderProgram = nullptr;
-    T value = {};
-    bool update = false;
-public:
-    void init(QOpenGLShaderProgram *program, const QString &name) {
-        this->shaderProgram = program;
-        this->location = program->uniformLocation(name);
+    void updateBy(RenderSettings &settings) {
+        videoFrame.updateBy(settings.videoFrame);
+        brightness.updateBy(settings.brightness);
+        contrast.updateBy(settings.contrast);
+        saturation.updateBy(settings.saturation);
+        lutFilter.updateBy(settings.lutFilter);
     }
 
-    void render() {
-        if (this->update) {
-            shaderProgram->setUniformValue(location, value);
-            this->update = false;
-        }
-    }
-
-    UniformValue& operator=(T v) {
-        update |= this->value != v;
-        this->value = v;
-        return *this;
-    }
 };
-
 
 
 // QuickItem lives in the GUI thread and the rendering potentially happens on the render thread.
 // QuickItem may be deleted on the GUI thread while the render thread is rendering.
 // Therefore, we need to separate those two objects.
 class FireworksRenderer : public QObject, public QSGRenderNode, protected QOpenGLFunctions_3_3_Core {
-Q_OBJECT
+    Q_OBJECT
+    Q_PROPERTY(GLfloat brightness READ getBrightness WRITE setBrightness)
+    Q_PROPERTY(GLfloat contrast READ getContrast WRITE setContrast)
+    Q_PROPERTY(GLfloat saturation READ getSaturation WRITE setSaturation)
     friend class Fireworks;
 private:
+    // properties
+
+    PONY_GUARD_BY(MAIN) void setLUTFilter(const QString &path) { mainSettings.lutFilter = QImage(path); }
+
+    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getBrightness() const { return mainSettings.brightness; }
+
+    PONY_GUARD_BY(MAIN) void setBrightness(GLfloat brightness) { mainSettings.brightness = brightness; }
+
+    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getSaturation() const { return mainSettings.saturation; }
+
+    PONY_GUARD_BY(MAIN) void setSaturation(GLfloat saturation) { mainSettings.saturation = saturation; }
+
+    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getContrast() const { return mainSettings.contrast; }
+
+    PONY_GUARD_BY(MAIN) void setContrast(GLfloat contrast) { mainSettings.contrast = contrast; }
+
+
+private:
     QOpenGLShaderProgram *program = nullptr; // late init
-    GLuint vao = 0, vbo = 0, ebo = 0;
-    GLuint textureY = 0, textureU = 0, textureV = 0, textureLUT;
     QMatrix4x4 viewMatrix;
-    QQuickItem *quickItem;
-    QImage lutTexture;
 
-    // update flag
-    /**
-     * WARNING: 只能在 sync 阶段修改
-     */
-    VideoFrameRef videoFrame;
-    bool flagUpdateImageContent = false;
-    bool flagUpdateImageSize = false;
-
-    UniformValue<GLfloat> brightness;
-    UniformValue<GLfloat> contrast;
-    UniformValue<GLfloat> saturation;
+    RenderSettings mainSettings;
+    RenderSettings renderSettings;
 
     void inline createTextureBuffer(GLuint *texture) {
         QOpenGLFunctions_3_3_Core::glGenTextures(1, texture);
@@ -101,33 +99,34 @@ private:
         QOpenGLFunctions_3_3_Core::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     }
 
-
-public slots:
+private:
+    // opengl location
+    GLuint vao = 0, vbo = 0, ebo = 0;
+    GLuint textureY = 0, textureU = 0, textureV = 0, textureLUT = 0;
+    GLint brightnessLoc = -1, contrastLoc = -1,  saturationLoc = -1;
+public  slots:
     void init() {
         if (program) { return; } // already initialized
         program = new QOpenGLShaderProgram;
         initializeOpenGLFunctions();
-        qDebug() << "OpenGL version:"
+        qInfo() << "OpenGL version:"
                  << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
-        qDebug() << "GSLS version:"
+        qInfo() << "GSLS version:"
                  << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION)));
-        qDebug() << "Vendor:" << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
-        qDebug() << "Renderer:" << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
+        qInfo() << "Vendor:" << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
+        qInfo() << "Renderer:" << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
         program->addCacheableShaderFromSourceFile(QOpenGLShader::Vertex, u":/player/shader/vertex.vsh"_qs);
         program->addCacheableShaderFromSourceFile(QOpenGLShader::Fragment, u":/player/shader/fragment.fsh"_qs);
-//        program->addCacheableShaderFromSourceFile(QOpenGLShader::Fragment, u":/player/shader/lut.fsh"_qs);
-
         program->link();
         program->bind();
-        brightness.init(program, "brightness");
-        contrast.init(program, "contrast");
-        saturation.init(program, "saturation");
+        brightnessLoc = program->uniformLocation("brightness");
+        contrastLoc = program->uniformLocation("contrast");
+        saturationLoc = program->uniformLocation("saturation");
 
         glClearColor(0.1f, 0.1f, 0.3f, 1.0f);
         glGenVertexArrays(1, &vao);
         glGenBuffers(1, &vbo);
         glGenBuffers(1, &ebo);
-
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBufferData(GL_ARRAY_BUFFER, sizeof(VERTEX_POS), VERTEX_POS, GL_STATIC_DRAW);
@@ -153,22 +152,29 @@ public slots:
         createTextureBuffer(&textureU);
         glActiveTexture(GL_TEXTURE2);
         createTextureBuffer(&textureV);
-
         glActiveTexture(GL_TEXTURE3);
         createTextureBuffer(&textureLUT);
         glBindTexture(GL_TEXTURE_2D, textureLUT);
-
-        lutTexture.load(u":/player/filter/neutral-lut.png"_qs);
-        lutTexture.convertTo(QImage::Format_RGB888);
-
-
-
     };
 
+    void sync() {
+        renderSettings.updateBy(mainSettings);
+    }
 public:
-    FireworksRenderer(QQuickItem *item)  : quickItem(item) {
+    FireworksRenderer() {
         qDebug() << "Create Hurricane Renderer:" << static_cast<void *>(this) << ".";
     }
+
+    bool setVideoFrame(const VideoFrameRef &frame) {
+        if (mainSettings.videoFrame == frame) {
+            return false;
+        } {
+            mainSettings.videoFrame = frame;
+            return true;
+        }
+    }
+
+public:
 
     [[nodiscard]] RenderingFlags flags() const override {
         return BoundedRectRendering | DepthAwareRendering;
@@ -180,9 +186,6 @@ public:
 
     void render(const RenderState *state) override  {
         // call on render thread
-#ifdef DEBUG_FlAG_PAINT_LOG
-        qDebug() << "Paint" << "x =" << glRect.x() << "y =" << glRect.y() << "w =" << glRect.width() << "h =" << glRect.height();
-#endif
 
         // Due to QTBUG-97589, we are not able to get model-view matrix
         // https://bugreports.qt.io/browse/QTBUG-97589
@@ -205,25 +208,31 @@ public:
         }
 
 
-
         program->bind();
-        brightness.render();
-        contrast.render();
-        saturation.render();
+//        if (renderSettings.brightness.isUpdate()) {
+//            ::glUniform1f(brightnessLoc, renderSettings.brightness.getUpdate()); }
+//        if (renderSettings.contrast.isUpdate()) {
+//
+//            ::glUniform1f(contrastLoc, renderSettings.contrast.getUpdate()); }
+//        if (renderSettings.saturation.isUpdate()) {
+//            ::glUniform1f(saturationLoc, renderSettings.saturation.getUpdate()); }
+        program->setUniformValue(saturationLoc, renderSettings.saturation.getUpdate());
+        program->setUniformValue(contrastLoc, renderSettings.contrast.getUpdate());
+        program->setUniformValue(brightnessLoc, renderSettings.brightness.getUpdate());
         glBindVertexArray(vao);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-        if (!videoFrame.isValid()) {
-             return;
-        }
+        const VideoFrameRef &videoFrame = renderSettings.videoFrame;
+        if (!videoFrame.isValid()) { return; }
         int lineSize = videoFrame.getLineSize();
         int imageHeight = videoFrame.getHeight();
         int imageWidth = videoFrame.getWidth();
         auto *imageY = videoFrame.getY();
         auto *imageU = videoFrame.getU();
         auto *imageV = videoFrame.getV();
+        QImage lutTexture = renderSettings.lutFilter;
 
-        if (flagUpdateImageSize) {
+        if (renderSettings.videoFrame.isUpdateSize()) {
             // since FFmpeg may pad frame to align, we need to clip invalid data
             viewMatrix.setToIdentity();
             viewMatrix.ortho(0, static_cast<float>(imageWidth) / static_cast<float>(lineSize), 0, 1, -1, 1);
@@ -240,7 +249,7 @@ public:
             glActiveTexture(GL_TEXTURE3);
             glBindTexture(GL_TEXTURE_2D, textureLUT);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, lutTexture.width(), lutTexture.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, lutTexture.constBits());
-        } else if (flagUpdateImageContent) {
+        } else if (renderSettings.videoFrame.isUpdate()) {
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, textureY);
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, lineSize, imageHeight, GL_RED, GL_UNSIGNED_BYTE, imageY);
@@ -267,23 +276,5 @@ public:
         qDebug() << "Deconstruct Hurricane Renderer:" << static_cast<void *>(this) << ".";
     }
 
-    /**
-     * WARNING: 只能在 sync 阶段调用
-     * @param pic
-     */
-    void setPictureRef(VideoFrameRef &&pic) {
-        // should call on sync stage
-        flagUpdateImageContent = true;
-        if (!videoFrame.isSameSize(pic)) { flagUpdateImageSize = true; }
-        // not free on render stage
-        videoFrame = std::move(pic);
-    }
 
-    /**
-     * WARNING: 只能在 sync 阶段调用
-     * @param pic
-     */
-    void setPictureRef(const VideoFrameRef &pic) {
-        return setPictureRef(VideoFrameRef(pic));
-    }
 };

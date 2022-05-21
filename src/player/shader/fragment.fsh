@@ -13,7 +13,7 @@ out vec4 FragColor;
 
 vec4 lutFilter(vec4 rgbColor) {
     ivec2 lut_tex_size = textureSize(tex_lut, 0);
-    float _COLORS      = float(lut_tex_size.y);
+    if (lut_tex_size.x == 0) { return rgbColor; }
 
     float blueColor = rgbColor.b * 63.;
 
@@ -47,7 +47,7 @@ const mat3 YUV_RGB_TRANSFORM = mat3(
 );
 
 mat4 brightnessMatrix(float brightness) {
-    #define b brightness
+    #define b 1.0
     return mat4(
     1, 0, 0, 0,
     0, 1, 0, 0,

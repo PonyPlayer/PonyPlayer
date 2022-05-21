@@ -31,14 +31,14 @@ find_package(Qt6 COMPONENTS
         REQUIRED)
 
 set(PONY_ICON ${CMAKE_SOURCE_DIR}/assets/ponyicon.png)
-
 set(FFmpeg)
 foreach(LIB IN LISTS FFMPEG_LIBS)
     find_library(FFmpeg_FOUND_${LIB} NAMES ${LIB} HINTS "${FFMPEG_PREFIX_PATH}/lib/" REQUIRED)
     list(APPEND FFmpeg "${FFmpeg_FOUND_${LIB}}")
 endforeach()
 
-file(GLOB_RECURSE ASSETS_FILTER CONFIGURE_DEPENDS assets/filters/**.jpg )
+file(GLOB_RECURSE ASSETS_FILTER CONFIGURE_DEPENDS assets/filters/**.jpg assets/filters/*.json)
+message("${ASSETS_FILTER}")
 find_library(FFmpeg COMPONENTS ${FFMPEG_LIBS} "${FFMPEG_PREFIX_PATH}/lib/")
 set(CMAKE_MACOSX_RPATH ON)
 include_directories(${FFMPEG_PREFIX_PATH}/include)
