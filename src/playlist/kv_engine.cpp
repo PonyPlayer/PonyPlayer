@@ -5,13 +5,51 @@
 #include <sstream>
 #include <iomanip>
 #include "playlist.h"
+#include <QtGlobal>
+#include <stdlib.h>
+#ifdef Q_OS_MAC
+#define PLATFORM "MAC"
+#endif
+#ifdef Q_OS_LINUX
+#define PLATFORM "LINUX"
+#endif
+#ifdef Q_OS_WIN32
+#define PLATFORM "WINDOWS"
+#endif
 
 /*
  * 在当前目录下新建 data 子目录，其中创建数据库
  * @dnName: 数据库名
  */
 PonyKVConnect::PonyKVConnect(const QString &dbName) {
-    QDir dataBasePath = QDir::currentPath();
+    QString home;
+    if(PLATFORM=="MAC") {
+        home = qEnvironmentVariable("HOME");
+        home += "/Library/Containers";
+    }
+    if(PLATFORM=="WINDOWS") {
+        home = qEnvironmentVariable("HOME");
+        home += "/AppData/Local";
+    }
+    if(PLATFORM=="LINUX") {
+        home = qEnvironmentVariable("HOME");
+    }
+
+
+
+//    QDir dataBasePath = QDir::currentPath();
+
+    home += "/PonyPlayer";
+    bool done = qputenv("PONYPATH", home.toUtf8());
+    if(done)
+        qDebug()<<"环境变量设置成功!"<<home;
+    else
+        qDebug()<<"环境变量设置失败!"<<home;
+
+    QDir dir_check;
+    if(!dir_check.exists(home))
+        dir_check.mkpath(home);
+    QDir dataBasePath(home);
     dataBasePath.mkpath("data");
     dataBasePath.mkpath("preview");
 

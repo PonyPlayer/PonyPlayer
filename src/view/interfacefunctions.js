@@ -376,7 +376,7 @@ function videoListOperatorOnAccepted(path="",name=""){
         folder=folder.substring(0,folder.length-1)
         acceptedFileFold=folder
     }
-    mediaLibController.updateRecentFile(acceptedFileName)
+    mediaLibController.updateRecentFile(acceptedFileName);
     mainWindow.openFile(acceptedFileName);
     mainWindow.endTime=Math.floor(videoArea.getVideoDuration());
     var exists = false;

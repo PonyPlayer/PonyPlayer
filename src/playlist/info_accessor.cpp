@@ -12,7 +12,10 @@
 QString saveImage(QString abspath, QImage& image) {
     QFileInfo fi(abspath);
     QString bn = fi.baseName();
-    QString des = QDir::currentPath() + "/preview/" + bn + ".png";
+    qDebug()<<"环境变量:"<<qEnvironmentVariable("PONYPATH");
+    QString home = qEnvironmentVariable("PONYPATH");
+//    QString des = QDir::currentPath() + "/preview/" + bn + ".png";
+    QString des = home + "/preview/" + bn + ".png";
     image.save(des);
     QUrl url = QUrl::fromLocalFile(des);
     return url.toString();

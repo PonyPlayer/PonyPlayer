@@ -55,7 +55,10 @@ QVariantList Controller::getSimpleListItemList() {
  */
 QVariantList Controller::getRecentFiles() {
     QVariantList res;
-    QString source = QDir::currentPath() + "/recentOpenFiles.txt";
+
+//    QString source = QDir::currentPath() + "/recentOpenFiles.txt";
+    QString home = qEnvironmentVariable("PONYPATH");
+    QString source = home  + "/recentOpenFiles.txt";
     QFile file(source);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -83,7 +86,9 @@ QVariantList Controller::getRecentFiles() {
 void Controller::updateRecentFile(QString filePath) {
     QUrl url(filePath);
     QString fileName = QFileInfo(url.path()).fileName();  // 文件名
-    QString source = QDir::currentPath() + "/recentOpenFiles.txt";
+    QString home = qEnvironmentVariable("PONYPATH");
+//    QString source = QDir::currentPath() + "/recentOpenFiles.txt";
+    QString source = home + "/recentOpenFiles.txt";
     QFile file(source);
     QStringList readyWrite;  // 将要写的内容
     readyWrite.append(fileName+","+filePath);
