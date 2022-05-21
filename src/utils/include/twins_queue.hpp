@@ -27,9 +27,9 @@ class TwinsBlockQueue {
     bool *m_open  = nullptr;
 private:
     TwinsBlockQueue(
-        std::string name,
-        size_t prefer,
-        TwinsBlockQueue<T> *twins
+            std::string name,
+            size_t prefer,
+            TwinsBlockQueue<T> *twins
     ) : m_name(std::move(name)), m_prefer(prefer), m_twins(twins){
         if (prefer < 2) { throw std::runtime_error("PreferSize must not less than 2."); }
         this->m_mutex = twins->m_mutex;
@@ -118,17 +118,17 @@ public:
         }
     }
 
-    T &&remove(bool protectNull) {
+    T remove(bool protectNull) {
         std::unique_lock lock(*m_mutex);
         m_cond->wait(lock, [this]{ return !this->m_data.empty() || !isOpen();});
         if (m_data.empty()) {
-            return std::move(T{});
+            return {};
         } else {
-            T&& ret = std::move(m_data.front());
-            if (protectNull && !ret) { return std::move(T{}); }
+            T ret = m_data.front();
+            if (protectNull && !ret) { return {}; }
             m_data.pop();
             if (m_data.size() < m_prefer / 2 && isOpen()) { this->m_cond->notify_all(); }
-            return std::move(ret);
+            return ret;
         }
     }
 
@@ -137,7 +137,7 @@ public:
         while(true) {
             std::unique_lock lock(*m_mutex);
             if (m_data.empty()) { m_cond->wait(lock, [this]{ return !this->m_data.empty() || !isOpen();});}
-            auto && element = m_data.front();
+            T element = m_data.front();
             if (element && predicate(element)) {
                 m_data.pop();
                 lock.unlock();

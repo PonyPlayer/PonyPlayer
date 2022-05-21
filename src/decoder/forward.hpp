@@ -116,6 +116,7 @@ public:
                                                   len,
                                                   AV_SAMPLE_FMT_S16,
                                                   1);
+        av_frame_free(&frame);
         return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts};
     }
 
