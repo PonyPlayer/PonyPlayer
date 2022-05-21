@@ -38,7 +38,7 @@ public:
             if (!lyricsData) {
                 throw std::runtime_error("Cannot not get LyricsData by id:" + lyricsDataName.toStdString());
             }
-            connect(hurricane, &Hurricane::signalOpenFile, lyricsReader, &LyricsReader::readLyric);
+            //connect(hurricane, &Hurricane::signalOpenFile, lyricsReader, &LyricsReader::readLyric);
             connect(lyricsReader, &LyricsReader::lyricReadCompleted, this, &WaveView::readLyricsResponse);
             connect(this, &WaveView::signalPushLyricSentence, lyricsData, &LyricsData::pushLyricSentence);
             connect(this, &WaveView::signalPushLyricSentenceCompleted, lyricsData,
