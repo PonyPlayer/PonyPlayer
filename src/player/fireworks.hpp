@@ -9,9 +9,9 @@
 class Fireworks : public QQuickItem {
     Q_OBJECT
     QML_ELEMENT
-    Q_PROPERTY(GLfloat brightness READ getBrightness WRITE setBrightness)
-    Q_PROPERTY(GLfloat contrast READ getContrast WRITE setContrast)
-    Q_PROPERTY(GLfloat saturation READ getSaturation WRITE setSaturation)
+    Q_PROPERTY(GLfloat brightness READ getBrightness WRITE setBrightness NOTIFY brightnessChanged)
+    Q_PROPERTY(GLfloat contrast READ getContrast WRITE setContrast NOTIFY contrastChanged)
+    Q_PROPERTY(GLfloat saturation READ getSaturation WRITE setSaturation NOTIFY saturationChanged)
 private:
     FireworksRenderer *renderer;
 
@@ -44,19 +44,26 @@ public:
 
     PONY_GUARD_BY(MAIN) void setBrightness(GLfloat b) {
         renderer->setBrightness(b);
+        emit brightnessChanged();
     }
 
-    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getContrast() const { return renderer->getContrast(); }
+    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getContrast() const {
+        return renderer->getContrast();
+    }
 
-    PONY_GUARD_BY(MAIN) void setContrast(GLfloat c) { renderer->setContrast(c); };
+    PONY_GUARD_BY(MAIN) void setContrast(GLfloat c) {
+        renderer->setContrast(c);
+        emit contrastChanged();
+    };
 
     PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getSaturation() const { return renderer->getSaturation(); };
 
-    PONY_GUARD_BY(MAIN) void setSaturation(GLfloat s) { renderer->setSaturation(s); };
+    PONY_GUARD_BY(MAIN) void setSaturation(GLfloat s) {
+        renderer->setSaturation(s);
+        emit saturationChanged();
+    };
 
 public slots:
-
-
 
     void setVideoFrame(const VideoFrameRef &pic) {
         // this function must be called on GUI thread
@@ -71,6 +78,13 @@ public slots:
 
 
     }
+
+signals:
+    void brightnessChanged();
+
+    void contrastChanged();
+
+    void saturationChanged();
 };
 
 

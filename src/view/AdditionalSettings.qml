@@ -1,12 +1,12 @@
 import QtQuick
 import QtQuick.Window
-import QtQuick.Controls
+import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
 
 Window{
     id:additionalSettings
-    title: "additionalSettings"
+    title: "Scene Settings"
     maximumHeight: 120
     maximumWidth:170
     minimumHeight: 120
@@ -28,9 +28,9 @@ Window{
             width: 100
             from: 0.0
             to:1.0
-            value: mainWindow.brightness
+            value: videoArea.brightness
             onMoved: {
-                mainWindow.brightness=brightnessSlider.value
+                videoArea.brightness=brightnessSlider.value
             }
         }
     }
@@ -50,9 +50,9 @@ Window{
             width: 100
             from: -1.0
             to:1.0
-            value: mainWindow.saturation
+            value: videoArea.saturation
             onMoved: {
-                mainWindow.saturation=saturationSlider.value
+                videoArea.saturation=saturationSlider.value
             }
         }
     }
@@ -72,9 +72,9 @@ Window{
             width: 100
             from: -2.0
             to:2.0
-            value: mainWindow.contrast
+            value: videoArea.contrast
             onMoved: {
-                mainWindow.contrast=contrastSlider.value
+                videoArea.contrast=contrastSlider.value
             }
         }
     }

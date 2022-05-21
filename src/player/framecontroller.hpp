@@ -41,14 +41,14 @@ public:
             });
             connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd, Qt::DirectConnection);
             connect(this, &FrameController::signalSetTrack, this, [this](int i) {
-                qreal pos = m_playback->getAudioPos(m_demuxer->isBackward());
+                qreal pos = m_playback->getPreferablePos();
                 m_playback->stop();
                 m_demuxer->pause();
                 m_demuxer->setTrack(i);
                 seek(pos);
             });
             connect(this, &FrameController::signalBackward, this, [this] {
-                qreal pos = m_playback->getAudioPos(m_demuxer->isBackward());
+                qreal pos = m_playback->getPreferablePos();
                 m_playback->stop();
                 m_demuxer->pause();
                 m_demuxer->backward();
@@ -56,7 +56,7 @@ public:
                 m_demuxer->start();
             });
             connect(this, &FrameController::signalForward, this, [this] {
-                qreal pos = m_playback->getAudioPos(m_demuxer->isBackward());
+                qreal pos = m_playback->getPreferablePos();
                 m_playback->stop();
                 m_demuxer->pause();
                 m_demuxer->forward();
