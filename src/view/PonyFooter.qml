@@ -25,6 +25,10 @@ Rectangle {
     Connections{
         target:mainWindow
         onWakeSlide:{videoSlide.value=0.0}
+        onMainWindowLostFocus:{
+            previewRect.visible=false
+            console.log("main window lost focus")
+        }
     }
     Slider{
         id:videoSlide
@@ -45,24 +49,20 @@ Rectangle {
             acceptedButtons: Qt.NoButton
             onEntered: {
                 footer.lastPositionOnSlider=previewDetector.mouseX
-                //footer.previewLock=false
-                preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
-                //timerForThumbnail.start()
+                timerForThumbnail.start()
+
             }
             onExited: {
                 previewRect.visible=false
-                //timerForThumbnail.stop()
+                timerForThumbnail.stop()
             }
             onPositionChanged:{
                 if(Math.abs(previewDetector.mouseX-footer.lastPositionOnSlider)>20){
+                    previewRect.visible=false
                     footer.lastPositionOnSlider=previewDetector.mouseX
-                    preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+                    timerForThumbnail.restart()
+                    //preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
                 }
-                //if(footer.previewLock){
-                //    footer.previewLock=false
-                //    preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
-                //    timerForThumbnail.start()
-                //}
             }
         }
         onValueChanged: {
@@ -90,12 +90,12 @@ Rectangle {
             onActivated: IF.forwardFiveSeconds()
         }
     }
-    //Timer{
-    //    id:timerForThumbnail
-    //    interval:500
-    //    repeat:false
-    //    onTriggered:footer.previewLock=true
-    //}
+    Timer{
+        id:timerForThumbnail
+        interval:500
+        repeat:false
+        onTriggered:preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+    }
     Rectangle {
         id: previewRect
         visible: false
