@@ -9,13 +9,12 @@
 class Fireworks : public QQuickItem {
     Q_OBJECT
     QML_ELEMENT
+    Q_PROPERTY(GLfloat brightness READ getBrightness WRITE setBrightness)
+    Q_PROPERTY(GLfloat contrast READ getContrast WRITE setContrast)
+    Q_PROPERTY(GLfloat saturation READ getSaturation WRITE setSaturation)
 private:
     FireworksRenderer *renderer;
 
-protected:
-    GLfloat brightness = 0.0;
-    GLfloat contrast = 1.0;
-    GLfloat saturation = 1.0;
 protected:
     QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *data) override {
         return renderer;
@@ -41,17 +40,19 @@ public:
         renderer = nullptr;
     }
 
-    [[nodiscard]] GLfloat getBrightness() const { return brightness; }
+    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getBrightness() const { return renderer->getBrightness(); }
 
-    void setBrightness(GLfloat b) { Fireworks::brightness = b; }
+    PONY_GUARD_BY(MAIN) void setBrightness(GLfloat b) {
+        renderer->setBrightness(b);
+    }
 
-    [[nodiscard]] GLfloat getContrast() const { return brightness; }
+    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getContrast() const { return renderer->getContrast(); }
 
-    void setContrast(GLfloat c) { Fireworks::contrast = c; qDebug() << "setContrast" << c; };
+    PONY_GUARD_BY(MAIN) void setContrast(GLfloat c) { renderer->setContrast(c); };
 
-    [[nodiscard]] GLfloat getSaturation() const { return saturation; };
+    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getSaturation() const { return renderer->getSaturation(); };
 
-    void setSaturation(GLfloat s) { Fireworks::saturation = s; };
+    PONY_GUARD_BY(MAIN) void setSaturation(GLfloat s) { renderer->setSaturation(s); };
 
 public slots:
 

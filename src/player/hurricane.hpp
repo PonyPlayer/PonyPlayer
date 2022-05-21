@@ -75,7 +75,7 @@ public:
 
         connect(frameController, &FrameController::playbackStateChanged, this, &Hurricane::slotPlaybackStateChanged);
 
-        connect(this, &Hurricane::stateChanged, [=] {
+        connect(this, &Hurricane::stateChanged, [this] {
             qDebug() << "State Changed to" << QVariant::fromValue(state).toString();
         });
 
@@ -114,7 +114,7 @@ signals:
     /**
      * 视频播放进度由于手动调整发送改变
      */
-    void positionChangedBySeek();
+    void  positionChangedBySeek();
 
     void audioOutputDevicesChanged(QList<QString> devices);
 
@@ -132,7 +132,7 @@ Q_SIGNALS:
 
     void signalClose(QPrivateSignal);
 
-    void signalOpenFile(const QString &url, QPrivateSignal);
+    void signalOpenFile(const QString &path, QPrivateSignal);
 
     void signalSeek(qreal pos, QPrivateSignal);
 
@@ -144,10 +144,10 @@ public slots:
      * 需要保证调用时状态为 INVALID / CLOSING, 方法保证返回时状态为 LOADING
      * 如果指定 autoClose, 则会自动调用 HurricanePlayer::close()
      * 状态转移 INVALID -> LOADING -> PAUSED
-     * @param path 文件路径
+     * @param url 文件路径
      * @param autoClose 如果打开视频文件, 是否自动关闭
      */
-    Q_INVOKABLE void openFile(const QString &path, bool autoClose = true) {
+    Q_INVOKABLE void openFile(const QString &url, bool autoClose = true) {
         if (autoClose && (state == HurricaneState::PLAYING || state == PRE_PLAY)) {
             emit pause();
         }
@@ -161,8 +161,8 @@ public slots:
             }
             state = HurricaneState::LOADING;
             emit stateChanged();
-            emit signalOpenFile(path, QPrivateSignal());
-            qDebug() << "Open file:" << path;
+            emit signalOpenFile(QUrl(url).toLocalFile(), QPrivateSignal());
+            qDebug() << "Open file:" << url;
         }
     };
 

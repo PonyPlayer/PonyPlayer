@@ -128,10 +128,8 @@ public:
 public slots:
 
     void openFile(const QString &path) {
-        QUrl url(path);
-        QString localPath = url.toLocalFile();
-        qDebug() << "Open file" << localPath;
-        emit signalDecoderOpenFile(localPath.toStdString());
+        qDebug() << "Open file" << path;
+        emit signalDecoderOpenFile(path.toStdString());
     }
 
 
