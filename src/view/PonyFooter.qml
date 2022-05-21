@@ -25,6 +25,10 @@ Rectangle {
     Connections{
         target:mainWindow
         onWakeSlide:{videoSlide.value=0.0}
+        onMainWindowLostFocus:{
+            previewRect.visible=false
+            console.log("main window lost focus")
+        }
     }
     Slider{
         id:videoSlide

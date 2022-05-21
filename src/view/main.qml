@@ -114,6 +114,8 @@ Window {
     signal openFile(string path)
     //更新滑动条
     signal wakeSlide()
+    //窗口失去焦点
+    signal mainWindowLostFocus()
 
 
     MediaInfo {
@@ -693,6 +695,9 @@ Window {
         id:rightTopSizeChange
         anchors.top: parent.top
         anchors.right: parent.right
+    }
+    onActiveFocusItemChanged: {
+        mainWindow.mainWindowLostFocus()
     }
 }
 
