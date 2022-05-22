@@ -116,7 +116,7 @@ Window {
     //窗口失去焦点
     signal mainWindowLostFocus()
 
-
+    DBus {}
     MediaInfo {
         id:mediainfowindow
         Component.onCompleted: {
@@ -198,14 +198,6 @@ Window {
             property point clickPos: "0,0"
             onPressed: { //接收鼠标按下事件
                 mainWindow.startSystemMove();
-            }
-            Timer{
-                id:timer
-                interval: 200
-                onTriggered: singleClick()
-            }
-            onDoubleClicked: {
-                IF.screenSizeFunction();
             }
         }
         Shortcut{
@@ -301,7 +293,15 @@ Window {
             image_height: 10
             imageSource: "interfacepics/mainWindowMaximize"
             mouseArea.onClicked:{
-                IF.screenSizeFunction();
+                mainWindow.isFullScreen=false
+                if(mainWindow.visibility==2){
+                    mainWindow.visibility=4
+                    mainWindowReduction.imageSource="interfacepics/mainWindowReduction"
+                }
+                else{
+                    mainWindow.visibility=2
+                    mainWindowReduction.imageSource="interfacepics/mainWindowMaximize"
+                }
             }
         }
         AnimatedButton{
@@ -550,8 +550,8 @@ Window {
                 //}
                 onStateChanged:IF.solveStateChanged()
                 Component.onCompleted: IF.mainAreaInit()
-                onAudioOutputDevicesChanged:{
-                    IF.makeDeviceMenu(audioDeviceList)
+                onAudioOutputDeviceChanged:{
+                    IF.makeDeviceMenu(devices)
                 }
                 onOpenFileResult:{
                     if(!b){
@@ -565,6 +565,7 @@ Window {
                         mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
                     }
                 }
+//                onAudioOutputDeviceChanged
             }
             Rectangle{
                 id:initScreen

@@ -74,7 +74,7 @@ public:
                 if (isPlay) { m_playback->start(); }
             }, Qt::QueuedConnection);
             connect(m_playback, &Playback::signalAudioOutputDevicesChanged, this,
-                    &FrameController::slotAudioOutputDevicesChanged);
+                    &FrameController::signalAudioOutputDevicesChanged);
         });
         m_affinityThread->start();
     }
@@ -192,10 +192,6 @@ public slots:
 
         qDebug() << "start point" << startPoint;
         qDebug() << "End seek for" << seekPos;
-    }
-
-    void slotAudioOutputDevicesChanged() {
-        emit signalAudioOutputDevicesChanged();
     }
 
 signals:

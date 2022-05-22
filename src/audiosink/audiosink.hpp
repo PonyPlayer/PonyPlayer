@@ -445,7 +445,10 @@ public:
         }
     }
 
-    QStringList getAudioDeviceList() { return devicesList; }
+    QStringList getAudioDeviceList() {
+        std::lock_guard lock(paStreamLock);
+        return devicesList;
+    }
 
 
 signals:

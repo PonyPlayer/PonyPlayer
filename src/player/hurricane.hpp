@@ -28,8 +28,6 @@ class Hurricane : public Fireworks {
 Q_OBJECT
     QML_ADDED_IN_VERSION(1, 0)
     QML_ELEMENT
-//    QT_MODULE(HurricanePlayer)
-//    QML_NAMED_ELEMENT(HurricanePlayer)
 public:
     /**
      * HurricanePlayer 组件的状态, 其中瞬时状态代表前端 HurricanePlayer 发起操作, 但并未同步到后端 VideoWorker.
@@ -49,7 +47,7 @@ public:
 
     QML_ELEMENT
     Q_PROPERTY(HurricaneState state READ getState NOTIFY stateChanged FINAL)
-    Q_PROPERTY(QStringList audioDeviceList READ getAudioDeviceList NOTIFY audioOutputDevicesChanged)
+    Q_PROPERTY(QStringList audioDeviceList READ getAudioDeviceList NOTIFY audioOutputDeviceChanged)
 
 
 private:
@@ -80,8 +78,7 @@ public:
             qDebug() << "State Changed to" << QVariant::fromValue(state).toString();
         });
 
-        connect(frameController, &FrameController::signalAudioOutputDevicesChanged, this,
-                &Hurricane::slotAudioOutputDevicesChanged);
+        connect(frameController, &FrameController::signalAudioOutputDevicesChanged, this, &Hurricane::audioOutputDeviceChanged);
         emit signalPlayerInitializing(QPrivateSignal());
 #ifdef DEBUG_FLAG_AUTO_OPEN
         openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/581518754-1-208.mp4"_qs)).url());
@@ -96,7 +93,7 @@ public:
 
     HurricaneState getState() { return state; }
 
-    QStringList getAudioDeviceList() {return frameController->getAudioDeviceList();}
+    QStringList getAudioDeviceList() { return frameController->getAudioDeviceList();}
 
 
 signals:
@@ -119,7 +116,7 @@ signals:
      */
     void  positionChangedBySeek();
 
-    void audioOutputDevicesChanged();
+    void audioOutputDeviceChanged();
 
 
 Q_SIGNALS:
@@ -392,9 +389,6 @@ private slots:
         emit stateChanged();
     }
 
-    void slotAudioOutputDevicesChanged() {
-        emit audioOutputDevicesChanged();
-    }
 
 };
 

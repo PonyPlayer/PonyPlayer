@@ -10,7 +10,7 @@
 #include <QDebug>
 #include <QCoreApplication>
 #include "demuxer.hpp"
-#include "../audiosink/audiosink.hpp"
+#include "audiosink.hpp"
 #include "frame.hpp"
 
 /**
@@ -26,7 +26,7 @@ private:
     VideoFrameRef cacheVideoFrame;
 
 
-    PonyAudioSink *m_audioSink;
+    PonyAudioSink *m_audioSink = nullptr;
     std::atomic<bool> m_isInterrupt;
     std::atomic<bool> m_isPlaying;
     std::mutex m_interruptMutex;
@@ -138,14 +138,15 @@ public:
         });
         connect(this, &Playback::clearRingBuffer, this, [this] { this->m_audioSink->clear(); });
         connect(m_affinityThread, &QThread::started, [this] {
+            // 在 Playback 线程上初始化
             PonyAudioFormat format(PonyPlayer::Int16, 44100, 2);
             this->m_audioSink = new PonyAudioSink(format);
             connect(m_audioSink, &PonyAudioSink::signalAudioOutputDevicesChanged, this,
-                    &Playback::slotAudioOutputDevicesChanged);
+                    &Playback::signalAudioOutputDevicesChanged);
             connect(this, &Playback::signalSetSelectedAudioOutputDevice, m_audioSink,
                     &PonyAudioSink::changeAudioOutputDevice);
+            emit signalAudioOutputDevicesChanged();
         });
-
         m_affinityThread->start();
     }
 
@@ -244,7 +245,7 @@ public:
         emit clearRingBuffer(QPrivateSignal());
     }
 
-    QStringList getAudioDeviceList() { return m_audioSink->getAudioDeviceList(); };
+    QStringList getAudioDeviceList() { return m_audioSink ? m_audioSink->getAudioDeviceList() : QStringList(); };
 
 
 private slots:
@@ -278,9 +279,6 @@ private slots:
         lock.unlock();
     };
 
-    void slotAudioOutputDevicesChanged() {
-        emit signalAudioOutputDevicesChanged();
-    }
 
 
 signals:
