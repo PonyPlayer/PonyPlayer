@@ -36,7 +36,7 @@ private:
         this->m_open = twins->m_open;
     }
 
-    inline bool isOpen() { return *m_open; }
+    inline bool isOpen() { return *m_open && m_enable; }
 
 public:
     TwinsBlockQueue(std::string name, size_t prefer) : m_name(std::move(name)), m_prefer(prefer) {
@@ -61,6 +61,8 @@ public:
     void setEnable(bool b) {
         std::unique_lock lock(*m_mutex);
         m_enable = b;
+        if (!m_enable)
+            m_cond->notify_all();
     }
 
     bool isEnable() const {
@@ -98,10 +100,13 @@ public:
 
     bool push(const T item) {
         std::unique_lock lock(*m_mutex);
-        if (!m_enable || !*m_open) {
+        if (!isOpen()) {
             return false;
         }
-        m_cond->wait(lock, [this]{ return this->m_data.size() < m_prefer || m_twins->m_data.size() < m_twins->m_prefer || !isOpen();});
+        m_cond->wait(lock, [this]{
+            return this->m_data.size() < m_prefer ||
+                m_twins->m_data.size() < m_twins->m_prefer || !isOpen();
+        });
         m_data.push(item);
         if (m_data.size() == 1) { m_cond->notify_all(); }
 #ifdef DEBUG_PRINT_FUNCTION_CALL
