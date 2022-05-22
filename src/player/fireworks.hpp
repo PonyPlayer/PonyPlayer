@@ -4,6 +4,7 @@
 #include <QQuickWindow>
 #include <QOpenGLShaderProgram>
 #include "renderer.hpp"
+#include "platform.hpp"
 
 
 class Fireworks : public QQuickItem {

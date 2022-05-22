@@ -5,17 +5,17 @@
 #include <utility>
 #pragma once
 
+
 #ifdef NDEBUG
 #define NOT_IMPLEMENT_YET { throw std::runtime_error("Unsupported operation:"); }
-#define ILLEGAL_STATE(name) { throw std::runtime_error("Illegal State Exception: " name); }
+#define ILLEGAL_STATE(name) throw std::runtime_error(std::string("Illegal State Exception: ").append(msg)
 #else
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
 #define FILE_AND_LINE __FILE__ ":" TOSTRING(__LINE__)
 #define NOT_IMPLEMENT_YET { throw std::runtime_error("Unsupported operation: " FILE_AND_LINE); }
-#define ILLEGAL_STATE(msg) { throw std::runtime_error("Illegal State Exception: " msg " : " FILE_AND_LINE); }
+#define ILLEGAL_STATE(msg) throw std::runtime_error(std::string("Illegal State Exception: ").append(msg).append(" : " FILE_AND_LINE))
 #endif
-
 
 namespace PonyPlayer {
     using PonyThread = const char*;
