@@ -215,7 +215,6 @@ public:
             glStencilFunc(GL_EQUAL, state->stencilValue(), 0xFF);
             glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
         }
-        ::glEnable(GL_DEPTH_TEST);
 
 
         program->bind();
