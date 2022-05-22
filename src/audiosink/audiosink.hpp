@@ -466,7 +466,6 @@ public slots:
 
     void audioOutputDevicesChanged() {
         refreshDevicesList();
-        emit signalAudioOutputDevicesChanged();
     }
 
     void changeAudioOutputDevice(const QString &device) {

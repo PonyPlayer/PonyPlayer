@@ -199,6 +199,14 @@ Window {
             onPressed: { //接收鼠标按下事件
                 mainWindow.startSystemMove();
             }
+            Timer{
+                id:timer
+                interval: 200
+                onTriggered: singleClick()
+            }
+            onDoubleClicked: {
+                IF.screenSizeFunction();
+            }
         }
         Shortcut{
             sequence: "Ctrl+I"
@@ -293,15 +301,7 @@ Window {
             image_height: 10
             imageSource: "interfacepics/mainWindowMaximize"
             mouseArea.onClicked:{
-                mainWindow.isFullScreen=false
-                if(mainWindow.visibility==2){
-                    mainWindow.visibility=4
-                    mainWindowReduction.imageSource="interfacepics/mainWindowReduction"
-                }
-                else{
-                    mainWindow.visibility=2
-                    mainWindowReduction.imageSource="interfacepics/mainWindowMaximize"
-                }
+                IF.screenSizeFunction();
             }
         }
         AnimatedButton{
@@ -551,7 +551,7 @@ Window {
                 onStateChanged:IF.solveStateChanged()
                 Component.onCompleted: IF.mainAreaInit()
                 onAudioOutputDevicesChanged:{
-                    IF.makeDeviceMenu(devices)
+                    IF.makeDeviceMenu(audioDeviceList)
                 }
                 onOpenFileResult:{
                     if(!b){
