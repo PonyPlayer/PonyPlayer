@@ -270,7 +270,7 @@ public:
     }
 
     PONY_GUARD_BY(DECODER) void setEnableAudio(bool enable) {
-        audioDecoder->setEnable(false);
+        audioDecoder->setEnable(enable);
     }
 
 private slots:

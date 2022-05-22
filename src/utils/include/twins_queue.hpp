@@ -16,10 +16,9 @@
 template<typename T>
 class TwinsBlockQueue {
     std::queue<T> m_data;
-    std::atomic<bool> m_enable;
+    bool m_enable{true};
     const std::string m_name;
     const size_t m_prefer;
-
 
     TwinsBlockQueue<T> *m_twins;
     std::mutex *m_mutex = nullptr;
@@ -60,10 +59,12 @@ public:
     }
 
     void setEnable(bool b) {
+        std::unique_lock lock(*m_mutex);
         m_enable = b;
     }
 
     bool isEnable() const {
+        std::unique_lock lock(*m_mutex);
         return m_enable;
     }
 
@@ -97,13 +98,16 @@ public:
 
     bool push(const T item) {
         std::unique_lock lock(*m_mutex);
+        if (!m_enable || !*m_open) {
+            return false;
+        }
         m_cond->wait(lock, [this]{ return this->m_data.size() < m_prefer || m_twins->m_data.size() < m_twins->m_prefer || !isOpen();});
         m_data.push(item);
         if (m_data.size() == 1) { m_cond->notify_all(); }
 #ifdef DEBUG_PRINT_FUNCTION_CALL
         qDebug() << m_name.c_str() << "Push" << m_data.size();
 #endif
-        return m_data.size() <= m_prefer;
+        return true;
     }
 
     template<typename R>

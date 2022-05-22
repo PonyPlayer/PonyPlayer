@@ -18,6 +18,8 @@ public:
     }
 
     PONY_GUARD_BY(DECODER) bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
+        if (!frameQueue->isEnable())
+            return true;
         int ret = avcodec_send_packet(codecCtx, pkt);
         if (ret < 0) {
             qWarning() << "Error avcodec_send_packet:" << ffmpegErrToString(ret);
@@ -26,7 +28,11 @@ public:
         while(ret >= 0 && !interrupt) {
             ret = avcodec_receive_frame(codecCtx, frameBuf);
             if (ret >= 0) {
-                frameQueue->push(frameBuf);
+                if(!frameQueue->push(frameBuf)) {
+                    frameQueue->clear([](AVFrame *frame) { av_frame_free(&frame); });
+                    av_frame_unref(frameBuf);
+                    return false;
+                }
                 frameBuf = av_frame_alloc();
             } else if (ret == AVERROR(EAGAIN)) {
                 return true;
@@ -106,6 +112,9 @@ public:
 
 
     PONY_THREAD_SAFE AudioFrame getSample() override {
+        if (!frameQueue->isEnable())
+            throw std::runtime_error("forward: getSample is disabled");
+
         AVFrame *frame = frameQueue->remove(true);
         if (!frame) { return {}; }
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
