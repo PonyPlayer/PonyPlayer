@@ -186,7 +186,7 @@ public:
 public:
 
     [[nodiscard]] RenderingFlags flags() const override {
-        return BoundedRectRendering | DepthAwareRendering;
+        return BoundedRectRendering;
     }
 
     [[nodiscard]] StateFlags changedStates() const override {
@@ -245,7 +245,7 @@ public:
             // since FFmpeg may pad frame to align, we need to clip invalid data
             viewMatrix.setToIdentity();
             viewMatrix.ortho(0, static_cast<float>(imageWidth) / static_cast<float>(lineSize), 0, 1, -1, 1);
-            viewMatrix.translate(0, 0, -0.7F);
+//            viewMatrix.translate(0, 0, -0.7F);
             program->setUniformValue("view", viewMatrix);
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, textureY);
