@@ -132,7 +132,8 @@ private:
     PaDeviceIndex getCurrentOutputDeviceIndex() {
         int deviceCount = Pa_GetDeviceCount();
         for (auto index = 0; index < deviceCount; index++) {
-            if (!strcmp(Pa_GetDeviceInfo(index)->name, selectedOutputDevice.toStdString().data())) {
+            auto *device = Pa_GetDeviceInfo(index);
+            if (strcmp(device->name, selectedOutputDevice.toStdString().data()) == 0 && device->maxOutputChannels > 0) {
                 return index;
             }
         }
