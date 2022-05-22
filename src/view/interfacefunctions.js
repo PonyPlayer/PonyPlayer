@@ -15,7 +15,7 @@ function loadingFilterContrast() {
         var json = JSON.parse(jsons[i]);
         console.log(json.length)
         for(let j=0;j<json.length;j++){
-            let item=component.createObject(filter,{"filterName":(fileNames[i]+":  "+j),"image":(prefix+'/'+json[j].image),"lut":json[j].lut})
+            let item=component.createObject(filter,{"filterName":(fileNames[i]+":  "+j),"image": ("file://" + prefix+'/'+json[j].image),"lut":json[j].lut})
             item.sentFilterLut.connect(videoArea.setLUTFilter)
             filter.addItem(item)
         }
