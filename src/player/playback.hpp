@@ -44,15 +44,15 @@ private:
     }
 
     inline void syncTo(qreal current) {
-        qreal pos = m_demuxer->frontPicture();
-        if (isnan(pos)) { return; }
         bool backward = m_demuxer->isBackward();
         double duration;
-        if (!m_demuxer->hasVideo()) {
+        if (!m_demuxer->hasVideo() ) {
             // 纯音频
             duration = 1. / 30;
             m_preferablePos = m_audioSink->getProcessSecs(backward);
         } else {
+            qreal pos = m_demuxer->frontPicture();
+            if (isnan(pos)) { return; }
             m_preferablePos = current;
             if (m_audioSink->isBlock()) {
                 // 由于没有音频
