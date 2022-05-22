@@ -13,31 +13,31 @@ Q_OBJECT
     Q_PROPERTY(QString sentence READ getSentence WRITE setSentence NOTIFY sentenceChanged)
     QML_ELEMENT
 private:
-    QTime startTime, endTime;
-    QString sentence;
+    QTime m_startTime, m_endTime;
+    QString m_sentence;
 public:
     Q_INVOKABLE LyricSentence() = default;
 
     Q_INVOKABLE explicit LyricSentence(QTime startTime, QTime endTime, QString sentence) :
-            startTime(startTime), endTime(endTime), sentence(std::move(sentence)) {}
+            m_startTime(startTime), m_endTime(endTime), m_sentence(std::move(sentence)) {}
 
-    Q_INVOKABLE bool operator<(const LyricSentence &t) const { return startTime < t.startTime; }
+    Q_INVOKABLE bool operator<(const LyricSentence &t) const { return m_startTime < t.m_startTime; }
 
     Q_INVOKABLE bool operator==(const LyricSentence &t) const {
-        return startTime == t.startTime && endTime == t.endTime && sentence == t.sentence;
+        return m_startTime == t.m_startTime && m_endTime == t.m_endTime && m_sentence == t.m_sentence;
     }
 
-    Q_INVOKABLE QTime getStartTime() const { return startTime; }
+    Q_INVOKABLE QTime getStartTime() const { return m_startTime; }
 
-    Q_INVOKABLE QTime getEndTime() const { return endTime; }
+    Q_INVOKABLE QTime getEndTime() const { return m_endTime; }
 
-    Q_INVOKABLE QString getSentence() const { return sentence; }
+    Q_INVOKABLE QString getSentence() const { return m_sentence; }
 
-    Q_INVOKABLE void setStartTime(const QTime &newTime) { startTime = newTime; }
+    Q_INVOKABLE void setStartTime(const QTime &newTime) { m_startTime = newTime; }
 
-    Q_INVOKABLE void setEndTime(const QTime &newTime) { endTime = newTime; }
+    Q_INVOKABLE void setEndTime(const QTime &newTime) { m_endTime = newTime; }
 
-    Q_INVOKABLE void setSentence(const QString &newSentence) { sentence = newSentence; }
+    Q_INVOKABLE void setSentence(const QString &newSentence) { m_sentence = newSentence; }
 
 signals:
 

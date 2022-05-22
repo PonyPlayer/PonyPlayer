@@ -15,7 +15,7 @@ Q_OBJECT
     QML_ELEMENT
 private:
     float m_radiusRatio{};
-    QString player, lyricsDataName;
+    QString m_player, m_lyricsDataName;
     Hurricane *hurricane = nullptr;
     LyricsReader *lyricsReader = nullptr;
     LyricsData *lyricsData = nullptr;
@@ -28,15 +28,15 @@ public:
             if (!window) { return; }
             auto *context = qmlContext(this);
             while ((!hurricane || !lyricsData) && context) {
-                if (!hurricane) hurricane = reinterpret_cast<Hurricane *>(context->objectForName(player));
-                if (!lyricsData) lyricsData = reinterpret_cast<LyricsData *>(context->objectForName(lyricsDataName));
+                if (!hurricane) hurricane = reinterpret_cast<Hurricane *>(context->objectForName(m_player));
+                if (!lyricsData) lyricsData = reinterpret_cast<LyricsData *>(context->objectForName(m_lyricsDataName));
                 context = context->parentContext();
             }
             if (!hurricane) {
-                throw std::runtime_error("Cannot not get Hurricane by id:" + player.toStdString());
+                throw std::runtime_error("Cannot not get Hurricane by id:" + m_player.toStdString());
             }
             if (!lyricsData) {
-                throw std::runtime_error("Cannot not get LyricsData by id:" + lyricsDataName.toStdString());
+                throw std::runtime_error("Cannot not get LyricsData by id:" + m_lyricsDataName.toStdString());
             }
             //connect(hurricane, &Hurricane::signalOpenFile, lyricsReader, &LyricsReader::readLyric);
             connect(lyricsReader, &LyricsReader::lyricReadCompleted, this, &WaveView::readLyricsResponse);
@@ -50,20 +50,20 @@ public:
     Q_INVOKABLE [[nodiscard]] float getRadiusRatio() const { return m_radiusRatio; };
 
     [[nodiscard]] const QString &getPlayer() const {
-        return player;
+        return m_player;
     }
 
     void setPlayer(const QString &player) {
-        this->player = player;
+        m_player = player;
         qDebug() << "Set" << player;
     }
 
     [[nodiscard]] const QString &getLyricsDataName() const {
-        return lyricsDataName;
+        return m_lyricsDataName;
     }
 
     void setLyricsDataName(const QString &lyricsDataName) {
-        this->lyricsDataName = lyricsDataName;
+        m_lyricsDataName = lyricsDataName;
         qDebug() << "Set" << lyricsDataName;
     }
 

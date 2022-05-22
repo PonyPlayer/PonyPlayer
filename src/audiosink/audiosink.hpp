@@ -312,7 +312,6 @@ public:
      */
     bool write(const char *buf, qint32 origLen) {
         int len = 0;
-        int sonicBufferOffset = 0;
         if (m_format.getSampleFormat() != PonyPlayer::Int16) {
             throw std::runtime_error("Only support Int16!");
         }

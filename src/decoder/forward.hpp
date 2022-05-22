@@ -90,10 +90,18 @@ template<> class DecoderImpl<Audio>: public DecoderImpl<Common> {
 
 public:
     DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue) : DecoderImpl<Common>(vs, queue) {
+        AVChannelLayout layout;
+        av_channel_layout_default(&layout, 2);
+        /*
         this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
                                           AV_SAMPLE_FMT_S16, 44100,
                                           static_cast<int64_t>(codecCtx->channel_layout), codecCtx->sample_fmt,
-                                          codecCtx->sample_rate, 0, nullptr);
+                                          codecCtx->sample_rate, 0, nullptr);*/
+
+        swr_alloc_set_opts2(&swrCtx, &layout,
+                            AV_SAMPLE_FMT_S16, 44100,
+                            &codecCtx->ch_layout, codecCtx->sample_fmt,
+                            codecCtx->sample_rate, 0, nullptr);
 
         if (!swrCtx || swr_init(swrCtx) < 0) {
             throw std::runtime_error("Cannot initialize swrCtx");

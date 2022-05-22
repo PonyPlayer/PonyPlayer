@@ -15,7 +15,7 @@ class Thumbnail : public Fireworks {
     Q_PROPERTY(QString player READ getPlayer WRITE setPlayer)
 private:
     Preview *preview;
-    QString player;
+    QString m_player;
     Hurricane *hurricane = nullptr;
 public:
     Thumbnail(QQuickItem *parent= nullptr) : Fireworks(parent) {
@@ -25,11 +25,11 @@ public:
             if (!window) { return; }
             auto *context = qmlContext(this);
             while(!hurricane && context) {
-                hurricane = reinterpret_cast<Hurricane *>(context->objectForName(player));
+                hurricane = reinterpret_cast<Hurricane *>(context->objectForName(m_player));
                 context = context->parentContext();
             }
             if (!hurricane) {
-                throw std::runtime_error("Cannot not get Hurricane by id:" + player.toStdString());
+                throw std::runtime_error("Cannot not get Hurricane by id:" + m_player.toStdString());
             }
             connect(hurricane, &Hurricane::signalOpenFile, preview, &Preview::openFile);
             connect(hurricane, &Hurricane::signalClose, preview, &Preview::close);
@@ -38,11 +38,11 @@ public:
     }
 
     [[nodiscard]] const QString &getPlayer() const {
-        return player;
+        return m_player;
     }
 
     void setPlayer(const QString &player) {
-        Thumbnail::player = player;
+        Thumbnail::m_player = player;
         qDebug() << "Set" << player;
     }
 
