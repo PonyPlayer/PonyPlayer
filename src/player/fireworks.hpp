@@ -31,7 +31,9 @@ public:
         QDir filterDir(m_filterPrefix);
         for(auto && filename : filterDir.entryList({"*.json"})) {
             QFile file = filterDir.filePath(filename);
+            file.open(QIODevice::OpenModeFlag::ReadOnly);
             m_filterJsons.append(file.readAll());
+            file.close();
         }
         this->setFlag(QQuickItem::ItemHasContents);
         connect(this, &QQuickItem::windowChanged, this, [this](QQuickWindow *win){
