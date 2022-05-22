@@ -50,9 +50,19 @@ MenuBar {
                 onObjectRemoved: audioMenu.removeItem(object)
            }
         }
-
-        MenuItem {
-            text: qsTr("音轨")
+        Menu {
+            id: trackMenu_
+            title: qsTr("音轨")
+            Instantiator {
+                id: trackInstantiator
+                model: videoArea.tracks
+                delegate: MenuItem {
+                    text: model.modelData
+                    onTriggered: videoArea.setTrack(model.modelIndex)
+                }
+                onObjectAdded: trackMenu_.insertItem(index, object)
+                onObjectRemoved: trackMenu_.removeItem(object)
+           }
         }
     }
 }

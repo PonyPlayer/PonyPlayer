@@ -7,6 +7,7 @@
 #define PONYPLAYER_HURRICANE_HPP
 
 #include <QObject>
+#include <utility>
 #include "framecontroller.hpp"
 #include "fireworks.hpp"
 
@@ -48,13 +49,13 @@ public:
     QML_ELEMENT
     Q_PROPERTY(HurricaneState state READ getState NOTIFY stateChanged FINAL)
     Q_PROPERTY(QStringList audioDeviceList READ getAudioDeviceList NOTIFY audioOutputDeviceChanged)
-
+    Q_PROPERTY(QStringList tracks READ getTracks NOTIFY openFileResult)
 
 private:
     HurricaneState state = HurricaneState::INVALID;
 private:
     FrameController *frameController;
-
+    int track;
 public:
     explicit Hurricane(QQuickItem *parent = nullptr) : Fireworks(parent) {
         frameController = new FrameController(this);
@@ -231,10 +232,10 @@ public slots:
      * @param deviceName 设备名称
      */
     Q_INVOKABLE void setSelectedAudioOutputDevice(QString deviceName) {
-        frameController->setSelectedAudioOutputDevice(deviceName);
+        frameController->setSelectedAudioOutputDevice(std::move(deviceName));
     }
 
-    /**
+    /**`
      * 获取视频长度, 需要保证状态不是 INVALID
      * @return 长度(单位: 秒)
      */
