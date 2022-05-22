@@ -15,14 +15,15 @@ protected:
     const qreal interval = 5.0;
     TwinsBlockQueue<AVFrame *> *frameQueue;
     std::vector<AVFrame*> *frameStack;
-    ReverseDecoderImpl<Common>* m_follower;
+    ReverseDecoderImpl<Common>* follower{};
     qreal lastPts{-1.0};
     qreal from;
     qreal next{-1.0};
 
 public:
-    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue, ReverseDecoderImpl<Common> *follower) :
-            DecoderContext(vs), frameQueue(queue), frameStack(new std::vector<AVFrame*>), m_follower(follower) {
+    ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue, ReverseDecoderImpl<Common> *another) :
+            DecoderContext(vs), frameQueue(queue), frameStack(new std::vector<AVFrame*>) {
+        follower = another;
         from = static_cast<double>(stream->duration) * av_q2d(stream->time_base);
     }
 
@@ -85,10 +86,10 @@ public:
                     //qDebug() << "push to queue";
                     av_frame_unref(frameBuf);
                     // 只有leader有权决定跳转
-                    if (m_follower && m_follower->getLastPts() >= from) {
+                    if (follower && follower->getLastPts() >= from) {
                         //std::cerr << "push to queue"<< std::endl;
                         pushFrameStack();
-                        m_follower->pushFrameStack();
+                        follower->pushFrameStack();
                         if (from < interval)
                             from = 0;
                         else
@@ -185,18 +186,10 @@ template<> class ReverseDecoderImpl<Audio>: public ReverseDecoderImpl<Common> {
 public:
     ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue, ReverseDecoderImpl<Common> *follower)
             : ReverseDecoderImpl<Common>(vs, queue, follower) {
-        AVChannelLayout layout;
-        av_channel_layout_default(&layout, 2);
-        /*
         this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
                                           AV_SAMPLE_FMT_S16, 44100,
                                           static_cast<int64_t>(codecCtx->channel_layout), codecCtx->sample_fmt,
-                                          codecCtx->sample_rate, 0, nullptr);*/
-
-        swr_alloc_set_opts2(&swrCtx, &layout,
-                            AV_SAMPLE_FMT_S16, 44100,
-                            &codecCtx->ch_layout, codecCtx->sample_fmt,
-                            codecCtx->sample_rate, 0, nullptr);
+                                          codecCtx->sample_rate, 0, nullptr);
 
         if (!swrCtx || swr_init(swrCtx) < 0) {
             throw std::runtime_error("Cannot initialize swrCtx");
