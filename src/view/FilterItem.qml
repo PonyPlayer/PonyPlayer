@@ -1,5 +1,5 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 
 Rectangle {
     id:filterItem
@@ -8,14 +8,13 @@ Rectangle {
     property string filterName: ""
     property string image
     property string lut
-    signal sentInformation(string img, string lut)
+    signal sentFilterLut(string lut)
     Dialog{
         id:dialog
         title: ("是否选择滤镜: "+filterItem.filterName)
         standardButtons: Dialog.Ok | Dialog.Cancel
-        //onAccepted: mainWindow.testtest(filterItem.lut)
+        onAccepted: filterItem.sentFilterLut(filterItem.lut)
     }
-
     Image {
         id: filterItemImage
         width: 200

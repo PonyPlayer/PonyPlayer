@@ -4,65 +4,20 @@ function mytest(path){
 }
 
 
-//下面三个函数中的url设定为json文件在view目录下的情况，根据实际情况需要额外添加前缀
-//例如在第20行的......"image":json[i].image  会把展示的image的路径读进对像中作为属性，更具实际需求可在json[i].image前添加前缀，才能正确读取到图片
-//例如在第20行的......"lut":json[i].lut  会把lut的路径读进对像中作为属性，更具实际需求可在json[i].lut前添加前缀
 function loadingFilterContrast() {
+    let fileNames=["Contrast","Flim","Video"]
     let component=Qt.createComponent("FilterItem.qml")
     let prefix=videoArea.filterPrefix
+    let origin=component.createObject(filter,{"filterName":"origin","image":(prefix+"/origin.jpg"),"lut":""})
+    filter.addItem(origin)
     let jsons=videoArea.filterJsons
     for(let i=0;i<jsons.length;i++){
-        let url = prefix+'/'+jsons[i]
-        console.log("url  is:  "+url)
-        let request = new XMLHttpRequest();
-        console.log("after   request")
-        request.open("get", url);
-        console.log("after   open")
-        request.send(null);
-        console.log("after   send")
-        request.onload = function () {
-            console.log("request.status:   in the function")
-            if (request.status == 200) {
-                let json = JSON.parse(request.responseText);
-                for(let j=0;j<json.length;j++){
-                    console.log(json[j].lut)
-                    //let item=component.createObject(filtercontrast,{"filterName":(jsons[i]+":  "+j),"image":json[j].image,"lut":json[j].lut})
-                    //filtercontrast.addItem(item)
-                }
-            }
-        }
-        console.log("after   onload")
-    }
-}
-function loadingFilterFlim() {
-    let component=Qt.createComponent("FilterItem.qml")
-    let url = "flim.json"
-    let request = new XMLHttpRequest();
-    request.open("get", url);
-    request.send(null);
-    request.onload = function () {
-        if (request.status == 200) {
-            var json = JSON.parse(request.responseText);
-            for(let i=0;i<json.length;i++){
-                let item=component.createObject(filterflim,{"filterName":("flim:  "+i),"image":json[i].image,"lut":json[i].lut})
-                filterflim.addItem(item)
-            }
-        }
-    }
-}
-function loadingFilterVideo() {
-    let component=Qt.createComponent("FilterItem.qml")
-    let url = "video.json"
-    let request = new XMLHttpRequest();
-    request.open("get", url);
-    request.send(null);
-    request.onload = function () {
-        if (request.status == 200) {
-            var json = JSON.parse(request.responseText);
-            for(let i=0;i<json.length;i++){
-                let item=component.createObject(filtervideo,{"filterName":("video:  "+i),"image":json[i].image,"lut":json[i].lut})
-                filtervideo.addItem(item)
-            }
+        var json = JSON.parse(jsons[i]);
+        console.log(json.length)
+        for(let j=0;j<json.length;j++){
+            let item=component.createObject(filter,{"filterName":(fileNames[i]+":  "+j),"image":(prefix+'/'+json[j].image),"lut":json[j].lut})
+            item.sentFilterLut.connect(videoArea.setLUTFilter)
+            filter.addItem(item)
         }
     }
 }
