@@ -24,11 +24,11 @@ _Pragma("GCC diagnostic pop") \
 }
 
 
-#pragma GCC diagnostic push
 extern "C" {
 #include <libavutil/error.h>
-#include <libavutil/macros.h>
 }
+
+#pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 const int ERROR_EOF = AVERROR_EOF;
 const int MAX_AUDIO_FRAME_SIZE = 16384;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "portaudio.h"
+#include <utility>
 #include <vector>
 #include <QBuffer>
 #include <QDebug>
@@ -22,11 +23,6 @@ enum class PlaybackState {
     PAUSED,  ///< 暂停状态
 };
 
-enum class BlockingState {
-    BLOCKING_WITHOUT_CLEANING, ///< 屏蔽状态, 但还没清空缓存
-    BLOCKING_CLEANED,          ///< 屏蔽状态, 已经清空缓存
-    NON_BLOCKING,              ///< 非屏蔽状态
-};
 
 /**
  * @brief 播放音频裸流, 用于代替QAudioSink.
@@ -63,7 +59,6 @@ private:
 
     PaTime m_startPoint = 0.0;
     std::atomic<int64_t> m_dataWritten = 0;
-    std::atomic<int64_t> m_dataLastWrote = 0;
 
 
     std::atomic<bool> m_blockingState = false;
@@ -91,9 +86,9 @@ private:
             memset(outputBuffer, 0, static_cast<size_t>(bytesNeeded));
             qWarning() << "paAbort bytesAvailCount == 0";
         } else {
-            qint64 timeAlignedByteWritten = 0; // 透明化加速的影响，表示在1x速度下，理应有多少个Byte被写入
-            qint64 byteToBeWritten = std::min(bytesNeeded, bytesAvailCount); // 实际要往PortAudio的Buffer里写多少Byte
-            qint64 byteRemainToAlign = byteToBeWritten; // 当前还需要处理多少个timeAlignedByteWritten
+            ring_buffer_size_t timeAlignedByteWritten = 0; // 透明化加速的影响，表示在1x速度下，理应有多少个Byte被写入
+            ring_buffer_size_t byteToBeWritten = std::min(bytesNeeded, bytesAvailCount); // 实际要往PortAudio的Buffer里写多少Byte
+            ring_buffer_size_t byteRemainToAlign = byteToBeWritten; // 当前还需要处理多少个timeAlignedByteWritten
             while (byteRemainToAlign) {
                 auto *audioDataInfo = dataInfoQueue.peek();
                 if (audioDataInfo->processedLength < byteRemainToAlign) {
@@ -101,8 +96,8 @@ private:
                     byteRemainToAlign -= audioDataInfo->processedLength;
                     dataInfoQueue.pop();
                 } else {
-                    qint64 origLengthReduced = std::max(1LL,
-                                                        static_cast<qint64>(static_cast<double>(byteRemainToAlign) *
+                    ring_buffer_size_t origLengthReduced = std::max(1,
+                                                        static_cast<ring_buffer_size_t>(static_cast<double>(byteRemainToAlign) *
                                                                             audioDataInfo->speedUpRate));
                     audioDataInfo->processedLength -= byteRemainToAlign;
                     audioDataInfo->origLength -= origLengthReduced;
@@ -119,13 +114,12 @@ private:
                 PaUtil_ReadRingBuffer(&m_ringBuffer, outputBuffer, byteToBeWritten);
             }
             m_dataWritten += timeAlignedByteWritten;
-            m_dataLastWrote = timeAlignedByteWritten;
         }
         return paContinue;
     }
 
 
-    void printError(PaError error) {
+    static void printError(PaError error) {
         qDebug() << "Error" << Pa_GetErrorText(error);
     }
 
@@ -193,8 +187,8 @@ public:
      * @param format 音频格式
      * @param bufferSizeAdvice DataBuffer 的建议大小, PonyAudioSink 保证实际的 DataBuffer 不小于建议大小.
      */
-    PonyAudioSink(const PonyAudioFormat &format) : m_volume(0.5), m_state(PlaybackState::STOPPED),
-                                                   m_format(format),
+    PonyAudioSink(PonyAudioFormat format) : m_volume(0.5), m_state(PlaybackState::STOPPED),
+                                                   m_format(std::move(format)),
                                                    m_speedFactor(1.0) {
 
         paStreamLock.lock();
@@ -312,7 +306,7 @@ public:
      * @param origLen 长度(单位: byte)
      * @return 写入是否成功
      */
-    bool write(const char *buf, qint64 origLen) {
+    bool write(const char *buf, qint32 origLen) {
         int len = 0;
         int sonicBufferOffset = 0;
         if (m_format.getSampleFormat() != PonyPlayer::Int16) {
@@ -382,7 +376,6 @@ public:
         if (m_state == PlaybackState::STOPPED) {
             m_startPoint = t;
             m_dataWritten = 0;
-            m_dataLastWrote = 0;
         } else {
             qWarning() << "setTimeBase make no effect when state != STOPPED";
         }
@@ -464,7 +457,7 @@ public slots:
         emit signalAudioOutputDevicesChanged(devicesList);
     }
 
-    void changeAudioOutputDevice(QString device) {
+    void changeAudioOutputDevice(const QString& device) {
         qDebug() << "change audio output device to " << device;
         selectedOutputDevice = device;
         std::lock_guard lock(paStreamLock);

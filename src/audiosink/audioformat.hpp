@@ -11,8 +11,8 @@
 
 
 struct AudioDataInfo {
-    qint64 origLength;
-    qint64 processedLength;
+    qint32 origLength;
+    qint32 processedLength;
     qreal speedUpRate;
 };
 

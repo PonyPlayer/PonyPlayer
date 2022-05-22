@@ -41,6 +41,8 @@ namespace PonyPlayer {
 }
 
 
+
+
 #define PONY_THREAD_ANNOTATION(...) static_assert([]{using namespace PonyPlayer; return checkThreadType(__VA_ARGS__);}());
 
 /**
