@@ -21,14 +21,6 @@ Rectangle {
         font.bold: true
         lineHeight: 20
     }
-
-    Connections{
-        target:mainWindow
-        onWakeSlide:{videoSlide.value=0.0}
-        onMainWindowLostFocus:{
-            previewRect.visible=false
-        }
-    }
     Slider{
         id:videoSlide
         anchors.top: parent.top
@@ -426,5 +418,5 @@ Rectangle {
         }
         mouseArea.onClicked: IF.screenSizeFunction()
     }
-
+    Component.onCompleted: IF.footerOnCompleted()
 }

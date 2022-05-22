@@ -34,5 +34,4 @@ Rectangle {
         height: 20
         anchors.top: filterItemImage.bottom
     }
-//    onTriggered: filterItem.sentInformation(filterItem.image, filterItem.lut)
 }

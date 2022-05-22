@@ -3,7 +3,7 @@ function mytest(path) {
 }
 
 
-function loadingFilterContrast() {
+function loadingFilters() {
     let fileNames = ["Contrast", "Flim", "Video"]
     let component = Qt.createComponent("FilterItem.qml")
     let prefix = videoArea.filterPrefix
@@ -397,4 +397,14 @@ function screenSizeFunction() {
         mainWindow.visibility = 2
         mainWindowReduction.imageSource = "interfacepics/mainWindowMaximize"
     }
+}
+function footerOnCompleted(){
+    mainWindow.wakeSlide.connect(sliderToFront)
+    mainWindow.mainWindowLostFocus.connect(lostFocus)
+}
+function sliderToFront(){
+    videoSlide.value=0.0
+}
+function lostFocus(){
+    previewRect.visible=false
 }
