@@ -96,7 +96,9 @@ private:
         return true;
     }
 
-    PONY_GUARD_BY(PLAYBACK) VideoFrameRef getVideoFrame() {
+    PONY_GUARD_BY(PLAYBACK)
+
+    VideoFrameRef getVideoFrame() {
         if (cacheVideoFrame.isValid()) {
             VideoFrameRef ret = std::move(cacheVideoFrame);
             cacheVideoFrame = {};
@@ -242,6 +244,8 @@ public:
         emit clearRingBuffer(QPrivateSignal());
     }
 
+    QStringList getAudioDeviceList() { m_audioSink->getAudioDeviceList(); };
+
 
 private slots:
 
@@ -274,8 +278,8 @@ private slots:
         lock.unlock();
     };
 
-    void slotAudioOutputDevicesChanged(QList<QString> devices) {
-        emit signalAudioOutputDevicesChanged(devices);
+    void slotAudioOutputDevicesChanged() {
+        emit signalAudioOutputDevicesChanged();
     }
 
 
@@ -303,7 +307,7 @@ signals:
 
     void resourcesEnd();
 
-    void signalAudioOutputDevicesChanged(QList<QString>);
+    void signalAudioOutputDevicesChanged();
 
     /**
      * 由于设备切换, 音频倍速调整等原因需要下层重新同步

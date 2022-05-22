@@ -49,6 +49,7 @@ public:
 
     QML_ELEMENT
     Q_PROPERTY(HurricaneState state READ getState NOTIFY stateChanged FINAL)
+    Q_PROPERTY(QStringList audioDeviceList READ getAudioDeviceList NOTIFY audioOutputDevicesChanged)
 
 
 private:
@@ -95,6 +96,8 @@ public:
 
     HurricaneState getState() { return state; }
 
+    QStringList getAudioDeviceList() {return frameController->getAudioDeviceList();}
+
 
 signals:
 
@@ -116,7 +119,7 @@ signals:
      */
     void  positionChangedBySeek();
 
-    void audioOutputDevicesChanged(QList<QString> devices);
+    void audioOutputDevicesChanged();
 
 
 Q_SIGNALS:
@@ -389,8 +392,8 @@ private slots:
         emit stateChanged();
     }
 
-    void slotAudioOutputDevicesChanged(QList<QString> devices) {
-        emit audioOutputDevicesChanged(devices);
+    void slotAudioOutputDevicesChanged() {
+        emit audioOutputDevicesChanged();
     }
 
 };

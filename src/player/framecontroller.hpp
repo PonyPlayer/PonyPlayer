@@ -125,6 +125,8 @@ public:
 
     void setSpeed(qreal speed) { m_playback->setSpeed(speed); }
 
+    QStringList getAudioDeviceList() { m_playback->getAudioDeviceList(); }
+
 public slots:
 
     void openFile(const QString &path) {
@@ -192,8 +194,8 @@ public slots:
         qDebug() << "End seek for" << seekPos;
     }
 
-    void slotAudioOutputDevicesChanged(QList<QString> devices) {
-        emit signalAudioOutputDevicesChanged(devices);
+    void slotAudioOutputDevicesChanged() {
+        emit signalAudioOutputDevicesChanged();
     }
 
 signals:
@@ -210,7 +212,7 @@ signals:
 
     void signalForward();
 
-    void signalAudioOutputDevicesChanged(QList<QString>);
+    void signalAudioOutputDevicesChanged();
 
     void openFileResult(bool success);
 

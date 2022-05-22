@@ -97,7 +97,8 @@ private:
                     dataInfoQueue.pop();
                 } else {
                     ring_buffer_size_t origLengthReduced = std::max(static_cast<ring_buffer_size_t>(1),
-                                                        static_cast<ring_buffer_size_t>(static_cast<double>(byteRemainToAlign) *
+                                                                    static_cast<ring_buffer_size_t>(
+                                                                            static_cast<double>(byteRemainToAlign) *
                                                                             audioDataInfo->speedUpRate));
                     audioDataInfo->processedLength -= byteRemainToAlign;
                     audioDataInfo->origLength -= origLengthReduced;
@@ -142,8 +143,11 @@ private:
             qDebug() << "Initialize PonyAudioSink backend.";
         }
         param = new PaStreamParameters;
-        if (selectedOutputDevice.isNull())
+        if (selectedOutputDevice.isNull()) {
+            _getDeviceList();
             selectedOutputDevice = Pa_GetDeviceInfo(Pa_GetDefaultOutputDevice())->name;
+        }
+
         param->device = getCurrentOutputDeviceIndex();
         param->channelCount = m_format.getChannelCount();
         if (param->device == paNoDevice)
@@ -188,8 +192,8 @@ public:
      * @param bufferSizeAdvice DataBuffer 的建议大小, PonyAudioSink 保证实际的 DataBuffer 不小于建议大小.
      */
     PonyAudioSink(PonyAudioFormat format) : m_volume(0.5), m_state(PlaybackState::STOPPED),
-                                                   m_format(std::move(format)),
-                                                   m_speedFactor(1.0) {
+                                            m_format(std::move(format)),
+                                            m_speedFactor(1.0) {
 
         paStreamLock.lock();
         initializeStream();
@@ -412,6 +416,19 @@ public:
         return m_speedFactor;
     }
 
+    void _getDeviceList() {
+        devicesList.clear();
+        int devicesCount = Pa_GetDeviceCount();
+        for (auto index = 0; index < devicesCount; index++) {
+            auto deviceInfo = Pa_GetDeviceInfo(index);
+            QString deviceName = Pa_GetDeviceInfo(index)->name;
+            if (deviceInfo->maxOutputChannels < 2) continue;
+            devicesList.push_back(deviceName);
+        }
+        emit signalAudioOutputDevicesChanged();
+    }
+
+
     void refreshDevicesList() {
         qDebug() << "Refreshing Devices list...";
         std::lock_guard lock(paStreamLock);
@@ -421,19 +438,14 @@ public:
         }
         Pa_Initialize();
         paInitialized = true;
-        devicesList.clear();
-        int devicesCount = Pa_GetDeviceCount();
-        for (auto index = 0; index < devicesCount; index++) {
-            auto deviceInfo = Pa_GetDeviceInfo(index);
-            QString deviceName = Pa_GetDeviceInfo(index)->name;
-            if (deviceInfo->maxOutputChannels < 2) continue;
-            devicesList.push_back(deviceName);
-        }
+        _getDeviceList();
         initializeStream();
         if (m_state == PlaybackState::PLAYING) {
             Pa_StartStream(m_stream);
         }
     }
+
+    QStringList getAudioDeviceList() { return devicesList; }
 
 
 signals:
@@ -448,16 +460,16 @@ signals:
      */
     void resourceInsufficient();
 
-    void signalAudioOutputDevicesChanged(QList<QString>);
+    void signalAudioOutputDevicesChanged();
 
 public slots:
 
     void audioOutputDevicesChanged() {
         refreshDevicesList();
-        emit signalAudioOutputDevicesChanged(devicesList);
+        emit signalAudioOutputDevicesChanged();
     }
 
-    void changeAudioOutputDevice(const QString& device) {
+    void changeAudioOutputDevice(const QString &device) {
         qDebug() << "change audio output device to " << device;
         selectedOutputDevice = device;
         std::lock_guard lock(paStreamLock);
