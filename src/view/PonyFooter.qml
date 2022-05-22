@@ -27,7 +27,6 @@ Rectangle {
         onWakeSlide:{videoSlide.value=0.0}
         onMainWindowLostFocus:{
             previewRect.visible=false
-            console.log("main window lost focus")
         }
     }
     Slider{
@@ -188,7 +187,7 @@ Rectangle {
         anchors.rightMargin: 5
         image_width: 30
         image_height: 30
-        imageSource: "interfacepics/Next"
+        imageSource: "interfacepics/Last"
         mouseArea.onClicked: {
                 if(mainWindow.playState === "ordered")
                     listview.currentIndex = (listview.currentIndex - 1 + listview.count)%listview.count

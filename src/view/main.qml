@@ -306,11 +306,12 @@ Window {
             image_height: 10
             imageSource: "interfacepics/mainWindowReduction"
             mouseArea.onClicked:{
-                if(mainWindow.visibility==4){
-                    mainWindow.visibility=2
+                mainWindow.isFullScreen=false
+                if(mainWindow.visibility==2){
+                    mainWindow.visibility=4
                 }
                 else{
-                    mainWindow.visibility=4
+                    mainWindow.visibility=2
                 }
             }
         }

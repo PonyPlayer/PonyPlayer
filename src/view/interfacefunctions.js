@@ -252,12 +252,6 @@ function isBoundary(){
     return false
 }
 function timerOnTriggered(){
-    // if(mainWindow.isInverted){
-    //     mainWindow.currentTime=mainWindow.currentTime-1.0
-    // }
-    // else {
-    //     mainWindow.currentTime=mainWindow.currentTime+1.0
-    // }
     mainWindow.currentTime = videoArea.getPTS()
     if(!isBoundary()){
         videoSlide.value=mainWindow.currentTime
@@ -266,9 +260,7 @@ function timerOnTriggered(){
 function toVideoBegining(){
     mainWindow.isPlay=false
     mainWindow.currentTime=0
-    // videoSlide.value=0
     mainWindow.wakeSlide()
-    // mainWindow.lastStep=0.0
 }
 function toVideoEnd(){
     mainWindow.isPlay=false
@@ -309,10 +301,6 @@ function solveStateChanged(){
         mainWindow.isPlay=false
         IF.makeTrackMenu()
     }
-    // mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
-    //let tmp=videoArea.getPTS()
-    //mainWindow.currentTime=tmp
-    //videoSlide.value=tmp
 }
 function nextOnClicked(){
     console.log("playState:",mainWindow.playState)
