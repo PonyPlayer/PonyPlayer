@@ -10,7 +10,7 @@
  * 生命周期伴随整个程序运行.
  */
 class Demuxer : public QObject {
-    Q_OBJECT
+Q_OBJECT
     PONY_THREAD_AFFINITY(DECODER)
 
 private:
@@ -35,12 +35,16 @@ public:
         m_affinityThread->quit();
     }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) VideoFrameRef getPicture() {
+    PONY_GUARD_BY(MAIN, FRAME, DECODER)
+
+    VideoFrameRef getPicture() {
         std::unique_lock lock(mutex);
         return m_worker->getPicture();
     }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal frontPicture() {
+    PONY_GUARD_BY(MAIN, FRAME, DECODER)
+
+    qreal frontPicture() {
         std::unique_lock lock(mutex);
         return m_worker->frontPicture();
     }
@@ -50,13 +54,17 @@ public:
         return m_worker->skipPicture(predicate);
     }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) AudioFrame getSample() {
+    PONY_GUARD_BY(MAIN, FRAME, DECODER)
+
+    AudioFrame getSample() {
         std::unique_lock lock(mutex);
         return m_worker->getSample();
     }
 
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal frontSample() {
+    PONY_GUARD_BY(MAIN, FRAME, DECODER)
+
+    qreal frontSample() {
         std::unique_lock lock(mutex);
         return m_worker->frontSample();
     }
@@ -67,17 +75,23 @@ public:
     }
 
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal audioDuration() {
+    PONY_GUARD_BY(MAIN, FRAME, DECODER)
+
+    qreal audioDuration() {
         std::unique_lock lock(mutex);
         return m_forward ? m_forward->getAudionLength() : 0.0;
     }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) qreal videoDuration() {
+    PONY_GUARD_BY(MAIN, FRAME, DECODER)
+
+    qreal videoDuration() {
         std::unique_lock lock(mutex);
         return m_forward ? m_forward->getVideoLength() : 0.0;
     }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) QStringList getTracks() {
+    PONY_GUARD_BY(MAIN, FRAME, DECODER)
+
+    QStringList getTracks() {
         std::unique_lock lock(mutex);
         if (m_forward) {
             return m_forward->getTracks();
@@ -92,7 +106,7 @@ public:
      */
     PONY_THREAD_SAFE bool isBackward() {
         std::unique_lock lock(mutex);
-        return dynamic_cast<ReverseDecodeDispatcher*>(m_worker);
+        return dynamic_cast<ReverseDecodeDispatcher *>(m_worker);
     }
 
 
@@ -117,7 +131,9 @@ public:
      * 清空旧的帧, 这个方法会阻塞直到队列中的所有旧帧清理完成.
      * @see DecodeDispatcher::flush
      */
-    PONY_GUARD_BY(FRAME) void flush() {
+    PONY_GUARD_BY(FRAME)
+
+    void flush() {
         std::unique_lock lock(mutex);
         m_worker->flush();
     }
@@ -131,7 +147,9 @@ public:
         m_worker->stateResume();
     }
 
-    PONY_GUARD_BY(FRAME) void setTrack(int i) {
+    PONY_GUARD_BY(FRAME)
+
+    void setTrack(int i) {
         std::unique_lock lock(mutex);
         m_worker->setTrack(i);
     }
@@ -172,7 +190,7 @@ public slots:
      * @param fn 本地文件路径
      */
     void openFile(const std::string &fn) {
-        qDebug() << "Open file" << QString::fromUtf8(fn);
+        qDebug() << "Demuxer Open file" << QString::fromUtf8(fn);
         // call on video decoder thread
         std::unique_lock lock(mutex);
         if (m_worker) {
@@ -180,9 +198,9 @@ public slots:
             emit openFileResult(false, QPrivateSignal());
             return;
         }
-
+        int fileResult = 0;
         try {
-            m_forward = new DecodeDispatcher(fn, DEFAULT_STREAM_INDEX, DEFAULT_STREAM_INDEX, this);
+            m_forward = new DecodeDispatcher(fn, fileResult, DEFAULT_STREAM_INDEX, DEFAULT_STREAM_INDEX, this);
             m_backward = new ReverseDecodeDispatcher(fn, this);
             m_worker = m_forward;
         } catch (std::runtime_error &ex) {
@@ -190,15 +208,14 @@ public slots:
             m_worker = nullptr;
             m_backward = nullptr;
             m_forward = nullptr;
-            emit openFileResult(false, QPrivateSignal());
+            emit openFileResult(fileResult, QPrivateSignal());
             return;
         }
         lock.unlock();
         m_worker->stateResume();
-        emit openFileResult(true, QPrivateSignal());
+        emit openFileResult(fileResult, QPrivateSignal());
         qDebug() << "Open file success.";
     }
-
 
 
     /**
@@ -250,8 +267,8 @@ public slots:
     }
 
 signals:
-    void openFileResult(bool ret, QPrivateSignal);
 
+    void openFileResult(int ret, QPrivateSignal);
 
 
 };

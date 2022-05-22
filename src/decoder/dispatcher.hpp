@@ -44,13 +44,13 @@ public:
 
     [[nodiscard]] QString getFriendName() const {
         QString str;
-        if (auto iter=dict.find("language"); iter !=dict.cend()) {
+        if (auto iter = dict.find("language"); iter != dict.cend()) {
             str.append(iter->second.c_str());
             str.append(" | ");
         }
         auto minutes = static_cast<int>(duration) / 60;
         auto seconds = duration - minutes * 60;
-        if (minutes > 0) {str.append(QString::number(minutes)).append("m"); }
+        if (minutes > 0) { str.append(QString::number(minutes)).append("m"); }
         str.append(QString::number(seconds, 'f', 1).append("s"));
         return str;
     }
@@ -63,8 +63,8 @@ const constexpr StreamIndex DEFAULT_STREAM_INDEX = std::numeric_limits<StreamInd
 /**
  * 生命周期与打开的文件相同.
  */
-class DemuxDispatcherBase: public QObject {
-    Q_OBJECT
+class DemuxDispatcherBase : public QObject {
+Q_OBJECT
 public:
     const std::string filename;
 protected:
@@ -82,33 +82,42 @@ protected:
     ~DemuxDispatcherBase() override {
         if (fmtCtx) { avformat_close_input(&fmtCtx); }
     }
+
 public:
-    PONY_GUARD_BY(FRAME) virtual void statePause() { NOT_IMPLEMENT_YET }
+    PONY_GUARD_BY(FRAME)
 
-    PONY_GUARD_BY(FRAME) virtual void flush() { NOT_IMPLEMENT_YET }
+    virtual void statePause() {NOT_IMPLEMENT_YET}
 
-    PONY_GUARD_BY(FRAME) virtual void stateResume() { NOT_IMPLEMENT_YET }
+    PONY_GUARD_BY(FRAME)
 
-    PONY_GUARD_BY(FRAME) virtual void seek(qreal secs) { NOT_IMPLEMENT_YET }
+    virtual void flush() {NOT_IMPLEMENT_YET}
 
-    PONY_THREAD_SAFE virtual VideoFrameRef getPicture() { NOT_IMPLEMENT_YET }
+    PONY_GUARD_BY(FRAME)
 
-    PONY_THREAD_SAFE virtual qreal frontPicture() { NOT_IMPLEMENT_YET }
+    virtual void stateResume() {NOT_IMPLEMENT_YET}
 
-    virtual int skipPicture(const std::function<bool(qreal)> &function) { NOT_IMPLEMENT_YET }
+    PONY_GUARD_BY(FRAME)
 
-    PONY_THREAD_SAFE virtual AudioFrame getSample()  { NOT_IMPLEMENT_YET }
+    virtual void seek(qreal secs) {NOT_IMPLEMENT_YET}
 
-    PONY_THREAD_SAFE virtual qreal frontSample() { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE virtual VideoFrameRef getPicture() {NOT_IMPLEMENT_YET}
 
-    virtual int skipSample(const std::function<bool(qreal)> &function) { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE virtual qreal frontPicture() {NOT_IMPLEMENT_YET}
 
-    virtual void setTrack(int i) { NOT_IMPLEMENT_YET }
+    virtual int skipPicture(const std::function<bool(qreal)> &function) {NOT_IMPLEMENT_YET}
 
-    virtual bool hasVideo() { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE virtual AudioFrame getSample() {NOT_IMPLEMENT_YET}
+
+    PONY_THREAD_SAFE virtual qreal frontSample() {NOT_IMPLEMENT_YET}
+
+    virtual int skipSample(const std::function<bool(qreal)> &function) {NOT_IMPLEMENT_YET}
+
+    virtual void setTrack(int i) {NOT_IMPLEMENT_YET}
+
+    virtual bool hasVideo() {NOT_IMPLEMENT_YET}
 
 
-    virtual void setEnableAudio(bool enable) { NOT_IMPLEMENT_YET }
+    virtual void setEnableAudio(bool enable) {NOT_IMPLEMENT_YET}
 };
 
 /**
@@ -116,7 +125,7 @@ public:
  * 这个类是RAII的
  */
 class DecodeDispatcher : public DemuxDispatcherBase {
-    Q_OBJECT
+Q_OBJECT
 private:
     struct {
         qreal videoDuration = std::numeric_limits<qreal>::quiet_NaN();
@@ -137,10 +146,11 @@ private:
 
 public:
     explicit DecodeDispatcher(
-      const std::string &fn,
-      StreamIndex audioStreamIndex = DEFAULT_STREAM_INDEX,
-      StreamIndex videoStreamIndex = DEFAULT_STREAM_INDEX,
-      QObject *parent = nullptr
+            const std::string &fn,
+            int &openFileResult,
+            StreamIndex audioStreamIndex = DEFAULT_STREAM_INDEX,
+            StreamIndex videoStreamIndex = DEFAULT_STREAM_INDEX,
+            QObject *parent = nullptr
     ) : DemuxDispatcherBase(fn, parent), m_audioStreamIndex(audioStreamIndex), m_videoStreamIndex(videoStreamIndex) {
         packet = av_packet_alloc();
         for (StreamIndex i = 0; i < fmtCtx->nb_streams; ++i) {
@@ -155,8 +165,12 @@ public:
         }
 
         // audio
-        if (description.m_audioStreamsIndex.empty()) { throw std::runtime_error("Cannot find audio stream."); }
-        if (m_audioStreamIndex == DEFAULT_STREAM_INDEX) { m_audioStreamIndex = description.m_audioStreamsIndex.front(); }
+        if (description.m_audioStreamsIndex.empty()) {
+            openFileResult = 0;
+            throw std::runtime_error("Cannot find audio stream.");
+        }
+        if (m_audioStreamIndex ==
+            DEFAULT_STREAM_INDEX) { m_audioStreamIndex = description.m_audioStreamsIndex.front(); }
         audioQueue = new TwinsBlockQueue<AVFrame *>("AudioQueue", 16);
         audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue);
         description.audioDuration = audioDecoder->duration();
@@ -164,15 +178,18 @@ public:
         // video
         videoQueue = audioQueue->twins("VideoQueue", 16);
         if (description.m_videoStreamsIndex.empty()) {
-            // no audio
+            // no video
             videoDecoder = new VirtualVideoDecoder(description.audioDuration);
+            openFileResult = 2;
         } else {
-            if (m_videoStreamIndex == DEFAULT_STREAM_INDEX) { m_videoStreamIndex = description.m_videoStreamsIndex.front(); }
+            if (m_videoStreamIndex ==
+                DEFAULT_STREAM_INDEX) { m_videoStreamIndex = description.m_videoStreamsIndex.front(); }
             videoDecoder = new DecoderImpl<Video>(fmtCtx->streams[m_videoStreamIndex], videoQueue);
         }
         description.videoDuration = videoDecoder->duration();
 
         connect(this, &DecodeDispatcher::signalStartWorker, this, &DecodeDispatcher::onWork, Qt::QueuedConnection);
+        openFileResult = 1;
     }
 
     ~DecodeDispatcher() override {
@@ -182,7 +199,7 @@ public:
         delete videoQueue;
         delete audioDecoder;
         delete videoDecoder;
-        if(packet) { av_packet_free(&packet); }
+        if (packet) { av_packet_free(&packet); }
     }
 
     /**
@@ -195,8 +212,8 @@ public:
     }
 
     void flush() override {
-        videoQueue->clear([](AVFrame *frame){ av_frame_free(&frame);});
-        audioQueue->clear([](AVFrame *frame){ av_frame_free(&frame);});
+        videoQueue->clear([](AVFrame *frame) { av_frame_free(&frame); });
+        audioQueue->clear([](AVFrame *frame) { av_frame_free(&frame); });
     }
 
 
@@ -232,51 +249,71 @@ public:
 
     PONY_THREAD_SAFE qreal frontPicture() override { return videoDecoder->viewFront(); }
 
-    PONY_THREAD_SAFE int skipPicture(const std::function<bool(qreal)> &predicate) override { return videoDecoder->skip(predicate); }
+    PONY_THREAD_SAFE int skipPicture(const std::function<bool(qreal)> &predicate) override {
+        return videoDecoder->skip(predicate);
+    }
 
     PONY_THREAD_SAFE AudioFrame getSample() override { return audioDecoder->getSample(); }
 
     PONY_THREAD_SAFE qreal frontSample() override { return audioDecoder->viewFront(); }
 
-    PONY_THREAD_SAFE int skipSample(const std::function<bool(qreal)> &predicate) override { return audioDecoder->skip(predicate); }
+    PONY_THREAD_SAFE int skipSample(const std::function<bool(qreal)> &predicate) override {
+        return audioDecoder->skip(predicate);
+    }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getAudionLength() { return description.audioDuration; }
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getVideoLength() { return description.videoDuration; }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER)
 
-    PONY_GUARD_BY(DECODER) void setTrack(int i) override {
+    [[nodiscard]] qreal getAudionLength() { return description.audioDuration; }
+
+    PONY_GUARD_BY(MAIN, FRAME, DECODER)
+
+    [[nodiscard]] qreal getVideoLength() { return description.videoDuration; }
+
+    PONY_GUARD_BY(DECODER)
+
+    void setTrack(int i) override {
         delete audioDecoder;
         m_audioStreamIndex = description.m_audioStreamsIndex[static_cast<size_t>(i)];
         audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue);
     }
 
-    PONY_GUARD_BY(DECODER) QStringList getTracks() {
+    PONY_GUARD_BY(DECODER)
+
+    QStringList getTracks() {
         QStringList ret;
         ret.reserve(static_cast<qsizetype>(description.m_audioStreamsIndex.size()));
-        for(auto && i : description.m_audioStreamsIndex) {
+        for (auto &&i: description.m_audioStreamsIndex) {
             ret.emplace_back(description.streamInfos[i].getFriendName());
         }
         return ret;
     }
 
-    PONY_GUARD_BY(DECODER) void setAudioIndex(StreamIndex i) {
+    PONY_GUARD_BY(DECODER)
+
+    void setAudioIndex(StreamIndex i) {
         if (i == m_audioStreamIndex) { return; }
         delete audioDecoder;
         m_audioStreamIndex = i;
         audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue);
     }
 
-    PONY_GUARD_BY(DECODER) bool hasVideo() {
+    PONY_GUARD_BY(DECODER)
+
+    bool hasVideo() {
         return !description.m_videoStreamsIndex.empty() && fmtCtx->streams[m_videoStreamIndex]->nb_frames > 0;
     }
 
-    PONY_GUARD_BY(DECODER) void setEnableAudio(bool enable) {
+    PONY_GUARD_BY(DECODER)
+
+    void setEnableAudio(bool enable) {
         audioDecoder->setEnable(enable);
     }
 
 private slots:
-    void onWork()  {
+
+    void onWork() {
         videoQueue->open();
-        while(!interrupt) {
+        while (!interrupt) {
             int ret = av_read_frame(fmtCtx, packet);
             if (ret == 0) {
                 if (static_cast<StreamIndex>(packet->stream_index) == m_videoStreamIndex) {
@@ -287,7 +324,8 @@ private slots:
             } else if (ret == ERROR_EOF) {
                 videoQueue->push(nullptr);
                 audioQueue->push(nullptr);
-                av_packet_unref(packet); break;
+                av_packet_unref(packet);
+                break;
             } else {
                 qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
             }
@@ -298,6 +336,7 @@ private slots:
 
 
 signals:
+
     void signalStartWorker(QPrivateSignal);
 };
 
@@ -306,7 +345,7 @@ signals:
  */
 
 class ReverseDecodeDispatcher : public DemuxDispatcherBase {
-    Q_OBJECT
+Q_OBJECT
     PONY_THREAD_AFFINITY(DECODER)
 private:
     int videoStreamIndex{-1};
@@ -329,20 +368,23 @@ private:
     qreal m_videoDuration;
 public:
     explicit ReverseDecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent),
-    silenceFrame(silence, 1024, std::numeric_limits<double>::max()){
+                                                                               silenceFrame(silence, 1024,
+                                                                                            std::numeric_limits<double>::max()) {
         packet = av_packet_alloc();
         for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && videoStreamIndex == -1) {
                 videoStreamIndex = i;
                 videoStream = fmtCtx->streams[i];
-            }
-            else if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && audioStreamIndex == -1) {
+            } else if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && audioStreamIndex == -1) {
                 audioStreamIndex = i;
                 audioStream = fmtCtx->streams[i];
             }
         }
 
-        if (videoStreamIndex < 0) { throw std::runtime_error("Cannot find video stream."); }
+        if (videoStreamIndex < 0) {
+            qDebug() << "To be done: reverse for audio only";
+            return;
+        }
         if (audioStreamIndex < 0) { throw std::runtime_error("Cannot find audio stream."); }
 
         // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
@@ -352,7 +394,8 @@ public:
         audioDecoder = new ReverseDecoderImpl<Audio>(audioStream, audioQueue, nullptr);
         videoDecoder = new ReverseDecoderImpl<Video>(videoStream, videoQueue, audioDecoder);
         m_videoDuration = videoDecoder->duration();
-        connect(this, &ReverseDecodeDispatcher::signalStartWorker, this, &ReverseDecodeDispatcher::onWork, Qt::QueuedConnection);
+        connect(this, &ReverseDecodeDispatcher::signalStartWorker, this, &ReverseDecodeDispatcher::onWork,
+                Qt::QueuedConnection);
     }
 
     ~ReverseDecodeDispatcher() override {
@@ -362,7 +405,7 @@ public:
         delete videoQueue;
         delete audioDecoder;
         delete videoDecoder;
-        if(packet) { av_packet_free(&packet); }
+        if (packet) { av_packet_free(&packet); }
     }
 
     /**
@@ -375,7 +418,7 @@ public:
     }
 
     PONY_THREAD_SAFE void flush() override {
-        auto freeFunc = [](AVFrame * frame){
+        auto freeFunc = [](AVFrame *frame) {
             if (frame) av_frame_free(&frame);
         };
         videoQueue->clear(freeFunc);
@@ -399,7 +442,9 @@ public:
      * 修改视频播放进度, 注意: 这个方法必须在解码线程上调用.
      * @param secs 新的视频进度(单位: 秒)
      */
-    PONY_GUARD_BY(DECODER) void seek(qreal secs) override {
+    PONY_GUARD_BY(DECODER)
+
+    void seek(qreal secs) override {
         // case 1: currently decoding, interrupt
         // case 2: not decoding, seek
         interrupt = true;
@@ -409,7 +454,8 @@ public:
         secs = fmax(secs, 0.0);
         videoDecoder->setStart(secs);
         audioDecoder->setStart(secs);
-        int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>((secs-interval) * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
+        int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>((secs - interval) * AV_TIME_BASE),
+                                AVSEEK_FLAG_BACKWARD);
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
 
@@ -419,9 +465,11 @@ public:
 
     PONY_THREAD_SAFE AudioFrame getSample() override { return audioDecoder->getSample(); }
 
-    PONY_THREAD_SAFE qreal frontSample() override { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE qreal frontSample() override {NOT_IMPLEMENT_YET}
 
-    PONY_GUARD_BY(DECODER) void setEnableAudio(bool enable) {
+    PONY_GUARD_BY(DECODER)
+
+    void setEnableAudio(bool enable) {
 //        audioDecoder->setEnable(false);
     }
 
@@ -429,9 +477,10 @@ public:
     bool hasVideo() override { return true; }
 
 private slots:
+
     void onWork() {
         videoQueue->open();
-        while(!interrupt) {
+        while (!interrupt) {
             int ret = av_read_frame(fmtCtx, packet);
             if (ret == 0) {
                 if (packet->stream_index == videoStreamIndex) {
@@ -445,10 +494,9 @@ private slots:
                         videoDecoder->flushFFmpegBuffers();
                         audioDecoder->flushFFmpegBuffers();
                         av_seek_frame(fmtCtx, videoStreamIndex,
-                                      static_cast<int64_t>((next-interval) / av_q2d(videoStream->time_base)),
+                                      static_cast<int64_t>((next - interval) / av_q2d(videoStream->time_base)),
                                       AVSEEK_FLAG_BACKWARD);
-                    }
-                    else if (next == 0) {
+                    } else if (next == 0) {
                         //std::cerr << "reverse: finish" << std::endl;
                         av_packet_unref(packet);
                         videoDecoder->pushEOF();
@@ -456,8 +504,7 @@ private slots:
                         qDebug() << "reverse: reach starting pointing";
                         break;
                     }
-                }
-                else if (packet->stream_index == audioStreamIndex) {
+                } else if (packet->stream_index == audioStreamIndex) {
                     audioDecoder->accept(packet, interrupt);
                 }
             } else if (ret == ERROR_EOF) {
@@ -466,10 +513,10 @@ private slots:
                 videoDecoder->flushFFmpegBuffers();
                 audioDecoder->flushFFmpegBuffers();
                 av_seek_frame(fmtCtx, -1,
-                              static_cast<int64_t>((m_videoDuration-2*interval) * AV_TIME_BASE),
+                              static_cast<int64_t>((m_videoDuration - 2 * interval) * AV_TIME_BASE),
                               AVSEEK_FLAG_BACKWARD);
-                videoDecoder->setStart(m_videoDuration-interval);
-                audioDecoder->setStart(m_videoDuration-interval);
+                videoDecoder->setStart(m_videoDuration - interval);
+                audioDecoder->setStart(m_videoDuration - interval);
             } else {
                 qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
             }
@@ -479,6 +526,7 @@ private slots:
     };
 
 signals:
+
     void signalStartWorker(QPrivateSignal);
 };
 
