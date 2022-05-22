@@ -96,7 +96,7 @@ private:
                     byteRemainToAlign -= audioDataInfo->processedLength;
                     dataInfoQueue.pop();
                 } else {
-                    ring_buffer_size_t origLengthReduced = std::max(1,
+                    ring_buffer_size_t origLengthReduced = std::max(static_cast<ring_buffer_size_t>(1),
                                                         static_cast<ring_buffer_size_t>(static_cast<double>(byteRemainToAlign) *
                                                                             audioDataInfo->speedUpRate));
                     audioDataInfo->processedLength -= byteRemainToAlign;
