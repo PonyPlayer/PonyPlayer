@@ -244,7 +244,7 @@ public:
         emit clearRingBuffer(QPrivateSignal());
     }
 
-    QStringList getAudioDeviceList() { m_audioSink->getAudioDeviceList(); };
+    QStringList getAudioDeviceList() { return m_audioSink->getAudioDeviceList(); };
 
 
 private slots:

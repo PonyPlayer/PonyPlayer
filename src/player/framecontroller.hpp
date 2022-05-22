@@ -125,7 +125,7 @@ public:
 
     void setSpeed(qreal speed) { m_playback->setSpeed(speed); }
 
-    QStringList getAudioDeviceList() { m_playback->getAudioDeviceList(); }
+    QStringList getAudioDeviceList() { return m_playback->getAudioDeviceList(); }
 
 public slots:
 
