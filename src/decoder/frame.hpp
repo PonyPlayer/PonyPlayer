@@ -111,15 +111,15 @@ public:
     }
 
     [[nodiscard]] int getLineSize() const {
-        return m_videoFrame->m_frame->linesize[0];
+        return m_videoFrame ? m_videoFrame->m_frame->linesize[0] : 0;
     }
 
     [[nodiscard]] int getWidth() const {
-        return m_videoFrame->m_frame->width;
+        return m_videoFrame ? m_videoFrame->m_frame->width : 0;
     }
 
     [[nodiscard]] int getHeight() const {
-        return m_videoFrame->m_frame->height;
+        return m_videoFrame ? m_videoFrame->m_frame->height : 0;
     }
 
     [[nodiscard]] bool isSameSize(const VideoFrameRef &frame) const {
