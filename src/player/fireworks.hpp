@@ -102,8 +102,9 @@ public slots:
         QImage image;
         if (!path.isEmpty()) {
             image.load(QDir(m_filterPrefix).filePath(path));
+            image.convertTo(QImage::Format_RGB888);
         }
-        image.convertTo(QImage::Format_RGB888);
+
         m_renderer->setLUTFilter(image);
     }
 

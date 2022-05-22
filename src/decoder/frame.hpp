@@ -57,13 +57,15 @@ public:
     }
 
     VideoFrameRef& operator=(VideoFrameRef &&rhs) noexcept {
+        if (this->m_videoFrame) { this->m_videoFrame->unref(); }
         this->m_videoFrame = rhs.m_videoFrame;
         rhs.m_videoFrame = nullptr;
         return *this;
     }
 
     VideoFrameRef& operator=(const VideoFrameRef &rhs) noexcept {
-        if (rhs != *this) {
+        if (&rhs != this) {
+            if (this->m_videoFrame) { this->m_videoFrame->unref(); }
             this->m_videoFrame = rhs.m_videoFrame;
             ++m_videoFrame->m_refCount;
         }
