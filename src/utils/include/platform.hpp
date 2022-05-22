@@ -6,6 +6,7 @@
 
 #include <QtCore>
 #include <QCoreApplication>
+#include <QStandardPaths>
 
 #ifdef __APPLE__
 
@@ -29,6 +30,8 @@ namespace PonyPlayer {
         return path;
 #elif WIN32
         return QCoreApplication::applicationDirPath().append(u"/assets"_qs);
+#elif defined(__linux__)
+        return QStandardPaths::locate(QStandardPaths::AppDataLocation, "assets", QStandardPaths::LocateDirectory);
 #endif
     }
 }
