@@ -68,7 +68,7 @@ class FireworksRenderer : public QObject, public QSGRenderNode, protected QOpenG
 private:
     // properties
 
-    PONY_GUARD_BY(MAIN) void setLUTFilter(const QString &path) { mainSettings.lutFilter = QImage(path); }
+
 
     PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getBrightness() const { return mainSettings.brightness; }
 
@@ -87,8 +87,8 @@ private:
     QOpenGLShaderProgram *program = nullptr; // late init
     QMatrix4x4 viewMatrix;
 
-    RenderSettings mainSettings;
-    RenderSettings renderSettings;
+    PONY_GUARD_BY(MAIN)   RenderSettings mainSettings;
+    PONY_GUARD_BY(RENDER) RenderSettings renderSettings;
 
     void inline createTextureBuffer(GLuint *texture) {
         QOpenGLFunctions_3_3_Core::glGenTextures(1, texture);
@@ -108,13 +108,17 @@ public  slots:
     void init() {
         if (program) { return; } // already initialized
         program = new QOpenGLShaderProgram;
-        initializeOpenGLFunctions();
-        qInfo() << "OpenGL version:"
-                 << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
-        qInfo() << "GSLS version:"
-                 << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION)));
-        qInfo() << "Vendor:" << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
-        qInfo() << "Renderer:" << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
+        QOpenGLFunctions_3_3_Core::initializeOpenGLFunctions();
+        static bool info = false;
+        if (!info) {
+            qInfo() << "OpenGL version:"
+                    << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
+            qInfo() << "GSLS version:"
+                    << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION)));
+            qInfo() << "Vendor:" << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_VENDOR)));
+            qInfo() << "Renderer:" << QLatin1String(reinterpret_cast<const char*>(glGetString(GL_RENDERER)));
+            info = true;
+        }
         program->addCacheableShaderFromSourceFile(QOpenGLShader::Vertex, u":/player/shader/vertex.vsh"_qs);
         program->addCacheableShaderFromSourceFile(QOpenGLShader::Fragment, u":/player/shader/fragment.fsh"_qs);
         program->link();
@@ -161,11 +165,11 @@ public  slots:
         renderSettings.updateBy(mainSettings);
     }
 public:
-    FireworksRenderer() {
+    PONY_GUARD_BY(MAIN) FireworksRenderer() {
         qDebug() << "Create Hurricane Renderer:" << static_cast<void *>(this) << ".";
     }
 
-    bool setVideoFrame(const VideoFrameRef &frame) {
+    PONY_GUARD_BY(MAIN) bool setVideoFrame(const VideoFrameRef &frame) {
         if (mainSettings.videoFrame == frame) {
             return false;
         } {
@@ -173,6 +177,11 @@ public:
             return true;
         }
     }
+
+    PONY_GUARD_BY(MAIN) void setLUTFilter(QImage image) {
+        mainSettings.lutFilter = image;
+    }
+
 
 public:
 

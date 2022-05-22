@@ -363,13 +363,7 @@ public slots:
         return frameController->hasVideo();
     }
 
-    /**
-     * 设置LUT滤镜路径
-     * @param path
-     */
-    Q_INVOKABLE void setLUTFilter(QString path) {
-        qDebug() << "Set LUT Filter" << path;
-    }
+
 
 
 private slots:

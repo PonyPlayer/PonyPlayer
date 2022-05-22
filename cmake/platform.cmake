@@ -79,6 +79,13 @@ if (WIN32)
     # copy qt library
     windows_deploy_qt("")
 
+    # copy assets
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/assets/filters"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/assets/filters"
+            )
+
     # set package properties
     set(CPACK_GENERATOR WIX ZIP)
     set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
@@ -113,7 +120,7 @@ elseif(UNIX)
                 "$<TARGET_FILE_DIR:${PROJECT_NAME}>/../Resources/filters"
                 )
         set_target_properties(${PROJECT_NAME} PROPERTIES
-                MACOSX_BUNDLE_GUI_IDENTIFIER net.colors_wind.ponyplayer
+                MACOSX_BUNDLE_GUI_IDENTIFIER scut.ponyplayer
                 MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
                 MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
                 MACOSX_BUNDLE TRUE
