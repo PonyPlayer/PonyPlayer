@@ -105,7 +105,7 @@ public:
         }
         m_cond->wait(lock, [this]{
             return this->m_data.size() < m_prefer ||
-                m_twins->m_data.size() < m_twins->m_prefer || !isOpen();
+                    (m_twins->m_enable && m_twins->m_data.size() < m_twins->m_prefer) || !isOpen();
         });
         m_data.push(item);
         if (m_data.size() == 1) { m_cond->notify_all(); }
