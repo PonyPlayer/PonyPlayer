@@ -3,19 +3,30 @@
 //
 
 #pragma once
+
 #include <QtCore>
 #include <QCoreApplication>
+
+#ifdef __APPLE__
+
+#include <CoreFoundation/CFURL.h>
+#include <CoreFoundation/CFString.h>
+#include <CoreFoundation/CFBundle.h>
+
+#endif
 
 
 namespace PonyPlayer {
     inline QString getAssetsDir() {
 #ifdef __APPLE__
-        CFURLRef appUrlRef = CFBundleCopyBundleURL( CFBundleGetMainBundle() );
-    CFStringRef macPath = CFURLCopyFileSystemPath( appUrlRef, kCFURLPOSIXPathStyle );
-    QString path = QString::fromCFString(macPath);
-    CFRelease(appUrlRef);
-    CFRelease(macPath);
-    return path;
+        CFURLRef resourcesDirUrl = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
+        CFURLRef resourcesDirAbsoluteUrl = CFURLCopyAbsoluteURL(resourcesDirUrl);
+        CFStringRef macPath = CFURLCopyFileSystemPath(resourcesDirAbsoluteUrl, kCFURLPOSIXPathStyle);
+        QString path = QString::fromCFString(macPath);
+        CFRelease(resourcesDirUrl);
+        CFRelease(resourcesDirAbsoluteUrl);
+        CFRelease(macPath);
+        return path;
 #elif WIN32
         return QCoreApplication::applicationDirPath().append(u"/assets"_qs);
 #endif

@@ -27,9 +27,14 @@ protected:
 
 public:
     Fireworks(QQuickItem *parent = nullptr): QQuickItem(parent), m_renderer(new FireworksRenderer),
-        m_filterPrefix(PonyPlayer::getAssetsDir() + u"/filters"_qs), m_filterJsons(QDir(m_filterPrefix).entryList({"*.json"})) {
+        m_filterPrefix(PonyPlayer::getAssetsDir() + u"/filters"_qs), m_filterJsons() {
+        QDir filterDir(m_filterPrefix);
+        for(auto && filename : filterDir.entryList({"*.json"})) {
+            QFile file = filterDir.filePath(filename);
+            m_filterJsons.append(file.readAll());
+        }
         this->setFlag(QQuickItem::ItemHasContents);
-        connect(this, &QQuickItem::windowChanged, this, [=](QQuickWindow *win){
+        connect(this, &QQuickItem::windowChanged, this, [this](QQuickWindow *win){
             qDebug() << "Window Size Changed:" << static_cast<void *>(win) << ".";
             if (win) {
                 connect(this->window(), &QQuickWindow::beforeSynchronizing, m_renderer, &FireworksRenderer::sync, Qt::DirectConnection);
