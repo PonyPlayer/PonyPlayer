@@ -87,7 +87,6 @@ public slots:
         // setImage -> sync -> render
         // since picture may use on renderer thread, we CANNOT free now
         // no change, return immediately
-
         if (m_renderer->setVideoFrame(pic)) {
             // make dirty
             this->update();

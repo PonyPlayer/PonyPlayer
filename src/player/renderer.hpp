@@ -194,8 +194,8 @@ public:
     }
 
     void render(const RenderState *state) override  {
-        // call on render thread
 
+        // call on render thread
         // Due to QTBUG-97589, we are not able to get model-view matrix
         // https://bugreports.qt.io/browse/QTBUG-97589
         // workaround, assume parent clip hurricane
@@ -215,6 +215,7 @@ public:
             glStencilFunc(GL_EQUAL, state->stencilValue(), 0xFF);
             glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
         }
+        ::glEnable(GL_DEPTH_TEST);
 
 
         program->bind();
@@ -245,6 +246,7 @@ public:
             // since FFmpeg may pad frame to align, we need to clip invalid data
             viewMatrix.setToIdentity();
             viewMatrix.ortho(0, static_cast<float>(imageWidth) / static_cast<float>(lineSize), 0, 1, -1, 1);
+            viewMatrix.translate(0, 0, -0.7F);
             program->setUniformValue("view", viewMatrix);
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, textureY);
