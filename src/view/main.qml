@@ -29,7 +29,6 @@
 
 import QtQuick
 import QtQuick.Window
-import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
