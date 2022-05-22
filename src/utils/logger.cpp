@@ -79,7 +79,7 @@ public:
                 // member function
                 QString clazz = function.mid(retType + 1, (colon - (retType + 1)));
                 QString func = function.mid(colon + 2,  param - (colon + 2));
-                qTextStream << " " << getClassName(clazz) << "::" << getAbbrFunctionName(func);
+                qTextStream << " " << getClassName(clazz) << "::" << func;
             }
         } else {
             // global function
