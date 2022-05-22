@@ -7,15 +7,17 @@
 #include <QCoreApplication>
 
 
-QString getAssetsDir() {
+namespace PonyPlayer {
+    inline QString getAssetsDir() {
 #ifdef __APPLE__
-    CFURLRef appUrlRef = CFBundleCopyBundleURL( CFBundleGetMainBundle() );
+        CFURLRef appUrlRef = CFBundleCopyBundleURL( CFBundleGetMainBundle() );
     CFStringRef macPath = CFURLCopyFileSystemPath( appUrlRef, kCFURLPOSIXPathStyle );
     QString path = QString::fromCFString(macPath);
     CFRelease(appUrlRef);
     CFRelease(macPath);
     return path;
 #elif WIN32
-    return QCoreApplication::applicationDirPath().append(u"/assets"_qs);
+        return QCoreApplication::applicationDirPath().append(u"/assets"_qs);
 #endif
+    }
 }
