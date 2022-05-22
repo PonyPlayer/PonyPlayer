@@ -9,18 +9,29 @@ function mytest(path){
 //例如在第20行的......"lut":json[i].lut  会把lut的路径读进对像中作为属性，更具实际需求可在json[i].lut前添加前缀
 function loadingFilterContrast() {
     let component=Qt.createComponent("FilterItem.qml")
-    let url = "contrast.json"
-    let request = new XMLHttpRequest();
-    request.open("get", url);
-    request.send(null);
-    request.onload = function () {
-        if (request.status == 200) {
-            var json = JSON.parse(request.responseText);
-            for(let i=0;i<json.length;i++){
-                let item=component.createObject(filtercontrast,{"filterName":("contrast:  "+i),"image":json[i].image,"lut":json[i].lut})
-                filtercontrast.addItem(item)
+    let prefix=videoArea.filterPrefix
+    let jsons=videoArea.filterJsons
+    for(let i=0;i<jsons.length;i++){
+        let url = prefix+'/'+jsons[i]
+        console.log("url  is:  "+url)
+        let request = new XMLHttpRequest();
+        console.log("after   request")
+        request.open("get", url);
+        console.log("after   open")
+        request.send(null);
+        console.log("after   send")
+        request.onload = function () {
+            console.log("request.status:   in the function")
+            if (request.status == 200) {
+                let json = JSON.parse(request.responseText);
+                for(let j=0;j<json.length;j++){
+                    console.log(json[j].lut)
+                    //let item=component.createObject(filtercontrast,{"filterName":(jsons[i]+":  "+j),"image":json[j].image,"lut":json[j].lut})
+                    //filtercontrast.addItem(item)
+                }
             }
         }
+        console.log("after   onload")
     }
 }
 function loadingFilterFlim() {
@@ -403,6 +414,7 @@ function showComponents(){
 function screenSizeFunction(){
     if(mainWindow.isFullScreen){
         mainWindow.isFullScreen=false
+        mainWindowReduction.imageSource="interfacepics/mainWindowMaximize"
         mainWindow.showNormal()
         showComponents()
         holder.stop()
@@ -410,6 +422,7 @@ function screenSizeFunction(){
     else{
         mainWindow.isFullScreen=true
         mainWindow.isVideoListOpen=false
+        mainWindowReduction.imageSource="interfacepics/mainWindowReduction"
         mainWindow.showFullScreen()
         holder.start()
     }

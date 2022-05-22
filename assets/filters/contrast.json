@@ -1,0 +1,22 @@
+[
+  {
+    "image": "Contrast/medium_high_contrast.jpg",
+    "lut": "Contrast/medium_high_contrast_lut.jpg"
+  },
+  {
+    "image": "Contrast/low_contrast.jpg",
+    "lut": "Contrast/low_contrast_lut.jpg"
+  },
+  {
+    "image": "Contrast/very_high_contrast.jpg",
+    "lut": "Contrast/very_high_contrast_lut.jpg"
+  },
+  {
+    "image": "Contrast/high_contrast.jpg",
+    "lut": "Contrast/high_contrast_lut.jpg"
+  },
+  {
+    "image": "Contrast/very_low_contrast.jpg",
+    "lut": "Contrast/very_low_contrast_lut.jpg"
+  }
+]

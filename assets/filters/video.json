@@ -1,0 +1,14 @@
+[
+  {
+    "image": "Video/webcam_preset_1.jpg",
+    "lut": "Video/webcam_preset_1_lut.jpg"
+  },
+  {
+    "image": "Video/webcam_preset_2.jpg",
+    "lut": "Video/webcam_preset_2_lut.jpg"
+  },
+  {
+    "image": "Video/webcam_preset_3.jpg",
+    "lut": "Video/webcam_preset_3_lut.jpg"
+  }
+]

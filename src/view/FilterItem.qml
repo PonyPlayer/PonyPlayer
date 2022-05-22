@@ -13,7 +13,7 @@ Rectangle {
         id:dialog
         title: ("是否选择滤镜: "+filterItem.filterName)
         standardButtons: Dialog.Ok | Dialog.Cancel
-        onAccepted: mainWindow.testtest(filterItem.lut)
+        //onAccepted: mainWindow.testtest(filterItem.lut)
     }
 
     Image {

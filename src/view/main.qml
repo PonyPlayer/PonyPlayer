@@ -272,7 +272,7 @@ Window {
                 //当menu加载完后，读取json文件内容，动态添加menuItem
                 Component.onCompleted: {
                 //    IF.loadingFilterFlim()
-                //    IF.loadingFilterContrast()
+                    IF.loadingFilterContrast()
                 //    IF.loadingFilterVideo()
                     IF.makeFileList()
                 }
@@ -303,14 +303,16 @@ Window {
             anchors.verticalCenter: parent.verticalCenter
             image_width: 10
             image_height: 10
-            imageSource: "interfacepics/mainWindowReduction"
+            imageSource: "interfacepics/mainWindowMaximize"
             mouseArea.onClicked:{
                 mainWindow.isFullScreen=false
                 if(mainWindow.visibility==2){
                     mainWindow.visibility=4
+                    mainWindowReduction.imageSource="interfacepics/mainWindowReduction"
                 }
                 else{
                     mainWindow.visibility=2
+                    mainWindowReduction.imageSource="interfacepics/mainWindowMaximize"
                 }
             }
         }
@@ -385,26 +387,6 @@ Window {
                         console.log("reject")
                     }
                 }
-                //启动打开文件
-                //Image{
-                //    id:openFile
-                //    width: 25
-                //    height: 20
-                //    anchors.left: parent.left
-                //    anchors.leftMargin: 5
-                //    anchors.verticalCenter: minimize.verticalCenter
-                //    source: "interfacepics/FileOpener"
-                //    Shortcut{
-                //        sequence: "Ctrl+I"
-                //        onActivated: fileDialog.open();
-                //    }
-                //    MouseArea{
-                //        anchors.fill: parent
-                //        cursorShape: "PointingHandCursor"
-                //        onClicked: fileDialog.open()
-                //    }
-                //}
-
                 //关闭播放栏列表
                 Image {
                     id: minimize
