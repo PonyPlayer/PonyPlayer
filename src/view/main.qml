@@ -569,11 +569,11 @@ SwipeView{
             {
                 mainArea.currentIndex = 0;
                 IF.toVideoBegining()
-                mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+                mainWindow.endTime=Math.floor(videoArea.getAudioDuration())
             } else if(result == PonyPlayerNS.AUDIO){
             mainArea.currentIndex = 2;
             IF.toVideoBegining()
-            mainWindow.endTime=Math.floor(videoArea.getVideoDuration());
+            mainWindow.endTime=Math.floor(videoArea.getAudioDuration());
         }
     }
     //                onAudioOutputDeviceChanged

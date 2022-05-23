@@ -378,6 +378,9 @@ public:
      * @param t 新的播放时间(单位: 秒)
      */
     void setStartPoint(double t = 0.0) {
+        if (std::isnan(t)) {
+            qWarning() << "Trying set start point to NaN";
+        }
         if (m_state == PlaybackState::STOPPED) {
             m_startPoint = t;
             m_dataWritten = 0;

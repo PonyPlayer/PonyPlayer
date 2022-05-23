@@ -180,7 +180,11 @@ public slots:
         qreal startPoint;
         if (backward) {
             // if rewinding, there is no need to skip frame. (dispatcher guarantee)
-            startPoint = m_demuxer->frontPicture();
+            if (m_demuxer->hasVideo()) {
+                startPoint = m_demuxer->frontPicture();
+            } else {
+                startPoint = seekPos;
+            }
         } else {
             if (m_demuxer->hasVideo()) {
                 m_demuxer->skipPicture([seekPos](qreal framePos) { return framePos < seekPos; });

@@ -26,7 +26,7 @@
  * @see HurricanePlayer::stateChanged()
  */
 class Hurricane : public Fireworks {
-Q_OBJECT
+    Q_OBJECT
     QML_ADDED_IN_VERSION(1, 0)
     QML_ELEMENT
 public:
@@ -244,7 +244,7 @@ public slots:
         frameController->setSelectedAudioOutputDevice(std::move(deviceName));
     }
 
-    /**`
+    /**
      * 获取视频长度, 需要保证状态不是 INVALID
      * @return 长度(单位: 秒)
      */
@@ -260,7 +260,13 @@ public slots:
      * 获取当前视频播放进度, 需要保证状态不是 INVALID
      * @return 播放进度(单位: 秒)
      */
-    Q_INVOKABLE qreal getPTS() { return frameController->getPreferablePos(); }
+    Q_INVOKABLE qreal getPTS() {
+        qreal pts = frameController->getPreferablePos();
+        if (std::isnan(pts)) {
+            qWarning() << "getPTS return NaN";
+        }
+        return pts;
+    }
 
     /**
      * 改变视频播放的进度, 不保证马上生效, 请关注信号
