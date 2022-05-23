@@ -129,6 +129,22 @@ Rectangle {
             }
         }
     }
+    Rectangle{
+        anchors.fill: lyricsArea
+        color: "transparent"
+        Text {
+            visible: lyricsData.sentences.length==0 ? true: false
+            anchors.fill: parent
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            text: "无歌词"
+            font.pointSize: 15
+            font.bold: true
+            color: "white"
+            opacity: 1
+            wrapMode: Text.Wrap
+        }
+    }
 }
 
 Binding{

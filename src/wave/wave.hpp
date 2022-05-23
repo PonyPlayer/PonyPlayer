@@ -44,6 +44,8 @@ public:
             connect(this, &WaveView::signalPushLyricSentence, lyricsData, &LyricsData::pushLyricSentence);
             connect(this, &WaveView::signalPushLyricSentenceCompleted, lyricsData,
                     &LyricsData::pushLyricSentenceCompleted);
+            connect(this, &WaveView::signalClearLyricSentence, lyricsData,
+                    &LyricsData::clearLyricSentence);
 
         });
     };
@@ -90,6 +92,7 @@ public slots:
     }
 
     Q_INVOKABLE bool tryLoadLyrics(const QString &filePath) {
+        emit signalClearLyricSentence();
         QUrl url(filePath);
         QString lrcPath =
                 QFileInfo(url.toLocalFile()).dir().path() + "/" + QFileInfo(url.toLocalFile()).completeBaseName() +
@@ -101,6 +104,8 @@ public slots:
 signals:
 
     void signalPushLyricSentence(LyricSentence *lyricSentence);
+
+    void signalClearLyricSentence();
 
     void notifyRadiusRatio();
 

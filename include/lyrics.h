@@ -92,12 +92,14 @@ signals:
 
 public slots:
 
+    void clearLyricSentence() { m_sentences.clear(); emit lyricsChange();};
+
     void pushLyricSentence(LyricSentence *sentence) {
         m_sentences.push_back(sentence);
-        qDebug()<<sentence->getStartTime();
+        qDebug() << sentence->getStartTime();
     };
 
-    void pushLyricSentenceCompleted(){
+    void pushLyricSentenceCompleted() {
         emit lyricsChange();
     }
 };
