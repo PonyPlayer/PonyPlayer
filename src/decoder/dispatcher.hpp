@@ -156,8 +156,6 @@ private:
     AVPacket *packet = nullptr;
 
 public:
-
-
     explicit DecodeDispatcher(
             const std::string &fn,
             PonyPlayer::OpenFileResultType &result,
@@ -368,11 +366,9 @@ private:
     AVStream *videoStream{};
     AVStream *audioStream{};
 
-    ReverseDecoderImpl<Video> *videoDecoder;
-    ReverseDecoderImpl<Audio> *audioDecoder;
-    AudioFrame silenceFrame;
-    std::vector<StreamInfo> streamInfos;
-    std::byte silence[1024]{};
+    IDemuxDecoder *videoDecoder;
+    IDemuxDecoder *audioDecoder;
+    IDemuxDecoder *primary;
 
     std::atomic<bool> interrupt = true;
     AVPacket *packet = nullptr;
@@ -380,9 +376,7 @@ private:
     TwinsBlockQueue<AVFrame *> *audioQueue;
     qreal m_videoDuration;
 public:
-    explicit ReverseDecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent),
-                                                                               silenceFrame(silence, 1024,
-                                                                                            std::numeric_limits<double>::max()) {
+    explicit ReverseDecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent) {
         packet = av_packet_alloc();
         for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && videoStreamIndex == -1) {
@@ -394,19 +388,29 @@ public:
             }
         }
 
-        if (videoStreamIndex < 0) {
-            qDebug() << "To be done: reverse for audio only";
-            return;
-        }
         if (audioStreamIndex < 0) { throw std::runtime_error("Cannot find audio stream."); }
 
         // WARNING: the capacity of queue must >= 2 * the maximum number of frame of packet
         videoQueue = new TwinsBlockQueue<AVFrame *>("VideoQueue", 200);
         audioQueue = videoQueue->twins("AudioQueue", 200);
 
-        audioDecoder = new ReverseDecoderImpl<Audio>(audioStream, audioQueue, nullptr);
-        videoDecoder = new ReverseDecoderImpl<Video>(videoStream, videoQueue, audioDecoder);
-        m_videoDuration = videoDecoder->duration();
+        audioDecoder = new ReverseDecoderImpl<Audio>(audioStream, audioQueue);
+
+        if (videoStreamIndex >= 0 && videoStream->nb_frames > 0) {
+            qDebug() << "normal reverse";
+            videoDecoder = new ReverseDecoderImpl<Video>(videoStream, videoQueue);
+            videoDecoder->setFollower(audioDecoder);
+            m_videoDuration = videoDecoder->duration();
+            primary = videoDecoder;
+        }
+        else {
+            qDebug() << "audio only reverse";
+            m_videoDuration = audioDecoder->duration();
+            videoDecoder = new VirtualVideoDecoder(m_videoDuration);
+            videoQueue->setEnable(false);
+            audioDecoder->setFollower(audioDecoder);
+            primary = audioDecoder;
+        }
         connect(this, &ReverseDecodeDispatcher::signalStartWorker, this, &ReverseDecodeDispatcher::onWork,
                 Qt::QueuedConnection);
     }
@@ -487,7 +491,7 @@ public:
     }
 
 
-    bool hasVideo() override { return true; }
+    bool hasVideo() override { return videoStreamIndex >= 0 && videoStream->nb_frames > 0; }
 
 private slots:
 
@@ -498,25 +502,6 @@ private slots:
             if (ret == 0) {
                 if (packet->stream_index == videoStreamIndex) {
                     videoDecoder->accept(packet, interrupt);
-                    // qDebug() << "accept";
-                    auto next = videoDecoder->nextSegment();
-                    if (next > 0) {
-                        //std::cerr << "next: " << next << std::endl;
-                        videoDecoder->setStart(next);
-                        audioDecoder->setStart(next);
-                        videoDecoder->flushFFmpegBuffers();
-                        audioDecoder->flushFFmpegBuffers();
-                        av_seek_frame(fmtCtx, videoStreamIndex,
-                                      static_cast<int64_t>((next - interval) / av_q2d(videoStream->time_base)),
-                                      AVSEEK_FLAG_BACKWARD);
-                    } else if (next == 0) {
-                        //std::cerr << "reverse: finish" << std::endl;
-                        av_packet_unref(packet);
-                        videoDecoder->pushEOF();
-                        audioDecoder->pushEOF();
-                        qDebug() << "reverse: reach starting pointing";
-                        break;
-                    }
                 } else if (packet->stream_index == audioStreamIndex) {
                     audioDecoder->accept(packet, interrupt);
                 }
@@ -534,6 +519,24 @@ private slots:
                 qWarning() << "Error av_read_frame:" << ffmpegErrToString(ret);
             }
             av_packet_unref(packet);
+            auto next = primary->nextSegment();
+            if (next > 0) {
+                //std::cerr << "next: " << next << std::endl;
+                videoDecoder->setStart(next);
+                audioDecoder->setStart(next);
+                videoDecoder->flushFFmpegBuffers();
+                audioDecoder->flushFFmpegBuffers();
+                av_seek_frame(fmtCtx, -1,
+                              static_cast<int64_t>((next - interval) * AV_TIME_BASE),
+                              AVSEEK_FLAG_BACKWARD);
+            } else if (next == 0) {
+                //std::cerr << "reverse: finish" << std::endl;
+                av_packet_unref(packet);
+                videoQueue->push(nullptr);
+                audioQueue->push(nullptr);
+                qDebug() << "reverse: reach starting pointing";
+                break;
+            }
         }
         interrupt = true;
     };

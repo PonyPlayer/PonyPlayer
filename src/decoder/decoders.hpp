@@ -80,6 +80,21 @@ public:
 
     virtual ~IDemuxDecoder() = default;
 
+    virtual void setFollower(IDemuxDecoder* follower) {NOT_IMPLEMENT_YET}
+
+    virtual void pushFrameStack() {}
+
+    virtual qreal getLastPts() {
+        NOT_IMPLEMENT_YET
+    }
+
+    virtual void clearFrameStack() {}
+
+    virtual void setStart(qreal secs) {}
+
+    virtual qreal nextSegment() {
+        NOT_IMPLEMENT_YET
+    }
 };
 
 class DecoderContext {
