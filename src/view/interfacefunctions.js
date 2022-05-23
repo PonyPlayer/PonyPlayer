@@ -4,28 +4,32 @@ function mytest(path) {
 
 //动态加载滤镜
 function loadingFilters() {
-    let fileNames = ["Contrast", "Flim", "Video"]
-    let component = Qt.createComponent("FilterItem.qml")
-    let prefix = videoArea.filterPrefix
-    let beforePrefix="file://"
-    if(prefix[2]=='/'){
-        beforePrefix=beforePrefix+'/'
+  let fileNames = ["Contrast", "Flim", "Video"];
+  let component = Qt.createComponent("FilterItem.qml");
+  let prefix = videoArea.filterPrefix;
+  let beforePrefix = "file://";
+  if (prefix[2] == "/") {
+    beforePrefix = beforePrefix + "/";
+  }
+  let origin = component.createObject(filter, {
+    filterName: "origin",
+    image: beforePrefix + prefix + "/origin.jpg",
+    lut: "",
+  });
+  filter.addItem(origin);
+  let jsons = videoArea.filterJsons;
+  for (let i = 0; i < jsons.length; i++) {
+    var json = JSON.parse(jsons[i]);
+    for (let j = 0; j < json.length; j++) {
+      let item = component.createObject(filter, {
+        filterName: fileNames[i] + ":  " + j,
+        image: beforePrefix + prefix + "/" + json[j].image,
+        lut: json[j].lut,
+      });
+      item.sentFilterLut.connect(videoArea.setLUTFilter);
+      filter.addItem(item);
     }
-    let origin = component.createObject(filter, {"filterName": "origin", "image": (beforePrefix+prefix + "/origin.jpg"), "lut": ""})
-    filter.addItem(origin)
-    let jsons = videoArea.filterJsons
-    for (let i = 0; i < jsons.length; i++) {
-        var json = JSON.parse(jsons[i]);
-        for (let j = 0; j < json.length; j++) {
-            let item = component.createObject(filter, {
-                "filterName": (fileNames[i] + ":  " + j),
-                "image": (beforePrefix + prefix + '/' + json[j].image),
-                "lut": json[j].lut
-            })
-            item.sentFilterLut.connect(videoArea.setLUTFilter)
-            filter.addItem(item)
-        }
-    }
+  }
 }
 
 function forwardOneSecond() {
@@ -449,6 +453,7 @@ function triggerLyricUpdate() {
       break;
   }
   wave.lyricsArea.flick.contentY =
-    wave.lyricsArea.rep.itemAt(currentLyricIndex).y - 150;
+    wave.lyricsArea.rep.itemAt(currentLyricIndex).y -
+    wave.lyricsArea.height / 2;
   wave.lyricsArea.flick.currentIndex = currentLyricIndex;
 }
