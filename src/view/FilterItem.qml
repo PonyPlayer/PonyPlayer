@@ -5,18 +5,16 @@ Rectangle {
     id:filterItem
     width: 200
     height: 170
-    property string filterName: ""
+    property string filterName
     property string image
     property string lut
-    signal sentFilterLut(string lut)
     color:"gray"
     Dialog{
         id:dialog
         title: ("是否选择滤镜: "+filterItem.filterName)
         standardButtons: Dialog.Ok | Dialog.Cancel
         onAccepted: {
-            filterItem.sentFilterLut(filterItem.lut)
-            console.log("watch   imagepath  :  "+filterItem.image)
+            mainWindow.setFilter(filterItem.lut)
         }
     }
     Image {

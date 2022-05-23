@@ -136,6 +136,9 @@ Window {
             mainWindow.userHeight=mainWindow.height
         }
     }
+    FiltersWindow{
+        id:filterswindow
+    }
     Dialog{
         id: operationFailedDialog
         title: "操作失败"
@@ -249,10 +252,14 @@ Window {
                 SpeedMenu{
 
                 }
-                Menu{
-                    id: filter
-                    title: "滤镜"
+                Action{
+                    text:"滤镜选择"
+                    onTriggered:filterswindow.show()
                 }
+                //Menu{
+                //    id: filter
+                //    title: "滤镜"
+                //}
                 Menu{
                     id: devicesMenu
                     title: "输出设备选择"
@@ -263,7 +270,7 @@ Window {
                 }
                 //当menu加载完后，读取json文件内容，动态添加menuItem
                 Component.onCompleted: {
-                    IF.loadingFilters()
+                    //IF.loadingFilters()
                     IF.makeFileList()
                 }
             }
@@ -693,6 +700,9 @@ RightTopSizeChange{
 }
 onActiveFocusItemChanged: {
     mainWindow.mainWindowLostFocus()
+}
+function setFilter(lut){
+    videoArea.setLUTFilter(lut)
 }
 }
 

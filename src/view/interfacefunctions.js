@@ -4,32 +4,20 @@ function mytest(path) {
 
 //动态加载滤镜
 function loadingFilters() {
-  let fileNames = ["Contrast", "Flim", "Video"];
-  let component = Qt.createComponent("FilterItem.qml");
-  let prefix = videoArea.filterPrefix;
-  let beforePrefix = "file://";
-  if (prefix[2] == "/") {
-    beforePrefix = beforePrefix + "/";
-  }
-  let origin = component.createObject(filter, {
-    filterName: "origin",
-    image: beforePrefix + prefix + "/origin.jpg",
-    lut: "",
-  });
-  filter.addItem(origin);
-  let jsons = videoArea.filterJsons;
-  for (let i = 0; i < jsons.length; i++) {
-    var json = JSON.parse(jsons[i]);
-    for (let j = 0; j < json.length; j++) {
-      let item = component.createObject(filter, {
-        filterName: fileNames[i] + ":  " + j,
-        image: beforePrefix + prefix + "/" + json[j].image,
-        lut: json[j].lut,
-      });
-      item.sentFilterLut.connect(videoArea.setLUTFilter);
-      filter.addItem(item);
+    let fileNames = ["Contrast", "Flim", "Video"]
+    let prefix = videoArea.filterPrefix
+    let beforePrefix="file://"
+    if(prefix[2]=='/'){
+        beforePrefix=beforePrefix+'/'
     }
-  }
+    filtermodel.append({"filterNames": "origin", "images": (beforePrefix+prefix + "/origin.jpg"), "luts": ""})
+    let jsons = videoArea.filterJsons
+    for (let i = 0; i < jsons.length; i++) {
+        var json = JSON.parse(jsons[i]);
+        for (let j = 0; j < json.length; j++) {
+            filtermodel.append({"filterNames":(fileNames[i] + ":  " + j),"images":(beforePrefix + prefix + '/' + json[j].image),"luts":json[j].lut})
+        }
+    }
 }
 
 function forwardOneSecond() {
@@ -394,7 +382,7 @@ function videoListOperatorOnAccepted(path = "", name = "") {
     listview.currentIndex = listModel.count - 1;
   }
 
-  console.log("QML D:", listModel.get(listview.currentIndex).filePath);
+    console.log("QML D:", listModel.get(listview.currentIndex).filePath);
 }
 
 function trans(path, name) {
