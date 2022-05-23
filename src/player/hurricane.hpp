@@ -405,7 +405,7 @@ public slots:
     }
 
     Q_INVOKABLE bool hasVideo() {
-        return frameController->hasVideo();
+        return frameController != nullptr && frameController->hasVideo();
     }
 
     Q_INVOKABLE qreal getPitch() {
