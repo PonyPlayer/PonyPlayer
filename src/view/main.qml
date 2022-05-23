@@ -455,6 +455,8 @@ Window {
                         listview.currentIndex = index
                         console.log("[P]selected file: "+listModel.get(index).filePath)
                         mainWindow.openFile(listModel.get(index).filePath);
+                        wave.waveArea.tryLoadLyrics(listModel.get(index).filePath);
+
                     }
 
                     onDoubleClicked: {
@@ -570,10 +572,12 @@ SwipeView{
                 mainArea.currentIndex = 0;
                 IF.toVideoBegining()
                 mainWindow.endTime=Math.floor(videoArea.getAudioDuration())
-                if (mainWindow.isInverted) {
+                if (mainWindow.isInverted)
+                {
                     mainWindow.isInverted = false
                 }
-                if(mainWindow.speed=8.0){
+                if(mainWindow.speed=8.0)
+                {
                     mainWindow.speed=1.0
                     videoArea.setSpeed(mainWindow.speed)
                 }
@@ -581,7 +585,8 @@ SwipeView{
             mainArea.currentIndex = 2;
             IF.toVideoBegining()
             mainWindow.endTime=Math.floor(videoArea.getAudioDuration());
-            if (mainWindow.isInverted) {
+            if (mainWindow.isInverted)
+            {
                 mainWindow.isInverted = false
                 videoArea.forward();
             }
@@ -628,11 +633,6 @@ Rectangle{
 }
 Wave{
     id: wave
-    Component.onCompleted: {
-        //wave.waveArea.readLyrics("F: /Fire on Fire - Sam Smith.lrc")
-        //wave.waveArea.readLyrics("../../cmake-build-debug-mingw/src/Fire on Fire - Sam Smith.lrc")
-        //console.log("wave  complete")
-    }
 }
 }
 }

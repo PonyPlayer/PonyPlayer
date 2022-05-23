@@ -3,6 +3,7 @@
 #include <QtCore>
 #include "lyrics.h"
 #include "hurricane.hpp"
+#include <QFileInfo>
 #include <QQmlContext>
 #include <QtQuick/QQuickItem>
 #include <QQmlApplicationEngine>
@@ -75,7 +76,8 @@ public slots:
     Q_INVOKABLE void readLyricsResponse(std::shared_ptr<lrc::Lyrics> lyrics) {
         for (auto it = lyrics->IteratorBegin(); it != lyrics->IteratorEnd(); it++) {
             emit signalPushLyricSentence(
-                    new LyricSentence(QTime(0, 0, 0, it->start_time), QTime(0, 0, 0, it->end_time),
+                    new LyricSentence(static_cast<double>(it->start_time) / 1000,
+                                      static_cast<double>(it->end_time) / 1000,
                                       QString(it->lyric.data())));
 
         }
@@ -84,6 +86,15 @@ public slots:
 
     Q_INVOKABLE bool readLyrics(const QString &filePath) {
         lyricsReader->readLyric(filePath);
+        return true;
+    }
+
+    Q_INVOKABLE bool tryLoadLyrics(const QString &filePath) {
+        QUrl url(filePath);
+        QString lrcPath =
+                QFileInfo(url.toLocalFile()).dir().path() + "/" + QFileInfo(url.toLocalFile()).completeBaseName() +
+                ".lrc";
+        if (QFile(lrcPath).exists()) readLyrics(lrcPath);
         return true;
     }
 
