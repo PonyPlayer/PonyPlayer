@@ -34,6 +34,23 @@ MenuBar {
     }
 
     Menu {
+        id: playMenu
+        title: qsTr("播放")
+
+        MenuItem {
+            property int selected: 1
+            text: qsTr("倍速")
+            onTriggered: additionalSettings.show()
+        }
+
+        MenuItem {
+            text: qsTr("倒放")
+            checked: videoArea.backwardStatus
+            onTriggered: videoArea.toggleBackward()
+        }
+    }
+
+    Menu {
         title: qsTr("音频")
 
         Menu {
@@ -58,6 +75,7 @@ MenuBar {
                 model: videoArea.tracks
                 delegate: MenuItem {
                     text: model.modelData
+                    checked: true
                     onTriggered: videoArea.setTrack(model.modelIndex)
                 }
                 onObjectAdded: trackMenu_.insertItem(index, object)

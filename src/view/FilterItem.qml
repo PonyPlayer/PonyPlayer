@@ -9,6 +9,7 @@ Rectangle {
     property string image
     property string lut
     signal sentFilterLut(string lut)
+    color:"gray"
     Dialog{
         id:dialog
         title: ("是否选择滤镜: "+filterItem.filterName)
