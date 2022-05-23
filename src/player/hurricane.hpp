@@ -26,7 +26,7 @@
  * @see HurricanePlayer::stateChanged()
  */
 class Hurricane : public Fireworks {
-    Q_OBJECT
+Q_OBJECT
     QML_ADDED_IN_VERSION(1, 0)
     QML_ELEMENT
 public:
@@ -53,7 +53,8 @@ public:
     Q_PROPERTY(QStringList tracks READ getTracks NOTIFY openFileResult)
     Q_PROPERTY(bool backwardStatus READ isBackward NOTIFY backwardStatusChanged)
     Q_PROPERTY(int track READ getTrack WRITE setTrack NOTIFY trackChanged)
-    Q_PROPERTY(QString currentOutputDevice READ getCurrentOutputDevice WRITE setCurrentOutputDevice)
+    Q_PROPERTY(
+            QString currentOutputDevice READ getCurrentOutputDevice WRITE setCurrentOutputDevice NOTIFY currentOutputDeviceChanged)
 
 private:
     bool backwardStatus = false;
@@ -135,6 +136,8 @@ signals:
     void backwardStatusChanged();
 
     void trackChanged();
+
+    void currentOutputDeviceChanged();
 
 
 Q_SIGNALS:
