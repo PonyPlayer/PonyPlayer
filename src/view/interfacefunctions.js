@@ -2,7 +2,7 @@ function mytest(path) {
     console.log(path)
 }
 
-
+//动态加载滤镜
 function loadingFilters() {
     let fileNames = ["Contrast", "Flim", "Video"]
     let component = Qt.createComponent("FilterItem.qml")

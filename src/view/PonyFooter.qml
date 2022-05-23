@@ -8,6 +8,7 @@ Rectangle {
     //预览图限界位置
     property bool previewLock: true
     property real lastPositionOnSlider:0.0
+    property bool flagForMoved: false
     id:footer
     color: "#666666"
     Label{
@@ -60,7 +61,19 @@ Rectangle {
             mainWindow.currentTime=videoSlide.value
         }
         onPressedChanged: {
-            if(!videoSlide.pressed){
+            if(videoSlide.pressed){
+                if(mainWindow.isPlay){
+                    footer.flagForMoved=true
+                    timer.stop()
+                }
+                else{
+                    footer.flagForMoved=false
+                }
+            }
+            else{
+                if(footer.flagForMoved){
+                    timer.start()
+                }
                 videoArea.seek(mainWindow.currentTime)
             }
         }
