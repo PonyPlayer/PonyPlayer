@@ -72,7 +72,7 @@ void infoAccessor::getInfo(QString filename, PlayListItem& res) {
             //avg_frame_rate.num : 分子
             //avg_frame_rate.den : 母
             //得到视频帧率
-            res.setFrameRate(input_stream->avg_frame_rate.num / input_stream->avg_frame_rate.den);
+            res.setFrameRate(av_q2d(input_stream->avg_frame_rate));
 
             //取出视频流中的编码参数部分, 生成AVCodecParamters对象
             AVCodecParameters* codec_par = input_stream->codecpar;
