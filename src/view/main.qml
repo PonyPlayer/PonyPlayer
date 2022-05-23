@@ -572,7 +572,6 @@ SwipeView{
                 mainWindow.endTime=Math.floor(videoArea.getAudioDuration())
                 if (mainWindow.isInverted) {
                     mainWindow.isInverted = false
-                    videoArea.forward();
                 }
                 if(mainWindow.speed=8.0){
                     mainWindow.speed=1.0
