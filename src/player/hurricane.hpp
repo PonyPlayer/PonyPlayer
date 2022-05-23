@@ -79,7 +79,8 @@ public:
             qDebug() << "State Changed to" << QVariant::fromValue(state).toString();
         });
 
-        connect(frameController, &FrameController::signalAudioOutputDevicesChanged, this, &Hurricane::audioOutputDeviceChanged);
+        connect(frameController, &FrameController::signalAudioOutputDevicesChanged, this,
+                &Hurricane::audioOutputDeviceChanged);
         emit signalPlayerInitializing(QPrivateSignal());
 #ifdef DEBUG_FLAG_AUTO_OPEN
         openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/581518754-1-208.mp4"_qs)).url());
@@ -94,7 +95,7 @@ public:
 
     HurricaneState getState() { return state; }
 
-    QStringList getAudioDeviceList() { return frameController->getAudioDeviceList();}
+    QStringList getAudioDeviceList() { return frameController->getAudioDeviceList(); }
 
 
 signals:
@@ -110,12 +111,12 @@ signals:
      * 打开文件结果
      * @param b 是否成功
      */
-    void openFileResult(bool b, QPrivateSignal);
+    void openFileResult(PonyPlayer::OpenFileResultType result, QPrivateSignal);
 
     /**
      * 视频播放进度由于手动调整发送改变
      */
-    void  positionChangedBySeek();
+    void positionChangedBySeek();
 
     void audioOutputDeviceChanged();
 
@@ -365,8 +366,6 @@ public slots:
     }
 
 
-
-
 private slots:
 
     void slotPositionChangedBySeek() { emit positionChangedBySeek(); }
@@ -380,13 +379,13 @@ private slots:
         emit stateChanged();
     };
 
-    void slotOpenFileResult(bool success) {
-        if (success) {
+    void slotOpenFileResult(PonyPlayer::OpenFileResultType result) {
+        if (result != PonyPlayer::OpenFileResultType::FAILED) {
             state = PAUSED;
         } else {
             state = INVALID;
         }
-        emit openFileResult(success, QPrivateSignal());
+        emit openFileResult(result, QPrivateSignal());
         emit stateChanged();
     }
 

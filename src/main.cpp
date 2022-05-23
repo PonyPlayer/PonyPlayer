@@ -32,6 +32,13 @@ int main(int argc, char *argv[]) {
     qmlRegisterType<LyricsData>("LyricsData", 1, 0, "LyricsData");
     qmlRegisterType<LyricSentence>("LyricSentence", 1, 0, "LyricSentence");
     qRegisterMetaType<PlayListItem *>("PlayListItem");
+    qmlRegisterUncreatableMetaObject(
+            PonyPlayer::staticMetaObject, // meta object created by Q_NAMESPACE macro
+            "ponyplayer.ns",                // import statement (can be any string)
+            1, 0,                          // major and minor version of the import
+            "PonyPlayerNS",                 // name in QML (does not have to match C++ name)
+            "Error: only enums"            // error in case someone tries to create a MyNamespace object
+    );
     qInstallMessageHandler(logMessageHandler);
 
     const QUrl url(u"qrc:/view/main.qml"_qs);
@@ -39,8 +46,6 @@ int main(int argc, char *argv[]) {
     HotLoader hotLoader(&engine);
     engine.rootContext()->setContextProperty("hotLoader", &hotLoader);
 
-    CursorPosProvider mousePosProvider;
-    engine.rootContext()->setContextProperty("mousePosition", &mousePosProvider);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
                 if (!obj && url == objUrl)
@@ -49,7 +54,6 @@ int main(int argc, char *argv[]) {
     engine.load(url);
 
 
-    qDebug() << "Start program";
-    LyricsReader lyricReader;
+
     return QGuiApplication::exec();
 }

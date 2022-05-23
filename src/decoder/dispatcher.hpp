@@ -25,6 +25,17 @@ INCLUDE_FFMPEG_END
 
 //#define IGNORE_VIDEO_FRAME
 
+namespace PonyPlayer {
+    Q_NAMESPACE
+    enum OpenFileResultType {
+        FAILED,        ///< 打开文件失败
+        VIDEO,         ///< 打开的文件为视频文件
+        AUDIO          ///< 打开的文件为音频文件
+    };
+
+    Q_ENUM_NS(OpenFileResultType)
+}
+
 
 class StreamInfo {
 private:
@@ -145,9 +156,11 @@ private:
     AVPacket *packet = nullptr;
 
 public:
+
+
     explicit DecodeDispatcher(
             const std::string &fn,
-            int &openFileResult,
+            PonyPlayer::OpenFileResultType &result,
             StreamIndex audioStreamIndex = DEFAULT_STREAM_INDEX,
             StreamIndex videoStreamIndex = DEFAULT_STREAM_INDEX,
             QObject *parent = nullptr
@@ -166,7 +179,7 @@ public:
 
         // audio
         if (description.m_audioStreamsIndex.empty()) {
-            openFileResult = 0;
+            result = PonyPlayer::OpenFileResultType::FAILED;
             throw std::runtime_error("Cannot find audio stream.");
         }
         if (m_audioStreamIndex ==
@@ -180,16 +193,16 @@ public:
         if (description.m_videoStreamsIndex.empty()) {
             // no video
             videoDecoder = new VirtualVideoDecoder(description.audioDuration);
-            openFileResult = 2;
+            result = PonyPlayer::OpenFileResultType::AUDIO;
         } else {
+            result = PonyPlayer::OpenFileResultType::VIDEO;
             if (m_videoStreamIndex ==
                 DEFAULT_STREAM_INDEX) { m_videoStreamIndex = description.m_videoStreamsIndex.front(); }
             videoDecoder = new DecoderImpl<Video>(fmtCtx->streams[m_videoStreamIndex], videoQueue);
         }
         description.videoDuration = videoDecoder->duration();
-
         connect(this, &DecodeDispatcher::signalStartWorker, this, &DecodeDispatcher::onWork, Qt::QueuedConnection);
-        openFileResult = 1;
+
     }
 
     ~DecodeDispatcher() override {

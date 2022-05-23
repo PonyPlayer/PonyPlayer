@@ -32,12 +32,12 @@ public:
             connect(this, &FrameController::signalDecoderOpenFile, m_demuxer, &Demuxer::openFile);
             // WARNING: BLOCKING_QUEUED_CONNECTION!!!
             connect(this, &FrameController::signalDecoderSeek, m_demuxer, &Demuxer::seek, Qt::BlockingQueuedConnection);
-            connect(m_demuxer, &Demuxer::openFileResult, this, [this](bool success) {
-                if (success) {
+            connect(m_demuxer, &Demuxer::openFileResult, this, [this](PonyPlayer::OpenFileResultType result) {
+                if (result != PonyPlayer::OpenFileResultType::FAILED) {
                     m_demuxer->start();
                     m_playback->showFrame();
                 }
-                emit openFileResult(success);
+                emit openFileResult(result);
             });
             connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd, Qt::DirectConnection);
             connect(this, &FrameController::signalSetTrack, this, [this](int i) {
@@ -210,7 +210,7 @@ signals:
 
     void signalAudioOutputDevicesChanged();
 
-    void openFileResult(bool success);
+    void openFileResult(PonyPlayer::OpenFileResultType result);
 
     void playbackStateChanged(bool isPlaying);
 

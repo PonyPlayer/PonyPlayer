@@ -38,6 +38,7 @@ import Thumbnail
 import Controller
 import Thumbnail
 import "./interfacefunctions.js" as IF
+import ponyplayer.ns 1.0
 
 Window {
     Material.theme: Material.Dark
@@ -553,16 +554,16 @@ Window {
                     IF.makeDeviceMenu(devices)
                 }
                 onOpenFileResult:{
-                    if(b == 0){
+                    if(result == PonyPlayerNS.FAILED){
                         operationFailedDialogText.text="打开文件失败，请选择正确路径"
                         operationFailedDialog.open()
                         mainWindow.endTime=0
                     }
-                    else if(b == 1) {
+                    else if(result == PonyPlayerNS.VIDEO) {
                         mainArea.currentIndex = 0;
                         IF.toVideoBegining()
                         mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
-                    } else if(b == 2){
+                    } else if(result == PonyPlayerNS.AUDIO){
                         mainArea.currentIndex = 2;
                         IF.toVideoBegining()
                         mainWindow.endTime=Math.floor(videoArea.getVideoDuration());

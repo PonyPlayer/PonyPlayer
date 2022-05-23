@@ -23,6 +23,8 @@ private:
     QThread *m_affinityThread = nullptr;
     std::mutex mutex;
 public:
+
+
     Demuxer(QObject *parent) : QObject(nullptr) {
         m_affinityThread = new QThread;
         m_affinityThread->setObjectName(PonyPlayer::DECODER);
@@ -195,12 +197,12 @@ public slots:
         std::unique_lock lock(mutex);
         if (m_worker) {
             qWarning() << "Already open file:" << m_worker->filename.c_str();
-            emit openFileResult(false, QPrivateSignal());
+            emit openFileResult(PonyPlayer::OpenFileResultType::FAILED, QPrivateSignal());
             return;
         }
-        int fileResult = 0;
+        PonyPlayer::OpenFileResultType result;
         try {
-            m_forward = new DecodeDispatcher(fn, fileResult, DEFAULT_STREAM_INDEX, DEFAULT_STREAM_INDEX, this);
+            m_forward = new DecodeDispatcher(fn, result, DEFAULT_STREAM_INDEX, DEFAULT_STREAM_INDEX, this);
             m_backward = new ReverseDecodeDispatcher(fn, this);
             m_worker = m_forward;
         } catch (std::runtime_error &ex) {
@@ -208,12 +210,12 @@ public slots:
             m_worker = nullptr;
             m_backward = nullptr;
             m_forward = nullptr;
-            emit openFileResult(fileResult, QPrivateSignal());
+            emit openFileResult(result, QPrivateSignal());
             return;
         }
         lock.unlock();
         m_worker->stateResume();
-        emit openFileResult(fileResult, QPrivateSignal());
+        emit openFileResult(result, QPrivateSignal());
         qDebug() << "Open file success.";
     }
 
@@ -268,7 +270,7 @@ public slots:
 
 signals:
 
-    void openFileResult(int ret, QPrivateSignal);
+    void openFileResult(PonyPlayer::OpenFileResultType result, QPrivateSignal);
 
 
 };
