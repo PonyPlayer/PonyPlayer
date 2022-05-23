@@ -187,6 +187,10 @@ public:
         emit signalSetSelectedAudioOutputDevice(deviceName);
     }
 
+    QString getSelectedAudioOutputDevice() {
+        return m_audioSink ? m_audioSink->getSelectedOutputDevice() : "";
+    }
+
     void showFrame() {
         emit showFirstVideoFrame(QPrivateSignal());
     }

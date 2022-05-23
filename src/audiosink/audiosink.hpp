@@ -165,10 +165,10 @@ private:
         param->sampleFormat = m_format.getSampleFormatForPA();
         param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
         param->hostApiSpecificStreamInfo = nullptr;
-        Pa_SetStreamFinishedCallback(&m_stream, [](void *userData) {
+        PaError err = Pa_SetStreamFinishedCallback(m_stream, [](void *userData) {
             static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
         });
-        PaError err = Pa_OpenStream(
+        err = Pa_OpenStream(
                 &m_stream,
                 nullptr,
                 param,
@@ -186,6 +186,7 @@ private:
                 },
                 this
         );
+
         if (err != paNoError) {
             printError(err);
             throw std::runtime_error("can not open audio stream!");
@@ -459,6 +460,8 @@ public:
         }
         emit signalAudioOutputDevicesChanged();
     }
+
+    QString getSelectedOutputDevice() { return selectedOutputDevice; }
 
 
     void refreshDevicesList() {

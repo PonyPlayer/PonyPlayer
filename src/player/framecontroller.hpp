@@ -89,6 +89,8 @@ public:
 
     void setSelectedAudioOutputDevice(QString deviceName) { m_playback->setSelectedAudioOutputDevice(deviceName); }
 
+    QString getSelectedAudioOutputDevice() { return m_playback->getSelectedAudioOutputDevice(); }
+
     PONY_THREAD_SAFE void backward() {
         emit signalBackward();
     }

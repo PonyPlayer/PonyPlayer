@@ -53,6 +53,7 @@ public:
     Q_PROPERTY(QStringList tracks READ getTracks NOTIFY openFileResult)
     Q_PROPERTY(bool backwardStatus READ isBackward NOTIFY backwardStatusChanged)
     Q_PROPERTY(int track READ getTrack WRITE setTrack NOTIFY trackChanged)
+    Q_PROPERTY(QString currentOutputDevice READ getCurrentOutputDevice WRITE setCurrentOutputDevice)
 
 private:
     bool backwardStatus = false;
@@ -256,8 +257,15 @@ public slots:
      * 设置音频输出设备名称
      * @param deviceName 设备名称
      */
-    Q_INVOKABLE void setSelectedAudioOutputDevice(QString deviceName) {
-        frameController->setSelectedAudioOutputDevice(std::move(deviceName));
+    Q_INVOKABLE void setCurrentOutputDevice(QString deviceName) {
+        frameController->setSelectedAudioOutputDevice(deviceName);
+    }
+
+    /**
+     * 获取音频输出设备列表
+     */
+    Q_INVOKABLE QString getCurrentOutputDevice() {
+        return frameController->getSelectedAudioOutputDevice();
     }
 
     /**
