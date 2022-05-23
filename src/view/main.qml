@@ -527,7 +527,7 @@ SwipeView{
     anchors.top: parent.top
     anchors.bottom: parent.bottom
     anchors.right: videoList.left
-    interactive: true
+    interactive: false
     currentIndex: 1
     clip: true
     HurricanePlayer{
