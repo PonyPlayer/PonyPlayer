@@ -98,7 +98,11 @@ Rectangle {
         id:timerForThumbnail
         interval:200
         repeat:false
-        onTriggered:preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+        onTriggered:{
+            if(videoArea.hasVideo()){
+                preview.previewRequest((previewDetector.mouseX*mainWindow.endTime)/videoSlide.width)
+            }
+        }
     }
     Rectangle {
         id: previewRect

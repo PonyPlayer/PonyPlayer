@@ -2,6 +2,19 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 
 Menu {
+    Window{
+        id:warning
+        maximumHeight: 100
+        maximumWidth: 200
+        minimumHeight: 100
+        minimumWidth: 200
+        title: "ERROR"
+        Text{
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            text:"视频无法开启八倍速"
+        }
+    }
     width:120
     title: "播放倍速"
     MenuItem{
@@ -49,8 +62,14 @@ Menu {
     MenuItem{
         text: (mainWindow.speed==8.0?'✔':'    ')+" 8.0倍速"
         onTriggered: {
-            mainWindow.speed=8.0
-            videoArea.setSpeed(mainWindow.speed)
+            if(videoArea.hasVideo()){
+                warning.show()
+            }
+            else{
+                mainWindow.speed=8.0
+                videoArea.setSpeed(mainWindow.speed)
+            }
         }
     }
 }
+

@@ -507,7 +507,7 @@ Window {
                 id: listModel
             }
             highlight: Rectangle {
-                color: "red"
+                color: "#10FFFFFF"
             }
             delegate: listDelegate
         }
@@ -570,10 +570,22 @@ SwipeView{
                 mainArea.currentIndex = 0;
                 IF.toVideoBegining()
                 mainWindow.endTime=Math.floor(videoArea.getAudioDuration())
+                if (mainWindow.isInverted) {
+                    mainWindow.isInverted = false
+                    videoArea.forward();
+                }
+                if(mainWindow.speed=8.0){
+                    mainWindow.speed=1.0
+                    videoArea.setSpeed(mainWindow.speed)
+                }
             } else if(result == PonyPlayerNS.AUDIO){
             mainArea.currentIndex = 2;
             IF.toVideoBegining()
             mainWindow.endTime=Math.floor(videoArea.getAudioDuration());
+            if (mainWindow.isInverted) {
+                mainWindow.isInverted = false
+                videoArea.forward();
+            }
         }
     }
     //                onAudioOutputDeviceChanged
