@@ -52,6 +52,7 @@ public:
     Q_PROPERTY(QStringList audioDeviceList READ getAudioDeviceList NOTIFY audioOutputDeviceChanged)
     Q_PROPERTY(QStringList tracks READ getTracks NOTIFY openFileResult)
     Q_PROPERTY(bool backwardStatus READ isBackward NOTIFY backwardStatusChanged)
+    Q_PROPERTY(int track READ getTrack WRITE setTrack NOTIFY trackChanged)
 
 private:
     bool backwardStatus = false;
@@ -99,6 +100,8 @@ public:
 
     HurricaneState getState() { return state; }
 
+    int getTrack() { return track; }
+
     bool isBackward() { return backwardStatus; }
 
     QStringList getAudioDeviceList() { return frameController->getAudioDeviceList(); }
@@ -127,6 +130,8 @@ signals:
     void audioOutputDeviceChanged();
 
     void backwardStatusChanged();
+
+    void trackChanged();
 
 
 Q_SIGNALS:
@@ -173,6 +178,8 @@ public slots:
             emit stateChanged();
             backwardStatus = false;
             emit backwardStatusChanged();
+            track = 1;
+            emit trackChanged();
             emit signalOpenFile(QUrl(url).toLocalFile(), QPrivateSignal());
             qDebug() << "Open file:" << url;
         }
@@ -332,6 +339,8 @@ public slots:
         state = PRE_PAUSE;
         emit stateChanged();
         frameController->setTrack(i);
+        track = i;
+        emit trackChanged();
         if (playing) {
             emit signalStart(QPrivateSignal());
         }
