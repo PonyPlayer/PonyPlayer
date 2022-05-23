@@ -32,6 +32,7 @@ import QtQuick.Window
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
+import Qt.labs.platform as LabPlatform
 import HurricanePlayer
 import Thumbnail
 import Controller
@@ -552,15 +553,19 @@ Window {
                     IF.makeDeviceMenu(devices)
                 }
                 onOpenFileResult:{
-                    if(!b){
+                    if(b == 0){
                         operationFailedDialogText.text="打开文件失败，请选择正确路径"
                         operationFailedDialog.open()
                         mainWindow.endTime=0
                     }
-                    else{
+                    else if(b == 1) {
                         mainArea.currentIndex = 0;
                         IF.toVideoBegining()
                         mainWindow.endTime=Math.floor(videoArea.getVideoDuration())
+                    } else if(b == 2){
+                        mainArea.currentIndex = 2;
+                        IF.toVideoBegining()
+                        mainWindow.endTime=Math.floor(videoArea.getVideoDuration());
                     }
                 }
 //                onAudioOutputDeviceChanged
