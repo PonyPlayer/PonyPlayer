@@ -14,7 +14,10 @@ Rectangle {
         id:dialog
         title: ("是否选择滤镜: "+filterItem.filterName)
         standardButtons: Dialog.Ok | Dialog.Cancel
-        onAccepted: filterItem.sentFilterLut(filterItem.lut)
+        onAccepted: {
+            filterItem.sentFilterLut(filterItem.lut)
+            console.log("watch   imagepath  :  "+filterItem.image)
+        }
     }
     Image {
         id: filterItemImage

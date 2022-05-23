@@ -7,7 +7,7 @@ function loadingFilters() {
     let fileNames = ["Contrast", "Flim", "Video"]
     let component = Qt.createComponent("FilterItem.qml")
     let prefix = videoArea.filterPrefix
-    let origin = component.createObject(filter, {"filterName": "origin", "image": (prefix + "/origin.jpg"), "lut": ""})
+    let origin = component.createObject(filter, {"filterName": "origin", "image": ("file:///"+prefix + "/origin.jpg"), "lut": ""})
     filter.addItem(origin)
     let jsons = videoArea.filterJsons
     for (let i = 0; i < jsons.length; i++) {
@@ -16,7 +16,7 @@ function loadingFilters() {
         for (let j = 0; j < json.length; j++) {
             let item = component.createObject(filter, {
                 "filterName": (fileNames[i] + ":  " + j),
-                "image": ("file://" + prefix + '/' + json[j].image),
+                "image": ("file:///" + prefix + '/' + json[j].image),
                 "lut": json[j].lut
             })
             item.sentFilterLut.connect(videoArea.setLUTFilter)
