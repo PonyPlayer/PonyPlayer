@@ -39,7 +39,7 @@ private:
     PaStream *m_stream;
     PaStreamParameters *param;
     qreal m_volume, m_pitch;
-    PlaybackState m_state;
+    std::atomic<PlaybackState> m_state;
     HotPlugDetector *hotPlugDetector;
     QList<QString> devicesList;
     QString selectedOutputDevice;
@@ -59,18 +59,22 @@ private:
 
     PaTime m_startPoint = 0.0;
     std::atomic<int64_t> m_dataWritten = 0;
+    std::atomic<int64_t> m_dataLastWrote = 0;
 
 
     std::atomic<bool> m_blockingState = false;
-//    std::mutex setBlockingMutex;
+    std::mutex m_waitCompleteMutex;
+    std::condition_variable m_waitCompleteCond;
 
     void m_paStreamFinishedCallback() {
+        qDebug() << "Stream finished callback.";
         if (m_state == PlaybackState::PLAYING) {
             emit resourceInsufficient();
         }
         m_state = PlaybackState::PAUSED;
+        m_waitCompleteCond.notify_all();
         emit stateChanged();
-        qDebug() << "Stream finished callback.";
+
     }
 
     int m_paCallback(const void *inputBuffer, void *outputBuffer,
@@ -84,7 +88,11 @@ private:
             memset(outputBuffer, 0, static_cast<size_t>(bytesNeeded));
         } else if (bytesAvailCount == 0) {
             memset(outputBuffer, 0, static_cast<size_t>(bytesNeeded));
-            qWarning() << "paAbort bytesAvailCount == 0";
+            if (m_state == PlaybackState::PLAYING) {
+                qWarning() << "paAbort bytesAvailCount == 0";
+            } else {
+                return paComplete;
+            }
         } else {
             ring_buffer_size_t timeAlignedByteWritten = 0; // 透明化加速的影响，表示在1x速度下，理应有多少个Byte被写入
             ring_buffer_size_t byteToBeWritten = std::min(bytesNeeded, bytesAvailCount); // 实际要往PortAudio的Buffer里写多少Byte
@@ -115,6 +123,7 @@ private:
                 PaUtil_ReadRingBuffer(&m_ringBuffer, outputBuffer, byteToBeWritten);
             }
             m_dataWritten += timeAlignedByteWritten;
+            m_dataLastWrote = timeAlignedByteWritten;
         }
         return paContinue;
     }
@@ -156,6 +165,9 @@ private:
         param->sampleFormat = m_format.getSampleFormatForPA();
         param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
         param->hostApiSpecificStreamInfo = nullptr;
+        Pa_SetStreamFinishedCallback(&m_stream, [](void *userData) {
+            static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
+        });
         PaError err = Pa_OpenStream(
                 &m_stream,
                 nullptr,
@@ -178,9 +190,7 @@ private:
             printError(err);
             throw std::runtime_error("can not open audio stream!");
         }
-        Pa_SetStreamFinishedCallback(&m_stream, [](void *userData) {
-            static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
-        });
+
     }
 
 public:
@@ -264,6 +274,11 @@ public:
         } else {
             throw std::runtime_error("AudioSink already paused.");
         }
+    }
+
+    void waitComplete() {
+//        std::unique_lock lock(m_waitCompleteMutex);
+//        m_waitCompleteCond.wait(lock);
     }
 
     /**
@@ -365,7 +380,7 @@ public:
      */
     [[nodiscard]] qreal getProcessSecs(bool backward) const {
         if (m_state == PlaybackState::STOPPED) { return m_startPoint; }
-        auto processSec = static_cast<double>(m_format.durationOfBytes(m_dataWritten));
+        auto processSec = static_cast<double>(m_format.durationOfBytes(m_dataWritten - m_dataLastWrote));
         if (backward) {
             return m_startPoint - processSec;
         } else {

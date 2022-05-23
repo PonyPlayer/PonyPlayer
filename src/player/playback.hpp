@@ -269,12 +269,14 @@ private slots:
         while (!m_isInterrupt) {
             VideoFrameRef pic = getVideoFrame();
             if (!pic.isValid()) {
+                m_audioSink->waitComplete();
                 emit resourcesEnd();
                 break;
             }
 //            m_videoPos = pic.getPTS();
             emit setPicture(pic);
             if (!writeAudio(static_cast<int>(10 * m_audioSink->speed()))) {
+                m_audioSink->waitComplete();
                 emit resourcesEnd();
                 break;
             }
