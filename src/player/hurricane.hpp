@@ -60,7 +60,7 @@ private:
     HurricaneState state = HurricaneState::INVALID;
 private:
     FrameController *frameController;
-    int track;
+    int track = -1;
 public:
     explicit Hurricane(QQuickItem *parent = nullptr) : Fireworks(parent) {
         frameController = new FrameController(this);
@@ -100,7 +100,9 @@ public:
 
     HurricaneState getState() { return state; }
 
-    int getTrack() { return track; }
+    int getTrack() {
+        return track;
+    }
 
     bool isBackward() { return backwardStatus; }
 
@@ -178,8 +180,6 @@ public slots:
             emit stateChanged();
             backwardStatus = false;
             emit backwardStatusChanged();
-            track = 1;
-            emit trackChanged();
             emit signalOpenFile(QUrl(url).toLocalFile(), QPrivateSignal());
             qDebug() << "Open file:" << url;
         }
@@ -429,10 +429,13 @@ private slots:
     void slotOpenFileResult(PonyPlayer::OpenFileResultType result) {
         if (result != PonyPlayer::OpenFileResultType::FAILED) {
             state = PAUSED;
+            track = 0;
         } else {
             state = INVALID;
+            track = -1;
         }
         emit openFileResult(result, QPrivateSignal());
+        emit trackChanged();
         emit stateChanged();
     }
 
