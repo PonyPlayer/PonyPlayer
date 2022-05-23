@@ -387,6 +387,14 @@ public slots:
         qDebug() << "backward";
     }
 
+    Q_INVOKABLE void toggleBackward() {
+        if (isBackward()) {
+            forward();
+        } else {
+            backward();
+        }
+    }
+
     Q_INVOKABLE bool hasVideo() {
         return frameController->hasVideo();
     }
