@@ -233,7 +233,7 @@ Window {
                 width: 120
                 topMargin: parent.height
                 Action {
-                    text: "画面"
+                    text: "播放设置"
                     onTriggered:additionalSettings.show()
                 }
                 Action {
