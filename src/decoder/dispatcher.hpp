@@ -188,8 +188,12 @@ public:
 
         // video
         videoQueue = audioQueue->twins("VideoQueue", 16);
-        if (!hasVideo()) {
+        if (description.m_videoStreamsIndex.empty() ||
+            fmtCtx->streams[description.m_videoStreamsIndex.front()]->nb_frames == 0) {
             // no video
+            qDebug() << "audio only";
+            if (!description.m_videoStreamsIndex.empty())
+                m_videoStreamIndex = description.m_videoStreamsIndex.front();
             videoDecoder = new VirtualVideoDecoder(description.audioDuration);
             result = PonyPlayer::OpenFileResultType::AUDIO;
         } else {
