@@ -38,7 +38,7 @@ private:
 
     PaStream *m_stream;
     PaStreamParameters *param;
-    qreal m_volume;
+    qreal m_volume, m_pitch;
     PlaybackState m_state;
     HotPlugDetector *hotPlugDetector;
     QList<QString> devicesList;
@@ -191,9 +191,10 @@ public:
      * @param format 音频格式
      * @param bufferSizeAdvice DataBuffer 的建议大小, PonyAudioSink 保证实际的 DataBuffer 不小于建议大小.
      */
-    PonyAudioSink(PonyAudioFormat format) : m_volume(0.5), m_state(PlaybackState::STOPPED),
+    PonyAudioSink(PonyAudioFormat format) : m_volume(0.5), m_pitch(1.0), m_state(PlaybackState::STOPPED),
                                             m_format(std::move(format)),
                                             m_speedFactor(1.0) {
+
 
         paStreamLock.lock();
         initializeStream();
@@ -208,6 +209,7 @@ public:
             throw std::runtime_error("can not initialize ring buffer!");
         sonicBuffer = new std::byte[m_sonicBufferMaxBytes];
         sonStream = sonicCreateStream(m_format.getSampleRate(), m_format.getChannelCount());
+        sonicSetChordPitch(sonStream, 1);
         sonicSetSpeed(sonStream, static_cast<float>(m_speedFactor));
         // HotPlugDetector should be created after PA stream open
         hotPlugDetector = new HotPlugDetector(this);
@@ -395,6 +397,15 @@ public:
     }
 
     /**
+     * 设置音调
+     * @param newPitch
+     */
+    void setPitch(qreal newPitch) {
+        m_pitch = qBound(0.0, newPitch, 16.0);
+        sonicSetPitch(sonStream, static_cast<float>(newPitch));
+    }
+
+    /**
      * 设置速度
      * @param newSpeed
      */
@@ -411,8 +422,12 @@ public:
         return m_volume;
     }
 
-    [[nodiscard]]  qreal speed() const {
+    [[nodiscard]] qreal speed() const {
         return m_speedFactor;
+    }
+
+    [[nodiscard]] qreal pitch() const {
+        return m_pitch;
     }
 
     void _getDeviceList() {

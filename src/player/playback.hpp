@@ -46,7 +46,7 @@ private:
     inline void syncTo(qreal current) {
         bool backward = m_demuxer->isBackward();
         double duration;
-        if (!m_demuxer->hasVideo() ) {
+        if (!m_demuxer->hasVideo()) {
             // 纯音频
             duration = 1. / 30;
             m_preferablePos = m_audioSink->getProcessSecs(backward);
@@ -117,6 +117,7 @@ public:
         connect(this, &Playback::stopWork, this, [this] { this->m_audioSink->stop(); });
         connect(this, &Playback::setAudioStartPoint, this, [this](qreal t) { this->m_audioSink->setStartPoint(t); });
         connect(this, &Playback::setAudioVolume, this, [this](qreal volume) { this->m_audioSink->setVolume(volume); });
+        connect(this, &Playback::setAudioPitch, this, [this](qreal pitch) { this->m_audioSink->setPitch(pitch); });
         connect(this, &Playback::setAudioSpeed, this, [this](qreal speed) {
             m_speedFactor = speed;
             this->m_audioSink->setSpeed(speed);
@@ -172,6 +173,10 @@ public:
 
     void setVolume(qreal volume) {
         emit setAudioVolume(volume, QPrivateSignal());
+    }
+
+    void setPitch(qreal pitch) {
+        emit setAudioPitch(pitch, QPrivateSignal());
     }
 
     void setSpeed(qreal speed) {
@@ -247,6 +252,8 @@ public:
 
     QStringList getAudioDeviceList() { return m_audioSink ? m_audioSink->getAudioDeviceList() : QStringList(); };
 
+    qreal getPitch() { return m_audioSink ? m_audioSink->pitch() : 1.0; }
+
 
 private slots:
 
@@ -280,7 +287,6 @@ private slots:
     };
 
 
-
 signals:
 
     void startWork(QPrivateSignal);
@@ -292,6 +298,8 @@ signals:
     void setAudioStartPoint(qreal startPoint, QPrivateSignal);
 
     void setAudioVolume(qreal volume, QPrivateSignal);
+
+    void setAudioPitch(qreal pitch, QPrivateSignal);
 
     void setAudioSpeed(qreal speed, QPrivateSignal);
 

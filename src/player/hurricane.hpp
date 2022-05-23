@@ -47,6 +47,7 @@ public:
     Q_ENUM(HurricaneState)
 
     QML_ELEMENT
+    Q_PROPERTY(qreal pitch READ getPitch WRITE setPitch)
     Q_PROPERTY(HurricaneState state READ getState NOTIFY stateChanged FINAL)
     Q_PROPERTY(QStringList audioDeviceList READ getAudioDeviceList NOTIFY audioOutputDeviceChanged)
     Q_PROPERTY(QStringList tracks READ getTracks NOTIFY openFileResult)
@@ -216,8 +217,15 @@ public slots:
      * @param volume 音量大小
      */
     Q_INVOKABLE void setVolume(qreal volume) {
-        qDebug() << "setVolume" << volume;
         frameController->setVolume(volume);
+    }
+
+    /**
+     * 设置音调
+     * @param pitch 音调
+     */
+    Q_INVOKABLE void setPitch(qreal pitch) {
+        frameController->setPitch(pitch);
     }
 
     /**
@@ -362,6 +370,10 @@ public slots:
 
     Q_INVOKABLE bool hasVideo() {
         return frameController->hasVideo();
+    }
+
+    Q_INVOKABLE qreal getPitch() {
+        return frameController ? frameController->getPitch() : 1.0;
     }
 
 

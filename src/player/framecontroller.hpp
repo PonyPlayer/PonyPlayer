@@ -119,9 +119,13 @@ public:
      */
     QStringList getTracks() { return m_demuxer->getTracks(); }
 
+    qreal getPitch() { return m_playback ? m_playback->getPitch() : 1.0; }
+
     bool hasVideo() { return m_demuxer->hasVideo(); }
 
     void setVolume(qreal volume) { m_playback->setVolume(volume); }
+
+    void setPitch(qreal pitch) { m_playback->setPitch(pitch); }
 
     void setSpeed(qreal speed) { m_playback->setSpeed(speed); }
 

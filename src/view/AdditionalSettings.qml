@@ -108,6 +108,29 @@ Window{
         Item {
             id: audioTab
             width: parent.width
+            Row{
+                id: pitch
+                anchors.top: parent.top
+                anchors.topMargin: 10
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.horizontalCenter: parent.horizontalCenter
+                Text {
+                    width: 50
+                    text: qsTr("音调")
+                }
+                Slider{
+                    id: pitchSlider
+                    height: 20
+                    width: parent.width - 50
+                    from: 0.9
+                    to: 1.2
+                    value: videoArea.pitch
+                    onMoved: {
+                        videoArea.pitch=pitchSlider.value
+                    }
+                }
+            }
         }
     }
     Button {
