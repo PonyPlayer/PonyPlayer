@@ -188,7 +188,7 @@ public:
 
         // video
         videoQueue = audioQueue->twins("VideoQueue", 16);
-        if (description.m_videoStreamsIndex.empty()) {
+        if (!hasVideo()) {
             // no video
             videoDecoder = new VirtualVideoDecoder(description.audioDuration);
             result = PonyPlayer::OpenFileResultType::AUDIO;
