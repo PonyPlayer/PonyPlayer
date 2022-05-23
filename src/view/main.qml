@@ -245,16 +245,16 @@ Window {
                     text: "打开文件"
                     onTriggered: fileDialog.open()
                 }
+                Action{
+                    text:"滤镜选择"
+                    onTriggered:filterswindow.show()
+                }
                 Menu{
                     id: currentFilePathList
                     title: "最近打开的文件"
                 }
                 SpeedMenu{
 
-                }
-                Action{
-                    text:"滤镜选择"
-                    onTriggered:filterswindow.show()
                 }
                 //Menu{
                 //    id: filter
