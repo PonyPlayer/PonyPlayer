@@ -7,15 +7,6 @@
 #include "playlist.h"
 #include <QtGlobal>
 #include <stdlib.h>
-#ifdef Q_OS_MAC
-#define PLATFORM "MAC"
-#endif
-#ifdef Q_OS_LINUX
-#define PLATFORM "LINUX"
-#endif
-#ifdef Q_OS_WIN32
-#define PLATFORM "WINDOWS"
-#endif
 
 /*
  * 在当前目录下新建 data 子目录，其中创建数据库
@@ -23,28 +14,22 @@
  */
 PonyKVConnect::PonyKVConnect(const QString &dbName) {
     QString home;
-    if(PLATFORM=="MAC") {
+#ifdef Q_OS_MAC
         home = qEnvironmentVariable("HOME");
         home += "/Library/Containers";
-    }
-    if(PLATFORM=="WINDOWS") {
+#elifdef Q_OS_WIN32
         home = qEnvironmentVariable("HOME");
         home += "/AppData/Local";
-    }
-    if(PLATFORM=="LINUX") {
+#elifdef Q_OS_LINUX
         home = qEnvironmentVariable("HOME");
-    }
-
-
-
-//    QDir dataBasePath = QDir::currentPath();
+#endif
 
     home += "/PonyPlayer";
     bool done = qputenv("PONYPATH", home.toUtf8());
     if(done)
-        qDebug()<<"环境变量设置成功!"<<home;
+        qDebug()<<"Env set!"<<home;
     else
-        qDebug()<<"环境变量设置失败!"<<home;
+        qDebug()<<"Env set failed!"<<home;
 
     QDir dir_check;
     if(!dir_check.exists(home))
@@ -115,11 +100,6 @@ QString PonyKVConnect::qTypeToDDL(const QString &qType) {
 void PonyKVConnect::insert(const QString &tableName, const QObject *object) {
 
     const QMetaObject *metaObj = object->metaObject();
-
-    if (!metaObj)
-        qDebug() << "metaObj is NULL";
-    else
-        qDebug() << "metaObj is not NULL";
 
     QString sql = "INSERT INTO `" + tableName + "` VALUES (";
     for (int i = metaObj->propertyOffset(); i < metaObj->propertyCount(); ++i) {
@@ -221,7 +201,6 @@ T* PonyKVConnect::search(const QString &tableName, const QString &className, con
     query.exec();
     QObject *obj = metaObj->newInstance();
     while(query.next()) {
-        qDebug()<<"have";
         for (int i = metaObj->propertyOffset(); i < metaObj->propertyCount(); ++i) {
             obj->setProperty(query.record().fieldName(i - metaObj->propertyOffset()).toUtf8(),
                              query.record().value(i - metaObj->propertyOffset()));
