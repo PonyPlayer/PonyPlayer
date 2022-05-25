@@ -15,9 +15,9 @@
 class FrameController : public QObject {
 Q_OBJECT
 private:
-    QThread *m_affinityThread;
-    Demuxer *m_demuxer;
-    Playback *m_playback;
+    QThread *m_affinityThread = nullptr;
+    Demuxer *m_demuxer = nullptr;
+    Playback *m_playback = nullptr;
 public:
     FrameController(QObject *parent) : QObject(nullptr) {
         m_affinityThread = new QThread;
