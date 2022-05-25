@@ -108,8 +108,8 @@ private:
                                                                     static_cast<ring_buffer_size_t>(
                                                                             static_cast<double>(byteRemainToAlign) *
                                                                             audioDataInfo->speedUpRate));
-                    audioDataInfo->processedLength -= byteRemainToAlign;
-                    audioDataInfo->origLength -= origLengthReduced;
+                    audioDataInfo->processedLength -= static_cast<qint32>(byteRemainToAlign);
+                    audioDataInfo->origLength -= static_cast<qint32>(origLengthReduced);
                     timeAlignedByteWritten += origLengthReduced;
                     byteRemainToAlign = 0;
                 }

@@ -141,7 +141,7 @@ public:
 
     Q_INVOKABLE ~simpleListItem() = default;
 
-    Q_INVOKABLE simpleListItem(const simpleListItem& other) {
+    Q_INVOKABLE simpleListItem(const simpleListItem& other): QObject(other.parent()) {
         fileName = other.fileName;
         filePath = other.filePath;
         iconPath = other.iconPath;
