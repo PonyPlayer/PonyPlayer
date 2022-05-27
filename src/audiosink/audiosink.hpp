@@ -458,7 +458,11 @@ public:
             auto deviceInfo = Pa_GetDeviceInfo(index);
             QString deviceName = Pa_GetDeviceInfo(index)->name;
             if (deviceInfo->maxOutputChannels < 2) continue;
+#ifdef WIN32
+            if (deviceInfo->hostApi!=PaHostApiTypeId::paDirectSound) continue;
+#endif
             devicesList.push_back(deviceName);
+            qDebug() << deviceName;
         }
         emit signalAudioOutputDevicesChanged();
     }
