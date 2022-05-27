@@ -1,7 +1,6 @@
 ﻿qt_add_executable(${PROJECT_NAME} main.cpp hotloader.hpp cursor.hpp ${PONY_ICON})
 add_subdirectory(view)
 add_subdirectory(utils)
-add_subdirectory(example)
 add_subdirectory(decoder)
 #add_subdirectory(tests)
 add_subdirectory(player)
