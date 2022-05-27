@@ -37,7 +37,7 @@ foreach(LIB IN LISTS FFMPEG_LIBS)
     find_library(FFmpeg_FOUND_${LIB} NAMES ${LIB} HINTS "${FFMPEG_PREFIX_PATH}/lib/" REQUIRED)
     list(APPEND FFmpeg "${FFmpeg_FOUND_${LIB}}")
 endforeach()
-
+message("SSH KEY ${NO_SSH_KEY}")
 #file(GLOB_RECURSE ASSETS_FILTER CONFIGURE_DEPENDS assets/filters/**.jpg assets/filters/*.json)
 find_library(FFmpeg COMPONENTS ${FFMPEG_LIBS} "${FFMPEG_PREFIX_PATH}/lib/")
 set(CMAKE_MACOSX_RPATH ON)

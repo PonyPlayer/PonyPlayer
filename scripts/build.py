@@ -14,12 +14,11 @@ def execute(command: str):
 
 
 if __name__ == "__main__":
-    parser = ArgumentParser(description="Build cmake project. Default: :\n"
-                                        "python .py --qt_path /Users/username/Qt/6.2.4/macos\n"
-                                        "python setup.py --qt_path C:\\Qt\\6.2.4\\mingw8_64")
+    parser = ArgumentParser(description="Build cmake project.")
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("-clean", type=bool, help="Clean generated files.", default=False)
-    group.add_argument("-update", type=bool, help="Do incremental compilation.", default=False)
+    group.add_argument("-clean", help="Clean generated files.", action='store_true')
+    group.add_argument("-update", help="Do incremental compilation.", action='store_true')
+    parser.add_argument('-no_ssh', help='Use HTTPS instead of SSH.', action='store_true')
     args = parser.parse_args()
     self_path = pathlib.Path(sys.argv[0]).absolute()
     build_dir = self_path.absolute().parent.parent / "build"
@@ -49,7 +48,10 @@ if __name__ == "__main__":
     else:
         os_dependent_args = ""
 
-    cmake_command = f"cmake -DCMAKE_MAKE_PROGRAM={ninja_path} -G Ninja -DCMAKE_TOOLCHAIN_FILE={toolset} {os_dependent_args}" \
+    cmake_command = f"cmake " \
+                    f"-DCMAKE_MAKE_PROGRAM={ninja_path} " \
+                    f"-G Ninja -DCMAKE_TOOLCHAIN_FILE={toolset} {os_dependent_args} " \
+                    f"{'-DNO_SSH_KEY=1 ' if args.no_ssh else ''}" \
                     f".."
 
     command = f"cd {build_dir} " \

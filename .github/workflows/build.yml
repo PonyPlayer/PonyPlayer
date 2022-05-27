@@ -76,20 +76,13 @@ jobs:
           sudo chmod +x /usr/local/bin/appimagetool
           sudo pip3 install appimage-builder
 
-      - name: Enable SSH (Click me for details)
-        uses: seemethere/add-github-ssh-key@v1.0.0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          activate-with-label: true
-          label: with-ssh
-
       - name: Build project
         id: build
         shell: pwsh
         run: |
           python3 scripts/list_dir.py --base_dir ${{ matrix.dependency_path }}/Qt
           python3 scripts/setup.py --qt_path ${{ matrix.dependency_path }}/Qt/${{ matrix.qt_ver }}/${{ matrix.qt_arch_install }} --ffmpeg_path "C:/Program Files/FFmpeg"
-          python3 scripts/build.py
+          python3 scripts/build.py -no_ssh
           python3 scripts/package.py
 
       - uses: actions/upload-artifact@v2
