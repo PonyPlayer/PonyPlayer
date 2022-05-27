@@ -6,7 +6,6 @@ add_subdirectory(decoder)
 #add_subdirectory(tests)
 add_subdirectory(player)
 add_subdirectory(playlist)
-add_subdirectory(config)
 add_subdirectory(wave)
 add_subdirectory(audiosink)
 #add_subdirectory(interpolate)
@@ -24,7 +23,6 @@ target_link_libraries(${PROJECT_NAME}
         decoder
         view
         playlist
-        config
         player
         audiosink
         lrctools

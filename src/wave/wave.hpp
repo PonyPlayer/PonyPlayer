@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QtCore>
-#include "lyrics.h"
+#include "include/lyrics.h"
 #include "hurricane.hpp"
 #include <QFileInfo>
 #include <QQmlContext>

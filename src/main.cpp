@@ -9,7 +9,7 @@
 #include "wave/wave.hpp"
 #include "hotloader.hpp"
 #include "cursor.hpp"
-#include "lyrics.h"
+#include "include/lyrics.h"
 #include "liblrc/lyrics.h"
 #include "liblrc/lrc_parser.h"
 

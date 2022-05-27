@@ -1,4 +1,4 @@
-#include "interpolate.h"
+#include "include/interpolate.h"
 
 Interpolater::Interpolater(int length_, int width_, int framesInBetween_) : length(length_), width(width_),
                                                                             framesInBetween(framesInBetween_) {

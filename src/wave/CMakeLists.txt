@@ -15,7 +15,7 @@ qt_add_qml_module(${PROJECT_NAME}
 include_directories(include)
 
 target_sources(wave PRIVATE
-        ${CMAKE_SOURCE_DIR}/include/lyrics.h
+        include/lyrics.h
         )
 
 
