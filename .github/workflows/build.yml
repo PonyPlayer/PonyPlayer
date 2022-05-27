@@ -43,7 +43,7 @@ jobs:
         id: cache-qt
         uses: actions/cache@v3
         env:
-          cache-name: ${{ matrix.qt_arch }}-${{ matrix.qt_ver }}-v2
+          cache-name: ${{ matrix.qt_arch }}-${{ matrix.qt_ver }}-v3
         with:
           path: ${{ matrix.dependency_path }}
           key: Qt-${{ env.cache-name }}
@@ -55,6 +55,7 @@ jobs:
           arch: ${{ matrix.qt_arch }}
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
           aqtversion: '==2.0.6'
+          modules: 'qtmultimedia'
           dir: ${{ matrix.dependency_path }}
           tools: ${{ matrix.qt_tools }}
           setup-python: 'false'
