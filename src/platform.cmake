@@ -22,11 +22,11 @@ if (WIN32)
     set(CPACK_PACKAGE_INSTALL_DIRECTORY ${PROJECT_NAME})
     set(CPACK_ARCHIVE_THREADS 0)
     set(CPACK_WIX_UPGRADE_GUID "7A1B5C35-D464-5239-AF42-172AD856488F") # uuid("PonyPlayer")
-#    install(TARGETS ${CMAKE_PROJECT_NAME} RUNTIME
-#        LIBRARY DESTINATION lib
-#        ARCHIVE DESTINATION lib
-#        RUNTIME DESTINATION bin
-#    )
+    install(TARGETS ${CMAKE_PROJECT_NAME} RUNTIME
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+    )
     set(CPACK_RESOURCE_FILE_LICENSE "${PONY_LICENSE}")
     set(CPACK_PACKAGE_ICO "${PONY_ICON}")
     include(CPACK)
@@ -58,5 +58,6 @@ if (WIN32)
         "${CMAKE_SOURCE_DIR}/assets/filters"
         "$<TARGET_FILE_DIR:${PROJECT_NAME}>/assets/filters"
     )
+    install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/assets/" DESTINATION bin/assets)
 
 endif()
