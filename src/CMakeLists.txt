@@ -10,7 +10,7 @@ add_subdirectory(config)
 add_subdirectory(wave)
 add_subdirectory(audiosink)
 #add_subdirectory(interpolate)
-include(${CMAKE_SOURCE_DIR}/cmake/platform.cmake)
+include(platform.cmake)
 
 
 target_link_libraries(${PROJECT_NAME}
