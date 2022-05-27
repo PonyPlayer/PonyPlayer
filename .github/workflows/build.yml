@@ -1,0 +1,103 @@
+name: Build Project
+on:
+  push:
+    branches:
+      - release
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+jobs:
+  build:
+    name: Build-${{ matrix.qt_arch }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2019
+            qt_arch: win64_mingw
+            qt_arch_install: mingw_64
+            qt_ver: 6.2.4
+            qt_tools: "tools_mingw90,9.0.0-1-202203221220,qt.tools.win64_mingw900 tools_ninja,1.10.2-202108061017,qt.tools.ninja tools_cmake,3.21.1-202109070924,qt.tools.cmake.win64"
+            dependency_path: "C:\\_dependency"
+    #          - os: macos-10.15
+    #            qt_arch: clang_64
+    #            qt_arch_install: macos
+    #            qt_ver: 6.2.4
+    #            qt_tools: "tools_ninja,1.10.2-202108061017,qt.tools.ninja tools_cmake,3.21.1-202108061018,qt.tools.cmake"
+    #            dependency_path: "/Users/runner/_dep"
+    #          - os: ubuntu-20.04
+    #            qt_arch: gcc_64
+    #            qt_arch_install: gcc_64
+    #            qt_ver: 6.2.4
+    #            qt_tools: "tools_ninja,1.10.2-202108061017,qt.tools.ninja tools_cmake,3.21.1-202108061017,qt.tools.cmake"
+    #            dependency_path: "/home/runner/_dep"
+    steps:
+      - name: CheckOut
+        id: checkOut
+        uses: actions/checkout@v2
+
+      - name: Cache Dependency
+        id: cache-qt
+        uses: actions/cache@v3
+        env:
+          cache-name: ${{ matrix.qt_arch }}-${{ matrix.qt_ver }}-v2
+        with:
+          path: ${{ matrix.dependency_path }}
+          key: Qt-${{ env.cache-name }}
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ matrix.qt_ver }}
+          arch: ${{ matrix.qt_arch }}
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          aqtversion: '==2.0.6'
+          dir: ${{ matrix.dependency_path }}
+          tools: ${{ matrix.qt_tools }}
+          setup-python: 'false'
+
+      - name: Install FFmpeg (Windows)
+        id: install-ffmpeg-windows
+        if: contains(matrix.os, 'windows')
+        shell: pwsh
+        run: |
+          chocolatey install ffmpeg-shared -y
+
+      - name: Install AppImage (Linux)
+        id: install-app-image
+        if: contains(matrix.os, 'ubuntu')
+        shell: pwsh
+        run: |
+          sudo apt install -y python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse
+          sudo wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
+          sudo chmod +x /usr/local/bin/appimagetool
+          sudo pip3 install appimage-builder
+
+      - name: Build project
+        id: build
+        shell: pwsh
+        run: |
+          python3 scripts/list_dir.py --base_dir ${{ matrix.dependency_path }}/Qt
+          python3 scripts/setup.py --qt_path ${{ matrix.dependency_path }}/Qt/${{ matrix.qt_ver }}/${{ matrix.qt_arch_install }} --ffmpeg_path "C:/Program Files/FFmpeg"
+          python3 scripts/build.py
+          python3 scripts/package.py
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: PonyPlayer-${{ matrix.qt_arch }}
+          path: ${{ github.workspace }}/app/*.*
+
+      - name: Delete old artifacts
+        uses: kolpav/purge-artifacts-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          expire-in: 0days
+
+      - name: Upload release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ${{ github.workspace }}/app/*.*
