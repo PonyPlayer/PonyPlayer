@@ -13,7 +13,7 @@ include(thirdparty/lrctools.cmake)
 
 set(CMAKE_AUTOMOC ON)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Wno-unused-parameter -Wold-style-cast -Woverloaded-virtual -Wpointer-arith -Wshadow -Werror=return-type -fstack-protector-all")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -Wno-unused-parameter -Wold-style-cast -Woverloaded-virtual -Wpointer-arith -Wshadow -Werror=return-type")
 
 set(FFMPEG_LIBS avformat avcodec avutil swresample swscale)
 include(cmake/find_dependence.cmake)
