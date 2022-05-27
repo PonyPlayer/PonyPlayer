@@ -76,9 +76,12 @@ jobs:
           sudo chmod +x /usr/local/bin/appimagetool
           sudo pip3 install appimage-builder
 
-      - uses: webfactory/ssh-agent@v0.5.4
+      - name: Enable SSH (Click me for details)
+        uses: seemethere/add-github-ssh-key@v1.0.0
         with:
-            ssh-private-key: ${{ secrets.SSH_KEY_CLONE }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          activate-with-label: true
+          label: with-ssh
 
       - name: Build project
         id: build
