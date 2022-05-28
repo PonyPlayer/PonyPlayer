@@ -158,7 +158,7 @@ Window {
     minimumHeight: 500
     visible: true
     title: "PonyPlayer"
-    flags: (Qt.platform.os=="ios")? Qt.Window: (Qt.Window | Qt.FramelessWindowHint)
+    flags: (Qt.platform.os=="osx")? Qt.Window: (Qt.Window | Qt.FramelessWindowHint)
 
     Shortcut {
         sequence: "F5"
