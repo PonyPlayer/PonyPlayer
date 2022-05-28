@@ -36,10 +36,11 @@ class PonyAudioSink : public QObject {
 Q_OBJECT
 private:
 
-    PaStream *m_stream;
-    PaStreamParameters *param;
+    PaStream *m_stream{};
+    PaStreamParameters *param{};
     qreal m_volume, m_pitch;
-    std::atomic<PlaybackState> m_state;
+    PlaybackState m_state;
+    std::atomic<bool> m_pauseRequested = false; // 当播放完缓存的音频后停止
     HotPlugDetector *hotPlugDetector;
     QList<QString> devicesList;
     QString selectedOutputDevice;
@@ -50,7 +51,7 @@ private:
     size_t m_bufferMaxBytes;
     size_t m_sonicBufferMaxBytes;
     qreal m_speedFactor;
-    PaUtilRingBuffer m_ringBuffer;
+    PaUtilRingBuffer m_ringBuffer{};
     std::byte *m_ringBufferData;
     moodycamel::ReaderWriterQueue<AudioDataInfo> dataInfoQueue;
 
@@ -68,10 +69,10 @@ private:
 
     void m_paStreamFinishedCallback() {
         qDebug() << "Stream finished callback.";
+        m_state = PlaybackState::PAUSED;
         if (m_state == PlaybackState::PLAYING) {
             emit resourceInsufficient();
         }
-        m_state = PlaybackState::PAUSED;
         m_waitCompleteCond.notify_all();
         emit stateChanged();
 
@@ -88,10 +89,10 @@ private:
             memset(outputBuffer, 0, static_cast<size_t>(bytesNeeded));
         } else if (bytesAvailCount == 0) {
             memset(outputBuffer, 0, static_cast<size_t>(bytesNeeded));
-            if (m_state == PlaybackState::PLAYING) {
-                qWarning() << "paAbort bytesAvailCount == 0";
-            } else {
+            if (m_pauseRequested) {
                 return paComplete;
+            } else {
+                qWarning() << "paAbort bytesAvailCount == 0";
             }
         } else {
             ring_buffer_size_t timeAlignedByteWritten = 0; // 透明化加速的影响，表示在1x速度下，理应有多少个Byte被写入
@@ -248,6 +249,7 @@ public:
      */
     void start() {
         std::lock_guard lock(paStreamLock);
+        m_pauseRequested = true;
         qDebug() << "Audio start.";
         if (m_state == PlaybackState::PLAYING) {
             qDebug() << "AudioSink already started.";
@@ -255,7 +257,7 @@ public:
         }
         PaError err = Pa_StartStream(m_stream);
         if (err != paNoError) {
-            qWarning() << "Error at starting stream" << Pa_GetErrorText(err);
+            qWarning() << "Error at starting stream:" << Pa_GetErrorText(err);
             throw std::runtime_error("Can not start stream!");
         }
         m_state = PlaybackState::PLAYING;
@@ -275,13 +277,14 @@ public:
         } else if (m_state == PlaybackState::STOPPED) {
             // ignore
         } else {
-            throw std::runtime_error("AudioSink already paused.");
+            qWarning() << "AudioSink already paused.";
         }
     }
 
     void waitComplete() {
-//        std::unique_lock lock(m_waitCompleteMutex);
-//        m_waitCompleteCond.wait(lock);
+        m_pauseRequested = true;
+        std::unique_lock lock(m_waitCompleteMutex);
+        m_waitCompleteCond.wait(lock);
     }
 
     /**

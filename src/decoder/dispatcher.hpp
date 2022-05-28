@@ -66,6 +66,8 @@ public:
         return str;
     }
 
+    [[nodiscard]] int getIndex() const { return index; }
+
 };
 
 typedef unsigned int StreamIndex;
@@ -382,12 +384,12 @@ private:
 public:
     explicit ReverseDecodeDispatcher(const std::string &fn, QObject *parent) : DemuxDispatcherBase(fn, parent) {
         packet = av_packet_alloc();
-        for (unsigned int i = 0; i < fmtCtx->nb_streams; ++i) {
+        for (StreamIndex i = 0; i < fmtCtx->nb_streams; ++i) {
             if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && videoStreamIndex == -1) {
-                videoStreamIndex = i;
+                videoStreamIndex = static_cast<int>(i);
                 videoStream = fmtCtx->streams[i];
             } else if (fmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && audioStreamIndex == -1) {
-                audioStreamIndex = i;
+                audioStreamIndex = static_cast<int>(i);
                 audioStream = fmtCtx->streams[i];
             }
         }

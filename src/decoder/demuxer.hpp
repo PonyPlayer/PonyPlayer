@@ -25,14 +25,14 @@ private:
 public:
 
 
-    Demuxer(QObject *parent) : QObject(nullptr) {
+    explicit Demuxer(QObject *parent) : QObject(nullptr) {
         m_affinityThread = new QThread;
         m_affinityThread->setObjectName(PonyPlayer::DECODER);
         this->moveToThread(m_affinityThread);
         m_affinityThread->start();
     }
 
-    ~Demuxer() {
+    ~Demuxer() override {
         qDebug() << "Destroy Demuxer";
         m_affinityThread->quit();
     }
@@ -114,7 +114,7 @@ public:
 
     PONY_THREAD_SAFE bool hasVideo() {
         std::unique_lock lock(mutex);
-        return m_forward->hasVideo();
+        return m_forward && m_forward->hasVideo();
     }
 
 
