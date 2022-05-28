@@ -59,5 +59,19 @@ if (WIN32)
         "$<TARGET_FILE_DIR:${PROJECT_NAME}>/assets/filters"
     )
     install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/assets/" DESTINATION bin/assets)
-
+elseif(APPLE)
+    set_source_files_properties(${PONY_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/assets/filters"
+        "$<TARGET_FILE_DIR:${PROJECT_NAME}>/../Resources/filters"
+    )
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        MACOSX_BUNDLE_GUI_IDENTIFIER scut.ponyplayer
+        MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+        MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_ICON_FILE ponyicon
+        WIN32_EXECUTABLE TRUE
+    )
 endif()

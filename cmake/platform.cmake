@@ -93,8 +93,8 @@ if (WIN32)
     set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME};PonyPlayer)
     set(CPACK_CREATE_DESKTOP_LINKS PonyPlayer)
     set(CPACK_PACKAGE_INSTALL_DIRECTORY ${PROJECT_NAME}/${PROJECT_VERSION})
-    #    set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE.txt)
-    #    set(CPACK_PACKAGE_ICO ${CMAKE_SOURCE_DIR}/assets/ponyplayer-icon.png)
+    set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/docs/License.rtf)
+    set(CPACK_PACKAGE_ICO ${PONY_ICON})
 
     set(CPACK_ARCHIVE_THREADS 0)
     set(CPACK_WIX_UPGRADE_GUID "7A1B5C35-D464-5239-AF42-172AD856488F")
@@ -109,31 +109,31 @@ if (WIN32)
     windows_deploy_qt("--dir \"${CMAKE_CURRENT_BINARY_DIR}/winqt_tmp/\" --release")
     install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/winqt_tmp/" DESTINATION bin)
     include(CPack)
-
+elseif (APPLE)
+    set_source_files_properties(${PONY_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    #        set_source_files_properties(${ASSETS_FILTER} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/assets/filters"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/../Resources/filters"
+            )
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+            MACOSX_BUNDLE_GUI_IDENTIFIER scut.ponyplayer
+            MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+            MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+            MACOSX_BUNDLE TRUE
+            MACOSX_BUNDLE_ICON_FILE ponyicon
+            WIN32_EXECUTABLE TRUE
+            )
+    set(CPACK_PACKAGE_ICON ${PONY_ICON})
 elseif (UNIX)
-    if (APPLE)
-        set_source_files_properties(${PONY_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
-        #        set_source_files_properties(${ASSETS_FILTER} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${CMAKE_SOURCE_DIR}/assets/filters"
-                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/../Resources/filters"
-                )
-        set_target_properties(${PROJECT_NAME} PROPERTIES
-                MACOSX_BUNDLE_GUI_IDENTIFIER scut.ponyplayer
-                MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-                MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-                MACOSX_BUNDLE TRUE
-                MACOSX_BUNDLE_ICON_FILE ponyicon
-                WIN32_EXECUTABLE TRUE
-                )
-    else ()
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${CMAKE_SOURCE_DIR}/assets/filters"
-                "$<TARGET_FILE_DIR:${PROJECT_NAME}>/assets/filters"
-                )
-        linux_setup_deployment()
-    endif ()
-
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_SOURCE_DIR}/assets/filters"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/assets/filters"
+            )
+    set(CPACK_GENERATOR DMG)
+    set(CPACK_PACKAGE_ICON ${CMAKE_SOURCE_DIR}/assets/ponyicon.png)
+#    set(CMAKE_INSTALL_RPATH "@executable_path/../Frameworks")
+    #        linux_setup_deployment()
 endif ()
