@@ -170,7 +170,7 @@ public:
     }
 
     PONY_GUARD_BY(MAIN) bool setVideoFrame(const VideoFrameRef &frame) {
-        if (static_cast<VideoFrameRef>(mainSettings.videoFrame) == frame) {
+        if (static_cast<const VideoFrameRef&>(mainSettings.videoFrame) == frame) {
             return false;
         } {
             mainSettings.videoFrame = frame;

@@ -69,7 +69,8 @@ jobs:
         if: contains(matrix.os, 'macos')
         shell: pwsh
         run: |
-          git clone https://github.com/create-dmg/create-dmg.git create-dmg-repo
+          git clone https://github.com/create-dmg/create-dmg.git ~/create-dmg-repo
+          alias create-dmg='~/create-dmg-repo/create-dmg'
           wget https://github.com/ColorsWind/FFmpeg-macOS/releases/download/n5.0.1-patch3/FFmpeg-shared-n5.0.1-OSX-universal.zip
           wget https://github.com/ColorsWind/FFmpeg-macOS/releases/download/n5.0.1-patch3/install.py
           python3 install.py FFmpeg-shared-n5.0.1-OSX-universal.zip ${{ matrix.ffmpeg_path }}
@@ -103,7 +104,10 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: PonyPlayer-${{ matrix.qt_arch }}
-          path: ${{ github.workspace }}/app/*.*
+          path: |
+            ${{ github.workspace }}/app/*.zip
+            ${{ github.workspace }}/app/*.msi
+            ${{ github.workspace }}/app/*.dmg
 
       - name: Delete old artifacts
         uses: kolpav/purge-artifacts-action@v1
@@ -115,4 +119,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{ github.workspace }}/app/*.*
+          files: |
+            ${{ github.workspace }}/app/*.zip
+            ${{ github.workspace }}/app/*.msi
+            ${{ github.workspace }}/app/*.dmg
