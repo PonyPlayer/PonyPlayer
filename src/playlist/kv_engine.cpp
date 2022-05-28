@@ -17,10 +17,10 @@ PonyKVConnect::PonyKVConnect(const QString &dbName) {
 #ifdef Q_OS_MAC
         home = qEnvironmentVariable("HOME");
         home += "/Library/Containers";
-#elifdef Q_OS_WIN32
+#elif defined(Q_OS_WIN32)
         home = qEnvironmentVariable("HOME");
         home += "/AppData/Local";
-#elifdef Q_OS_LINUX
+#elif defined(Q_OS_LINUX)
         home = qEnvironmentVariable("HOME");
 #endif
 
