@@ -69,7 +69,7 @@ jobs:
         if: contains(matrix.os, 'macos')
         shell: pwsh
         run: |
-          wget https://github.com/create-dmg/create-dmg/archive/refs/tags/v1.0.10.zip -O create-dmg.zip
+          wget https://github.com/create-dmg/create-dmg/archive/refs/tags/v1.0.10.zip -O create-dmg-1.0.10/
           unzip create-dmg.zip && cd create-dmg && make install
           create-dmg
           wget https://github.com/ColorsWind/FFmpeg-macOS/releases/download/n5.0.1-patch3/FFmpeg-shared-n5.0.1-OSX-universal.zip
