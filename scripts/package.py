@@ -52,7 +52,7 @@ def apply_packaging():
         execute(f"cd {build_dir} && cmake --build . --target package")
         for package_file in build_dir.glob("*.*"):
             if package_file.suffix in {'.zip', '.msi'}:
-                shutil.copy(package_file, app_dir / package_file.name)
+                shutil.copy(package_file, app_dir / f"{prefix}-win64-{version}{package_file.suffix}")
 
     elif platform.system() == 'Linux':
         execute(f"cd {build_dir} && cmake --install . --prefix AppDir")
