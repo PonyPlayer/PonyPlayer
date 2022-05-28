@@ -4,20 +4,28 @@ function mytest(path) {
 
 //动态加载滤镜
 function loadingFilters() {
-    let fileNames = ["Contrast", "Flim", "Video"]
-    let prefix = videoArea.filterPrefix
-    let beforePrefix="file://"
-    if(prefix[2]=='/'){
-        beforePrefix=beforePrefix+'/'
+  let fileNames = ["Contrast", "Flim", "Video"];
+  let prefix = videoArea.filterPrefix;
+  let beforePrefix = "file://";
+  if (prefix[2] == "/") {
+    beforePrefix = beforePrefix + "/";
+  }
+  filtermodel.append({
+    filterNames: "origin",
+    images: beforePrefix + prefix + "/origin.jpg",
+    luts: "",
+  });
+  let jsons = videoArea.filterJsons;
+  for (let i = 0; i < jsons.length; i++) {
+    var json = JSON.parse(jsons[i]);
+    for (let j = 0; j < json.length; j++) {
+      filtermodel.append({
+        filterNames: fileNames[i] + ":  " + j,
+        images: beforePrefix + prefix + "/" + json[j].image,
+        luts: json[j].lut,
+      });
     }
-    filtermodel.append({"filterNames": "origin", "images": (beforePrefix+prefix + "/origin.jpg"), "luts": ""})
-    let jsons = videoArea.filterJsons
-    for (let i = 0; i < jsons.length; i++) {
-        var json = JSON.parse(jsons[i]);
-        for (let j = 0; j < json.length; j++) {
-            filtermodel.append({"filterNames":(fileNames[i] + ":  " + j),"images":(beforePrefix + prefix + '/' + json[j].image),"luts":json[j].lut})
-        }
-    }
+  }
 }
 
 function forwardOneSecond() {
@@ -382,7 +390,7 @@ function videoListOperatorOnAccepted(path = "", name = "") {
     listview.currentIndex = listModel.count - 1;
   }
 
-    console.log("QML D:", listModel.get(listview.currentIndex).filePath);
+  console.log("QML D:", listModel.get(listview.currentIndex).filePath);
 }
 
 function trans(path, name) {
@@ -445,25 +453,33 @@ function triggerLyricUpdate() {
     wave.lyricsArea.height / 2;
   wave.lyricsArea.flick.currentIndex = currentLyricIndex;
 }
-function mainWindowInit(){
-  console.log("main  window   init  :  "+Qt.platform.os)
-  if(Qt.platform.os=="ios"){
-    topBar.height=0
-    topBar.visible=false
-    leftSizeChange.width=0
-    leftDownSizeChange.width=0
-    leftDownSizeChange.height=0
-    topSizeChange.height=0
-    downSizeChange.height=0
-    rightDownSizeChange.width=0
-    rightDownSizeChange.height=0
-    rightSizeChange.width=0
-    rightTopSizeChange.width=0
-    rightTopSizeChange.height=0
-    leftTopSizeChange.width=0
-    leftTopSizeChange.height=0
+var dbusComponent;
+var dbusWidget;
+function mainWindowInit() {
+  console.log("main window init found os: " + Qt.platform.os);
+  if (Qt.platform.os === "macos") {
+    dbusComponent = Qt.createComponent("DBus.qml");
+    if (component.status == Component.Ready) {
+      dbusWidget = dbusCOmponent.createObject(mainWindow, { id: dbus });
+    }
   }
-  else{
-      dbus.visible=false
-  }
+  // if(Qt.platform.os=="ios"){
+  //   topBar.height=0
+  //   topBar.visible=false
+  //   leftSizeChange.width=0
+  //   leftDownSizeChange.width=0
+  //   leftDownSizeChange.height=0
+  //   topSizeChange.height=0
+  //   downSizeChange.height=0
+  //   rightDownSizeChange.width=0
+  //   rightDownSizeChange.height=0
+  //   rightSizeChange.width=0
+  //   rightTopSizeChange.width=0
+  //   rightTopSizeChange.height=0
+  //   leftTopSizeChange.width=0
+  //   leftTopSizeChange.height=0
+  // }
+  // else{
+  //     dbus.visible=false
+  // }
 }

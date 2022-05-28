@@ -119,9 +119,6 @@ Window {
     //窗口失去焦点
     signal mainWindowLostFocus()
 
-    DBus {
-        id:dbus
-    }
     MediaInfo {
         id: mediainfowindow
         Component.onCompleted: {
@@ -139,7 +136,7 @@ Window {
         }
     }
     FiltersWindow{
-        id:filterswindow
+        id: filterswindow
     }
     Dialog{
         id: operationFailedDialog
@@ -161,7 +158,7 @@ Window {
     minimumHeight: 500
     visible: true
     title: "PonyPlayer"
-    flags: (Qt.platform.os=="ios")? Qt.Window :(Qt.Window | Qt.FramelessWindowHint)
+    flags: (Qt.platform.os=="ios")? Qt.Window: (Qt.Window | Qt.FramelessWindowHint)
 
     Shortcut {
         sequence: "F5"
@@ -248,8 +245,8 @@ Window {
                     onTriggered: fileDialog.open()
                 }
                 Action{
-                    text:"滤镜选择"
-                    onTriggered:filterswindow.show()
+                    text: "滤镜选择"
+                    onTriggered: filterswindow.show()
                 }
                 Menu{
                     id: currentFilePathList
@@ -699,11 +696,12 @@ RightTopSizeChange{
 onActiveFocusItemChanged: {
     mainWindow.mainWindowLostFocus()
 }
-function setFilter(lut){
+function setFilter(lut)
+{
     videoArea.setLUTFilter(lut)
 }
 Component.onCompleted: {
-        //IF.mainWindowInit()
+    IF.mainWindowInit()
 }
 }
 
