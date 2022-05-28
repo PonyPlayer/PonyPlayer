@@ -1,6 +1,6 @@
 import QtQuick.Controls.Material
 import QtQml.Models
-import Qt.labs.platform
+import QtQuick.Controls
 
 MenuBar {
     id: dbus
