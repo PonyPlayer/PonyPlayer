@@ -31,7 +31,7 @@ jobs:
             qt_ver: 6.2.4
             qt_tools: "tools_ninja,1.10.2-202108061017,qt.tools.ninja tools_cmake,3.21.1-202108061018,qt.tools.cmake"
             dependency_path: "/Users/runner/_dep"
-            ffmpeg_path: "~/FFmpeg"
+            ffmpeg_path: "/Users/runner/FFmpeg"
     #          - os: ubuntu-20.04
     #            qt_arch: gcc_64
     #            qt_arch_install: gcc_64
