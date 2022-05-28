@@ -21,27 +21,39 @@ def apply_packaging():
             exit(-1)
 
         build_app = build_apps[0]
-        package_app = app_dir / f"{prefix}-OSX-Universal-{version}.app"
+        package_app = app_dir / "PonyPlayer.app"
+        package_dmg = app_dir / f"{prefix}-OSX-Universal-{version}.dmg"
+        project_dir = app_dir.parent
         shutil.copytree(build_app, package_app)
-        execute(f"{deploy_tools} {package_app} -dmg -qmldir={build_dir / 'src' / 'view'}")
-        output_name = package_app.name[:-4] + ".dmg"
+        execute(f"{deploy_tools} {package_app} "
+                f"-qmldir={build_dir / 'src' / 'view'} "
+                f"-codesign=- "
+                f"-hardened-runtime "
+                f"-timestamp")
+        execute(f"codesign --remove-signature --deep {package_app}")
+        execute(f"codesign --sign - --timestamp --force --deep --all-architecture {package_app}")
+        execute("create-dmg "
+                "--volname \"PonyPlayer Installer\" "
+                f"--background \"{project_dir / 'assets' / 'macosInstaller.png' }\" "
+                "--window-pos 200 120 "
+                "--window-size 995 640 "
+                "--icon-size 96 "
+                "--icon PonyPlayer.app 220 275 "
+                "--hide-extension PonyPlayer.app "
+                "--app-drop-link 780 275 "
+                "--no-internet-enable "
+                f"--eula \"{project_dir / 'docs' / 'LICENSE.RTF' }\" "
+                f"--add-file LICENSE \"{project_dir / 'docs' / 'LICENSE.RTF' }\" 900 465 "
+                "--hdiutil-quiet "
+                f"{package_dmg} "
+                f"{package_app}")
 
     elif platform.system() == 'Windows':
-        deploy_tools = qt_path / "bin" / "windeployqt.exe"
-        build_exes = list(build_dir.glob("*/*.exe"))
-        print(f"Found: {build_exes}")
-        if len(build_exes) != 1:
-            print("Expect length = 1, exit.")
-            exit(-1)
+        execute(f"cd {build_dir} && cmake --build . --target package")
+        for package_file in build_dir.glob("*.*"):
+            if package_file.suffix in {'.zip', '.msi'}:
+                shutil.copy(package_file, app_dir / package_file.name)
 
-        build_exe = build_exes[0]
-        tmp_dir = app_dir / f"{prefix}-Windows-x64-{version}"
-        tmp_dir.mkdir(exist_ok=True)
-        package_exe = tmp_dir / (tmp_dir.name + ".exe")
-        shutil.copy(build_exe, package_exe)
-        execute(f"{deploy_tools} {package_exe} --release --qmldir={build_dir / 'src' / 'view'}")
-        shutil.make_archive(str(app_dir / tmp_dir.name), 'zip', tmp_dir)
-        output_name = package_exe.name[:-4] + ".zip"
     elif platform.system() == 'Linux':
         execute(f"cd {build_dir} && cmake --install . --prefix AppDir")
         appdir_dir = build_dir / "AppDir"
@@ -91,11 +103,5 @@ if __name__ == "__main__":
 
     print(f"BUILD AIR: {build_dir}")
     print(f"APP DIR: {app_dir}")
-    # apply_packaging()
 
-    command = f"cd {build_dir} && cmake --build . --target package"
-    print(f"Execute {command}.")
-    os.system(command)
-    for package_file in build_dir.glob("*.*"):
-        if package_file.suffix in {'.zip', '.msi'}:
-            shutil.copy(package_file, app_dir / package_file.name)
+    apply_packaging()
