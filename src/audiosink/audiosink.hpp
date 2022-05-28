@@ -249,7 +249,7 @@ public:
      */
     void start() {
         std::lock_guard lock(paStreamLock);
-        m_pauseRequested = true;
+        m_pauseRequested = false;
         qDebug() << "Audio start.";
         if (m_state == PlaybackState::PLAYING) {
             qDebug() << "AudioSink already started.";
