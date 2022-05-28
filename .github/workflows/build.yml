@@ -69,57 +69,58 @@ jobs:
         if: contains(matrix.os, 'macos')
         shell: pwsh
         run: |
-          git clone https://github.com/create-dmg/create-dmg.git ~/create-dmg-repo
+          wget https://github.com/create-dmg/create-dmg/archive/refs/tags/v1.0.10.zip create-dmg.zip
+          unzip create-dmg.zip && cd create-dmg.zip && make install
+          create-dmg
           wget https://github.com/ColorsWind/FFmpeg-macOS/releases/download/n5.0.1-patch3/FFmpeg-shared-n5.0.1-OSX-universal.zip
           wget https://github.com/ColorsWind/FFmpeg-macOS/releases/download/n5.0.1-patch3/install.py
           python3 install.py FFmpeg-shared-n5.0.1-OSX-universal.zip ${{ matrix.ffmpeg_path }}
-
-      - name: Install FFmpeg (Windows)
-        id: install-ffmpeg-windows
-        if: contains(matrix.os, 'windows')
-        shell: pwsh
-        run: |
-          chocolatey install ffmpeg-shared -y
-
-      - name: Install AppImage (Linux)
-        id: install-app-image
-        if: contains(matrix.os, 'ubuntu')
-        shell: pwsh
-        run: |
-          sudo apt install -y python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse
-          sudo wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
-          sudo chmod +x /usr/local/bin/appimagetool
-          sudo pip3 install appimage-builder
-
-      - name: Build project
-        id: build
-        shell: pwsh
-        run: |
-          alias create-dmg='~/create-dmg-repo/create-dmg'
-          python3 scripts/list_dir.py --base_dir ${{ matrix.dependency_path }}/Qt
-          python3 scripts/setup.py --qt_path ${{ matrix.dependency_path }}/Qt/${{ matrix.qt_ver }}/${{ matrix.qt_arch_install }} --ffmpeg_path ${{ matrix.ffmpeg_path }}
-          python3 scripts/build.py -no_ssh
-          python3 scripts/package.py
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: PonyPlayer-${{ matrix.qt_arch }}
-          path: |
-            ${{ github.workspace }}/app/*.zip
-            ${{ github.workspace }}/app/*.msi
-            ${{ github.workspace }}/app/*.dmg
-
-      - name: Delete old artifacts
-        uses: kolpav/purge-artifacts-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          expire-in: 0days
-
-      - name: Upload release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: |
-            ${{ github.workspace }}/app/*.zip
-            ${{ github.workspace }}/app/*.msi
-            ${{ github.workspace }}/app/*.dmg
+#
+#      - name: Install FFmpeg (Windows)
+#        id: install-ffmpeg-windows
+#        if: contains(matrix.os, 'windows')
+#        shell: pwsh
+#        run: |
+#          chocolatey install ffmpeg-shared -y
+#
+#      - name: Install AppImage (Linux)
+#        id: install-app-image
+#        if: contains(matrix.os, 'ubuntu')
+#        shell: pwsh
+#        run: |
+#          sudo apt install -y python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse
+#          sudo wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
+#          sudo chmod +x /usr/local/bin/appimagetool
+#          sudo pip3 install appimage-builder
+#
+#      - name: Build project
+#        id: build
+#        shell: pwsh
+#        run: |
+#          python3 scripts/list_dir.py --base_dir ${{ matrix.dependency_path }}/Qt
+#          python3 scripts/setup.py --qt_path ${{ matrix.dependency_path }}/Qt/${{ matrix.qt_ver }}/${{ matrix.qt_arch_install }} --ffmpeg_path ${{ matrix.ffmpeg_path }}
+#          python3 scripts/build.py -no_ssh
+#          python3 scripts/package.py
+#
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: PonyPlayer-${{ matrix.qt_arch }}
+#          path: |
+#            ${{ github.workspace }}/app/*.zip
+#            ${{ github.workspace }}/app/*.msi
+#            ${{ github.workspace }}/app/*.dmg
+#
+#      - name: Delete old artifacts
+#        uses: kolpav/purge-artifacts-action@v1
+#        with:
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#          expire-in: 0days
+#
+#      - name: Upload release
+#        uses: softprops/action-gh-release@v1
+#        if: startsWith(github.ref, 'refs/tags/')
+#        with:
+#          files: |
+#            ${{ github.workspace }}/app/*.zip
+#            ${{ github.workspace }}/app/*.msi
+#            ${{ github.workspace }}/app/*.dmg
