@@ -12,6 +12,8 @@ target_sources(playlist PRIVATE
         include/info_accessor.h
         )
 
+target_include_directories(playlist PUBLIC include)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt::Core
         Qt::Gui

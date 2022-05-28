@@ -12,7 +12,7 @@ qt_add_qml_module(${PROJECT_NAME}
         RESOURCES
         )
 
-include_directories(include)
+target_include_directories(wave PUBLIC include)
 
 target_sources(wave PRIVATE
         include/lyrics.h
