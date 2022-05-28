@@ -119,7 +119,9 @@ Window {
     //窗口失去焦点
     signal mainWindowLostFocus()
 
-    DBus { }
+    DBus {
+        id:dbus
+    }
     MediaInfo {
         id: mediainfowindow
         Component.onCompleted: {
@@ -159,7 +161,7 @@ Window {
     minimumHeight: 500
     visible: true
     title: "PonyPlayer"
-    flags: Qt.Window | Qt.FramelessWindowHint
+    flags: (Qt.platform.os=="ios")? Qt.Window :(Qt.Window | Qt.FramelessWindowHint)
 
     Shortcut {
         sequence: "F5"
@@ -256,10 +258,6 @@ Window {
                 SpeedMenu{
 
                 }
-                //Menu{
-                //    id: filter
-                //    title: "滤镜"
-                //}
                 Menu{
                     id: devicesMenu
                     title: "输出设备选择"
@@ -703,6 +701,9 @@ onActiveFocusItemChanged: {
 }
 function setFilter(lut){
     videoArea.setLUTFilter(lut)
+}
+Component.onCompleted: {
+        //IF.mainWindowInit()
 }
 }
 

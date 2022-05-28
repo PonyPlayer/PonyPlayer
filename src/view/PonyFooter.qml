@@ -13,6 +13,7 @@ Rectangle {
     color: "#666666"
     Label{
         id:distanceStart
+        width:50
         anchors.left:parent.left
         anchors.leftMargin: 10
         anchors.top: parent.top
@@ -132,6 +133,7 @@ Rectangle {
         color: "white"
         font.bold: true
         lineHeight: 20
+        width:50
     }
     Timer {
         id:timer
