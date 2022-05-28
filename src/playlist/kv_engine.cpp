@@ -6,7 +6,6 @@
 #include <iomanip>
 #include "playlist.h"
 #include <QtGlobal>
-#include <stdlib.h>
 
 /*
  * 在当前目录下新建 data 子目录，其中创建数据库

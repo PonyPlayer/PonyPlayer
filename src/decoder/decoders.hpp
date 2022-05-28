@@ -131,6 +131,6 @@ public:
 };
 
 
-using IDemuxDecoder::DecoderType::Audio;
-using IDemuxDecoder::DecoderType::Video;
-using IDemuxDecoder::DecoderType::Common;
+constexpr auto Audio  =  IDemuxDecoder::DecoderType::Audio;
+constexpr auto Video  =  IDemuxDecoder::DecoderType::Video;
+constexpr auto Common =  IDemuxDecoder::DecoderType::Common;
