@@ -97,7 +97,6 @@ jobs:
         id: build
         shell: pwsh
         run: |
-          python3 scripts/list_dir.py --base_dir ${{ matrix.dependency_path }}/Qt
           python3 scripts/setup.py --qt_path ${{ matrix.dependency_path }}/Qt/${{ matrix.qt_ver }}/${{ matrix.qt_arch_install }} --ffmpeg_path ${{ matrix.ffmpeg_path }}
           python3 scripts/build.py -no_ssh
           python3 scripts/package.py
