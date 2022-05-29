@@ -255,9 +255,20 @@ Window {
                 SpeedMenu{
 
                 }
-                Menu{
+                Menu {
                     id: devicesMenu
-                    title: "输出设备选择"
+                    title: qsTr("输出设备")
+                    Instantiator {
+                        id: audioInstantiator
+                        model: videoArea.audioDeviceList
+                        delegate: MenuItem {
+                            text: model.modelData
+                            checked: text === videoArea.getCurrentOutputDevice()
+                            onTriggered: videoArea.setCurrentOutputDevice(model.modelData)
+                        }
+                        onObjectAdded: devicesMenu.insertItem(index, object)
+                        onObjectRemoved: devicesMenu.removeItem(object)
+                    }
                 }
                 Menu {
                     id: trackmenu
@@ -559,9 +570,6 @@ SwipeView{
         //}
         onStateChanged: IF.solveStateChanged()
         Component.onCompleted: IF.mainAreaInit()
-        onAudioOutputDeviceChanged: {
-            IF.makeDeviceMenu(devices)
-        }
         onOpenFileResult: {
             if(result == PonyPlayerNS.FAILED)
             {
@@ -594,7 +602,6 @@ SwipeView{
             }
         }
     }
-    //                onAudioOutputDeviceChanged
 }
 Rectangle{
     id: initScreen
