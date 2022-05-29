@@ -130,6 +130,14 @@ private:
         return paContinue;
     }
 
+    PaError startStreamSafe() {
+        PaError err = Pa_StopStream(m_stream);
+        if (err != paStreamIsStopped && err != paNoError) {
+            return err;
+        }
+        return Pa_StartStream(m_stream);
+    }
+
 
     static void printError(PaError error) {
         qDebug() << "Error" << Pa_GetErrorText(error);
@@ -198,6 +206,19 @@ private:
 
     }
 
+    QString stateToStr() {
+        switch (m_state) {
+            case PlaybackState::PLAYING:
+                return "PLAYING";
+            case PlaybackState::PAUSED:
+                return "PAUSED";
+            case PlaybackState::STOPPED:
+                return "STOPPED";
+        }
+        return "UNKNOWN";
+    }
+
+
 public:
     constexpr const static qreal MAX_SPEED_FACTOR = 4;
 
@@ -256,12 +277,13 @@ public:
             qDebug() << "AudioSink already started.";
             return;
         }
-        PaError err = Pa_StartStream(m_stream);
+        PaError err = startStreamSafe();
         if (err != paNoError) {
             qWarning() << "Error at starting stream:" << Pa_GetErrorText(err);
             ILLEGAL_STATE("Can not start stream!.");
         }
         m_state = PlaybackState::PLAYING;
+        qDebug() << "Pa stream started";
 
         emit stateChanged();
     }
@@ -271,9 +293,10 @@ public:
      */
     void pause() {
         std::lock_guard lock(paStreamLock);
-        qDebug() << "Audio statePause.";
+        qDebug() << "Audio requesting pause. Current state is " << stateToStr();
         if (m_state == PlaybackState::PLAYING) {
             Pa_StopStream(m_stream);
+            qDebug() << "Stream Stopped";
             m_state = PlaybackState::PAUSED;
         } else if (m_state == PlaybackState::STOPPED) {
             // ignore
@@ -486,7 +509,7 @@ public:
         _getDeviceList();
         initializeStream();
         if (m_state == PlaybackState::PLAYING) {
-            Pa_StartStream(m_stream);
+            startStreamSafe();
         }
     }
 
@@ -527,7 +550,7 @@ public slots:
         paInitialized = false;
         initializeStream();
         if (m_state == PlaybackState::PLAYING) {
-            Pa_StartStream(m_stream);
+            startStreamSafe();
         }
     }
 };
