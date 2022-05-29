@@ -64,6 +64,7 @@ public:
                 m_demuxer->start();
             });
             connect(m_playback, &Playback::requestResynchronization, this, [this](bool enableAudio) {
+                if(!m_demuxer->isFileOpen()) return;
                 bool isPlay = m_playback->isPlaying();
                 qreal pos = m_playback->getPreferablePos();
                 m_playback->stop();

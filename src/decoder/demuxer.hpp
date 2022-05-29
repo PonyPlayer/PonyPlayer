@@ -129,6 +129,11 @@ public:
         m_worker->statePause();
     }
 
+    PONY_THREAD_SAFE bool isFileOpen() {
+        std::unique_lock lock(mutex);
+        return m_worker != nullptr;
+    }
+
     /**
      * 清空旧的帧, 这个方法会阻塞直到队列中的所有旧帧清理完成.
      * @see DecodeDispatcher::flush
