@@ -448,10 +448,13 @@ function triggerLyricUpdate() {
     )
       break;
   }
-  wave.lyricsArea.flick.contentY =
-    wave.lyricsArea.rep.itemAt(currentLyricIndex).y -
-    wave.lyricsArea.height / 2;
-  wave.lyricsArea.flick.currentIndex = currentLyricIndex;
+  if(wave.lyricsData.sentences.length){
+    wave.lyricsArea.flick.contentY =
+        wave.lyricsArea.rep.itemAt(currentLyricIndex).y -
+        wave.lyricsArea.height / 2;
+    wave.lyricsArea.flick.currentIndex = currentLyricIndex;
+  }
+
 }
 var dbusComponent;
 var dbusWidget;
