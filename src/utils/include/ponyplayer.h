@@ -8,7 +8,7 @@
 
 #ifdef NDEBUG
 #define NOT_IMPLEMENT_YET { throw std::runtime_error("Unsupported operation:"); }
-#define ILLEGAL_STATE(name) throw std::runtime_error(std::string("Illegal State Exception: ").append(msg)
+#define ILLEGAL_STATE(msg) throw std::runtime_error(std::string("Illegal State Exception: ").append(msg))
 #else
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
