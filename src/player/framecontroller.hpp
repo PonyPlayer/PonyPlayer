@@ -68,8 +68,8 @@ public:
                 qreal pos = m_playback->getPreferablePos();
                 m_playback->stop();
                 m_demuxer->pause();
-                seek(pos);
                 m_demuxer->setEnableAudio(enableAudio);
+                seek(pos);
                 m_demuxer->start();
                 if (isPlay) { m_playback->start(); }
             }, Qt::QueuedConnection);

@@ -112,8 +112,9 @@ public:
 
 
     PONY_THREAD_SAFE AudioFrame getSample() override {
-        if (!frameQueue->isEnable())
-            throw std::runtime_error("forward: getSample is disabled");
+        if (!frameQueue->isEnable()) {
+            ILLEGAL_STATE("forward: getSample is disabled");
+        }
 
         AVFrame *frame = frameQueue->remove(true);
         if (!frame) { return {}; }

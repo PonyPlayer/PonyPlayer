@@ -12,7 +12,7 @@ Menu {
         Text{
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
-            text:"视频无法开启八倍速"
+            text:"纯音频无法开启八倍速"
         }
     }
     width:120
@@ -62,7 +62,7 @@ Menu {
     MenuItem{
         text: (mainWindow.speed==8.0?'✔':'    ')+" 8.0倍速"
         onTriggered: {
-            if(videoArea.hasVideo()){
+            if(!videoArea.hasVideo()){
                 warning.show()
             }
             else{

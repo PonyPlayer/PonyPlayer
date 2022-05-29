@@ -65,7 +65,7 @@ public:
             m_cond->notify_all();
     }
 
-    bool isEnable() const {
+    [[nodiscard]] bool isEnable() const {
         std::unique_lock lock(*m_mutex);
         return m_enable;
     }
@@ -145,7 +145,8 @@ public:
         int ret = 0;
         while(true) {
             std::unique_lock lock(*m_mutex);
-            if (m_data.empty()) { m_cond->wait(lock, [this]{ return !this->m_data.empty() || !isOpen();});}
+            m_cond->wait(lock, [this]{ return !this->m_data.empty() || !isOpen();});
+            if (m_data.empty()) { return ret;}
             T element = m_data.front();
             if (element && predicate(element)) {
                 m_data.pop();

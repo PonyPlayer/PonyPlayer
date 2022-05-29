@@ -125,12 +125,12 @@ public:
                 if (this->m_audioSink->isBlock()) { return; }
                 // 需要禁用音频
                 this->m_audioSink->setBlockState(true);
-                emit requestResynchronization(true); // queue connection
+                emit requestResynchronization(false); // queue connection
             } else if (speed <= PonyAudioSink::MAX_SPEED_FACTOR) {
                 if (!this->m_audioSink->isBlock()) { return; }
                 // 需要重新启动音频
                 this->m_audioSink->setBlockState(false);
-                emit requestResynchronization(false); // queue connection
+                emit requestResynchronization(true); // queue connection
             }
         });
         connect(this, &Playback::showFirstVideoFrame, this, [this] {
@@ -142,8 +142,9 @@ public:
             // 在 Playback 线程上初始化
             PonyAudioFormat format(PonyPlayer::Int16, 44100, 2);
             this->m_audioSink = new PonyAudioSink(format);
-            connect(m_audioSink, &PonyAudioSink::signalAudioOutputDevicesChanged, this,
-                    &Playback::signalAudioOutputDevicesChanged);
+            connect(m_audioSink, &PonyAudioSink::signalAudioOutputDevicesChanged, this, [this]{
+                emit requestResynchronization(!this->m_audioSink->isBlock());
+            });
             connect(this, &Playback::signalSetSelectedAudioOutputDevice, m_audioSink,
                     &PonyAudioSink::changeAudioOutputDevice);
             emit signalAudioOutputDevicesChanged();
@@ -155,11 +156,11 @@ public:
         return m_preferablePos;
     }
 
-    qreal getAudioPos(bool backward) const {
+    [[nodiscard]] qreal getAudioPos(bool backward) const {
         if (m_speedFactor < PonyAudioSink::MAX_SPEED_FACTOR) {
             return m_audioSink->getProcessSecs(backward);
         } else {
-            throw std::runtime_error("AudioPos not available.");
+            ILLEGAL_STATE("AudioPos not available.");
         }
     }
 

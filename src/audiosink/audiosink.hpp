@@ -1,6 +1,7 @@
 #pragma once
 
 #include "portaudio.h"
+#include "ponyplayer.h"
 #include <utility>
 #include <vector>
 #include <QBuffer>
@@ -258,7 +259,7 @@ public:
         PaError err = Pa_StartStream(m_stream);
         if (err != paNoError) {
             qWarning() << "Error at starting stream:" << Pa_GetErrorText(err);
-            throw std::runtime_error("Can not start stream!");
+            ILLEGAL_STATE("Can not start stream!.");
         }
         m_state = PlaybackState::PLAYING;
 
