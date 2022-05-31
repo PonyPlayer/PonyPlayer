@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include "private/helper.hpp"
+#include "helper.hpp"
 #include "ponyplayer.h"
 #include <mutex>
 #include <functional>

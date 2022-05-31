@@ -4,7 +4,7 @@ set(CPP_SOURCES
     private/forward.hpp
     private/dispatcher.hpp
         frame.hpp
-    private/helper.hpp
+        helper.hpp
     private/previewer.hpp
 )
 

@@ -12,6 +12,7 @@
 #include "sonic.h"
 #include "audioformat.hpp"
 #include "hotplug.h"
+#include "helper.hpp"
 #include <mutex>
 #include <shared_mutex>
 
