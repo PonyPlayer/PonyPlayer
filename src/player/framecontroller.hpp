@@ -74,7 +74,7 @@ public:
                 m_demuxer->start();
                 if (isPlay) { m_playback->start(); }
             }, Qt::QueuedConnection);
-            connect(m_playback, &Playback::signalAudioOutputDevicesChanged, this,
+            connect(m_playback, &Playback::signalAudioOutputDevicesListChanged, this,
                     &FrameController::signalAudioOutputDevicesChanged);
         });
         m_affinityThread->start();

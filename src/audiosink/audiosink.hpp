@@ -491,7 +491,7 @@ public:
             devicesList.push_back(deviceName);
             qDebug() << deviceName;
         }
-        emit signalAudioOutputDevicesChanged();
+        emit signalAudioOutputDeviceListChanged();
     }
 
     QString getSelectedOutputDevice() { return selectedOutputDevice; }
@@ -531,7 +531,9 @@ signals:
      */
     void resourceInsufficient();
 
-    void signalAudioOutputDevicesChanged();
+    void signalAudioOutputDeviceListChanged();
+
+    void signalDeviceSwitched();
 
 public slots:
 
@@ -539,10 +541,11 @@ public slots:
         refreshDevicesList();
     }
 
-    void changeAudioOutputDevice(const QString &device) {
+    void requestDeviceSwitch(const QString &device) {
         qDebug() << "change audio output device to " << device;
         selectedOutputDevice = device;
-        std::lock_guard lock(paStreamLock);
+        std::unique_lock lock(paStreamLock);
+        lock.lock();
         if (paInitialized) {
             Pa_AbortStream(m_stream);
             Pa_Terminate();
@@ -552,5 +555,8 @@ public slots:
         if (m_state == PlaybackState::PLAYING) {
             startStreamSafe();
         }
+        lock.unlock();
+        emit signalDeviceSwitched();
     }
+
 };

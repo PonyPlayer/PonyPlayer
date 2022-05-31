@@ -142,12 +142,12 @@ public:
             // 在 Playback 线程上初始化
             PonyAudioFormat format(PonyPlayer::Int16, 44100, 2);
             this->m_audioSink = new PonyAudioSink(format);
-            connect(m_audioSink, &PonyAudioSink::signalAudioOutputDevicesChanged, this, [this]{
+            connect(m_audioSink, &PonyAudioSink::signalAudioOutputDeviceListChanged, this, [this]{
                 emit requestResynchronization(!this->m_audioSink->isBlock());
             });
             connect(this, &Playback::signalSetSelectedAudioOutputDevice, m_audioSink,
-                    &PonyAudioSink::changeAudioOutputDevice);
-            emit signalAudioOutputDevicesChanged();
+                    &PonyAudioSink::requestDeviceSwitch);
+            emit signalAudioOutputDevicesListChanged();
         });
         m_affinityThread->start();
     }
@@ -321,7 +321,7 @@ signals:
 
     void resourcesEnd();
 
-    void signalAudioOutputDevicesChanged();
+    void signalAudioOutputDevicesListChanged();
 
     /**
      * 由于设备切换, 音频倍速调整等原因需要下层重新同步
