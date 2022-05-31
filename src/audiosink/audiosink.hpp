@@ -496,9 +496,7 @@ public:
 
     QString getSelectedOutputDevice() { return selectedOutputDevice; }
 
-
-    void refreshDevicesList() {
-        qDebug() << "Refreshing Devices list...";
+    void restartStream(const std::function<void()> &betweenInitAndOpen) {
         std::lock_guard lock(paStreamLock);
         if (paInitialized) {
             Pa_AbortStream(m_stream);
@@ -506,16 +504,29 @@ public:
         }
         Pa_Initialize();
         paInitialized = true;
-        _getDeviceList();
+        if (betweenInitAndOpen) betweenInitAndOpen();
         initializeStream();
         if (m_state == PlaybackState::PLAYING) {
             startStreamSafe();
         }
     }
 
+    void refreshDevicesList() {
+        qDebug() << "Refreshing Devices list...";
+        auto middleFunc = [this] {
+            _getDeviceList();
+        };
+        restartStream(middleFunc);
+    }
+
     QStringList getAudioDeviceList() {
         std::lock_guard lock(paStreamLock);
         return devicesList;
+    }
+
+    void setFormat(PonyAudioFormat format) {
+        m_format = std::move(format);
+        restartStream(nullptr);
     }
 
 
