@@ -6,7 +6,7 @@
 #include <QObject>
 #include <QImage>
 #include <QThread>
-#include "previewer.hpp"
+#include "private/previewer.hpp"
 
 class Preview : public QObject {
     Q_OBJECT

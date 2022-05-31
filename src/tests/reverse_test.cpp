@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 #include <thread>
-#include "dispatcher.hpp"
+#include "private/dispatcher.hpp"
 
 void testGetFrame() {
     auto fn = "D:/test_video/dj.mp4";

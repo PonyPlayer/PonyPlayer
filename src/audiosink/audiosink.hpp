@@ -9,7 +9,6 @@
 #include "pa_ringbuffer.h"
 #include "pa_util.h"
 #include "readerwriterqueue.h"
-#include "helper.hpp"
 #include "sonic.h"
 #include "audioformat.hpp"
 #include "hotplug.h"

@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "dispatcher.hpp"
+#include "private/dispatcher.hpp"
 #include <QImage>
 
 INCLUDE_FFMPEG_BEGIN

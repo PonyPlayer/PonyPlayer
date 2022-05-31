@@ -3,7 +3,6 @@
 //
 #pragma once
 
-#include "helper.hpp"
 #include <QtCore>
 #include <utility>
 

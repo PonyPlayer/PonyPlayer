@@ -4,7 +4,7 @@
 #pragma once
 
 #include <QObject>
-#include "dispatcher.hpp"
+#include "private/dispatcher.hpp"
 
 /**
  * 生命周期伴随整个程序运行.
