@@ -421,6 +421,17 @@ function screenSizeFunction() {
     mainWindowReduction.imageSource = "interfacepics/mainWindowMaximize";
   }
 }
+function footerScreenSizeFunction(){
+  if(mainWindow.isFullScreen){
+    mainWindow.showNormal()
+    showComponents()
+    mainWindow.isFullScreen=false
+  }
+  else{
+    mainWindow.showFullScreen()
+    mainWindow.isFullScreen=true
+  }
+}
 function footerOnCompleted() {
   mainWindow.wakeSlide.connect(sliderToFront);
   mainWindow.mainWindowLostFocus.connect(lostFocus);

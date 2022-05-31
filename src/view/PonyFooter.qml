@@ -433,9 +433,17 @@ Rectangle {
         ]
         Shortcut{
             sequence: "Ctrl+F"
-            onActivated: IF.screenSizeFunction()
+            onActivated: IF.footerScreenSizeFunction()
         }
-        mouseArea.onClicked: IF.screenSizeFunction()
+        Shortcut{
+            sequence: "Esc"
+            onActivated: {
+                if(mainWindow.isFullScreen){
+                    IF.footerScreenSizeFunction()
+                }
+            }
+        }
+        mouseArea.onClicked: IF.footerScreenSizeFunction()
     }
     Component.onCompleted: IF.footerOnCompleted()
 }
