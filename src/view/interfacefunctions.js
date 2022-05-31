@@ -460,24 +460,12 @@ var dbusComponent;
 var dbusWidget;
 function mainWindowInit() {
   console.log("main window init found os: " + Qt.platform.os);
-  if (Qt.platform.os === "macos") {
+  if (Qt.platform.os === "osx") {
     dbusComponent = Qt.createComponent("DBus.qml");
-    if (component.status == Component.Ready) {
-      dbusWidget = dbusCOmponent.createObject(mainWindow, { id: dbus });
-      topBar.height = 0;
+    if (dbusComponent.status === Component.Ready) {
+      dbusWidget = dbusComponent.createObject(mainWindow, { id: dbus });
+      topBar.height = 600;
       topBar.visible = false;
-      leftSizeChange.width = 0;
-      leftDownSizeChange.width = 0;
-      leftDownSizeChange.height = 0;
-      topSizeChange.height = 0;
-      downSizeChange.height = 0;
-      rightDownSizeChange.width = 0;
-      rightDownSizeChange.height = 0;
-      rightSizeChange.width = 0;
-      rightTopSizeChange.width = 0;
-      rightTopSizeChange.height = 0;
-      leftTopSizeChange.width = 0;
-      leftTopSizeChange.height = 0;
     }
   }
 }

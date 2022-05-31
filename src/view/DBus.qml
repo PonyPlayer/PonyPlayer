@@ -1,4 +1,5 @@
 import QtQuick.Controls.Material
+import Qt.labs.platform
 import QtQml.Models
 import QtQuick.Controls
 
