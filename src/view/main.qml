@@ -244,6 +244,10 @@ Window {
                     text: "打开文件"
                     onTriggered: fileDialog.open()
                 }
+                Action {
+                    text: "打开链接"
+                    onTriggered: openLinkDialog.open()
+                }
                 Action{
                     text: "滤镜选择"
                     onTriggered: filterswindow.show()
@@ -383,14 +387,7 @@ Window {
         anchors.left: parent.left
         anchors.right: parent.right
         //打开文件弹窗处理
-        FileDialog{
-            id: fileDialog
-            title: "choose video"
-            onAccepted: IF.videoListOperatorOnAccepted()
-            onRejected: {
-                console.log("reject")
-            }
-        }
+
         //关闭播放栏列表
         Image {
             id: minimize
@@ -715,6 +712,35 @@ Component.onCompleted: {
         topBar.height = 0;
         topBar.visible = false;
     }
+}
+FileDialog{
+    id: fileDialog
+    title: "choose video"
+    onAccepted: IF.videoListOperatorOnAccepted()
+    onRejected: {
+        console.log("reject")
+    }
+}
+Dialog {
+    id: openLinkDialog
+    title: "打开链接"
+    height: 200
+    width: 400
+    standardButtons: Dialog.Ok | Dialog.Cancel
+    focus: true
+    modal: false
+    anchors.centerIn: parent
+
+    Column {
+        anchors.fill: parent
+
+        TextField {
+            id: urlInput
+            width: parent.width * 0.9
+            focus: true
+        }
+    }
+    onAccepted: mainWindow.openFile(urlInput.text)
 }
 }
 
