@@ -187,17 +187,10 @@ template<> class ReverseDecoderImpl<Audio>: public ReverseDecoderImpl<Common> {
     SwrContext *swrCtx = nullptr;
     uint8_t *audioOutBuf = nullptr;
     AVFrame * sampleFrameBuf = nullptr;
+    PonyAudioFormat targetFmt = PonyAudioFormat(PonyPlayer::Int16, 44100, 2);
 public:
     ReverseDecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue)
             : ReverseDecoderImpl<Common>(vs, queue) {
-        this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
-                                          AV_SAMPLE_FMT_S16, 44100,
-                                          static_cast<int64_t>(codecCtx->channel_layout), codecCtx->sample_fmt,
-                                          codecCtx->sample_rate, 0, nullptr);
-
-        if (!swrCtx || swr_init(swrCtx) < 0) {
-            throw std::runtime_error("Cannot initialize swrCtx");
-        }
         if (!(audioOutBuf = static_cast<uint8_t *>(av_malloc(2 * MAX_AUDIO_FRAME_SIZE)))) {
             throw std::runtime_error("Cannot alloc audioOutBuf");
         }
@@ -210,17 +203,21 @@ public:
         if (swrCtx) { swr_free(&swrCtx); }
     }
 
-    static void reverseSample(uint8_t *samples, int len) {
-        len /= 2;
-        auto reverse = reinterpret_cast<uint16_t*>(samples);
-        int left = 0, right = len-1;
+    void reverseSample(uint8_t *samples, int len) {
+        int sampleSize = targetFmt.getBytesPerSampleChannels();
+        int left = 0, right = len-sampleSize;
         while (left < right) {
-            std::swap(reverse[left++], reverse[right--]);
+            for (int i = 0; i < sampleSize; i++)
+                std::swap(samples[left+i], samples[right+i]);
+            left += sampleSize;
+            right -= sampleSize;
         }
     }
 
     PONY_THREAD_SAFE AudioFrame getSample() override {
-        //std::cerr << "audio get sample"<< std::endl;
+        if (!frameQueue->isEnable()) {
+            ILLEGAL_STATE("forward: getSample is disabled");
+        }
         auto *frame = std::forward<AVFrame *>(frameQueue->remove(true)); // suppress warning
         if (!frame) {
             qDebug() << "getSample: get EOF";
@@ -229,15 +226,32 @@ public:
         int len = swr_convert(swrCtx, &audioOutBuf, 2 * MAX_AUDIO_FRAME_SIZE,
                               const_cast<const uint8_t **>(frame->data), frame->nb_samples);
 
-        int out_size = av_samples_get_buffer_size(nullptr, 2,
+        int out_size = av_samples_get_buffer_size(nullptr, targetFmt.getChannelCount(),
                                                   len,
-                                                  AV_SAMPLE_FMT_S16,
+                                                  targetFmt.getSampleFormatForFFmpeg(),
                                                   1);
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base) +
                     static_cast<double>(len)/44100;
         reverseSample(audioOutBuf, out_size);
         av_frame_free(&frame);
         return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts};
+    }
+
+    PonyAudioFormat getInputFormat() override {
+        return {PonyPlayer::valueOf(codecCtx->sample_fmt), codecCtx->sample_rate, codecCtx->channels};
+    }
+
+    void setOutputFormat(const PonyAudioFormat& format) override {
+        targetFmt = format;
+        if (swrCtx) { swr_free(&swrCtx); }
+        this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(format.getChannelCount()),
+                                          format.getSampleFormatForFFmpeg(), format.getSampleRate(),
+                                          static_cast<int64_t>(codecCtx->channel_layout), codecCtx->sample_fmt,
+                                          codecCtx->sample_rate, 0, nullptr);
+
+        if (!swrCtx || swr_init(swrCtx) < 0) {
+            throw std::runtime_error("Cannot initialize swrCtx");
+        }
     }
 
 };
