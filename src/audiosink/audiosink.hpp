@@ -556,7 +556,6 @@ public slots:
         qDebug() << "change audio output device to " << device;
         selectedOutputDevice = device;
         std::unique_lock lock(paStreamLock);
-        lock.lock();
         if (paInitialized) {
             Pa_AbortStream(m_stream);
             Pa_Terminate();
