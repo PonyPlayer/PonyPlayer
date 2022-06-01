@@ -177,7 +177,7 @@ private:
         if (param->device == paNoDevice)
             throw std::runtime_error("no audio device!");
         param->channelCount = m_format.getChannelCount();
-        param->sampleFormat = PonyPlayer::Int16.getPaSampleFormat();
+        param->sampleFormat = m_format.getSampleFormatForPA();
         param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
         param->hostApiSpecificStreamInfo = nullptr;
         ASSERT_PA_OK(
@@ -523,8 +523,8 @@ public:
         return devicesList;
     }
 
-    void setFormat(PonyAudioFormat format) {
-        m_format = std::move(format);
+    void setFormat(const PonyAudioFormat& format) {
+        m_format = {PonyPlayer::Int16, format.getSampleRate(), format.getChannelCount()};
         restartStream(nullptr);
     }
 
