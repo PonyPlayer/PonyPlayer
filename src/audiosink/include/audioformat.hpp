@@ -5,8 +5,12 @@
 
 #include <QtCore>
 #include <utility>
+#include "portaudio.h"
+#include "helper.hpp"
+INCLUDE_FFMPEG_BEGIN
+#include "libavutil/samplefmt.h"
+INCLUDE_FFMPEG_END
 
-#include <portaudio.h>
 
 
 struct AudioDataInfo {
@@ -21,20 +25,26 @@ private:
 
     int m_index;
     PaSampleFormat m_paSampleFormat;
+    AVSampleFormat m_ffmpegSampleFormat;
     int m_bytesPerSample;
     std::function<void(std::byte*, qreal, unsigned long)> m_transform;
 
 
     PonySampleFormat(
         int mIndex,
-        PaSampleFormat mPaSampleFormat,
-        int mBytesPerSample,
-        TransformFunc mTransform
-    ) : m_index(mIndex), m_paSampleFormat(mPaSampleFormat), m_bytesPerSample(mBytesPerSample), m_transform(std::move(mTransform)) {}
+        PaSampleFormat paSampleFormat,
+        AVSampleFormat ffmpegSampleFormat,
+        int bytesPerSample,
+        TransformFunc transformFunc
+    ) : m_index(mIndex),
+        m_paSampleFormat(paSampleFormat),
+        m_ffmpegSampleFormat(ffmpegSampleFormat),
+        m_bytesPerSample(bytesPerSample),
+        m_transform(std::move(transformFunc)) {}
 
 public:
     template<class T>
-    static PonySampleFormat of(PaSampleFormat paSamples) noexcept {
+    static PonySampleFormat of(PaSampleFormat paSample, AVSampleFormat ffmpegSample) noexcept {
         static int id = 0;
         TransformFunc transform;
         size_t size;
@@ -52,8 +62,9 @@ public:
             };
             size = sizeof(T);
         }
-        return {id, paSamples, static_cast<int>(size), transform};
+        return {id, paSample, ffmpegSample, static_cast<int>(size), transform};
     }
+
 
 
     void transformSampleVolume(std::byte *src, qreal factor, unsigned long samples) const {
@@ -71,6 +82,10 @@ public:
         return m_paSampleFormat;
     }
 
+    [[nodiscard]] AVSampleFormat getFFmpegSampleFormat() const {
+        return m_ffmpegSampleFormat;
+    }
+
     [[nodiscard]] int getBytesPerSample() const {
         return m_bytesPerSample;
     }
@@ -79,33 +94,53 @@ public:
 namespace PonyPlayer {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
-    const PonySampleFormat Unknown =  PonySampleFormat::of<void>(0xABCDE);
-    const PonySampleFormat UInt8   =  PonySampleFormat::of<uint8_t>(paUInt8);
-    const PonySampleFormat Int16   =  PonySampleFormat::of<int16_t>(paInt16);
-    const PonySampleFormat Int32   =  PonySampleFormat::of<int32_t>(paInt32);
-    const PonySampleFormat Float   =  PonySampleFormat::of<float_t>(paFloat32);
+    const PonySampleFormat Unknown =  PonySampleFormat::of<void>(paNonInterleaved, AV_SAMPLE_FMT_NONE);
+    const PonySampleFormat UInt8   =  PonySampleFormat::of<uint8_t>(paUInt8, AV_SAMPLE_FMT_U8);
+    const PonySampleFormat Int16   =  PonySampleFormat::of<int16_t>(paInt16, AV_SAMPLE_FMT_S16);
+    const PonySampleFormat Int32   =  PonySampleFormat::of<int32_t>(paInt32, AV_SAMPLE_FMT_S32);
+    const PonySampleFormat Float   =  PonySampleFormat::of<float_t>(paFloat32, AV_SAMPLE_FMT_FLT);
 #pragma GCC diagnostic pop
+
+    static PonySampleFormat valueOf(AVSampleFormat ffmpegFormat) {
+        switch(ffmpegFormat) {
+            case AV_SAMPLE_FMT_U8:
+                return UInt8;
+            case AV_SAMPLE_FMT_S16:
+                return Int16;
+            case AV_SAMPLE_FMT_S32:
+                return Int32;
+            case AV_SAMPLE_FMT_FLT:
+                return Float;
+            default:
+                return Unknown;
+        }
+    }
 }
 
 
 class PonyAudioFormat {
 private:
     PonySampleFormat m_sampleFormat;
-    int m_channelCount;
     int m_sampleRate;
+    int m_channelCount;
+
 public:
 
     PonyAudioFormat(
         PonySampleFormat sampleFormat,
         int sampleRate,
         int channelCount
-    ) noexcept: m_sampleFormat(std::move(sampleFormat)), m_channelCount(channelCount), m_sampleRate(sampleRate) {}
+    ) noexcept: m_sampleFormat(std::move(sampleFormat)), m_sampleRate(sampleRate), m_channelCount(channelCount) {}
 
 
     [[nodiscard]] const PonySampleFormat& getSampleFormat() const { return m_sampleFormat; }
 
     [[nodiscard]] PaSampleFormat getSampleFormatForPA() const {
         return m_sampleFormat.getPaSampleFormat();
+    }
+
+    [[nodiscard]] AVSampleFormat getSampleFormatForFFmpeg() const {
+        return m_sampleFormat.getFFmpegSampleFormat();
     }
 
     [[nodiscard]] qreal durationOfBytes(int64_t bytes) const {

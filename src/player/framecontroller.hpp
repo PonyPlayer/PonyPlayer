@@ -20,7 +20,7 @@ private:
     Demuxer *m_demuxer = nullptr;
     Playback *m_playback = nullptr;
 public:
-    explicit FrameController(QObject *parent) : QObject(nullptr) {
+    explicit FrameController([[maybe_unused]] QObject *parent) : QObject(nullptr) {
         m_affinityThread = new QThread;
         m_affinityThread->setObjectName(PonyPlayer::FRAME);
         this->moveToThread(m_affinityThread);
@@ -41,6 +41,8 @@ private slots:
         connect(this, &FrameController::signalDecoderSeek, m_demuxer, &Demuxer::seek, Qt::BlockingQueuedConnection);
         connect(m_demuxer, &Demuxer::openFileResult, this, [this](PonyPlayer::OpenFileResultType result) {
             if (result != PonyPlayer::OpenFileResultType::FAILED) {
+                m_playback->setDesiredFormat(m_demuxer->getInputFormat());
+                m_demuxer->setOutputFormat(m_playback->getDeviceFormat());
                 m_demuxer->start();
                 m_playback->showFrame();
             }
@@ -70,12 +72,16 @@ private slots:
             seek(pos);
             m_demuxer->start();
         });
-        connect(m_playback, &Playback::requestResynchronization, this, [this](bool enableAudio) {
+        connect(m_playback, &Playback::requestResynchronization, this, [this](bool enableAudio, bool updateAudioFormat) {
             if (!m_demuxer->isFileOpen()) return;
             bool isPlay = m_playback->isPlaying();
             qreal pos = m_playback->getPreferablePos();
             m_playback->stop();
             m_demuxer->pause();
+            if (updateAudioFormat) {
+                m_playback->setDesiredFormat(m_demuxer->getInputFormat());
+                m_demuxer->setOutputFormat(m_playback->getDeviceFormat());
+            }
             m_demuxer->setEnableAudio(enableAudio);
             seek(pos);
             m_demuxer->start();

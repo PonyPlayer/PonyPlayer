@@ -52,6 +52,10 @@ public:
 
     PONY_THREAD_SAFE AudioFrame getSample() override { NOT_IMPLEMENT_YET }
 
+    PonyAudioFormat getInputFormat() override { NOT_IMPLEMENT_YET }
+
+    void setOutputFormat(const PonyAudioFormat &format) override { NOT_IMPLEMENT_YET }
+
 
     PONY_THREAD_SAFE qreal viewFront() override {
         return frameQueue->viewFront<qreal>([this](AVFrame * frame) {
@@ -90,14 +94,6 @@ template<> class DecoderImpl<Audio>: public DecoderImpl<Common> {
 
 public:
     DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue) : DecoderImpl<Common>(vs, queue) {
-        this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(2),
-                                          AV_SAMPLE_FMT_S16, 44100,
-                                          static_cast<int64_t>(codecCtx->channel_layout), codecCtx->sample_fmt,
-                                          codecCtx->sample_rate, 0, nullptr);
-
-        if (!swrCtx || swr_init(swrCtx) < 0) {
-            throw std::runtime_error("Cannot initialize swrCtx");
-        }
         if (!(audioOutBuf = static_cast<uint8_t *>(av_malloc(2 * MAX_AUDIO_FRAME_SIZE)))) {
             throw std::runtime_error("Cannot alloc audioOutBuf");
         }
@@ -128,6 +124,22 @@ public:
                                                   1);
         av_frame_free(&frame);
         return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts};
+    }
+
+    PonyAudioFormat getInputFormat() override {
+        return {PonyPlayer::valueOf(codecCtx->sample_fmt), codecCtx->sample_rate, codecCtx->channels};
+    }
+
+    void setOutputFormat(const PonyAudioFormat& format) override {
+        if (swrCtx) { swr_free(&swrCtx); }
+        this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(format.getChannelCount()),
+                                          format.getSampleFormatForFFmpeg(), format.getSampleRate(),
+                                          static_cast<int64_t>(codecCtx->channel_layout), codecCtx->sample_fmt,
+                                          codecCtx->sample_rate, 0, nullptr);
+
+        if (!swrCtx || swr_init(swrCtx) < 0) {
+            throw std::runtime_error("Cannot initialize swrCtx");
+        }
     }
 
 };
@@ -162,46 +174,6 @@ public:
         auto *frame = stillVideoFrame.load();
         if (frame) { av_frame_free(&frame); }
     }
-
-
-};
-
-/**
- * @brief 虚拟视频播放, 用于视频纯音频文件.
- */
-class VirtualVideoDecoder : public IDemuxDecoder {
-private:
-    qreal m_audioDuration;
-public:
-    VirtualVideoDecoder(qreal audioDuration) : m_audioDuration(audioDuration) {}
-
-    PONY_THREAD_SAFE bool accept(AVPacket *pkt, std::atomic<bool> &interrupt) override {
-        return !interrupt;
-    }
-
-    PONY_THREAD_SAFE void flushFFmpegBuffers() override {}
-
-    PONY_THREAD_SAFE VideoFrameRef getPicture() override {
-        return {nullptr, true, std::numeric_limits<qreal>::quiet_NaN()};
-    }
-
-    PONY_THREAD_SAFE AudioFrame getSample() override {
-        NOT_IMPLEMENT_YET
-    }
-
-    PONY_THREAD_SAFE double duration() override {
-        return m_audioDuration;
-    }
-
-    PONY_THREAD_SAFE qreal viewFront() override {
-        return std::numeric_limits<qreal>::quiet_NaN();
-    }
-
-    PONY_THREAD_SAFE int skip(const std::function<bool(qreal)> &predicate) override {
-        return 0;
-    }
-
-    PONY_THREAD_SAFE void setEnable(bool b) override {}
 
 
 };

@@ -126,12 +126,12 @@ public:
                 if (this->m_audioSink->isBlock()) { return; }
                 // 需要禁用音频
                 this->m_audioSink->setBlockState(true);
-                emit requestResynchronization(false); // queue connection
+                emit requestResynchronization(false, false); // queue connection
             } else if (speed <= PonyAudioSink::MAX_SPEED_FACTOR) {
                 if (!this->m_audioSink->isBlock()) { return; }
                 // 需要重新启动音频
                 this->m_audioSink->setBlockState(false);
-                emit requestResynchronization(true); // queue connection
+                emit requestResynchronization(true, false); // queue connection
             }
         });
         connect(this, &Playback::showFirstVideoFrame, this, [this] {
@@ -141,14 +141,17 @@ public:
         connect(this, &Playback::clearRingBuffer, this, [this] { this->m_audioSink->clear(); });
         connect(m_affinityThread, &QThread::started, [this] {
             // 在 Playback 线程上初始化
-            PonyAudioFormat format(PonyPlayer::Int16, 44100, 2);
+            PonyAudioFormat format(PonyPlayer::Int16, 44100, 2); // default format
             this->m_audioSink = new PonyAudioSink(format);
             connect(m_audioSink, &PonyAudioSink::signalDeviceSwitched, this, [this]{
                 emit signalDeviceSwitched();
-                emit requestResynchronization(!this->m_audioSink->isBlock());
+                emit requestResynchronization(!this->m_audioSink->isBlock(), true);
             }, Qt::QueuedConnection);
             connect(this, &Playback::signalSetSelectedAudioOutputDevice, m_audioSink,
                     &PonyAudioSink::requestDeviceSwitch);
+            connect(this, &Playback::setDesiredFormat, m_audioSink, [this](PonyAudioFormat format){
+                m_audioSink->setFormat(std::move(format));
+            });
             emit signalAudioOutputDevicesListChanged();
         });
         m_affinityThread->start();
@@ -156,6 +159,10 @@ public:
 
     PONY_THREAD_SAFE qreal getPreferablePos() {
         return m_preferablePos;
+    }
+
+    PonyAudioFormat getDeviceFormat() {
+        return m_audioSink->getCurrentDeviceFormat();
     }
 
     [[nodiscard]] qreal getAudioPos(bool backward) const {
@@ -330,9 +337,10 @@ signals:
     /**
      * 由于设备切换, 音频倍速调整等原因需要下层重新同步
      */
-    void requestResynchronization(bool enableAudio);
+    void requestResynchronization(bool enableAudio, bool updateAudioFormat);
 
 
+    void setDesiredFormat(PonyAudioFormat format);
 };
 
 #endif //PONYPLAYER_VIDEOWORKER_H

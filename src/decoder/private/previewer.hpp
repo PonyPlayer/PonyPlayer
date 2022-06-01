@@ -93,6 +93,10 @@ public:
         }
         return {};
     }
+
+    PonyAudioFormat getAudioInputFormat() override { NOT_IMPLEMENT_YET }
+
+    void setAudioOutputFormat(PonyAudioFormat format) override { NOT_IMPLEMENT_YET }
 };
 
 #endif //PONYPLAYER_PREVIEW_H

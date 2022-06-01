@@ -15,6 +15,7 @@ INCLUDE_FFMPEG_END
 #include "frame.hpp"
 #include "twins_queue.hpp"
 #include "concurrentqueue.h"
+#include "audioformat.hpp"
 #include <atomic>
 #include <utility>
 
@@ -95,6 +96,10 @@ public:
     virtual qreal nextSegment() {
         NOT_IMPLEMENT_YET
     }
+
+    virtual PonyAudioFormat getInputFormat() = 0;
+
+    virtual void setOutputFormat(const PonyAudioFormat& format) = 0;
 };
 
 class DecoderContext {
