@@ -274,8 +274,7 @@ Window {
                         id: audioInstantiator
                         model: videoArea.audioDeviceList
                         delegate: MenuItem {
-                            text: model.modelData
-                            checked: text === videoArea.currentOutputDevice
+                            text: (model.modelData === videoArea.currentOutputDevice ? "✔": "") + model.modelData
                             onTriggered: videoArea.setCurrentOutputDevice(model.modelData)
                         }
                         onObjectAdded: devicesMenu.insertItem(index, object)
