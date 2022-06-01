@@ -490,7 +490,6 @@ public:
             devicesList.push_back(deviceName);
             qDebug() << deviceName;
         }
-        emit signalAudioOutputDeviceListChanged();
     }
 
     QString getSelectedOutputDevice() { return selectedOutputDevice; }
@@ -516,6 +515,7 @@ public:
             _getDeviceList();
         };
         restartStream(middleFunc);
+        emit signalAudioOutputDeviceListChanged();
     }
 
     QStringList getAudioDeviceList() {
