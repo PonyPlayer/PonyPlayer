@@ -232,6 +232,7 @@ public:
                                                   targetFmt.getSampleFormatForFFmpeg(),
                                                   1);
         reverseSample(audioOutBuf, out_size);
+        pts += static_cast<double>(len)/targetFmt.getSampleRate();
         av_frame_free(&frame);
         return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts};
     }
