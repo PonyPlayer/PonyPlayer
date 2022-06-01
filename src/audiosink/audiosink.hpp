@@ -526,7 +526,9 @@ public:
     }
 
     void setFormat(const PonyAudioFormat &format) {
+        std::unique_lock lock(paStreamLock);
         m_format = {PonyPlayer::Int16, format.getSampleRate(), format.getChannelCount()};
+        lock.unlock();
         restartStream(nullptr);
     }
 
