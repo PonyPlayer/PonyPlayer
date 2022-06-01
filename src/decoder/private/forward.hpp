@@ -90,7 +90,7 @@ template<> class DecoderImpl<Audio>: public DecoderImpl<Common> {
     SwrContext *swrCtx = nullptr;
     uint8_t *audioOutBuf = nullptr;
     AVFrame * sampleFrameBuf = nullptr;
-
+    PonyAudioFormat targetFmt = PonyAudioFormat(PonyPlayer::Int16, 44100, 2);
 
 public:
     DecoderImpl(AVStream *vs, TwinsBlockQueue<AVFrame *> *queue) : DecoderImpl<Common>(vs, queue) {
@@ -118,9 +118,9 @@ public:
         int len = swr_convert(swrCtx, &audioOutBuf, 2 * MAX_AUDIO_FRAME_SIZE,
                               const_cast<const uint8_t **>(frame->data), frame->nb_samples);
 
-        int out_size = av_samples_get_buffer_size(nullptr, 2,
+        int out_size = av_samples_get_buffer_size(nullptr, targetFmt.getChannelCount(),
                                                   len,
-                                                  AV_SAMPLE_FMT_S16,
+                                                  targetFmt.getSampleFormatForFFmpeg(),
                                                   1);
         av_frame_free(&frame);
         return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts};
@@ -131,6 +131,7 @@ public:
     }
 
     void setOutputFormat(const PonyAudioFormat& format) override {
+        targetFmt = format;
         if (swrCtx) { swr_free(&swrCtx); }
         this->swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(format.getChannelCount()),
                                           format.getSampleFormatForFFmpeg(), format.getSampleRate(),

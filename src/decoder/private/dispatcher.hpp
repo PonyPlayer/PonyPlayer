@@ -507,11 +507,12 @@ public:
     void setEnableAudio(bool enable) override { audioDecoder->setEnable(enable); }
 
     PonyAudioFormat getAudioInputFormat() override { // TODO: IMPLEMENT LATER
-        return PonyAudioFormat(PonyPlayer::Int16, 44100, 2);
+        // return PonyAudioFormat(PonyPlayer::Int16, 44100, 2);
+        return audioDecoder->getInputFormat();
     }
 
     void setAudioOutputFormat(PonyAudioFormat format) override { // TODO: IMPLEMENT LATER
-        return;
+        audioDecoder->setOutputFormat(format);
     }
 
     bool hasVideo() override { return videoStreamIndex >= 0 && videoStream->nb_frames > 0; }
