@@ -7,6 +7,7 @@
 #include <utility>
 #include "portaudio.h"
 #include "helper.hpp"
+
 INCLUDE_FFMPEG_BEGIN
 #include "libavutil/samplefmt.h"
 INCLUDE_FFMPEG_END
@@ -21,21 +22,21 @@ struct AudioDataInfo {
 
 struct PonySampleFormat {
 private:
-    using TransformFunc = std::function<void(std::byte*, qreal, unsigned long)>;
+    using TransformFunc = std::function<void(std::byte *, qreal, unsigned long)>;
 
     int m_index;
     PaSampleFormat m_paSampleFormat;
     AVSampleFormat m_ffmpegSampleFormat;
     int m_bytesPerSample;
-    std::function<void(std::byte*, qreal, unsigned long)> m_transform;
+    std::function<void(std::byte *, qreal, unsigned long)> m_transform;
 
 
     PonySampleFormat(
-        int mIndex,
-        PaSampleFormat paSampleFormat,
-        AVSampleFormat ffmpegSampleFormat,
-        int bytesPerSample,
-        TransformFunc transformFunc
+            int mIndex,
+            PaSampleFormat paSampleFormat,
+            AVSampleFormat ffmpegSampleFormat,
+            int bytesPerSample,
+            TransformFunc transformFunc
     ) : m_index(mIndex),
         m_paSampleFormat(paSampleFormat),
         m_ffmpegSampleFormat(ffmpegSampleFormat),
@@ -49,12 +50,12 @@ public:
         TransformFunc transform;
         size_t size;
         if constexpr(std::is_same<T, void>()) {
-            transform = [](std::byte *src_, qreal factor, unsigned long samples){
+            transform = [](std::byte *src_, qreal factor, unsigned long samples) {
                 throw std::runtime_error("Unsupported samples format.");
             };
             size = 0xABCDEF;
         } else {
-            transform = [](std::byte *src_, qreal factor, unsigned long samples){
+            transform = [](std::byte *src_, qreal factor, unsigned long samples) {
                 T *src = static_cast<T *>(static_cast<void *>(src_));
                 for (size_t sampleOffset = 0; sampleOffset < samples; sampleOffset++) {
                     src[sampleOffset] = static_cast<T>(src[sampleOffset] * factor);
@@ -66,7 +67,6 @@ public:
     }
 
 
-
     void transformSampleVolume(std::byte *src, qreal factor, unsigned long samples) const {
         m_transform(src, factor, samples);
     }
@@ -74,6 +74,7 @@ public:
     bool operator==(const PonySampleFormat &rhs) const {
         return this->m_index == rhs.m_index;
     }
+
     bool operator!=(const PonySampleFormat &rhs) const {
         return !(rhs == *this);
     }
@@ -94,15 +95,15 @@ public:
 namespace PonyPlayer {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
-    const PonySampleFormat Unknown =  PonySampleFormat::of<void>(paNonInterleaved, AV_SAMPLE_FMT_NONE);
-    const PonySampleFormat UInt8   =  PonySampleFormat::of<uint8_t>(paUInt8, AV_SAMPLE_FMT_U8);
-    const PonySampleFormat Int16   =  PonySampleFormat::of<int16_t>(paInt16, AV_SAMPLE_FMT_S16);
-    const PonySampleFormat Int32   =  PonySampleFormat::of<int32_t>(paInt32, AV_SAMPLE_FMT_S32);
-    const PonySampleFormat Float   =  PonySampleFormat::of<float_t>(paFloat32, AV_SAMPLE_FMT_FLT);
+    const PonySampleFormat Unknown = PonySampleFormat::of<void>(paNonInterleaved, AV_SAMPLE_FMT_NONE);
+    const PonySampleFormat UInt8 = PonySampleFormat::of<uint8_t>(paUInt8, AV_SAMPLE_FMT_U8);
+    const PonySampleFormat Int16 = PonySampleFormat::of<int16_t>(paInt16, AV_SAMPLE_FMT_S16);
+    const PonySampleFormat Int32 = PonySampleFormat::of<int32_t>(paInt32, AV_SAMPLE_FMT_S32);
+    const PonySampleFormat Float = PonySampleFormat::of<float_t>(paFloat32, AV_SAMPLE_FMT_FLT);
 #pragma GCC diagnostic pop
 
     static PonySampleFormat valueOf(AVSampleFormat ffmpegFormat) {
-        switch(ffmpegFormat) {
+        switch (ffmpegFormat) {
             case AV_SAMPLE_FMT_U8:
                 return UInt8;
             case AV_SAMPLE_FMT_S16:
@@ -113,6 +114,22 @@ namespace PonyPlayer {
                 return Float;
             default:
                 return Unknown;
+        }
+    }
+
+    static PonySampleFormat valueOf(PaSampleFormat paSampleFormat) {
+        switch (paSampleFormat) {
+            case paUInt8:
+                return UInt8;
+            case paInt16:
+                return Int16;
+            case paInt32:
+                return Int32;
+            case paFloat32:
+                return Float;
+            default:
+                return Unknown;
+
         }
     }
 }
@@ -127,13 +144,13 @@ private:
 public:
 
     PonyAudioFormat(
-        PonySampleFormat sampleFormat,
-        int sampleRate,
-        int channelCount
+            PonySampleFormat sampleFormat,
+            int sampleRate,
+            int channelCount
     ) noexcept: m_sampleFormat(std::move(sampleFormat)), m_sampleRate(sampleRate), m_channelCount(channelCount) {}
 
 
-    [[nodiscard]] const PonySampleFormat& getSampleFormat() const { return m_sampleFormat; }
+    [[nodiscard]] const PonySampleFormat &getSampleFormat() const { return m_sampleFormat; }
 
     [[nodiscard]] PaSampleFormat getSampleFormatForPA() const {
         return m_sampleFormat.getPaSampleFormat();
@@ -169,9 +186,9 @@ public:
 
     [[nodiscard]] int64_t suggestedRingBuffer(qreal speedFactor) const {
         return qBound<int64_t>(
-            static_cast<int64_t>(2 * 1024 * m_channelCount * m_sampleFormat.getBytesPerSample()),
-            bytesOfDuration(0.2 * speedFactor),
-            256 << 20
+                static_cast<int64_t>(2 * 1024 * m_channelCount * m_sampleFormat.getBytesPerSample()),
+                bytesOfDuration(0.2 * speedFactor),
+                256 << 20
         );
     }
 };

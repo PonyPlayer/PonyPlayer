@@ -49,6 +49,7 @@ private:
     static std::atomic_bool paInitialized;
 
     PonyAudioFormat m_format;
+    PonyAudioFormat m_deviceFormat;
     size_t m_bufferMaxBytes;
     size_t m_sonicBufferMaxBytes;
     qreal m_speedFactor;
@@ -168,6 +169,9 @@ private:
         }
 
         param->device = getCurrentOutputDeviceIndex();
+        const PaDeviceInfo *deviceInfo = Pa_GetDeviceInfo(param->device);
+        m_deviceFormat = PonyAudioFormat(PonyPlayer::valueOf(paInt16), deviceInfo->defaultSampleRate,
+                                         deviceInfo->maxOutputChannels);
         param->channelCount = m_format.getChannelCount();
         if (param->device == paNoDevice)
             throw std::runtime_error("no audio device!");
@@ -229,7 +233,7 @@ public:
      */
     PonyAudioSink(PonyAudioFormat format) : m_volume(0.5), m_pitch(1.0), m_state(PlaybackState::STOPPED),
                                             m_format(std::move(format)),
-                                            m_speedFactor(1.0) {
+                                            m_speedFactor(1.0), m_deviceFormat(PonyPlayer::Unknown, 0, 0) {
 
 
         paStreamLock.lock();
@@ -486,7 +490,7 @@ public:
             QString deviceName = Pa_GetDeviceInfo(index)->name;
             if (deviceInfo->maxOutputChannels < 2) continue;
 #ifdef WIN32
-            if (deviceInfo->hostApi!=PaHostApiTypeId::paDirectSound) continue;
+            if (deviceInfo->hostApi != PaHostApiTypeId::paDirectSound) continue;
 #endif
             devicesList.push_back(deviceName);
             qDebug() << deviceName;
@@ -570,6 +574,6 @@ public slots:
     }
 
     PonyAudioFormat getCurrentDeviceFormat() {
-        NOT_IMPLEMENT_YET
+        return m_deviceFormat;
     }
 };

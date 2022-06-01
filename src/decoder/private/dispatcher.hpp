@@ -282,18 +282,26 @@ public:
         return m_audioDecoder->skip(predicate);
     }
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getAudionLength() const { return description.audioDuration; }
+    PONY_GUARD_BY(MAIN, FRAME, DECODER)
 
-    PONY_GUARD_BY(MAIN, FRAME, DECODER) [[nodiscard]] qreal getVideoLength() const { return description.videoDuration; }
+    [[nodiscard]] qreal getAudionLength() const { return description.audioDuration; }
 
-    PONY_GUARD_BY(DECODER) void setTrack(int i) override {
+    PONY_GUARD_BY(MAIN, FRAME, DECODER)
+
+    [[nodiscard]] qreal getVideoLength() const { return description.videoDuration; }
+
+    PONY_GUARD_BY(DECODER)
+
+    void setTrack(int i) override {
         delete m_audioDecoder;
         m_audioStreamIndex = description.m_audioStreamsIndex[static_cast<size_t>(i)];
         auto stream = fmtCtx->streams[m_audioStreamIndex];
         m_audioDecoder = new DecoderImpl<Audio>(stream, audioQueue);
     }
 
-    PONY_GUARD_BY(DECODER) QStringList getTracks() {
+    PONY_GUARD_BY(DECODER)
+
+    QStringList getTracks() {
         QStringList ret;
         ret.reserve(static_cast<qsizetype>(description.m_audioStreamsIndex.size()));
         for (auto &&i: description.m_audioStreamsIndex) {
@@ -302,18 +310,24 @@ public:
         return ret;
     }
 
-    PONY_GUARD_BY(DECODER) void setAudioIndex(StreamIndex i) {
+    PONY_GUARD_BY(DECODER)
+
+    void setAudioIndex(StreamIndex i) {
         if (i == m_audioStreamIndex) { return; }
         delete m_audioDecoder;
         m_audioStreamIndex = i;
         m_audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue);
     }
 
-    PONY_GUARD_BY(DECODER) bool hasVideo() override {
+    PONY_GUARD_BY(DECODER)
+
+    bool hasVideo() override {
         return !description.m_videoStreamsIndex.empty() && fmtCtx->streams[m_videoStreamIndex]->nb_frames > 0;
     }
 
-    PONY_GUARD_BY(DECODER) void setEnableAudio(bool enable) override {
+    PONY_GUARD_BY(DECODER)
+
+    void setEnableAudio(bool enable) override {
         m_audioDecoder->setEnable(enable);
     }
 
@@ -407,8 +421,7 @@ public:
             videoDecoder->setFollower(audioDecoder);
             m_videoDuration = videoDecoder->duration();
             primary = videoDecoder;
-        }
-        else {
+        } else {
             qDebug() << "audio only reverse";
             m_videoDuration = audioDecoder->duration();
             videoDecoder = new VirtualVideoDecoder(m_videoDuration);
@@ -487,13 +500,19 @@ public:
 
     PONY_THREAD_SAFE AudioFrame getSample() override { return audioDecoder->getSample(); }
 
-    PONY_THREAD_SAFE qreal frontSample() override { NOT_IMPLEMENT_YET }
+    PONY_THREAD_SAFE qreal frontSample() override {NOT_IMPLEMENT_YET}
 
-    PONY_GUARD_BY(DECODER) void setEnableAudio(bool enable) override { audioDecoder->setEnable(enable); }
+    PONY_GUARD_BY(DECODER)
 
-    PonyAudioFormat getAudioInputFormat() override { NOT_IMPLEMENT_YET }
+    void setEnableAudio(bool enable) override { audioDecoder->setEnable(enable); }
 
-    void setAudioOutputFormat(PonyAudioFormat format) override { NOT_IMPLEMENT_YET }
+    PonyAudioFormat getAudioInputFormat() override { // TODO: IMPLEMENT LATER
+        return PonyAudioFormat(PonyPlayer::Int16, 44100, 2);
+    }
+
+    void setAudioOutputFormat(PonyAudioFormat format) override { // TODO: IMPLEMENT LATER
+        return;
+    }
 
     bool hasVideo() override { return videoStreamIndex >= 0 && videoStream->nb_frames > 0; }
 
