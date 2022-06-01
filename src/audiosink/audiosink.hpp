@@ -24,6 +24,10 @@ enum class PlaybackState {
     PAUSED,  ///< 暂停状态
 };
 
+#define ASSERT_PA_OK(err, message) if (err != paNoError) { \
+qWarning() << "Error" << Pa_GetErrorText(err); \
+ILLEGAL_STATE(message); \
+}
 
 /**
  * @brief 播放音频裸流, 用于代替QAudioSink.
@@ -179,34 +183,27 @@ private:
         param->sampleFormat = m_format.getSampleFormatForPA();
         param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
         param->hostApiSpecificStreamInfo = nullptr;
+        ASSERT_PA_OK(
+            Pa_OpenStream(
+                &m_stream,
+                nullptr,
+                param,
+                m_format.getSampleRate(),
+                paFramesPerBufferUnspecified,
+                paClipOff,
+                [](const void *inputBuffer, void *outputBuffer,
+                   unsigned long framesPerBuffer,
+                   const PaStreamCallbackTimeInfo *timeInfo,
+                   PaStreamCallbackFlags statusFlags,
+                   void *userData) {
+                    return static_cast<PonyAudioSink *>(userData)->m_paCallback(inputBuffer, outputBuffer,
+                                                                                framesPerBuffer,
+                                                                                timeInfo, statusFlags);
+                }, this), "Can not open audio stream!");
 
-        if (PaError err = Pa_OpenStream(
-                    &m_stream,
-                    nullptr,
-                    param,
-                    m_format.getSampleRate(),
-                    paFramesPerBufferUnspecified,
-                    paClipOff,
-                    [](const void *inputBuffer, void *outputBuffer,
-                       unsigned long framesPerBuffer,
-                       const PaStreamCallbackTimeInfo *timeInfo,
-                       PaStreamCallbackFlags statusFlags,
-                       void *userData) {
-                        return static_cast<PonyAudioSink *>(userData)->m_paCallback(inputBuffer, outputBuffer,
-                                                                                    framesPerBuffer,
-                                                                                    timeInfo, statusFlags);
-                    },
-                    this
-            );err != paNoError) {
-            printError(err);
-            throw std::runtime_error("can not open audio stream!");
-        }
-        if (PaError err = Pa_SetStreamFinishedCallback(m_stream, [](void *userData) {
-                static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
-            }); err != paNoError) {
-            printError(err);
-            throw std::runtime_error("can not set stream callback!");
-        };
+        ASSERT_PA_OK(Pa_SetStreamFinishedCallback(m_stream, [](void *userData) {
+            static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
+        }), "Can not set stream callback!");
 
     }
 
