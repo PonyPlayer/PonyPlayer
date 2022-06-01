@@ -9,6 +9,7 @@
 #include <QThread>
 #include <QDebug>
 #include <QCoreApplication>
+#include <utility>
 #include "demuxer.hpp"
 #include "audiosink.hpp"
 #include "frame.hpp"
@@ -142,9 +143,9 @@ public:
             // 在 Playback 线程上初始化
             PonyAudioFormat format(PonyPlayer::Int16, 44100, 2);
             this->m_audioSink = new PonyAudioSink(format);
-            connect(m_audioSink, &PonyAudioSink::signalAudioOutputDeviceListChanged, this, [this]{
+            connect(m_audioSink, &PonyAudioSink::signalDeviceSwitched, this, [this]{
                 emit requestResynchronization(!this->m_audioSink->isBlock());
-            });
+            }, Qt::QueuedConnection);
             connect(this, &Playback::signalSetSelectedAudioOutputDevice, m_audioSink,
                     &PonyAudioSink::requestDeviceSwitch);
             emit signalAudioOutputDevicesListChanged();
@@ -185,7 +186,7 @@ public:
     }
 
     void setSelectedAudioOutputDevice(QString deviceName) {
-        emit signalSetSelectedAudioOutputDevice(deviceName);
+        emit signalSetSelectedAudioOutputDevice(std::move(deviceName));
     }
 
     QString getSelectedAudioOutputDevice() {
@@ -312,6 +313,8 @@ signals:
     void setAudioSpeed(qreal speed, QPrivateSignal);
 
     void signalSetSelectedAudioOutputDevice(QString);
+
+    void signalDeviceSwitched();
 
     void showFirstVideoFrame(QPrivateSignal);
 

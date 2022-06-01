@@ -10,18 +10,15 @@
  * 生命周期伴随整个程序运行.
  */
 class Demuxer : public QObject {
-Q_OBJECT
+    Q_OBJECT
     PONY_THREAD_AFFINITY(DECODER)
-
 private:
-    // openfile(MainThread) -> openfile(FrameThread) -> openfile(Decoder) -> openfile(MainThread)
-    // no addition synchronization is needed
     DemuxDispatcherBase *m_worker = nullptr;
     DecodeDispatcher *m_forward = nullptr;
     ReverseDecodeDispatcher *m_backward = nullptr;
 
     QThread *m_affinityThread = nullptr;
-    std::mutex mutex;
+    std::mutex m_workerLock;
 public:
 
 
@@ -40,26 +37,26 @@ public:
     PONY_GUARD_BY(MAIN, FRAME, DECODER)
 
     VideoFrameRef getPicture() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         return m_worker->getPicture();
     }
 
     PONY_GUARD_BY(MAIN, FRAME, DECODER)
 
     qreal frontPicture() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         return m_worker->frontPicture();
     }
 
     PONY_THREAD_SAFE int skipPicture(const std::function<bool(qreal)> &predicate) {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         return m_worker->skipPicture(predicate);
     }
 
     PONY_GUARD_BY(MAIN, FRAME, DECODER)
 
     AudioFrame getSample() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         return m_worker->getSample();
     }
 
@@ -67,12 +64,12 @@ public:
     PONY_GUARD_BY(MAIN, FRAME, DECODER)
 
     qreal frontSample() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         return m_worker->frontSample();
     }
 
     PONY_THREAD_SAFE int skipSample(const std::function<bool(qreal)> &predicate) {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         return m_worker->skipSample(predicate);
     }
 
@@ -80,21 +77,21 @@ public:
     PONY_GUARD_BY(MAIN, FRAME, DECODER)
 
     qreal audioDuration() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         return m_forward ? m_forward->getAudionLength() : 0.0;
     }
 
     PONY_GUARD_BY(MAIN, FRAME, DECODER)
 
     qreal videoDuration() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         return m_forward ? m_forward->getVideoLength() : 0.0;
     }
 
     PONY_GUARD_BY(MAIN, FRAME, DECODER)
 
     QStringList getTracks() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         if (m_forward) {
             return m_forward->getTracks();
         } else {
@@ -107,13 +104,13 @@ public:
      * @return
      */
     PONY_THREAD_SAFE bool isBackward() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         return dynamic_cast<ReverseDecodeDispatcher *>(m_worker);
     }
 
 
     PONY_THREAD_SAFE bool hasVideo() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         return m_forward && m_forward->hasVideo();
     }
 
@@ -125,12 +122,12 @@ public:
     */
     PONY_CONDITION("OpenFileResult")
     PONY_THREAD_SAFE void pause() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         m_worker->statePause();
     }
 
     PONY_THREAD_SAFE bool isFileOpen() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         return m_worker != nullptr;
     }
 
@@ -141,7 +138,7 @@ public:
     PONY_GUARD_BY(FRAME)
 
     void flush() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         m_worker->flush();
     }
 
@@ -149,7 +146,7 @@ public:
      * 在 DecodeThread 启动解码器, 这个方法是非阻塞的, 但是可以保证返回后队里请求能够被阻塞.
      */
     PONY_THREAD_SAFE void start() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         qDebug() << "Start Decoder";
         m_worker->stateResume();
     }
@@ -157,7 +154,7 @@ public:
     PONY_GUARD_BY(FRAME)
 
     void setTrack(int i) {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         m_worker->setTrack(i);
     }
 
@@ -199,7 +196,7 @@ public slots:
     void openFile(const std::string &fn) {
         qDebug() << "Demuxer Open file" << QString::fromUtf8(fn);
         // call on video decoder thread
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         if (m_worker) {
             qWarning() << "Already open file:" << m_worker->filename.c_str();
             emit openFileResult(PonyPlayer::OpenFileResultType::FAILED, QPrivateSignal());
@@ -233,7 +230,7 @@ public slots:
      * @see DecodeDispatcher::seek
      */
     void backward() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         m_worker = m_backward;
         m_forward->flush();
     }
@@ -246,13 +243,13 @@ public slots:
      * @see DecodeDispatcher::seek
      */
     void forward() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         m_worker = m_forward;
         m_backward->flush();
     };
 
     void close() {
-        std::unique_lock lock(mutex);
+        std::unique_lock lock(m_workerLock);
         if (m_worker) {
             qDebug() << "Close file" << m_worker->filename.c_str();
             m_worker = nullptr;

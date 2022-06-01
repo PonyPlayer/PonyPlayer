@@ -261,7 +261,7 @@ public slots:
      * @param deviceName 设备名称
      */
     Q_INVOKABLE void setCurrentOutputDevice(QString deviceName) {
-        frameController->setSelectedAudioOutputDevice(deviceName);
+        frameController->setSelectedAudioOutputDevice(std::move(deviceName));
     }
 
     /**

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <QObject>
+#include <utility>
 #include "playback.hpp"
 
 /**
@@ -19,68 +20,73 @@ private:
     Demuxer *m_demuxer = nullptr;
     Playback *m_playback = nullptr;
 public:
-    FrameController(QObject *parent) : QObject(nullptr) {
+    explicit FrameController(QObject *parent) : QObject(nullptr) {
         m_affinityThread = new QThread;
-        m_affinityThread->setObjectName("FrameControllerThread");
+        m_affinityThread->setObjectName(PonyPlayer::FRAME);
         this->moveToThread(m_affinityThread);
-        connect(m_affinityThread, &QThread::started, [this] {
-            this->m_demuxer = new Demuxer{this};
-            this->m_playback = new Playback{m_demuxer, this};
-            connect(m_playback, &Playback::setPicture, this, &FrameController::setPicture, Qt::DirectConnection);
-            connect(m_playback, &Playback::stateChanged, this, &FrameController::playbackStateChanged,
-                    Qt::DirectConnection);
-            connect(this, &FrameController::signalDecoderOpenFile, m_demuxer, &Demuxer::openFile);
-            // WARNING: BLOCKING_QUEUED_CONNECTION!!!
-            connect(this, &FrameController::signalDecoderSeek, m_demuxer, &Demuxer::seek, Qt::BlockingQueuedConnection);
-            connect(m_demuxer, &Demuxer::openFileResult, this, [this](PonyPlayer::OpenFileResultType result) {
-                if (result != PonyPlayer::OpenFileResultType::FAILED) {
-                    m_demuxer->start();
-                    m_playback->showFrame();
-                }
-                emit openFileResult(result);
-            });
-            connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd, Qt::DirectConnection);
-            connect(this, &FrameController::signalSetTrack, this, [this](int i) {
-                qreal pos = m_playback->getPreferablePos();
-                m_playback->stop();
-                m_demuxer->pause();
-                m_demuxer->setTrack(i);
-                seek(pos);
-            });
-            connect(this, &FrameController::signalBackward, this, [this] {
-                qreal pos = m_playback->getPreferablePos();
-                m_playback->stop();
-                m_demuxer->pause();
-                m_demuxer->backward();
-                seek(pos);
-                m_demuxer->start();
-            });
-            connect(this, &FrameController::signalForward, this, [this] {
-                qreal pos = m_playback->getPreferablePos();
-                m_playback->stop();
-                m_demuxer->pause();
-                m_demuxer->forward();
-                seek(pos);
-                m_demuxer->start();
-            });
-            connect(m_playback, &Playback::requestResynchronization, this, [this](bool enableAudio) {
-                if(!m_demuxer->isFileOpen()) return;
-                bool isPlay = m_playback->isPlaying();
-                qreal pos = m_playback->getPreferablePos();
-                m_playback->stop();
-                m_demuxer->pause();
-                m_demuxer->setEnableAudio(enableAudio);
-                seek(pos);
-                m_demuxer->start();
-                if (isPlay) { m_playback->start(); }
-            }, Qt::QueuedConnection);
-            connect(m_playback, &Playback::signalAudioOutputDevicesListChanged, this,
-                    &FrameController::signalAudioOutputDevicesChanged);
-        });
+        connect(m_affinityThread, &QThread::started, this, &FrameController::initOnThread);
         m_affinityThread->start();
     }
 
-    virtual ~FrameController() {
+private slots:
+    void initOnThread() {
+        this->m_demuxer = new Demuxer{this};
+        this->m_playback = new Playback{m_demuxer, this};
+        connect(m_playback, &Playback::setPicture, this, &FrameController::setPicture, Qt::DirectConnection);
+        connect(m_playback, &Playback::stateChanged, this, &FrameController::playbackStateChanged,
+                Qt::DirectConnection);
+        connect(this, &FrameController::signalDecoderOpenFile, m_demuxer, &Demuxer::openFile);
+        // WARNING: BLOCKING_QUEUED_CONNECTION!!!
+        connect(this, &FrameController::signalDecoderSeek, m_demuxer, &Demuxer::seek, Qt::BlockingQueuedConnection);
+        connect(m_demuxer, &Demuxer::openFileResult, this, [this](PonyPlayer::OpenFileResultType result) {
+            if (result != PonyPlayer::OpenFileResultType::FAILED) {
+                m_demuxer->start();
+                m_playback->showFrame();
+            }
+            emit openFileResult(result);
+        });
+        connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd, Qt::DirectConnection);
+        connect(this, &FrameController::signalSetTrack, this, [this](int i) {
+            qreal pos = m_playback->getPreferablePos();
+            m_playback->stop();
+            m_demuxer->pause();
+            m_demuxer->setTrack(i);
+            seek(pos);
+        });
+        connect(this, &FrameController::signalBackward, this, [this] {
+            qreal pos = m_playback->getPreferablePos();
+            m_playback->stop();
+            m_demuxer->pause();
+            m_demuxer->backward();
+            seek(pos);
+            m_demuxer->start();
+        });
+        connect(this, &FrameController::signalForward, this, [this] {
+            qreal pos = m_playback->getPreferablePos();
+            m_playback->stop();
+            m_demuxer->pause();
+            m_demuxer->forward();
+            seek(pos);
+            m_demuxer->start();
+        });
+        connect(m_playback, &Playback::requestResynchronization, this, [this](bool enableAudio) {
+            if(!m_demuxer->isFileOpen()) return;
+            bool isPlay = m_playback->isPlaying();
+            qreal pos = m_playback->getPreferablePos();
+            m_playback->stop();
+            m_demuxer->pause();
+            m_demuxer->setEnableAudio(enableAudio);
+            seek(pos);
+            m_demuxer->start();
+            if (isPlay) { m_playback->start(); }
+        }, Qt::QueuedConnection);
+        connect(m_playback, &Playback::signalAudioOutputDevicesListChanged, this,
+                &FrameController::signalAudioOutputDevicesChanged);
+    }
+
+public:
+
+    ~FrameController() override {
         m_affinityThread->quit();
     }
 
@@ -88,7 +94,7 @@ public:
         emit signalSetTrack(i);
     }
 
-    void setSelectedAudioOutputDevice(QString deviceName) { m_playback->setSelectedAudioOutputDevice(deviceName); }
+    void setSelectedAudioOutputDevice(QString deviceName) { m_playback->setSelectedAudioOutputDevice(std::move(deviceName)); }
 
     QString getSelectedAudioOutputDevice() { return m_playback->getSelectedAudioOutputDevice(); }
 
@@ -169,8 +175,8 @@ public slots:
     void seek(qreal seekPos) {
         qDebug() << "Start seek for" << seekPos;
         m_playback->stop();
-
         m_demuxer->pause();  // blocking, make sure pic and sample request can be blocked
+
         // WARNING: must make sure everything (especially PTS) has been properly updated
         // otherwise, the video thread will be BLOCKING for a long time.
         emit signalDecoderSeek(seekPos); // blocking connection
@@ -201,7 +207,6 @@ public slots:
         m_playback->setStartPoint(startPoint);
         m_playback->showFrame();
 
-        qDebug() << "start point" << startPoint;
         qDebug() << "End seek for" << seekPos;
     }
 
