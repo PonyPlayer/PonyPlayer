@@ -149,9 +149,6 @@ public:
             }, Qt::QueuedConnection);
             connect(this, &Playback::signalSetSelectedAudioOutputDevice, m_audioSink,
                     &PonyAudioSink::requestDeviceSwitch);
-            connect(this, &Playback::setDesiredFormat, m_audioSink, [this](PonyAudioFormat format) {
-                m_audioSink->setFormat(std::move(format));
-            });
             connect(m_audioSink, &PonyAudioSink::signalAudioOutputDeviceListChanged, this, [this] {
                 emit signalAudioOutputDevicesListChanged();
             });
@@ -165,6 +162,7 @@ public:
     }
 
     PonyAudioFormat getDeviceFormat() {
+        std::unique_lock lock(m_workMutex);
         return m_audioSink->getCurrentDeviceFormat();
     }
 
@@ -174,6 +172,11 @@ public:
         } else {
             ILLEGAL_STATE("AudioPos not available.");
         }
+    }
+
+
+    void setDesiredFormat(const PonyAudioFormat& format) {
+        m_audioSink->setFormat(format);
     }
 
 //    qreal getVideoPos() const {
@@ -307,6 +310,7 @@ private slots:
     };
 
 
+
 signals:
 
     void startWork(QPrivateSignal);
@@ -343,7 +347,6 @@ signals:
     void requestResynchronization(bool enableAudio, bool updateAudioFormat);
 
 
-    void setDesiredFormat(PonyAudioFormat format);
 };
 
 #endif //PONYPLAYER_VIDEOWORKER_H
