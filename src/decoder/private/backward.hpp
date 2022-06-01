@@ -8,7 +8,6 @@
  * 反向Decoder
  * @tparam type
  */
-#include <iostream>
 template<IDemuxDecoder::DecoderType type>
 class ReverseDecoderImpl : public DecoderContext, public IDemuxDecoder {
 protected:
@@ -142,9 +141,11 @@ public:
         NOT_IMPLEMENT_YET
     }
 
-    int skip(const std::function<bool(qreal)> &predicate) override {
-        NOT_IMPLEMENT_YET
-    }
+    PonyAudioFormat getInputFormat() override { NOT_IMPLEMENT_YET }
+
+    void setOutputFormat(const PonyAudioFormat &format) override { NOT_IMPLEMENT_YET }
+
+    int skip(const std::function<bool(qreal)> &predicate) override { NOT_IMPLEMENT_YET }
 };
 
 /**

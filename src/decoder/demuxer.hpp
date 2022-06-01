@@ -4,7 +4,9 @@
 #pragma once
 
 #include <QObject>
+#include <utility>
 #include "private/dispatcher.hpp"
+#include "audioformat.hpp"
 
 /**
  * 生命周期伴随整个程序运行.
@@ -135,9 +137,7 @@ public:
      * 清空旧的帧, 这个方法会阻塞直到队列中的所有旧帧清理完成.
      * @see DecodeDispatcher::flush
      */
-    PONY_GUARD_BY(FRAME)
-
-    void flush() {
+    PONY_GUARD_BY(FRAME) void flush() {
         std::unique_lock lock(m_workerLock);
         m_worker->flush();
     }
@@ -151,9 +151,7 @@ public:
         m_worker->stateResume();
     }
 
-    PONY_GUARD_BY(FRAME)
-
-    void setTrack(int i) {
+    PONY_GUARD_BY(FRAME) void setTrack(int i) {
         std::unique_lock lock(m_workerLock);
         m_worker->setTrack(i);
     }
@@ -161,6 +159,22 @@ public:
     void setEnableAudio(bool enable) {
         m_worker->setEnableAudio(enable);
     }
+
+    PonyAudioFormat getInputFormat() {
+        std::unique_lock lock(m_workerLock);
+        return m_worker->getAudioInputFormat();
+    }
+
+    /**
+     * 设置 demuxer 输出格式, 必须保证 demuxer 已停止, 需要重新 seek 才能保证获取到正确的帧
+     * @param format
+     */
+    void setOutputFormat(PonyAudioFormat format) {
+        std::unique_lock lock(m_workerLock);
+        m_forward->setAudioOutputFormat(format);
+        m_backward->setAudioOutputFormat(std::move(format));
+    }
+
 
 public slots:
 
