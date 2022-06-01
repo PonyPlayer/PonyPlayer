@@ -143,14 +143,17 @@ public:
             // 在 Playback 线程上初始化
             PonyAudioFormat format(PonyPlayer::Int16, 44100, 2); // default format
             this->m_audioSink = new PonyAudioSink(format);
-            connect(m_audioSink, &PonyAudioSink::signalDeviceSwitched, this, [this]{
+            connect(m_audioSink, &PonyAudioSink::signalDeviceSwitched, this, [this] {
                 emit signalDeviceSwitched();
                 emit requestResynchronization(!this->m_audioSink->isBlock(), true);
             }, Qt::QueuedConnection);
             connect(this, &Playback::signalSetSelectedAudioOutputDevice, m_audioSink,
                     &PonyAudioSink::requestDeviceSwitch);
-            connect(this, &Playback::setDesiredFormat, m_audioSink, [this](PonyAudioFormat format){
+            connect(this, &Playback::setDesiredFormat, m_audioSink, [this](PonyAudioFormat format) {
                 m_audioSink->setFormat(std::move(format));
+            });
+            connect(m_audioSink, &PonyAudioSink::signalAudioOutputDeviceListChanged, this, [this] {
+                emit signalAudioOutputDevicesListChanged();
             });
             emit signalAudioOutputDevicesListChanged();
         });
