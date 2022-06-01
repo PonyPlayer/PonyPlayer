@@ -381,11 +381,13 @@ function videoListOperatorOnAccepted(path = "", name = "") {
     let selectedFileName = acceptedFileName
       .toString()
       .substring(acceptedFileFold.toString().length + 1);
-    mediaLibController.getFile(selectedFileName, acceptedFileName);
+    var getIconPath = mediaLibController.getFile(selectedFileName, acceptedFileName);
+    if(getIconPath == "")
+      getIconPath = "interfacepics/defaultlogo";
     listModel.append({
       fileName: selectedFileName,
       filePath: acceptedFileName,
-      iconPath: "interfacepics/defaultlogo",
+      iconPath: getIconPath,
     });
     listview.currentIndex = listModel.count - 1;
   }

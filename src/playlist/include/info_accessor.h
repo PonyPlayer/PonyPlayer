@@ -16,7 +16,7 @@ extern "C"{
 class infoAccessor {
 public:
     infoAccessor();
-    static void getInfo(QString filename,PlayListItem& res);
+    static QString getInfo(QString filename,PlayListItem& res);
 };
 
 #endif //PONYPLAYER_INFO_ACCESSOR_H
