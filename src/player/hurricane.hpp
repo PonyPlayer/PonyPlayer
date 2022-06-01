@@ -88,6 +88,7 @@ public:
 
         connect(frameController, &FrameController::signalAudioOutputDevicesChanged, this,
                 &Hurricane::audioOutputDeviceChanged);
+        connect(frameController,&FrameController::signalDeviceSwitched,this,&Hurricane::currentOutputDeviceChanged);
         emit signalPlayerInitializing(QPrivateSignal());
 #ifdef DEBUG_FLAG_AUTO_OPEN
         openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/581518754-1-208.mp4"_qs)).url());

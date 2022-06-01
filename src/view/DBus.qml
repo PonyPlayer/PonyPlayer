@@ -62,7 +62,7 @@ MenuBar {
                 model: videoArea.audioDeviceList
                 delegate: MenuItem {
                     text: model.modelData
-                    checked: text === videoArea.getCurrentOutputDevice()
+                    checked: text === videoArea.currentOutputDevice
                     onTriggered: videoArea.setCurrentOutputDevice(model.modelData)
                 }
                 onObjectAdded: audioMenu.insertItem(index, object)

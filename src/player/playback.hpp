@@ -144,6 +144,7 @@ public:
             PonyAudioFormat format(PonyPlayer::Int16, 44100, 2);
             this->m_audioSink = new PonyAudioSink(format);
             connect(m_audioSink, &PonyAudioSink::signalDeviceSwitched, this, [this]{
+                emit signalDeviceSwitched();
                 emit requestResynchronization(!this->m_audioSink->isBlock());
             }, Qt::QueuedConnection);
             connect(this, &Playback::signalSetSelectedAudioOutputDevice, m_audioSink,

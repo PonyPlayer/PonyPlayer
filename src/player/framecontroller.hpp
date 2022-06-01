@@ -29,6 +29,7 @@ public:
     }
 
 private slots:
+
     void initOnThread() {
         this->m_demuxer = new Demuxer{this};
         this->m_playback = new Playback{m_demuxer, this};
@@ -70,7 +71,7 @@ private slots:
             m_demuxer->start();
         });
         connect(m_playback, &Playback::requestResynchronization, this, [this](bool enableAudio) {
-            if(!m_demuxer->isFileOpen()) return;
+            if (!m_demuxer->isFileOpen()) return;
             bool isPlay = m_playback->isPlaying();
             qreal pos = m_playback->getPreferablePos();
             m_playback->stop();
@@ -82,6 +83,9 @@ private slots:
         }, Qt::QueuedConnection);
         connect(m_playback, &Playback::signalAudioOutputDevicesListChanged, this,
                 &FrameController::signalAudioOutputDevicesChanged);
+        connect(m_playback, &Playback::signalDeviceSwitched, this, [this] {
+            emit signalDeviceSwitched();
+        });
     }
 
 public:
@@ -94,7 +98,9 @@ public:
         emit signalSetTrack(i);
     }
 
-    void setSelectedAudioOutputDevice(QString deviceName) { m_playback->setSelectedAudioOutputDevice(std::move(deviceName)); }
+    void setSelectedAudioOutputDevice(QString deviceName) {
+        m_playback->setSelectedAudioOutputDevice(std::move(deviceName));
+    }
 
     QString getSelectedAudioOutputDevice() { return m_playback->getSelectedAudioOutputDevice(); }
 
@@ -225,6 +231,8 @@ signals:
     void signalForward();
 
     void signalAudioOutputDevicesChanged();
+
+    void signalDeviceSwitched();
 
     void openFileResult(PonyPlayer::OpenFileResultType result);
 
