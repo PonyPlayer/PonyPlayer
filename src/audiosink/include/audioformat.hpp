@@ -105,12 +105,16 @@ namespace PonyPlayer {
     static PonySampleFormat valueOf(AVSampleFormat ffmpegFormat) {
         switch (ffmpegFormat) {
             case AV_SAMPLE_FMT_U8:
+            case AV_SAMPLE_FMT_U8P:
                 return UInt8;
             case AV_SAMPLE_FMT_S16:
+            case AV_SAMPLE_FMT_S16P:
                 return Int16;
             case AV_SAMPLE_FMT_S32:
+            case AV_SAMPLE_FMT_S32P:
                 return Int32;
             case AV_SAMPLE_FMT_FLT:
+            case AV_SAMPLE_FMT_FLTP:
                 return Float;
             default:
                 return Unknown;
