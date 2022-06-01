@@ -24,7 +24,7 @@ enum class PlaybackState {
     PAUSED,  ///< 暂停状态
 };
 
-#define ASSERT_PA_OK(err, message) if (err != paNoError) { \
+#define ASSERT_PA_OK(err, message) if ((err) != paNoError) { \
 qWarning() << "Error" << Pa_GetErrorText(err); \
 ILLEGAL_STATE(message); \
 }
@@ -177,32 +177,31 @@ private:
         if (param->device == paNoDevice)
             throw std::runtime_error("no audio device!");
         param->channelCount = m_format.getChannelCount();
-        param->sampleFormat = m_format.getSampleFormatForPA();
+        param->sampleFormat = PonyPlayer::Int16.getPaSampleFormat();
         param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
         param->hostApiSpecificStreamInfo = nullptr;
         ASSERT_PA_OK(
-                Pa_OpenStream(
-                        &m_stream,
-                        nullptr,
-                        param,
-                        m_format.getSampleRate(),
-                        paFramesPerBufferUnspecified,
-                        paClipOff,
-                        [](const void *inputBuffer, void *outputBuffer,
-                           unsigned long framesPerBuffer,
-                           const PaStreamCallbackTimeInfo *timeInfo,
-                           PaStreamCallbackFlags statusFlags,
-                           void *userData) {
-                            return static_cast<PonyAudioSink *>(userData)->m_paCallback(inputBuffer, outputBuffer,
-                                                                                        framesPerBuffer,
-                                                                                        timeInfo, statusFlags);
-                        }, this), "Can not open audio stream!");
+            Pa_OpenStream(&m_stream, nullptr, param, m_format.getSampleRate(), paFramesPerBufferUnspecified, paClipOff,
+                [](
+                    const void *inputBuffer,
+                    void *outputBuffer,
+                    unsigned long framesPerBuffer,
+                    const PaStreamCallbackTimeInfo *timeInfo,
+                    PaStreamCallbackFlags statusFlags,
+                    void *userData
+                ) {
+                    return static_cast<PonyAudioSink *>(userData)->m_paCallback(inputBuffer, outputBuffer,
+                                                                                framesPerBuffer,
+                                                                                timeInfo, statusFlags);
+                }, this),
+            "Can not open audio stream!"
+        )
         const PaStreamInfo *info = Pa_GetStreamInfo(m_stream);
         m_deviceFormat = PonyAudioFormat(PonyPlayer::valueOf(paInt16), info->sampleRate,
                                          param->channelCount);
         ASSERT_PA_OK(Pa_SetStreamFinishedCallback(m_stream, [](void *userData) {
             static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
-        }), "Can not set stream callback!");
+        }), "Can not set stream callback!")
 
     }
 
@@ -372,7 +371,7 @@ public:
                                                           0x7fffffff))) {
                 len += currentLen;
             }
-        } else throw std::runtime_error("Incomplete Int16!");
+        } else ILLEGAL_STATE("Incomplete Int16!");
         len *= m_format.getBytesPerSampleChannels();
         ring_buffer_size_t bufAvailCount = PaUtil_GetRingBufferWriteAvailable(&m_ringBuffer);
 
