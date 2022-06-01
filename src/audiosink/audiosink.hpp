@@ -24,12 +24,11 @@ enum class PlaybackState {
     PAUSED,  ///< 暂停状态
 };
 
-inline void assertPaNoError(PaError err, const std::string& message) {
-    if (err != paNoError) {
-        qWarning() << "Error" << Pa_GetErrorText(err);
-        ILLEGAL_STATE(message);
-    }
+#define ASSERT_PA_OK(err, message) if (err != paNoError) { \
+qWarning() << "Error" << Pa_GetErrorText(err); \
+ILLEGAL_STATE(message); \
 }
+
 /**
  * @brief 播放音频裸流, 用于代替QAudioSink.
  *
@@ -184,7 +183,7 @@ private:
         param->sampleFormat = m_format.getSampleFormatForPA();
         param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
         param->hostApiSpecificStreamInfo = nullptr;
-        assertPaNoError(
+        ASSERT_PA_OK(
             Pa_OpenStream(
                 &m_stream,
                 nullptr,
@@ -202,7 +201,7 @@ private:
                                                                                 timeInfo, statusFlags);
                 }, this), "Can not open audio stream!");
 
-        assertPaNoError(Pa_SetStreamFinishedCallback(m_stream, [](void *userData) {
+        ASSERT_PA_OK(Pa_SetStreamFinishedCallback(m_stream, [](void *userData) {
             static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
         }), "Can not set stream callback!");
 
