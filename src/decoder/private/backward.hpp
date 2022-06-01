@@ -233,6 +233,7 @@ public:
         double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base) +
                     static_cast<double>(len)/44100;
         reverseSample(audioOutBuf, out_size);
+        pts += static_cast<double>(len)/targetFmt.getSampleRate();
         av_frame_free(&frame);
         return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts};
     }
