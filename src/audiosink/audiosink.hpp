@@ -171,8 +171,8 @@ private:
             _getDeviceList();
             selectedOutputDevice = Pa_GetDeviceInfo(Pa_GetDefaultOutputDevice())->name;
         }
-
         param->device = getCurrentOutputDeviceIndex();
+        selectedOutputDevice = Pa_GetDeviceInfo(param->device)->name;
         param->channelCount = m_format.getChannelCount();
         if (param->device == paNoDevice)
             throw std::runtime_error("no audio device!");
@@ -181,20 +181,21 @@ private:
         param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
         param->hostApiSpecificStreamInfo = nullptr;
         ASSERT_PA_OK(
-            Pa_OpenStream(&m_stream, nullptr, param, m_format.getSampleRate(), paFramesPerBufferUnspecified, paClipOff,
-                [](
-                    const void *inputBuffer,
-                    void *outputBuffer,
-                    unsigned long framesPerBuffer,
-                    const PaStreamCallbackTimeInfo *timeInfo,
-                    PaStreamCallbackFlags statusFlags,
-                    void *userData
-                ) {
-                    return static_cast<PonyAudioSink *>(userData)->m_paCallback(inputBuffer, outputBuffer,
-                                                                                framesPerBuffer,
-                                                                                timeInfo, statusFlags);
-                }, this),
-            "Can not open audio stream!"
+                Pa_OpenStream(&m_stream, nullptr, param, m_format.getSampleRate(), paFramesPerBufferUnspecified,
+                              paClipOff,
+                              [](
+                                      const void *inputBuffer,
+                                      void *outputBuffer,
+                                      unsigned long framesPerBuffer,
+                                      const PaStreamCallbackTimeInfo *timeInfo,
+                                      PaStreamCallbackFlags statusFlags,
+                                      void *userData
+                              ) {
+                                  return static_cast<PonyAudioSink *>(userData)->m_paCallback(inputBuffer, outputBuffer,
+                                                                                              framesPerBuffer,
+                                                                                              timeInfo, statusFlags);
+                              }, this),
+                "Can not open audio stream!"
         )
         const PaStreamInfo *info = Pa_GetStreamInfo(m_stream);
         m_deviceFormat = PonyAudioFormat(PonyPlayer::valueOf(paInt16), info->sampleRate,
@@ -371,7 +372,8 @@ public:
                                                           0x7fffffff))) {
                 len += currentLen;
             }
-        } else ILLEGAL_STATE("Incomplete Int16!");
+        } else
+            ILLEGAL_STATE("Incomplete Int16!");
         len *= m_format.getBytesPerSampleChannels();
         ring_buffer_size_t bufAvailCount = PaUtil_GetRingBufferWriteAvailable(&m_ringBuffer);
 
@@ -519,11 +521,10 @@ public:
     }
 
     QStringList getAudioDeviceList() {
-        std::lock_guard lock(paStreamLock);
         return devicesList;
     }
 
-    void setFormat(const PonyAudioFormat& format) {
+    void setFormat(const PonyAudioFormat &format) {
         m_format = {PonyPlayer::Int16, format.getSampleRate(), format.getChannelCount()};
         restartStream(nullptr);
     }
