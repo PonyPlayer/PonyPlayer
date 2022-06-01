@@ -518,6 +518,7 @@ public:
         };
         restartStream(middleFunc);
         emit signalAudioOutputDeviceListChanged();
+        emit signalDeviceSwitched();
     }
 
     QStringList getAudioDeviceList() {
