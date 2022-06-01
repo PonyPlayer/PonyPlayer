@@ -225,7 +225,6 @@ public:
             qDebug() << "getSample: get EOF";
             return {};
         }
-        double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base);
         int len = swr_convert(swrCtx, &audioOutBuf, 2 * MAX_AUDIO_FRAME_SIZE,
                               const_cast<const uint8_t **>(frame->data), frame->nb_samples);
 
@@ -233,6 +232,8 @@ public:
                                                   len,
                                                   AV_SAMPLE_FMT_S16,
                                                   1);
+        double pts = static_cast<double>(frame->pts) * av_q2d(stream->time_base) +
+                    static_cast<double>(len)/44100;
         reverseSample(audioOutBuf, out_size);
         av_frame_free(&frame);
         return {reinterpret_cast<std::byte *>(audioOutBuf), out_size, pts};
