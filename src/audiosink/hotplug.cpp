@@ -7,4 +7,6 @@ HotPlugDetector::HotPlugDetector(PonyAudioSink *audioSink_) {
 }
 
 std::atomic_bool PonyAudioSink::paInitialized = false;
+
+
 std::mutex PonyAudioSink::paStreamLock;

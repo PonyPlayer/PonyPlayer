@@ -569,4 +569,7 @@ public slots:
         emit signalDeviceSwitched();
     }
 
+    PonyAudioFormat getCurrentDeviceFormat() {
+        NOT_IMPLEMENT_YET
+    }
 };
