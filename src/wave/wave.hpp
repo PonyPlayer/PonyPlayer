@@ -25,7 +25,7 @@ public:
     explicit WaveView(QQuickItem *parent = nullptr) {
         lyricsReader = new LyricsReader;
 
-        connect(this, &QQuickItem::windowChanged, [this, parent](QQuickWindow *window) {
+        connect(this, &QQuickItem::windowChanged, [this](QQuickWindow *window) {
             if (!window) { return; }
             auto *context = qmlContext(this);
             while ((!hurricane || !lyricsData) && context) {

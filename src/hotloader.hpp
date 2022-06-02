@@ -17,7 +17,7 @@
 class HotLoader : public QObject {
     Q_OBJECT
 private:
-    QQmlApplicationEngine *engine;
+    [[maybe_unused]] QQmlApplicationEngine *engine;
 public:
     explicit HotLoader(QQmlApplicationEngine *e): engine(e) {
         qDebug() << "Construct HotLoader.";
