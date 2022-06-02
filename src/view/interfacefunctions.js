@@ -378,21 +378,20 @@ function videoListOperatorOnAccepted(path = "", name = "") {
     }
   }
   if (!exists) {
-    let selectedFileName = acceptedFileName
-      .toString()
-      .substring(acceptedFileFold.toString().length + 1);
+    let selectedFileName = acceptedFileName.toString().substring(acceptedFileFold.toString().length + 1);
     var getIconPath = mediaLibController.getFile(selectedFileName, acceptedFileName);
-    if(getIconPath == "")
+    if(getIconPath == "") {
       getIconPath = "interfacepics/defaultlogo";
+    }
     listModel.append({
       fileName: selectedFileName,
-      filePath: acceptedFileName,
-      iconPath: getIconPath,
+      filePath: acceptedFileName.toString(),
+      iconPath: getIconPath
     });
+
     listview.currentIndex = listModel.count - 1;
   }
 
-  console.log("QML D:", listModel.get(listview.currentIndex).filePath);
 }
 
 function trans(path, name) {
