@@ -18,6 +18,12 @@
 
 class HotPlugDetector;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+const constexpr PaDeviceIndex PA_noDevice = paNoDevice;
+const constexpr PaStreamFlags PA_clipOff = paClipOff;
+#pragma GCC diagnostic pop
+
 enum class PlaybackState {
     PLAYING, ///< 正在播放
     STOPPED, ///< 停止状态
@@ -84,10 +90,8 @@ private:
 
     }
 
-    int m_paCallback(const void *inputBuffer, void *outputBuffer,
-                     unsigned long framesPerBuffer,
-                     const PaStreamCallbackTimeInfo *timeInfo,
-                     PaStreamCallbackFlags statusFlags) {
+    int m_paCallback(const void *inputBuffer, void *outputBuffer, unsigned long framesPerBuffer,
+                     const PaStreamCallbackTimeInfo *timeInfo) {
         ring_buffer_size_t bytesAvailCount = PaUtil_GetRingBufferReadAvailable(&m_ringBuffer);
         auto bytesNeeded = static_cast<ring_buffer_size_t>(framesPerBuffer *
                                                            static_cast<unsigned long>(m_format.getBytesPerSampleChannels()));
@@ -174,15 +178,15 @@ private:
         param->device = getCurrentOutputDeviceIndex();
         selectedOutputDevice = Pa_GetDeviceInfo(param->device)->name;
         param->channelCount = m_format.getChannelCount();
-        if (param->device == paNoDevice)
-            throw std::runtime_error("no audio device!");
+        if (param->device == PA_noDevice)
+            ILLEGAL_STATE("no audio device!");
         param->channelCount = m_format.getChannelCount();
         param->sampleFormat = m_format.getSampleFormatForPA();
         param->suggestedLatency = Pa_GetDeviceInfo(param->device)->defaultLowOutputLatency;
         param->hostApiSpecificStreamInfo = nullptr;
         ASSERT_PA_OK(
                 Pa_OpenStream(&m_stream, nullptr, param, m_format.getSampleRate(), paFramesPerBufferUnspecified,
-                              paClipOff,
+                              PA_clipOff,
                               [](
                                       const void *inputBuffer,
                                       void *outputBuffer,
@@ -193,12 +197,12 @@ private:
                               ) {
                                   return static_cast<PonyAudioSink *>(userData)->m_paCallback(inputBuffer, outputBuffer,
                                                                                               framesPerBuffer,
-                                                                                              timeInfo, statusFlags);
+                                                                                              timeInfo);
                               }, this),
                 "Can not open audio stream!"
         )
         const PaStreamInfo *info = Pa_GetStreamInfo(m_stream);
-        m_deviceFormat = PonyAudioFormat(PonyPlayer::valueOf(paInt16), info->sampleRate,
+        m_deviceFormat = PonyAudioFormat(PonyPlayer::Int16, static_cast<int>(info->sampleRate),
                                          param->channelCount);
         ASSERT_PA_OK(Pa_SetStreamFinishedCallback(m_stream, [](void *userData) {
             static_cast<PonyAudioSink *>(userData)->m_paStreamFinishedCallback();
@@ -227,9 +231,9 @@ public:
      * @param format 音频格式
      * @param bufferSizeAdvice DataBuffer 的建议大小, PonyAudioSink 保证实际的 DataBuffer 不小于建议大小.
      */
-    PonyAudioSink(PonyAudioFormat format) : m_volume(0.5), m_pitch(1.0), m_state(PlaybackState::STOPPED),
+    explicit PonyAudioSink(PonyAudioFormat format) : m_volume(0.5), m_pitch(1.0), m_state(PlaybackState::STOPPED),
                                             m_format(std::move(format)),
-                                            m_speedFactor(1.0), m_deviceFormat(PonyPlayer::Unknown, 0, 0) {
+                                            m_deviceFormat(PonyPlayer::Unknown, 0, 0), m_speedFactor(1.0) {
 
 
         paStreamLock.lock();
@@ -365,7 +369,7 @@ public:
         if (origLen % m_format.getBytesPerSampleChannels() == 0) {
             sonicWriteShortToStream(sonStream, reinterpret_cast<const short *>(buf),
                                     static_cast<int>(origLen) / m_format.getBytesPerSampleChannels());
-            int currentLen = 0;
+            int currentLen;
             while ((currentLen = sonicReadShortFromStream(sonStream,
                                                           reinterpret_cast<short *>
                                                           (sonicBuffer + len * m_format.getChannelCount()),

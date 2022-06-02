@@ -183,6 +183,8 @@ namespace PonyPlayer {
         }
     }
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
     static PonySampleFormat valueOf(PaSampleFormat paSampleFormat) {
         switch (paSampleFormat) {
             case paUInt8:
@@ -196,5 +198,7 @@ namespace PonyPlayer {
             default:
                 return Unknown;
         }
+
     }
+#pragma GCC diagnostic pop
 }

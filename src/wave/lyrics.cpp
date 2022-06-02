@@ -1,4 +1,3 @@
-#include <QtCore>
 #include <QHash>
 #include <fstream>
 #include "lyrics.h"
@@ -14,7 +13,7 @@ void LyricsReader::readLyric(const QString &url) {
 }
 
 
-inline unsigned long qHash(const LyricSentence &sentence, unsigned long seed = 0) {
+inline size_t qHash(const LyricSentence &sentence, size_t seed = 0) {
     seed = qHash(sentence.getStartTime(), seed);
     seed = qHash(sentence.getEndTime(), seed);
     seed = qHash(sentence.getSentence(), seed);

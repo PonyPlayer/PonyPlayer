@@ -3,7 +3,6 @@
 //
 
 #include "info_accessor.h"
-#include <QDebug>
 #include <QImage>
 
 /*
@@ -91,8 +90,8 @@ QString infoAccessor::getInfo(QString filename, PlayListItem &res) {
 
             AVPacket *pkt = av_packet_alloc();
             AVFrame *temp_frame = av_frame_alloc();
-            SwsContext *sws_ctx = nullptr;
-            int rets = 0;
+            SwsContext *sws_ctx;
+            int rets;
             QImage preview;
             bool preview_done = false;
 
@@ -112,7 +111,7 @@ QString infoAccessor::getInfo(QString filename, PlayListItem &res) {
                         rets = avcodec_send_packet(pCodecCtx, pkt);
                         if (rets < 0) break;
                     }
-                    if (rets < 0 && rets != AVERROR_EOF) continue;
+                    if (rets < 0 && rets != ERROR_EOF) continue;
                     int dstH = 240;
                     int dstW = qRound(
                             static_cast<float>(dstH) * (float(temp_frame->width) / float(temp_frame->height)));
