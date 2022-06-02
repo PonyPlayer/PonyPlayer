@@ -200,7 +200,7 @@ public:
         // https://bugreports.qt.io/browse/QTBUG-97589
         // workaround, assume parent clip hurricane
         const QRect r = state->scissorRect();
-        glViewport(r.x(), r.y(), r.width(), r.height());
+
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         if (state->scissorEnabled()) {
@@ -218,13 +218,7 @@ public:
 
 
         program->bind();
-//        if (renderSettings.brightness.isUpdate()) {
-//            ::glUniform1f(brightnessLoc, renderSettings.brightness.getUpdate()); }
-//        if (renderSettings.contrast.isUpdate()) {
-//
-//            ::glUniform1f(contrastLoc, renderSettings.contrast.getUpdate()); }
-//        if (renderSettings.saturation.isUpdate()) {
-//            ::glUniform1f(saturationLoc, renderSettings.saturation.getUpdate()); }
+
         program->setUniformValue(saturationLoc, renderSettings.saturation.getUpdate());
         program->setUniformValue(contrastLoc, renderSettings.contrast.getUpdate());
         program->setUniformValue(brightnessLoc, renderSettings.brightness.getUpdate());
@@ -239,6 +233,23 @@ public:
         auto *imageY = videoFrame.getY();
         auto *imageU = videoFrame.getU();
         auto *imageV = videoFrame.getV();
+
+        QOpenGLFunctions_3_3_Core::glClearColor(1.F, 0.F, 0.F, 1.F);
+        {
+            double rate = static_cast<double>(imageHeight) / static_cast<double>(imageWidth);
+            double h = r.width() * rate;
+            if (h >= r.height()) {
+                double wFit = r.height() / rate;
+                double wPad = r.width() - wFit;
+                glViewport(r.x() + static_cast<GLsizei>(wPad) / 2, r.y(), static_cast<GLsizei>(wFit), r.height());
+            } else {
+                double hFit = r.width() * rate;
+                double hPad =  r.height() - hFit;
+                glViewport(r.x(), r.y()  + static_cast<GLsizei>(hPad) / 2, r.width(), static_cast<GLsizei>(hFit));
+            }
+        }
+
+
         QImage lutTexture = renderSettings.lutFilter;
 
         if (renderSettings.videoFrame.isUpdateSize()) {
