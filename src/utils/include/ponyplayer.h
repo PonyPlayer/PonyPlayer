@@ -3,6 +3,7 @@
 //
 
 #include <utility>
+#include <QString>
 #pragma once
 
 
@@ -38,8 +39,23 @@ namespace PonyPlayer {
     constexpr bool checkThreadType(T0, T ...t) {
         return std::is_same<T0, PonyThread>() && checkThreadType(t...);
     }
-}
 
+    inline QString getHome() {
+        QString home;
+#ifdef Q_OS_MAC
+        home = qEnvironmentVariable("HOME");
+        home += "/Library/Containers";
+#elif defined(Q_OS_WIN32)
+        home = qEnvironmentVariable("HOME");
+        home += "/AppData/Local";
+#elif defined(Q_OS_LINUX)
+        home = qEnvironmentVariable("HOME");
+#endif
+
+        home += "/PonyPlayer";
+        return home;
+    }
+}
 
 
 

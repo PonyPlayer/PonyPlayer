@@ -1,10 +1,12 @@
 #include "kv_engine.h"
+#include "playlist.h"
+#include "ponyplayer.h"
 #include <QMetaType>
 #include <QtSql/QtSql>
 #include <string>
 #include <sstream>
 #include <iomanip>
-#include "playlist.h"
+
 #include <QtGlobal>
 
 /*
@@ -12,23 +14,13 @@
  * @dnName: 数据库名
  */
 PonyKVConnect::PonyKVConnect(const QString &dbName) {
-    QString home;
-#ifdef Q_OS_MAC
-        home = qEnvironmentVariable("HOME");
-        home += "/Library/Containers";
-#elif defined(Q_OS_WIN32)
-        home = qEnvironmentVariable("HOME");
-        home += "/AppData/Local";
-#elif defined(Q_OS_LINUX)
-        home = qEnvironmentVariable("HOME");
-#endif
-
-    home += "/PonyPlayer";
+    QString home = PonyPlayer::getHome();
     bool done = qputenv("PONYPATH", home.toUtf8());
-    if(done)
-        qDebug()<<"Env set!"<<home;
-    else
-        qDebug()<<"Env set failed!"<<home;
+    if(done) {
+        qDebug() << "Env set!" << home;
+    } else {
+        qDebug() << "Env set failed!"<< home ;
+    }
 
     QDir dir_check;
     if(!dir_check.exists(home))
@@ -170,7 +162,7 @@ void PonyKVConnect::remove(const QString &tableName, const QObject *object) {
 }
 
 void PonyKVConnect::removeByKV(const QString &tableName, const QString &key, const QString &value) {
-    PlayListItem* pli = search<PlayListItem>(tableName,"PlayListItem",key, value);
+    auto* pli = search<PlayListItem>(tableName,"PlayListItem",key, value);
     QUrl url(pli->getIconPath());
     QString iconPath = url.toLocalFile();
     QFileInfo FileInfo(iconPath);
@@ -228,8 +220,8 @@ void PonyKVList<T>::insert(T *item) {
 }
 
 template<typename T>
-void PonyKVList<T>::remove(QString key,QString value) {
-    engine.removeByKV(tableName,key,value);
+void PonyKVList<T>::remove(const QString& key, const QString& value) {
+    engine.removeByKV(tableName, key, value);
 }
 
 template<typename T>

@@ -70,7 +70,7 @@ public:
 
     void insert(T *item);
 
-    void remove(QString key,QString value);
+    void remove(const QString& key,const QString& value);
 
     T* extractInfo(QString key,QString value);
 
