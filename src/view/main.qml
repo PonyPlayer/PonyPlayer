@@ -547,62 +547,66 @@ SwipeView{
     interactive: false
     currentIndex: 1
     clip: true
+Rectangle{
+    color:"black"
     HurricanePlayer{
-        id: videoArea
-        clip: true
-        MouseArea{
-            anchors.fill: parent
-            hoverEnabled: true //默认是false
-            propagateComposedEvents: true
-            onPositionChanged: {
-                if(mainWindow.isFullScreen)
-                {
-                    if(mainWindow.mouseFlag)
+            id: videoArea
+            clip: true
+            anchors.fill:parent
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true //默认是false
+                propagateComposedEvents: true
+                onPositionChanged: {
+                    if(mainWindow.isFullScreen)
                     {
-                        mainWindow.mouseFlag=false
-                    }
-                    else{
-                        IF.showComponents()
+                        if(mainWindow.mouseFlag)
+                        {
+                            mainWindow.mouseFlag=false
+                        }
+                        else{
+                            IF.showComponents()
+                        }
                     }
                 }
             }
-        }
-        //onResourcesEnd: {
-        //    toVideoEnd()
-        //    nextOnClicked()
-        //    toVideoBegining()
-        //}
-        onStateChanged: IF.solveStateChanged()
-        Component.onCompleted: IF.mainAreaInit()
-        onOpenFileResult: {
-            if(result == PonyPlayerNS.FAILED)
-            {
-                operationFailedDialogText.text="打开文件失败，请选择正确路径"
-                operationFailedDialog.open()
-                mainWindow.endTime=0
-            }
-            else if(result == PonyPlayerNS.VIDEO)
-            {
-                mainArea.currentIndex = 0;
+            //onResourcesEnd: {
+            //    toVideoEnd()
+            //    nextOnClicked()
+            //    toVideoBegining()
+            //}
+            onStateChanged: IF.solveStateChanged()
+            Component.onCompleted: IF.mainAreaInit()
+            onOpenFileResult: {
+                if(result == PonyPlayerNS.FAILED)
+                {
+                    operationFailedDialogText.text="打开文件失败，请选择正确路径"
+                    operationFailedDialog.open()
+                    mainWindow.endTime=0
+                }
+                else if(result == PonyPlayerNS.VIDEO)
+                {
+                    mainArea.currentIndex = 0;
+                    IF.toVideoBegining()
+                    mainWindow.endTime=Math.floor(videoArea.getAudioDuration())
+                    if (mainWindow.isInverted)
+                    {
+                        mainWindow.isInverted = false
+                    }
+                    if(mainWindow.speed=8.0)
+                    {
+                        mainWindow.speed=1.0
+                        videoArea.setSpeed(mainWindow.speed)
+                    }
+                } else if(result == PonyPlayerNS.AUDIO){
+                mainArea.currentIndex = 2;
                 IF.toVideoBegining()
-                mainWindow.endTime=Math.floor(videoArea.getAudioDuration())
+                mainWindow.endTime=Math.floor(videoArea.getAudioDuration());
                 if (mainWindow.isInverted)
                 {
                     mainWindow.isInverted = false
+                    videoArea.forward();
                 }
-                if(mainWindow.speed=8.0)
-                {
-                    mainWindow.speed=1.0
-                    videoArea.setSpeed(mainWindow.speed)
-                }
-            } else if(result == PonyPlayerNS.AUDIO){
-            mainArea.currentIndex = 2;
-            IF.toVideoBegining()
-            mainWindow.endTime=Math.floor(videoArea.getAudioDuration());
-            if (mainWindow.isInverted)
-            {
-                mainWindow.isInverted = false
-                videoArea.forward();
             }
         }
     }
