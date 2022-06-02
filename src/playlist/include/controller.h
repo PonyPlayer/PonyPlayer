@@ -13,6 +13,7 @@
 
 class Controller : public QObject {
 Q_OBJECT
+    Q_PROPERTY(QVariantList recentFiles READ getRecentFiles NOTIFY recentFilesChanged)
     QThread listOPThread;
 
 private:
@@ -117,6 +118,8 @@ signals:
     void getInfoRequirement(QString path);  // 向 PLayList 发送获取信息请求
 
     void finishGetInfo();  // 向 qml 发送查找完毕的信号
+
+    void recentFilesChanged();
 };
 
 #endif //PONYPLAYER_CONTROLLER_H

@@ -20,9 +20,9 @@ MenuBar {
             title: qsTr("最近打开的文件")
             Instantiator {
                 id: recentInstantiator
-                model: mediaLibController.getRecentFiles()
+                model: mediaLibController.recentFiles
                 delegate: MenuItem {
-                    text: "test"
+                    text: model.modelData.text
                     checked: false
                     onTriggered: videoArea.setCurrentOutputDevice(model.modelData)
                 }
