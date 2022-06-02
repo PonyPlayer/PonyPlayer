@@ -32,6 +32,7 @@ qt_add_qml_module(${PROJECT_NAME}
             OutputDevice.qml
             DBus.qml
             FiltersWindow.qml
+            IssueWindow.qml
         RESOURCES
             interfacepics/additionalsettings.png
             interfacepics/cease.png

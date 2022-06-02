@@ -277,7 +277,7 @@ Window {
                             text: (model.modelData === videoArea.currentOutputDevice ? "✔": "") + model.modelData
                             onTriggered: videoArea.setCurrentOutputDevice(model.modelData)
                         }
-                        onObjectAdded: devicesMenu.insertItem(index, object)
+                        onObjectAdded: (index,object)=> {devicesMenu.insertItem(index, object)}
                         onObjectRemoved: devicesMenu.removeItem(object)
                     }
                 }
@@ -287,7 +287,7 @@ Window {
                 }
                 //当menu加载完后，读取json文件内容，动态添加menuItem
                 Component.onCompleted: {
-                    //IF.loadingFilters()
+                    IF.loadingFilters()
                     IF.makeFileList()
                 }
             }
@@ -577,7 +577,7 @@ Rectangle{
             //}
             onStateChanged: IF.solveStateChanged()
             Component.onCompleted: IF.mainAreaInit()
-            onOpenFileResult: {
+            onOpenFileResult:(result)=> {
                 if(result == PonyPlayerNS.FAILED)
                 {
                     operationFailedDialogText.text="打开文件失败，请选择正确路径"
@@ -715,7 +715,6 @@ function setFilter(lut)
 {
     videoArea.setLUTFilter(lut)
 }
-
 Component.onCompleted: {
     if (Qt.platform.os=="osx") {
         let dbusComponent = Qt.createComponent("DBus.qml");
