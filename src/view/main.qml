@@ -225,8 +225,16 @@ Window {
             }
             MouseArea{
                 anchors.fill: parent
-                onClicked: menu.open()
                 hoverEnabled: true
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked: (mouse)=> {
+                    if (mouse.button == Qt.RightButton){
+                        //do some thing
+                    }
+                    else{
+                        menu.open()
+                    }
+                }
                 onEntered: {
                     innerBar.color="#10FFFFFF"
                 }
