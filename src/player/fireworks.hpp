@@ -10,6 +10,7 @@
 class Fireworks : public QQuickItem {
     Q_OBJECT
     QML_ELEMENT
+    Q_PROPERTY(bool keepFrameRate READ isKeepFrameRate WRITE setKeepFrameRate NOTIFY keepFrameRateChanged)
     Q_PROPERTY(int height READ getHeight NOTIFY frameSizeChanged)
     Q_PROPERTY(int width READ getWidth NOTIFY frameSizeChanged)
     Q_PROPERTY(double frameRate READ getFrameRate NOTIFY frameSizeChanged)
@@ -31,7 +32,7 @@ protected:
     }
 
 public:
-    Fireworks(QQuickItem *parent = nullptr): QQuickItem(parent), m_renderer(new FireworksRenderer),
+    explicit Fireworks(QQuickItem *parent = nullptr): QQuickItem(parent), m_renderer(new FireworksRenderer),
         m_filterPrefix(PonyPlayer::getAssetsDir() + u"/filters"_qs), m_filterJsons() {
         QDir filterDir(m_filterPrefix);
         for(auto && filename : filterDir.entryList({"*.json"})) {
@@ -61,9 +62,16 @@ public:
 PONY_GUARD_BY(MAIN) private:
     [[nodiscard]] QString getFilterPrefix() const { return m_filterPrefix; }
 
+    [[nodiscard]] bool isKeepFrameRate() const { return m_renderer->isKeepFrameRate(); }
+
     [[nodiscard]] QStringList getFilterJsons() const { return m_filterJsons; }
 
     [[nodiscard]] GLfloat getBrightness() const { return m_renderer->getBrightness(); }
+
+    void setKeepFrameRate(bool keep) {
+        m_renderer->setKeepFrameRate(keep);
+        emit keepFrameRateChanged();
+    }
 
     void setBrightness(GLfloat b) {
         m_renderer->setBrightness(b);
@@ -142,6 +150,8 @@ signals:
     void saturationChanged();
 
     void frameSizeChanged();
+
+    void keepFrameRateChanged();
 };
 
 

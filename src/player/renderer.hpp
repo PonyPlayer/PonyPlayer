@@ -39,11 +39,15 @@ const static GLuint VERTEX_INDEX[] = {
 };
 
 struct RenderSettings {
+    // For memory visibility, sync when both GUI and render threads are blocked.
+    // We have to RenderSettings, one can be modified on GUI thread (e.g. by QML),
+    // and the other will be synchronized in SYNC stage.
     UpdateValueVideoFrameRef videoFrame;
     UpdateValue<GLfloat> brightness{0.0F};
     UpdateValue<GLfloat> contrast{1.0F};
     UpdateValue<GLfloat> saturation{1.0F};
     UpdateValue<QImage> lutFilter;
+    UpdateValue<bool> keepFrameRate{true};
 
     void updateBy(RenderSettings &settings) {
         videoFrame.updateBy(settings.videoFrame);
@@ -51,6 +55,7 @@ struct RenderSettings {
         contrast.updateBy(settings.contrast);
         saturation.updateBy(settings.saturation);
         lutFilter.updateBy(settings.lutFilter);
+        keepFrameRate.updateBy(settings.keepFrameRate);
     }
 
 };
@@ -64,23 +69,27 @@ class FireworksRenderer : public QObject, public QSGRenderNode, protected QOpenG
     Q_PROPERTY(GLfloat brightness READ getBrightness WRITE setBrightness)
     Q_PROPERTY(GLfloat contrast READ getContrast WRITE setContrast)
     Q_PROPERTY(GLfloat saturation READ getSaturation WRITE setSaturation)
+    Q_PROPERTY(bool keepFrameRate READ isKeepFrameRate WRITE setKeepFrameRate)
     friend class Fireworks;
-private:
+
+PONY_GUARD_BY(MAIN) private:
     // properties
 
+    [[nodiscard]] bool isKeepFrameRate() const { return mainSettings.keepFrameRate; }
 
+    void setKeepFrameRate(bool keep) { mainSettings.keepFrameRate = keep; }
 
-    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getBrightness() const { return mainSettings.brightness; }
+    [[nodiscard]] GLfloat getBrightness() const { return mainSettings.brightness; }
 
-    PONY_GUARD_BY(MAIN) void setBrightness(GLfloat brightness) { mainSettings.brightness = brightness; }
+    void setBrightness(GLfloat brightness) { mainSettings.brightness = brightness; }
 
-    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getSaturation() const { return mainSettings.saturation; }
+    [[nodiscard]] GLfloat getSaturation() const { return mainSettings.saturation; }
 
-    PONY_GUARD_BY(MAIN) void setSaturation(GLfloat saturation) { mainSettings.saturation = saturation; }
+    void setSaturation(GLfloat saturation) { mainSettings.saturation = saturation; }
 
-    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getContrast() const { return mainSettings.contrast; }
+    [[nodiscard]] GLfloat getContrast() const { return mainSettings.contrast; }
 
-    PONY_GUARD_BY(MAIN) void setContrast(GLfloat contrast) { mainSettings.contrast = contrast; }
+    void setContrast(GLfloat contrast) { mainSettings.contrast = contrast; }
 
 
 private:
@@ -127,7 +136,7 @@ public  slots:
         contrastLoc = program->uniformLocation("contrast");
         saturationLoc = program->uniformLocation("saturation");
 
-        glClearColor(0.1f, 0.1f, 0.3f, 1.0f);
+//        glClearColor(0.1f, 0.1f, 0.3f, 1.0f);
         glGenVertexArrays(1, &vao);
         glGenBuffers(1, &vbo);
         glGenBuffers(1, &ebo);
@@ -178,7 +187,7 @@ public:
         }
     }
 
-    PONY_GUARD_BY(MAIN) void setLUTFilter(QImage image) {
+    PONY_GUARD_BY(MAIN) void setLUTFilter(const QImage& image) {
         mainSettings.lutFilter = image;
     }
 
@@ -194,8 +203,8 @@ public:
     }
 
     void render(const RenderState *state) override  {
-
         // call on render thread
+
         // Due to QTBUG-97589, we are not able to get model-view matrix
         // https://bugreports.qt.io/browse/QTBUG-97589
         // workaround, assume parent clip hurricane
@@ -207,7 +216,7 @@ public:
             glEnable(GL_SCISSOR_TEST);
             glScissor(r.x(), r.y(), r.width(), r.height());
         } else {
-            throw std::runtime_error("Scissor Test must be enabled. For example: wrap Fireworks "
+            ILLEGAL_STATE("Scissor Test must be enabled. For example: wrap Fireworks "
                                      "in a Rectangle and set clip: true. ");
         }
         if (state->stencilEnabled()) {
@@ -233,9 +242,7 @@ public:
         auto *imageY = videoFrame.getY();
         auto *imageU = videoFrame.getU();
         auto *imageV = videoFrame.getV();
-
-        QOpenGLFunctions_3_3_Core::glClearColor(1.F, 0.F, 0.F, 1.F);
-        {
+        if (renderSettings.keepFrameRate) {
             double rate = static_cast<double>(imageHeight) / static_cast<double>(imageWidth);
             double h = r.width() * rate;
             if (h >= r.height()) {

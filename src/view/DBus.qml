@@ -31,6 +31,25 @@ MenuBar {
 
         MenuItem {
             text: qsTr("滤镜")
+            onTriggered: additionalSettings.show()
+        }
+
+        MenuSeparator {}
+
+        MenuItem {
+            text: qsTr("保持比例")
+            checked: videoArea.keepFrameRate
+            onTriggered: {
+                videoArea.keepFrameRate = true
+            }
+        }
+
+        MenuItem {
+            text: qsTr("拉伸画面")
+            checked: !videoArea.keepFrameRate
+            onTriggered: {
+                videoArea.keepFrameRate = false
+            }
         }
     }
 
