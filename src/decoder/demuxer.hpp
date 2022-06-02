@@ -162,7 +162,12 @@ public:
 
     PonyAudioFormat getInputFormat() {
         std::unique_lock lock(m_workerLock);
-        return m_worker->getAudioInputFormat();
+        if (m_worker) {
+            return m_worker->getAudioInputFormat();
+        } else {
+            return PonyPlayer::DEFAULT_AUDIO_FORMAT;
+        }
+
     }
 
     /**

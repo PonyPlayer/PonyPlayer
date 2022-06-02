@@ -92,51 +92,7 @@ public:
     }
 
 };
-namespace PonyPlayer {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wold-style-cast"
-    const PonySampleFormat Unknown = PonySampleFormat::of<void>(paNonInterleaved, AV_SAMPLE_FMT_NONE);
-    const PonySampleFormat UInt8 = PonySampleFormat::of<uint8_t>(paUInt8, AV_SAMPLE_FMT_U8);
-    const PonySampleFormat Int16 = PonySampleFormat::of<int16_t>(paInt16, AV_SAMPLE_FMT_S16);
-    const PonySampleFormat Int32 = PonySampleFormat::of<int32_t>(paInt32, AV_SAMPLE_FMT_S32);
-    const PonySampleFormat Float = PonySampleFormat::of<float_t>(paFloat32, AV_SAMPLE_FMT_FLT);
-#pragma GCC diagnostic pop
 
-    static PonySampleFormat valueOf(AVSampleFormat ffmpegFormat) {
-        switch (ffmpegFormat) {
-            case AV_SAMPLE_FMT_U8:
-            case AV_SAMPLE_FMT_U8P:
-                return UInt8;
-            case AV_SAMPLE_FMT_S16:
-            case AV_SAMPLE_FMT_S16P:
-                return Int16;
-            case AV_SAMPLE_FMT_S32:
-            case AV_SAMPLE_FMT_S32P:
-                return Int32;
-            case AV_SAMPLE_FMT_FLT:
-            case AV_SAMPLE_FMT_FLTP:
-                return Float;
-            default:
-                return Unknown;
-        }
-    }
-
-    static PonySampleFormat valueOf(PaSampleFormat paSampleFormat) {
-        switch (paSampleFormat) {
-            case paUInt8:
-                return UInt8;
-            case paInt16:
-                return Int16;
-            case paInt32:
-                return Int32;
-            case paFloat32:
-                return Float;
-            default:
-                return Unknown;
-
-        }
-    }
-}
 
 
 class PonyAudioFormat {
@@ -196,3 +152,49 @@ public:
         );
     }
 };
+
+namespace PonyPlayer {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+    const PonySampleFormat Unknown = PonySampleFormat::of<void>(paNonInterleaved, AV_SAMPLE_FMT_NONE);
+    const PonySampleFormat UInt8 = PonySampleFormat::of<uint8_t>(paUInt8, AV_SAMPLE_FMT_U8);
+    const PonySampleFormat Int16 = PonySampleFormat::of<int16_t>(paInt16, AV_SAMPLE_FMT_S16);
+    const PonySampleFormat Int32 = PonySampleFormat::of<int32_t>(paInt32, AV_SAMPLE_FMT_S32);
+    const PonySampleFormat Float = PonySampleFormat::of<float_t>(paFloat32, AV_SAMPLE_FMT_FLT);
+#pragma GCC diagnostic pop
+    const PonyAudioFormat DEFAULT_AUDIO_FORMAT = {Int16, 44100, 2};
+
+    static PonySampleFormat valueOf(AVSampleFormat ffmpegFormat) {
+        switch (ffmpegFormat) {
+            case AV_SAMPLE_FMT_U8:
+            case AV_SAMPLE_FMT_U8P:
+                return UInt8;
+            case AV_SAMPLE_FMT_S16:
+            case AV_SAMPLE_FMT_S16P:
+                return Int16;
+            case AV_SAMPLE_FMT_S32:
+            case AV_SAMPLE_FMT_S32P:
+                return Int32;
+            case AV_SAMPLE_FMT_FLT:
+            case AV_SAMPLE_FMT_FLTP:
+                return Float;
+            default:
+                return Unknown;
+        }
+    }
+
+    static PonySampleFormat valueOf(PaSampleFormat paSampleFormat) {
+        switch (paSampleFormat) {
+            case paUInt8:
+                return UInt8;
+            case paInt16:
+                return Int16;
+            case paInt32:
+                return Int32;
+            case paFloat32:
+                return Float;
+            default:
+                return Unknown;
+        }
+    }
+}

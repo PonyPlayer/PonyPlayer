@@ -141,8 +141,7 @@ public:
         connect(this, &Playback::clearRingBuffer, this, [this] { this->m_audioSink->clear(); });
         connect(m_affinityThread, &QThread::started, [this] {
             // 在 Playback 线程上初始化
-            PonyAudioFormat format(PonyPlayer::Int16, 44100, 2); // default format
-            this->m_audioSink = new PonyAudioSink(format);
+            this->m_audioSink = new PonyAudioSink(PonyPlayer::DEFAULT_AUDIO_FORMAT);
             connect(m_audioSink, &PonyAudioSink::signalDeviceSwitched, this, [this] {
                 emit signalDeviceSwitched();
                 emit requestResynchronization(!this->m_audioSink->isBlock(), true);
