@@ -41,15 +41,13 @@ namespace PonyPlayer {
     }
 
     inline QString getHome() {
-        QString home;
+        QString home = QDir::homePath();
 #ifdef Q_OS_MAC
-        home = qEnvironmentVariable("HOME");
         home += "/Library/Containers";
 #elif defined(Q_OS_WIN32)
-        home = qEnvironmentVariable("HOME");
         home += "/AppData/Local";
 #elif defined(Q_OS_LINUX)
-        home = qEnvironmentVariable("HOME");
+        // nothing
 #endif
 
         home += "/PonyPlayer";
