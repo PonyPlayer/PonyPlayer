@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import "interfacefunctions.js" as IF
-import HurricanePlayer
 import Thumbnail
 Rectangle {
     //预览图限界位置
@@ -109,8 +108,8 @@ Rectangle {
         id: previewRect
         visible: false
         x:(videoSlide.x+previewDetector.mouseX-60)
-        width:120
-        height:80
+        width: 120
+        height: 80
         anchors.bottom: videoSlide.top
         anchors.bottomMargin: 5
         clip: true
@@ -119,6 +118,10 @@ Rectangle {
             player: "videoArea"
             onPreviewResponse: {
                 previewRect.visible=true
+            }
+            onFrameSizeChanged: {
+                previewRect.width = 120;
+                previewRect.height = 120 * preview.frameRate;
             }
         }
 

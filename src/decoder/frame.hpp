@@ -133,6 +133,10 @@ public:
                || (!this->isValid() && !frame.isValid());
     }
 
+    [[nodiscard]] bool isSameSize(int width, int height) const {
+        return this->isValid() && this->getWidth() == width && this->getHeight() == height;
+    }
+
 };
 
 class AudioFrame {

@@ -10,6 +10,9 @@
 class Fireworks : public QQuickItem {
     Q_OBJECT
     QML_ELEMENT
+    Q_PROPERTY(int height READ getHeight NOTIFY frameSizeChanged)
+    Q_PROPERTY(int width READ getWidth NOTIFY frameSizeChanged)
+    Q_PROPERTY(double frameRate READ getFrameRate NOTIFY frameSizeChanged)
     Q_PROPERTY(GLfloat brightness READ getBrightness WRITE setBrightness NOTIFY brightnessChanged)
     Q_PROPERTY(GLfloat contrast READ getContrast WRITE setContrast NOTIFY contrastChanged)
     Q_PROPERTY(GLfloat saturation READ getSaturation WRITE setSaturation NOTIFY saturationChanged)
@@ -19,7 +22,9 @@ private:
     FireworksRenderer *m_renderer;
     QString m_filterPrefix;
     QStringList m_filterJsons;
-
+    int m_frameHeight = 1;
+    int m_frameWidth = 1;
+    double m_frameRate = 1.0;
 protected:
     QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *data) override {
         return m_renderer;
@@ -53,32 +58,46 @@ public:
         m_renderer = nullptr;
     }
 
-    PONY_GUARD_BY(MAIN) [[nodiscard]] QString getFilterPrefix() const { return m_filterPrefix; }
+PONY_GUARD_BY(MAIN) private:
+    [[nodiscard]] QString getFilterPrefix() const { return m_filterPrefix; }
 
-    PONY_GUARD_BY(MAIN) [[nodiscard]] QStringList getFilterJsons() const { return m_filterJsons; }
+    [[nodiscard]] QStringList getFilterJsons() const { return m_filterJsons; }
 
-    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getBrightness() const { return m_renderer->getBrightness(); }
+    [[nodiscard]] GLfloat getBrightness() const { return m_renderer->getBrightness(); }
 
-    PONY_GUARD_BY(MAIN) void setBrightness(GLfloat b) {
+    void setBrightness(GLfloat b) {
         m_renderer->setBrightness(b);
         emit brightnessChanged();
     }
 
-    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getContrast() const {
+    [[nodiscard]] GLfloat getContrast() const {
         return m_renderer->getContrast();
     }
 
-    PONY_GUARD_BY(MAIN) void setContrast(GLfloat c) {
+    void setContrast(GLfloat c) {
         m_renderer->setContrast(c);
         emit contrastChanged();
     };
 
-    PONY_GUARD_BY(MAIN) [[nodiscard]] GLfloat getSaturation() const { return m_renderer->getSaturation(); };
+    [[nodiscard]] GLfloat getSaturation() const { return m_renderer->getSaturation(); };
 
-    PONY_GUARD_BY(MAIN) void setSaturation(GLfloat s) {
+    void setSaturation(GLfloat s) {
         m_renderer->setSaturation(s);
         emit saturationChanged();
     };
+
+    [[nodiscard]] int getHeight() const {
+        return m_frameHeight;
+    }
+
+    [[nodiscard]] int getWidth() const {
+        return m_frameWidth;
+    }
+
+    [[nodiscard]] double getFrameRate() const {
+        return m_frameRate;
+    }
+
 
 public slots:
 
@@ -90,6 +109,12 @@ public slots:
         if (m_renderer->setVideoFrame(pic)) {
             // make dirty
             this->update();
+            if (!pic.isSameSize(m_frameWidth, m_frameHeight)) {
+                m_frameWidth = pic.getWidth();
+                m_frameHeight = pic.getHeight();
+                m_frameRate = static_cast<double>(m_frameHeight) / static_cast<double>(m_frameWidth);
+                emit frameSizeChanged();
+            }
         }
     }
 
@@ -107,12 +132,16 @@ public slots:
         m_renderer->setLUTFilter(image);
     }
 
+
+
 signals:
     void brightnessChanged();
 
     void contrastChanged();
 
     void saturationChanged();
+
+    void frameSizeChanged();
 };
 
 
