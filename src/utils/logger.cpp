@@ -3,13 +3,16 @@
 //
 #include <QDateTime>
 #include <QMutex>
-#include <QVector>
+#include <iostream>
+#include <random>
 
 #include "include/logger.h"
+#include "include/ponyplayer.h"
 
 class Logger {
 private:
     QTextStream qTextStream{stderr};
+    QTextStream logStream;
     QMutex mutex;
     const QMap<QtMsgType, QString> types = {
             {QtDebugMsg, "D"},
@@ -27,9 +30,10 @@ private:
     enum class State{
         INITIAL, UPPER, LOWER
     };
+    QFile logFile;
 public:
+    QString logFilename;
 #ifdef QT_DEBUG
-
     inline static QString getAbbrFunctionName(QString &func) {
         State state = State::INITIAL;
         QString ret;
@@ -90,19 +94,70 @@ public:
         qTextStream.flush();
     }
 #else
+    static std::string randStr(int length) {
+        char tmp;
+        std::string buffer;
+
+        std::random_device rd;
+        std::default_random_engine random(rd());
+
+        for (int i = 0; i < length; i++) {
+            tmp = static_cast<char>(random() % 36);
+            if (tmp < 10) {
+                tmp += '0';
+            } else {
+                tmp -= 10;
+                tmp += 'A';
+            }
+            buffer += tmp;
+        }
+        return buffer;
+    }
+
+    Logger() {
+        auto home = PonyPlayer::getHome();
+        QDir dir(home);
+        dir.mkdir("log");
+        dir.cd("log");
+
+        auto ddl = QDateTime::currentDateTime().addDays(-7).toString("yyyy-MM-dd");
+
+        for (auto& filename : dir.entryList({"*.log"})) {
+            auto birthTime = filename.mid(0, 10);
+            if (birthTime < ddl) {
+                dir.remove(filename);
+            }
+        }
+
+        logFilename =  home + QString("/log/") + QDateTime::currentDateTime().toString("yyyy-MM-dd-")
+                    + randStr(16).c_str() + ".log";
+        logFile.setFileName(logFilename);
+        logFile.open(QIODevice::ReadWrite | QIODevice::Text);
+        logStream.setDevice(&logFile);
+    }
+
+    ~Logger() {
+        logFile.close();
+    }
+
     inline void log(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
         QMutexLocker locker(&mutex);
-        qTextStream << currentDateTime << " "<< types.constFind(type).value() << " " << msg << "\n";
-        qTextStream.flush();
+        logStream << currentDateTime<< " "<< types.constFind(type).value()<< " " << msg << "\n";
+        logStream.flush();
     }
 #endif
 
 };
 
-
+Logger* getLoggerInstance() {
+    static Logger logger;
+    return &logger;
+}
 
 void logMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
-    static Logger logger;
+    getLoggerInstance()->log(type, context, msg);
+}
 
-    logger.log(type, context, msg);
+QString getLogName() {
+    return getLoggerInstance()->logFilename;
 }
