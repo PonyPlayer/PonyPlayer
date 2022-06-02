@@ -49,8 +49,8 @@ private:
     HotPlugDetector *hotPlugDetector;
     QList<QString> devicesList;
     QString selectedOutputDevice;
-    static std::mutex paStreamLock;
-    static std::atomic_bool paInitialized;
+    inline static std::mutex paStreamLock;
+    inline static std::atomic_bool paInitialized = false;
 
     PonyAudioFormat m_format;
     PonyAudioFormat m_deviceFormat;

@@ -11,8 +11,6 @@ target_sources(playlist PRIVATE
 )
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 
-target_include_directories(playlist PUBLIC include)
-
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt::Core
     Qt::Gui
