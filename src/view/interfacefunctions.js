@@ -161,23 +161,23 @@ function fileListOnClicked() {
 function videoSlideDistance(flag) {
   let tmp;
   if (flag) {
-    tmp = Math.floor(mainWindow.currentTime);
+    tmp = Math.round(mainWindow.currentTime);
   } else {
-    tmp = Math.floor(mainWindow.endTime - mainWindow.currentTime);
+    tmp = Math.round(mainWindow.endTime - mainWindow.currentTime);
   }
   if (tmp < 60) {
     return tmp + "";
   } else if (tmp >= 60 && tmp < 3600) {
     let tal = tmp % 60;
-    let mid = Math.floor(tmp / 60);
+    let mid = Math.round(tmp / 60);
     if (tal < 10) {
       tal = "0" + tal;
     }
     return mid + ":" + tal;
   } else {
     let tal = tmp % 60;
-    let had = Math.floor(tmp / 3600);
-    let mid = Math.floor(tmp / 60) % 60;
+    let had = Math.round(tmp / 3600);
+    let mid = Math.round(tmp / 60) % 60;
     if (tal < 10) {
       tal = "0" + tal;
     }
@@ -381,11 +381,13 @@ function videoListOperatorOnAccepted(path = "", name = "") {
     let selectedFileName = acceptedFileName
       .toString()
       .substring(acceptedFileFold.toString().length + 1);
-    mediaLibController.getFile(selectedFileName, acceptedFileName);
+    var getIconPath = mediaLibController.getFile(selectedFileName, acceptedFileName);
+    if(getIconPath == "")
+      getIconPath = "interfacepics/defaultlogo";
     listModel.append({
       fileName: selectedFileName,
       filePath: acceptedFileName,
-      iconPath: "interfacepics/defaultlogo",
+      iconPath: getIconPath,
     });
     listview.currentIndex = listModel.count - 1;
   }

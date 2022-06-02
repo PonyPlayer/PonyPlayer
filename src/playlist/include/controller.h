@@ -71,11 +71,11 @@ public slots:
         emit finishGetInfo();
     }
 
-    void getFile(QString filename, QString path) {
+    QString getFile(QString filename, QString path) {
         PlayListItem *info = new PlayListItem;
         info->setFileName(filename);
         info->setPath(path);
-        infoAccessor::getInfo(path, *info);
+        QString iconPath = infoAccessor::getInfo(path, *info);
         qDebug() << "文件:" << info->getFileName();
         qDebug() << "路径:" << info->getPath();
         qDebug() << "帧率:" << info->getFrameRate();
@@ -90,6 +90,7 @@ public slots:
         qDebug() << "音频流大小:" << info->getAudioSize();
         qDebug() << "流数量:" << info->getStreamNumbers();
         emit insertItem(info);
+        return iconPath;
     }
 
     void sendExtractRequirement() { emit extractRequirement(); }

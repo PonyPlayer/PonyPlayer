@@ -21,18 +21,19 @@ QString saveImage(const QString& abspath, QImage &image) {
     return url.toString();
 }
 
-void infoAccessor::getInfo(QString filename, PlayListItem &res) {
+QString infoAccessor::getInfo(QString filename, PlayListItem &res) {
+    QString des = "";
     AVFormatContext *input_AVFormat_context_ = avformat_alloc_context();
     QUrl url(filename);
     filename = url.toLocalFile();
     if (avformat_open_input(&input_AVFormat_context_, filename.toStdString().c_str(), nullptr, nullptr) < 0) {
         qDebug() << "file open error!";
-        return;
+        return "";
     }
 
     if (avformat_find_stream_info(input_AVFormat_context_, nullptr) < 0) {
         qDebug() << "error";
-        return;
+        return "";
     }
 
     // 获取流数量
@@ -149,7 +150,7 @@ void infoAccessor::getInfo(QString filename, PlayListItem &res) {
             av_frame_free(&temp_frame);
             av_packet_free(&pkt);
             if (preview_done) {
-                QString des = saveImage(filename, preview);
+                des = saveImage(filename, preview);
                 res.setIconPath(des);
                 qDebug() << "QImage done";
             }
@@ -160,7 +161,7 @@ void infoAccessor::getInfo(QString filename, PlayListItem &res) {
             int ret = avcodec_parameters_to_context(avctx_video, codec_par);
             if (ret < 0) {
                 avcodec_free_context(&avctx_video);
-                return;
+                return "";
             }
             //使用AVCodecContext得到视频编码格式（不推荐）
             char buf[128];
@@ -178,7 +179,7 @@ void infoAccessor::getInfo(QString filename, PlayListItem &res) {
             int ret = avcodec_parameters_to_context(avctx_audio, codec_par);
             if (ret < 0) {
                 avcodec_free_context(&avctx_audio);
-                return;
+                return "";
             }
 
             res.setAudioFormat(avcodec_get_name(avctx_audio->codec_id));
@@ -192,4 +193,5 @@ void infoAccessor::getInfo(QString filename, PlayListItem &res) {
             res.setAudioSize(static_cast<float>(res.getAudioAverageBitRate() * secs / (8.0 * 1024)));
         }
     }
+    return des;
 }
