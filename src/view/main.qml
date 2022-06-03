@@ -70,7 +70,7 @@ Window {
     property real volumn: 0.5
     //播放音量的辅助(可无视)
     property real beforeMute: 0.25
-    //播放时滚动条的步长(倒放时为  -1)
+    //是否倒放
     property bool isInverted: false
     //播放器界面的当前宽度
     property int userWidth: 900
@@ -570,11 +570,6 @@ Rectangle{
                     }
                 }
             }
-            //onResourcesEnd: {
-            //    toVideoEnd()
-            //    nextOnClicked()
-            //    toVideoBegining()
-            //}
             onStateChanged: IF.solveStateChanged()
             Component.onCompleted: IF.mainAreaInit()
             onOpenFileResult:(result)=> {
