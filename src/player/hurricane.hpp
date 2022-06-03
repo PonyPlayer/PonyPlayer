@@ -26,7 +26,7 @@
  * @see HurricanePlayer::stateChanged()
  */
 class Hurricane : public Fireworks {
-    Q_OBJECT
+Q_OBJECT
     QML_ADDED_IN_VERSION(1, 0)
     QML_ELEMENT
 public:
@@ -53,7 +53,9 @@ public:
     Q_PROPERTY(QStringList tracks READ getTracks NOTIFY openFileResult)
     Q_PROPERTY(bool backwardStatus READ isBackward NOTIFY backwardStatusChanged)
     Q_PROPERTY(int track READ getTrack WRITE setTrack NOTIFY trackChanged)
-    Q_PROPERTY(QString currentOutputDevice READ getCurrentOutputDevice WRITE setCurrentOutputDevice NOTIFY currentOutputDeviceChanged)
+    Q_PROPERTY(
+            QString currentOutputDevice READ getCurrentOutputDevice WRITE setCurrentOutputDevice NOTIFY currentOutputDeviceChanged)
+    Q_PROPERTY(double speed READ getSpeed WRITE setSpeed NOTIFY speedChanged)
 
 private:
     bool backwardStatus = false;
@@ -62,6 +64,7 @@ private:
 private:
     FrameController *frameController;
     int track = -1;
+    double speed = 1.0;
 public:
     explicit Hurricane(QQuickItem *parent = nullptr) : Fireworks(parent) {
         frameController = new FrameController(this);
@@ -106,6 +109,10 @@ public:
         return track;
     }
 
+    double getSpeed() {
+        return speed;
+    }
+
     bool isBackward() { return backwardStatus; }
 
     QStringList getAudioDeviceList() { return frameController->getAudioDeviceList(); }
@@ -140,6 +147,8 @@ signals:
     void currentOutputDeviceChanged();
 
     void pitchChanged();
+
+    void speedChanged();
 
 
 Q_SIGNALS:
@@ -256,6 +265,8 @@ public slots:
      */
     Q_INVOKABLE void setSpeed(qreal speed) {
         frameController->setSpeed(speed);
+        this->speed = speed;
+        emit speedChanged();
     }
 
     /**
@@ -360,6 +371,7 @@ public slots:
 
         qDebug() << "Set Music Track" << i;
     }
+
 
     Q_INVOKABLE void forward() {
         bool playing = false;

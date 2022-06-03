@@ -15,8 +15,20 @@ MenuBar {
             onTriggered: fileDialog.open()
         }
 
-        MenuItem {
-            text: qsTr("最近打开的文件")
+        Menu {
+            id: recentMenu
+            title: qsTr("最近打开的文件")
+            Instantiator {
+                id: recentInstantiator
+                model: mediaLibController.getRecentFiles()
+                delegate: MenuItem {
+                    text: "test"
+                    checked: false
+                    onTriggered: videoArea.setCurrentOutputDevice(model.modelData)
+                }
+                onObjectAdded: recentMenu.insertItem(index, object)
+                onObjectRemoved: recentMenu.removeItem(object)
+            }
         }
     }
 
@@ -34,7 +46,7 @@ MenuBar {
             onTriggered: additionalSettings.show()
         }
 
-        MenuSeparator {}
+        MenuSeparator { }
 
         MenuItem {
             text: qsTr("保持比例")
@@ -56,11 +68,22 @@ MenuBar {
     Menu {
         id: playMenu
         title: qsTr("播放")
+        Menu {
+            property var speed: [0.5, 1.0, 1.25, 1.5, 2.0, 4.0, 8.0]
+            id: speedMenu
+            title: qsTr("倍速")
+            Instantiator {
+                id: speedInstantiator
+                model: speedMenu.speed
+                delegate: MenuItem {
+                    text: model.modelData
+                    checked: text==videoArea.speed
+                    onTriggered: videoArea.setSpeed(parseFloat(text));
+                }
+                onObjectAdded: speedMenu.insertItem(index, object)
+                onObjectRemoved: speedMenu.removeItem(index, object)
+            }
 
-        MenuItem {
-            property int selected: 1
-            text: qsTr("倍速")
-            onTriggered: additionalSettings.show()
         }
 
         MenuItem {
@@ -86,7 +109,7 @@ MenuBar {
                 }
                 onObjectAdded: audioMenu.insertItem(index, object)
                 onObjectRemoved: audioMenu.removeItem(object)
-           }
+            }
         }
         Menu {
             id: trackMenu_
@@ -101,7 +124,7 @@ MenuBar {
                 }
                 onObjectAdded: trackMenu_.insertItem(index, object)
                 onObjectRemoved: trackMenu_.removeItem(index, object)
-           }
+            }
         }
     }
 }

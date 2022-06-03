@@ -716,12 +716,12 @@ function setFilter(lut)
     videoArea.setLUTFilter(lut)
 }
 Component.onCompleted: {
-    if (Qt.platform.os=="osx") {
+    //if (Qt.platform.os=="osx") {
         let dbusComponent = Qt.createComponent("DBus.qml");
         let dbusItem = dbusComponent.createObject(mainWindow, { id: "dbus" });
         topBar.height = 0;
         topBar.visible = false;
-    }
+    //}
 }
 FileDialog{
     id: fileDialog
