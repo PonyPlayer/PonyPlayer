@@ -97,7 +97,7 @@ public:
         if (m_forward) {
             return m_forward->getTracks();
         } else {
-            return {u"Not Open File"_qs};
+            return {u"没有打开的文件"_qs};
         }
     }
 
