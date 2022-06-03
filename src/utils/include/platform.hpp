@@ -46,7 +46,7 @@ namespace PonyPlayer {
         arguments.append("end tell");
         QProcess::startDetached("osascript", arguments);
 #elif defined(Q_OS_WIN32)
-        program = "explorer.exe";
+        QStringList arguments;
         arguments.append("/select,");
         arguments.append(QDir::toNativeSeparators(filePath));
         QProcess::startDetached("explorer.exe", arguments);
