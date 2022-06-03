@@ -143,7 +143,9 @@ public:
     inline void log(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
         QMutexLocker locker(&mutex);
         logStream << currentDateTime<< " "<< types.constFind(type).value()<< " " << msg << "\n";
+        qTextStream << currentDateTime<< " "<< types.constFind(type).value()<< " " << msg << "\n";
         logStream.flush();
+        qTextStream.flush();
     }
 #endif
 
