@@ -167,6 +167,13 @@ Window {
         }
     }
 
+    Shortcut {
+        sequence: "F1"
+        onActivated: {
+            hotLoader.crash();
+        }
+    }
+
 
     MouseArea{
         anchors.fill: parent

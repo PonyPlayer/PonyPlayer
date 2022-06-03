@@ -26,12 +26,12 @@ QString infoAccessor::getInfo(QString filename, PlayListItem &res) {
     QUrl url(filename);
     filename = url.toLocalFile();
     if (avformat_open_input(&input_AVFormat_context_, filename.toStdString().c_str(), nullptr, nullptr) < 0) {
-        qDebug() << "file open error!";
+        qDebug() << "file open reportErrorMain!";
         return "";
     }
 
     if (avformat_find_stream_info(input_AVFormat_context_, nullptr) < 0) {
-        qDebug() << "error";
+        qDebug() << "reportErrorMain";
         return "";
     }
 

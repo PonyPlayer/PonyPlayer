@@ -91,7 +91,7 @@ ApplicationWindow {
                     id: restartApplication
                     text: "重启程序"
                     onClicked: {
-                        crash_reporter.restart()
+                        crash_reporter.restartApplication()
                     }
                 }
             }
