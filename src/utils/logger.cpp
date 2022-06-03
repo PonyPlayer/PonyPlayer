@@ -160,6 +160,6 @@ void logMessageHandler(QtMsgType type, const QMessageLogContext &context, const 
     getLoggerInstance()->log(type, context, msg);
 }
 
-QString getLogName() {
+QString PonyPlayer::getLogFile() {
     return getLoggerInstance()->logFilename;
 }

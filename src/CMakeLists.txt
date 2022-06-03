@@ -1,4 +1,4 @@
-﻿qt_add_executable(${PROJECT_NAME} main.cpp hotloader.hpp cursor.hpp ${PONY_ICON})
+﻿qt_add_executable(${PROJECT_NAME} main.cpp hotloader.hpp cursor.hpp crashreporter.hpp ${PONY_ICON})
 add_subdirectory(view)
 add_subdirectory(utils)
 add_subdirectory(decoder)

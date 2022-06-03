@@ -37,6 +37,12 @@ public:
         qWarning() << "Complete hot reloading.";
 #endif
     }
+
+    Q_INVOKABLE void crash() {
+#ifdef QT_DEBUG
+        throw std::runtime_error("Crash Test!");
+#endif
+    }
 };
 
 #endif //PONYPLAYER_HOTLOADER_H

@@ -29,16 +29,18 @@
 
 import QtQuick
 import QtQuick.Window
-import QtQuick.Controls
+import QtQuick.Controls.Material
 ApplicationWindow {
-    id:issueWindow
+    id: issueWindow
     visible: true
-    title: "程序崩溃处理"
+    title: "PonyPlayer Crash Reporter"
+    Material.theme: Material.System
+    Material.accent: Material.Grey
 
-    maximumHeight: 160
-    maximumWidth: 320
-    minimumWidth: 320
-    minimumHeight: 160
+    maximumHeight: 10000
+    maximumWidth: 10000
+    minimumWidth: 800
+    minimumHeight: 600
 
 
     property string logFilePath: ""
@@ -54,12 +56,13 @@ ApplicationWindow {
         id: tips
         anchors.topMargin: 10
         anchors.top: parent.top
-        text: "抱歉程序崩溃了，请提交issue，issue为:"
+        text: "抱歉程序崩溃了, 我们已经记录了相关错误信息, 请附上日志提交反馈, 谢谢!"
+        wrapMode: Text.WordWrap
         anchors.horizontalCenter: parent.horizontalCenter
     }
     Text{
         id:issueMessage
-        text: "初始化"
+        text: crash_reporter.crashMessage
         anchors.top: tips.bottom
         anchors.topMargin: 30
         anchors.horizontalCenter: parent.horizontalCenter
@@ -70,31 +73,24 @@ ApplicationWindow {
         anchors.top: issueMessage.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         Button{
-            id:submitIssue
-            text: "提出issue"
+            id: submitIssue
+            text: "提出Issue"
             onClicked: {
-                issueWindow.submitIssueForWeb(issueMessage.text)
-                issueWindow.close()
+                crash_reporter.openIssueBrowser()
             }
         }
         Button{
-            id:submit
-            text: "打开日志文件"
+            id: copyLogPath
+            text: "复制日志路径"
+            onClicked: {
+                crash_reporter.copyLogPath()
+            }
         }
         Button{
-            id:restartProgram
+            id: restartApplication
             text: "重启程序"
             onClicked: {
-                issueWindow.restartProgram()
-                issueWindow.close()
-            }
-        }
-        Button{
-            id:closeProgram
-            text: "关闭程序"
-            onClicked: {
-                issueWindow.closeProgram()
-                issueWindow.close()
+                crash_reporter.restart()
             }
         }
     }

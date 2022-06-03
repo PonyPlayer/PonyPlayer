@@ -41,7 +41,7 @@ import "./interfacefunctions.js" as IF
 import ponyplayer.ns 1.0
 
 Window {
-    Material.theme: Material.Dark
+    Material.theme: Material.System
     Material.accent: Material.Grey
     function rgb(r, g, b)
     {

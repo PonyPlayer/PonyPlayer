@@ -7,4 +7,8 @@
 #include <QtCore>
 void initializeLogHandler();
 void logMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+
+namespace PonyPlayer {
+    QString getLogFile();
+}
 #endif //SOFTWAREENGINEERING_LOGGER_H
