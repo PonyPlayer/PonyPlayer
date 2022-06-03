@@ -49,8 +49,9 @@ public slots:
 
 public:
     CrashReporter(QString crashMessage, const QString& logFile, const QString& program, const QStringList& arguments, QObject *parent = nullptr) : QObject(parent),
-        crashMessage(std::move(crashMessage)), logFile(absolute(std::filesystem::path(logFile.toStdString())).c_str()), process() {
+        crashMessage(std::move(crashMessage)), logFile(QFileInfo(logFile).absoluteFilePath()), process() {
         process.setProgram(program);
         process.setArguments(arguments);
+
     }
 };
