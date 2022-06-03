@@ -38,7 +38,7 @@ public:
     }
 
     Q_INVOKABLE void crash() {
-#ifndef QT_DEBUG
+#ifdef QT_DEBUG
         throw std::runtime_error("Crash Test!");
 #endif
     }

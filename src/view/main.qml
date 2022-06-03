@@ -161,6 +161,13 @@ Window {
     flags: (Qt.platform.os=="osx")? Qt.Window: (Qt.Window | Qt.FramelessWindowHint)
 
     Shortcut {
+        sequence: "F2"
+        onActivated: {
+            console.log("Try crash program.")
+            hotLoader.crash();
+        }
+    }
+    Shortcut {
         sequence: "F5"
         onActivated: {
             hotLoader.reload();
