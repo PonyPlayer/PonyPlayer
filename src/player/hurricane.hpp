@@ -47,7 +47,7 @@ public:
     Q_ENUM(HurricaneState)
 
     QML_ELEMENT
-    Q_PROPERTY(qreal pitch READ getPitch WRITE setPitch)
+    Q_PROPERTY(qreal pitch READ getPitch WRITE setPitch NOTIFY pitchChanged)
     Q_PROPERTY(HurricaneState state READ getState NOTIFY stateChanged FINAL)
     Q_PROPERTY(QStringList audioDeviceList READ getAudioDeviceList NOTIFY audioOutputDeviceChanged)
     Q_PROPERTY(QStringList tracks READ getTracks NOTIFY openFileResult)
@@ -87,7 +87,7 @@ public:
 
         connect(frameController, &FrameController::signalAudioOutputDevicesChanged, this,
                 &Hurricane::audioOutputDeviceChanged);
-        connect(frameController,&FrameController::signalDeviceSwitched,this,&Hurricane::currentOutputDeviceChanged);
+        connect(frameController, &FrameController::signalDeviceSwitched, this, &Hurricane::currentOutputDeviceChanged);
         emit signalPlayerInitializing(QPrivateSignal());
 #ifdef DEBUG_FLAG_AUTO_OPEN
         openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/581518754-1-208.mp4"_qs)).url());
@@ -138,6 +138,8 @@ signals:
     void trackChanged();
 
     void currentOutputDeviceChanged();
+
+    void pitchChanged();
 
 
 Q_SIGNALS:

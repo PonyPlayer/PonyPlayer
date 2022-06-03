@@ -18,12 +18,6 @@
 
 class HotPlugDetector;
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wold-style-cast"
-const constexpr PaDeviceIndex PA_noDevice = paNoDevice;
-const constexpr PaStreamFlags PA_clipOff = paClipOff;
-#pragma GCC diagnostic pop
-
 enum class PlaybackState {
     PLAYING, ///< 正在播放
     STOPPED, ///< 停止状态
@@ -178,7 +172,7 @@ private:
         param->device = getCurrentOutputDeviceIndex();
         selectedOutputDevice = Pa_GetDeviceInfo(param->device)->name;
         param->channelCount = m_format.getChannelCount();
-        if (param->device == PA_noDevice)
+        if (param->device == paNoDevice)
             ILLEGAL_STATE("no audio device!");
         param->channelCount = m_format.getChannelCount();
         param->sampleFormat = m_format.getSampleFormatForPA();
@@ -186,7 +180,7 @@ private:
         param->hostApiSpecificStreamInfo = nullptr;
         ASSERT_PA_OK(
                 Pa_OpenStream(&m_stream, nullptr, param, m_format.getSampleRate(), paFramesPerBufferUnspecified,
-                              PA_clipOff,
+                              paClipOff,
                               [](
                                       const void *inputBuffer,
                                       void *outputBuffer,

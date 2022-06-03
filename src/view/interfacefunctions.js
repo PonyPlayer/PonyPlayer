@@ -438,7 +438,6 @@ function footerOnCompleted() {
   mainWindow.mainWindowLostFocus.connect(lostFocus);
 }
 function sliderToFront() {
-  console.log("slider    vake    now");
   videoSlide.value = 0.0;
 }
 function lostFocus() {

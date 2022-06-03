@@ -129,7 +129,7 @@ void Controller::updateRecentFile(QString filePath) {
 
 QVariantMap Controller::getListItemInfo() {
     QVariantMap res;
-    qDebug()<<playListItemResult->getVideoWidth()+"*"+playListItemResult->getVideoHeight();
+    qDebug() << playListItemResult->getVideoWidth() << "*" << playListItemResult->getVideoHeight();
     res["文件名"] = QVariant::fromValue(playListItemResult->getFileName());
     res["文件路径"] = QVariant::fromValue(playListItemResult->getPath());
     res["时长"] = QVariant::fromValue(playListItemResult->getDuration());

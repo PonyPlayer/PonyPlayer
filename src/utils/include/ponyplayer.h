@@ -41,6 +41,10 @@ namespace PonyPlayer {
         return std::is_same<T0, PonyThread>() && checkThreadType(t...);
     }
 
+    /**
+     * 获取数据存储目录, 保证可写
+     * @return 数据存储目录, 不以'/'结尾
+     */
     inline QString getHome() {
         QString home = QDir::homePath();
 #ifdef Q_OS_MAC

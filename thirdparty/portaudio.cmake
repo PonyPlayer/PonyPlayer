@@ -17,10 +17,6 @@ FetchContent_Declare(portaudio
 
 FetchContent_MakeAvailable(portaudio)
 
-include_directories("${portaudio_SOURCE_DIR}/include")
-include_directories("${portaudio_SOURCE_DIR}/src/common")
-set_property(
-    DIRECTORY ${portaudio_SOURCE_DIR}
-    APPEND
-    PROPERTY COMPILE_OPTIONS -w
-)
+include_directories(SYSTEM "${portaudio_SOURCE_DIR}/include")
+include_directories(SYSTEM "${portaudio_SOURCE_DIR}/src/common")
+target_compile_options(portaudio_static PRIVATE -w)
