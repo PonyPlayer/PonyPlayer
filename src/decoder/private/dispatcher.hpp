@@ -136,6 +136,8 @@ public:
     virtual PonyAudioFormat getAudioInputFormat() = 0;
 
     virtual void setAudioOutputFormat(PonyAudioFormat format) = 0;
+
+    virtual void test_onWork() = 0;
 };
 
 /**
@@ -339,6 +341,10 @@ public:
         m_audioDecoder->setOutputFormat(format);
     }
 
+    void test_onWork() override {
+        onWork();
+    }
+
 private slots:
 
     void onWork() {
@@ -516,6 +522,10 @@ public:
     }
 
     bool hasVideo() override { return videoStreamIndex >= 0 && videoStream->nb_frames > 0; }
+
+    void test_onWork() override {
+        onWork();
+    }
 
 private slots:
 
