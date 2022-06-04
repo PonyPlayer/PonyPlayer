@@ -11,12 +11,10 @@
 #include "readerwriterqueue.h"
 #include "sonic.h"
 #include "audioformat.hpp"
-#include "hotplug.h"
-#include "helper.hpp"
+#include "private/hotplug.hpp"
+#include "ponyplayer.h"
 #include <mutex>
 #include <shared_mutex>
-
-class HotPlugDetector;
 
 enum class PlaybackState {
     PLAYING, ///< 正在播放
@@ -38,7 +36,7 @@ ILLEGAL_STATE(message); \
  * 维护, 当需要播放音频时需要先调用 write 函数将音频数据写入 DataBuffer.
  */
 class PonyAudioSink : public QObject {
-Q_OBJECT
+    Q_OBJECT
 private:
 
     PaStream *m_stream{};
@@ -216,6 +214,17 @@ private:
         return "UNKNOWN";
     }
 
+    static unsigned nextPowerOf2(unsigned val) {
+        val--;
+        val = (val >> 1) | val;
+        val = (val >> 2) | val;
+        val = (val >> 4) | val;
+        val = (val >> 8) | val;
+        val = (val >> 16) | val;
+        return ++val;
+    }
+
+
 
 public:
     constexpr const static qreal MAX_SPEED_FACTOR = 4;
@@ -247,6 +256,8 @@ public:
         sonicSetSpeed(sonStream, static_cast<float>(m_speedFactor));
         // HotPlugDetector should be created after PA stream open
         hotPlugDetector = new HotPlugDetector(this);
+        connect(hotPlugDetector, &HotPlugDetector::audioOutputsChanged, this,
+                &PonyAudioSink::onAudioOutputDevicesChanged);
     }
 
     /**
@@ -549,7 +560,7 @@ signals:
 
 public slots:
 
-    void audioOutputDevicesChanged() {
+    void onAudioOutputDevicesChanged() {
         refreshDevicesList();
     }
 

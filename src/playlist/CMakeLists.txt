@@ -17,6 +17,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt::Quick
     Qt::Sql
     utils
-    decoder
 )
 

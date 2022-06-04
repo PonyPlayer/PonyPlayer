@@ -5,7 +5,7 @@
 #ifndef PONYPLAYER_INFO_ACCESSOR_H
 #define PONYPLAYER_INFO_ACCESSOR_H
 
-#include "helper.hpp"
+#include "ponyplayer.h"
 INCLUDE_FFMPEG_BEGIN
 #include "libavcodec/avcodec.h"
 #include "libavformat/avformat.h"

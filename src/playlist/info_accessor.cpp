@@ -111,7 +111,7 @@ QString infoAccessor::getInfo(QString filename, PlayListItem &res) {
                         rets = avcodec_send_packet(pCodecCtx, pkt);
                         if (rets < 0) break;
                     }
-                    if (rets < 0 && rets != ERROR_EOF) continue;
+                    if (rets < 0 && rets != AVERROR_EOF) continue;
                     int dstH = 240;
                     int dstW = qRound(
                             static_cast<float>(dstH) * (float(temp_frame->width) / float(temp_frame->height)));

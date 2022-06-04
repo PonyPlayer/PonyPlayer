@@ -1,11 +1,32 @@
 //
 // Created by ColorsWind on 2022/5/13.
 //
-
+#pragma once
 #include <utility>
 #include <QString>
 #include <QDir>
-#pragma once
+
+
+#if defined(WIN32) || defined(linux)
+#define INCLUDE_FFMPEG_BEGIN \
+extern "C" {       \
+_Pragma("GCC diagnostic push") \
+_Pragma("GCC diagnostic ignored \"-Wold-style-cast\"") \
+_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"") \
+_Pragma("GCC diagnostic ignored \"-Wconversion\"")
+#elif defined(__APPLE__)
+#define INCLUDE_FFMPEG_BEGIN \
+extern "C" {       \
+_Pragma("GCC diagnostic push") \
+_Pragma("GCC diagnostic ignored \"-Wold-style-cast\"") \
+_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"") \
+_Pragma("GCC diagnostic ignored \"-Wimplicit-int-conversion\"")
+#endif
+
+#define INCLUDE_FFMPEG_END \
+_Pragma("GCC diagnostic pop") \
+}
+
 
 
 #ifdef NDEBUG

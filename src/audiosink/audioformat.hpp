@@ -6,7 +6,6 @@
 #include <QtCore>
 #include <utility>
 #include "portaudio.h"
-#include "helper.hpp"
 
 INCLUDE_FFMPEG_BEGIN
 #include "libavutil/samplefmt.h"
