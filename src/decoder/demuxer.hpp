@@ -285,8 +285,10 @@ public slots:
         } else {
             qWarning() << "Try to close file while no file has been opened.";
         }
+    }
 
-
+    void test_onWork() {
+        m_worker->test_onWork();
     }
 
 signals:
