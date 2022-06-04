@@ -54,6 +54,8 @@ private slots:
             m_playback->stop();
             m_demuxer->pause();
             m_demuxer->setTrack(i);
+            m_playback->setDesiredFormat(m_demuxer->getInputFormat());
+            m_demuxer->setOutputFormat(m_playback->getDeviceFormat());
             seek(pos);
         });
         connect(this, &FrameController::signalBackward, this, [this] {

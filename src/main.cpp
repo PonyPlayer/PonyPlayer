@@ -85,6 +85,7 @@ int main(int argc, char *argv[]) {
     }
 
     signal(SIGABRT, PonyPlayer::signalHandler);
+    signal(SIGSEGV, PonyPlayer::signalHandler);
 
     QQuickWindow::setGraphicsApi(QSGRendererInterface::GraphicsApi::OpenGL);
     QSurfaceFormat format;
