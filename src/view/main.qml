@@ -144,15 +144,15 @@ Window {
         width: 200
         height: 150
         Rectangle{
-            anchors.fill:parent
-            color:"#666666"
+            anchors.fill: parent
+            color: "#666666"
             Text{
                 id: operationFailedDialogText
                 text: "打开文件失败，请选择正确路径"
                 anchors.centerIn: parent
                 font.bold: true
                 font.italic: true
-                color:"white"
+                color: "white"
             }
         }
     }
@@ -282,7 +282,18 @@ Window {
             }
             Menu{
                 id: currentFilePathList
-                title: "最近打开的文件"
+                title: qsTr("最近打开的文件")
+                Instantiator {
+                    id: recentInstantiator_
+                    model: mediaLibController.recentFiles
+                    delegate: MenuItem {
+                        text: model.modelData[0]
+                        checked: false
+                        onTriggered: videoArea.openFile(model.modelData[1])
+                    }
+                    onObjectAdded: currentFilePathList.insertItem(index, object)
+                    onObjectRemoved: currentFilePathList.removeItem(object)
+                }
             }
             SpeedMenu{
 
@@ -733,11 +744,11 @@ function setFilter(lut)
 Component.onCompleted: {
     if (Qt.platform.os=="osx")
     {
-    let dbusComponent = Qt.createComponent("DBus.qml");
-    let dbusItem = dbusComponent.createObject(mainWindow, { id: "dbus" });
-    topBar.height = 0;
-    topBar.visible = false;
-}
+        let dbusComponent = Qt.createComponent("DBus.qml");
+        let dbusItem = dbusComponent.createObject(mainWindow, { id: "dbus" });
+        topBar.height = 0;
+        topBar.visible = false;
+    }
 }
 FileDialog{
     id: fileDialog
