@@ -22,14 +22,17 @@ class VideoFrame {
     const bool m_isValid;
 
     friend class VideoFrameRef;
-
 public:
+    static inline std::atomic<int> totalCount = 0;
 
     VideoFrame(AVFrame *frame, double pts, const bool isValid)
-            : m_frame(frame), m_refCount(1), m_pts(pts), m_isValid(isValid) {}
+            : m_frame(frame), m_refCount(1), m_pts(pts), m_isValid(isValid) {
+        if (frame) ++totalCount;
+    }
 
     ~VideoFrame() {
         if (m_frame) {
+            --totalCount;
             av_frame_free(&m_frame);
         }
     }

@@ -73,6 +73,6 @@ TEST(decoder_test, test_preview) {
     std::cerr << pict.getPTS() << std::endl;
 
     pict = previewer.previewRequest(17.0);
-    std::cerr << "---------17.0---------" << std::endl;
+    std::cerr << "---------17 .0---------" << std::endl;
     std::cerr << pict.getPTS() << std::endl;
 }

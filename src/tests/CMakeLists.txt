@@ -13,6 +13,7 @@ add_executable(
         unit_tests
         example_test.cpp
         decoder_test.cpp
+        frame_test.cpp
 )
 
 target_link_libraries(unit_tests
