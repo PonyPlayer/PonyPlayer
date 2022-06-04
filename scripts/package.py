@@ -57,7 +57,7 @@ def apply_packaging():
     elif platform.system() == 'Linux':
         execute(f"cd {build_dir} && cmake --install . --prefix AppDir")
         appdir_dir = build_dir / "AppDir"
-        recipe_template = build_dir.parent / "config" / "linux-x64" / "AppImageBuilder.yml"
+        recipe_template = build_dir.parent / "config" / "AppImageBuilder.yml"
         with open(recipe_template, "r", encoding="utf-8-sig") as f:
             content = f.read()
         variables = {
