@@ -138,18 +138,23 @@ Window {
     FiltersWindow{
         id: filterswindow
     }
-    Dialog{
-        id: operationFailedDialog
+    Window{
+        id: operationFailedWindow
         title: "操作失败"
         width: 200
         height: 150
-        standardButtons: Dialog.Ok
-        Text{
-            id: operationFailedDialogText
-            text: "打开文件失败，请选择正确路径"
-            anchors.centerIn: parent
+        Rectangle{
+            anchors.fill:parent
+            color:"#666666"
+            Text{
+                id: operationFailedDialogText
+                text: "打开文件失败，请选择正确路径"
+                anchors.centerIn: parent
+                font.bold: true
+                font.italic: true
+                color:"white"
+            }
         }
-        onAccepted: console.log("Ok clicked")
     }
 
     width: 900
@@ -590,8 +595,8 @@ SwipeView{
             onOpenFileResult: (result)=> {
             if(result == PonyPlayerNS.FAILED)
             {
-                operationFailedDialogText.text="打开文件失败，请选择正确路径"
-                operationFailedDialog.open()
+                operationFailedDialogText.text="文件不存在或文件格式不支持"
+                operationFailedDialog.show()
                 mainWindow.endTime=0
             }
             else if(result == PonyPlayerNS.VIDEO)
