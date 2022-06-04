@@ -30,6 +30,17 @@ void getFrame(Demuxer* demuxer, qreal seekTo = 0.0, int n_frames = 10) {
     thread.join();
 }
 
+TEST(decoder_test, test_change_file) {
+    auto demuxer = getDemuxer("D:/test_video/dj.mp4");
+    std::cerr << demuxer->videoDuration() << std::endl;
+    getFrame(demuxer, 0, 3);
+    demuxer->close();
+    demuxer->openFile("D:/test_video/bili.mp4");
+    demuxer->setOutputFormat(demuxer->getInputFormat());
+    std::cerr << demuxer->videoDuration() << std::endl;
+    getFrame(demuxer, 0, 3);
+    demuxer->close();
+}
 
 TEST(decoder_test, test_forward_getFrame) {
     auto demuxer = getDemuxer("D:/test_video/dj.mp4");
