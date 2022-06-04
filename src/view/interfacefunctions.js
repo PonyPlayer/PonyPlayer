@@ -210,7 +210,7 @@ function isBoundary() {
   if (mainWindow.isInverted && mainWindow.currentTime <= 0) {
     toVideoBegining();
     operationFailedDialogText.text = "已到达开头，无法继续倒放";
-    operationFailedDialog.open();
+    operationFailedDialog.show();
     return true;
   }
   //右边界
