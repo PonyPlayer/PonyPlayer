@@ -9,14 +9,6 @@ Rectangle {
     property string image
     property string lut
     color:"gray"
-    Dialog{
-        id:dialog
-        title: ("是否选择滤镜: "+filterItem.filterName)
-        standardButtons: Dialog.Ok | Dialog.Cancel
-        onAccepted: {
-            mainWindow.setFilter(filterItem.lut)
-        }
-    }
     Image {
         id: filterItemImage
         width: 200
@@ -26,7 +18,7 @@ Rectangle {
         MouseArea{
             anchors.fill: parent
             cursorShape: "PointingHandCursor"
-            onClicked: dialog.open()
+            onClicked: mainWindow.setFilter(filterItem.lut)
         }
     }
     Text {

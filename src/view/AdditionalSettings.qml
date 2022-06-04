@@ -8,9 +8,9 @@ import QtQuick.Dialogs
 Window{
     id: additionalSettings
     title: "播放设置"
-    maximumHeight: 300
+    maximumHeight: 250
     maximumWidth: 200
-    minimumHeight: 300
+    minimumHeight: 250
     minimumWidth: 200
     flags: Qt.Dialog
     TabBar {
@@ -134,14 +134,31 @@ Window{
         }
     }
     Button {
+        id: resetButton
+        text: "重置"
+        width: 80
+        height: 40
+        anchors.right: okButton.left
+        anchors.rightMargin: 10
+        anchors.verticalCenter: okButton.verticalCenter
+        onClicked: {
+            videoArea.brightness=0.0
+            videoArea.saturation= 1.0
+            videoArea.contrast= 1.0
+            videoArea.brightness=brightnessSlider.value
+            videoArea.saturation=saturationSlider.value
+            videoArea.contrast=contrastSlider.value
+        }
+    }
+    Button {
         id: okButton
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 10
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: 15
         width: 80
         height: 40
         text: "确定"
         onClicked: additionalSettings.close();
     }
-
 }
