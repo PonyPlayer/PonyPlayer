@@ -16,7 +16,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror=return-type -Wno-unused-function -Wno-unused-parameter")
 
 set(FFMPEG_LIBS avformat avcodec avutil swresample swscale)
-include(cmake/find_dependence.cmake)
+include(config/find_dependence.cmake)
 
 find_package(Qt6 COMPONENTS
         Core
@@ -40,7 +40,7 @@ endforeach()
 #file(GLOB_RECURSE ASSETS_FILTER CONFIGURE_DEPENDS assets/filters/**.jpg assets/filters/*.json)
 find_library(FFmpeg COMPONENTS ${FFMPEG_LIBS} "${FFMPEG_PREFIX_PATH}/lib/")
 set(CMAKE_MACOSX_RPATH ON)
-include_directories(SYSTEM ${FFMPEG_PREFIX_PATH}/include)
+include_directories(SYSTEM "${FFMPEG_PREFIX_PATH}/include")
 
 add_subdirectory(src)
 #add_subdirectory(package_test)

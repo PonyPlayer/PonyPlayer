@@ -36,6 +36,6 @@ cmake-build-*
 *.log
 build
 app
-cmake/find_dependence.cmake
+config/find_dependence.cmake
 config/user.json
 docs/html
