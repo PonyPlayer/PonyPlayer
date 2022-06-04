@@ -38,6 +38,7 @@ jobs:
             qt_ver: 6.2.4
             qt_tools: "tools_ninja,1.10.2-202108061017,qt.tools.ninja tools_cmake,3.21.1-202108061017,qt.tools.cmake"
             dependency_path: "/home/runner/_dep"
+            ffmpeg_path: "/usr"
     steps:
       - name: CheckOut
         id: checkOut
