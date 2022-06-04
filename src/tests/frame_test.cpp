@@ -19,6 +19,20 @@ TEST(frame_test, frame_copy_assign) {
         {
             VideoFrameRef frameRef(frame, true, 0.0);
             frameRef1 = frameRef;
+            EXPECT_EQ(VideoFrame::totalCount, 1);
+        }
+        EXPECT_EQ(VideoFrame::totalCount, 1);
+    }
+    EXPECT_EQ(VideoFrame::totalCount, 0);
+}
+
+TEST(frame_test, frame_copy_construct) {
+    auto frame = av_frame_alloc();
+    {
+        VideoFrameRef frameRef(frame, true, 0.0);
+        {
+            VideoFrameRef frameRef1 = frameRef;
+            EXPECT_EQ(VideoFrame::totalCount, 1);
         }
         EXPECT_EQ(VideoFrame::totalCount, 1);
     }
@@ -41,6 +55,7 @@ TEST(frame_test, frame_move_assign) {
         {
             VideoFrameRef frameRef(frame, true, 0.0);
             frameRef1 = std::move(frameRef);
+            EXPECT_EQ(VideoFrame::totalCount, 1);
         }
         EXPECT_EQ(VideoFrame::totalCount, 1);
     }
