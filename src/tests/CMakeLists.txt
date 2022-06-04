@@ -12,14 +12,13 @@ FetchContent_MakeAvailable(gtest)
 add_executable(
         unit_tests
         example_test.cpp
-        preview_test.cpp
-        reverse_test.cpp
+#        preview_test.cpp
+#        reverse_test.cpp
 )
 
 target_link_libraries(unit_tests
         PRIVATE
         gtest_main
-        example
         decoder
         Qt::Core
         Qt::Gui
