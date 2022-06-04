@@ -26,74 +26,15 @@ private:
             {"VideoPlayWorker", "VWorker"},
             {"HurricaneRenderer", "HRender"}
     };
-    const QString currentDateTime = QDateTime::currentDateTime().toString("[yyyy-MM-dd hh:mm:ss]");
     enum class State{
         INITIAL, UPPER, LOWER
     };
     QFile logFile;
+    static QString getCurrentDateTime() {
+        return QDateTime::currentDateTime().toString("[yyyy-MM-dd hh:mm:ss]");
+    }
 public:
     QString logFilename;
-#ifdef QT_DEBUG
-    inline static QString getAbbrFunctionName(QString &func) {
-        State state = State::INITIAL;
-        QString ret;
-        for(auto && c : func) {
-            switch (state) {
-                case State::INITIAL:
-                    ret.append(c.toUpper());
-                    state = State::LOWER;
-                    break;
-                case State::UPPER:
-                    if (c.isLower()) {
-                        state = State::LOWER;
-                    }
-                    break;
-                case State::LOWER:
-                    if (c.isUpper()) {
-                        ret.append(".");
-                        ret.append(c.toUpper());
-                        state = State::UPPER;
-                    }
-                    break;
-            }
-        }
-        return ret;
-    }
-
-    inline QString getClassName(const QString &clazz) const {
-        auto iter = classNames.constFind(clazz);
-        return iter == classNames.cend() ? clazz : iter.value();
-    }
-
-    inline void log(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
-        QMutexLocker locker(&mutex);
-        qTextStream << currentDateTime << " " << types.constFind(type).value();
-        QString function = context.function; // convert to QString
-        qsizetype colon = function.indexOf(':');
-        qsizetype retType = function.indexOf(' ');
-        if (function.isEmpty()) {
-            // pass
-        } else if (colon >= 0) {
-            // function in class
-            qsizetype param = function.indexOf('(', colon);
-            if (retType < 0 || retType > colon) {
-                // no return, constructor or destructor
-                qTextStream << " " << function.mid(colon + 2, param - (colon + 2));
-            } else {
-                // member function
-                QString clazz = function.mid(retType + 1, (colon - (retType + 1)));
-                QString func = function.mid(colon + 2,  param - (colon + 2));
-                qTextStream << " " << getClassName(clazz) << "::" << func;
-            }
-        } else {
-            // global function
-            qsizetype param = function.indexOf('(');
-            qTextStream << " "  << function.mid(retType + 1, param - (retType + 1));
-        }
-        qTextStream << " " << msg << "\n";
-        qTextStream.flush();
-    }
-#else
     static std::string randStr(int length) {
         char tmp;
         std::string buffer;
@@ -130,7 +71,7 @@ public:
         }
 
         logFilename =  home + QString("/log/") + QDateTime::currentDateTime().toString("yyyy-MM-dd-")
-                    + randStr(16).c_str() + ".log";
+                       + randStr(16).c_str() + ".log";
         logFile.setFileName(logFilename);
         logFile.open(QIODevice::ReadWrite | QIODevice::Text);
         logStream.setDevice(&logFile);
@@ -139,13 +80,83 @@ public:
     ~Logger() {
         logFile.close();
     }
+#ifdef QT_DEBUG
+    inline static QString getAbbrFunctionName(QString &func) {
+        State state = State::INITIAL;
+        QString ret;
+        for(auto && c : func) {
+            switch (state) {
+                case State::INITIAL:
+                    ret.append(c.toUpper());
+                    state = State::LOWER;
+                    break;
+                case State::UPPER:
+                    if (c.isLower()) {
+                        state = State::LOWER;
+                    }
+                    break;
+                case State::LOWER:
+                    if (c.isUpper()) {
+                        ret.append(".");
+                        ret.append(c.toUpper());
+                        state = State::UPPER;
+                    }
+                    break;
+            }
+        }
+        return ret;
+    }
+
+    inline QString getClassName(const QString &clazz) const {
+        auto iter = classNames.constFind(clazz);
+        return iter == classNames.cend() ? clazz : iter.value();
+    }
 
     inline void log(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
         QMutexLocker locker(&mutex);
-        logStream << currentDateTime<< " "<< types.constFind(type).value()<< " " << msg << "\n";
-        qTextStream << currentDateTime<< " "<< types.constFind(type).value()<< " " << msg << "\n";
-        logStream.flush();
+        auto currentDateTime = getCurrentDateTime();
+        qTextStream << currentDateTime << " " << types.constFind(type).value();
+        logStream << currentDateTime << " " << types.constFind(type).value();
+        QString function = context.function; // convert to QString
+        qsizetype colon = function.indexOf(':');
+        qsizetype retType = function.indexOf(' ');
+        if (function.isEmpty()) {
+            // pass
+        } else if (colon >= 0) {
+            // function in class
+            qsizetype param = function.indexOf('(', colon);
+            if (retType < 0 || retType > colon) {
+                // no return, constructor or destructor
+                qTextStream << " " << function.mid(colon + 2, param - (colon + 2));
+                logStream << " " << function.mid(colon + 2, param - (colon + 2));
+            } else {
+                // member function
+                QString clazz = function.mid(retType + 1, (colon - (retType + 1)));
+                QString func = function.mid(colon + 2,  param - (colon + 2));
+                qTextStream << " " << getClassName(clazz) << "::" << func;
+                logStream << " " << getClassName(clazz) << "::" << func;
+            }
+        } else {
+            // global function
+            qsizetype param = function.indexOf('(');
+            qTextStream << " "  << function.mid(retType + 1, param - (retType + 1));
+            logStream << " "  << function.mid(retType + 1, param - (retType + 1));
+        }
+        qTextStream << " " << msg << "\n";
         qTextStream.flush();
+
+        logStream << " " << msg << "\n";
+        logStream.flush();
+    }
+#else
+    inline void log(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
+        QMutexLocker locker(&mutex);
+        auto currentDateTime = getCurrentDateTime();
+        qTextStream << currentDateTime<< " "<< types.constFind(type).value()<< " " << msg << "\n";
+        qTextStream.flush();
+
+        logStream << currentDateTime<< " "<< types.constFind(type).value()<< " " << msg << "\n";
+        logStream.flush();
     }
 #endif
 
