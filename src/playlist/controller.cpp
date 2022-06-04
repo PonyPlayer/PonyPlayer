@@ -124,6 +124,7 @@ void Controller::updateRecentFile(QString filePath) {
         out<<readyWrite[i]<<"\n";
     }
     file.close();
+    emit recentFilesChanged();
 }
 
 

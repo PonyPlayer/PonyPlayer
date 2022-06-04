@@ -378,20 +378,24 @@ function videoListOperatorOnAccepted(path = "", name = "") {
     }
   }
   if (!exists) {
-    let selectedFileName = acceptedFileName.toString().substring(acceptedFileFold.toString().length + 1);
-    var getIconPath = mediaLibController.getFile(selectedFileName, acceptedFileName);
-    if(getIconPath == "") {
+    let selectedFileName = acceptedFileName
+      .toString()
+      .substring(acceptedFileFold.toString().length + 1);
+    var getIconPath = mediaLibController.getFile(
+      selectedFileName,
+      acceptedFileName
+    );
+    if (getIconPath == "") {
       getIconPath = "interfacepics/defaultlogo";
     }
     listModel.append({
       fileName: selectedFileName,
       filePath: acceptedFileName.toString(),
-      iconPath: getIconPath
+      iconPath: getIconPath,
     });
 
     listview.currentIndex = listModel.count - 1;
   }
-
 }
 
 function trans(path, name) {
@@ -422,15 +426,14 @@ function screenSizeFunction() {
     mainWindowReduction.imageSource = "interfacepics/mainWindowMaximize";
   }
 }
-function footerScreenSizeFunction(){
-  if(mainWindow.isFullScreen){
-    mainWindow.showNormal()
-    showComponents()
-    mainWindow.isFullScreen=false
-  }
-  else{
-    mainWindow.showFullScreen()
-    mainWindow.isFullScreen=true
+function footerScreenSizeFunction() {
+  if (mainWindow.isFullScreen) {
+    mainWindow.showNormal();
+    showComponents();
+    mainWindow.isFullScreen = false;
+  } else {
+    mainWindow.showFullScreen();
+    mainWindow.isFullScreen = true;
   }
 }
 function footerOnCompleted() {
@@ -459,13 +462,12 @@ function triggerLyricUpdate() {
     )
       break;
   }
-  if(wave.lyricsData.sentences.length){
+  if (wave.lyricsData.sentences.length) {
     wave.lyricsArea.flick.contentY =
-        wave.lyricsArea.rep.itemAt(currentLyricIndex).y -
-        wave.lyricsArea.height / 2;
+      wave.lyricsArea.rep.itemAt(currentLyricIndex).y -
+      wave.lyricsArea.height / 2;
     wave.lyricsArea.flick.currentIndex = currentLyricIndex;
   }
-
 }
 var dbusComponent;
 var dbusWidget;

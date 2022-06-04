@@ -22,9 +22,9 @@ MenuBar {
                 id: recentInstantiator
                 model: mediaLibController.recentFiles
                 delegate: MenuItem {
-                    text: model.modelData.text
+                    text: model.modelData[0]
                     checked: false
-                    onTriggered: videoArea.setCurrentOutputDevice(model.modelData)
+                    onTriggered: videoArea.openFile(model.modelData[1])
                 }
                 onObjectAdded: recentMenu.insertItem(index, object)
                 onObjectRemoved: recentMenu.removeItem(object)
