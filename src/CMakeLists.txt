@@ -4,7 +4,13 @@
     cursor.hpp
     crashreporter.hpp
 )
-qt_add_executable(${PROJECT_NAME} ${CPP_SOURCES} ${PONY_ICON})
+if (WIN32)
+    set(APP_ICON_RESOURCE "${CMAKE_SOURCE_DIR}/assets/ponyicon.rc")
+else()
+    set(APP_ICON_RESOURCE "${PONY_ICON}")
+endif()
+qt_add_executable(${PROJECT_NAME} WIN32 ${CPP_SOURCES} ${APP_ICON_RESOURCE})
+
 add_subdirectory(view)
 add_subdirectory(utils)
 add_subdirectory(decoder)
@@ -12,8 +18,8 @@ add_subdirectory(player)
 add_subdirectory(playlist)
 add_subdirectory(wave)
 add_subdirectory(audiosink)
-
 add_subdirectory(tests)
+
 include(platform.cmake)
 
 target_link_libraries(${PROJECT_NAME}

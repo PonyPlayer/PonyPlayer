@@ -43,8 +43,10 @@ if __name__ == "__main__":
     qt_path = convert_and_check_exists_dir(args.qt_path, "Qt6")
     qt_library_cmake_dir = qt_path / "lib" / "cmake"
     if not qt_library_cmake_dir.is_dir():
-        print(f"Not the Qt6 library path: {args.qt_path}.")
+        print(f"Fail Not the Qt6 library path: {args.qt_path}.")
         exit(-1)
+    if " " in str(qt_library_cmake_dir):
+        print(f"Fail: '{qt_library_cmake_dir}' contains ' '!")
     print(f"Found CMake configuration: {qt_library_cmake_dir}.")
 
     # check ninja path
@@ -74,15 +76,17 @@ if __name__ == "__main__":
     # check ffmpeg path
     ffmpeg_path = convert_and_check_exists_dir(args.ffmpeg_path, "FFmpeg")
     if not (ffmpeg_path / "bin" / "ffmpeg.exe").exists() and not (ffmpeg_path / "bin" / "ffmpeg").exists():
-        print(f"Not the FFmpeg path {ffmpeg_path}.")
+        print(f"Fail: Not the FFmpeg path {ffmpeg_path}.")
         exit(-1)
+    if " " in str(ffmpeg_path):
+        print(f"Fail: '{ffmpeg_path}' contains ' '!")
     print(f"Found FFmpeg: {ffmpeg_path}.")
 
 
 
     # write config and cmake
     self_path = pathlib.Path(sys.argv[0]).absolute()
-    cmake_find_qt_path = self_path.parent.parent / "cmake" / "find_dependence.cmake"
+    cmake_find_qt_path = self_path.parent.parent / "config" / "find_dependence.cmake"
     with open(cmake_find_qt_path, "w", encoding="utf-8-sig") as f:
         f.write('set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};%s")' % str(qt_library_cmake_dir).replace('\\', '/') + "\n")
         f.write('set(FFMPEG_PREFIX_PATH "%s")' % str(ffmpeg_path).replace('\\', '/') + "\n")
