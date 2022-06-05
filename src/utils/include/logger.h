@@ -5,10 +5,9 @@
 #ifndef SOFTWAREENGINEERING_LOGGER_H
 #define SOFTWAREENGINEERING_LOGGER_H
 #include <QtCore>
-void initializeLogHandler();
-void logMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 
 namespace PonyPlayer {
+    void logMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg);
     QString getLogFile();
 }
 #endif //SOFTWAREENGINEERING_LOGGER_H

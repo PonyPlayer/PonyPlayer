@@ -6,10 +6,12 @@
 )
 if (WITH_WINDOWS_ICON)
     set(APP_ICON_RESOURCE "${CMAKE_SOURCE_DIR}/assets/ponyicon.rc")
+    qt_add_executable(${PROJECT_NAME} WIN32 ${CPP_SOURCES} ${APP_ICON_RESOURCE})
 else()
     set(APP_ICON_RESOURCE "${PONY_ICON}")
+    qt_add_executable(${PROJECT_NAME} ${CPP_SOURCES} ${APP_ICON_RESOURCE})
 endif()
-qt_add_executable(${PROJECT_NAME} WIN32 ${CPP_SOURCES} ${APP_ICON_RESOURCE})
+
 
 add_subdirectory(view)
 add_subdirectory(utils)

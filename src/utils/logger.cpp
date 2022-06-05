@@ -3,11 +3,12 @@
 //
 #include <QDateTime>
 #include <QMutex>
+#include <QFileInfo>
 #include <iostream>
 #include <random>
 
-#include "include/logger.h"
-#include "include/ponyplayer.h"
+#include "logger.h"
+#include "ponyplayer.h"
 
 class Logger {
 private:
@@ -21,20 +22,11 @@ private:
             {QtFatalMsg, "F"},
             {QtCriticalMsg, "C"}
     };
-    const QMap<QString, QString> classNames = {
-            {"HurricanePlayer", "HPlayer"},
-            {"VideoPlayWorker", "VWorker"},
-            {"HurricaneRenderer", "HRender"}
-    };
-    enum class State{
-        INITIAL, UPPER, LOWER
-    };
     QFile logFile;
     static QString getCurrentDateTime() {
         return QDateTime::currentDateTime().toString("[yyyy-MM-dd hh:mm:ss]");
     }
 public:
-    QString logFilename;
     static std::string randStr(int length) {
         char tmp;
         std::string buffer;
@@ -70,7 +62,7 @@ public:
             }
         }
 
-        logFilename =  home + QString("/log/") + QDateTime::currentDateTime().toString("yyyy-MM-dd-")
+        QString logFilename =  home + QString("/log/") + QDateTime::currentDateTime().toString("yyyy-MM-dd-")
                        + randStr(16).c_str() + ".log";
         logFile.setFileName(logFilename);
         logFile.open(QIODevice::ReadWrite | QIODevice::Text);
@@ -80,38 +72,12 @@ public:
     ~Logger() {
         logFile.close();
     }
+
+    QString getLogFile() {
+        return QFileInfo(logFile).absoluteFilePath();
+    }
+
 #ifdef QT_DEBUG
-    inline static QString getAbbrFunctionName(QString &func) {
-        State state = State::INITIAL;
-        QString ret;
-        for(auto && c : func) {
-            switch (state) {
-                case State::INITIAL:
-                    ret.append(c.toUpper());
-                    state = State::LOWER;
-                    break;
-                case State::UPPER:
-                    if (c.isLower()) {
-                        state = State::LOWER;
-                    }
-                    break;
-                case State::LOWER:
-                    if (c.isUpper()) {
-                        ret.append(".");
-                        ret.append(c.toUpper());
-                        state = State::UPPER;
-                    }
-                    break;
-            }
-        }
-        return ret;
-    }
-
-    inline QString getClassName(const QString &clazz) const {
-        auto iter = classNames.constFind(clazz);
-        return iter == classNames.cend() ? clazz : iter.value();
-    }
-
     inline void log(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
         QMutexLocker locker(&mutex);
         auto currentDateTime = getCurrentDateTime();
@@ -133,8 +99,8 @@ public:
                 // member function
                 QString clazz = function.mid(retType + 1, (colon - (retType + 1)));
                 QString func = function.mid(colon + 2,  param - (colon + 2));
-                qTextStream << " " << getClassName(clazz) << "::" << func;
-                logStream << " " << getClassName(clazz) << "::" << func;
+                qTextStream << " " << clazz << "::" << func;
+                logStream << " " << clazz << "::" << func;
             }
         } else {
             // global function
@@ -162,15 +128,15 @@ public:
 
 };
 
-Logger* getLoggerInstance() {
+static Logger* getLoggerInstance() {
     static Logger logger;
     return &logger;
 }
 
-void logMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
+void PonyPlayer::logMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
     getLoggerInstance()->log(type, context, msg);
 }
 
 QString PonyPlayer::getLogFile() {
-    return getLoggerInstance()->logFilename;
+    return getLoggerInstance()->getLogFile();
 }

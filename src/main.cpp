@@ -111,7 +111,7 @@ int main(int argc, char *argv[]) {
             "PonyPlayerNS",                 // name in QML (does not have to match C++ name)
             "Error: only enums"            // error in case someone tries to create a MyNamespace object
     );
-    qInstallMessageHandler(logMessageHandler);
+    qInstallMessageHandler(PonyPlayer::logMessageHandler);
 
     const QUrl url(u"qrc:/view/main.qml"_qs);
     QQmlApplicationEngine engine;
