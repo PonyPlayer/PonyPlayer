@@ -296,9 +296,12 @@ Window {
                 title: qsTr("播放")
                 SpeedMenu{}
                 MenuItem {
-                    text: qsTr("倒放")
+                    text: "倒放  "+(mainWindow.isInverted ? '✔' : '    ')
                     checked: videoArea.backwardStatus
-                    onTriggered: videoArea.toggleBackward()
+                    onTriggered: {
+                        mainWindow.isInverted = (!mainWindow.isInverted)
+                        videoArea.toggleBackward()
+                    }
                 }
             }
             Menu{
@@ -656,7 +659,8 @@ SwipeView{
                     mainWindow.speed=1.0
                     videoArea.setSpeed(mainWindow.speed)
                 }
-            } else if(result == PonyPlayerNS.AUDIO){
+            }
+            else if(result == PonyPlayerNS.AUDIO){
             mainArea.currentIndex = 2;
             IF.toVideoBegining()
             mainWindow.endTime=Math.floor(videoArea.getAudioDuration());
