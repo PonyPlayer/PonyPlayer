@@ -338,14 +338,14 @@ Window {
                 Menu {
                     title: "画面比例"
                     MenuItem {
-                        text: "保持比例 "+(!videoArea.keepFrameRate ? '✔' : '    ')
+                        text: "保持比例 "+(videoArea.keepFrameRate ? '✔' : '    ')
                         checked: videoArea.keepFrameRate
                         onTriggered: {
                             videoArea.keepFrameRate = true
                         }
                     }
                     MenuItem {
-                        text: "拉伸画面 "+(videoArea.keepFrameRate ? '✔' : '    ')
+                        text: "拉伸画面 "+(!videoArea.keepFrameRate ? '✔' : '    ')
                         checked: !videoArea.keepFrameRate
                         onTriggered: {
                             videoArea.keepFrameRate = false
