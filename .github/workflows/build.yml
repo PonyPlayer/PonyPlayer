@@ -127,3 +127,4 @@ jobs:
             ${{ github.workspace }}/app/*.zip
             ${{ github.workspace }}/app/*.msi
             ${{ github.workspace }}/app/*.dmg
+            ${{ github.workspace }}/app/*.AppImage
