@@ -11,8 +11,8 @@ class Fireworks : public QQuickItem {
     Q_OBJECT
     QML_ELEMENT
     Q_PROPERTY(bool keepFrameRate READ isKeepFrameRate WRITE setKeepFrameRate NOTIFY keepFrameRateChanged)
-    Q_PROPERTY(int height READ getHeight NOTIFY frameSizeChanged)
-    Q_PROPERTY(int width READ getWidth NOTIFY frameSizeChanged)
+    Q_PROPERTY(int frameHeight READ getHeight NOTIFY frameSizeChanged)
+    Q_PROPERTY(int frameWidth READ getWidth NOTIFY frameSizeChanged)
     Q_PROPERTY(double frameRate READ getFrameRate NOTIFY frameSizeChanged)
     Q_PROPERTY(GLfloat brightness READ getBrightness WRITE setBrightness NOTIFY brightnessChanged)
     Q_PROPERTY(GLfloat contrast READ getContrast WRITE setContrast NOTIFY contrastChanged)

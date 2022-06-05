@@ -254,6 +254,8 @@ public:
                 double hPad =  r.height() - hFit;
                 glViewport(r.x(), r.y()  + static_cast<GLsizei>(hPad) / 2, r.width(), static_cast<GLsizei>(hFit));
             }
+        } else {
+            glViewport(r.x(), r.y(), r.width(), r.height());
         }
 
 

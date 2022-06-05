@@ -116,6 +116,7 @@ Rectangle {
         Thumbnail {
             id: preview
             player: "videoArea"
+            keepFrameRate: false
             onPreviewResponse: {
                 previewRect.visible=true
             }

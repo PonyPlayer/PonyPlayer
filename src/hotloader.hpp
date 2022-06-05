@@ -17,7 +17,7 @@
 class HotLoader : public QObject {
     Q_OBJECT
 private:
-    [[maybe_unused]] QQmlApplicationEngine *engine;
+    QQmlApplicationEngine *engine;
 public:
     explicit HotLoader(QQmlApplicationEngine *e): engine(e) {
         qDebug() << "Construct HotLoader.";
@@ -34,6 +34,8 @@ public:
         mainWindow->deleteLater();
         engine->load(QUrl::fromLocalFile(QString::fromUtf8(mainQML)));
         qWarning() << "Complete hot reloading.";
+#else
+        Q_UNUSED(engine)
 #endif
     }
 
