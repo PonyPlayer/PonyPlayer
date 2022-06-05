@@ -276,7 +276,6 @@ function solveStateChanged() {
     mainWindow.isPlay = true;
   } else if (videoArea.state == 6) {
     mainWindow.isPlay = false;
-    IF.makeTrackMenu();
   }
 }
 

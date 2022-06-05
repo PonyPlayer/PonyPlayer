@@ -674,6 +674,7 @@ SwipeView{
                 mainArea.currentIndex = 0;
                 IF.toVideoBegining()
                 mainWindow.endTime=Math.floor(videoArea.getAudioDuration())
+                IF.makeTrackMenu()
                 if (mainWindow.isInverted)
                 {
                     mainWindow.isInverted = false
@@ -689,6 +690,7 @@ SwipeView{
             mainArea.currentIndex = 2;
             IF.toVideoBegining()
             mainWindow.endTime=Math.floor(videoArea.getAudioDuration());
+            IF.makeTrackMenu()
             if (mainWindow.isInverted)
             {
                 mainWindow.isInverted = false
