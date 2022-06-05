@@ -50,11 +50,12 @@ private slots:
             emit openFileResult(result);
         });
         connect(m_playback, &Playback::resourcesEnd, this, &FrameController::resourcesEnd, Qt::DirectConnection);
+        connect(this, &FrameController::signalDecoderSetTrack, m_demuxer, &Demuxer::setTrack);
         connect(this, &FrameController::signalSetTrack, this, [this](int i) {
             qreal pos = m_playback->getPreferablePos();
             m_playback->stop();
             m_demuxer->pause();
-            m_demuxer->setTrack(i);
+            emit signalDecoderSetTrack(i);
             m_playback->setDesiredFormat(m_demuxer->getInputFormat());
             m_demuxer->setOutputFormat(m_playback->getDeviceFormat());
             seek(pos);
@@ -234,6 +235,8 @@ signals:
     void signalPositionChangedBySeek();
 
     void signalSetTrack(int i);
+
+    void signalDecoderSetTrack(int i);
 
     void signalBackward();
 

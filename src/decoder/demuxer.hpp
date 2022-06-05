@@ -151,11 +151,6 @@ public:
         m_worker->stateResume();
     }
 
-    PONY_GUARD_BY(FRAME) void setTrack(int i) {
-        std::unique_lock lock(m_workerLock);
-        m_worker->setTrack(i);
-    }
-
     void setEnableAudio(bool enable) {
         m_worker->setEnableAudio(enable);
     }
@@ -287,6 +282,12 @@ public slots:
         }
     }
 
+    void setTrack(int i) {
+        std::unique_lock lock(m_workerLock);
+        m_worker->setTrack(i);
+    }
+
+
     void test_onWork() {
         m_worker->test_onWork();
     }
@@ -294,7 +295,5 @@ public slots:
 signals:
 
     void openFileResult(PonyPlayer::OpenFileResultType result, QPrivateSignal);
-
-
 };
 
