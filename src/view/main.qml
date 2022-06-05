@@ -680,7 +680,6 @@ SwipeView{
                     mainWindow.speed=1.0
                     videoArea.setSpeed(mainWindow.speed)
                 }
-                console.log(" +++++++++++++++++++++++++++on       open    file    result    +++++++++++++++++")
                 IF.judgeSerialize()
             }
             else if(result == PonyPlayerNS.AUDIO){
