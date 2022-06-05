@@ -1,0 +1,3 @@
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/wave/wave_autogen/include/../6YEA5652QU/moc_lyrics.cpp.json
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/wave/wave_autogen/include/../EWIEGA46WW/moc_wave.cpp.json
+/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/wave/wave_autogen/include/wave_wavePlugin.moc.json

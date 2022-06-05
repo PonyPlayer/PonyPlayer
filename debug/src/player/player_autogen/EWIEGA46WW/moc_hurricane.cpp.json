@@ -1,0 +1,451 @@
+{
+    "classes": [
+        {
+            "classInfos": [
+                {
+                    "name": "QML.AddedInVersion",
+                    "value": "256"
+                },
+                {
+                    "name": "QML.Element",
+                    "value": "auto"
+                },
+                {
+                    "name": "QML.Element",
+                    "value": "auto"
+                }
+            ],
+            "className": "Hurricane",
+            "enums": [
+                {
+                    "isClass": false,
+                    "isFlag": false,
+                    "name": "HurricaneState",
+                    "values": [
+                        "CLOSING",
+                        "LOADING",
+                        "INVALID",
+                        "PRE_PLAY",
+                        "PLAYING",
+                        "PRE_PAUSE",
+                        "PAUSED"
+                    ]
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "pitch",
+                    "notify": "pitchChanged",
+                    "read": "getPitch",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "qreal",
+                    "user": false,
+                    "write": "setPitch"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": true,
+                    "index": 1,
+                    "name": "state",
+                    "notify": "stateChanged",
+                    "read": "getState",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "HurricaneState",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 2,
+                    "name": "audioDeviceList",
+                    "notify": "audioOutputDeviceChanged",
+                    "read": "getAudioDeviceList",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QStringList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 3,
+                    "name": "tracks",
+                    "notify": "openFileResult",
+                    "read": "getTracks",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QStringList",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 4,
+                    "name": "backwardStatus",
+                    "notify": "backwardStatusChanged",
+                    "read": "isBackward",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 5,
+                    "name": "track",
+                    "notify": "trackChanged",
+                    "read": "getTrack",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "write": "setTrack"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 6,
+                    "name": "currentOutputDevice",
+                    "notify": "currentOutputDeviceChanged",
+                    "read": "getCurrentOutputDevice",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "write": "setCurrentOutputDevice"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 7,
+                    "name": "speed",
+                    "notify": "speedChanged",
+                    "read": "getSpeed",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "double",
+                    "user": false,
+                    "write": "setSpeed"
+                }
+            ],
+            "qualifiedClassName": "Hurricane",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "stateChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "result",
+                            "type": "PonyPlayer::OpenFileResultType"
+                        }
+                    ],
+                    "name": "openFileResult",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "positionChangedBySeek",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "audioOutputDeviceChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "backwardStatusChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "trackChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "currentOutputDeviceChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "pitchChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "speedChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "resourcesEnd",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalPlayerInitializing",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalStart",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalPause",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalClose",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "signalOpenFile",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "pos",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "signalSeek",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "url",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "autoClose",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "openFile",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "url",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "openFile",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "start",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "pause",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "close",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "volume",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "setVolume",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "pitch",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "setPitch",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "speed",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "setSpeed",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "deviceName",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "setCurrentOutputDevice",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "getCurrentOutputDevice",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "name": "getAudioDuration",
+                    "returnType": "qreal"
+                },
+                {
+                    "access": "public",
+                    "name": "getVideoDuration",
+                    "returnType": "qreal"
+                },
+                {
+                    "access": "public",
+                    "name": "getPTS",
+                    "returnType": "qreal"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "pos",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "seek",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "getTracks",
+                    "returnType": "QStringList"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "i",
+                            "type": "int"
+                        }
+                    ],
+                    "name": "setTrack",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "forward",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "backward",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "toggleBackward",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "hasVideo",
+                    "returnType": "bool"
+                },
+                {
+                    "access": "public",
+                    "name": "getPitch",
+                    "returnType": "qreal"
+                },
+                {
+                    "access": "private",
+                    "name": "slotPositionChangedBySeek",
+                    "returnType": "void"
+                },
+                {
+                    "access": "private",
+                    "arguments": [
+                        {
+                            "name": "isPlaying",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "slotPlaybackStateChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "private",
+                    "arguments": [
+                        {
+                            "name": "result",
+                            "type": "PonyPlayer::OpenFileResultType"
+                        }
+                    ],
+                    "name": "slotOpenFileResult",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "Fireworks"
+                }
+            ]
+        }
+    ],
+    "inputFile": "hurricane.hpp",
+    "outputRevision": 68
+}

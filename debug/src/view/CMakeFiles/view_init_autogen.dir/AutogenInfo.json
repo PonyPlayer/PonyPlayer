@@ -1,0 +1,132 @@
+{
+	"BUILD_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/view_init_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/view",
+	"CMAKE_EXECUTABLE" : "/Applications/CMake.app/Contents/bin/cmake",
+	"CMAKE_LIST_FILES" : 
+	[
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/view/CMakeLists.txt",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/cmake/Qt6Qml/Qt6QmlPluginTemplate.cpp.in",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/cmake/Qt6Core/Qt6CoreConfigureFileTemplate.in",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/cmake/Qt6Qml/Qt6QmlPluginTemplate.cpp.in",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/cmake/Qt6Core/Qt6CoreConfigureFileTemplate.in",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/cmake/Qt6Qml/Qt6qmldirTemplate.cmake.in"
+	],
+	"CMAKE_SOURCE_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer",
+	"DEP_FILE" : "",
+	"DEP_FILE_RULE_NAME" : "",
+	"HEADERS" : [],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/view_init_autogen/include",
+	"MOC_COMPILATION_FILE" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/view_init_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : 
+	[
+		"QT_CORE_LIB",
+		"QT_DEPRECATED_WARNINGS",
+		"QT_NETWORK_LIB",
+		"QT_NO_DEBUG",
+		"QT_PLUGIN",
+		"QT_QML_LIB",
+		"QT_STATICPLUGIN"
+	],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/thirdparty/sonic",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/thirdparty/lrctools/include",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/view_autogen/include",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/src/view",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQml.framework/Headers/6.2.4",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQml.framework/Headers/6.2.4/QtQml",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtCore.framework/Headers/6.2.4",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtCore.framework/Headers/6.2.4/QtCore",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQml.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtQml.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtNetwork.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtNetwork.framework/Headers",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/portaudio-src/include",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/portaudio-src/src/common",
+		"/opt/homebrew/include",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtCore.framework",
+		"/Users/aaronpeng/Qt/6.2.4/macos/lib/QtCore.framework/Headers",
+		"/Users/aaronpeng/Qt/6.2.4/macos/mkspecs/macx-clang",
+		"/Users/aaronpeng/Qt/6.2.4/macos/include",
+		"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/usr/include/c++/v1",
+		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.1.6/include",
+		"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/usr/include",
+		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE", "Q_NAMESPACE_EXPORT" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++",
+		"-dM",
+		"-E",
+		"-c",
+		"/Applications/CMake.app/Contents/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/view_init_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : 
+	[
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_AdditionalSettings_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_AnimatedButton_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_ButtonColorAnimation_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_CurrentFileItem_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_DBus_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_DownSizeChange_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_FilterItem_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_FiltersWindow_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_IssueWindow_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_LeftDownSizeChange_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_LeftSizeChange_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_LeftTopSizeChange_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_MediaInfo_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_OutputDevice_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_PonyBody_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_PonyFooter_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_RightDownSizeChange_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_RightSizeChange_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_RightTopSizeChange_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_RoundImage_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_SpeedMenu_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_TopSizeChange_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_TrackItem_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_Wave_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_interfacefunctions_js.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qmlcache/view_main_qml.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qrc_qmake_view.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/.rcc/qrc_view_raw_qml_0.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/view_autogen/mocs_compilation.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/view_qmlcache_autogen/mocs_compilation.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/view_qmltyperegistrations.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/view_resources_1_autogen/mocs_compilation.cpp",
+		"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/view_resources_2_autogen/mocs_compilation.cpp"
+	],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 8,
+	"PARSE_CACHE_FILE" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/CMakeFiles/view_init_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/Users/aaronpeng/Qt/6.2.4/macos/./libexec/moc",
+	"QT_UIC_EXECUTABLE" : "",
+	"QT_VERSION_MAJOR" : 6,
+	"QT_VERSION_MINOR" : 2,
+	"SETTINGS_FILE" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/CMakeFiles/view_init_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/view/view_init.cpp",
+			"Mu",
+			null
+		]
+	],
+	"VERBOSITY" : 0
+}

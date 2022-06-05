@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc liblrctools.a CMakeFiles/lrctools.dir/lrc_parser.cc.o CMakeFiles/lrctools.dir/lyrics.cc.o CMakeFiles/lrctools.dir/utils.cc.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib liblrctools.a

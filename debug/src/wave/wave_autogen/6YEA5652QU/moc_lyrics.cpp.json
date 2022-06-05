@@ -1,0 +1,263 @@
+{
+    "classes": [
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Element",
+                    "value": "auto"
+                }
+            ],
+            "className": "LyricSentence",
+            "constructors": [
+                {
+                    "access": "public",
+                    "name": "LyricSentence",
+                    "returnType": ""
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "startTime",
+                            "type": "qreal"
+                        },
+                        {
+                            "name": "endTime",
+                            "type": "qreal"
+                        },
+                        {
+                            "name": "sentence",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "LyricSentence",
+                    "returnType": ""
+                }
+            ],
+            "methods": [
+                {
+                    "access": "public",
+                    "name": "getStartTime",
+                    "returnType": "qreal"
+                },
+                {
+                    "access": "public",
+                    "name": "getEndTime",
+                    "returnType": "qreal"
+                },
+                {
+                    "access": "public",
+                    "name": "getSentence",
+                    "returnType": "QString"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "newTime",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "setStartTime",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "newTime",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "setEndTime",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "newSentence",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "setSentence",
+                    "returnType": "void"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "startTime",
+                    "notify": "startTimeChanged",
+                    "read": "getStartTime",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "qreal",
+                    "user": false,
+                    "write": "setStartTime"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "name": "endTime",
+                    "notify": "endTimeChanged",
+                    "read": "getEndTime",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "qreal",
+                    "user": false,
+                    "write": "setEndTime"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 2,
+                    "name": "sentence",
+                    "notify": "sentenceChanged",
+                    "read": "getSentence",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "write": "setSentence"
+                }
+            ],
+            "qualifiedClassName": "LyricSentence",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "startTimeChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "endTimeChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "sentenceChanged",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        },
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Element",
+                    "value": "auto"
+                }
+            ],
+            "className": "LyricsData",
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "sentences",
+                    "notify": "lyricsChange",
+                    "read": "getSentences",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QQmlListProperty<LyricSentence>",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "LyricsData",
+            "signals": [
+                {
+                    "access": "public",
+                    "name": "lyricsChange",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "name": "clearLyricSentence",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "sentence",
+                            "type": "LyricSentence*"
+                        }
+                    ],
+                    "name": "pushLyricSentence",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "pushLyricSentenceCompleted",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        },
+        {
+            "className": "LyricsReader",
+            "object": true,
+            "qualifiedClassName": "LyricsReader",
+            "signals": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "response",
+                            "type": "std::shared_ptr<lrc::Lyrics>"
+                        }
+                    ],
+                    "name": "lyricReadCompleted",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "url",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "readLyric",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "lyrics.h",
+    "outputRevision": 68
+}

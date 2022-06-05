@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/wave">
+    <file alias="qmldir">/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/wave/qmldir</file>
+  </qresource>
+</RCC>
+

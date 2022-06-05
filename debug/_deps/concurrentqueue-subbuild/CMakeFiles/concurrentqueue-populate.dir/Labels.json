@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/concurrentqueue-subbuild/CMakeFiles/concurrentqueue-populate"
+		},
+		{
+			"file" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/concurrentqueue-subbuild/CMakeFiles/concurrentqueue-populate.rule"
+		},
+		{
+			"file" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/concurrentqueue-subbuild/CMakeFiles/concurrentqueue-populate-complete.rule"
+		},
+		{
+			"file" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-build.rule"
+		},
+		{
+			"file" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-configure.rule"
+		},
+		{
+			"file" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-download.rule"
+		},
+		{
+			"file" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-install.rule"
+		},
+		{
+			"file" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-mkdir.rule"
+		},
+		{
+			"file" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-patch.rule"
+		},
+		{
+			"file" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-test.rule"
+		},
+		{
+			"file" : "/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"concurrentqueue-populate"
+		],
+		"name" : "concurrentqueue-populate"
+	}
+}

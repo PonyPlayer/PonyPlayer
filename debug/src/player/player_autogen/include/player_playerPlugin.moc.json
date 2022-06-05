@@ -1,0 +1,17 @@
+{
+    "classes": [
+        {
+            "className": "playerPlugin",
+            "object": true,
+            "qualifiedClassName": "playerPlugin",
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QQmlEngineExtensionPlugin"
+                }
+            ]
+        }
+    ],
+    "inputFile": "player_playerPlugin.cpp",
+    "outputRevision": 68
+}

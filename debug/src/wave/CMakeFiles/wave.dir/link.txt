@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libwave.a CMakeFiles/wave.dir/wave_autogen/mocs_compilation.cpp.o CMakeFiles/wave.dir/wave_wavePlugin.cpp.o CMakeFiles/wave.dir/wave_qmltyperegistrations.cpp.o CMakeFiles/wave.dir/lyrics.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libwave.a

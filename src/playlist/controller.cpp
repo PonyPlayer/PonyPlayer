@@ -13,7 +13,7 @@ Controller::Controller(QObject *parent) : QObject(parent)
 
     // Controller 的信号和 PonyKVList 处理者进行绑定
     connect(this, SIGNAL(insertItem(PlayListItem*)), listOPer, SLOT(insert(PlayListItem*)));
-    connect(this, SIGNAL(removeItem(PlayListItem*)), listOPer, SLOT(remove(PlayListItem*)));
+//    connect(this, SIGNAL(removeItem(PlayListItem*)), listOPer, SLOT(remove(PlayListItem*)));
     connect(this, SIGNAL(searchItem(QString)), listOPer, SLOT(search(QString)));
     connect(this, SIGNAL(extractRequirement()), listOPer, SLOT(extractAndProcess()));
     connect(this, SIGNAL(removeRequirement(QString)), listOPer, SLOT(remove(QString)));

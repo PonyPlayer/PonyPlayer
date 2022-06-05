@@ -1,0 +1,164 @@
+{
+    "classes": [
+        {
+            "className": "FrameController",
+            "object": true,
+            "qualifiedClassName": "FrameController",
+            "signals": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "std::string"
+                        }
+                    ],
+                    "name": "signalDecoderOpenFile",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "pos",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "signalDecoderSeek",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalPositionChangedBySeek",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "i",
+                            "type": "int"
+                        }
+                    ],
+                    "name": "signalSetTrack",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalBackward",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalForward",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalAudioOutputDevicesChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "signalDeviceSwitched",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "result",
+                            "type": "PonyPlayer::OpenFileResultType"
+                        }
+                    ],
+                    "name": "openFileResult",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "isPlaying",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "playbackStateChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "resourcesEnd",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "pic",
+                            "type": "VideoFrameRef"
+                        }
+                    ],
+                    "name": "setPicture",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "private",
+                    "name": "initOnThread",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "openFile",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "pause",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "stop",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "close",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "start",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "seekPos",
+                            "type": "qreal"
+                        }
+                    ],
+                    "name": "seek",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "framecontroller.hpp",
+    "outputRevision": 68
+}

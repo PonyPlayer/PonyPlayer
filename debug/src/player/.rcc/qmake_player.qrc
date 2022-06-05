@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/player">
+    <file alias="qmldir">/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/player/qmldir</file>
+  </qresource>
+</RCC>
+

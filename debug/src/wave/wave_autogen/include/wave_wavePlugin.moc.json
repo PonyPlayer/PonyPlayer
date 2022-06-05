@@ -1,0 +1,17 @@
+{
+    "classes": [
+        {
+            "className": "wavePlugin",
+            "object": true,
+            "qualifiedClassName": "wavePlugin",
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QQmlEngineExtensionPlugin"
+                }
+            ]
+        }
+    ],
+    "inputFile": "wave_wavePlugin.cpp",
+    "outputRevision": 68
+}
