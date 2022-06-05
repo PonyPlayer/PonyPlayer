@@ -179,8 +179,11 @@ public:
     }
 
     int skip(const std::function<bool(qreal)> &predicate) override {
-        return 0;
+        return frameQueue->skip([this, predicate](AVFrame *frame){
+            return frame && predicate(static_cast<qreal>(frame->pts) * av_q2d(stream->time_base));
+        }, [](AVFrame *frame) { av_frame_free(&frame); });
     }
+
 };
 
 template<> class ReverseDecoderImpl<Audio>: public ReverseDecoderImpl<Common> {

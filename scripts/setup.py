@@ -35,7 +35,7 @@ if __name__ == "__main__":
                                         "python setup.py --qt_path /Users/username/Qt/6.2.4/macos\n"
                                         "python setup.py --qt_path C:\\Qt\\6.2.4\\mingw8_64")
     parser.add_argument("--qt_path", type=str, help="Indicate the Qt6 library path.", required=True)
-    parser.add_argument("--ffmpeg_path", type=str, help="Indicate the FFmpeg path.", required=True)
+    parser.add_argument("--ffmpeg_path", type=str, help="Indicate the FFmpeg path.", default='')
     parser.add_argument("--ninja_path", type=str, help="Indicate the compiler path.", default='')
     parser.add_argument("--compiler_path", type=str, help="Indicate the compiler bin path.", default='')
     args = parser.parse_args()
@@ -75,7 +75,9 @@ if __name__ == "__main__":
 
     # check ffmpeg path
     ffmpeg_path = convert_and_check_exists_dir(args.ffmpeg_path, "FFmpeg")
-    if not (ffmpeg_path / "bin" / "ffmpeg.exe").exists() and not (ffmpeg_path / "bin" / "ffmpeg").exists():
+    if not (ffmpeg_path / "bin" / "ffmpeg.exe").exists() \
+            and not (ffmpeg_path / "bin" / "ffmpeg").exists() \
+            and not platform.system() == 'Linux':
         print(f"Fail: Not the FFmpeg path {ffmpeg_path}.")
         exit(-1)
     if " " in str(ffmpeg_path):

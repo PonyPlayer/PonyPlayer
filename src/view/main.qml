@@ -88,6 +88,8 @@ Window {
     property real contrast: 1.0
     //音轨列表(中转站)
     property var trackMenu
+    //当前音轨
+    property string audioTrack:""
     //最近打开的文件(中转站)
     property var currentFilePathStation
     //输出设备选择(中转站)
@@ -266,57 +268,92 @@ Window {
             id: menu
             width: 120
             topMargin: parent.height
-            Action {
-                text: "播放设置"
-                onTriggered: additionalSettings.show()
+            Menu{
+                id:fileMenu
+                title: qsTr("文件")
+                Action {
+                    text: "打开文件"
+                    onTriggered: fileDialog.open()
+                }
+                Action {
+                    text: "打开链接"
+                    onTriggered: openLinkDialog.open()
+                }
+                Menu{
+                    id: currentFilePathList
+                    title: qsTr("最近打开的文件")
+                    Instantiator {
+                        id: recentInstantiator_
+                        model: mediaLibController.recentFiles
+                        delegate: MenuItem {
+                            text: model.modelData[0]
+                            checked: false
+                            onTriggered: videoArea.openFile(model.modelData[1])
+                        }
+                        onObjectAdded: currentFilePathList.insertItem(index, object)
+                        onObjectRemoved: currentFilePathList.removeItem(object)
+                    }
+                }
             }
-            Action {
-                text: "打开文件"
-                onTriggered: fileDialog.open()
-            }
-            Action {
-                text: "打开链接"
-                onTriggered: openLinkDialog.open()
-            }
-            Action{
-                text: "滤镜选择"
-                onTriggered: filterswindow.show()
+            Menu {
+                id: playMenu
+                title: qsTr("播放")
+                SpeedMenu{}
+                MenuItem {
+                    text: "倒放  "+(mainWindow.isInverted ? '✔' : '    ')
+                    checked: videoArea.backwardStatus
+                    onTriggered: {
+                        mainWindow.isInverted = (!mainWindow.isInverted)
+                        videoArea.toggleBackward()
+                    }
+                }
             }
             Menu{
-                id: currentFilePathList
-                title: qsTr("最近打开的文件")
-                Instantiator {
-                    id: recentInstantiator_
-                    model: mediaLibController.recentFiles
-                    delegate: MenuItem {
-                        text: model.modelData[0]
-                        checked: false
-                        onTriggered: videoArea.openFile(model.modelData[1])
-                    }
-                    onObjectAdded: currentFilePathList.insertItem(index, object)
-                    onObjectRemoved: currentFilePathList.removeItem(object)
+                title: qsTr("画面")
+                Action {
+                    text: "播放设置"
+                    onTriggered: additionalSettings.show()
                 }
-            }
-            SpeedMenu{
+                Action{
+                    text: "滤镜选择"
+                    onTriggered: filterswindow.show()
+                }
+                MenuItem {
+                    text: qsTr("保持比例")
+                    checked: videoArea.keepFrameRate
+                    onTriggered: {
+                        videoArea.keepFrameRate = true
+                    }
+                }
 
-            }
-            Menu {
-                id: devicesMenu
-                title: qsTr("输出设备")
-                Instantiator {
-                    id: audioInstantiator
-                    model: videoArea.audioDeviceList
-                    delegate: MenuItem {
-                        text: (model.modelData === videoArea.currentOutputDevice ? "✔": "") + model.modelData
-                        onTriggered: videoArea.setCurrentOutputDevice(model.modelData)
+                MenuItem {
+                    text: qsTr("拉伸画面")
+                    checked: !videoArea.keepFrameRate
+                    onTriggered: {
+                        videoArea.keepFrameRate = false
                     }
-                    onObjectAdded: (index, object)=> {devicesMenu.insertItem(index, object)}
-                    onObjectRemoved: devicesMenu.removeItem(object)
                 }
             }
-            Menu {
-                id: trackmenu
-                title: "音轨"
+            Menu{
+                title: qsTr("音频")
+                Menu {
+                    id: devicesMenu
+                    title: qsTr("输出设备")
+                    Instantiator {
+                        id: audioInstantiator
+                        model: videoArea.audioDeviceList
+                        delegate: MenuItem {
+                            text: (model.modelData === videoArea.currentOutputDevice ? "✔": "") + model.modelData
+                            onTriggered: videoArea.setCurrentOutputDevice(model.modelData)
+                        }
+                        onObjectAdded: (index, object)=> {devicesMenu.insertItem(index, object)}
+                        onObjectRemoved: devicesMenu.removeItem(object)
+                    }
+                }
+                Menu {
+                    id: trackmenu
+                    title: "音轨"
+                }
             }
             //当menu加载完后，读取json文件内容，动态添加menuItem
             Component.onCompleted: {
@@ -626,8 +663,13 @@ SwipeView{
                     mainWindow.speed=1.0
                     videoArea.setSpeed(mainWindow.speed)
                 }
+<<<<<<< HEAD
 
             } else if(result == PonyPlayerNS.AUDIO){
+=======
+            }
+            else if(result == PonyPlayerNS.AUDIO){
+>>>>>>> c6c2b1ce833bf1738b6d8ad0d540a86166e5a7db
             mainArea.currentIndex = 2;
             IF.toVideoBegining()
             mainWindow.endTime=Math.floor(videoArea.getAudioDuration());

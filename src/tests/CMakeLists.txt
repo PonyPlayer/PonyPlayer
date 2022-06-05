@@ -3,12 +3,13 @@ include(FetchContent)
 FetchContent_Declare(gtest
         QUIET
         # mirror of https://github.com/google/googletest/archive/release-1.10.0.tar.gz
-        URL https://scut-se-project.obs.cn-south-1.myhuaweicloud.com/googletest-release-1.10.0.tar.gz
+        URL https://github.com/google/googletest/archive/refs/tags/release-1.11.0.tar.gz
         )
 # configure build of googletest
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(gtest)
+
 add_executable(
         unit_tests
         example_test.cpp
