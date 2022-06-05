@@ -38,6 +38,7 @@ if __name__ == "__main__":
     parser.add_argument("--ffmpeg_path", type=str, help="Indicate the FFmpeg path.", default='')
     parser.add_argument("--ninja_path", type=str, help="Indicate the compiler path.", default='')
     parser.add_argument("--compiler_path", type=str, help="Indicate the compiler bin path.", default='')
+    parser.add_argument("--version", type=str, help="Indicate PonyPlayer version.", default='UNKNOWN')
     args = parser.parse_args()
     # check qt path
     qt_path = convert_and_check_exists_dir(args.qt_path, "Qt6")
@@ -98,6 +99,11 @@ if __name__ == "__main__":
     if not config_folder.exists():
         config_folder.mkdir()
     config_path = config_folder / "user.json"
+
+    version = str(args.version)
+    if version.startswith("refs/"):
+        version = version.split("/")[-1]
+
     with open(config_path, "w", encoding="utf-8-sig") as f:
         json.dump({
             "qt_path": str(qt_path),
@@ -105,7 +111,7 @@ if __name__ == "__main__":
             "ninja_path": str(ninja_path),
             "compiler_path": str(compiler_path),
             "prefix": PREFIX,
-            "version": VERSION,
+            "version": version,
         }, f)
     print(f"Write to {config_path}.")
 
