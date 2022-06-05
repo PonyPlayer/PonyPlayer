@@ -44,6 +44,7 @@ private slots:
                 m_playback->setDesiredFormat(m_demuxer->getInputFormat());
                 m_demuxer->setOutputFormat(m_playback->getDeviceFormat());
                 m_demuxer->start();
+                m_playback->clearCacheFrame();
                 m_playback->showFrame();
             }
             emit openFileResult(result);

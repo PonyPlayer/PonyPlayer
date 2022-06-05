@@ -138,6 +138,9 @@ public:
             if (!cacheVideoFrame.isValid()) { cacheVideoFrame = m_demuxer->getPicture(); }
             emit setPicture(cacheVideoFrame);
         });
+        connect(this, &Playback::showFirstVideoFrame, this, [this] {
+            cacheVideoFrame = {};
+        });
         connect(this, &Playback::clearRingBuffer, this, [this] { this->m_audioSink->clear(); });
         connect(m_affinityThread, &QThread::started, [this] {
             // 在 Playback 线程上初始化
@@ -190,6 +193,7 @@ public:
         emit setAudioVolume(volume, QPrivateSignal());
     }
 
+
     void setPitch(qreal pitch) {
         emit setAudioPitch(pitch, QPrivateSignal());
     }
@@ -208,6 +212,10 @@ public:
 
     void showFrame() {
         emit showFirstVideoFrame(QPrivateSignal());
+    }
+
+    void clearCacheFrame() {
+        emit clearCacheVideoFrame(QPrivateSignal());
     }
 
     /**
@@ -331,6 +339,8 @@ signals:
     void signalDeviceSwitched();
 
     void showFirstVideoFrame(QPrivateSignal);
+
+    void clearCacheVideoFrame(QPrivateSignal);
 
     void setPicture(VideoFrameRef pic);
 
