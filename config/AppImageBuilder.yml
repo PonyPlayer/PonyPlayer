@@ -88,53 +88,79 @@ AppDir:
     - {QT_DIR}/plugins/sqldrivers/libqsqlite.so
     - {QT_DIR}/plugins/xcbglintegrations/libqxcb-egl-integration.so
     - {QT_DIR}/plugins/xcbglintegrations/libqxcb-glx-integration.so
-    # - {QT_DIR}/qml/QtQml/WorkerScript/../../../lib/libQt6QmlWorkerScript.so.6
-    # - {QT_DIR}/qml/QtQml/WorkerScript/libworkerscriptplugin.so
-    # - {QT_DIR}/qml/QtQml/WorkerScript/qmldir
+    - {QT_DIR}/qml/QtQml/WorkerScript/../../../lib/libQt6QmlWorkerScript.so.6
+    - {QT_DIR}/qml/QtQml/WorkerScript/libworkerscriptplugin.so
+    - {QT_DIR}/qml/QtQml/WorkerScript/qmldir
     - {QT_DIR}/lib/libQt6OpenGL.so.6
-    # - {QT_DIR}/qml/QtQuick/../../lib/libQt6QmlModels.so.6
-    # - {QT_DIR}/qml/QtQuick/../../lib/libQt6Quick.so.6
-    # - {QT_DIR}/qml/QtQuick/libqtquick2plugin.so
-    # - {QT_DIR}/qml/QtQuick/qmldir
+    - {QT_DIR}/qml/QtQuick/../../lib/libQt6QmlModels.so.6
+    - {QT_DIR}/qml/QtQuick/../../lib/libQt6Quick.so.6
+    - {QT_DIR}/qml/QtQuick/libqtquick2plugin.so
+    - {QT_DIR}/qml/QtQuick/qmldir
     - /lib/x86_64-linux-gnu/libEGL_mesa.so.0
     - /lib/x86_64-linux-gnu/libGLX.so.0
-    #    - /lib/x86_64-linux-gnu/libGLdispatch.so.0
-    #    - /lib/x86_64-linux-gnu/libLLVM-12.so.1
+    - /lib/x86_64-linux-gnu/libGLdispatch.so.0
+    - /lib/x86_64-linux-gnu/libLLVM-12.so.1
     - /lib/x86_64-linux-gnu/libOpenGL.so.0
     - /lib/x86_64-linux-gnu/libX11.so.6
-    #    - /lib/x86_64-linux-gnu/libXau.so.6
-    #    - /lib/x86_64-linux-gnu/libXdmcp.so.6
-    #    - /lib/x86_64-linux-gnu/libbsd.so.0
-    #    - /lib/x86_64-linux-gnu/libedit.so.2
-    #    - /lib/x86_64-linux-gnu/libelf.so.1
-    #    - /lib/x86_64-linux-gnu/libffi.so.7
-    #    - /lib/x86_64-linux-gnu/libfontconfig.so.1
-    #    - /lib/x86_64-linux-gnu/libfreetype.so.6
-    #    - /lib/x86_64-linux-gnu/libgbm.so.1
-    #    - /lib/x86_64-linux-gnu/libgcrypt.so.20
+    - /lib/x86_64-linux-gnu/libXau.so.6
+    - /lib/x86_64-linux-gnu/libXdmcp.so.6
+    - /lib/x86_64-linux-gnu/libbsd.so.0
+    - /lib/x86_64-linux-gnu/libedit.so.2
+    - /lib/x86_64-linux-gnu/libelf.so.1
+    - /lib/x86_64-linux-gnu/libffi.so.7
+    - /lib/x86_64-linux-gnu/libfontconfig.so.1
+    - /lib/x86_64-linux-gnu/libfreetype.so.6
+    - /lib/x86_64-linux-gnu/libgbm.so.1
+    - /lib/x86_64-linux-gnu/libgcrypt.so.20
     - /lib/x86_64-linux-gnu/libglapi.so.0
     - /lib/x86_64-linux-gnu/libglib-2.0.so.0
-    #    - /lib/x86_64-linux-gnu/libgssapi_krb5.so.2
-    #    - /lib/x86_64-linux-gnu/libgthread-2.0.so.0
-    #    - /lib/x86_64-linux-gnu/libk5crypto.so.3
-    #    - /lib/x86_64-linux-gnu/libkrb5.so.3
-    #    - /lib/x86_64-linux-gnu/libkrb5support.so.0
-    #    - /lib/x86_64-linux-gnu/liblz4.so.1
-    #    - /lib/x86_64-linux-gnu/libpng16.so.16
-    #    - /lib/x86_64-linux-gnu/libsensors.so.5
+    - /lib/x86_64-linux-gnu/libgssapi_krb5.so.2
+    - /lib/x86_64-linux-gnu/libgthread-2.0.so.0
+    - /lib/x86_64-linux-gnu/libk5crypto.so.3
+    - /lib/x86_64-linux-gnu/libkrb5.so.3
+    - /lib/x86_64-linux-gnu/libkrb5support.so.0
+    - /lib/x86_64-linux-gnu/liblz4.so.1
+    - /lib/x86_64-linux-gnu/libpng16.so.16
+    - /lib/x86_64-linux-gnu/libsensors.so.5
     - /lib/x86_64-linux-gnu/libstdc++.so.6
-    #    - /lib/x86_64-linux-gnu/libvulkan.so.1
-    #    - /lib/x86_64-linux-gnu/libwayland-client.so.0
-    #    - /lib/x86_64-linux-gnu/libwayland-cursor.so.0
+    - /lib/x86_64-linux-gnu/libvulkan.so.1
+    - /lib/x86_64-linux-gnu/libwayland-client.so.0
+    - /lib/x86_64-linux-gnu/libwayland-cursor.so.0
     - /lib/x86_64-linux-gnu/libwayland-egl.so.1
     - /lib/x86_64-linux-gnu/libwayland-server.so.0
     - /lib/x86_64-linux-gnu/libxcb-dri2.so.0
     - /lib/x86_64-linux-gnu/libxcb-dri3.so.0
     - /lib/x86_64-linux-gnu/libxcb-present.so.0
-    #    - /lib/x86_64-linux-gnu/libxcb-sync.so.1
-    #    - /lib/x86_64-linux-gnu/libxkbcommon.so.0
-    #    - /lib/x86_64-linux-gnu/libxshmfence.so.1
-    #    - /lib/x86_64-linux-gnu/libzstd.so.1
+    - /lib/x86_64-linux-gnu/libxcb-sync.so.1
+    - /lib/x86_64-linux-gnu/libxkbcommon.so.0
+    - /lib/x86_64-linux-gnu/libxshmfence.so.1
+    - /lib/x86_64-linux-gnu/libzstd.so.1
+    - /lib/x86_64-linux-gnu/dri/iris_dri.so
+    - /lib/x86_64-linux-gnu/libdrm_nouveau.so
+    - /lib/x86_64-linux-gnu/libdrm_nouveau.so.2
+    - /lib/x86_64-linux-gnu/libdrm_nouveau.so.2.0.0
+    - /lib/x86_64-linux-gnu/libasound.so
+    - /lib/x86_64-linux-gnu/libasound.so.2
+    - /lib/x86_64-linux-gnu/libasound.so.2.0.0
+    - /lib/x86_64-linux-gnu/libjack.so
+    - /lib/x86_64-linux-gnu/libjack.so.0
+    - /lib/x86_64-linux-gnu/libjack.so.0.0.28
+    - /lib/x86_64-linux-gnu/libjackserver.a
+    - /lib/x86_64-linux-gnu/libjackserver.so
+    - /lib/x86_64-linux-gnu/libjackserver.so.0
+    - /lib/x86_64-linux-gnu/libjackserver.so.0.0.28
+    - /lib/x86_64-linux-gnu/libavformat.so
+    - /lib/x86_64-linux-gnu/libavformat.so.59
+    - /lib/x86_64-linux-gnu/libavformat.so.59.16.100
+    - /lib/x86_64-linux-gnu/libavutil.so
+    - /lib/x86_64-linux-gnu/libavutil.so.57
+    - /lib/x86_64-linux-gnu/libavformat.so.57.17.100
+    - /lib/x86_64-linux-gnu/libavcodec.so
+    - /lib/x86_64-linux-gnu/libavcodec.so.59
+    - /lib/x86_64-linux-gnu/libavformat.so.59.18.100
+    - /lib/x86_64-linux-gnu/libavdevice.so.59
+    - /lib/x86_64-linux-gnu/libavdevice.so.59.4.100    
+
     exclude:
       - usr/share/man
       - usr/share/doc/*/README.*
