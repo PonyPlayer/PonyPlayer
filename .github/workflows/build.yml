@@ -2,7 +2,7 @@ name: Build Project
 on:
   push:
     branches:
-      - release
+      - release_linux
     tags:
       - '*'
     paths-ignore:
@@ -18,26 +18,27 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: windows-2019
-            qt_arch: win64_mingw
-            qt_arch_install: mingw_64
+#          - os: windows-2019
+#            qt_arch: win64_mingw
+#            qt_arch_install: mingw_64
+#            qt_ver: 6.2.4
+#            qt_tools: "tools_mingw90,9.0.0-1-202203221220,qt.tools.win64_mingw900 tools_ninja,1.10.2-202108061017,qt.tools.ninja tools_cmake,3.21.1-202109070924,qt.tools.cmake.win64"
+#            dependency_path: "C:\\_dependency"
+#            ffmpeg_path: "C:/ProgramData/FFmpeg"
+#          - os: macos-10.15
+#            qt_arch: clang_64
+#            qt_arch_install: macos
+#            qt_ver: 6.2.4
+#            qt_tools: "tools_ninja,1.10.2-202108061017,qt.tools.ninja tools_cmake,3.21.1-202108061018,qt.tools.cmake"
+#            dependency_path: "/Users/runner/_dep"
+#            ffmpeg_path: "/Users/runner/FFmpeg"
+          - os: ubuntu-20.04
+            qt_arch: gcc_64
+            qt_arch_install: gcc_64
             qt_ver: 6.2.4
-            qt_tools: "tools_mingw90,9.0.0-1-202203221220,qt.tools.win64_mingw900 tools_ninja,1.10.2-202108061017,qt.tools.ninja tools_cmake,3.21.1-202109070924,qt.tools.cmake.win64"
-            dependency_path: "C:\\_dependency"
-            ffmpeg_path: "C:/ProgramData/FFmpeg"
-          - os: macos-10.15
-            qt_arch: clang_64
-            qt_arch_install: macos
-            qt_ver: 6.2.4
-            qt_tools: "tools_ninja,1.10.2-202108061017,qt.tools.ninja tools_cmake,3.21.1-202108061018,qt.tools.cmake"
-            dependency_path: "/Users/runner/_dep"
-            ffmpeg_path: "/Users/runner/FFmpeg"
-              - os: ubuntu-20.04
-                qt_arch: gcc_64
-                qt_arch_install: gcc_64
-                qt_ver: 6.2.4
-                qt_tools: "tools_ninja,1.10.2-202108061017,qt.tools.ninja tools_cmake,3.21.1-202108061017,qt.tools.cmake"
-                dependency_path: "/home/runner/_dep"
+            qt_tools: "tools_ninja,1.10.2-202108061017,qt.tools.ninja tools_cmake,3.21.1-202108061017,qt.tools.cmake"
+            dependency_path: "/home/runner/_dep"
+            ffmpeg_path: "/usr"
     steps:
       - name: CheckOut
         id: checkOut
@@ -88,7 +89,10 @@ jobs:
         if: contains(matrix.os, 'ubuntu')
         shell: pwsh
         run: |
-          sudo apt install -y python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse
+          sudo add-apt-repository ppa:savoury1/ffmpeg5 -y
+          sudo add-apt-repository ppa:savoury1/ffmpeg4 -y
+          sudo apt update
+          sudo apt install -y python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse ffmpeg libavformat-dev libswscale-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libjack-dev libasound2-dev
           sudo wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
           sudo chmod +x /usr/local/bin/appimagetool
           sudo pip3 install appimage-builder
@@ -108,6 +112,7 @@ jobs:
             ${{ github.workspace }}/app/*.zip
             ${{ github.workspace }}/app/*.msi
             ${{ github.workspace }}/app/*.dmg
+            ${{ github.workspace }}/app/*.AppImage
 
       - name: Delete old artifacts
         uses: kolpav/purge-artifacts-action@v1
@@ -123,3 +128,4 @@ jobs:
             ${{ github.workspace }}/app/*.zip
             ${{ github.workspace }}/app/*.msi
             ${{ github.workspace }}/app/*.dmg
+            ${{ github.workspace }}/app/*.AppImage
