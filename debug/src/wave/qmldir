@@ -1,7 +1,0 @@
-module wave
-linktarget wave
-optional plugin wave
-classname wavePlugin
-typeinfo wave.qmltypes
-prefer :/wave/
-

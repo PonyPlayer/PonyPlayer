@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libplaylist.a CMakeFiles/playlist.dir/playlist_autogen/mocs_compilation.cpp.o CMakeFiles/playlist.dir/kv_engine.cpp.o CMakeFiles/playlist.dir/playlist.cpp.o CMakeFiles/playlist.dir/controller.cpp.o CMakeFiles/playlist.dir/info_accessor.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libplaylist.a

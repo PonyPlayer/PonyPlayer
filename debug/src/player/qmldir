@@ -1,7 +1,0 @@
-module player
-linktarget player
-optional plugin player
-classname playerPlugin
-typeinfo player.qmltypes
-prefer :/player/
-

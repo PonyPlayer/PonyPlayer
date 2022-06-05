@@ -93,16 +93,21 @@ MenuBar {
         }
 
         Menu {
+            property var status: [qsTr("开启"),qsTr("关闭")]
             id: serializeMenu
             title: qsTr("自动连播")
-            MenuItem {
-                text: "开启"
-                onTriggered: console.log("开启")
+            Instantiator {
+                id: serializeInstantiator
+                model: serializeMenu.status
+                delegate: MenuItem {
+                    text: model.modelData
+                    checked: text===(mainWindow.serialize ? qsTr("开启"): qsTr("关闭"))
+                    onTriggered: { mainWindow.serialize = (text === qsTr("开启") ? true : false); console.log("[DDD]:",mainWindow.serialize); }
+                }
+                onObjectAdded: serializeMenu.insertItem(index, object)
+                onObjectRemoved: serializeMenu.removeItem(index, object)
             }
-            MenuItem {
-                text: "关闭"
-                onTriggered: console.log("关闭")
-            }
+
         }
     }
 

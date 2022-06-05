@@ -1,8 +1,0 @@
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/player/player_autogen/include/../EWIEGA46WW/moc_fireworks.cpp.json
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/player/player_autogen/include/../EWIEGA46WW/moc_framecontroller.cpp.json
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/player/player_autogen/include/../EWIEGA46WW/moc_hurricane.cpp.json
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/player/player_autogen/include/../EWIEGA46WW/moc_playback.cpp.json
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/player/player_autogen/include/../EWIEGA46WW/moc_preview.cpp.json
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/player/player_autogen/include/../EWIEGA46WW/moc_renderer.cpp.json
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/player/player_autogen/include/../EWIEGA46WW/moc_thumbnail.cpp.json
-/Users/aaronpeng/Desktop/SE/PP/PonyPlayer/debug/src/player/player_autogen/include/player_playerPlugin.moc.json

@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libutils.a CMakeFiles/utils.dir/utils_autogen/mocs_compilation.cpp.o CMakeFiles/utils.dir/logger.cpp.o CMakeFiles/utils.dir/countdown_latch.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libutils.a

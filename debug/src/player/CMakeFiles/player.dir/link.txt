@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libplayer.a CMakeFiles/player.dir/player_autogen/mocs_compilation.cpp.o CMakeFiles/player.dir/player_playerPlugin.cpp.o CMakeFiles/player.dir/player_qmltyperegistrations.cpp.o CMakeFiles/player.dir/players.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libplayer.a

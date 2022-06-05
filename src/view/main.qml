@@ -626,6 +626,7 @@ SwipeView{
                     mainWindow.speed=1.0
                     videoArea.setSpeed(mainWindow.speed)
                 }
+
             } else if(result == PonyPlayerNS.AUDIO){
             mainArea.currentIndex = 2;
             IF.toVideoBegining()
@@ -635,9 +636,10 @@ SwipeView{
                 mainWindow.isInverted = false
                 videoArea.forward();
             }
+
         }
     }
-            onResourcesEnd: { IF.nextOnClicked(); }
+
 }
 }
 Rectangle{
