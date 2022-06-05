@@ -490,4 +490,5 @@ function judgeSerialize(){
       mainWindow.start();
     }
   }
+
 }
