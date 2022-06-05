@@ -20,7 +20,7 @@ add_subdirectory(player)
 add_subdirectory(playlist)
 add_subdirectory(wave)
 add_subdirectory(audiosink)
-add_subdirectory(tests)
+#add_subdirectory(tests)
 
 include(platform.cmake)
 

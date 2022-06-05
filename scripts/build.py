@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
     command = f"cd {build_dir} " \
               f"&& {cmake_command} " \
-              f"&& cmake --build . --config Release"
+              f"&& cmake --build . --target PonyPlayer --config Release"
     print("Execute: " + command)
     if platform.system() == 'Windows':
         modify_environment = os.environ.copy()
