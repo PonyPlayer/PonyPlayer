@@ -484,11 +484,11 @@ function mainWindowInit() {
   }
 }
 function judgeSerialize(){
+  console.log("[serialize]",mainWindow.serialize);
   if(mainWindow.serialize){
     if (mainWindow.endTime !== 0.0 && !isBoundary()) {
       mainWindow.isPlay = true;
       mainWindow.start();
     }
   }
-
 }

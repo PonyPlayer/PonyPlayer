@@ -657,6 +657,7 @@ SwipeView{
                     }
                 }
             }
+            onResourcesEnd: { console.log("[emit sourcesend]"); IF.nextOnClicked(); }
             onStateChanged: IF.solveStateChanged()
             Component.onCompleted: IF.mainAreaInit()
             onOpenFileResult: (result)=> {
