@@ -14,6 +14,10 @@ MenuBar {
             text: qsTr("打开文件")
             onTriggered: fileDialog.open()
         }
+        MenuItem {
+            text: qsTr("打开链接")
+            onTriggered: openLinkDialog.open()
+        }
 
         Menu {
             id: recentMenu
@@ -37,13 +41,13 @@ MenuBar {
         title: qsTr("画面")
 
         MenuItem {
-            text: qsTr("色彩")
+            text: qsTr("播放设置")
             onTriggered: additionalSettings.show()
         }
 
         MenuItem {
-            text: qsTr("滤镜")
-            onTriggered: additionalSettings.show()
+            text: qsTr("滤镜选择")
+            onTriggered: filterswindow.show()
         }
 
         MenuSeparator { }

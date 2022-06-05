@@ -371,6 +371,7 @@ Window {
                     id: trackmenu
                     title: "音轨"
                 }
+
             }
             //当menu加载完后，读取json文件内容，动态添加menuItem
             Component.onCompleted: {
@@ -657,7 +658,11 @@ SwipeView{
                     }
                 }
             }
-            onResourcesEnd: { console.log("[emit sourcesend]"); IF.nextOnClicked(); }
+            onResourcesEnd: {
+                if(mainWindow.serialize) {
+                    IF.nextOnClicked();
+                }
+            }
             onStateChanged: IF.solveStateChanged()
             Component.onCompleted: IF.mainAreaInit()
             onOpenFileResult: (result)=> {
