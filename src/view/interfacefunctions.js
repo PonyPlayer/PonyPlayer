@@ -319,6 +319,7 @@ function makeTrackMenu() {
     mainWindow.trackMenu.destroy();
   }
   var tmpList = videoArea.getTracks();
+  mainWindow.audioTrack = tmpList[0]
   mainWindow.trackMenu = Qt.createQmlObject(
     "import QtQuick 2.13; import QtQuick.Controls 2.13; Menu{}",
     menu
@@ -327,8 +328,8 @@ function makeTrackMenu() {
   let component = Qt.createComponent("TrackItem.qml");
   for (let i = 0; i < tmpList.length; i++) {
     let item = component.createObject(mainWindow.trackMenu, {
-      text: tmpList[i],
       trackID: i,
+      trackName: tmpList[i]
     });
     item.setTrack.connect(videoArea.setTrack);
     trackmenu.addItem(item);

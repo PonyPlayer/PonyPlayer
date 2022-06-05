@@ -86,6 +86,8 @@ Window {
     property real contrast: 1.0
     //音轨列表(中转站)
     property var trackMenu
+    //当前音轨
+    property string audioTrack:""
     //最近打开的文件(中转站)
     property var currentFilePathStation
     //输出设备选择(中转站)
