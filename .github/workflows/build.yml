@@ -112,6 +112,7 @@ jobs:
             ${{ github.workspace }}/app/*.zip
             ${{ github.workspace }}/app/*.msi
             ${{ github.workspace }}/app/*.dmg
+            ${{ github.workspace }}/app/*.AppImage
 
       - name: Delete old artifacts
         uses: kolpav/purge-artifacts-action@v1
