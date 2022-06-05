@@ -607,7 +607,7 @@ SwipeView{
             if(result == PonyPlayerNS.FAILED)
             {
                 operationFailedDialogText.text="文件不存在或文件格式不支持"
-                operationFailedDialog.show()
+                operationFailedWindow.show()
                 mainWindow.endTime=0
             }
             else if(result == PonyPlayerNS.VIDEO)
@@ -676,6 +676,23 @@ Rectangle{
 }
 Wave{
     id: wave
+    MouseArea{
+        anchors.fill: parent
+        hoverEnabled: true //默认是false
+        propagateComposedEvents: true
+        onPositionChanged: {
+            if(mainWindow.isFullScreen)
+            {
+                if(mainWindow.mouseFlag)
+                {
+                    mainWindow.mouseFlag=false
+                }
+                else{
+                    IF.showComponents()
+                }
+            }
+        }
+    }
 }
 }
 }
