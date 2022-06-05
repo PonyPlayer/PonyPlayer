@@ -508,18 +508,26 @@ public:
 
     PONY_THREAD_SAFE qreal frontSample() override {NOT_IMPLEMENT_YET}
 
-    PONY_GUARD_BY(DECODER)
+    PONY_GUARD_BY(DECODER) void setEnableAudio(bool enable) override { audioDecoder->setEnable(enable); }
 
-    void setEnableAudio(bool enable) override { audioDecoder->setEnable(enable); }
-
-    PonyAudioFormat getAudioInputFormat() override { // TODO: IMPLEMENT LATER
-        // return PonyAudioFormat(PonyPlayer::Int16, 44100, 2);
+    PonyAudioFormat getAudioInputFormat() override {
         return audioDecoder->getInputFormat();
     }
 
-    void setAudioOutputFormat(PonyAudioFormat format) override { // TODO: IMPLEMENT LATER
+    void setAudioOutputFormat(PonyAudioFormat format) override {
         audioDecoder->setOutputFormat(format);
     }
+
+
+    int skipPicture(const std::function<bool(qreal)> &function) override {
+        return videoDecoder->skip(function);
+    }
+
+    int skipSample(const std::function<bool(qreal)> &function) override {
+        return audioDecoder->skip(function);
+    }
+
+
 
     bool hasVideo() override { return videoStreamIndex >= 0 && videoStream->nb_frames > 0; }
 
