@@ -49,7 +49,7 @@ MenuBar {
         MenuSeparator { }
 
         MenuItem {
-            text: qsTr("保持比例")
+            text: qsTr("保持比例 ")+(videoArea.keepFrameRate ? '✔' : '    ')
             checked: videoArea.keepFrameRate
             onTriggered: {
                 videoArea.keepFrameRate = true
@@ -57,7 +57,7 @@ MenuBar {
         }
 
         MenuItem {
-            text: qsTr("拉伸画面")
+            text: qsTr("拉伸画面 ")+(!videoArea.keepFrameRate ? '✔' : '    ')
             checked: !videoArea.keepFrameRate
             onTriggered: {
                 videoArea.keepFrameRate = false
