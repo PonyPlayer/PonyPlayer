@@ -640,6 +640,7 @@ SwipeView{
                     }
                 }
             }
+            onResourcesEnd: { IF.nextOnClicked(); IF.judgeSerialize(); }
             onStateChanged: IF.solveStateChanged()
             Component.onCompleted: IF.mainAreaInit()
             onOpenFileResult: (result)=> {
@@ -663,13 +664,10 @@ SwipeView{
                     mainWindow.speed=1.0
                     videoArea.setSpeed(mainWindow.speed)
                 }
-<<<<<<< HEAD
 
             } else if(result == PonyPlayerNS.AUDIO){
-=======
             }
             else if(result == PonyPlayerNS.AUDIO){
->>>>>>> c6c2b1ce833bf1738b6d8ad0d540a86166e5a7db
             mainArea.currentIndex = 2;
             IF.toVideoBegining()
             mainWindow.endTime=Math.floor(videoArea.getAudioDuration());
