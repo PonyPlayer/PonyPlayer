@@ -335,19 +335,21 @@ Window {
                     text: "滤镜选择"
                     onTriggered: filterswindow.show()
                 }
-                MenuItem {
-                    text: qsTr("保持比例")
-                    checked: videoArea.keepFrameRate
-                    onTriggered: {
-                        videoArea.keepFrameRate = true
+                Menu {
+                    title: "画面比例"
+                    MenuItem {
+                        text: "保持比例 "+(videoArea.keepFrameRate ? '✔' : '    ')
+                        checked: videoArea.keepFrameRate
+                        onTriggered: {
+                            videoArea.keepFrameRate = true
+                        }
                     }
-                }
-
-                MenuItem {
-                    text: qsTr("拉伸画面")
-                    checked: !videoArea.keepFrameRate
-                    onTriggered: {
-                        videoArea.keepFrameRate = false
+                    MenuItem {
+                        text: "拉伸画面 "+(!videoArea.keepFrameRate ? '✔' : '    ')
+                        checked: !videoArea.keepFrameRate
+                        onTriggered: {
+                            videoArea.keepFrameRate = false
+                        }
                     }
                 }
             }
@@ -677,6 +679,7 @@ SwipeView{
                 mainArea.currentIndex = 0;
                 IF.toVideoBegining()
                 mainWindow.endTime=Math.floor(videoArea.getAudioDuration())
+                IF.makeTrackMenu()
                 if (mainWindow.isInverted)
                 {
                     mainWindow.isInverted = false
@@ -692,6 +695,7 @@ SwipeView{
             mainArea.currentIndex = 2;
             IF.toVideoBegining()
             mainWindow.endTime=Math.floor(videoArea.getAudioDuration());
+            IF.makeTrackMenu()
             if (mainWindow.isInverted)
             {
                 mainWindow.isInverted = false
