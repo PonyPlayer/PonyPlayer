@@ -483,3 +483,11 @@ function mainWindowInit() {
     }
   }
 }
+function judgeSerialize(){
+  if(mainWIndow.serialize){
+    if (mainWindow.endTime !== 0.0 && !isBoundary()) {
+      mainWindow.isPlay = true;
+      mainWindow.start();
+    }
+  }
+}
