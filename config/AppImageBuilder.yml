@@ -8,7 +8,7 @@ AppDir:
   app_info:
     id: net
     name: PonyPlayer
-    icon: ponyplayer-icon
+    icon: ponyicon
     version: {VERSION}
     exec: bin/PonyPlayer
     exec_args: $@

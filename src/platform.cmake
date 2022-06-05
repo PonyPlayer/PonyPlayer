@@ -86,5 +86,7 @@ elseif (UNIX)
             PUBLIC_HEADER DESTINATION include
             )
     install(FILES ${CMAKE_SOURCE_DIR}/assets/ponyicon.png DESTINATION share/icons/hicolor/96x96/apps/)
+    install(FILES ${CMAKE_SOURCE_DIR}/assets/ponyicon.png DESTINATION share/icons/)
+    install(FILES ${CMAKE_SOURCE_DIR}/assets/ponyicon.ico DESTINATION share/icons/)
     install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/assets" DESTINATION share/ponyplayer/)
 endif ()
