@@ -616,9 +616,9 @@ private slots:
         while (!interrupt) {
             int ret = av_read_frame(fmtCtx, packet);
             if (ret == 0) {
-                if (packet->stream_index == m_videoStreamIndex) {
+                if (static_cast<StreamIndex>(packet->stream_index) == m_videoStreamIndex) {
                     videoDecoder->accept(packet, interrupt);
-                } else if (packet->stream_index == m_audioStreamIndex) {
+                } else if (static_cast<StreamIndex>(packet->stream_index) == m_audioStreamIndex) {
                     m_audioDecoder->accept(packet, interrupt);
                 }
             } else if (ret == ERROR_EOF) {

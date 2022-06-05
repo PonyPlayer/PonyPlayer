@@ -96,22 +96,13 @@ MenuBar {
             onTriggered: videoArea.toggleBackward()
         }
 
-        Menu {
-            property var status: [qsTr("开启"),qsTr("关闭")]
+        MenuItem {
             id: serializeMenu
-            title: qsTr("自动连播")
-            Instantiator {
-                id: serializeInstantiator
-                model: serializeMenu.status
-                delegate: MenuItem {
-                    text: model.modelData
-                    checked: text===(mainWindow.serialize ? qsTr("开启"): qsTr("关闭"))
-                    onTriggered: { mainWindow.serialize = (text === qsTr("开启") ? true : false); console.log("[DDD]:",mainWindow.serialize); }
-                }
-                onObjectAdded: serializeMenu.insertItem(index, object)
-                onObjectRemoved: serializeMenu.removeItem(index, object)
+            text: qsTr("自动连播")
+            checked: mainWindow.serialize
+            onTriggered: {
+                mainWindow.serialize = !mainWindow.serialize
             }
-
         }
     }
 
