@@ -4,7 +4,7 @@
     cursor.hpp
     crashreporter.hpp
 )
-if (WIN32)
+if (WITH_WINDOWS_ICON)
     set(APP_ICON_RESOURCE "${CMAKE_SOURCE_DIR}/assets/ponyicon.rc")
 else()
     set(APP_ICON_RESOURCE "${PONY_ICON}")

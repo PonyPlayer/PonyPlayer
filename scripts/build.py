@@ -42,7 +42,7 @@ if __name__ == "__main__":
     toolset = os.path.join(qt_path, "lib/cmake/Qt6/qt.toolchain.cmake")
 
     if platform.system() == 'Windows':
-        os_dependent_args = "-DCMAKE_CXX_FLAGS=\"${CMAKE_CXX_FLAGS} -mwindows\" "
+        os_dependent_args = "-DCMAKE_CXX_FLAGS=\"${CMAKE_CXX_FLAGS} -mwindows\" -DWITH_WINDOWS_ICON=ON"
     elif platform.system() == 'Darwin':
         os_dependent_args = "-DCMAKE_OSX_ARCHITECTURES=\"x86_64;arm64\" "
     else:
