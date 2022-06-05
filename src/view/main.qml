@@ -307,6 +307,23 @@ Window {
                         videoArea.toggleBackward()
                     }
                 }
+                Menu {
+                    property var status: [qsTr("开启"),qsTr("关闭")]
+                    id: serializeMenu
+                    title: qsTr("自动连播")
+                    Instantiator {
+                        id: serializeInstantiator
+                        model: serializeMenu.status
+                        delegate: MenuItem {
+                            text: model.modelData
+                            checked: text===(mainWindow.serialize ? qsTr("开启"): qsTr("关闭"))
+                            onTriggered: { mainWindow.serialize = (text === qsTr("开启") ? true : false); console.log("[DDD]:",mainWindow.serialize); }
+                        }
+                        onObjectAdded: serializeMenu.insertItem(index, object)
+                        onObjectRemoved: serializeMenu.removeItem(index, object)
+                    }
+
+                }
             }
             Menu{
                 title: qsTr("画面")
@@ -640,7 +657,6 @@ SwipeView{
                     }
                 }
             }
-            onResourcesEnd: { IF.nextOnClicked(); IF.judgeSerialize(); }
             onStateChanged: IF.solveStateChanged()
             Component.onCompleted: IF.mainAreaInit()
             onOpenFileResult: (result)=> {
@@ -664,8 +680,8 @@ SwipeView{
                     mainWindow.speed=1.0
                     videoArea.setSpeed(mainWindow.speed)
                 }
-
-            } else if(result == PonyPlayerNS.AUDIO){
+                console.log(" +++++++++++++++++++++++++++on       open    file    result    +++++++++++++++++")
+                IF.judgeSerialize()
             }
             else if(result == PonyPlayerNS.AUDIO){
             mainArea.currentIndex = 2;
@@ -676,7 +692,7 @@ SwipeView{
                 mainWindow.isInverted = false
                 videoArea.forward();
             }
-
+            IF.judgeSerialize()
         }
     }
 

@@ -484,7 +484,8 @@ function mainWindowInit() {
   }
 }
 function judgeSerialize(){
-  if(mainWIndow.serialize){
+  console.log(mainWindow.serialize+"         ..................         333")
+  if(mainWindow.serialize){
     if (mainWindow.endTime !== 0.0 && !isBoundary()) {
       mainWindow.isPlay = true;
       mainWindow.start();
