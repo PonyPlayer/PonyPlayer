@@ -61,3 +61,4 @@ TEST(frame_test, frame_move_assign) {
     }
     EXPECT_EQ(VideoFrame::totalCount, 0);
 }
+
