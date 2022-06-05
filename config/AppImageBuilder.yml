@@ -10,7 +10,7 @@ AppDir:
     name: PonyPlayer
     icon: ponyicon
     version: {VERSION}
-    exec: bin/PonyPlayer
+    exec: usr/bin/PonyPlayer
     exec_args: $@
   apt:
     arch:

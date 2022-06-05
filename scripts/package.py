@@ -55,7 +55,7 @@ def apply_packaging():
                 shutil.copy(package_file, app_dir / f"{prefix}-win64-{version}{package_file.suffix}")
 
     elif platform.system() == 'Linux':
-        execute(f"cd {build_dir} && cmake --install . --prefix AppDir")
+        execute(f"cd {build_dir} && cmake --install . --prefix AppDir/usr")
         appdir_dir = build_dir / "AppDir"
         recipe_template = build_dir.parent / "config" / "AppImageBuilder.yml"
         with open(recipe_template, "r", encoding="utf-8-sig") as f:
