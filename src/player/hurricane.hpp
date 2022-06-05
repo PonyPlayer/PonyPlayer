@@ -57,6 +57,7 @@ public:
             QString currentOutputDevice READ getCurrentOutputDevice WRITE setCurrentOutputDevice NOTIFY currentOutputDeviceChanged)
     Q_PROPERTY(double speed READ getSpeed WRITE setSpeed NOTIFY speedChanged)
 
+
 private:
     bool backwardStatus = false;
 private:
@@ -91,6 +92,7 @@ public:
         connect(frameController, &FrameController::signalAudioOutputDevicesChanged, this,
                 &Hurricane::audioOutputDeviceChanged);
         connect(frameController, &FrameController::signalDeviceSwitched, this, &Hurricane::currentOutputDeviceChanged);
+        connect(frameController, &FrameController::resourcesEnd, this, &Hurricane::resourcesEnd);
         emit signalPlayerInitializing(QPrivateSignal());
 #ifdef DEBUG_FLAG_AUTO_OPEN
         openFile(QUrl::fromLocalFile(QDir::homePath().append(u"/581518754-1-208.mp4"_qs)).url());
@@ -150,6 +152,7 @@ signals:
 
     void speedChanged();
 
+    void resourcesEnd();
 
 Q_SIGNALS:
 
