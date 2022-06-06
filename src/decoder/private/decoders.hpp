@@ -97,6 +97,8 @@ public:
         NOT_IMPLEMENT_YET
     }
 
+    virtual void vaudioSeek(qreal pos) {}
+
     virtual PonyAudioFormat getInputFormat() = 0;
 
     virtual void setOutputFormat(const PonyAudioFormat& format) = 0;

@@ -188,21 +188,23 @@ public:
             description.streamInfos.emplace_back(stream);
         }
 
-        // audio
-        if (description.m_audioStreamsIndex.empty()) {
+        // no streams
+        if (description.m_audioStreamsIndex.empty() && description.m_videoStreamsIndex.empty()) {
             result = PonyPlayer::OpenFileResultType::FAILED;
-            throw std::runtime_error("Cannot find audio stream.");
+            throw std::runtime_error("Cannot find any stream.");
         }
-        if (m_audioStreamIndex ==
-            DEFAULT_STREAM_INDEX) { m_audioStreamIndex = description.m_audioStreamsIndex.front(); }
-        audioQueue = new TwinsBlockQueue<AVFrame *>("AudioQueue", 16);
-        m_audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue);
-        description.audioDuration = m_audioDecoder->duration();
 
-        // video
+        audioQueue = new TwinsBlockQueue<AVFrame *>("AudioQueue", 16);
         videoQueue = audioQueue->twins("VideoQueue", 16);
+
+        if (!description.m_audioStreamsIndex.empty()) {
+            m_audioStreamIndex = description.m_audioStreamsIndex.front();
+            m_audioDecoder = new DecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue);
+            description.audioDuration = m_audioDecoder->duration();
+        }
+
         if (isAudio) {
-            // no video
+            // audio only
             qDebug() << "audio only";
             if (!description.m_videoStreamsIndex.empty())
                 m_videoStreamIndex = description.m_videoStreamsIndex.front();
@@ -213,6 +215,13 @@ public:
             if (m_videoStreamIndex ==
                 DEFAULT_STREAM_INDEX) { m_videoStreamIndex = description.m_videoStreamsIndex.front(); }
             videoDecoder = new DecoderImpl<Video>(fmtCtx->streams[m_videoStreamIndex], videoQueue);
+
+            if (description.m_audioStreamsIndex.empty()) {
+                // video only
+                qDebug() << "video only";
+                m_audioDecoder = new VirtualAudioDecoder(videoDecoder->duration());
+                description.audioDuration = m_audioDecoder->duration();
+            }
         }
         description.videoDuration = videoDecoder->duration();
         connect(this, &DecodeDispatcher::signalStartWorker, this, &DecodeDispatcher::onWork, Qt::QueuedConnection);
@@ -266,7 +275,10 @@ public:
         interrupt = true;
         qDebug() << "a Seek:" << secs;
         int ret = av_seek_frame(fmtCtx, -1, static_cast<int64_t>(secs * AV_TIME_BASE), AVSEEK_FLAG_BACKWARD);
-        if (m_audioDecoder) { m_audioDecoder->flushFFmpegBuffers(); }
+        if (m_audioDecoder) {
+            m_audioDecoder->vaudioSeek(secs);
+            m_audioDecoder->flushFFmpegBuffers();
+        }
         if (videoDecoder) { videoDecoder->flushFFmpegBuffers(); }
         if (ret != 0) { qWarning() << "Error av_seek_frame:" << ffmpegErrToString(ret); }
     }
@@ -427,22 +439,21 @@ public:
             description.streamInfos.emplace_back(stream);
         }
 
-        // audio
-        if (description.m_audioStreamsIndex.empty()) {
-            throw std::runtime_error("Cannot find audio stream.");
+        // no streams
+        if (description.m_audioStreamsIndex.empty() && description.m_videoStreamsIndex.empty()) {
+            throw std::runtime_error("Cannot find any stream.");
         }
-        if (m_audioStreamIndex ==
-            DEFAULT_STREAM_INDEX) { m_audioStreamIndex = description.m_audioStreamsIndex.front(); }
 
         audioQueue = new TwinsBlockQueue<AVFrame *>("AudioQueue", 200);
-
-        m_audioDecoder = new ReverseDecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue);
-        description.audioDuration = m_audioDecoder->duration();
-
-        // video
         videoQueue = audioQueue->twins("VideoQueue", 200);
+
+        if (!description.m_audioStreamsIndex.empty()) {
+            m_audioStreamIndex = description.m_audioStreamsIndex.front();
+            m_audioDecoder = new ReverseDecoderImpl<Audio>(fmtCtx->streams[m_audioStreamIndex], audioQueue);
+            description.audioDuration = m_audioDecoder->duration();
+        }
+
         if (isAudio) {
-            // no video
             qDebug() << "audio only";
             if (!description.m_videoStreamsIndex.empty())
                 m_videoStreamIndex = description.m_videoStreamsIndex.front();
@@ -454,7 +465,15 @@ public:
             if (m_videoStreamIndex ==
                 DEFAULT_STREAM_INDEX) { m_videoStreamIndex = description.m_videoStreamsIndex.front(); }
             videoDecoder = new ReverseDecoderImpl<Video>(fmtCtx->streams[m_videoStreamIndex], videoQueue);
-            videoDecoder->setFollower(m_audioDecoder);
+
+            if (description.m_audioStreamsIndex.empty()) {
+                qDebug() << "video only";
+                m_audioDecoder = new VirtualAudioDecoder(videoDecoder->duration());
+                videoDecoder->setFollower(videoDecoder);
+            }
+            else {
+                videoDecoder->setFollower(m_audioDecoder);
+            }
             primary = videoDecoder;
         }
         description.videoDuration = videoDecoder->duration();
