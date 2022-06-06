@@ -840,7 +840,7 @@ Component.onCompleted: {
 FileDialog{
     id: fileDialog
     title: "打开文件"
-    nameFilters: [ "Video files (*.mp4 *avi *.ts *.rmvb)", "Audio files (*.mp3 *wav)", "All files (*)" ]
+    nameFilters: [ "Meida files (*.mp4 *avi *.ts *.rmvb *.mp3 *.wav)", "Video files (*.mp4 *avi *.ts *.rmvb)", "Audio files (*.mp3 *wav)", "All files (*)" ]
     onAccepted: IF.videoListOperatorOnAccepted()
     onRejected: {
         console.log("reject")
