@@ -368,6 +368,7 @@ function videoListOperatorOnAccepted(path = "", name = "") {
   }
   mediaLibController.updateRecentFile(acceptedFileName);
   mainWindow.openFile(acceptedFileName);
+  wave.waveArea.tryLoadLyrics(acceptedFileName);
   mainWindow.endTime = Math.floor(videoArea.getVideoDuration());
   var exists = false;
   for (var i = 0; i < listModel.count; i++) {
