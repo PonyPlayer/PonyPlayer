@@ -98,6 +98,8 @@ public:
     }
 
     PONY_THREAD_SAFE int skip(const std::function<bool(qreal)> &predicate) override {
+        std::unique_lock lock(mutex);
+        predicate(nextPts);
         return 0;
     }
 

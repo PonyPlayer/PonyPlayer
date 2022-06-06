@@ -78,6 +78,7 @@ private:
             if (duration > 1) {
                 qWarning() << "Sleep long duration" << duration << "s";
             }
+            duration = std::min(duration, 20. / 1000);
             std::unique_lock lock(m_interruptMutex);
             if (!m_isInterrupt) {
                 m_interruptCond.wait_for(lock, std::chrono::duration<double>(duration));
