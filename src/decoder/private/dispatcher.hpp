@@ -206,6 +206,7 @@ public:
         if (isAudio) {
             // audio only
             qDebug() << "audio only";
+            videoQueue->setEnable(false);
             if (!description.m_videoStreamsIndex.empty())
                 m_videoStreamIndex = description.m_videoStreamsIndex.front();
             videoDecoder = new VirtualVideoDecoder(description.audioDuration);
@@ -219,6 +220,7 @@ public:
             if (description.m_audioStreamsIndex.empty()) {
                 // video only
                 qDebug() << "video only";
+                audioQueue->setEnable(false);
                 m_audioDecoder = new VirtualAudioDecoder(videoDecoder->duration());
                 description.audioDuration = m_audioDecoder->duration();
             }
@@ -455,10 +457,10 @@ public:
 
         if (isAudio) {
             qDebug() << "audio only";
+            videoQueue->setEnable(false);
             if (!description.m_videoStreamsIndex.empty())
                 m_videoStreamIndex = description.m_videoStreamsIndex.front();
             videoDecoder = new VirtualVideoDecoder(description.audioDuration);
-            videoQueue->setEnable(false);
             m_audioDecoder->setFollower(m_audioDecoder);
             primary = m_audioDecoder;
         } else {
@@ -468,6 +470,7 @@ public:
 
             if (description.m_audioStreamsIndex.empty()) {
                 qDebug() << "video only";
+                audioQueue->setEnable(false);
                 m_audioDecoder = new VirtualAudioDecoder(videoDecoder->duration());
                 videoDecoder->setFollower(videoDecoder);
             }
