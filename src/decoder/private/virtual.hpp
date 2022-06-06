@@ -80,7 +80,7 @@ public:
 
     PONY_THREAD_SAFE AudioFrame getSample() override {
         AudioFrame res{m_samples, 4096, nextPts};
-        nextPts += 4096.0/44100.0;
+        nextPts += PonyPlayer::DEFAULT_AUDIO_FORMAT.durationOfBytes(4096);
         return res;
     }
 
