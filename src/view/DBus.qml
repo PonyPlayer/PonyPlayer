@@ -135,7 +135,7 @@ MenuBar {
                 delegate: MenuItem {
                     text: model.modelData
                     checked: index === videoArea.track
-                    onTriggered: videoArea.setTrack(model.modelIndex)
+                    onTriggered: videoArea.setTrack(index)
                 }
                 onObjectAdded: trackMenu_.insertItem(index, object)
                 onObjectRemoved: trackMenu_.removeItem(index, object)
