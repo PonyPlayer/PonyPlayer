@@ -52,7 +52,9 @@ public:
 class VirtualAudioDecoder : public IDemuxDecoder {
 private:
     qreal m_videoDuration;
+    PonyAudioFormat m_format = PonyPlayer::DEFAULT_AUDIO_FORMAT;
     std::byte *m_samples;
+    std::mutex mutex;
     qreal nextPts{0.0};
 public:
     explicit VirtualAudioDecoder(qreal videoDuration) :
@@ -62,10 +64,11 @@ public:
     }
 
     ~VirtualAudioDecoder() {
-        delete []m_samples;
+        delete [] m_samples;
     }
 
     PONY_THREAD_SAFE void vaudioSeek(qreal pos) override{
+        std::unique_lock lock(mutex);
         qDebug() << "nextPts: " << pos;
         nextPts = pos;
     }
@@ -79,6 +82,7 @@ public:
     PONY_THREAD_SAFE VideoFrameRef getPicture() override {NOT_IMPLEMENT_YET}
 
     PONY_THREAD_SAFE AudioFrame getSample() override {
+        std::unique_lock lock(mutex);
         AudioFrame res{m_samples, 4096, nextPts};
         nextPts += PonyPlayer::DEFAULT_AUDIO_FORMAT.durationOfBytes(4096);
         return res;
@@ -89,6 +93,7 @@ public:
     }
 
     PONY_THREAD_SAFE qreal viewFront() override {
+        std::unique_lock lock(mutex);
         return nextPts;
     }
 
@@ -99,9 +104,11 @@ public:
     PONY_THREAD_SAFE void setEnable(bool b) override {}
 
     PONY_THREAD_SAFE PonyAudioFormat getInputFormat() override {
-        return PonyPlayer::DEFAULT_AUDIO_FORMAT;
+        return m_format;
     }
 
-    PONY_THREAD_SAFE void setOutputFormat(const PonyAudioFormat &format) override {}
+    PONY_THREAD_SAFE void setOutputFormat(const PonyAudioFormat &format) override {
+        m_format = format;
+    }
 
 };
