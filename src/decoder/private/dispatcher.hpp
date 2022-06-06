@@ -84,8 +84,12 @@ public:
     const std::string filename;
 protected:
     AVFormatContext *fmtCtx = nullptr;
+    bool isAudio = false;
 
     explicit DemuxDispatcherBase(const std::string &fn, QObject *parent) : QObject(parent), filename(fn) {
+        auto surfix = fn.substr(fn.rfind('.')+1);
+        if (surfix == "mp3" || surfix == "wav")
+            isAudio = true;
         if (avformat_open_input(&fmtCtx, fn.c_str(), nullptr, nullptr) < 0) {
             throw std::runtime_error("Cannot open input file.");
         }
@@ -197,8 +201,7 @@ public:
 
         // video
         videoQueue = audioQueue->twins("VideoQueue", 16);
-        if (description.m_videoStreamsIndex.empty() ||
-            fmtCtx->streams[description.m_videoStreamsIndex.front()]->nb_frames == 0) {
+        if (isAudio) {
             // no video
             qDebug() << "audio only";
             if (!description.m_videoStreamsIndex.empty())
@@ -324,7 +327,7 @@ public:
     PONY_GUARD_BY(DECODER)
 
     bool hasVideo() override {
-        return !description.m_videoStreamsIndex.empty() && fmtCtx->streams[m_videoStreamIndex]->nb_frames > 0;
+        return !isAudio;
     }
 
     PONY_GUARD_BY(DECODER)
@@ -438,8 +441,7 @@ public:
 
         // video
         videoQueue = audioQueue->twins("VideoQueue", 200);
-        if (description.m_videoStreamsIndex.empty() ||
-            fmtCtx->streams[description.m_videoStreamsIndex.front()]->nb_frames == 0) {
+        if (isAudio) {
             // no video
             qDebug() << "audio only";
             if (!description.m_videoStreamsIndex.empty())
@@ -456,28 +458,7 @@ public:
             primary = videoDecoder;
         }
         description.videoDuration = videoDecoder->duration();
-        /*
-        videoQueue = new TwinsBlockQueue<AVFrame *>("VideoQueue", 200);
-        audioQueue = videoQueue->twins("AudioQueue", 200);
 
-        m_audioDecoder = new ReverseDecoderImpl<Audio>(audioStream, audioQueue);
-        description.audioDuration = m_audioDecoder->duration();
-
-        if (videoStreamIndex >= 0 && videoStream->nb_frames > 0) {
-            qDebug() << "normal reverse";
-            videoDecoder = new ReverseDecoderImpl<Video>(videoStream, videoQueue);
-            videoDecoder->setFollower(m_audioDecoder);
-            m_videoDuration = videoDecoder->duration();
-            primary = videoDecoder;
-        } else {
-            qDebug() << "audio only reverse";
-            m_videoDuration = m_audioDecoder->duration();
-            videoDecoder = new VirtualVideoDecoder(m_videoDuration);
-            videoQueue->setEnable(false);
-            m_audioDecoder->setFollower(m_audioDecoder);
-            primary = m_audioDecoder;
-        }
-        */
         connect(this, &ReverseDecodeDispatcher::signalStartWorker, this, &ReverseDecodeDispatcher::onWork,
                 Qt::QueuedConnection);
     }
@@ -564,7 +545,7 @@ public:
     }
 
     bool hasVideo() override {
-        return !description.m_videoStreamsIndex.empty() && fmtCtx->streams[m_videoStreamIndex]->nb_frames > 0;
+        return !isAudio;
     }
 
     void test_onWork() override {
