@@ -6,6 +6,8 @@
 #include "demuxer.hpp"
 #include "private/previewer.hpp"
 
+const constexpr static char* SAMPLE_MP4_FILE = "../../samples/SampleVideo_1280x720_1mb.mp4";
+
 Demuxer* getDemuxer(const std::string& filename) {
     auto* demuxer = new Demuxer{nullptr};
     demuxer->openFile(filename);
@@ -31,11 +33,11 @@ void getFrame(Demuxer* demuxer, qreal seekTo = 0.0, int n_frames = 10) {
 }
 
 TEST(decoder_test, test_change_file) {
-    auto demuxer = getDemuxer("D:/test_video/dj.mp4");
+    auto demuxer = getDemuxer(SAMPLE_MP4_FILE);
     std::cerr << demuxer->videoDuration() << std::endl;
     getFrame(demuxer, 0, 3);
     demuxer->close();
-    demuxer->openFile("D:/test_video/bili.mp4");
+    demuxer->openFile(SAMPLE_MP4_FILE);
     demuxer->setOutputFormat(demuxer->getInputFormat());
     std::cerr << demuxer->videoDuration() << std::endl;
     getFrame(demuxer, 0, 3);
@@ -43,7 +45,7 @@ TEST(decoder_test, test_change_file) {
 }
 
 TEST(decoder_test, test_forward_getFrame) {
-    auto demuxer = getDemuxer("D:/test_video/dj.mp4");
+    auto demuxer = getDemuxer(SAMPLE_MP4_FILE);
     std::cerr << "---------5.0---------" << std::endl;
     getFrame(demuxer, 5.0, 3);
     std::cerr << "---------10.0---------" << std::endl;
@@ -54,7 +56,7 @@ TEST(decoder_test, test_forward_getFrame) {
 }
 
 TEST(decoder_test, test_backward_getFrame) {
-    auto demuxer = getDemuxer("D:/test_video/dj.mp4");
+    auto demuxer = getDemuxer(SAMPLE_MP4_FILE);
     demuxer->backward();
     std::cerr << "---------5.0---------" << std::endl;
     getFrame(demuxer, 5.0, 3);
@@ -66,7 +68,7 @@ TEST(decoder_test, test_backward_getFrame) {
 }
 
 TEST(decoder_test, test_preview) {
-    Previewer previewer("D:/test_video/dj.mp4", nullptr);
+    Previewer previewer(SAMPLE_MP4_FILE, nullptr);
     auto pict = previewer.previewRequest(5.0);
     std::cerr << "---------5.0---------" << std::endl;
     std::cerr << pict.getPTS() << std::endl;

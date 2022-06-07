@@ -77,15 +77,15 @@ jobs:
           wget https://github.com/ColorsWind/FFmpeg-macOS/releases/download/n5.0.1-patch3/install.py
           python3 install.py FFmpeg-shared-n5.0.1-OSX-universal.zip ${{ matrix.ffmpeg_path }}
 
-      - name: Install FFmpeg (Windows)
-        id: install-ffmpeg-windows
+      - name: Install Dependence (Windows)
+        id: install-dependence-windows
         if: contains(matrix.os, 'windows')
         shell: pwsh
         run: |
           chocolatey install ffmpeg-shared -y
           cp -r "C:\Program Files\FFmpeg\" C:\ProgramData\FFmpeg\
-      - name: Install AppImage (Linux)
-        id: install-app-image
+      - name: Install Dependence (Linux)
+        id: install-dependence-image
         if: contains(matrix.os, 'ubuntu')
         shell: pwsh
         run: |

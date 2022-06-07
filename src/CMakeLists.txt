@@ -20,7 +20,6 @@ add_subdirectory(player)
 add_subdirectory(playlist)
 add_subdirectory(wave)
 add_subdirectory(audiosink)
-#add_subdirectory(tests)
 
 include(platform.cmake)
 
@@ -40,7 +39,8 @@ target_link_libraries(${PROJECT_NAME}
     lrctools
     wave
 )
-
+include(gtest.cmake)
+project(PonyPlayer)
 
 
 
