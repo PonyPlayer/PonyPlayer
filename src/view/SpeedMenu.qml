@@ -16,7 +16,7 @@ Menu {
         }
     }
     width:120
-    title: "播放倍速"
+    title: "    播放倍速"
     MenuItem{
         text: (mainWindow.speed==0.5?'✔':'    ')+"0.5倍速"
         onTriggered: {

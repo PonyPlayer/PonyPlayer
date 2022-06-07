@@ -300,30 +300,38 @@ Window {
                 title: qsTr("播放")
                 SpeedMenu{}
                 MenuItem {
-                    text: "倒放  "+(mainWindow.isInverted ? '✔' : '    ')
+                    text: (mainWindow.isInverted ? '✔' : '    ') + "倒放"
                     checked: videoArea.backwardStatus
                     onTriggered: {
                         mainWindow.isInverted = (!mainWindow.isInverted)
                         videoArea.toggleBackward()
                     }
                 }
-                Menu {
-                    property var status: [qsTr("开启"),qsTr("关闭")]
+                MenuItem {
                     id: serializeMenu
-                    title: qsTr("自动连播")
-                    Instantiator {
-                        id: serializeInstantiator
-                        model: serializeMenu.status
-                        delegate: MenuItem {
-                            text: model.modelData
-                            checked: text===(mainWindow.serialize ? qsTr("开启"): qsTr("关闭"))
-                            onTriggered: { mainWindow.serialize = (text === qsTr("开启") ? true : false); console.log("[DDD]:",mainWindow.serialize); }
-                        }
-                        onObjectAdded: serializeMenu.insertItem(index, object)
-                        onObjectRemoved: serializeMenu.removeItem(index, object)
+                    text: (mainWindow.serialize ? '✔' : '    ') + qsTr("自动连播")
+                    checked: mainWindow.serialize
+                    onTriggered: {
+                        mainWindow.serialize = !mainWindow.serialize
                     }
-
                 }
+//                Menu {
+//                    property var status: [qsTr("开启"),qsTr("关闭")]
+//                    id: serializeMenu
+//                    title: qsTr("自动连播")
+//                    Instantiator {
+//                        id: serializeInstantiator
+//                        model: serializeMenu.status
+//                        delegate: MenuItem {
+//                            text: model.modelData
+//                            checked: text===(mainWindow.serialize ? qsTr("开启"): qsTr("关闭"))
+//                            onTriggered: { mainWindow.serialize = (text === qsTr("开启") ? true : false); console.log("[DDD]:",mainWindow.serialize); }
+//                        }
+//                        onObjectAdded: serializeMenu.insertItem(index, object)
+//                        onObjectRemoved: serializeMenu.removeItem(index, object)
+//                    }
+
+//                }
             }
             Menu{
                 title: qsTr("画面")
