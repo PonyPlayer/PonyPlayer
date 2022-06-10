@@ -2,7 +2,7 @@ name: Build Project
 on:
   push:
     branches:
-      - dev
+      - dbg_opengl2
 jobs:
   build:
     name: Doxygen Docs
@@ -26,3 +26,7 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         id: publish-github-page
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: '${{ github.workspace }}/docs/html'
