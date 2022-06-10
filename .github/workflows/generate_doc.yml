@@ -2,7 +2,7 @@ name: Build Project
 on:
   push:
     branches:
-      - dbg_opengl2
+      - dev
 jobs:
   build:
     name: Doxygen Docs
