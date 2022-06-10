@@ -83,21 +83,46 @@ $(document).ready(function(){initNavTree('main_8cpp.html',''); initResizable(); 
 
 <div class="header">
   <div class="summary">
-<a href="#func-members">函数</a>  </div>
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#func-members">函数</a> &#124;
+<a href="#var-members">变量</a>  </div>
   <div class="headertitle"><div class="title">main.cpp 文件参考</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;QGuiApplication&gt;</code><br />
 <code>#include &lt;QQmlApplicationEngine&gt;</code><br />
-<code>#include &lt;QApplication&gt;</code><br />
-<code>#include &quot;<a class="el" href="hurricane_8h_source.html">hurricane.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="logger_8h_source.html">logger.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="quickitem_8h_source.html">quickitem.h</a>&quot;</code><br />
+<code>#include &lt;QCoreApplication&gt;</code><br />
+<code>#include &lt;QQmlContext&gt;</code><br />
+<code>#include &quot;<a class="el" href="logger_8h_source.html">utils/include/logger.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="players_8h_source.html">players.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="controller_8h_source.html">controller.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="playlist_8h_source.html">playlist.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="wave_8hpp_source.html">wave/wave.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="hotloader_8hpp_source.html">hotloader.hpp</a>&quot;</code><br />
+<code>#include &quot;lyrics.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="crashreporter_8hpp_source.html">crashreporter.hpp</a>&quot;</code><br />
+<code>#include &lt;csignal&gt;</code><br />
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespace_pony_player"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_pony_player.html">PonyPlayer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 函数</h2></td></tr>
+<tr class="memitem:a4b9d3d6c8c91ca41f42a9f3e658c8e1a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_pony_player.html#a4b9d3d6c8c91ca41f42a9f3e658c8e1a">PonyPlayer::reportErrorMain</a> (int argc, char *argv[])</td></tr>
+<tr class="separator:a4b9d3d6c8c91ca41f42a9f3e658c8e1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab25382b1d1b8ab90f0ac5324de75e8da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_pony_player.html#ab25382b1d1b8ab90f0ac5324de75e8da">PonyPlayer::startReporterProcess</a> (const std::string &amp;message)</td></tr>
+<tr class="separator:ab25382b1d1b8ab90f0ac5324de75e8da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8737714e658810c2507521fe1eb2da69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_pony_player.html#a8737714e658810c2507521fe1eb2da69">PonyPlayer::signalHandler</a> (int signum)</td></tr>
+<tr class="separator:a8737714e658810c2507521fe1eb2da69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
 <tr class="separator:a0ddf1224851353fc92bfbff6f499fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:a83c8b90f9f38b1247fdf3a5ca56216b8"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_pony_player.html#a83c8b90f9f38b1247fdf3a5ca56216b8">PonyPlayer::programArguments</a></td></tr>
+<tr class="separator:a83c8b90f9f38b1247fdf3a5ca56216b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">函数说明</h2>
 <a id="a0ddf1224851353fc92bfbff6f499fa97" name="a0ddf1224851353fc92bfbff6f499fa97"></a>

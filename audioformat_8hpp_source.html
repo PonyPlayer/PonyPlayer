@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: src/audiosink/audioformat.hpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('audioformat_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">audioformat.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="audioformat_8hpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">//</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// Created by ColorsWind on 2022/5/15.</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QtCore&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;portaudio.h&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>INCLUDE_FFMPEG_BEGIN</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;libavutil/samplefmt.h&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><a class="code hl_define" href="ponyplayer_8h.html#a18e7632edda4d498be82cf0a168b6527">INCLUDE_FFMPEG_END</a></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="struct_audio_data_info.html">   16</a></span><span class="keyword">struct </span><a class="code hl_struct" href="struct_audio_data_info.html">AudioDataInfo</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="struct_audio_data_info.html#a723b3bbf3a8d2709c1a846b2619cd32d">   17</a></span>    qint32 <a class="code hl_variable" href="struct_audio_data_info.html#a723b3bbf3a8d2709c1a846b2619cd32d">origLength</a>;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="struct_audio_data_info.html#a4b72433c401a574120ace3abf30bd16c">   18</a></span>    qint32 <a class="code hl_variable" href="struct_audio_data_info.html#a4b72433c401a574120ace3abf30bd16c">processedLength</a>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="struct_audio_data_info.html#a7cbeadbd26b09b3e32a500dec68a2c5e">   19</a></span>    qreal <a class="code hl_variable" href="struct_audio_data_info.html#a7cbeadbd26b09b3e32a500dec68a2c5e">speedUpRate</a>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>};</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="struct_pony_sample_format.html">   22</a></span><span class="keyword">struct </span><a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">using</span> TransformFunc = std::function&lt;void(std::byte *, qreal, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>)&gt;;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">int</span> m_index;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    PaSampleFormat m_paSampleFormat;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    AVSampleFormat m_ffmpegSampleFormat;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordtype">int</span> m_bytesPerSample;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    std::function&lt;void(std::byte *, qreal, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span>)&gt; m_transform;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a>(</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <span class="keywordtype">int</span> mIndex,</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            PaSampleFormat paSampleFormat,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            AVSampleFormat ffmpegSampleFormat,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            <span class="keywordtype">int</span> bytesPerSample,</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            TransformFunc transformFunc</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    ) : m_index(mIndex),</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        m_paSampleFormat(paSampleFormat),</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        m_ffmpegSampleFormat(ffmpegSampleFormat),</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        m_bytesPerSample(bytesPerSample),</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        m_transform(std::move(transformFunc)) {}</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="struct_pony_sample_format.html#a7b5fdd10c86a4c9e239ef04f20fa76cd">   47</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> <a class="code hl_function" href="struct_pony_sample_format.html#a7b5fdd10c86a4c9e239ef04f20fa76cd">of</a>(PaSampleFormat paSample, AVSampleFormat ffmpegSample) <span class="keyword">noexcept</span> {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keyword">static</span> <span class="keywordtype">int</span> <span class="keywordtype">id</span> = 0;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        TransformFunc transform;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keywordtype">size_t</span> size;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordflow">if</span> <span class="keyword">constexpr</span>(std::is_same&lt;T, void&gt;()) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            transform = [](std::byte *src_, qreal factor, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> samples) {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unsupported samples format.&quot;</span>);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            };</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            size = 0xABCDEF;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            transform = [](std::byte *src_, qreal factor, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> samples) {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                T *src = <span class="keyword">static_cast&lt;</span>T *<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">void</span> *<span class="keyword">&gt;</span>(src_));</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> sampleOffset = 0; sampleOffset &lt; samples; sampleOffset++) {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                    src[sampleOffset] = <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(src[sampleOffset] * factor);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            };</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            size = <span class="keyword">sizeof</span>(T);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        }</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keywordflow">return</span> {id, paSample, ffmpegSample, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(size), transform};</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="struct_pony_sample_format.html#a004a4f657aa3c2880aef158222854da0">   69</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="struct_pony_sample_format.html#a004a4f657aa3c2880aef158222854da0">transformSampleVolume</a>(std::byte *src, qreal factor, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> samples)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        m_transform(src, factor, samples);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="struct_pony_sample_format.html#a8c6d083952cc5600ae64cc54ecf4c38e">   73</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="struct_pony_sample_format.html#a8c6d083952cc5600ae64cc54ecf4c38e">operator==</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> &amp;rhs)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">return</span> this-&gt;m_index == rhs.m_index;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    }</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="struct_pony_sample_format.html#a483777ad675fc10a66c8fd5af9cb7ecc">   77</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="struct_pony_sample_format.html#a483777ad675fc10a66c8fd5af9cb7ecc">operator!=</a>(<span class="keyword">const</span> <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> &amp;rhs)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> !(rhs == *<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="struct_pony_sample_format.html#a5cff2c46e0ae5726efbdcea1c08a742f">   81</a></span>    [[nodiscard]] PaSampleFormat <a class="code hl_function" href="struct_pony_sample_format.html#a5cff2c46e0ae5726efbdcea1c08a742f">getPaSampleFormat</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="keywordflow">return</span> m_paSampleFormat;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="struct_pony_sample_format.html#aae4662c8036fa9915f9ffa176346f095">   85</a></span>    [[nodiscard]] AVSampleFormat <a class="code hl_function" href="struct_pony_sample_format.html#aae4662c8036fa9915f9ffa176346f095">getFFmpegSampleFormat</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keywordflow">return</span> m_ffmpegSampleFormat;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="struct_pony_sample_format.html#a2e676201e876c9f55f7ec3dab3bfaec9">   89</a></span>    [[nodiscard]] <span class="keywordtype">int</span> <a class="code hl_function" href="struct_pony_sample_format.html#a2e676201e876c9f55f7ec3dab3bfaec9">getBytesPerSample</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <span class="keywordflow">return</span> m_bytesPerSample;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>};</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="class_pony_audio_format.html">   97</a></span><span class="keyword">class </span><a class="code hl_class" href="class_pony_audio_format.html">PonyAudioFormat</a> {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> m_sampleFormat;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordtype">int</span> m_sampleRate;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordtype">int</span> m_channelCount;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="class_pony_audio_format.html#adc985d842d74ff8c85de60147a57a21e">  105</a></span>    <a class="code hl_function" href="class_pony_audio_format.html#adc985d842d74ff8c85de60147a57a21e">PonyAudioFormat</a>(</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> sampleFormat,</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            <span class="keywordtype">int</span> sampleRate,</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            <span class="keywordtype">int</span> channelCount</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    ) <span class="keyword">noexcept</span>: m_sampleFormat(std::move(sampleFormat)), m_sampleRate(sampleRate), m_channelCount(channelCount) {}</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="class_pony_audio_format.html#a8ffe01e6346ffae970cd0dbdbcf18a4f">  112</a></span>    [[nodiscard]] <span class="keyword">const</span> <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> &amp;<a class="code hl_function" href="class_pony_audio_format.html#a8ffe01e6346ffae970cd0dbdbcf18a4f">getSampleFormat</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_sampleFormat; }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="class_pony_audio_format.html#af91adbda1a415ac15070c9718e09dcbf">  114</a></span>    [[nodiscard]] PaSampleFormat <a class="code hl_function" href="class_pony_audio_format.html#af91adbda1a415ac15070c9718e09dcbf">getSampleFormatForPA</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="keywordflow">return</span> m_sampleFormat.<a class="code hl_function" href="struct_pony_sample_format.html#a5cff2c46e0ae5726efbdcea1c08a742f">getPaSampleFormat</a>();</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    }</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="class_pony_audio_format.html#a2d4563277a5c084f5641474a9fdef01d">  118</a></span>    [[nodiscard]] AVSampleFormat <a class="code hl_function" href="class_pony_audio_format.html#a2d4563277a5c084f5641474a9fdef01d">getSampleFormatForFFmpeg</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="keywordflow">return</span> m_sampleFormat.<a class="code hl_function" href="struct_pony_sample_format.html#aae4662c8036fa9915f9ffa176346f095">getFFmpegSampleFormat</a>();</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    }</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="class_pony_audio_format.html#af4bbf52f6f4c2e49f9a82968ea4a308a">  122</a></span>    [[nodiscard]] qreal <a class="code hl_function" href="class_pony_audio_format.html#af4bbf52f6f4c2e49f9a82968ea4a308a">durationOfBytes</a>(int64_t bytes)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>qreal<span class="keyword">&gt;</span>(bytes) / (m_sampleRate * m_channelCount * <a class="code hl_function" href="class_pony_audio_format.html#a06abe35600d86ced67824fa7798b1877">getBytesPerSample</a>());</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    }</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="class_pony_audio_format.html#ad3da8916f94cfef4669d367297ee5fcb">  126</a></span>    [[nodiscard]] int64_t <a class="code hl_function" href="class_pony_audio_format.html#ad3da8916f94cfef4669d367297ee5fcb">bytesOfDuration</a>(qreal duration)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>int64_t<span class="keyword">&gt;</span>(duration * m_sampleRate * m_channelCount * <a class="code hl_function" href="class_pony_audio_format.html#a06abe35600d86ced67824fa7798b1877">getBytesPerSample</a>());</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    }</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="class_pony_audio_format.html#a06abe35600d86ced67824fa7798b1877">  130</a></span>    [[nodiscard]] <span class="keywordtype">int</span> <a class="code hl_function" href="class_pony_audio_format.html#a06abe35600d86ced67824fa7798b1877">getBytesPerSample</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <span class="keywordflow">return</span> m_sampleFormat.<a class="code hl_function" href="struct_pony_sample_format.html#a2e676201e876c9f55f7ec3dab3bfaec9">getBytesPerSample</a>();</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    }</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="class_pony_audio_format.html#a62f86b298ab1af2fc34c90cfb71cb098">  134</a></span>    [[nodiscard]] <span class="keywordtype">int</span> <a class="code hl_function" href="class_pony_audio_format.html#a62f86b298ab1af2fc34c90cfb71cb098">getBytesPerSampleChannels</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordflow">return</span> m_sampleFormat.<a class="code hl_function" href="struct_pony_sample_format.html#a2e676201e876c9f55f7ec3dab3bfaec9">getBytesPerSample</a>() * m_channelCount;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    }</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="class_pony_audio_format.html#ac8000e64a76856bf5fe3f1b3b158bbee">  138</a></span>    [[nodiscard]] <span class="keywordtype">int</span> <a class="code hl_function" href="class_pony_audio_format.html#ac8000e64a76856bf5fe3f1b3b158bbee">getSampleRate</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        <span class="keywordflow">return</span> m_sampleRate;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    }</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="class_pony_audio_format.html#a109d8256285b71fe813bef984e1325fd">  142</a></span>    [[nodiscard]] <span class="keywordtype">int</span> <a class="code hl_function" href="class_pony_audio_format.html#a109d8256285b71fe813bef984e1325fd">getChannelCount</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        <span class="keywordflow">return</span> m_channelCount;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    }</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="class_pony_audio_format.html#a8852434e7ddf0817c28a3be0bffd0592">  146</a></span>    [[nodiscard]] int64_t <a class="code hl_function" href="class_pony_audio_format.html#a8852434e7ddf0817c28a3be0bffd0592">suggestedRingBuffer</a>(qreal speedFactor)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        <span class="keywordflow">return</span> qBound&lt;int64_t&gt;(</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                <span class="keyword">static_cast&lt;</span>int64_t<span class="keyword">&gt;</span>(2 * 1024 * m_channelCount * m_sampleFormat.<a class="code hl_function" href="struct_pony_sample_format.html#a2e676201e876c9f55f7ec3dab3bfaec9">getBytesPerSample</a>()),</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                <a class="code hl_function" href="class_pony_audio_format.html#ad3da8916f94cfef4669d367297ee5fcb">bytesOfDuration</a>(0.2 * speedFactor),</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                256 &lt;&lt; 20</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        );</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    }</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>};</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="namespace_pony_player.html">  155</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_pony_player.html">PonyPlayer</a> {</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#pragma GCC diagnostic push</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#pragma GCC diagnostic ignored &quot;-Wold-style-cast&quot;</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#ae0995c9301a30395f40045a907732463">  158</a></span>    <span class="keyword">const</span> <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> <a class="code hl_variable" href="namespace_pony_player.html#ae0995c9301a30395f40045a907732463">Unknown</a> = PonySampleFormat::of&lt;void&gt;(paNonInterleaved, AV_SAMPLE_FMT_NONE);</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a35032fab7cef1e94e9ede7dd0680b53f">  159</a></span>    <span class="keyword">const</span> <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> <a class="code hl_variable" href="namespace_pony_player.html#a35032fab7cef1e94e9ede7dd0680b53f">UInt8</a> = PonySampleFormat::of&lt;uint8_t&gt;(paUInt8, AV_SAMPLE_FMT_U8);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a752b0310898afc12743106b3683827da">  160</a></span>    <span class="keyword">const</span> <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> <a class="code hl_variable" href="namespace_pony_player.html#a752b0310898afc12743106b3683827da">Int16</a> = PonySampleFormat::of&lt;int16_t&gt;(paInt16, AV_SAMPLE_FMT_S16);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#aea2a32cefb227e00df6d2b53f5678a1f">  161</a></span>    <span class="keyword">const</span> <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> <a class="code hl_variable" href="namespace_pony_player.html#aea2a32cefb227e00df6d2b53f5678a1f">Int32</a> = PonySampleFormat::of&lt;int32_t&gt;(paInt32, AV_SAMPLE_FMT_S32);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a4657a5681126586399dfb7d110c81cf2">  162</a></span>    <span class="keyword">const</span> <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> <a class="code hl_variable" href="namespace_pony_player.html#a4657a5681126586399dfb7d110c81cf2">Float</a> = PonySampleFormat::of&lt;float_t&gt;(paFloat32, AV_SAMPLE_FMT_FLT);</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="preprocessor">#pragma GCC diagnostic pop</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a80461119237b4c630e68bb6108bae055">  164</a></span>    <span class="keyword">const</span> <a class="code hl_class" href="class_pony_audio_format.html">PonyAudioFormat</a> <a class="code hl_variable" href="namespace_pony_player.html#a80461119237b4c630e68bb6108bae055">DEFAULT_AUDIO_FORMAT</a> = {<a class="code hl_variable" href="namespace_pony_player.html#a752b0310898afc12743106b3683827da">Int16</a>, 44100, 2};</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> valueOf(AVSampleFormat ffmpegFormat) {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="keywordflow">switch</span> (ffmpegFormat) {</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            <span class="keywordflow">case</span> AV_SAMPLE_FMT_U8:</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>            <span class="keywordflow">case</span> AV_SAMPLE_FMT_U8P:</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="namespace_pony_player.html#a35032fab7cef1e94e9ede7dd0680b53f">UInt8</a>;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>            <span class="keywordflow">case</span> AV_SAMPLE_FMT_S16:</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>            <span class="keywordflow">case</span> AV_SAMPLE_FMT_S16P:</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="namespace_pony_player.html#a752b0310898afc12743106b3683827da">Int16</a>;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>            <span class="keywordflow">case</span> AV_SAMPLE_FMT_S32:</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>            <span class="keywordflow">case</span> AV_SAMPLE_FMT_S32P:</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="namespace_pony_player.html#aea2a32cefb227e00df6d2b53f5678a1f">Int32</a>;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            <span class="keywordflow">case</span> AV_SAMPLE_FMT_FLT:</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            <span class="keywordflow">case</span> AV_SAMPLE_FMT_FLTP:</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="namespace_pony_player.html#a4657a5681126586399dfb7d110c81cf2">Float</a>;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>            <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="namespace_pony_player.html#ae0995c9301a30395f40045a907732463">Unknown</a>;</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        }</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    }</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span><span class="preprocessor">#pragma GCC diagnostic push</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="preprocessor">#pragma GCC diagnostic ignored &quot;-Wold-style-cast&quot;</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_pony_sample_format.html">PonySampleFormat</a> valueOf(PaSampleFormat paSampleFormat) {</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        <span class="keywordflow">switch</span> (paSampleFormat) {</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>            <span class="keywordflow">case</span> paUInt8:</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="namespace_pony_player.html#a35032fab7cef1e94e9ede7dd0680b53f">UInt8</a>;</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>            <span class="keywordflow">case</span> paInt16:</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="namespace_pony_player.html#a752b0310898afc12743106b3683827da">Int16</a>;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>            <span class="keywordflow">case</span> paInt32:</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="namespace_pony_player.html#aea2a32cefb227e00df6d2b53f5678a1f">Int32</a>;</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>            <span class="keywordflow">case</span> paFloat32:</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="namespace_pony_player.html#a4657a5681126586399dfb7d110c81cf2">Float</a>;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>            <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>                <span class="keywordflow">return</span> <a class="code hl_variable" href="namespace_pony_player.html#ae0995c9301a30395f40045a907732463">Unknown</a>;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        }</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    }</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="preprocessor">#pragma GCC diagnostic pop</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>}</div>
+<div class="ttc" id="aclass_pony_audio_format_html"><div class="ttname"><a href="class_pony_audio_format.html">PonyAudioFormat</a></div><div class="ttdef"><b>Definition:</b> audioformat.hpp:97</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_a06abe35600d86ced67824fa7798b1877"><div class="ttname"><a href="class_pony_audio_format.html#a06abe35600d86ced67824fa7798b1877">PonyAudioFormat::getBytesPerSample</a></div><div class="ttdeci">int getBytesPerSample() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:130</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_a109d8256285b71fe813bef984e1325fd"><div class="ttname"><a href="class_pony_audio_format.html#a109d8256285b71fe813bef984e1325fd">PonyAudioFormat::getChannelCount</a></div><div class="ttdeci">int getChannelCount() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:142</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_a2d4563277a5c084f5641474a9fdef01d"><div class="ttname"><a href="class_pony_audio_format.html#a2d4563277a5c084f5641474a9fdef01d">PonyAudioFormat::getSampleFormatForFFmpeg</a></div><div class="ttdeci">AVSampleFormat getSampleFormatForFFmpeg() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:118</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_a62f86b298ab1af2fc34c90cfb71cb098"><div class="ttname"><a href="class_pony_audio_format.html#a62f86b298ab1af2fc34c90cfb71cb098">PonyAudioFormat::getBytesPerSampleChannels</a></div><div class="ttdeci">int getBytesPerSampleChannels() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:134</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_a8852434e7ddf0817c28a3be0bffd0592"><div class="ttname"><a href="class_pony_audio_format.html#a8852434e7ddf0817c28a3be0bffd0592">PonyAudioFormat::suggestedRingBuffer</a></div><div class="ttdeci">int64_t suggestedRingBuffer(qreal speedFactor) const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:146</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_a8ffe01e6346ffae970cd0dbdbcf18a4f"><div class="ttname"><a href="class_pony_audio_format.html#a8ffe01e6346ffae970cd0dbdbcf18a4f">PonyAudioFormat::getSampleFormat</a></div><div class="ttdeci">const PonySampleFormat &amp; getSampleFormat() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:112</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_ac8000e64a76856bf5fe3f1b3b158bbee"><div class="ttname"><a href="class_pony_audio_format.html#ac8000e64a76856bf5fe3f1b3b158bbee">PonyAudioFormat::getSampleRate</a></div><div class="ttdeci">int getSampleRate() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:138</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_ad3da8916f94cfef4669d367297ee5fcb"><div class="ttname"><a href="class_pony_audio_format.html#ad3da8916f94cfef4669d367297ee5fcb">PonyAudioFormat::bytesOfDuration</a></div><div class="ttdeci">int64_t bytesOfDuration(qreal duration) const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:126</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_adc985d842d74ff8c85de60147a57a21e"><div class="ttname"><a href="class_pony_audio_format.html#adc985d842d74ff8c85de60147a57a21e">PonyAudioFormat::PonyAudioFormat</a></div><div class="ttdeci">PonyAudioFormat(PonySampleFormat sampleFormat, int sampleRate, int channelCount) noexcept</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:105</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_af4bbf52f6f4c2e49f9a82968ea4a308a"><div class="ttname"><a href="class_pony_audio_format.html#af4bbf52f6f4c2e49f9a82968ea4a308a">PonyAudioFormat::durationOfBytes</a></div><div class="ttdeci">qreal durationOfBytes(int64_t bytes) const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:122</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_af91adbda1a415ac15070c9718e09dcbf"><div class="ttname"><a href="class_pony_audio_format.html#af91adbda1a415ac15070c9718e09dcbf">PonyAudioFormat::getSampleFormatForPA</a></div><div class="ttdeci">PaSampleFormat getSampleFormatForPA() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:114</div></div>
+<div class="ttc" id="anamespace_pony_player_html"><div class="ttname"><a href="namespace_pony_player.html">PonyPlayer</a></div><div class="ttdef"><b>Definition:</b> audioformat.hpp:155</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a35032fab7cef1e94e9ede7dd0680b53f"><div class="ttname"><a href="namespace_pony_player.html#a35032fab7cef1e94e9ede7dd0680b53f">PonyPlayer::UInt8</a></div><div class="ttdeci">const PonySampleFormat UInt8</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:159</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a4657a5681126586399dfb7d110c81cf2"><div class="ttname"><a href="namespace_pony_player.html#a4657a5681126586399dfb7d110c81cf2">PonyPlayer::Float</a></div><div class="ttdeci">const PonySampleFormat Float</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:162</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a752b0310898afc12743106b3683827da"><div class="ttname"><a href="namespace_pony_player.html#a752b0310898afc12743106b3683827da">PonyPlayer::Int16</a></div><div class="ttdeci">const PonySampleFormat Int16</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:160</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a80461119237b4c630e68bb6108bae055"><div class="ttname"><a href="namespace_pony_player.html#a80461119237b4c630e68bb6108bae055">PonyPlayer::DEFAULT_AUDIO_FORMAT</a></div><div class="ttdeci">const PonyAudioFormat DEFAULT_AUDIO_FORMAT</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:164</div></div>
+<div class="ttc" id="anamespace_pony_player_html_ae0995c9301a30395f40045a907732463"><div class="ttname"><a href="namespace_pony_player.html#ae0995c9301a30395f40045a907732463">PonyPlayer::Unknown</a></div><div class="ttdeci">const PonySampleFormat Unknown</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:158</div></div>
+<div class="ttc" id="anamespace_pony_player_html_aea2a32cefb227e00df6d2b53f5678a1f"><div class="ttname"><a href="namespace_pony_player.html#aea2a32cefb227e00df6d2b53f5678a1f">PonyPlayer::Int32</a></div><div class="ttdeci">const PonySampleFormat Int32</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:161</div></div>
+<div class="ttc" id="aponyplayer_8h_html_a18e7632edda4d498be82cf0a168b6527"><div class="ttname"><a href="ponyplayer_8h.html#a18e7632edda4d498be82cf0a168b6527">INCLUDE_FFMPEG_END</a></div><div class="ttdeci">#define INCLUDE_FFMPEG_END</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:26</div></div>
+<div class="ttc" id="astruct_audio_data_info_html"><div class="ttname"><a href="struct_audio_data_info.html">AudioDataInfo</a></div><div class="ttdef"><b>Definition:</b> audioformat.hpp:16</div></div>
+<div class="ttc" id="astruct_audio_data_info_html_a4b72433c401a574120ace3abf30bd16c"><div class="ttname"><a href="struct_audio_data_info.html#a4b72433c401a574120ace3abf30bd16c">AudioDataInfo::processedLength</a></div><div class="ttdeci">qint32 processedLength</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:18</div></div>
+<div class="ttc" id="astruct_audio_data_info_html_a723b3bbf3a8d2709c1a846b2619cd32d"><div class="ttname"><a href="struct_audio_data_info.html#a723b3bbf3a8d2709c1a846b2619cd32d">AudioDataInfo::origLength</a></div><div class="ttdeci">qint32 origLength</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:17</div></div>
+<div class="ttc" id="astruct_audio_data_info_html_a7cbeadbd26b09b3e32a500dec68a2c5e"><div class="ttname"><a href="struct_audio_data_info.html#a7cbeadbd26b09b3e32a500dec68a2c5e">AudioDataInfo::speedUpRate</a></div><div class="ttdeci">qreal speedUpRate</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:19</div></div>
+<div class="ttc" id="astruct_pony_sample_format_html"><div class="ttname"><a href="struct_pony_sample_format.html">PonySampleFormat</a></div><div class="ttdef"><b>Definition:</b> audioformat.hpp:22</div></div>
+<div class="ttc" id="astruct_pony_sample_format_html_a004a4f657aa3c2880aef158222854da0"><div class="ttname"><a href="struct_pony_sample_format.html#a004a4f657aa3c2880aef158222854da0">PonySampleFormat::transformSampleVolume</a></div><div class="ttdeci">void transformSampleVolume(std::byte *src, qreal factor, unsigned long samples) const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:69</div></div>
+<div class="ttc" id="astruct_pony_sample_format_html_a2e676201e876c9f55f7ec3dab3bfaec9"><div class="ttname"><a href="struct_pony_sample_format.html#a2e676201e876c9f55f7ec3dab3bfaec9">PonySampleFormat::getBytesPerSample</a></div><div class="ttdeci">int getBytesPerSample() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:89</div></div>
+<div class="ttc" id="astruct_pony_sample_format_html_a483777ad675fc10a66c8fd5af9cb7ecc"><div class="ttname"><a href="struct_pony_sample_format.html#a483777ad675fc10a66c8fd5af9cb7ecc">PonySampleFormat::operator!=</a></div><div class="ttdeci">bool operator!=(const PonySampleFormat &amp;rhs) const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:77</div></div>
+<div class="ttc" id="astruct_pony_sample_format_html_a5cff2c46e0ae5726efbdcea1c08a742f"><div class="ttname"><a href="struct_pony_sample_format.html#a5cff2c46e0ae5726efbdcea1c08a742f">PonySampleFormat::getPaSampleFormat</a></div><div class="ttdeci">PaSampleFormat getPaSampleFormat() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:81</div></div>
+<div class="ttc" id="astruct_pony_sample_format_html_a7b5fdd10c86a4c9e239ef04f20fa76cd"><div class="ttname"><a href="struct_pony_sample_format.html#a7b5fdd10c86a4c9e239ef04f20fa76cd">PonySampleFormat::of</a></div><div class="ttdeci">static PonySampleFormat of(PaSampleFormat paSample, AVSampleFormat ffmpegSample) noexcept</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:47</div></div>
+<div class="ttc" id="astruct_pony_sample_format_html_a8c6d083952cc5600ae64cc54ecf4c38e"><div class="ttname"><a href="struct_pony_sample_format.html#a8c6d083952cc5600ae64cc54ecf4c38e">PonySampleFormat::operator==</a></div><div class="ttdeci">bool operator==(const PonySampleFormat &amp;rhs) const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:73</div></div>
+<div class="ttc" id="astruct_pony_sample_format_html_aae4662c8036fa9915f9ffa176346f095"><div class="ttname"><a href="struct_pony_sample_format.html#aae4662c8036fa9915f9ffa176346f095">PonySampleFormat::getFFmpegSampleFormat</a></div><div class="ttdeci">AVSampleFormat getFFmpegSampleFormat() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:85</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_46e75bc0b509ca940e26842d35b143f9.html">audiosink</a></li><li class="navelem"><a class="el" href="audioformat_8hpp.html">audioformat.hpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

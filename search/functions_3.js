@@ -1,7 +1,28 @@
 var searchData=
 [
-  ['flush_0',['flush',['../struct_frame_queue.html#adb544276dcbfa8ad6bef2a5ebfb4774e',1,'FrameQueue::flush()'],['../struct_packet_queue.html#ad2f00eefe1bd1172cb419ff395cbba5f',1,'PacketQueue::flush()']]],
-  ['framequeue_1',['FrameQueue',['../struct_frame_queue.html#ab9f402d5306ebb59dbe3d0577f14468e',1,'FrameQueue']]],
-  ['free_2',['free',['../struct_picture.html#a90198246d5aa141edffd032bd4000a54',1,'Picture::free()'],['../struct_sample.html#a39ca0c66cd25d54ef55762f1d24407f2',1,'Sample::free()']]],
-  ['front_3',['front',['../struct_frame_queue.html#adce84835a0f8bb3604300a43c115b89c',1,'FrameQueue']]]
+  ['changedstates_0',['changedStates',['../class_fireworks_renderer.html#ae5df9c1b74d1b24729ac4998b0508a1a',1,'FireworksRenderer']]],
+  ['check_5fauto_5fdetect_1',['check_auto_detect',['../namespacesetup.html#af17ff132122c7c6a8e7f4dbdd5aad3e6',1,'setup']]],
+  ['checkthreadtype_2',['checkThreadType',['../namespace_pony_player.html#a302a263c1ee7f5d958da27f9a39d5eb0',1,'PonyPlayer::checkThreadType(T0)'],['../namespace_pony_player.html#a507cc6fe4097be5af63e569b83767120',1,'PonyPlayer::checkThreadType(T0, T ...t)']]],
+  ['clear_3',['clear',['../class_pony_audio_sink.html#ac0dbe43246c46eb124bc418051a759af',1,'PonyAudioSink::clear()'],['../class_twins_block_queue.html#af736659a19989655cd9315cffa4bef51',1,'TwinsBlockQueue::clear()'],['../class_playback.html#aa0cde16095b8862051b681f6de7562b6',1,'Playback::clear()']]],
+  ['clearcacheframe_4',['clearCacheFrame',['../class_playback.html#a866a5662290d1fdfdadeaa571e3d5c79',1,'Playback']]],
+  ['clearcachevideoframe_5',['clearCacheVideoFrame',['../class_playback.html#a76ab859cb1c5d889175e799e335c08dc',1,'Playback']]],
+  ['clearframestack_6',['clearFrameStack',['../class_reverse_decoder_impl.html#a871a6fb95fe189c935dce34783d2ebf9',1,'ReverseDecoderImpl::clearFrameStack()'],['../class_i_demux_decoder.html#acf5450d7e862ff2a20f318701260fead',1,'IDemuxDecoder::clearFrameStack()']]],
+  ['clearlyricsentence_7',['clearLyricSentence',['../class_lyrics_data.html#af9cfa02158f9eeae2c9a559be0d8be52',1,'LyricsData']]],
+  ['clearringbuffer_8',['clearRingBuffer',['../class_playback.html#ae0ce34351f7bc2dd9d23d5fa82738656',1,'Playback']]],
+  ['clearsentences_9',['clearSentences',['../class_lyrics_data.html#a0c056025d2bf4d6e132df093266f23ec',1,'LyricsData']]],
+  ['close_10',['close',['../class_demuxer.html#a2306064b724db950d166b74174857be3',1,'Demuxer::close()'],['../class_frame_controller.html#a6f803f08fb03a145d0b6640330bf2042',1,'FrameController::close()'],['../class_hurricane.html#acd005d574881364fb8dccfa479b0987a',1,'Hurricane::close()'],['../class_preview.html#ad3c8f32df47311565aa4d3e17942099f',1,'Preview::close()'],['../class_twins_block_queue.html#ad32db2e8aec2cb226abc4a41efa8a48c',1,'TwinsBlockQueue::close()']]],
+  ['compiler_5ffence_11',['compiler_fence',['../namespacemoodycamel.html#a555837a041dea3c552891ff81139b397',1,'moodycamel']]],
+  ['contrastchanged_12',['contrastChanged',['../class_fireworks.html#a179d8814ef1b4c86d64e8b1ef07a4c73',1,'Fireworks']]],
+  ['controller_13',['Controller',['../class_controller.html#af888a35f7a377692726d81332edf08ab',1,'Controller']]],
+  ['convert_5fand_5fcheck_5fexists_14',['convert_and_check_exists',['../namespacesetup.html#a272de1803d91635c61cb52349c20cc21',1,'setup']]],
+  ['convert_5fand_5fcheck_5fexists_5fdir_15',['convert_and_check_exists_dir',['../namespacesetup.html#ab6cedd90b38cc574701548a48569864c',1,'setup']]],
+  ['copylogpath_16',['copyLogPath',['../class_crash_reporter.html#a988328c86a03eccb22d31f964667ff34',1,'CrashReporter']]],
+  ['countdown_17',['countDown',['../class_count_down_latch.html#a71eeec5df8248f664b093405dd74bc28',1,'CountDownLatch']]],
+  ['countdownlatch_18',['CountDownLatch',['../class_count_down_latch.html#a8ca9f7d285f8dae793fc564beff49722',1,'CountDownLatch']]],
+  ['crash_19',['crash',['../class_hot_loader.html#a996ed41f0b0f22454ddf5bf1f67790a1',1,'HotLoader']]],
+  ['crashreporter_20',['CrashReporter',['../class_crash_reporter.html#ad677daec52d3b22bc41f863d0c6cbc8f',1,'CrashReporter']]],
+  ['createtablefrom_21',['createTableFrom',['../class_pony_k_v_connect.html#a02fbffe2a3ee093ce8f874c5d45a3f6e',1,'PonyKVConnect']]],
+  ['currentoutputdevicechanged_22',['currentOutputDeviceChanged',['../class_hurricane.html#a797887daa90a2fbf3b42155b805508c6',1,'Hurricane']]],
+  ['cursorpos_23',['cursorPos',['../class_cursor_pos_provider.html#adc22cb43a95fb8eb1ee5137efedb1b71',1,'CursorPosProvider']]],
+  ['cursorposprovider_24',['CursorPosProvider',['../class_cursor_pos_provider.html#a0ecee59e91e14198c78a871b0bc5fa66',1,'CursorPosProvider']]]
 ];

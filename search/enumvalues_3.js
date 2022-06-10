@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['stopped_0',['STOPPED',['../quickitem_8h.html#a498784c505615faa59a572ec89ea0477a09d4d696b4e935115b9313e3c412509a',1,'quickitem.h']]]
+  ['invalid_0',['INVALID',['../class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382ad321e044d915c690c8baa14566ae212c',1,'Hurricane']]]
 ];

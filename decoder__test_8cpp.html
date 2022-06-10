@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: src/tests/decoder_test.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('decoder__test_8cpp.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle"><div class="title">decoder_test.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;gtest/gtest.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="demuxer_8hpp_source.html">demuxer.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="previewer_8hpp_source.html">private/previewer.hpp</a>&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:a62370f8ebfe1bcdb3a11f6c355c0e4d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_demuxer.html">Demuxer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoder__test_8cpp.html#a62370f8ebfe1bcdb3a11f6c355c0e4d2">getDemuxer</a> (const std::string &amp;filename)</td></tr>
+<tr class="separator:a62370f8ebfe1bcdb3a11f6c355c0e4d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a385911ace1cf5aaa2b91b7f9d8adfd4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoder__test_8cpp.html#a385911ace1cf5aaa2b91b7f9d8adfd4c">getFrame</a> (<a class="el" href="class_demuxer.html">Demuxer</a> *demuxer, qreal seekTo=0.0, int n_frames=10)</td></tr>
+<tr class="separator:a385911ace1cf5aaa2b91b7f9d8adfd4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc077913822fd52dfea82e2be6d5a412"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoder__test_8cpp.html#afc077913822fd52dfea82e2be6d5a412">TEST</a> (decoder_test, test_change_file)</td></tr>
+<tr class="separator:afc077913822fd52dfea82e2be6d5a412"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac603b2ec68e785746f6369cb256973c8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoder__test_8cpp.html#ac603b2ec68e785746f6369cb256973c8">TEST</a> (decoder_test, test_forward_getFrame)</td></tr>
+<tr class="separator:ac603b2ec68e785746f6369cb256973c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07c74abb818c2357f08e9d6ae64dd6ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoder__test_8cpp.html#a07c74abb818c2357f08e9d6ae64dd6ad">TEST</a> (decoder_test, test_backward_getFrame)</td></tr>
+<tr class="separator:a07c74abb818c2357f08e9d6ae64dd6ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e0938a290c6546778c05c71aa6868e0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoder__test_8cpp.html#a5e0938a290c6546778c05c71aa6868e0">TEST</a> (decoder_test, test_preview)</td></tr>
+<tr class="separator:a5e0938a290c6546778c05c71aa6868e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">函数说明</h2>
+<a id="a62370f8ebfe1bcdb3a11f6c355c0e4d2" name="a62370f8ebfe1bcdb3a11f6c355c0e4d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62370f8ebfe1bcdb3a11f6c355c0e4d2">&#9670;&nbsp;</a></span>getDemuxer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_demuxer.html">Demuxer</a> * getDemuxer </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a385911ace1cf5aaa2b91b7f9d8adfd4c" name="a385911ace1cf5aaa2b91b7f9d8adfd4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a385911ace1cf5aaa2b91b7f9d8adfd4c">&#9670;&nbsp;</a></span>getFrame()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void getFrame </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_demuxer.html">Demuxer</a> *&#160;</td>
+          <td class="paramname"><em>demuxer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>seekTo</em> = <code>0.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n_frames</em> = <code>10</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07c74abb818c2357f08e9d6ae64dd6ad" name="a07c74abb818c2357f08e9d6ae64dd6ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07c74abb818c2357f08e9d6ae64dd6ad">&#9670;&nbsp;</a></span>TEST() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">decoder_test&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">test_backward_getFrame&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afc077913822fd52dfea82e2be6d5a412" name="afc077913822fd52dfea82e2be6d5a412"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc077913822fd52dfea82e2be6d5a412">&#9670;&nbsp;</a></span>TEST() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">decoder_test&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">test_change_file&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac603b2ec68e785746f6369cb256973c8" name="ac603b2ec68e785746f6369cb256973c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac603b2ec68e785746f6369cb256973c8">&#9670;&nbsp;</a></span>TEST() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">decoder_test&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">test_forward_getFrame&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5e0938a290c6546778c05c71aa6868e0" name="a5e0938a290c6546778c05c71aa6868e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e0938a290c6546778c05c71aa6868e0">&#9670;&nbsp;</a></span>TEST() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">decoder_test&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">test_preview&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_d93a1d4020dea85bb71b237545b5e722.html">tests</a></li><li class="navelem"><a class="el" href="decoder__test_8cpp.html">decoder_test.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

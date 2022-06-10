@@ -1,0 +1,799 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: Controller类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_controller.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-slots">Public 槽</a> &#124;
+<a href="#signals">信号</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#properties">属性</a> &#124;
+<a href="class_controller-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">Controller类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="controller_8h_source.html">controller.h</a>&gt;</code></p>
+<div class="dynheader">
+类 Controller 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_controller.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-slots" name="pub-slots"></a>
+Public 槽</h2></td></tr>
+<tr class="memitem:ad1666157496cb81c613de584cf4cd8b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#ad1666157496cb81c613de584cf4cd8b2">getInsertRst</a> (int resultCode)</td></tr>
+<tr class="separator:ad1666157496cb81c613de584cf4cd8b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8e3afae9c2a444fa193e01988623903"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#ad8e3afae9c2a444fa193e01988623903">getRemoveRst</a> (int resultCode)</td></tr>
+<tr class="separator:ad8e3afae9c2a444fa193e01988623903"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12c503b8084b913b9783f9e63a5f04d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a12c503b8084b913b9783f9e63a5f04d3">getSearchRst</a> (<a class="el" href="class_play_list_item.html">PlayListItem</a> *resultItem)</td></tr>
+<tr class="separator:a12c503b8084b913b9783f9e63a5f04d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e1fc8fa675dafe48ad75984096acd0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a9e1fc8fa675dafe48ad75984096acd0b">getExtractRst</a> (QList&lt; <a class="el" href="classsimple_list_item.html">simpleListItem</a> * &gt; rst)</td></tr>
+<tr class="separator:a9e1fc8fa675dafe48ad75984096acd0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac576dfde86f442b7c37f33cbd7f7ca88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#ac576dfde86f442b7c37f33cbd7f7ca88">getInfoRst</a> (<a class="el" href="class_play_list_item.html">PlayListItem</a> *rst)</td></tr>
+<tr class="separator:ac576dfde86f442b7c37f33cbd7f7ca88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f40451f2791e07b691d231b907f4ab4"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a2f40451f2791e07b691d231b907f4ab4">getFile</a> (QString filename, QString path)</td></tr>
+<tr class="separator:a2f40451f2791e07b691d231b907f4ab4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bab35b5cb03c6fc640e34f05196b180"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a3bab35b5cb03c6fc640e34f05196b180">sendExtractRequirement</a> ()</td></tr>
+<tr class="separator:a3bab35b5cb03c6fc640e34f05196b180"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bec8da8db9d08465bfaab582bcbc6a9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a5bec8da8db9d08465bfaab582bcbc6a9">sendRemoveRequirement</a> (QString filepath, QString iconPath)</td></tr>
+<tr class="separator:a5bec8da8db9d08465bfaab582bcbc6a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1402f26ecec0f1a32709c6854da0e378"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a1402f26ecec0f1a32709c6854da0e378">sendGetInfoRequirement</a> (QString filepath)</td></tr>
+<tr class="separator:a1402f26ecec0f1a32709c6854da0e378"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
+信号</h2></td></tr>
+<tr class="memitem:aafff6d802459f5ee524e9720d9658833"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#aafff6d802459f5ee524e9720d9658833">insertItem</a> (<a class="el" href="class_play_list_item.html">PlayListItem</a> *item)</td></tr>
+<tr class="separator:aafff6d802459f5ee524e9720d9658833"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83ecf0201a7885115a261c28e9d56bc9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a83ecf0201a7885115a261c28e9d56bc9">removeItem</a> (<a class="el" href="class_play_list_item.html">PlayListItem</a> *item)</td></tr>
+<tr class="separator:a83ecf0201a7885115a261c28e9d56bc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a115f0fc594227c7a5ee61a449c6d29f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a115f0fc594227c7a5ee61a449c6d29f0">searchItem</a> (QString primaryKey)</td></tr>
+<tr class="separator:a115f0fc594227c7a5ee61a449c6d29f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a369997e94681880089b858b6f99a83cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a369997e94681880089b858b6f99a83cf">extractRequirement</a> ()</td></tr>
+<tr class="separator:a369997e94681880089b858b6f99a83cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4acbcb21672a3a4c24b3515c83cda45"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#ac4acbcb21672a3a4c24b3515c83cda45">finishExtractItems</a> ()</td></tr>
+<tr class="separator:ac4acbcb21672a3a4c24b3515c83cda45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0716d7967e8fa3dae4dcf7588f94a1a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a0716d7967e8fa3dae4dcf7588f94a1a2">removeRequirement</a> (QString path)</td></tr>
+<tr class="separator:a0716d7967e8fa3dae4dcf7588f94a1a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f76f6733e77586b663c44e736a229d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a5f76f6733e77586b663c44e736a229d5">getInfoRequirement</a> (QString path)</td></tr>
+<tr class="separator:a5f76f6733e77586b663c44e736a229d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9846d31037f93e0da528b974e7d97838"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a9846d31037f93e0da528b974e7d97838">finishGetInfo</a> ()</td></tr>
+<tr class="separator:a9846d31037f93e0da528b974e7d97838"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae84e1145350785094eeb6b51a272d7f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#ae84e1145350785094eeb6b51a272d7f0">recentFilesChanged</a> ()</td></tr>
+<tr class="separator:ae84e1145350785094eeb6b51a272d7f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:af888a35f7a377692726d81332edf08ab"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#af888a35f7a377692726d81332edf08ab">Controller</a> (QObject *parent=nullptr)</td></tr>
+<tr class="separator:af888a35f7a377692726d81332edf08ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ab87934c4f7a266cfdb86e0f36bc1b5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a0ab87934c4f7a266cfdb86e0f36bc1b5">~Controller</a> ()</td></tr>
+<tr class="separator:a0ab87934c4f7a266cfdb86e0f36bc1b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb06d807240b59f46f7216a31e077961"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE QVariantList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#abb06d807240b59f46f7216a31e077961">getSimpleListItemList</a> ()</td></tr>
+<tr class="separator:abb06d807240b59f46f7216a31e077961"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a782a8b1ff2178d1e6e439ff7d1807bc8"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE QVariantList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a782a8b1ff2178d1e6e439ff7d1807bc8">getRecentFiles</a> ()</td></tr>
+<tr class="separator:a782a8b1ff2178d1e6e439ff7d1807bc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3edf603b1616724d5429ae050034073e"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a3edf603b1616724d5429ae050034073e">updateRecentFile</a> (QString filePath)</td></tr>
+<tr class="separator:a3edf603b1616724d5429ae050034073e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2fbe98064f1c78965e8c0409eff3c83"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE QVariantMap&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#aa2fbe98064f1c78965e8c0409eff3c83">getListItemInfo</a> ()</td></tr>
+<tr class="separator:aa2fbe98064f1c78965e8c0409eff3c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+属性</h2></td></tr>
+<tr class="memitem:a4cb519d1cdb3f372bd70c49bc4ef5d6e"><td class="memItemLeft" align="right" valign="top">QVariantList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_controller.html#a4cb519d1cdb3f372bd70c49bc4ef5d6e">recentFiles</a></td></tr>
+<tr class="separator:a4cb519d1cdb3f372bd70c49bc4ef5d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="af888a35f7a377692726d81332edf08ab" name="af888a35f7a377692726d81332edf08ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af888a35f7a377692726d81332edf08ab">&#9670;&nbsp;</a></span>Controller()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Controller::Controller </td>
+          <td>(</td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0ab87934c4f7a266cfdb86e0f36bc1b5" name="a0ab87934c4f7a266cfdb86e0f36bc1b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ab87934c4f7a266cfdb86e0f36bc1b5">&#9670;&nbsp;</a></span>~Controller()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Controller::~Controller </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a369997e94681880089b858b6f99a83cf" name="a369997e94681880089b858b6f99a83cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a369997e94681880089b858b6f99a83cf">&#9670;&nbsp;</a></span>extractRequirement</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::extractRequirement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac4acbcb21672a3a4c24b3515c83cda45" name="ac4acbcb21672a3a4c24b3515c83cda45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4acbcb21672a3a4c24b3515c83cda45">&#9670;&nbsp;</a></span>finishExtractItems</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::finishExtractItems </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9846d31037f93e0da528b974e7d97838" name="a9846d31037f93e0da528b974e7d97838"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9846d31037f93e0da528b974e7d97838">&#9670;&nbsp;</a></span>finishGetInfo</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::finishGetInfo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9e1fc8fa675dafe48ad75984096acd0b" name="a9e1fc8fa675dafe48ad75984096acd0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e1fc8fa675dafe48ad75984096acd0b">&#9670;&nbsp;</a></span>getExtractRst</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::getExtractRst </td>
+          <td>(</td>
+          <td class="paramtype">QList&lt; <a class="el" href="classsimple_list_item.html">simpleListItem</a> * &gt;&#160;</td>
+          <td class="paramname"><em>rst</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2f40451f2791e07b691d231b907f4ab4" name="a2f40451f2791e07b691d231b907f4ab4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f40451f2791e07b691d231b907f4ab4">&#9670;&nbsp;</a></span>getFile</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString Controller::getFile </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f76f6733e77586b663c44e736a229d5" name="a5f76f6733e77586b663c44e736a229d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f76f6733e77586b663c44e736a229d5">&#9670;&nbsp;</a></span>getInfoRequirement</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::getInfoRequirement </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac576dfde86f442b7c37f33cbd7f7ca88" name="ac576dfde86f442b7c37f33cbd7f7ca88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac576dfde86f442b7c37f33cbd7f7ca88">&#9670;&nbsp;</a></span>getInfoRst</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::getInfoRst </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_play_list_item.html">PlayListItem</a> *&#160;</td>
+          <td class="paramname"><em>rst</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad1666157496cb81c613de584cf4cd8b2" name="ad1666157496cb81c613de584cf4cd8b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1666157496cb81c613de584cf4cd8b2">&#9670;&nbsp;</a></span>getInsertRst</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::getInsertRst </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>resultCode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa2fbe98064f1c78965e8c0409eff3c83" name="aa2fbe98064f1c78965e8c0409eff3c83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2fbe98064f1c78965e8c0409eff3c83">&#9670;&nbsp;</a></span>getListItemInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVariantMap Controller::getListItemInfo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a782a8b1ff2178d1e6e439ff7d1807bc8" name="a782a8b1ff2178d1e6e439ff7d1807bc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a782a8b1ff2178d1e6e439ff7d1807bc8">&#9670;&nbsp;</a></span>getRecentFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVariantList Controller::getRecentFiles </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad8e3afae9c2a444fa193e01988623903" name="ad8e3afae9c2a444fa193e01988623903"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8e3afae9c2a444fa193e01988623903">&#9670;&nbsp;</a></span>getRemoveRst</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::getRemoveRst </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>resultCode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a12c503b8084b913b9783f9e63a5f04d3" name="a12c503b8084b913b9783f9e63a5f04d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12c503b8084b913b9783f9e63a5f04d3">&#9670;&nbsp;</a></span>getSearchRst</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::getSearchRst </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_play_list_item.html">PlayListItem</a> *&#160;</td>
+          <td class="paramname"><em>resultItem</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abb06d807240b59f46f7216a31e077961" name="abb06d807240b59f46f7216a31e077961"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb06d807240b59f46f7216a31e077961">&#9670;&nbsp;</a></span>getSimpleListItemList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVariantList Controller::getSimpleListItemList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aafff6d802459f5ee524e9720d9658833" name="aafff6d802459f5ee524e9720d9658833"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafff6d802459f5ee524e9720d9658833">&#9670;&nbsp;</a></span>insertItem</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::insertItem </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_play_list_item.html">PlayListItem</a> *&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae84e1145350785094eeb6b51a272d7f0" name="ae84e1145350785094eeb6b51a272d7f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae84e1145350785094eeb6b51a272d7f0">&#9670;&nbsp;</a></span>recentFilesChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::recentFilesChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a83ecf0201a7885115a261c28e9d56bc9" name="a83ecf0201a7885115a261c28e9d56bc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83ecf0201a7885115a261c28e9d56bc9">&#9670;&nbsp;</a></span>removeItem</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::removeItem </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_play_list_item.html">PlayListItem</a> *&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0716d7967e8fa3dae4dcf7588f94a1a2" name="a0716d7967e8fa3dae4dcf7588f94a1a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0716d7967e8fa3dae4dcf7588f94a1a2">&#9670;&nbsp;</a></span>removeRequirement</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::removeRequirement </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a115f0fc594227c7a5ee61a449c6d29f0" name="a115f0fc594227c7a5ee61a449c6d29f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a115f0fc594227c7a5ee61a449c6d29f0">&#9670;&nbsp;</a></span>searchItem</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::searchItem </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>primaryKey</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3bab35b5cb03c6fc640e34f05196b180" name="a3bab35b5cb03c6fc640e34f05196b180"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bab35b5cb03c6fc640e34f05196b180">&#9670;&nbsp;</a></span>sendExtractRequirement</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::sendExtractRequirement </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1402f26ecec0f1a32709c6854da0e378" name="a1402f26ecec0f1a32709c6854da0e378"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1402f26ecec0f1a32709c6854da0e378">&#9670;&nbsp;</a></span>sendGetInfoRequirement</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::sendGetInfoRequirement </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>filepath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5bec8da8db9d08465bfaab582bcbc6a9" name="a5bec8da8db9d08465bfaab582bcbc6a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bec8da8db9d08465bfaab582bcbc6a9">&#9670;&nbsp;</a></span>sendRemoveRequirement</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::sendRemoveRequirement </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>filepath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>iconPath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3edf603b1616724d5429ae050034073e" name="a3edf603b1616724d5429ae050034073e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3edf603b1616724d5429ae050034073e">&#9670;&nbsp;</a></span>updateRecentFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Controller::updateRecentFile </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>filePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">属性说明</h2>
+<a id="a4cb519d1cdb3f372bd70c49bc4ef5d6e" name="a4cb519d1cdb3f372bd70c49bc4ef5d6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cb519d1cdb3f372bd70c49bc4ef5d6e">&#9670;&nbsp;</a></span>recentFiles</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVariantList Controller::recentFiles</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>src/playlist/include/<a class="el" href="controller_8h_source.html">controller.h</a></li>
+<li>src/playlist/<a class="el" href="controller_8cpp.html">controller.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_controller.html">Controller</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

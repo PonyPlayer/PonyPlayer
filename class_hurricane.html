@@ -83,54 +83,271 @@ $(document).ready(function(){initNavTree('class_hurricane.html',''); initResizab
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
 <a href="#pub-slots">Public 槽</a> &#124;
+<a href="#signals">信号</a> &#124;
 <a href="#pub-methods">Public 成员函数</a> &#124;
-<a href="#pro-methods">Protected 成员函数</a> &#124;
+<a href="#properties">属性</a> &#124;
 <a href="class_hurricane-members.html">所有成员列表</a>  </div>
   <div class="headertitle"><div class="title">Hurricane类 参考</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="hurricane_8h_source.html">hurricane.h</a>&gt;</code></p>
+<p>播放器 QuickItem 组件，提供暴露给 QML 的接口。  
+ <a href="class_hurricane.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="hurricane_8hpp_source.html">hurricane.hpp</a>&gt;</code></p>
 <div class="dynheader">
 类 Hurricane 继承关系图:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="class_hurricane.png" usemap="#Hurricane_map" alt=""/>
   <map id="Hurricane_map" name="Hurricane_map">
-<area href="class_hurricane_player.html" alt="HurricanePlayer" shape="rect" coords="0,112,106,136"/>
+<area href="class_fireworks.html" alt="Fireworks" shape="rect" coords="0,56,77,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a0254ecc70a8913b280fd99ad30acd382"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382">HurricaneState</a> { <br />
+&#160;&#160;<a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382adcbfb671fb98ca05a1d62394340270ae">CLOSING</a>
+, <a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382abdc9f6a4c880cd9367234fa056e736d0">LOADING</a>
+, <a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382ad321e044d915c690c8baa14566ae212c">INVALID</a>
+, <a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382aa9a7859c8361681a72e9c0ef25fc5a5a">PRE_PLAY</a>
+, <br />
+&#160;&#160;<a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382acba3c4736ccbfeedb62b60e15940c2fc">PLAYING</a>
+, <a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382adacced5dd18112030f8299adb03287c5">PRE_PAUSE</a>
+, <a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382a906ef78683e51d89a56ec97e2b8b02a3">PAUSED</a>
+<br />
+ }</td></tr>
+<tr class="separator:a0254ecc70a8913b280fd99ad30acd382"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-slots" name="pub-slots"></a>
 Public 槽</h2></td></tr>
-<tr class="memitem:a90d2033678ccc6d398eaa0809c8c367a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a90d2033678ccc6d398eaa0809c8c367a">handleWindowChanged</a> (QQuickWindow *win)</td></tr>
-<tr class="separator:a90d2033678ccc6d398eaa0809c8c367a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88efaa6cc9219aa6c4691fbb1e6e5e2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a88efaa6cc9219aa6c4691fbb1e6e5e2f">sync</a> ()</td></tr>
-<tr class="separator:a88efaa6cc9219aa6c4691fbb1e6e5e2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04304d8326924aae8993e6b36ab9bae3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a04304d8326924aae8993e6b36ab9bae3">cleanupPicture</a> ()</td></tr>
-<tr class="separator:a04304d8326924aae8993e6b36ab9bae3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa252d1f2e1263bdb14727da67c4c38af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#aa252d1f2e1263bdb14727da67c4c38af">setImage</a> (const <a class="el" href="struct_picture.html">Picture</a> &amp;pic)</td></tr>
-<tr class="separator:aa252d1f2e1263bdb14727da67c4c38af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5562afaebf23dfcfc641572803972488"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a5562afaebf23dfcfc641572803972488">openFile</a> (const QString &amp;url, bool autoClose=true)</td></tr>
+<tr class="separator:a5562afaebf23dfcfc641572803972488"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_slots_class_fireworks"><td colspan="2" onclick="javascript:toggleInherit('pub_slots_class_fireworks')"><img src="closed.png" alt="-"/>&#160;Public 槽 继承自 <a class="el" href="class_fireworks.html">Fireworks</a></td></tr>
+<tr class="memitem:aac9dd1edca9cb1f32532ed406930341e inherit pub_slots_class_fireworks"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#aac9dd1edca9cb1f32532ed406930341e">setVideoFrame</a> (const <a class="el" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;pic)</td></tr>
+<tr class="separator:aac9dd1edca9cb1f32532ed406930341e inherit pub_slots_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66fe40b2d0675d39f0d74f8fbc717219 inherit pub_slots_class_fireworks"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a66fe40b2d0675d39f0d74f8fbc717219">setLUTFilter</a> (const QString &amp;path)</td></tr>
+<tr class="separator:a66fe40b2d0675d39f0d74f8fbc717219 inherit pub_slots_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
+信号</h2></td></tr>
+<tr class="memitem:aa08715d4f4a5634387418a54657f0906"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#aa08715d4f4a5634387418a54657f0906">stateChanged</a> ()</td></tr>
+<tr class="separator:aa08715d4f4a5634387418a54657f0906"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f8d53c3db838a38e10ee9af37620c4f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a4f8d53c3db838a38e10ee9af37620c4f">openFileResult</a> (<a class="el" href="namespace_pony_player.html#a028c97ff63e8c04932cdf4bc7db2aa37">PonyPlayer::OpenFileResultType</a> result, QPrivateSignal)</td></tr>
+<tr class="separator:a4f8d53c3db838a38e10ee9af37620c4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26c3bd118ef75d72df3a04aae747daf3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a26c3bd118ef75d72df3a04aae747daf3">positionChangedBySeek</a> ()</td></tr>
+<tr class="separator:a26c3bd118ef75d72df3a04aae747daf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77cd8dee09126841eeb219e1b525179d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a77cd8dee09126841eeb219e1b525179d">audioOutputDeviceChanged</a> ()</td></tr>
+<tr class="separator:a77cd8dee09126841eeb219e1b525179d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4634a7b58e8fe78942b7e92e3a64526a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a4634a7b58e8fe78942b7e92e3a64526a">backwardStatusChanged</a> ()</td></tr>
+<tr class="separator:a4634a7b58e8fe78942b7e92e3a64526a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60ac4cc34f1c896333b75ea8febc5e10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a60ac4cc34f1c896333b75ea8febc5e10">trackChanged</a> ()</td></tr>
+<tr class="separator:a60ac4cc34f1c896333b75ea8febc5e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a797887daa90a2fbf3b42155b805508c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a797887daa90a2fbf3b42155b805508c6">currentOutputDeviceChanged</a> ()</td></tr>
+<tr class="separator:a797887daa90a2fbf3b42155b805508c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa72d283190d796e094277c8c01ad26d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#aa72d283190d796e094277c8c01ad26d9">pitchChanged</a> ()</td></tr>
+<tr class="separator:aa72d283190d796e094277c8c01ad26d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9129b9bfaccf97b58de6a1fde6bd7cdf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a9129b9bfaccf97b58de6a1fde6bd7cdf">speedChanged</a> ()</td></tr>
+<tr class="separator:a9129b9bfaccf97b58de6a1fde6bd7cdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7b84ff38e3e153378d8736f5210a226"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#ae7b84ff38e3e153378d8736f5210a226">resourcesEnd</a> ()</td></tr>
+<tr class="separator:ae7b84ff38e3e153378d8736f5210a226"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82996dddc063c0ca5029868ca2de9dee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a82996dddc063c0ca5029868ca2de9dee">signalPlayerInitializing</a> (QPrivateSignal)</td></tr>
+<tr class="separator:a82996dddc063c0ca5029868ca2de9dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affa4855bcdecc46fbdcf4aa1d69f5e9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#affa4855bcdecc46fbdcf4aa1d69f5e9f">signalStart</a> (QPrivateSignal)</td></tr>
+<tr class="separator:affa4855bcdecc46fbdcf4aa1d69f5e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b562e099cb7f97087c156b97e9ea204"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a2b562e099cb7f97087c156b97e9ea204">signalPause</a> (QPrivateSignal)</td></tr>
+<tr class="separator:a2b562e099cb7f97087c156b97e9ea204"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afee6c6c5e613f216c115d15f1bf009b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#afee6c6c5e613f216c115d15f1bf009b9">signalClose</a> (QPrivateSignal)</td></tr>
+<tr class="separator:afee6c6c5e613f216c115d15f1bf009b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae73aa61295c88e69d5570f23e5e865fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#ae73aa61295c88e69d5570f23e5e865fe">signalOpenFile</a> (const QString &amp;path, QPrivateSignal)</td></tr>
+<tr class="separator:ae73aa61295c88e69d5570f23e5e865fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76273a3a127d84ddb70a5634dc3f21c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a76273a3a127d84ddb70a5634dc3f21c1">signalSeek</a> (qreal pos, QPrivateSignal)</td></tr>
+<tr class="separator:a76273a3a127d84ddb70a5634dc3f21c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header signals_class_fireworks"><td colspan="2" onclick="javascript:toggleInherit('signals_class_fireworks')"><img src="closed.png" alt="-"/>&#160;信号 继承自 <a class="el" href="class_fireworks.html">Fireworks</a></td></tr>
+<tr class="memitem:a3e8b4d712fabc35ef369bb9d3164e257 inherit signals_class_fireworks"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a3e8b4d712fabc35ef369bb9d3164e257">brightnessChanged</a> ()</td></tr>
+<tr class="separator:a3e8b4d712fabc35ef369bb9d3164e257 inherit signals_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a179d8814ef1b4c86d64e8b1ef07a4c73 inherit signals_class_fireworks"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a179d8814ef1b4c86d64e8b1ef07a4c73">contrastChanged</a> ()</td></tr>
+<tr class="separator:a179d8814ef1b4c86d64e8b1ef07a4c73 inherit signals_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acddae9f56558a4e63d07a46cdbf18fb3 inherit signals_class_fireworks"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#acddae9f56558a4e63d07a46cdbf18fb3">saturationChanged</a> ()</td></tr>
+<tr class="separator:acddae9f56558a4e63d07a46cdbf18fb3 inherit signals_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0302b764fb717885b199e337d570f51 inherit signals_class_fireworks"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#ad0302b764fb717885b199e337d570f51">frameSizeChanged</a> ()</td></tr>
+<tr class="separator:ad0302b764fb717885b199e337d570f51 inherit signals_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6d7827cebe0eb073fd794c837679d81 inherit signals_class_fireworks"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#af6d7827cebe0eb073fd794c837679d81">keepFrameRateChanged</a> ()</td></tr>
+<tr class="separator:af6d7827cebe0eb073fd794c837679d81 inherit signals_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
 <tr class="memitem:a56e164869c24ca6da44e625faabcddde"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a56e164869c24ca6da44e625faabcddde">Hurricane</a> (QQuickItem *parent=nullptr)</td></tr>
 <tr class="separator:a56e164869c24ca6da44e625faabcddde"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada4a17d24c9c2d5f1cfc01054c12cea7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#ada4a17d24c9c2d5f1cfc01054c12cea7">~Hurricane</a> () noexcept override</td></tr>
-<tr class="separator:ada4a17d24c9c2d5f1cfc01054c12cea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a450e29803db9b233514ae8417c2bc204"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a450e29803db9b233514ae8417c2bc204">~Hurricane</a> () override</td></tr>
+<tr class="separator:a450e29803db9b233514ae8417c2bc204"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6104555157866acb9f3dc66477951029"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382">HurricaneState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a6104555157866acb9f3dc66477951029">getState</a> ()</td></tr>
+<tr class="separator:a6104555157866acb9f3dc66477951029"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8575ab8a3609cdc9456877b71fc9c31a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a8575ab8a3609cdc9456877b71fc9c31a">getTrack</a> ()</td></tr>
+<tr class="separator:a8575ab8a3609cdc9456877b71fc9c31a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a832b608580329360047f18e32c8c019a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a832b608580329360047f18e32c8c019a">getSpeed</a> ()</td></tr>
+<tr class="separator:a832b608580329360047f18e32c8c019a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8310a85f77db68f8504f3eef56677250"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a8310a85f77db68f8504f3eef56677250">isBackward</a> ()</td></tr>
+<tr class="separator:a8310a85f77db68f8504f3eef56677250"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14f9738973ddea80f16dccb7f2c16d0e"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a14f9738973ddea80f16dccb7f2c16d0e">getAudioDeviceList</a> ()</td></tr>
+<tr class="separator:a14f9738973ddea80f16dccb7f2c16d0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac76b6d0f7a6992d13c6eec15470c7b10"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#ac76b6d0f7a6992d13c6eec15470c7b10">start</a> ()</td></tr>
+<tr class="separator:ac76b6d0f7a6992d13c6eec15470c7b10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e2400f8e2d9590f38bed849aeb2c098"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a5e2400f8e2d9590f38bed849aeb2c098">pause</a> ()</td></tr>
+<tr class="separator:a5e2400f8e2d9590f38bed849aeb2c098"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd005d574881364fb8dccfa479b0987a"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#acd005d574881364fb8dccfa479b0987a">close</a> ()</td></tr>
+<tr class="separator:acd005d574881364fb8dccfa479b0987a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64176fac92de2a0b68966f07ee597c89"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a64176fac92de2a0b68966f07ee597c89">setVolume</a> (qreal volume)</td></tr>
+<tr class="separator:a64176fac92de2a0b68966f07ee597c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4deca741b33fa5ffd34377f757f0dc72"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a4deca741b33fa5ffd34377f757f0dc72">setPitch</a> (qreal <a class="el" href="class_hurricane.html#ae71fa20c30c12059c1453864e643db7c">pitch</a>)</td></tr>
+<tr class="separator:a4deca741b33fa5ffd34377f757f0dc72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae544079f3a625acdd38a614fd9bd1055"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#ae544079f3a625acdd38a614fd9bd1055">setSpeed</a> (qreal <a class="el" href="class_hurricane.html#a68e7386384c941684238cdd53bfcd295">speed</a>)</td></tr>
+<tr class="separator:ae544079f3a625acdd38a614fd9bd1055"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa435650995a3e73cf955678ea5bfb18a"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#aa435650995a3e73cf955678ea5bfb18a">setCurrentOutputDevice</a> (QString deviceName)</td></tr>
+<tr class="separator:aa435650995a3e73cf955678ea5bfb18a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a088421dd8bf0abcaaf56e67d67099095"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a088421dd8bf0abcaaf56e67d67099095">getCurrentOutputDevice</a> ()</td></tr>
+<tr class="separator:a088421dd8bf0abcaaf56e67d67099095"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1156b8d56f89bc8b1eeade38fee9f10"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#ac1156b8d56f89bc8b1eeade38fee9f10">getAudioDuration</a> ()</td></tr>
+<tr class="separator:ac1156b8d56f89bc8b1eeade38fee9f10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4fae646ed63a7b0c6c69745a4ba07aa"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#ad4fae646ed63a7b0c6c69745a4ba07aa">getVideoDuration</a> ()</td></tr>
+<tr class="separator:ad4fae646ed63a7b0c6c69745a4ba07aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a255d5a549ea58a52137f9e268c47231b"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a255d5a549ea58a52137f9e268c47231b">getPTS</a> ()</td></tr>
+<tr class="separator:a255d5a549ea58a52137f9e268c47231b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdae69c83d5190459cbd75b09e442288"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#abdae69c83d5190459cbd75b09e442288">seek</a> (qreal pos)</td></tr>
+<tr class="separator:abdae69c83d5190459cbd75b09e442288"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1c883962035356367beb642a1caf590"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#af1c883962035356367beb642a1caf590">getTracks</a> ()</td></tr>
+<tr class="separator:af1c883962035356367beb642a1caf590"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83b41c33b3361cbd447279fbcfd48b0e"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a83b41c33b3361cbd447279fbcfd48b0e">setTrack</a> (int i)</td></tr>
+<tr class="separator:a83b41c33b3361cbd447279fbcfd48b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66ac75062a7872502b75c94a4b5e2924"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a66ac75062a7872502b75c94a4b5e2924">forward</a> ()</td></tr>
+<tr class="separator:a66ac75062a7872502b75c94a4b5e2924"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f9c70e30436287f5466906b8e9019eb"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a7f9c70e30436287f5466906b8e9019eb">backward</a> ()</td></tr>
+<tr class="separator:a7f9c70e30436287f5466906b8e9019eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7e31c3f6bde17f8b06cf8288d2bc25c"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#ab7e31c3f6bde17f8b06cf8288d2bc25c">toggleBackward</a> ()</td></tr>
+<tr class="separator:ab7e31c3f6bde17f8b06cf8288d2bc25c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad414ec0d0997917103871ef98e3393dc"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#ad414ec0d0997917103871ef98e3393dc">hasVideo</a> ()</td></tr>
+<tr class="separator:ad414ec0d0997917103871ef98e3393dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ec55bfb5944c51cf80fc333e9d04456"><td class="memItemLeft" align="right" valign="top">Q_INVOKABLE qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a1ec55bfb5944c51cf80fc333e9d04456">getPitch</a> ()</td></tr>
+<tr class="separator:a1ec55bfb5944c51cf80fc333e9d04456"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_fireworks"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_fireworks')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="class_fireworks.html">Fireworks</a></td></tr>
+<tr class="memitem:a575015f0f8a6ac9f39736144432b1f97 inherit pub_methods_class_fireworks"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a575015f0f8a6ac9f39736144432b1f97">Fireworks</a> (QQuickItem *parent=nullptr)</td></tr>
+<tr class="separator:a575015f0f8a6ac9f39736144432b1f97 inherit pub_methods_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af583553fd47d7d9c2a0c7b4a54a27c10 inherit pub_methods_class_fireworks"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#af583553fd47d7d9c2a0c7b4a54a27c10">~Fireworks</a> () override</td></tr>
+<tr class="separator:af583553fd47d7d9c2a0c7b4a54a27c10 inherit pub_methods_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0df6907200d1d82273cc2d110c28af76 inherit pub_methods_class_fireworks"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a0df6907200d1d82273cc2d110c28af76">PONY_GUARD_BY</a> (MAIN) private</td></tr>
+<tr class="separator:a0df6907200d1d82273cc2d110c28af76 inherit pub_methods_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f6ad7e5a9038b6abfbfeb2f61b936b2 inherit pub_methods_class_fireworks"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a6f6ad7e5a9038b6abfbfeb2f61b936b2">setBrightness</a> (GLfloat b)</td></tr>
+<tr class="separator:a6f6ad7e5a9038b6abfbfeb2f61b936b2 inherit pub_methods_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a384fef6d1777db480fc1e1bee177a07c inherit pub_methods_class_fireworks"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a384fef6d1777db480fc1e1bee177a07c">getContrast</a> () const</td></tr>
+<tr class="separator:a384fef6d1777db480fc1e1bee177a07c inherit pub_methods_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abedd9984cfa4d97cb4112aa4d59b1c2b inherit pub_methods_class_fireworks"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#abedd9984cfa4d97cb4112aa4d59b1c2b">setContrast</a> (GLfloat c)</td></tr>
+<tr class="separator:abedd9984cfa4d97cb4112aa4d59b1c2b inherit pub_methods_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a924d2ce8aaabf24441f0b1b918825dc3 inherit pub_methods_class_fireworks"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a924d2ce8aaabf24441f0b1b918825dc3">getSaturation</a> () const</td></tr>
+<tr class="separator:a924d2ce8aaabf24441f0b1b918825dc3 inherit pub_methods_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a701727621c2eaaa4aea2eb122622a0db inherit pub_methods_class_fireworks"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a701727621c2eaaa4aea2eb122622a0db">setSaturation</a> (GLfloat s)</td></tr>
+<tr class="separator:a701727621c2eaaa4aea2eb122622a0db inherit pub_methods_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47dd9ab9469b002aed6d6c402d9b1629 inherit pub_methods_class_fireworks"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a47dd9ab9469b002aed6d6c402d9b1629">getHeight</a> () const</td></tr>
+<tr class="separator:a47dd9ab9469b002aed6d6c402d9b1629 inherit pub_methods_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01b95b9f469f3a5dd80c19e2cbde0744 inherit pub_methods_class_fireworks"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a01b95b9f469f3a5dd80c19e2cbde0744">getWidth</a> () const</td></tr>
+<tr class="separator:a01b95b9f469f3a5dd80c19e2cbde0744 inherit pub_methods_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7989fa8e8d36b158d9e7642ef0530092 inherit pub_methods_class_fireworks"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a7989fa8e8d36b158d9e7642ef0530092">getFrameRate</a> () const</td></tr>
+<tr class="separator:a7989fa8e8d36b158d9e7642ef0530092 inherit pub_methods_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
-Protected 成员函数</h2></td></tr>
-<tr class="memitem:a0d854c5dcde4c77b689cbb6e9ab867bc"><td class="memItemLeft" align="right" valign="top">QSGNode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a0d854c5dcde4c77b689cbb6e9ab867bc">updatePaintNode</a> (QSGNode *node, UpdatePaintNodeData *data) override</td></tr>
-<tr class="separator:a0d854c5dcde4c77b689cbb6e9ab867bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+属性</h2></td></tr>
+<tr class="memitem:ae71fa20c30c12059c1453864e643db7c"><td class="memItemLeft" align="right" valign="top">QML_ELEMENTqreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#ae71fa20c30c12059c1453864e643db7c">pitch</a></td></tr>
+<tr class="separator:ae71fa20c30c12059c1453864e643db7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4685d42ef5260fb905e3598e553a29d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382">HurricaneState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a4685d42ef5260fb905e3598e553a29d7">state</a> = HurricaneState::INVALID</td></tr>
+<tr class="separator:a4685d42ef5260fb905e3598e553a29d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f20ba949077884440e5dae2492b24e4"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a8f20ba949077884440e5dae2492b24e4">audioDeviceList</a></td></tr>
+<tr class="separator:a8f20ba949077884440e5dae2492b24e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada0ece74b7d2fb9f2a1ae1381a666c5e"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#ada0ece74b7d2fb9f2a1ae1381a666c5e">tracks</a></td></tr>
+<tr class="separator:ada0ece74b7d2fb9f2a1ae1381a666c5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3601e1436427d1776eba57b44939d026"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a3601e1436427d1776eba57b44939d026">backwardStatus</a> = false</td></tr>
+<tr class="separator:a3601e1436427d1776eba57b44939d026"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa11fd5cf76c85d255f450777da2e9674"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#aa11fd5cf76c85d255f450777da2e9674">track</a> = -1</td></tr>
+<tr class="separator:aa11fd5cf76c85d255f450777da2e9674"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac50f779f2e2d6588a06aeeac9f5deced"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#ac50f779f2e2d6588a06aeeac9f5deced">currentOutputDevice</a></td></tr>
+<tr class="separator:ac50f779f2e2d6588a06aeeac9f5deced"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68e7386384c941684238cdd53bfcd295"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_hurricane.html#a68e7386384c941684238cdd53bfcd295">speed</a> = 1.0</td></tr>
+<tr class="separator:a68e7386384c941684238cdd53bfcd295"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header properties_class_fireworks"><td colspan="2" onclick="javascript:toggleInherit('properties_class_fireworks')"><img src="closed.png" alt="-"/>&#160;属性 继承自 <a class="el" href="class_fireworks.html">Fireworks</a></td></tr>
+<tr class="memitem:a1c98fc57aecce46b38d99bfd07518862 inherit properties_class_fireworks"><td class="memItemLeft" align="right" valign="top">QML_ELEMENTbool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a1c98fc57aecce46b38d99bfd07518862">keepFrameRate</a></td></tr>
+<tr class="separator:a1c98fc57aecce46b38d99bfd07518862 inherit properties_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d03eb94f494298de94a60a1082a2a41 inherit properties_class_fireworks"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a5d03eb94f494298de94a60a1082a2a41">frameHeight</a></td></tr>
+<tr class="separator:a5d03eb94f494298de94a60a1082a2a41 inherit properties_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3b8fb3825cffdd5e1af864932409d95 inherit properties_class_fireworks"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#af3b8fb3825cffdd5e1af864932409d95">frameWidth</a></td></tr>
+<tr class="separator:af3b8fb3825cffdd5e1af864932409d95 inherit properties_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ad151c1e70b8bc3ae0b004fe5214454 inherit properties_class_fireworks"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a1ad151c1e70b8bc3ae0b004fe5214454">frameRate</a></td></tr>
+<tr class="separator:a1ad151c1e70b8bc3ae0b004fe5214454 inherit properties_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfded6ae8913d193a6587e7ec36ded19 inherit properties_class_fireworks"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#acfded6ae8913d193a6587e7ec36ded19">brightness</a></td></tr>
+<tr class="separator:acfded6ae8913d193a6587e7ec36ded19 inherit properties_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90f8d06d6f6e378c758fbbe1de4bf3e5 inherit properties_class_fireworks"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a90f8d06d6f6e378c758fbbe1de4bf3e5">contrast</a></td></tr>
+<tr class="separator:a90f8d06d6f6e378c758fbbe1de4bf3e5 inherit properties_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13e75ef1cfe5761bc8be3e25788a2dca inherit properties_class_fireworks"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a13e75ef1cfe5761bc8be3e25788a2dca">saturation</a></td></tr>
+<tr class="separator:a13e75ef1cfe5761bc8be3e25788a2dca inherit properties_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6cd3038c5eca43ae063b6458fcd5298 inherit properties_class_fireworks"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#af6cd3038c5eca43ae063b6458fcd5298">filterPrefix</a></td></tr>
+<tr class="separator:af6cd3038c5eca43ae063b6458fcd5298 inherit properties_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10af3fd7d601c02e8684ef4392bfc98b inherit properties_class_fireworks"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a10af3fd7d601c02e8684ef4392bfc98b">filterJsons</a></td></tr>
+<tr class="separator:a10af3fd7d601c02e8684ef4392bfc98b inherit properties_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pro_methods_class_fireworks"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_fireworks')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="class_fireworks.html">Fireworks</a></td></tr>
+<tr class="memitem:a539cc9cab9e319da4e59fea16d4fb6bf inherit pro_methods_class_fireworks"><td class="memItemLeft" align="right" valign="top">QSGNode *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fireworks.html#a539cc9cab9e319da4e59fea16d4fb6bf">updatePaintNode</a> (QSGNode *node, UpdatePaintNodeData *data) override</td></tr>
+<tr class="separator:a539cc9cab9e319da4e59fea16d4fb6bf inherit pro_methods_class_fireworks"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p >播放器 QuickItem 组件，提供暴露给 QML 的接口。 </p>
+<p >我们完全采用异步通信的思想，这里的大部分方法都会直接返回。我们只需要关注一些事件（信号）更新 UI 的状态即可。我们的部分方法仅在特定状态才能 使用，需要特别注意。例如：打开视频文件可以分为两个操作：stop（如果当前正在播放视频，需要先停止播放）和 openFile。也就是说，如果正在播放视 频，必须先调用 stop 确保停止播放后再调用 openFile，否则 openFile 请求会被忽略。因此，一种正确的做法是先判断 state 是否为 PLAYING （正在播放视频），如果不是，先调用 stop。由于我们的方法调用是异步的，所以其实我们不能保证方法返回后状态会马上发生改变。保险的做法需要关注 stateChanged 事件再进行下一步动作，这会大大增加编码的复杂度。幸运地，部分方法我们可以提供状态立刻发生变换的保证（见方法注释）。我们会在注 释中说明调用的条件和状态转换。</p>
+<dl class="section see"><dt>参见</dt><dd><a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382">HurricaneState</a> </dd>
+<dd>
+HurricanePlayer::stateChanged() </dd></dl>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a0254ecc70a8913b280fd99ad30acd382" name="a0254ecc70a8913b280fd99ad30acd382"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0254ecc70a8913b280fd99ad30acd382">&#9670;&nbsp;</a></span>HurricaneState</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382">Hurricane::HurricaneState</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >HurricanePlayer 组件的状态, 其中瞬时状态代表前端 HurricanePlayer 发起操作, 但并未同步到后端 VideoWorker. 由后端引起的状态改变不需要进入相应的瞬时状态. 如视频播放结束导致暂停的状态转换为: PLAYING -&gt; PAUSED (中间不经过 PRE_PAUSED). </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a0254ecc70a8913b280fd99ad30acd382adcbfb671fb98ca05a1d62394340270ae" name="a0254ecc70a8913b280fd99ad30acd382adcbfb671fb98ca05a1d62394340270ae"></a>CLOSING&#160;</td><td class="fielddoc"><p >正在关闭当前文件, 这是一个瞬时状态 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0254ecc70a8913b280fd99ad30acd382abdc9f6a4c880cd9367234fa056e736d0" name="a0254ecc70a8913b280fd99ad30acd382abdc9f6a4c880cd9367234fa056e736d0"></a>LOADING&#160;</td><td class="fielddoc"><p >正在加载, 这是一个瞬时状态 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0254ecc70a8913b280fd99ad30acd382ad321e044d915c690c8baa14566ae212c" name="a0254ecc70a8913b280fd99ad30acd382ad321e044d915c690c8baa14566ae212c"></a>INVALID&#160;</td><td class="fielddoc"><p >文件无效 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0254ecc70a8913b280fd99ad30acd382aa9a7859c8361681a72e9c0ef25fc5a5a" name="a0254ecc70a8913b280fd99ad30acd382aa9a7859c8361681a72e9c0ef25fc5a5a"></a>PRE_PLAY&#160;</td><td class="fielddoc"><p >准备播放, 这是一个瞬时状态, 将会很快转为 </p>
+<div class="fragment"><div class="line">HurricaneState::PLAYING</div>
+</div><!-- fragment --></td></tr>
+<tr><td class="fieldname"><a id="a0254ecc70a8913b280fd99ad30acd382acba3c4736ccbfeedb62b60e15940c2fc" name="a0254ecc70a8913b280fd99ad30acd382acba3c4736ccbfeedb62b60e15940c2fc"></a>PLAYING&#160;</td><td class="fielddoc"><p >正在播放 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0254ecc70a8913b280fd99ad30acd382adacced5dd18112030f8299adb03287c5" name="a0254ecc70a8913b280fd99ad30acd382adacced5dd18112030f8299adb03287c5"></a>PRE_PAUSE&#160;</td><td class="fielddoc"><p >请求暂停, 这是一个瞬时状态 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a0254ecc70a8913b280fd99ad30acd382a906ef78683e51d89a56ec97e2b8b02a3" name="a0254ecc70a8913b280fd99ad30acd382a906ef78683e51d89a56ec97e2b8b02a3"></a>PAUSED&#160;</td><td class="fielddoc"><p >已暂停 </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">构造及析构函数说明</h2>
 <a id="a56e164869c24ca6da44e625faabcddde" name="a56e164869c24ca6da44e625faabcddde"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a56e164869c24ca6da44e625faabcddde">&#9670;&nbsp;</a></span>Hurricane()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">Hurricane::Hurricane </td>
@@ -140,12 +357,17 @@ Protected 成员函数</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ada4a17d24c9c2d5f1cfc01054c12cea7" name="ada4a17d24c9c2d5f1cfc01054c12cea7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada4a17d24c9c2d5f1cfc01054c12cea7">&#9670;&nbsp;</a></span>~Hurricane()</h2>
+<a id="a450e29803db9b233514ae8417c2bc204" name="a450e29803db9b233514ae8417c2bc204"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a450e29803db9b233514ae8417c2bc204">&#9670;&nbsp;</a></span>~Hurricane()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -154,7 +376,7 @@ Protected 成员函数</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Hurricane::~Hurricane </td>
+          <td class="memname">virtual Hurricane::~Hurricane </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -162,7 +384,7 @@ Protected 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -170,8 +392,8 @@ Protected 成员函数</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">成员函数说明</h2>
-<a id="a04304d8326924aae8993e6b36ab9bae3" name="a04304d8326924aae8993e6b36ab9bae3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04304d8326924aae8993e6b36ab9bae3">&#9670;&nbsp;</a></span>cleanupPicture</h2>
+<a id="a77cd8dee09126841eeb219e1b525179d" name="a77cd8dee09126841eeb219e1b525179d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77cd8dee09126841eeb219e1b525179d">&#9670;&nbsp;</a></span>audioOutputDeviceChanged</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -180,7 +402,7 @@ Protected 成员函数</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Hurricane::cleanupPicture </td>
+          <td class="memname">void Hurricane::audioOutputDeviceChanged </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -188,15 +410,15 @@ Protected 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a90d2033678ccc6d398eaa0809c8c367a" name="a90d2033678ccc6d398eaa0809c8c367a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90d2033678ccc6d398eaa0809c8c367a">&#9670;&nbsp;</a></span>handleWindowChanged</h2>
+<a id="a7f9c70e30436287f5466906b8e9019eb" name="a7f9c70e30436287f5466906b8e9019eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f9c70e30436287f5466906b8e9019eb">&#9670;&nbsp;</a></span>backward()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -205,59 +427,7 @@ Protected 成员函数</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Hurricane::handleWindowChanged </td>
-          <td>(</td>
-          <td class="paramtype">QQuickWindow *&#160;</td>
-          <td class="paramname"><em>win</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa252d1f2e1263bdb14727da67c4c38af" name="aa252d1f2e1263bdb14727da67c4c38af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa252d1f2e1263bdb14727da67c4c38af">&#9670;&nbsp;</a></span>setImage</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Hurricane::setImage </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_picture.html">Picture</a> &amp;&#160;</td>
-          <td class="paramname"><em>pic</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a88efaa6cc9219aa6c4691fbb1e6e5e2f" name="a88efaa6cc9219aa6c4691fbb1e6e5e2f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88efaa6cc9219aa6c4691fbb1e6e5e2f">&#9670;&nbsp;</a></span>sync</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Hurricane::sync </td>
+          <td class="memname">Q_INVOKABLE void Hurricane::backward </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -265,15 +435,15 @@ Protected 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a0d854c5dcde4c77b689cbb6e9ab867bc" name="a0d854c5dcde4c77b689cbb6e9ab867bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d854c5dcde4c77b689cbb6e9ab867bc">&#9670;&nbsp;</a></span>updatePaintNode()</h2>
+<a id="a4634a7b58e8fe78942b7e92e3a64526a" name="a4634a7b58e8fe78942b7e92e3a64526a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4634a7b58e8fe78942b7e92e3a64526a">&#9670;&nbsp;</a></span>backwardStatusChanged</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -282,16 +452,421 @@ Protected 成员函数</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">QSGNode * Hurricane::updatePaintNode </td>
+          <td class="memname">void Hurricane::backwardStatusChanged </td>
           <td>(</td>
-          <td class="paramtype">QSGNode *&#160;</td>
-          <td class="paramname"><em>node</em>, </td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acd005d574881364fb8dccfa479b0987a" name="acd005d574881364fb8dccfa479b0987a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd005d574881364fb8dccfa479b0987a">&#9670;&nbsp;</a></span>close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE void Hurricane::close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >关闭当前播放的视频, 这会清空组件显示 需要保证调用时的状态为 PAUSED / PRE_PAUSE, 方法保证返回时的状态为 CLOSING 状态转移 PAUSED -&gt; CLOSING -&gt; INVALID </p>
+
+</div>
+</div>
+<a id="a797887daa90a2fbf3b42155b805508c6" name="a797887daa90a2fbf3b42155b805508c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a797887daa90a2fbf3b42155b805508c6">&#9670;&nbsp;</a></span>currentOutputDeviceChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::currentOutputDeviceChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a66ac75062a7872502b75c94a4b5e2924" name="a66ac75062a7872502b75c94a4b5e2924"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66ac75062a7872502b75c94a4b5e2924">&#9670;&nbsp;</a></span>forward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE void Hurricane::forward </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a14f9738973ddea80f16dccb7f2c16d0e" name="a14f9738973ddea80f16dccb7f2c16d0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14f9738973ddea80f16dccb7f2c16d0e">&#9670;&nbsp;</a></span>getAudioDeviceList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList Hurricane::getAudioDeviceList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac1156b8d56f89bc8b1eeade38fee9f10" name="ac1156b8d56f89bc8b1eeade38fee9f10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1156b8d56f89bc8b1eeade38fee9f10">&#9670;&nbsp;</a></span>getAudioDuration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE qreal Hurricane::getAudioDuration </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取视频长度, 需要保证状态不是 INVALID </p><dl class="section return"><dt>返回</dt><dd>长度(单位: 秒) </dd></dl>
+
+</div>
+</div>
+<a id="a088421dd8bf0abcaaf56e67d67099095" name="a088421dd8bf0abcaaf56e67d67099095"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a088421dd8bf0abcaaf56e67d67099095">&#9670;&nbsp;</a></span>getCurrentOutputDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE QString Hurricane::getCurrentOutputDevice </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取音频输出设备列表 </p>
+
+</div>
+</div>
+<a id="a1ec55bfb5944c51cf80fc333e9d04456" name="a1ec55bfb5944c51cf80fc333e9d04456"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ec55bfb5944c51cf80fc333e9d04456">&#9670;&nbsp;</a></span>getPitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE qreal Hurricane::getPitch </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a255d5a549ea58a52137f9e268c47231b" name="a255d5a549ea58a52137f9e268c47231b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a255d5a549ea58a52137f9e268c47231b">&#9670;&nbsp;</a></span>getPTS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE qreal Hurricane::getPTS </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取当前视频播放进度, 需要保证状态不是 INVALID </p><dl class="section return"><dt>返回</dt><dd>播放进度(单位: 秒) </dd></dl>
+
+</div>
+</div>
+<a id="a832b608580329360047f18e32c8c019a" name="a832b608580329360047f18e32c8c019a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a832b608580329360047f18e32c8c019a">&#9670;&nbsp;</a></span>getSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Hurricane::getSpeed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6104555157866acb9f3dc66477951029" name="a6104555157866acb9f3dc66477951029"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6104555157866acb9f3dc66477951029">&#9670;&nbsp;</a></span>getState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382">HurricaneState</a> Hurricane::getState </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8575ab8a3609cdc9456877b71fc9c31a" name="a8575ab8a3609cdc9456877b71fc9c31a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8575ab8a3609cdc9456877b71fc9c31a">&#9670;&nbsp;</a></span>getTrack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Hurricane::getTrack </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af1c883962035356367beb642a1caf590" name="af1c883962035356367beb642a1caf590"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1c883962035356367beb642a1caf590">&#9670;&nbsp;</a></span>getTracks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE QStringList Hurricane::getTracks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad4fae646ed63a7b0c6c69745a4ba07aa" name="ad4fae646ed63a7b0c6c69745a4ba07aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4fae646ed63a7b0c6c69745a4ba07aa">&#9670;&nbsp;</a></span>getVideoDuration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE qreal Hurricane::getVideoDuration </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取音频长度, 需要保证状态不是 INVALID </p><dl class="section return"><dt>返回</dt><dd>长度(单位: 秒) </dd></dl>
+
+</div>
+</div>
+<a id="ad414ec0d0997917103871ef98e3393dc" name="ad414ec0d0997917103871ef98e3393dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad414ec0d0997917103871ef98e3393dc">&#9670;&nbsp;</a></span>hasVideo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE bool Hurricane::hasVideo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8310a85f77db68f8504f3eef56677250" name="a8310a85f77db68f8504f3eef56677250"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8310a85f77db68f8504f3eef56677250">&#9670;&nbsp;</a></span>isBackward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Hurricane::isBackward </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5562afaebf23dfcfc641572803972488" name="a5562afaebf23dfcfc641572803972488"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5562afaebf23dfcfc641572803972488">&#9670;&nbsp;</a></span>openFile</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE void Hurricane::openFile </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">UpdatePaintNodeData *&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>autoClose</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -301,7 +876,825 @@ Protected 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >打开视频文件 需要保证调用时状态为 INVALID / CLOSING, 方法保证返回时状态为 LOADING 如果指定 autoClose, 则会自动调用 HurricanePlayer::close() 状态转移 INVALID -&gt; LOADING -&gt; PAUSED </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>文件路径 </td></tr>
+    <tr><td class="paramname">autoClose</td><td>如果打开视频文件, 是否自动关闭 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4f8d53c3db838a38e10ee9af37620c4f" name="a4f8d53c3db838a38e10ee9af37620c4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f8d53c3db838a38e10ee9af37620c4f">&#9670;&nbsp;</a></span>openFileResult</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::openFileResult </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_pony_player.html#a028c97ff63e8c04932cdf4bc7db2aa37">PonyPlayer::OpenFileResultType</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QPrivateSignal&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >打开文件结果 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>是否成功 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5e2400f8e2d9590f38bed849aeb2c098" name="a5e2400f8e2d9590f38bed849aeb2c098"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e2400f8e2d9590f38bed849aeb2c098">&#9670;&nbsp;</a></span>pause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE void Hurricane::pause </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >暂停播放视频, 保证后端尽快停止视频播放进入空闲状态. 需要保证调用时状态为 PLAYING / PRE_PLAY, 方法保证返回时状态为 PRE_PAUSE 状态转移 PAUSED -&gt; PRE_PAUSE -&gt; PAUSED </p>
+
+</div>
+</div>
+<a id="aa72d283190d796e094277c8c01ad26d9" name="aa72d283190d796e094277c8c01ad26d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa72d283190d796e094277c8c01ad26d9">&#9670;&nbsp;</a></span>pitchChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::pitchChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a26c3bd118ef75d72df3a04aae747daf3" name="a26c3bd118ef75d72df3a04aae747daf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26c3bd118ef75d72df3a04aae747daf3">&#9670;&nbsp;</a></span>positionChangedBySeek</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::positionChangedBySeek </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >视频播放进度由于手动调整发送改变 </p>
+
+</div>
+</div>
+<a id="ae7b84ff38e3e153378d8736f5210a226" name="ae7b84ff38e3e153378d8736f5210a226"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7b84ff38e3e153378d8736f5210a226">&#9670;&nbsp;</a></span>resourcesEnd</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::resourcesEnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abdae69c83d5190459cbd75b09e442288" name="abdae69c83d5190459cbd75b09e442288"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdae69c83d5190459cbd75b09e442288">&#9670;&nbsp;</a></span>seek()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE void Hurricane::seek </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>pos</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >改变视频播放的进度, 不保证马上生效, 请关注信号 需要保证当前状态为 PAUSE, PRE_PAUSE, PLAYING 或 PRE_PLAY </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pos</td><td>播放进度(单位: 秒) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>参见</dt><dd>HurricanePlayer::positionChangedBySeek </dd></dl>
+
+</div>
+</div>
+<a id="aa435650995a3e73cf955678ea5bfb18a" name="aa435650995a3e73cf955678ea5bfb18a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa435650995a3e73cf955678ea5bfb18a">&#9670;&nbsp;</a></span>setCurrentOutputDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE void Hurricane::setCurrentOutputDevice </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>deviceName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >设置音频输出设备名称 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">deviceName</td><td>设备名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4deca741b33fa5ffd34377f757f0dc72" name="a4deca741b33fa5ffd34377f757f0dc72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4deca741b33fa5ffd34377f757f0dc72">&#9670;&nbsp;</a></span>setPitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE void Hurricane::setPitch </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>pitch</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >设置音调 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pitch</td><td>音调 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae544079f3a625acdd38a614fd9bd1055" name="ae544079f3a625acdd38a614fd9bd1055"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae544079f3a625acdd38a614fd9bd1055">&#9670;&nbsp;</a></span>setSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE void Hurricane::setSpeed </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>speed</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >设置速度倍率, 要求倍率 &gt; 0 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">speed</td><td>速度倍率 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a83b41c33b3361cbd447279fbcfd48b0e" name="a83b41c33b3361cbd447279fbcfd48b0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83b41c33b3361cbd447279fbcfd48b0e">&#9670;&nbsp;</a></span>setTrack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE void Hurricane::setTrack </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a64176fac92de2a0b68966f07ee597c89" name="a64176fac92de2a0b68966f07ee597c89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64176fac92de2a0b68966f07ee597c89">&#9670;&nbsp;</a></span>setVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE void Hurricane::setVolume </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>volume</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >设置音量大小, 音频的范围为[0, 1] </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">volume</td><td>音量大小 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="afee6c6c5e613f216c115d15f1bf009b9" name="afee6c6c5e613f216c115d15f1bf009b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afee6c6c5e613f216c115d15f1bf009b9">&#9670;&nbsp;</a></span>signalClose</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::signalClose </td>
+          <td>(</td>
+          <td class="paramtype">QPrivateSignal&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae73aa61295c88e69d5570f23e5e865fe" name="ae73aa61295c88e69d5570f23e5e865fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae73aa61295c88e69d5570f23e5e865fe">&#9670;&nbsp;</a></span>signalOpenFile</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::signalOpenFile </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QPrivateSignal&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2b562e099cb7f97087c156b97e9ea204" name="a2b562e099cb7f97087c156b97e9ea204"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b562e099cb7f97087c156b97e9ea204">&#9670;&nbsp;</a></span>signalPause</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::signalPause </td>
+          <td>(</td>
+          <td class="paramtype">QPrivateSignal&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a82996dddc063c0ca5029868ca2de9dee" name="a82996dddc063c0ca5029868ca2de9dee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82996dddc063c0ca5029868ca2de9dee">&#9670;&nbsp;</a></span>signalPlayerInitializing</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::signalPlayerInitializing </td>
+          <td>(</td>
+          <td class="paramtype">QPrivateSignal&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76273a3a127d84ddb70a5634dc3f21c1" name="a76273a3a127d84ddb70a5634dc3f21c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76273a3a127d84ddb70a5634dc3f21c1">&#9670;&nbsp;</a></span>signalSeek</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::signalSeek </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>pos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QPrivateSignal&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="affa4855bcdecc46fbdcf4aa1d69f5e9f" name="affa4855bcdecc46fbdcf4aa1d69f5e9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affa4855bcdecc46fbdcf4aa1d69f5e9f">&#9670;&nbsp;</a></span>signalStart</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::signalStart </td>
+          <td>(</td>
+          <td class="paramtype">QPrivateSignal&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9129b9bfaccf97b58de6a1fde6bd7cdf" name="a9129b9bfaccf97b58de6a1fde6bd7cdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9129b9bfaccf97b58de6a1fde6bd7cdf">&#9670;&nbsp;</a></span>speedChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::speedChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac76b6d0f7a6992d13c6eec15470c7b10" name="ac76b6d0f7a6992d13c6eec15470c7b10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac76b6d0f7a6992d13c6eec15470c7b10">&#9670;&nbsp;</a></span>start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE void Hurricane::start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >开始播放视频 需要保证调用时状态为 PAUSED / PRE_PAUSE, 方法保证返回时状态为 PRE_PLAY 状态转移 PAUSED -&gt; PRE_PLAY -&gt; PLAYING </p>
+
+</div>
+</div>
+<a id="aa08715d4f4a5634387418a54657f0906" name="aa08715d4f4a5634387418a54657f0906"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa08715d4f4a5634387418a54657f0906">&#9670;&nbsp;</a></span>stateChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::stateChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >播放器状态发生改变. 我们不能保证瞬时状态会转移到相应的稳定状态，所以我们不应该检测瞬时状态决定下一步的动作. 例如: PRE_PAUSE 可以被 close 被打断, 直接转移到 INVALID 而永远不会转移到 PAUSED. </p>
+
+</div>
+</div>
+<a id="ab7e31c3f6bde17f8b06cf8288d2bc25c" name="ab7e31c3f6bde17f8b06cf8288d2bc25c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7e31c3f6bde17f8b06cf8288d2bc25c">&#9670;&nbsp;</a></span>toggleBackward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Q_INVOKABLE void Hurricane::toggleBackward </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a60ac4cc34f1c896333b75ea8febc5e10" name="a60ac4cc34f1c896333b75ea8febc5e10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60ac4cc34f1c896333b75ea8febc5e10">&#9670;&nbsp;</a></span>trackChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Hurricane::trackChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">属性说明</h2>
+<a id="a8f20ba949077884440e5dae2492b24e4" name="a8f20ba949077884440e5dae2492b24e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f20ba949077884440e5dae2492b24e4">&#9670;&nbsp;</a></span>audioDeviceList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList Hurricane::audioDeviceList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3601e1436427d1776eba57b44939d026" name="a3601e1436427d1776eba57b44939d026"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3601e1436427d1776eba57b44939d026">&#9670;&nbsp;</a></span>backwardStatus</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Hurricane::backwardStatus = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac50f779f2e2d6588a06aeeac9f5deced" name="ac50f779f2e2d6588a06aeeac9f5deced"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac50f779f2e2d6588a06aeeac9f5deced">&#9670;&nbsp;</a></span>currentOutputDevice</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString Hurricane::currentOutputDevice</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae71fa20c30c12059c1453864e643db7c" name="ae71fa20c30c12059c1453864e643db7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae71fa20c30c12059c1453864e643db7c">&#9670;&nbsp;</a></span>pitch</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QML_ELEMENTqreal Hurricane::pitch</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a68e7386384c941684238cdd53bfcd295" name="a68e7386384c941684238cdd53bfcd295"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68e7386384c941684238cdd53bfcd295">&#9670;&nbsp;</a></span>speed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double Hurricane::speed = 1.0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4685d42ef5260fb905e3598e553a29d7" name="a4685d42ef5260fb905e3598e553a29d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4685d42ef5260fb905e3598e553a29d7">&#9670;&nbsp;</a></span>state</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_hurricane.html#a0254ecc70a8913b280fd99ad30acd382">HurricaneState</a> Hurricane::state = HurricaneState::INVALID</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa11fd5cf76c85d255f450777da2e9674" name="aa11fd5cf76c85d255f450777da2e9674"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa11fd5cf76c85d255f450777da2e9674">&#9670;&nbsp;</a></span>track</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Hurricane::track = -1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">write</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ada0ece74b7d2fb9f2a1ae1381a666c5e" name="ada0ece74b7d2fb9f2a1ae1381a666c5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada0ece74b7d2fb9f2a1ae1381a666c5e">&#9670;&nbsp;</a></span>tracks</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList Hurricane::tracks</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -309,8 +1702,7 @@ Protected 成员函数</h2></td></tr>
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>include/<a class="el" href="hurricane_8h_source.html">hurricane.h</a></li>
-<li>src/render/<a class="el" href="hurricane_8cpp.html">hurricane.cpp</a></li>
+<li>src/player/<a class="el" href="hurricane_8hpp_source.html">hurricane.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

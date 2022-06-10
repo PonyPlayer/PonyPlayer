@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: src/playlist/include/controller.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('controller_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">controller.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="controller_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="class_controller.html#a4cb519d1cdb3f372bd70c49bc4ef5d6e">    1</a></span><span class="comment">//</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// Created by 彭郑威 on 2022/4/29.</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#ifndef PONYPLAYER_CONTROLLER_H</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#define PONYPLAYER_CONTROLLER_H</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QThread&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="playlist_8h.html">playlist.h</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="info__accessor_8h.html">info_accessor.h</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="class_controller.html">   14</a></span><span class="keyword">class </span><a class="code hl_class" href="class_controller.html">Controller</a> : <span class="keyword">public</span> QObject {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>Q_OBJECT</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    Q_PROPERTY(QVariantList <a class="code hl_property" href="class_controller.html#a4cb519d1cdb3f372bd70c49bc4ef5d6e">recentFiles</a> READ <a class="code hl_function" href="class_controller.html#a782a8b1ff2178d1e6e439ff7d1807bc8">getRecentFiles</a> NOTIFY <a class="code hl_signal" href="class_controller.html#ae84e1145350785094eeb6b51a272d7f0">recentFilesChanged</a>)</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    QThread listOPThread;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    QList&lt;simpleListItem *&gt; result;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_class" href="class_play_list_item.html">PlayListItem</a> *playListItemResult;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">explicit</span> <a class="code hl_function" href="class_controller.html#af888a35f7a377692726d81332edf08ab">Controller</a>(QObject *parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_function" href="class_controller.html#a0ab87934c4f7a266cfdb86e0f36bc1b5">~Controller</a>();</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    Q_INVOKABLE QVariantList <a class="code hl_function" href="class_controller.html#abb06d807240b59f46f7216a31e077961">getSimpleListItemList</a>();</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="comment">// 获取最近打开的文件</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    Q_INVOKABLE QVariantList <a class="code hl_function" href="class_controller.html#a782a8b1ff2178d1e6e439ff7d1807bc8">getRecentFiles</a>();</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="comment">// 向最近打开的文件中写入最新的</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_function" href="class_controller.html#a3edf603b1616724d5429ae050034073e">updateRecentFile</a>(QString filePath);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    Q_INVOKABLE QVariantMap <a class="code hl_function" href="class_controller.html#aa2fbe98064f1c78965e8c0409eff3c83">getListItemInfo</a>();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">public</span> slots:</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="class_controller.html#ad1666157496cb81c613de584cf4cd8b2">   40</a></span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_controller.html#ad1666157496cb81c613de584cf4cd8b2">getInsertRst</a>(<span class="keywordtype">int</span> resultCode) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">if</span> (resultCode == 0)</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;Insert to MediaLib Success!\n&quot;</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;Insert to MediaLib Fail!\n&quot;</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="class_controller.html#ad8e3afae9c2a444fa193e01988623903">   47</a></span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_controller.html#ad8e3afae9c2a444fa193e01988623903">getRemoveRst</a>(<span class="keywordtype">int</span> resultCode) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keywordflow">if</span> (resultCode == 0)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;Remove from MediaLib Success!\n&quot;</span>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;Remove from MediaLib Fail!\n&quot;</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="class_controller.html#a12c503b8084b913b9783f9e63a5f04d3">   54</a></span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_controller.html#a12c503b8084b913b9783f9e63a5f04d3">getSearchRst</a>(<a class="code hl_class" href="class_play_list_item.html">PlayListItem</a> *resultItem) {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">if</span> (!resultItem)</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;Search Find!\n&quot;</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;Search Fail!\n&quot;</span>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    }</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="class_controller.html#a9e1fc8fa675dafe48ad75984096acd0b">   61</a></span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_controller.html#a9e1fc8fa675dafe48ad75984096acd0b">getExtractRst</a>(QList&lt;simpleListItem *&gt; rst) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        result.clear();</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; rst.size(); i++) {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            result.append(rst[i]);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        emit <a class="code hl_signal" href="class_controller.html#ac4acbcb21672a3a4c24b3515c83cda45">finishExtractItems</a>();</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    }</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="class_controller.html#ac576dfde86f442b7c37f33cbd7f7ca88">   70</a></span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_controller.html#ac576dfde86f442b7c37f33cbd7f7ca88">getInfoRst</a>(<a class="code hl_class" href="class_play_list_item.html">PlayListItem</a> *rst) {</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        playListItemResult = rst;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        emit <a class="code hl_signal" href="class_controller.html#a9846d31037f93e0da528b974e7d97838">finishGetInfo</a>();</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="class_controller.html#a2f40451f2791e07b691d231b907f4ab4">   75</a></span>    QString <a class="code hl_slot" href="class_controller.html#a2f40451f2791e07b691d231b907f4ab4">getFile</a>(QString filename, QString path) {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <a class="code hl_class" href="class_play_list_item.html">PlayListItem</a> *info = <span class="keyword">new</span> <a class="code hl_class" href="class_play_list_item.html">PlayListItem</a>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        info-&gt;<a class="code hl_function" href="class_play_list_item.html#a0e974ba16e2419f4dd1e5d2e47397ecb">setFileName</a>(filename);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        info-&gt;<a class="code hl_function" href="class_play_list_item.html#a157be45d771e33978df960a075f87456">setPath</a>(path);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        QString iconPath = <a class="code hl_function" href="classinfo_accessor.html#a0351cc6e7e0bedcd36a3b80e137cdb77">infoAccessor::getInfo</a>(path, *info);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;文件:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#a4259eff0502d1192736d0f6d2d296c53">getFileName</a>();</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;路径:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#afed2c22405aaafe1d84cbbceac217c2e">getPath</a>();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;帧率:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#a3b84d2bf07fbff615fdeff35551c2c36">getFrameRate</a>();</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;比特率:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#a6f7d1a0646e894bdeb8e6b1c445e4a29">getBitRate</a>();</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;视频流大小:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#a066c99a2ca9feeb5d7589253ab5b6e94">getVideoSize</a>();</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;画面尺寸:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#a348b6c6b1209455414582acc59352f21">getVideoWidth</a>() &lt;&lt; <span class="stringliteral">&quot;*&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#ab20dbc36bdd1432c9d1ebea28207dd40">getVideoHeight</a>();</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;视频格式:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#ab259746884b2fb77284f200555eac118">getVideoFormat</a>();</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;音频格式:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#a21eabf8e7798603411780e8784d84d74">getAudioFormat</a>();</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;音频平均比特率:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#a250dececa5d8e892b5c5f2ee97fb2271">getAudioAverageBitRate</a>();</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;音频通道数:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#aa618c98edce5ee24d690233639c3c73a">getChannelNumbers</a>();</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;音频采样率:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#a4f9dd79c90ed8dd0f6e5da5d3dae1cb2">getSampleRate</a>();</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;音频流大小:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#a996465d8287af2cd0fe23ba2f110cb7e">getAudioSize</a>();</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;流数量:&quot;</span> &lt;&lt; info-&gt;<a class="code hl_function" href="class_play_list_item.html#ac84663f1bc89af353a7dd0d849f16ea9">getStreamNumbers</a>();</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        emit <a class="code hl_signal" href="class_controller.html#aafff6d802459f5ee524e9720d9658833">insertItem</a>(info);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">return</span> iconPath;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="class_controller.html#a3bab35b5cb03c6fc640e34f05196b180">   97</a></span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_controller.html#a3bab35b5cb03c6fc640e34f05196b180">sendExtractRequirement</a>() { emit <a class="code hl_signal" href="class_controller.html#a369997e94681880089b858b6f99a83cf">extractRequirement</a>(); }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="class_controller.html#a5bec8da8db9d08465bfaab582bcbc6a9">   99</a></span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_controller.html#a5bec8da8db9d08465bfaab582bcbc6a9">sendRemoveRequirement</a>(QString filepath, QString iconPath) { emit <a class="code hl_signal" href="class_controller.html#a0716d7967e8fa3dae4dcf7588f94a1a2">removeRequirement</a>(filepath); }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="class_controller.html#a1402f26ecec0f1a32709c6854da0e378">  101</a></span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_controller.html#a1402f26ecec0f1a32709c6854da0e378">sendGetInfoRequirement</a>(QString filepath) { emit <a class="code hl_signal" href="class_controller.html#a5f76f6733e77586b663c44e736a229d5">getInfoRequirement</a>(filepath); }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>signals:</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="comment">//发送信号触发线程</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="class_controller.html#aafff6d802459f5ee524e9720d9658833">  106</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_controller.html#aafff6d802459f5ee524e9720d9658833">insertItem</a>(<a class="code hl_class" href="class_play_list_item.html">PlayListItem</a> *item);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="class_controller.html#a83ecf0201a7885115a261c28e9d56bc9">  108</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_controller.html#a83ecf0201a7885115a261c28e9d56bc9">removeItem</a>(<a class="code hl_class" href="class_play_list_item.html">PlayListItem</a> *item);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="class_controller.html#a115f0fc594227c7a5ee61a449c6d29f0">  110</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_controller.html#a115f0fc594227c7a5ee61a449c6d29f0">searchItem</a>(QString primaryKey);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="class_controller.html#a369997e94681880089b858b6f99a83cf">  112</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_controller.html#a369997e94681880089b858b6f99a83cf">extractRequirement</a>();   <span class="comment">// 向 PlayList 发送的提取请求</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="class_controller.html#ac4acbcb21672a3a4c24b3515c83cda45">  114</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_controller.html#ac4acbcb21672a3a4c24b3515c83cda45">finishExtractItems</a>();   <span class="comment">// 向 qml 发送的提取完毕的信号</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="class_controller.html#a0716d7967e8fa3dae4dcf7588f94a1a2">  116</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_controller.html#a0716d7967e8fa3dae4dcf7588f94a1a2">removeRequirement</a>(QString path);   <span class="comment">// 向 PlayList 发送的删除请求</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="class_controller.html#a5f76f6733e77586b663c44e736a229d5">  118</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_controller.html#a5f76f6733e77586b663c44e736a229d5">getInfoRequirement</a>(QString path);  <span class="comment">// 向 PLayList 发送获取信息请求</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="class_controller.html#a9846d31037f93e0da528b974e7d97838">  120</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_controller.html#a9846d31037f93e0da528b974e7d97838">finishGetInfo</a>();  <span class="comment">// 向 qml 发送查找完毕的信号</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="class_controller.html#ae84e1145350785094eeb6b51a272d7f0">  122</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_controller.html#ae84e1145350785094eeb6b51a272d7f0">recentFilesChanged</a>();</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>};</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="preprocessor">#endif </span><span class="comment">//PONYPLAYER_CONTROLLER_H</span></div>
+<div class="ttc" id="aclass_controller_html"><div class="ttname"><a href="class_controller.html">Controller</a></div><div class="ttdef"><b>Definition:</b> controller.h:14</div></div>
+<div class="ttc" id="aclass_controller_html_a0716d7967e8fa3dae4dcf7588f94a1a2"><div class="ttname"><a href="class_controller.html#a0716d7967e8fa3dae4dcf7588f94a1a2">Controller::removeRequirement</a></div><div class="ttdeci">void removeRequirement(QString path)</div></div>
+<div class="ttc" id="aclass_controller_html_a0ab87934c4f7a266cfdb86e0f36bc1b5"><div class="ttname"><a href="class_controller.html#a0ab87934c4f7a266cfdb86e0f36bc1b5">Controller::~Controller</a></div><div class="ttdeci">~Controller()</div><div class="ttdef"><b>Definition:</b> controller.cpp:37</div></div>
+<div class="ttc" id="aclass_controller_html_a115f0fc594227c7a5ee61a449c6d29f0"><div class="ttname"><a href="class_controller.html#a115f0fc594227c7a5ee61a449c6d29f0">Controller::searchItem</a></div><div class="ttdeci">void searchItem(QString primaryKey)</div></div>
+<div class="ttc" id="aclass_controller_html_a12c503b8084b913b9783f9e63a5f04d3"><div class="ttname"><a href="class_controller.html#a12c503b8084b913b9783f9e63a5f04d3">Controller::getSearchRst</a></div><div class="ttdeci">void getSearchRst(PlayListItem *resultItem)</div><div class="ttdef"><b>Definition:</b> controller.h:54</div></div>
+<div class="ttc" id="aclass_controller_html_a1402f26ecec0f1a32709c6854da0e378"><div class="ttname"><a href="class_controller.html#a1402f26ecec0f1a32709c6854da0e378">Controller::sendGetInfoRequirement</a></div><div class="ttdeci">void sendGetInfoRequirement(QString filepath)</div><div class="ttdef"><b>Definition:</b> controller.h:101</div></div>
+<div class="ttc" id="aclass_controller_html_a2f40451f2791e07b691d231b907f4ab4"><div class="ttname"><a href="class_controller.html#a2f40451f2791e07b691d231b907f4ab4">Controller::getFile</a></div><div class="ttdeci">QString getFile(QString filename, QString path)</div><div class="ttdef"><b>Definition:</b> controller.h:75</div></div>
+<div class="ttc" id="aclass_controller_html_a369997e94681880089b858b6f99a83cf"><div class="ttname"><a href="class_controller.html#a369997e94681880089b858b6f99a83cf">Controller::extractRequirement</a></div><div class="ttdeci">void extractRequirement()</div></div>
+<div class="ttc" id="aclass_controller_html_a3bab35b5cb03c6fc640e34f05196b180"><div class="ttname"><a href="class_controller.html#a3bab35b5cb03c6fc640e34f05196b180">Controller::sendExtractRequirement</a></div><div class="ttdeci">void sendExtractRequirement()</div><div class="ttdef"><b>Definition:</b> controller.h:97</div></div>
+<div class="ttc" id="aclass_controller_html_a3edf603b1616724d5429ae050034073e"><div class="ttname"><a href="class_controller.html#a3edf603b1616724d5429ae050034073e">Controller::updateRecentFile</a></div><div class="ttdeci">Q_INVOKABLE void updateRecentFile(QString filePath)</div><div class="ttdef"><b>Definition:</b> controller.cpp:86</div></div>
+<div class="ttc" id="aclass_controller_html_a4cb519d1cdb3f372bd70c49bc4ef5d6e"><div class="ttname"><a href="class_controller.html#a4cb519d1cdb3f372bd70c49bc4ef5d6e">Controller::recentFiles</a></div><div class="ttdeci">QVariantList recentFiles</div><div class="ttdef"><b>Definition:</b> controller.h:16</div></div>
+<div class="ttc" id="aclass_controller_html_a5bec8da8db9d08465bfaab582bcbc6a9"><div class="ttname"><a href="class_controller.html#a5bec8da8db9d08465bfaab582bcbc6a9">Controller::sendRemoveRequirement</a></div><div class="ttdeci">void sendRemoveRequirement(QString filepath, QString iconPath)</div><div class="ttdef"><b>Definition:</b> controller.h:99</div></div>
+<div class="ttc" id="aclass_controller_html_a5f76f6733e77586b663c44e736a229d5"><div class="ttname"><a href="class_controller.html#a5f76f6733e77586b663c44e736a229d5">Controller::getInfoRequirement</a></div><div class="ttdeci">void getInfoRequirement(QString path)</div></div>
+<div class="ttc" id="aclass_controller_html_a782a8b1ff2178d1e6e439ff7d1807bc8"><div class="ttname"><a href="class_controller.html#a782a8b1ff2178d1e6e439ff7d1807bc8">Controller::getRecentFiles</a></div><div class="ttdeci">Q_INVOKABLE QVariantList getRecentFiles()</div><div class="ttdef"><b>Definition:</b> controller.cpp:56</div></div>
+<div class="ttc" id="aclass_controller_html_a83ecf0201a7885115a261c28e9d56bc9"><div class="ttname"><a href="class_controller.html#a83ecf0201a7885115a261c28e9d56bc9">Controller::removeItem</a></div><div class="ttdeci">void removeItem(PlayListItem *item)</div></div>
+<div class="ttc" id="aclass_controller_html_a9846d31037f93e0da528b974e7d97838"><div class="ttname"><a href="class_controller.html#a9846d31037f93e0da528b974e7d97838">Controller::finishGetInfo</a></div><div class="ttdeci">void finishGetInfo()</div></div>
+<div class="ttc" id="aclass_controller_html_a9e1fc8fa675dafe48ad75984096acd0b"><div class="ttname"><a href="class_controller.html#a9e1fc8fa675dafe48ad75984096acd0b">Controller::getExtractRst</a></div><div class="ttdeci">void getExtractRst(QList&lt; simpleListItem * &gt; rst)</div><div class="ttdef"><b>Definition:</b> controller.h:61</div></div>
+<div class="ttc" id="aclass_controller_html_aa2fbe98064f1c78965e8c0409eff3c83"><div class="ttname"><a href="class_controller.html#aa2fbe98064f1c78965e8c0409eff3c83">Controller::getListItemInfo</a></div><div class="ttdeci">Q_INVOKABLE QVariantMap getListItemInfo()</div><div class="ttdef"><b>Definition:</b> controller.cpp:131</div></div>
+<div class="ttc" id="aclass_controller_html_aafff6d802459f5ee524e9720d9658833"><div class="ttname"><a href="class_controller.html#aafff6d802459f5ee524e9720d9658833">Controller::insertItem</a></div><div class="ttdeci">void insertItem(PlayListItem *item)</div></div>
+<div class="ttc" id="aclass_controller_html_abb06d807240b59f46f7216a31e077961"><div class="ttname"><a href="class_controller.html#abb06d807240b59f46f7216a31e077961">Controller::getSimpleListItemList</a></div><div class="ttdeci">Q_INVOKABLE QVariantList getSimpleListItemList()</div><div class="ttdef"><b>Definition:</b> controller.cpp:44</div></div>
+<div class="ttc" id="aclass_controller_html_ac4acbcb21672a3a4c24b3515c83cda45"><div class="ttname"><a href="class_controller.html#ac4acbcb21672a3a4c24b3515c83cda45">Controller::finishExtractItems</a></div><div class="ttdeci">void finishExtractItems()</div></div>
+<div class="ttc" id="aclass_controller_html_ac576dfde86f442b7c37f33cbd7f7ca88"><div class="ttname"><a href="class_controller.html#ac576dfde86f442b7c37f33cbd7f7ca88">Controller::getInfoRst</a></div><div class="ttdeci">void getInfoRst(PlayListItem *rst)</div><div class="ttdef"><b>Definition:</b> controller.h:70</div></div>
+<div class="ttc" id="aclass_controller_html_ad1666157496cb81c613de584cf4cd8b2"><div class="ttname"><a href="class_controller.html#ad1666157496cb81c613de584cf4cd8b2">Controller::getInsertRst</a></div><div class="ttdeci">void getInsertRst(int resultCode)</div><div class="ttdef"><b>Definition:</b> controller.h:40</div></div>
+<div class="ttc" id="aclass_controller_html_ad8e3afae9c2a444fa193e01988623903"><div class="ttname"><a href="class_controller.html#ad8e3afae9c2a444fa193e01988623903">Controller::getRemoveRst</a></div><div class="ttdeci">void getRemoveRst(int resultCode)</div><div class="ttdef"><b>Definition:</b> controller.h:47</div></div>
+<div class="ttc" id="aclass_controller_html_ae84e1145350785094eeb6b51a272d7f0"><div class="ttname"><a href="class_controller.html#ae84e1145350785094eeb6b51a272d7f0">Controller::recentFilesChanged</a></div><div class="ttdeci">void recentFilesChanged()</div></div>
+<div class="ttc" id="aclass_controller_html_af888a35f7a377692726d81332edf08ab"><div class="ttname"><a href="class_controller.html#af888a35f7a377692726d81332edf08ab">Controller::Controller</a></div><div class="ttdeci">Controller(QObject *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> controller.cpp:8</div></div>
+<div class="ttc" id="aclass_play_list_item_html"><div class="ttname"><a href="class_play_list_item.html">PlayListItem</a></div><div class="ttdef"><b>Definition:</b> playlist.h:9</div></div>
+<div class="ttc" id="aclass_play_list_item_html_a066c99a2ca9feeb5d7589253ab5b6e94"><div class="ttname"><a href="class_play_list_item.html#a066c99a2ca9feeb5d7589253ab5b6e94">PlayListItem::getVideoSize</a></div><div class="ttdeci">Q_INVOKABLE float getVideoSize()</div><div class="ttdef"><b>Definition:</b> playlist.h:80</div></div>
+<div class="ttc" id="aclass_play_list_item_html_a0e974ba16e2419f4dd1e5d2e47397ecb"><div class="ttname"><a href="class_play_list_item.html#a0e974ba16e2419f4dd1e5d2e47397ecb">PlayListItem::setFileName</a></div><div class="ttdeci">Q_INVOKABLE void setFileName(QString _fileName)</div><div class="ttdef"><b>Definition:</b> playlist.h:59</div></div>
+<div class="ttc" id="aclass_play_list_item_html_a157be45d771e33978df960a075f87456"><div class="ttname"><a href="class_play_list_item.html#a157be45d771e33978df960a075f87456">PlayListItem::setPath</a></div><div class="ttdeci">Q_INVOKABLE void setPath(QString _path)</div><div class="ttdef"><b>Definition:</b> playlist.h:65</div></div>
+<div class="ttc" id="aclass_play_list_item_html_a21eabf8e7798603411780e8784d84d74"><div class="ttname"><a href="class_play_list_item.html#a21eabf8e7798603411780e8784d84d74">PlayListItem::getAudioFormat</a></div><div class="ttdeci">Q_INVOKABLE QString getAudioFormat()</div><div class="ttdef"><b>Definition:</b> playlist.h:92</div></div>
+<div class="ttc" id="aclass_play_list_item_html_a250dececa5d8e892b5c5f2ee97fb2271"><div class="ttname"><a href="class_play_list_item.html#a250dececa5d8e892b5c5f2ee97fb2271">PlayListItem::getAudioAverageBitRate</a></div><div class="ttdeci">Q_INVOKABLE int getAudioAverageBitRate()</div><div class="ttdef"><b>Definition:</b> playlist.h:95</div></div>
+<div class="ttc" id="aclass_play_list_item_html_a348b6c6b1209455414582acc59352f21"><div class="ttname"><a href="class_play_list_item.html#a348b6c6b1209455414582acc59352f21">PlayListItem::getVideoWidth</a></div><div class="ttdeci">Q_INVOKABLE int getVideoWidth()</div><div class="ttdef"><b>Definition:</b> playlist.h:83</div></div>
+<div class="ttc" id="aclass_play_list_item_html_a3b84d2bf07fbff615fdeff35551c2c36"><div class="ttname"><a href="class_play_list_item.html#a3b84d2bf07fbff615fdeff35551c2c36">PlayListItem::getFrameRate</a></div><div class="ttdeci">Q_INVOKABLE int getFrameRate()</div><div class="ttdef"><b>Definition:</b> playlist.h:74</div></div>
+<div class="ttc" id="aclass_play_list_item_html_a4259eff0502d1192736d0f6d2d296c53"><div class="ttname"><a href="class_play_list_item.html#a4259eff0502d1192736d0f6d2d296c53">PlayListItem::getFileName</a></div><div class="ttdeci">Q_INVOKABLE QString getFileName()</div><div class="ttdef"><b>Definition:</b> playlist.cpp:3</div></div>
+<div class="ttc" id="aclass_play_list_item_html_a4f9dd79c90ed8dd0f6e5da5d3dae1cb2"><div class="ttname"><a href="class_play_list_item.html#a4f9dd79c90ed8dd0f6e5da5d3dae1cb2">PlayListItem::getSampleRate</a></div><div class="ttdeci">Q_INVOKABLE int getSampleRate()</div><div class="ttdef"><b>Definition:</b> playlist.h:101</div></div>
+<div class="ttc" id="aclass_play_list_item_html_a6f7d1a0646e894bdeb8e6b1c445e4a29"><div class="ttname"><a href="class_play_list_item.html#a6f7d1a0646e894bdeb8e6b1c445e4a29">PlayListItem::getBitRate</a></div><div class="ttdeci">Q_INVOKABLE int getBitRate()</div><div class="ttdef"><b>Definition:</b> playlist.h:77</div></div>
+<div class="ttc" id="aclass_play_list_item_html_a996465d8287af2cd0fe23ba2f110cb7e"><div class="ttname"><a href="class_play_list_item.html#a996465d8287af2cd0fe23ba2f110cb7e">PlayListItem::getAudioSize</a></div><div class="ttdeci">Q_INVOKABLE float getAudioSize()</div><div class="ttdef"><b>Definition:</b> playlist.h:107</div></div>
+<div class="ttc" id="aclass_play_list_item_html_aa618c98edce5ee24d690233639c3c73a"><div class="ttname"><a href="class_play_list_item.html#aa618c98edce5ee24d690233639c3c73a">PlayListItem::getChannelNumbers</a></div><div class="ttdeci">Q_INVOKABLE int getChannelNumbers()</div><div class="ttdef"><b>Definition:</b> playlist.h:98</div></div>
+<div class="ttc" id="aclass_play_list_item_html_ab20dbc36bdd1432c9d1ebea28207dd40"><div class="ttname"><a href="class_play_list_item.html#ab20dbc36bdd1432c9d1ebea28207dd40">PlayListItem::getVideoHeight</a></div><div class="ttdeci">Q_INVOKABLE int getVideoHeight()</div><div class="ttdef"><b>Definition:</b> playlist.h:86</div></div>
+<div class="ttc" id="aclass_play_list_item_html_ab259746884b2fb77284f200555eac118"><div class="ttname"><a href="class_play_list_item.html#ab259746884b2fb77284f200555eac118">PlayListItem::getVideoFormat</a></div><div class="ttdeci">Q_INVOKABLE QString getVideoFormat()</div><div class="ttdef"><b>Definition:</b> playlist.h:89</div></div>
+<div class="ttc" id="aclass_play_list_item_html_ac84663f1bc89af353a7dd0d849f16ea9"><div class="ttname"><a href="class_play_list_item.html#ac84663f1bc89af353a7dd0d849f16ea9">PlayListItem::getStreamNumbers</a></div><div class="ttdeci">Q_INVOKABLE int getStreamNumbers()</div><div class="ttdef"><b>Definition:</b> playlist.h:110</div></div>
+<div class="ttc" id="aclass_play_list_item_html_afed2c22405aaafe1d84cbbceac217c2e"><div class="ttname"><a href="class_play_list_item.html#afed2c22405aaafe1d84cbbceac217c2e">PlayListItem::getPath</a></div><div class="ttdeci">Q_INVOKABLE QString getPath()</div><div class="ttdef"><b>Definition:</b> playlist.h:64</div></div>
+<div class="ttc" id="aclassinfo_accessor_html_a0351cc6e7e0bedcd36a3b80e137cdb77"><div class="ttname"><a href="classinfo_accessor.html#a0351cc6e7e0bedcd36a3b80e137cdb77">infoAccessor::getInfo</a></div><div class="ttdeci">static QString getInfo(QString filename, PlayListItem &amp;res)</div><div class="ttdef"><b>Definition:</b> info_accessor.cpp:23</div></div>
+<div class="ttc" id="ainfo__accessor_8h_html"><div class="ttname"><a href="info__accessor_8h.html">info_accessor.h</a></div></div>
+<div class="ttc" id="aplaylist_8h_html"><div class="ttname"><a href="playlist_8h.html">playlist.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_baa404e291c30b5454bdcc8d81698fec.html">playlist</a></li><li class="navelem"><a class="el" href="dir_08a32c528393efc3bdd04be2fb572bc8.html">include</a></li><li class="navelem"><a class="el" href="controller_8h.html">controller.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

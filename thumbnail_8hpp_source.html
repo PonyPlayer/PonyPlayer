@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: src/player/thumbnail.hpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('thumbnail_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">thumbnail.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="thumbnail_8hpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">//</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// Created by ColorsWind on 2022/5/10.</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QQmlContext&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="fireworks_8hpp.html">fireworks.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="hurricane_8hpp.html">hurricane.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="preview_8hpp.html">preview.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="class_thumbnail.html">   12</a></span><span class="keyword">class </span><a class="code hl_class" href="class_thumbnail.html">Thumbnail</a> : <span class="keyword">public</span> <a class="code hl_class" href="class_fireworks.html">Fireworks</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    Q_OBJECT</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="class_thumbnail.html#a642ccc2c31a250c760eb73f0b2488fec">   14</a></span>    QML_ELEMENT</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    Q_PROPERTY(QString <a class="code hl_property" href="class_thumbnail.html#a642ccc2c31a250c760eb73f0b2488fec">player</a> READ <a class="code hl_function" href="class_thumbnail.html#aae371624a95656b2557af33a6c184cbb">getPlayer</a> WRITE <a class="code hl_function" href="class_thumbnail.html#a056edfb6454cc52d9a559e6a297f5a66">setPlayer</a>)</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <a class="code hl_class" href="class_preview.html">Preview</a> *preview;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    QString m_player;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <a class="code hl_class" href="class_hurricane.html">Hurricane</a> *hurricane = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="class_thumbnail.html#a910b4abfd754cc838726155617bc79ef">   21</a></span>    <a class="code hl_function" href="class_thumbnail.html#a910b4abfd754cc838726155617bc79ef">Thumbnail</a>(QQuickItem *parent= <span class="keyword">nullptr</span>) : <a class="code hl_class" href="class_fireworks.html">Fireworks</a>(parent) {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        preview = <span class="keyword">new</span> <a class="code hl_class" href="class_preview.html">Preview</a>(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_thumbnail.html#af1bda91b5a25d23013e5516397db2caa">Thumbnail::signalPreviewRequest</a>, preview, &amp;<a class="code hl_slot" href="class_preview.html#ab044a34806a13e4febef9a908df6aada">Preview::previewRequest</a>);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        connect(<span class="keyword">this</span>, &amp;QQuickItem::windowChanged, [<span class="keyword">this</span>](QQuickWindow *window){</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            <span class="keywordflow">if</span> (!window) { <span class="keywordflow">return</span>; }</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            <span class="keyword">auto</span> *context = qmlContext(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            <span class="keywordflow">while</span>(!hurricane &amp;&amp; context) {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                hurricane = <span class="keyword">reinterpret_cast&lt;</span><a class="code hl_class" href="class_hurricane.html">Hurricane</a> *<span class="keyword">&gt;</span>(context-&gt;objectForName(m_player));</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                context = context-&gt;parentContext();</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            }</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            <span class="keywordflow">if</span> (!hurricane) {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Cannot not get Hurricane by id:&quot;</span> + m_player.toStdString());</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            }</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            connect(hurricane, &amp;<a class="code hl_signal" href="class_hurricane.html#ae73aa61295c88e69d5570f23e5e865fe">Hurricane::signalOpenFile</a>, preview, &amp;<a class="code hl_function" href="class_preview.html#a804215178014d2fd126144914f188a64">Preview::openFile</a>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            connect(hurricane, &amp;<a class="code hl_signal" href="class_hurricane.html#afee6c6c5e613f216c115d15f1bf009b9">Hurricane::signalClose</a>, preview, &amp;<a class="code hl_function" href="class_preview.html#ad3c8f32df47311565aa4d3e17942099f">Preview::close</a>);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            connect(preview, &amp;<a class="code hl_signal" href="class_preview.html#a9393d3da27345357aedeb97e275e12ca">Preview::previewResponse</a>, <span class="keyword">this</span>, &amp;Thumbnail::slotPreviewResponse);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        });</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="class_thumbnail.html#aae371624a95656b2557af33a6c184cbb">   40</a></span>    [[nodiscard]] <span class="keyword">const</span> QString &amp;<a class="code hl_function" href="class_thumbnail.html#aae371624a95656b2557af33a6c184cbb">getPlayer</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">return</span> m_player;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="class_thumbnail.html#a056edfb6454cc52d9a559e6a297f5a66">   44</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_thumbnail.html#a056edfb6454cc52d9a559e6a297f5a66">setPlayer</a>(<span class="keyword">const</span> QString &amp;<a class="code hl_property" href="class_thumbnail.html#a642ccc2c31a250c760eb73f0b2488fec">player</a>) {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        Thumbnail::m_player = <a class="code hl_property" href="class_thumbnail.html#a642ccc2c31a250c760eb73f0b2488fec">player</a>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;Set&quot;</span> &lt;&lt; <a class="code hl_property" href="class_thumbnail.html#a642ccc2c31a250c760eb73f0b2488fec">player</a>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="class_thumbnail.html#a504c77812abb29deee6c22283e3212c7">   49</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="class_thumbnail.html#a504c77812abb29deee6c22283e3212c7">~Thumbnail</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        preview-&gt;<a class="code hl_function" href="class_preview.html#ad3c8f32df47311565aa4d3e17942099f">close</a>();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        preview-&gt;deleteLater();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">public</span> slots:</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="class_thumbnail.html#a2231b1ff5ed5232db9d956ec70e7ebf9">   60</a></span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_slot" href="class_thumbnail.html#a2231b1ff5ed5232db9d956ec70e7ebf9">previewRequest</a>(qreal pos) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        emit <a class="code hl_signal" href="class_thumbnail.html#af1bda91b5a25d23013e5516397db2caa">signalPreviewRequest</a>(pos, QPrivateSignal());</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">private</span> slots:</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordtype">void</span> slotPreviewResponse(qreal pos, <span class="keyword">const</span> <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a>&amp; frame) {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="comment">//        setVisible(false);</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <a class="code hl_slot" href="class_fireworks.html#aac9dd1edca9cb1f32532ed406930341e">setVideoFrame</a>(frame);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        emit <a class="code hl_signal" href="class_thumbnail.html#aab3aaefc1e17e3b26b191796c57a2e27">previewResponse</a>(pos, QPrivateSignal());</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    };</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>signals:</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="class_thumbnail.html#aab3aaefc1e17e3b26b191796c57a2e27">   74</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_thumbnail.html#aab3aaefc1e17e3b26b191796c57a2e27">previewResponse</a>(qreal pos, QPrivateSignal);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="class_thumbnail.html#af1bda91b5a25d23013e5516397db2caa">   76</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_thumbnail.html#af1bda91b5a25d23013e5516397db2caa">signalPreviewRequest</a>(qreal pos, QPrivateSignal);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>};</div>
+<div class="ttc" id="aclass_fireworks_html"><div class="ttname"><a href="class_fireworks.html">Fireworks</a></div><div class="ttdef"><b>Definition:</b> fireworks.hpp:10</div></div>
+<div class="ttc" id="aclass_fireworks_html_aac9dd1edca9cb1f32532ed406930341e"><div class="ttname"><a href="class_fireworks.html#aac9dd1edca9cb1f32532ed406930341e">Fireworks::setVideoFrame</a></div><div class="ttdeci">void setVideoFrame(const VideoFrameRef &amp;pic)</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:112</div></div>
+<div class="ttc" id="aclass_hurricane_html"><div class="ttname"><a href="class_hurricane.html">Hurricane</a></div><div class="ttdoc">播放器 QuickItem 组件，提供暴露给 QML 的接口。</div><div class="ttdef"><b>Definition:</b> hurricane.hpp:28</div></div>
+<div class="ttc" id="aclass_hurricane_html_ae73aa61295c88e69d5570f23e5e865fe"><div class="ttname"><a href="class_hurricane.html#ae73aa61295c88e69d5570f23e5e865fe">Hurricane::signalOpenFile</a></div><div class="ttdeci">void signalOpenFile(const QString &amp;path, QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_hurricane_html_afee6c6c5e613f216c115d15f1bf009b9"><div class="ttname"><a href="class_hurricane.html#afee6c6c5e613f216c115d15f1bf009b9">Hurricane::signalClose</a></div><div class="ttdeci">void signalClose(QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_preview_html"><div class="ttname"><a href="class_preview.html">Preview</a></div><div class="ttdef"><b>Definition:</b> preview.hpp:11</div></div>
+<div class="ttc" id="aclass_preview_html_a804215178014d2fd126144914f188a64"><div class="ttname"><a href="class_preview.html#a804215178014d2fd126144914f188a64">Preview::openFile</a></div><div class="ttdeci">void openFile(const QString &amp;fn)</div><div class="ttdef"><b>Definition:</b> preview.hpp:38</div></div>
+<div class="ttc" id="aclass_preview_html_a9393d3da27345357aedeb97e275e12ca"><div class="ttname"><a href="class_preview.html#a9393d3da27345357aedeb97e275e12ca">Preview::previewResponse</a></div><div class="ttdeci">void previewResponse(qreal pos, VideoFrameRef frame, QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_preview_html_ab044a34806a13e4febef9a908df6aada"><div class="ttname"><a href="class_preview.html#ab044a34806a13e4febef9a908df6aada">Preview::previewRequest</a></div><div class="ttdeci">void previewRequest(qreal pos)</div><div class="ttdef"><b>Definition:</b> preview.hpp:31</div></div>
+<div class="ttc" id="aclass_preview_html_ad3c8f32df47311565aa4d3e17942099f"><div class="ttname"><a href="class_preview.html#ad3c8f32df47311565aa4d3e17942099f">Preview::close</a></div><div class="ttdeci">void close()</div><div class="ttdef"><b>Definition:</b> preview.hpp:56</div></div>
+<div class="ttc" id="aclass_thumbnail_html"><div class="ttname"><a href="class_thumbnail.html">Thumbnail</a></div><div class="ttdef"><b>Definition:</b> thumbnail.hpp:12</div></div>
+<div class="ttc" id="aclass_thumbnail_html_a056edfb6454cc52d9a559e6a297f5a66"><div class="ttname"><a href="class_thumbnail.html#a056edfb6454cc52d9a559e6a297f5a66">Thumbnail::setPlayer</a></div><div class="ttdeci">void setPlayer(const QString &amp;player)</div><div class="ttdef"><b>Definition:</b> thumbnail.hpp:44</div></div>
+<div class="ttc" id="aclass_thumbnail_html_a2231b1ff5ed5232db9d956ec70e7ebf9"><div class="ttname"><a href="class_thumbnail.html#a2231b1ff5ed5232db9d956ec70e7ebf9">Thumbnail::previewRequest</a></div><div class="ttdeci">Q_INVOKABLE void previewRequest(qreal pos)</div><div class="ttdef"><b>Definition:</b> thumbnail.hpp:60</div></div>
+<div class="ttc" id="aclass_thumbnail_html_a504c77812abb29deee6c22283e3212c7"><div class="ttname"><a href="class_thumbnail.html#a504c77812abb29deee6c22283e3212c7">Thumbnail::~Thumbnail</a></div><div class="ttdeci">virtual ~Thumbnail() override</div><div class="ttdef"><b>Definition:</b> thumbnail.hpp:49</div></div>
+<div class="ttc" id="aclass_thumbnail_html_a642ccc2c31a250c760eb73f0b2488fec"><div class="ttname"><a href="class_thumbnail.html#a642ccc2c31a250c760eb73f0b2488fec">Thumbnail::player</a></div><div class="ttdeci">QML_ELEMENTQString player</div><div class="ttdef"><b>Definition:</b> thumbnail.hpp:15</div></div>
+<div class="ttc" id="aclass_thumbnail_html_a910b4abfd754cc838726155617bc79ef"><div class="ttname"><a href="class_thumbnail.html#a910b4abfd754cc838726155617bc79ef">Thumbnail::Thumbnail</a></div><div class="ttdeci">Thumbnail(QQuickItem *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> thumbnail.hpp:21</div></div>
+<div class="ttc" id="aclass_thumbnail_html_aab3aaefc1e17e3b26b191796c57a2e27"><div class="ttname"><a href="class_thumbnail.html#aab3aaefc1e17e3b26b191796c57a2e27">Thumbnail::previewResponse</a></div><div class="ttdeci">void previewResponse(qreal pos, QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_thumbnail_html_aae371624a95656b2557af33a6c184cbb"><div class="ttname"><a href="class_thumbnail.html#aae371624a95656b2557af33a6c184cbb">Thumbnail::getPlayer</a></div><div class="ttdeci">const QString &amp; getPlayer() const</div><div class="ttdef"><b>Definition:</b> thumbnail.hpp:40</div></div>
+<div class="ttc" id="aclass_thumbnail_html_af1bda91b5a25d23013e5516397db2caa"><div class="ttname"><a href="class_thumbnail.html#af1bda91b5a25d23013e5516397db2caa">Thumbnail::signalPreviewRequest</a></div><div class="ttdeci">void signalPreviewRequest(qreal pos, QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html"><div class="ttname"><a href="class_video_frame_ref.html">VideoFrameRef</a></div><div class="ttdef"><b>Definition:</b> frame.hpp:47</div></div>
+<div class="ttc" id="afireworks_8hpp_html"><div class="ttname"><a href="fireworks_8hpp.html">fireworks.hpp</a></div></div>
+<div class="ttc" id="ahurricane_8hpp_html"><div class="ttname"><a href="hurricane_8hpp.html">hurricane.hpp</a></div></div>
+<div class="ttc" id="apreview_8hpp_html"><div class="ttname"><a href="preview_8hpp.html">preview.hpp</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_975424cdae97a07db69e55371758444e.html">player</a></li><li class="navelem"><a class="el" href="thumbnail_8hpp.html">thumbnail.hpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

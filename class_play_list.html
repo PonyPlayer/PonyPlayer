@@ -83,6 +83,8 @@ $(document).ready(function(){initNavTree('class_play_list.html',''); initResizab
 
 <div class="header">
   <div class="summary">
+<a href="#pub-slots">Public 槽</a> &#124;
+<a href="#signals">信号</a> &#124;
 <a href="#pub-methods">Public 成员函数</a> &#124;
 <a href="class_play_list-members.html">所有成员列表</a>  </div>
   <div class="headertitle"><div class="title">PlayList类 参考</div></div>
@@ -97,16 +99,76 @@ $(document).ready(function(){initNavTree('class_play_list.html',''); initResizab
   <img src="class_play_list.png" alt=""/>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-slots" name="pub-slots"></a>
+Public 槽</h2></td></tr>
+<tr class="memitem:af06e0b8ff0e431a445da29228a41b4f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#af06e0b8ff0e431a445da29228a41b4f1">insert</a> (<a class="el" href="class_play_list_item.html">PlayListItem</a> *item)</td></tr>
+<tr class="separator:af06e0b8ff0e431a445da29228a41b4f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a526e074b17502428280fb56434b75e26"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#a526e074b17502428280fb56434b75e26">remove</a> (QString filepath)</td></tr>
+<tr class="separator:a526e074b17502428280fb56434b75e26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbaaecabd194f4219edc9a6a60c48369"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_play_list_item.html">PlayListItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#acbaaecabd194f4219edc9a6a60c48369">search</a> (QString key)</td></tr>
+<tr class="separator:acbaaecabd194f4219edc9a6a60c48369"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae599b0ead4e4cf556c8b50c5855ef630"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#ae599b0ead4e4cf556c8b50c5855ef630">extractAndProcess</a> ()</td></tr>
+<tr class="separator:ae599b0ead4e4cf556c8b50c5855ef630"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7b56bfabb8b9f21c3a00b6506aa461b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#ac7b56bfabb8b9f21c3a00b6506aa461b">getInfo</a> (QString path)</td></tr>
+<tr class="separator:ac7b56bfabb8b9f21c3a00b6506aa461b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
+信号</h2></td></tr>
+<tr class="memitem:aba4309eb557cb51143f9e5fa1c2a9997"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#aba4309eb557cb51143f9e5fa1c2a9997">insertDone</a> (int resultcode)</td></tr>
+<tr class="separator:aba4309eb557cb51143f9e5fa1c2a9997"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae63b1e57cc8bffd4cab2628008897b69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#ae63b1e57cc8bffd4cab2628008897b69">removeDone</a> (int resultcode)</td></tr>
+<tr class="separator:ae63b1e57cc8bffd4cab2628008897b69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a846ab91227e80362f887577cc1ac4544"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#a846ab91227e80362f887577cc1ac4544">searchDone</a> (<a class="el" href="class_play_list_item.html">PlayListItem</a> *item)</td></tr>
+<tr class="separator:a846ab91227e80362f887577cc1ac4544"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fdf984f4cdb905e08ac82571f85cc9b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#a1fdf984f4cdb905e08ac82571f85cc9b">extractDone</a> (QList&lt; <a class="el" href="classsimple_list_item.html">simpleListItem</a> * &gt; res)</td></tr>
+<tr class="separator:a1fdf984f4cdb905e08ac82571f85cc9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74aab99fc7d198aa09d4e0b27a16a5f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#a74aab99fc7d198aa09d4e0b27a16a5f8">getInfoDone</a> (<a class="el" href="class_play_list_item.html">PlayListItem</a> *item)</td></tr>
+<tr class="separator:a74aab99fc7d198aa09d4e0b27a16a5f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
-<tr class="memitem:a78665418d6caaaf9b6193657998ec831"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#a78665418d6caaaf9b6193657998ec831">insert</a> (<a class="el" href="class_list_item.html">ListItem</a> item)</td></tr>
-<tr class="separator:a78665418d6caaaf9b6193657998ec831"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a929d345bca1aec12c7ed4aad8bb6d8e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#a929d345bca1aec12c7ed4aad8bb6d8e6">PlayList</a> (QString _dbName, QString _tableName, QString _className)</td></tr>
+<tr class="separator:a929d345bca1aec12c7ed4aad8bb6d8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2404061fc6e240efa0e1a347478dfe0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_play_list.html#ae2404061fc6e240efa0e1a347478dfe0">PlayList</a> (const QString &amp;name)</td></tr>
 <tr class="separator:ae2404061fc6e240efa0e1a347478dfe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a929d345bca1aec12c7ed4aad8bb6d8e6" name="a929d345bca1aec12c7ed4aad8bb6d8e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a929d345bca1aec12c7ed4aad8bb6d8e6">&#9670;&nbsp;</a></span>PlayList() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">PlayList::PlayList </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>_dbName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>_tableName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>_className</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae2404061fc6e240efa0e1a347478dfe0" name="ae2404061fc6e240efa0e1a347478dfe0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2404061fc6e240efa0e1a347478dfe0">&#9670;&nbsp;</a></span>PlayList()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2404061fc6e240efa0e1a347478dfe0">&#9670;&nbsp;</a></span>PlayList() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -132,26 +194,267 @@ Public 成员函数</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">成员函数说明</h2>
-<a id="a78665418d6caaaf9b6193657998ec831" name="a78665418d6caaaf9b6193657998ec831"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78665418d6caaaf9b6193657998ec831">&#9670;&nbsp;</a></span>insert()</h2>
+<a id="ae599b0ead4e4cf556c8b50c5855ef630" name="ae599b0ead4e4cf556c8b50c5855ef630"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae599b0ead4e4cf556c8b50c5855ef630">&#9670;&nbsp;</a></span>extractAndProcess</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void PlayList::insert </td>
+          <td class="memname">void PlayList::extractAndProcess </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_list_item.html">ListItem</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1fdf984f4cdb905e08ac82571f85cc9b" name="a1fdf984f4cdb905e08ac82571f85cc9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fdf984f4cdb905e08ac82571f85cc9b">&#9670;&nbsp;</a></span>extractDone</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PlayList::extractDone </td>
+          <td>(</td>
+          <td class="paramtype">QList&lt; <a class="el" href="classsimple_list_item.html">simpleListItem</a> * &gt;&#160;</td>
+          <td class="paramname"><em>res</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac7b56bfabb8b9f21c3a00b6506aa461b" name="ac7b56bfabb8b9f21c3a00b6506aa461b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7b56bfabb8b9f21c3a00b6506aa461b">&#9670;&nbsp;</a></span>getInfo</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PlayList::getInfo </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a74aab99fc7d198aa09d4e0b27a16a5f8" name="a74aab99fc7d198aa09d4e0b27a16a5f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74aab99fc7d198aa09d4e0b27a16a5f8">&#9670;&nbsp;</a></span>getInfoDone</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PlayList::getInfoDone </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_play_list_item.html">PlayListItem</a> *&#160;</td>
           <td class="paramname"><em>item</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af06e0b8ff0e431a445da29228a41b4f1" name="af06e0b8ff0e431a445da29228a41b4f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af06e0b8ff0e431a445da29228a41b4f1">&#9670;&nbsp;</a></span>insert</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PlayList::insert </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_play_list_item.html">PlayListItem</a> *&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aba4309eb557cb51143f9e5fa1c2a9997" name="aba4309eb557cb51143f9e5fa1c2a9997"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba4309eb557cb51143f9e5fa1c2a9997">&#9670;&nbsp;</a></span>insertDone</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PlayList::insertDone </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>resultcode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a526e074b17502428280fb56434b75e26" name="a526e074b17502428280fb56434b75e26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a526e074b17502428280fb56434b75e26">&#9670;&nbsp;</a></span>remove</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PlayList::remove </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>filepath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae63b1e57cc8bffd4cab2628008897b69" name="ae63b1e57cc8bffd4cab2628008897b69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae63b1e57cc8bffd4cab2628008897b69">&#9670;&nbsp;</a></span>removeDone</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PlayList::removeDone </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>resultcode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acbaaecabd194f4219edc9a6a60c48369" name="acbaaecabd194f4219edc9a6a60c48369"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbaaecabd194f4219edc9a6a60c48369">&#9670;&nbsp;</a></span>search</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_play_list_item.html">PlayListItem</a> * PlayList::search </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a846ab91227e80362f887577cc1ac4544" name="a846ab91227e80362f887577cc1ac4544"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a846ab91227e80362f887577cc1ac4544">&#9670;&nbsp;</a></span>searchDone</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PlayList::searchDone </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_play_list_item.html">PlayListItem</a> *&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>include/<a class="el" href="playlist_8h_source.html">playlist.h</a></li>
+<li>src/playlist/include/<a class="el" href="playlist_8h_source.html">playlist.h</a></li>
 <li>src/playlist/<a class="el" href="playlist_8cpp.html">playlist.cpp</a></li>
 </ul>
 </div><!-- contents -->

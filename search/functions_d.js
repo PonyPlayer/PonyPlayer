@@ -1,27 +1,5 @@
 var searchData=
 [
-  ['sample_0',['Sample',['../struct_sample.html#a2ce03be2c7c34b209932627c9cffd460',1,'Sample::Sample(uint8_t *data_, int len_, double pts_, AVFrame *frame_)'],['../struct_sample.html#a40a0c59d79dd654c46cefb2cac683571',1,'Sample::Sample()=default']]],
-  ['seek_1',['seek',['../class_demuxer.html#a8ea0d0375816b9a5690a16b9282b2b7e',1,'Demuxer']]],
-  ['setdirectory_2',['setDirectory',['../class_play_list_item.html#a3b46b958a514578cf93da857b0fb5587',1,'PlayListItem']]],
-  ['setdirectorybystr_3',['setDirectoryByStr',['../class_play_list_item.html#a8cdded0874bd903c7baa426a602e656e',1,'PlayListItem']]],
-  ['setfilename_4',['setFileName',['../class_play_list_item.html#a0e974ba16e2419f4dd1e5d2e47397ecb',1,'PlayListItem']]],
-  ['setimage_5',['setImage',['../class_hurricane.html#aa252d1f2e1263bdb14727da67c4c38af',1,'Hurricane']]],
-  ['setimageview_6',['setImageView',['../class_hurricane_renderer.html#a25df5bd58445ec00968e9741c4286a84',1,'HurricaneRenderer']]],
-  ['setuuid_7',['setUUID',['../class_list_item.html#a9151d11faa2f4ea821ef0f8f78cfc133',1,'ListItem']]],
-  ['setvolume_8',['setVolume',['../class_hurricane_player.html#abcd0c301846d10a33835f656e5a74d89',1,'HurricanePlayer']]],
-  ['signalimagechanged_9',['signalImageChanged',['../class_video_play_worker.html#ae69220765205556cca6a22875c1acb85',1,'VideoPlayWorker']]],
-  ['signalopenfile_10',['signalOpenFile',['../class_hurricane_player.html#ad3ef2260be602115ee094a1698fd0e3b',1,'HurricanePlayer']]],
-  ['signalplayerinitializing_11',['signalPlayerInitializing',['../class_hurricane_player.html#abeef1a91722c0cece46edf3a9d70a907',1,'HurricanePlayer']]],
-  ['signalstatechanged_12',['signalStateChanged',['../class_video_play_worker.html#a40b59b64d69c0d0ec8afc5246d08fbfa',1,'VideoPlayWorker']]],
-  ['signalvideostarting_13',['signalVideoStarting',['../class_hurricane_player.html#ad1ffc0cdb998ebc70f780a9567c6ac4e',1,'HurricanePlayer']]],
-  ['signalvolumechanging_14',['signalVolumeChanging',['../class_hurricane_player.html#a6679766f33c0c10b0ab7484a941f842c',1,'HurricanePlayer']]],
-  ['slotonwork_15',['slotOnWork',['../class_video_play_worker.html#adb1b25158302e507f9fae296ce20ebda',1,'VideoPlayWorker']]],
-  ['slotopenfile_16',['slotOpenFile',['../class_video_play_worker.html#a9089bfdaf21527f523654fa8f6b9ad63',1,'VideoPlayWorker']]],
-  ['slotstatechanged_17',['slotStateChanged',['../class_hurricane_player.html#a84c236556c3061ccf18825e9faabc969',1,'HurricanePlayer']]],
-  ['slotthreadinit_18',['slotThreadInit',['../class_video_play_worker.html#a7aa5bc6d6facc3ea6d66465d3ed2703f',1,'VideoPlayWorker']]],
-  ['slotvolumechanged_19',['slotVolumeChanged',['../class_video_play_worker.html#ab8c202eda08204ea59968a55f483ceea',1,'VideoPlayWorker']]],
-  ['start_20',['start',['../class_hurricane_player.html#a92d339d3c2ec7f29f34b76498132a510',1,'HurricanePlayer']]],
-  ['statechanged_21',['stateChanged',['../class_hurricane_player.html#af3bcd36984472a8d990148cbb5d92aa6',1,'HurricanePlayer']]],
-  ['stop_22',['stop',['../class_hurricane_player.html#a77093c2bde557c5c3183176dee8204f7',1,'HurricanePlayer']]],
-  ['sync_23',['sync',['../class_hurricane.html#a88efaa6cc9219aa6c4691fbb1e6e5e2f',1,'Hurricane']]]
+  ['nextsegment_0',['nextSegment',['../class_reverse_decoder_impl.html#a5922368d5529eaa2fc1b76ffdc38041c',1,'ReverseDecoderImpl::nextSegment()'],['../class_i_demux_decoder.html#ae99f2ef4a7cebd43ee15e895dedc2d10',1,'IDemuxDecoder::nextSegment()']]],
+  ['notifyradiusratio_1',['notifyRadiusRatio',['../class_wave_view.html#a30339f28a2d2d385c7b9d1111fe1a964',1,'WaveView']]]
 ];

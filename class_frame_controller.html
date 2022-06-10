@@ -1,0 +1,1121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: FrameController类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_frame_controller.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-slots">Public 槽</a> &#124;
+<a href="#signals">信号</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="class_frame_controller-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">FrameController类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>将解码拿到的帧传递给输出.  
+ <a href="class_frame_controller.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="framecontroller_8hpp_source.html">framecontroller.hpp</a>&gt;</code></p>
+<div class="dynheader">
+类 FrameController 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_frame_controller.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-slots" name="pub-slots"></a>
+Public 槽</h2></td></tr>
+<tr class="memitem:a4bbe04ff2e06121f87bb21b9c1c9e830"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a4bbe04ff2e06121f87bb21b9c1c9e830">openFile</a> (const QString &amp;path)</td></tr>
+<tr class="separator:a4bbe04ff2e06121f87bb21b9c1c9e830"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09f6508f2bd0ca435aecdf0fb2c7f777"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a09f6508f2bd0ca435aecdf0fb2c7f777">pause</a> ()</td></tr>
+<tr class="separator:a09f6508f2bd0ca435aecdf0fb2c7f777"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a132208adf76b895d58afabfc458c9747"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a132208adf76b895d58afabfc458c9747">stop</a> ()</td></tr>
+<tr class="separator:a132208adf76b895d58afabfc458c9747"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f803f08fb03a145d0b6640330bf2042"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a6f803f08fb03a145d0b6640330bf2042">close</a> ()</td></tr>
+<tr class="separator:a6f803f08fb03a145d0b6640330bf2042"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acefb80b4e35ee4ee38b2bef2d04bf993"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#acefb80b4e35ee4ee38b2bef2d04bf993">start</a> ()</td></tr>
+<tr class="separator:acefb80b4e35ee4ee38b2bef2d04bf993"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe5cbbb61530806cbf3177d42c094fa2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#abe5cbbb61530806cbf3177d42c094fa2">seek</a> (qreal seekPos)</td></tr>
+<tr class="separator:abe5cbbb61530806cbf3177d42c094fa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
+信号</h2></td></tr>
+<tr class="memitem:a450892d189185ba3a1501f03580f3183"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a450892d189185ba3a1501f03580f3183">signalDecoderOpenFile</a> (std::string path)</td></tr>
+<tr class="separator:a450892d189185ba3a1501f03580f3183"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99900cb1c3a431e7d620bf5a7bc558dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a99900cb1c3a431e7d620bf5a7bc558dc">signalDecoderSeek</a> (qreal pos)</td></tr>
+<tr class="separator:a99900cb1c3a431e7d620bf5a7bc558dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a90744067640cb233b5446c5518d107"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a8a90744067640cb233b5446c5518d107">signalPositionChangedBySeek</a> ()</td></tr>
+<tr class="separator:a8a90744067640cb233b5446c5518d107"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65f536eee23a64ed229f49d144369dfa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a65f536eee23a64ed229f49d144369dfa">signalSetTrack</a> (int i)</td></tr>
+<tr class="separator:a65f536eee23a64ed229f49d144369dfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51a9d8289cfb38709a7f9a665eabb849"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a51a9d8289cfb38709a7f9a665eabb849">signalDecoderSetTrack</a> (int i)</td></tr>
+<tr class="separator:a51a9d8289cfb38709a7f9a665eabb849"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac94f1352f21e2b56d55e88a53664d94d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#ac94f1352f21e2b56d55e88a53664d94d">signalBackward</a> ()</td></tr>
+<tr class="separator:ac94f1352f21e2b56d55e88a53664d94d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6744e61a029a38052ce535fe04b1c46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#af6744e61a029a38052ce535fe04b1c46">signalForward</a> ()</td></tr>
+<tr class="separator:af6744e61a029a38052ce535fe04b1c46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9efba45d01923fe61c20291c898f948e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a9efba45d01923fe61c20291c898f948e">signalAudioOutputDevicesChanged</a> ()</td></tr>
+<tr class="separator:a9efba45d01923fe61c20291c898f948e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac92b63c4dfd3b02a75cf880fa5297f5c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#ac92b63c4dfd3b02a75cf880fa5297f5c">signalDeviceSwitched</a> ()</td></tr>
+<tr class="separator:ac92b63c4dfd3b02a75cf880fa5297f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58bdafdb4b58d593f5486a093cfe6baf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a58bdafdb4b58d593f5486a093cfe6baf">openFileResult</a> (<a class="el" href="namespace_pony_player.html#a028c97ff63e8c04932cdf4bc7db2aa37">PonyPlayer::OpenFileResultType</a> result)</td></tr>
+<tr class="separator:a58bdafdb4b58d593f5486a093cfe6baf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a158517a83dbc648bbb8d1776e220ba4e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a158517a83dbc648bbb8d1776e220ba4e">playbackStateChanged</a> (bool isPlaying)</td></tr>
+<tr class="separator:a158517a83dbc648bbb8d1776e220ba4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dba8138c66127d3b04d81cf2c05dc18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a3dba8138c66127d3b04d81cf2c05dc18">resourcesEnd</a> ()</td></tr>
+<tr class="separator:a3dba8138c66127d3b04d81cf2c05dc18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2524614d109cae5cc3ac4c7b5514bdd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#ab2524614d109cae5cc3ac4c7b5514bdd">setPicture</a> (<a class="el" href="class_video_frame_ref.html">VideoFrameRef</a> pic)</td></tr>
+<tr class="separator:ab2524614d109cae5cc3ac4c7b5514bdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a4c94502ebfff374d8df85631b6ecf215"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a4c94502ebfff374d8df85631b6ecf215">FrameController</a> (QObject *parent)</td></tr>
+<tr class="separator:a4c94502ebfff374d8df85631b6ecf215"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad55c630b4e994f59520680f35b7a82a8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#ad55c630b4e994f59520680f35b7a82a8">~FrameController</a> () override</td></tr>
+<tr class="separator:ad55c630b4e994f59520680f35b7a82a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab96184f80a6e6e9fccc3a1d7af62f06f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#ab96184f80a6e6e9fccc3a1d7af62f06f">setTrack</a> (int i)</td></tr>
+<tr class="separator:ab96184f80a6e6e9fccc3a1d7af62f06f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a9b766a2debb610342bc02bc9dca41c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a6a9b766a2debb610342bc02bc9dca41c">setSelectedAudioOutputDevice</a> (QString deviceName)</td></tr>
+<tr class="separator:a6a9b766a2debb610342bc02bc9dca41c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae724542c8836ae901b972f2f884856ac"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#ae724542c8836ae901b972f2f884856ac">getSelectedAudioOutputDevice</a> ()</td></tr>
+<tr class="separator:ae724542c8836ae901b972f2f884856ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f8be73dbbb8d6e1d5a11903edeca0fc"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a2f8be73dbbb8d6e1d5a11903edeca0fc">backward</a> ()</td></tr>
+<tr class="separator:a2f8be73dbbb8d6e1d5a11903edeca0fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4df4c7f97c7285c245c7223d5a022ef"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#af4df4c7f97c7285c245c7223d5a022ef">forward</a> ()</td></tr>
+<tr class="separator:af4df4c7f97c7285c245c7223d5a022ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae729d55b2ef4972b86055fe17d83c755"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#ae729d55b2ef4972b86055fe17d83c755">getPreferablePos</a> ()</td></tr>
+<tr class="separator:ae729d55b2ef4972b86055fe17d83c755"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa476ad142a64c01d89c3fbd07796328d"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#aa476ad142a64c01d89c3fbd07796328d">getAudioDuration</a> ()</td></tr>
+<tr class="separator:aa476ad142a64c01d89c3fbd07796328d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d29accb41a53d12e4192441a9100476"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a2d29accb41a53d12e4192441a9100476">getVideoDuration</a> ()</td></tr>
+<tr class="separator:a2d29accb41a53d12e4192441a9100476"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c59779d33e69421ab5cebee1b22501f"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a1c59779d33e69421ab5cebee1b22501f">getTracks</a> ()</td></tr>
+<tr class="separator:a1c59779d33e69421ab5cebee1b22501f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28d7ddd02123820bd821e385832b9d13"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a28d7ddd02123820bd821e385832b9d13">getPitch</a> ()</td></tr>
+<tr class="separator:a28d7ddd02123820bd821e385832b9d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e983143640a7bc40ca1f7eae8d848cb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a1e983143640a7bc40ca1f7eae8d848cb">hasVideo</a> ()</td></tr>
+<tr class="separator:a1e983143640a7bc40ca1f7eae8d848cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00f7b5ee5d8be0e6366da352395a3cea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a00f7b5ee5d8be0e6366da352395a3cea">setVolume</a> (qreal volume)</td></tr>
+<tr class="separator:a00f7b5ee5d8be0e6366da352395a3cea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a1aeedd4b7229a661016f7fbf2838bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a0a1aeedd4b7229a661016f7fbf2838bf">setPitch</a> (qreal pitch)</td></tr>
+<tr class="separator:a0a1aeedd4b7229a661016f7fbf2838bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6807be4a24453a1639f748dbd1c6496e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#a6807be4a24453a1639f748dbd1c6496e">setSpeed</a> (qreal speed)</td></tr>
+<tr class="separator:a6807be4a24453a1639f748dbd1c6496e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4b55c53ec4545407bf58ce5b8a57fca"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_frame_controller.html#ad4b55c53ec4545407bf58ce5b8a57fca">getAudioDeviceList</a> ()</td></tr>
+<tr class="separator:ad4b55c53ec4545407bf58ce5b8a57fca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p >将解码拿到的帧传递给输出. </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a4c94502ebfff374d8df85631b6ecf215" name="a4c94502ebfff374d8df85631b6ecf215"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c94502ebfff374d8df85631b6ecf215">&#9670;&nbsp;</a></span>FrameController()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FrameController::FrameController </td>
+          <td>(</td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad55c630b4e994f59520680f35b7a82a8" name="ad55c630b4e994f59520680f35b7a82a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad55c630b4e994f59520680f35b7a82a8">&#9670;&nbsp;</a></span>~FrameController()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FrameController::~FrameController </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a2f8be73dbbb8d6e1d5a11903edeca0fc" name="a2f8be73dbbb8d6e1d5a11903edeca0fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f8be73dbbb8d6e1d5a11903edeca0fc">&#9670;&nbsp;</a></span>backward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE void FrameController::backward </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f803f08fb03a145d0b6640330bf2042" name="a6f803f08fb03a145d0b6640330bf2042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f803f08fb03a145d0b6640330bf2042">&#9670;&nbsp;</a></span>close</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af4df4c7f97c7285c245c7223d5a022ef" name="af4df4c7f97c7285c245c7223d5a022ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4df4c7f97c7285c245c7223d5a022ef">&#9670;&nbsp;</a></span>forward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE void FrameController::forward </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad4b55c53ec4545407bf58ce5b8a57fca" name="ad4b55c53ec4545407bf58ce5b8a57fca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4b55c53ec4545407bf58ce5b8a57fca">&#9670;&nbsp;</a></span>getAudioDeviceList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList FrameController::getAudioDeviceList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa476ad142a64c01d89c3fbd07796328d" name="aa476ad142a64c01d89c3fbd07796328d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa476ad142a64c01d89c3fbd07796328d">&#9670;&nbsp;</a></span>getAudioDuration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal FrameController::getAudioDuration </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >这个方法是线程安全的 </p><dl class="section return"><dt>返回</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a28d7ddd02123820bd821e385832b9d13" name="a28d7ddd02123820bd821e385832b9d13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28d7ddd02123820bd821e385832b9d13">&#9670;&nbsp;</a></span>getPitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal FrameController::getPitch </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae729d55b2ef4972b86055fe17d83c755" name="ae729d55b2ef4972b86055fe17d83c755"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae729d55b2ef4972b86055fe17d83c755">&#9670;&nbsp;</a></span>getPreferablePos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE qreal FrameController::getPreferablePos </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae724542c8836ae901b972f2f884856ac" name="ae724542c8836ae901b972f2f884856ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae724542c8836ae901b972f2f884856ac">&#9670;&nbsp;</a></span>getSelectedAudioOutputDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString FrameController::getSelectedAudioOutputDevice </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1c59779d33e69421ab5cebee1b22501f" name="a1c59779d33e69421ab5cebee1b22501f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c59779d33e69421ab5cebee1b22501f">&#9670;&nbsp;</a></span>getTracks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList FrameController::getTracks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >这个方法是线程安全的 </p><dl class="section return"><dt>返回</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a2d29accb41a53d12e4192441a9100476" name="a2d29accb41a53d12e4192441a9100476"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d29accb41a53d12e4192441a9100476">&#9670;&nbsp;</a></span>getVideoDuration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal FrameController::getVideoDuration </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >这个方法是线程安全的 </p><dl class="section return"><dt>返回</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a1e983143640a7bc40ca1f7eae8d848cb" name="a1e983143640a7bc40ca1f7eae8d848cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e983143640a7bc40ca1f7eae8d848cb">&#9670;&nbsp;</a></span>hasVideo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool FrameController::hasVideo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4bbe04ff2e06121f87bb21b9c1c9e830" name="a4bbe04ff2e06121f87bb21b9c1c9e830"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bbe04ff2e06121f87bb21b9c1c9e830">&#9670;&nbsp;</a></span>openFile</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::openFile </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a58bdafdb4b58d593f5486a093cfe6baf" name="a58bdafdb4b58d593f5486a093cfe6baf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58bdafdb4b58d593f5486a093cfe6baf">&#9670;&nbsp;</a></span>openFileResult</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::openFileResult </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_pony_player.html#a028c97ff63e8c04932cdf4bc7db2aa37">PonyPlayer::OpenFileResultType</a>&#160;</td>
+          <td class="paramname"><em>result</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a09f6508f2bd0ca435aecdf0fb2c7f777" name="a09f6508f2bd0ca435aecdf0fb2c7f777"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09f6508f2bd0ca435aecdf0fb2c7f777">&#9670;&nbsp;</a></span>pause</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::pause </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a158517a83dbc648bbb8d1776e220ba4e" name="a158517a83dbc648bbb8d1776e220ba4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a158517a83dbc648bbb8d1776e220ba4e">&#9670;&nbsp;</a></span>playbackStateChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::playbackStateChanged </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>isPlaying</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3dba8138c66127d3b04d81cf2c05dc18" name="a3dba8138c66127d3b04d81cf2c05dc18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dba8138c66127d3b04d81cf2c05dc18">&#9670;&nbsp;</a></span>resourcesEnd</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::resourcesEnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abe5cbbb61530806cbf3177d42c094fa2" name="abe5cbbb61530806cbf3177d42c094fa2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe5cbbb61530806cbf3177d42c094fa2">&#9670;&nbsp;</a></span>seek</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::seek </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>seekPos</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab2524614d109cae5cc3ac4c7b5514bdd" name="ab2524614d109cae5cc3ac4c7b5514bdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2524614d109cae5cc3ac4c7b5514bdd">&#9670;&nbsp;</a></span>setPicture</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::setPicture </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_video_frame_ref.html">VideoFrameRef</a>&#160;</td>
+          <td class="paramname"><em>pic</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0a1aeedd4b7229a661016f7fbf2838bf" name="a0a1aeedd4b7229a661016f7fbf2838bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a1aeedd4b7229a661016f7fbf2838bf">&#9670;&nbsp;</a></span>setPitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::setPitch </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>pitch</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6a9b766a2debb610342bc02bc9dca41c" name="a6a9b766a2debb610342bc02bc9dca41c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a9b766a2debb610342bc02bc9dca41c">&#9670;&nbsp;</a></span>setSelectedAudioOutputDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::setSelectedAudioOutputDevice </td>
+          <td>(</td>
+          <td class="paramtype">QString&#160;</td>
+          <td class="paramname"><em>deviceName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6807be4a24453a1639f748dbd1c6496e" name="a6807be4a24453a1639f748dbd1c6496e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6807be4a24453a1639f748dbd1c6496e">&#9670;&nbsp;</a></span>setSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::setSpeed </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>speed</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab96184f80a6e6e9fccc3a1d7af62f06f" name="ab96184f80a6e6e9fccc3a1d7af62f06f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab96184f80a6e6e9fccc3a1d7af62f06f">&#9670;&nbsp;</a></span>setTrack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::setTrack </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a00f7b5ee5d8be0e6366da352395a3cea" name="a00f7b5ee5d8be0e6366da352395a3cea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00f7b5ee5d8be0e6366da352395a3cea">&#9670;&nbsp;</a></span>setVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::setVolume </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>volume</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9efba45d01923fe61c20291c898f948e" name="a9efba45d01923fe61c20291c898f948e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9efba45d01923fe61c20291c898f948e">&#9670;&nbsp;</a></span>signalAudioOutputDevicesChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::signalAudioOutputDevicesChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac94f1352f21e2b56d55e88a53664d94d" name="ac94f1352f21e2b56d55e88a53664d94d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac94f1352f21e2b56d55e88a53664d94d">&#9670;&nbsp;</a></span>signalBackward</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::signalBackward </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a450892d189185ba3a1501f03580f3183" name="a450892d189185ba3a1501f03580f3183"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a450892d189185ba3a1501f03580f3183">&#9670;&nbsp;</a></span>signalDecoderOpenFile</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::signalDecoderOpenFile </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a99900cb1c3a431e7d620bf5a7bc558dc" name="a99900cb1c3a431e7d620bf5a7bc558dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99900cb1c3a431e7d620bf5a7bc558dc">&#9670;&nbsp;</a></span>signalDecoderSeek</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::signalDecoderSeek </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>pos</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a51a9d8289cfb38709a7f9a665eabb849" name="a51a9d8289cfb38709a7f9a665eabb849"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51a9d8289cfb38709a7f9a665eabb849">&#9670;&nbsp;</a></span>signalDecoderSetTrack</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::signalDecoderSetTrack </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac92b63c4dfd3b02a75cf880fa5297f5c" name="ac92b63c4dfd3b02a75cf880fa5297f5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac92b63c4dfd3b02a75cf880fa5297f5c">&#9670;&nbsp;</a></span>signalDeviceSwitched</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::signalDeviceSwitched </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af6744e61a029a38052ce535fe04b1c46" name="af6744e61a029a38052ce535fe04b1c46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6744e61a029a38052ce535fe04b1c46">&#9670;&nbsp;</a></span>signalForward</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::signalForward </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8a90744067640cb233b5446c5518d107" name="a8a90744067640cb233b5446c5518d107"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a90744067640cb233b5446c5518d107">&#9670;&nbsp;</a></span>signalPositionChangedBySeek</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::signalPositionChangedBySeek </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a65f536eee23a64ed229f49d144369dfa" name="a65f536eee23a64ed229f49d144369dfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65f536eee23a64ed229f49d144369dfa">&#9670;&nbsp;</a></span>signalSetTrack</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::signalSetTrack </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acefb80b4e35ee4ee38b2bef2d04bf993" name="acefb80b4e35ee4ee38b2bef2d04bf993"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acefb80b4e35ee4ee38b2bef2d04bf993">&#9670;&nbsp;</a></span>start</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a132208adf76b895d58afabfc458c9747" name="a132208adf76b895d58afabfc458c9747"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a132208adf76b895d58afabfc458c9747">&#9670;&nbsp;</a></span>stop</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void FrameController::stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>src/player/<a class="el" href="framecontroller_8hpp_source.html">framecontroller.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_frame_controller.html">FrameController</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['cmake_5ffind_5fqt_5fpath_0',['cmake_find_qt_path',['../namespacesetup.html#adaa2908f8376d8fd1f7b702517e221ec',1,'setup']]],
-  ['compiler_5fpath_1',['compiler_path',['../namespacesetup.html#afbf3bdb3f792d0a539b4368d14b8b774',1,'setup']]],
-  ['config_5ffolder_2',['config_folder',['../namespacesetup.html#ababfdb343d5ea048edfe8317bd2ec6b7',1,'setup']]],
-  ['config_5fpath_3',['config_path',['../namespacesetup.html#a5feb33d973f8feaa6af73826d1e96057',1,'setup']]],
-  ['cv_4',['cv',['../struct_packet_queue.html#a2d314c1c57ac03d6db33a0c48daed20a',1,'PacketQueue']]]
+  ['brightness_0',['brightness',['../struct_render_settings.html#a2cdb60c43f43ec312929b776d6b376ad',1,'RenderSettings']]],
+  ['build_5fdir_1',['build_dir',['../namespacebuild.html#ace5a85b36d56d987fa71cdd95903113b',1,'build.build_dir()'],['../namespacepackage.html#a6fa1ad8967ef5598c0bd3c977594aa83',1,'package.build_dir()']]]
 ];

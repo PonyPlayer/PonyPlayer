@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['len_0',['len',['../struct_sample.html#a93c78e1ef37461bdc56433a0da98af23',1,'Sample']]],
-  ['lock_1',['lock',['../struct_frame_queue.html#a32c2a22a25d9e3820de834985033bb04',1,'FrameQueue::lock()'],['../struct_packet_queue.html#a9bcd340c78392acefee1654aa9d60540',1,'PacketQueue::lock()']]]
+  ['help_0',['help',['../namespacebuild.html#a37faf92853bd92811229cdc279a452ee',1,'build.help()'],['../namespacesetup.html#af9c3a909d745695f0c54db08373a46db',1,'setup.help()']]]
 ];

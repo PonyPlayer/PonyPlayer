@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: src/wave/wave.hpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('wave_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">wave.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="wave_8hpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno"><a class="line" href="class_wave_view.html#aef19052eb194e1b2041a0fd3bc79d15c">    1</a></span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QtCore&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;lyrics.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="hurricane_8hpp.html">hurricane.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QFileInfo&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QQmlContext&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QtQuick/QQuickItem&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QQmlApplicationEngine&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="class_wave_view.html">   11</a></span><span class="keyword">class </span><a class="code hl_class" href="class_wave_view.html">WaveView</a> : <span class="keyword">public</span> QQuickItem {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>Q_OBJECT</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    Q_PROPERTY(<span class="keywordtype">float</span> <a class="code hl_property" href="class_wave_view.html#a3957f9843ec05ee1774dfb0625d9a2fe">radiusRatio</a> READ <a class="code hl_function" href="class_wave_view.html#a96bf0f75a1fccb21f01a21cdf4b432f6">getRadiusRatio</a> WRITE <a class="code hl_slot" href="class_wave_view.html#ae8a53a521febb74ded92c304279ebe54">setRadiusRatio</a> NOTIFY <a class="code hl_signal" href="class_wave_view.html#a30339f28a2d2d385c7b9d1111fe1a964">notifyRadiusRatio</a>)</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    Q_PROPERTY(QString <a class="code hl_property" href="class_wave_view.html#ac8b12317fcde9efdfd36b2e87f15bc1b">player</a> READ <a class="code hl_function" href="class_wave_view.html#a864bedc86e5b499b8db47276da180e0f">getPlayer</a> WRITE <a class="code hl_function" href="class_wave_view.html#a72510bcb367b2a1aa216a1818c2417da">setPlayer</a>)</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    Q_PROPERTY(QString <a class="code hl_property" href="class_wave_view.html#aef19052eb194e1b2041a0fd3bc79d15c">lyricsDataName</a> READ <a class="code hl_function" href="class_wave_view.html#a3461f6fe426d1d1fcef08a6848be0983">getLyricsDataName</a> WRITE <a class="code hl_function" href="class_wave_view.html#a1128cb704eeb418e6989b388f699c008">setLyricsDataName</a>)</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    QML_ELEMENT</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordtype">float</span> m_radiusRatio{};</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    QString m_player, m_lyricsDataName;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <a class="code hl_class" href="class_hurricane.html">Hurricane</a> *hurricane = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_class" href="class_lyrics_reader.html">LyricsReader</a> *lyricsReader = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <a class="code hl_class" href="class_lyrics_data.html">LyricsData</a> *lyricsData = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="class_wave_view.html#a519c48cd1285d6a43859dfc145537fa6">   25</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="class_wave_view.html#a519c48cd1285d6a43859dfc145537fa6">WaveView</a>(QQuickItem *parent = <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        lyricsReader = <span class="keyword">new</span> <a class="code hl_class" href="class_lyrics_reader.html">LyricsReader</a>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        connect(<span class="keyword">this</span>, &amp;QQuickItem::windowChanged, [<span class="keyword">this</span>](QQuickWindow *window) {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <span class="keywordflow">if</span> (!window) { <span class="keywordflow">return</span>; }</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            <span class="keyword">auto</span> *context = qmlContext(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            <span class="keywordflow">while</span> ((!hurricane || !lyricsData) &amp;&amp; context) {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                <span class="keywordflow">if</span> (!hurricane) hurricane = <span class="keyword">reinterpret_cast&lt;</span><a class="code hl_class" href="class_hurricane.html">Hurricane</a> *<span class="keyword">&gt;</span>(context-&gt;objectForName(m_player));</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                <span class="keywordflow">if</span> (!lyricsData) lyricsData = <span class="keyword">reinterpret_cast&lt;</span><a class="code hl_class" href="class_lyrics_data.html">LyricsData</a> *<span class="keyword">&gt;</span>(context-&gt;objectForName(m_lyricsDataName));</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                context = context-&gt;parentContext();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            <span class="keywordflow">if</span> (!hurricane) {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Cannot not get Hurricane by id:&quot;</span> + m_player.toStdString());</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <span class="keywordflow">if</span> (!lyricsData) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Cannot not get LyricsData by id:&quot;</span> + m_lyricsDataName.toStdString());</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            <span class="comment">//connect(hurricane, &amp;Hurricane::signalOpenFile, lyricsReader, &amp;LyricsReader::readLyric);</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            connect(lyricsReader, &amp;<a class="code hl_signal" href="class_lyrics_reader.html#a74b9a7bfb6a2ef63e52b967f4fc4bbaf">LyricsReader::lyricReadCompleted</a>, <span class="keyword">this</span>, &amp;<a class="code hl_function" href="class_wave_view.html#a4472d0f2ec48af88cf503311c0acb533">WaveView::readLyricsResponse</a>);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_wave_view.html#aa176dadffdee3ff534802d46c48684d1">WaveView::signalPushLyricSentence</a>, lyricsData, &amp;<a class="code hl_function" href="class_lyrics_data.html#a695690a280887a7e31f63e7e5ab810bd">LyricsData::pushLyricSentence</a>);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_wave_view.html#a627f5b352332a3ab4d3cefac5caab12c">WaveView::signalPushLyricSentenceCompleted</a>, lyricsData,</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                    &amp;<a class="code hl_function" href="class_lyrics_data.html#aedd25300b95edf3bd7d9354f7a5c35d4">LyricsData::pushLyricSentenceCompleted</a>);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_wave_view.html#a8c9b2cfeb4235ba25f2d9141e2e82313">WaveView::signalClearLyricSentence</a>, lyricsData,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                    &amp;<a class="code hl_slot" href="class_lyrics_data.html#af9cfa02158f9eeae2c9a559be0d8be52">LyricsData::clearLyricSentence</a>);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        });</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    };</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="class_wave_view.html#a96bf0f75a1fccb21f01a21cdf4b432f6">   53</a></span>    Q_INVOKABLE [[nodiscard]] <span class="keywordtype">float</span> <a class="code hl_function" href="class_wave_view.html#a96bf0f75a1fccb21f01a21cdf4b432f6">getRadiusRatio</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_radiusRatio; };</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="class_wave_view.html#a864bedc86e5b499b8db47276da180e0f">   55</a></span>    [[nodiscard]] <span class="keyword">const</span> QString &amp;<a class="code hl_function" href="class_wave_view.html#a864bedc86e5b499b8db47276da180e0f">getPlayer</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <span class="keywordflow">return</span> m_player;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    }</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="class_wave_view.html#a72510bcb367b2a1aa216a1818c2417da">   59</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_wave_view.html#a72510bcb367b2a1aa216a1818c2417da">setPlayer</a>(<span class="keyword">const</span> QString &amp;<a class="code hl_property" href="class_wave_view.html#ac8b12317fcde9efdfd36b2e87f15bc1b">player</a>) {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        m_player = <a class="code hl_property" href="class_wave_view.html#ac8b12317fcde9efdfd36b2e87f15bc1b">player</a>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;Set&quot;</span> &lt;&lt; <a class="code hl_property" href="class_wave_view.html#ac8b12317fcde9efdfd36b2e87f15bc1b">player</a>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="class_wave_view.html#a3461f6fe426d1d1fcef08a6848be0983">   64</a></span>    [[nodiscard]] <span class="keyword">const</span> QString &amp;<a class="code hl_function" href="class_wave_view.html#a3461f6fe426d1d1fcef08a6848be0983">getLyricsDataName</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keywordflow">return</span> m_lyricsDataName;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="class_wave_view.html#a1128cb704eeb418e6989b388f699c008">   68</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_wave_view.html#a1128cb704eeb418e6989b388f699c008">setLyricsDataName</a>(<span class="keyword">const</span> QString &amp;<a class="code hl_property" href="class_wave_view.html#aef19052eb194e1b2041a0fd3bc79d15c">lyricsDataName</a>) {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        m_lyricsDataName = <a class="code hl_property" href="class_wave_view.html#aef19052eb194e1b2041a0fd3bc79d15c">lyricsDataName</a>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;Set&quot;</span> &lt;&lt; <a class="code hl_property" href="class_wave_view.html#aef19052eb194e1b2041a0fd3bc79d15c">lyricsDataName</a>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keyword">public</span> slots:</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="class_wave_view.html#ae8a53a521febb74ded92c304279ebe54">   74</a></span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_slot" href="class_wave_view.html#ae8a53a521febb74ded92c304279ebe54">setRadiusRatio</a>(<span class="keywordtype">float</span> <a class="code hl_property" href="class_wave_view.html#a3957f9843ec05ee1774dfb0625d9a2fe">radiusRatio</a>) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        m_radiusRatio = <a class="code hl_property" href="class_wave_view.html#a3957f9843ec05ee1774dfb0625d9a2fe">radiusRatio</a>; emit <a class="code hl_signal" href="class_wave_view.html#a30339f28a2d2d385c7b9d1111fe1a964">notifyRadiusRatio</a>();</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    };</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="class_wave_view.html#a4472d0f2ec48af88cf503311c0acb533">   78</a></span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_function" href="class_wave_view.html#a4472d0f2ec48af88cf503311c0acb533">readLyricsResponse</a>(std::shared_ptr&lt;lrc::Lyrics&gt; lyrics) {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = lyrics-&gt;IteratorBegin(); it != lyrics-&gt;IteratorEnd(); it++) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            emit <a class="code hl_signal" href="class_wave_view.html#aa176dadffdee3ff534802d46c48684d1">signalPushLyricSentence</a>(</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                    <span class="keyword">new</span> <a class="code hl_class" href="class_lyric_sentence.html">LyricSentence</a>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(it-&gt;start_time) / 1000,</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                                      <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(it-&gt;end_time) / 1000,</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                                      QString(it-&gt;lyric.data())));</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        emit <a class="code hl_signal" href="class_wave_view.html#a627f5b352332a3ab4d3cefac5caab12c">signalPushLyricSentenceCompleted</a>();</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="class_wave_view.html#a52c350d109019d82a5b96fe637a382cf">   89</a></span>    Q_INVOKABLE <span class="keywordtype">bool</span> <a class="code hl_function" href="class_wave_view.html#a52c350d109019d82a5b96fe637a382cf">readLyrics</a>(<span class="keyword">const</span> QString &amp;filePath) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        lyricsReader-&gt;<a class="code hl_slot" href="class_lyrics_reader.html#a6503ea1409c50f7383253bd422ccf079">readLyric</a>(filePath);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    }</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="class_wave_view.html#a34bbb3bcfe43ea802e94b8843b99591f">   94</a></span>    Q_INVOKABLE <span class="keywordtype">bool</span> <a class="code hl_function" href="class_wave_view.html#a34bbb3bcfe43ea802e94b8843b99591f">tryLoadLyrics</a>(<span class="keyword">const</span> QString &amp;filePath) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        emit <a class="code hl_signal" href="class_wave_view.html#a8c9b2cfeb4235ba25f2d9141e2e82313">signalClearLyricSentence</a>();</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        QUrl url(filePath);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        QString lrcPath =</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                QFileInfo(url.toLocalFile()).dir().path() + <span class="stringliteral">&quot;/&quot;</span> + QFileInfo(url.toLocalFile()).completeBaseName() +</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                <span class="stringliteral">&quot;.lrc&quot;</span>;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">if</span> (QFile(lrcPath).exists()) <a class="code hl_function" href="class_wave_view.html#a52c350d109019d82a5b96fe637a382cf">readLyrics</a>(lrcPath);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    }</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>signals:</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="class_wave_view.html#aa176dadffdee3ff534802d46c48684d1">  106</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_wave_view.html#aa176dadffdee3ff534802d46c48684d1">signalPushLyricSentence</a>(<a class="code hl_class" href="class_lyric_sentence.html">LyricSentence</a> *lyricSentence);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="class_wave_view.html#a8c9b2cfeb4235ba25f2d9141e2e82313">  108</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_wave_view.html#a8c9b2cfeb4235ba25f2d9141e2e82313">signalClearLyricSentence</a>();</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="class_wave_view.html#a30339f28a2d2d385c7b9d1111fe1a964">  110</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_wave_view.html#a30339f28a2d2d385c7b9d1111fe1a964">notifyRadiusRatio</a>();</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="class_wave_view.html#a627f5b352332a3ab4d3cefac5caab12c">  112</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_wave_view.html#a627f5b352332a3ab4d3cefac5caab12c">signalPushLyricSentenceCompleted</a>();</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>};</div>
+<div class="ttc" id="aclass_hurricane_html"><div class="ttname"><a href="class_hurricane.html">Hurricane</a></div><div class="ttdoc">播放器 QuickItem 组件，提供暴露给 QML 的接口。</div><div class="ttdef"><b>Definition:</b> hurricane.hpp:28</div></div>
+<div class="ttc" id="aclass_lyric_sentence_html"><div class="ttname"><a href="class_lyric_sentence.html">LyricSentence</a></div><div class="ttdef"><b>Definition:</b> lyrics.h:9</div></div>
+<div class="ttc" id="aclass_lyrics_data_html"><div class="ttname"><a href="class_lyrics_data.html">LyricsData</a></div><div class="ttdef"><b>Definition:</b> lyrics.h:52</div></div>
+<div class="ttc" id="aclass_lyrics_data_html_a695690a280887a7e31f63e7e5ab810bd"><div class="ttname"><a href="class_lyrics_data.html#a695690a280887a7e31f63e7e5ab810bd">LyricsData::pushLyricSentence</a></div><div class="ttdeci">void pushLyricSentence(LyricSentence *sentence)</div><div class="ttdef"><b>Definition:</b> lyrics.h:97</div></div>
+<div class="ttc" id="aclass_lyrics_data_html_aedd25300b95edf3bd7d9354f7a5c35d4"><div class="ttname"><a href="class_lyrics_data.html#aedd25300b95edf3bd7d9354f7a5c35d4">LyricsData::pushLyricSentenceCompleted</a></div><div class="ttdeci">void pushLyricSentenceCompleted()</div><div class="ttdef"><b>Definition:</b> lyrics.h:102</div></div>
+<div class="ttc" id="aclass_lyrics_data_html_af9cfa02158f9eeae2c9a559be0d8be52"><div class="ttname"><a href="class_lyrics_data.html#af9cfa02158f9eeae2c9a559be0d8be52">LyricsData::clearLyricSentence</a></div><div class="ttdeci">void clearLyricSentence()</div><div class="ttdef"><b>Definition:</b> lyrics.h:95</div></div>
+<div class="ttc" id="aclass_lyrics_reader_html"><div class="ttname"><a href="class_lyrics_reader.html">LyricsReader</a></div><div class="ttdef"><b>Definition:</b> lyrics.h:107</div></div>
+<div class="ttc" id="aclass_lyrics_reader_html_a6503ea1409c50f7383253bd422ccf079"><div class="ttname"><a href="class_lyrics_reader.html#a6503ea1409c50f7383253bd422ccf079">LyricsReader::readLyric</a></div><div class="ttdeci">void readLyric(const QString &amp;url)</div><div class="ttdef"><b>Definition:</b> lyrics.cpp:8</div></div>
+<div class="ttc" id="aclass_lyrics_reader_html_a74b9a7bfb6a2ef63e52b967f4fc4bbaf"><div class="ttname"><a href="class_lyrics_reader.html#a74b9a7bfb6a2ef63e52b967f4fc4bbaf">LyricsReader::lyricReadCompleted</a></div><div class="ttdeci">void lyricReadCompleted(std::shared_ptr&lt; lrc::Lyrics &gt; response)</div></div>
+<div class="ttc" id="aclass_wave_view_html"><div class="ttname"><a href="class_wave_view.html">WaveView</a></div><div class="ttdef"><b>Definition:</b> wave.hpp:11</div></div>
+<div class="ttc" id="aclass_wave_view_html_a1128cb704eeb418e6989b388f699c008"><div class="ttname"><a href="class_wave_view.html#a1128cb704eeb418e6989b388f699c008">WaveView::setLyricsDataName</a></div><div class="ttdeci">void setLyricsDataName(const QString &amp;lyricsDataName)</div><div class="ttdef"><b>Definition:</b> wave.hpp:68</div></div>
+<div class="ttc" id="aclass_wave_view_html_a30339f28a2d2d385c7b9d1111fe1a964"><div class="ttname"><a href="class_wave_view.html#a30339f28a2d2d385c7b9d1111fe1a964">WaveView::notifyRadiusRatio</a></div><div class="ttdeci">void notifyRadiusRatio()</div></div>
+<div class="ttc" id="aclass_wave_view_html_a3461f6fe426d1d1fcef08a6848be0983"><div class="ttname"><a href="class_wave_view.html#a3461f6fe426d1d1fcef08a6848be0983">WaveView::getLyricsDataName</a></div><div class="ttdeci">const QString &amp; getLyricsDataName() const</div><div class="ttdef"><b>Definition:</b> wave.hpp:64</div></div>
+<div class="ttc" id="aclass_wave_view_html_a34bbb3bcfe43ea802e94b8843b99591f"><div class="ttname"><a href="class_wave_view.html#a34bbb3bcfe43ea802e94b8843b99591f">WaveView::tryLoadLyrics</a></div><div class="ttdeci">Q_INVOKABLE bool tryLoadLyrics(const QString &amp;filePath)</div><div class="ttdef"><b>Definition:</b> wave.hpp:94</div></div>
+<div class="ttc" id="aclass_wave_view_html_a3957f9843ec05ee1774dfb0625d9a2fe"><div class="ttname"><a href="class_wave_view.html#a3957f9843ec05ee1774dfb0625d9a2fe">WaveView::radiusRatio</a></div><div class="ttdeci">float radiusRatio</div><div class="ttdef"><b>Definition:</b> wave.hpp:13</div></div>
+<div class="ttc" id="aclass_wave_view_html_a4472d0f2ec48af88cf503311c0acb533"><div class="ttname"><a href="class_wave_view.html#a4472d0f2ec48af88cf503311c0acb533">WaveView::readLyricsResponse</a></div><div class="ttdeci">Q_INVOKABLE void readLyricsResponse(std::shared_ptr&lt; lrc::Lyrics &gt; lyrics)</div><div class="ttdef"><b>Definition:</b> wave.hpp:78</div></div>
+<div class="ttc" id="aclass_wave_view_html_a519c48cd1285d6a43859dfc145537fa6"><div class="ttname"><a href="class_wave_view.html#a519c48cd1285d6a43859dfc145537fa6">WaveView::WaveView</a></div><div class="ttdeci">WaveView(QQuickItem *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> wave.hpp:25</div></div>
+<div class="ttc" id="aclass_wave_view_html_a52c350d109019d82a5b96fe637a382cf"><div class="ttname"><a href="class_wave_view.html#a52c350d109019d82a5b96fe637a382cf">WaveView::readLyrics</a></div><div class="ttdeci">Q_INVOKABLE bool readLyrics(const QString &amp;filePath)</div><div class="ttdef"><b>Definition:</b> wave.hpp:89</div></div>
+<div class="ttc" id="aclass_wave_view_html_a627f5b352332a3ab4d3cefac5caab12c"><div class="ttname"><a href="class_wave_view.html#a627f5b352332a3ab4d3cefac5caab12c">WaveView::signalPushLyricSentenceCompleted</a></div><div class="ttdeci">void signalPushLyricSentenceCompleted()</div></div>
+<div class="ttc" id="aclass_wave_view_html_a72510bcb367b2a1aa216a1818c2417da"><div class="ttname"><a href="class_wave_view.html#a72510bcb367b2a1aa216a1818c2417da">WaveView::setPlayer</a></div><div class="ttdeci">void setPlayer(const QString &amp;player)</div><div class="ttdef"><b>Definition:</b> wave.hpp:59</div></div>
+<div class="ttc" id="aclass_wave_view_html_a864bedc86e5b499b8db47276da180e0f"><div class="ttname"><a href="class_wave_view.html#a864bedc86e5b499b8db47276da180e0f">WaveView::getPlayer</a></div><div class="ttdeci">const QString &amp; getPlayer() const</div><div class="ttdef"><b>Definition:</b> wave.hpp:55</div></div>
+<div class="ttc" id="aclass_wave_view_html_a8c9b2cfeb4235ba25f2d9141e2e82313"><div class="ttname"><a href="class_wave_view.html#a8c9b2cfeb4235ba25f2d9141e2e82313">WaveView::signalClearLyricSentence</a></div><div class="ttdeci">void signalClearLyricSentence()</div></div>
+<div class="ttc" id="aclass_wave_view_html_a96bf0f75a1fccb21f01a21cdf4b432f6"><div class="ttname"><a href="class_wave_view.html#a96bf0f75a1fccb21f01a21cdf4b432f6">WaveView::getRadiusRatio</a></div><div class="ttdeci">Q_INVOKABLE float getRadiusRatio() const</div><div class="ttdef"><b>Definition:</b> wave.hpp:53</div></div>
+<div class="ttc" id="aclass_wave_view_html_aa176dadffdee3ff534802d46c48684d1"><div class="ttname"><a href="class_wave_view.html#aa176dadffdee3ff534802d46c48684d1">WaveView::signalPushLyricSentence</a></div><div class="ttdeci">void signalPushLyricSentence(LyricSentence *lyricSentence)</div></div>
+<div class="ttc" id="aclass_wave_view_html_ac8b12317fcde9efdfd36b2e87f15bc1b"><div class="ttname"><a href="class_wave_view.html#ac8b12317fcde9efdfd36b2e87f15bc1b">WaveView::player</a></div><div class="ttdeci">QString player</div><div class="ttdef"><b>Definition:</b> wave.hpp:14</div></div>
+<div class="ttc" id="aclass_wave_view_html_ae8a53a521febb74ded92c304279ebe54"><div class="ttname"><a href="class_wave_view.html#ae8a53a521febb74ded92c304279ebe54">WaveView::setRadiusRatio</a></div><div class="ttdeci">Q_INVOKABLE void setRadiusRatio(float radiusRatio)</div><div class="ttdef"><b>Definition:</b> wave.hpp:74</div></div>
+<div class="ttc" id="aclass_wave_view_html_aef19052eb194e1b2041a0fd3bc79d15c"><div class="ttname"><a href="class_wave_view.html#aef19052eb194e1b2041a0fd3bc79d15c">WaveView::lyricsDataName</a></div><div class="ttdeci">QString lyricsDataName</div><div class="ttdef"><b>Definition:</b> wave.hpp:15</div></div>
+<div class="ttc" id="ahurricane_8hpp_html"><div class="ttname"><a href="hurricane_8hpp.html">hurricane.hpp</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_b33674de6843d4cf63b42f6a7e6012fb.html">wave</a></li><li class="navelem"><a class="el" href="wave_8hpp.html">wave.hpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: DecoderContext类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_decoder_context.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-attribs">Public 属性</a> &#124;
+<a href="class_decoder_context-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">DecoderContext类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="decoders_8hpp_source.html">decoders.hpp</a>&gt;</code></p>
+<div class="dynheader">
+类 DecoderContext 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_decoder_context.png" usemap="#DecoderContext_map" alt=""/>
+  <map id="DecoderContext_map" name="DecoderContext_map">
+<area href="class_decoder_impl.html" alt="DecoderImpl&lt; Common &gt;" shape="rect" coords="106,56,308,80"/>
+<area href="class_reverse_decoder_impl.html" alt="ReverseDecoderImpl&lt; Common &gt;" shape="rect" coords="530,56,732,80"/>
+<area href="class_decoder_impl.html" alt="DecoderImpl&lt; type &gt;" shape="rect" coords="742,56,944,80"/>
+<area href="class_reverse_decoder_impl.html" alt="ReverseDecoderImpl&lt; type &gt;" shape="rect" coords="954,56,1156,80"/>
+<area href="class_decoder_impl_3_01_audio_01_4.html" alt="DecoderImpl&lt; Audio &gt;" shape="rect" coords="0,112,202,136"/>
+<area href="class_decoder_impl_3_01_video_01_4.html" alt="DecoderImpl&lt; Video &gt;" shape="rect" coords="212,112,414,136"/>
+<area href="class_reverse_decoder_impl_3_01_audio_01_4.html" alt="ReverseDecoderImpl&lt; Audio &gt;" shape="rect" coords="424,112,626,136"/>
+<area href="class_reverse_decoder_impl_3_01_video_01_4.html" alt="ReverseDecoderImpl&lt; Video &gt;" shape="rect" coords="636,112,838,136"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:acc185b9edb84ec945f60c614adc00a54"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decoder_context.html#acc185b9edb84ec945f60c614adc00a54">DecoderContext</a> (AVStream *vs)</td></tr>
+<tr class="separator:acc185b9edb84ec945f60c614adc00a54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a922a7d34a4ae4beaf81c632c0032d158"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decoder_context.html#a922a7d34a4ae4beaf81c632c0032d158">~DecoderContext</a> ()</td></tr>
+<tr class="separator:a922a7d34a4ae4beaf81c632c0032d158"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public 属性</h2></td></tr>
+<tr class="memitem:a22f784e4b5a7d35fdaedaa4ba6eae225"><td class="memItemLeft" align="right" valign="top">AVCodec *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decoder_context.html#a22f784e4b5a7d35fdaedaa4ba6eae225">codec</a> = nullptr</td></tr>
+<tr class="separator:a22f784e4b5a7d35fdaedaa4ba6eae225"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab3f8f629c4f5a24ed13691af4076117"><td class="memItemLeft" align="right" valign="top">AVStream *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decoder_context.html#aab3f8f629c4f5a24ed13691af4076117">stream</a> = nullptr</td></tr>
+<tr class="separator:aab3f8f629c4f5a24ed13691af4076117"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fec2cff4505c6bdc46a2ef4f311fd35"><td class="memItemLeft" align="right" valign="top">AVCodecContext *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decoder_context.html#a8fec2cff4505c6bdc46a2ef4f311fd35">codecCtx</a> = nullptr</td></tr>
+<tr class="separator:a8fec2cff4505c6bdc46a2ef4f311fd35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a846d2586cf5105db91a5e86502563e82"><td class="memItemLeft" align="right" valign="top">AVFrame *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decoder_context.html#a846d2586cf5105db91a5e86502563e82">frameBuf</a> = nullptr</td></tr>
+<tr class="separator:a846d2586cf5105db91a5e86502563e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="acc185b9edb84ec945f60c614adc00a54" name="acc185b9edb84ec945f60c614adc00a54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc185b9edb84ec945f60c614adc00a54">&#9670;&nbsp;</a></span>DecoderContext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DecoderContext::DecoderContext </td>
+          <td>(</td>
+          <td class="paramtype">AVStream *&#160;</td>
+          <td class="paramname"><em>vs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a922a7d34a4ae4beaf81c632c0032d158" name="a922a7d34a4ae4beaf81c632c0032d158"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a922a7d34a4ae4beaf81c632c0032d158">&#9670;&nbsp;</a></span>~DecoderContext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DecoderContext::~DecoderContext </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a22f784e4b5a7d35fdaedaa4ba6eae225" name="a22f784e4b5a7d35fdaedaa4ba6eae225"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22f784e4b5a7d35fdaedaa4ba6eae225">&#9670;&nbsp;</a></span>codec</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">AVCodec* DecoderContext::codec = nullptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8fec2cff4505c6bdc46a2ef4f311fd35" name="a8fec2cff4505c6bdc46a2ef4f311fd35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fec2cff4505c6bdc46a2ef4f311fd35">&#9670;&nbsp;</a></span>codecCtx</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">AVCodecContext* DecoderContext::codecCtx = nullptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a846d2586cf5105db91a5e86502563e82" name="a846d2586cf5105db91a5e86502563e82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a846d2586cf5105db91a5e86502563e82">&#9670;&nbsp;</a></span>frameBuf</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">AVFrame* DecoderContext::frameBuf = nullptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aab3f8f629c4f5a24ed13691af4076117" name="aab3f8f629c4f5a24ed13691af4076117"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab3f8f629c4f5a24ed13691af4076117">&#9670;&nbsp;</a></span>stream</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">AVStream* DecoderContext::stream = nullptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>src/decoder/private/<a class="el" href="decoders_8hpp_source.html">decoders.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_decoder_context.html">DecoderContext</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

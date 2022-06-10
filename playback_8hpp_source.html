@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: src/player/playback.hpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('playback_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">playback.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="playback_8hpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">//</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// Created by ColorsWind on 2022/5/5.</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#ifndef PONYPLAYER_VIDEOWORKER_H</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="playback_8hpp.html#a569dd07b2a1c39cb2ca9f762291a032b">    6</a></span><span class="preprocessor">#define PONYPLAYER_VIDEOWORKER_H</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QThread&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;QCoreApplication&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="demuxer_8hpp.html">demuxer.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;<a class="code" href="audiosink_8hpp.html">audiosink.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;<a class="code" href="frame_8hpp.html">frame.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="class_playback.html">   22</a></span><span class="keyword">class </span><a class="code hl_class" href="class_playback.html">Playback</a> : <span class="keyword">public</span> QObject {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>Q_OBJECT</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    QThread *m_affinityThread;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_class" href="class_demuxer.html">Demuxer</a> *m_demuxer;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> cacheVideoFrame;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <a class="code hl_class" href="class_pony_audio_sink.html">PonyAudioSink</a> *m_audioSink = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    std::atomic&lt;bool&gt; m_isInterrupt;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    std::atomic&lt;bool&gt; m_isPlaying;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    std::mutex m_interruptMutex;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    std::mutex m_workMutex;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    std::condition_variable m_interruptCond;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">// playback 的速度, 不受倍速限制</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    qreal m_speedFactor = 1.0;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    std::atomic&lt;qreal&gt; m_preferablePos = 0.0;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keyword">inline</span> <span class="keywordtype">void</span> changeState(<span class="keywordtype">bool</span> <a class="code hl_function" href="class_playback.html#a1c4fc252b0bae065b8d2086b41c72a64">isPlaying</a>) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        m_isPlaying = <a class="code hl_function" href="class_playback.html#a1c4fc252b0bae065b8d2086b41c72a64">isPlaying</a>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        emit <a class="code hl_signal" href="class_playback.html#a64132f8ee7ec4838da0ec45b57468d4e">stateChanged</a>(<a class="code hl_function" href="class_playback.html#a1c4fc252b0bae065b8d2086b41c72a64">isPlaying</a>);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keyword">inline</span> <span class="keywordtype">void</span> syncTo(qreal current) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keywordtype">bool</span> backward = m_demuxer-&gt;<a class="code hl_function" href="class_demuxer.html#aa04c8073ec0dbd9db7aa83349b534931">isBackward</a>();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordtype">double</span> duration;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keywordflow">if</span> (!m_demuxer-&gt;<a class="code hl_function" href="class_demuxer.html#aecb1d8412975b0a2aa980d5ee86fd706">hasVideo</a>()) {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            <span class="comment">// 纯音频</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            duration = 1. / 30;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            m_preferablePos = m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ab957e88d57845120bb21a8ed055f49d3">getProcessSecs</a>(backward);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            qreal pos = m_demuxer-&gt;<a class="code hl_function" href="class_demuxer.html#a116d5fd30eea2ef058ddc06ff473f563">frontPicture</a>();</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            <span class="keywordflow">if</span> (isnan(pos)) { <span class="keywordflow">return</span>; }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            m_preferablePos = current;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <span class="keywordflow">if</span> (m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ac1dc7b6867c72e216051d5ee17d531e6">isBlock</a>()) {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                <span class="comment">// 由于没有音频</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                duration = (current - pos) / m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#a9a9ba66a2d280ee050b1225b418409c4">speed</a>();</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                <span class="keywordflow">if</span> (m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#a9a9ba66a2d280ee050b1225b418409c4">speed</a>() &gt; 2 - 1e-5) {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                    <span class="keywordflow">if</span> (!backward) {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                        m_demuxer-&gt;<a class="code hl_function" href="class_demuxer.html#a0cb45f14d52e736bedacb2f07c1d7ad0">skipPicture</a>([<span class="keyword">this</span>, backward](qreal framePos) {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                            <span class="keywordflow">return</span> framePos &lt; m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ab957e88d57845120bb21a8ed055f49d3">getProcessSecs</a>(backward);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                        });</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                        m_demuxer-&gt;<a class="code hl_function" href="class_demuxer.html#a0cb45f14d52e736bedacb2f07c1d7ad0">skipPicture</a>([<span class="keyword">this</span>, backward](qreal framePos) {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                            <span class="keywordflow">return</span> framePos &gt; m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ab957e88d57845120bb21a8ed055f49d3">getProcessSecs</a>(backward);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                        });</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                    }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                duration = m_demuxer-&gt;<a class="code hl_function" href="class_demuxer.html#a116d5fd30eea2ef058ddc06ff473f563">frontPicture</a>() - m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ab957e88d57845120bb21a8ed055f49d3">getProcessSecs</a>(backward);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keywordflow">if</span> (backward) { duration = -duration; }</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordflow">if</span> (duration &gt; 0) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            <span class="keywordflow">if</span> (duration &gt; 1) {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                qWarning() &lt;&lt; <span class="stringliteral">&quot;Sleep long duration&quot;</span> &lt;&lt; duration &lt;&lt; <span class="stringliteral">&quot;s&quot;</span>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            }</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            std::unique_lock lock(m_interruptMutex);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            <span class="keywordflow">if</span> (!m_isInterrupt) {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                m_interruptCond.wait_for(lock, std::chrono::duration&lt;double&gt;(duration));</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            }</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            qWarning() &lt;&lt; <span class="stringliteral">&quot;Sleep negative duration&quot;</span> &lt;&lt; duration &lt;&lt; <span class="stringliteral">&quot;s&quot;</span>;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    }</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keyword">inline</span> <span class="keywordtype">bool</span> writeAudio(<span class="keywordtype">int</span> batch) {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">if</span> (m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ac1dc7b6867c72e216051d5ee17d531e6">isBlock</a>()) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; batch &amp;&amp; m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#a33cf6d2afaaa4c66b31186f39cfec502">freeByte</a>() &gt; <a class="code hl_variable" href="helper_8hpp.html#ad0eea03f324b212b488b01af6845c064">MAX_AUDIO_FRAME_SIZE</a>; ++i) {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            <a class="code hl_class" href="class_audio_frame.html">AudioFrame</a> sample = m_demuxer-&gt;<a class="code hl_function" href="class_demuxer.html#a56a3ce3dec35f8509a8f833c5e45fc51">getSample</a>();</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <span class="keywordflow">if</span> (!sample.<a class="code hl_function" href="class_audio_frame.html#ad2db725af67a53b42e661ababa6615e1">isValid</a>()) { <span class="keywordflow">return</span> <span class="keyword">false</span>; }</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#af98c2ec65d7ddda96f2faaea665f58b6">write</a>(<span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">char</span> *<span class="keyword">&gt;</span>(sample.<a class="code hl_function" href="class_audio_frame.html#aa39eb6af5e4603cb662cf50a0d017b78">getSampleData</a>()), sample.<a class="code hl_function" href="class_audio_frame.html#a2df9938052fb8aaf52c7ce2566abbdc4">getDataLen</a>());</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        }</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    }</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <a class="code hl_define" href="ponyplayer_8h.html#ac25e44376b574b1f59790ac6f64c9336">PONY_GUARD_BY</a>(<a class="code hl_variable" href="namespace_pony_player.html#a822958961f75d7a2d53a2d9b651b4898">PLAYBACK</a>)</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> getVideoFrame() {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">if</span> (cacheVideoFrame.<a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>()) {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> ret = std::move(cacheVideoFrame);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            cacheVideoFrame = {};</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <span class="keywordflow">return</span> ret;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            <span class="keywordflow">return</span> m_demuxer-&gt;<a class="code hl_function" href="class_demuxer.html#abf0681243a6a46ea7a0509fa03fd7b94">getPicture</a>();</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        }</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="class_playback.html#a8f431ca7e445ad49e43b846ab971aecc">  113</a></span>    <a class="code hl_function" href="class_playback.html#a8f431ca7e445ad49e43b846ab971aecc">Playback</a>(<a class="code hl_class" href="class_demuxer.html">Demuxer</a> *demuxer, QObject *parent) : QObject(nullptr), m_demuxer(demuxer) {</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        m_affinityThread = <span class="keyword">new</span> QThread;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        m_affinityThread-&gt;setObjectName(<a class="code hl_variable" href="namespace_pony_player.html#a822958961f75d7a2d53a2d9b651b4898">PonyPlayer::PLAYBACK</a>);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        this-&gt;moveToThread(m_affinityThread);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_playback.html#a90f4bf872e10833da89b1006de634df0">Playback::startWork</a>, <span class="keyword">this</span>, &amp;Playback::onWork);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_playback.html#a72e6aa5ecd1ed5ea5a52324caf1ac3a0">Playback::stopWork</a>, <span class="keyword">this</span>, [<span class="keyword">this</span>] { this-&gt;m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#a5529d909cadb603de7f7a46d57b86f56">stop</a>(); });</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_playback.html#abfd2460bfa614f225c9f3aa8a6c87ed8">Playback::setAudioStartPoint</a>, <span class="keyword">this</span>, [<span class="keyword">this</span>](qreal t) { this-&gt;m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ac726224f9d1b7101fb12ead9a588ddf6">setStartPoint</a>(t); });</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_playback.html#a41afdcd0c69cde4142455fe49dc06301">Playback::setAudioVolume</a>, <span class="keyword">this</span>, [<span class="keyword">this</span>](qreal volume) { this-&gt;m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#a0c68a1e4f02184914195bcc4d081850c">setVolume</a>(volume); });</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_playback.html#a983c7ff33c7682c9c528d1eef2cbd408">Playback::setAudioPitch</a>, <span class="keyword">this</span>, [<span class="keyword">this</span>](qreal pitch) { this-&gt;m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#aa0861713990503502cd16152386088d6">setPitch</a>(pitch); });</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_playback.html#af41a81961f3696d1dd2449fa73b25fdc">Playback::setAudioSpeed</a>, <span class="keyword">this</span>, [<span class="keyword">this</span>](qreal speed) {</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>            m_speedFactor = speed;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            this-&gt;m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#a16e9cd5eaca42f023b5bd445a65f8e02">setSpeed</a>(speed);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            <span class="keywordflow">if</span> (speed &gt; <a class="code hl_variable" href="class_pony_audio_sink.html#ac60e25afde2e495ed89653f21f94ccd1">PonyAudioSink::MAX_SPEED_FACTOR</a>) {</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                <span class="keywordflow">if</span> (this-&gt;m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ac1dc7b6867c72e216051d5ee17d531e6">isBlock</a>()) { return; }</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                <span class="comment">// 需要禁用音频</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                this-&gt;m_audioSink-&gt;setBlockState(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                emit <a class="code hl_signal" href="class_playback.html#accf1398c8f3cb6c24b531ad557a5e81b">requestResynchronization</a>(<span class="keyword">false</span>, <span class="keyword">false</span>); <span class="comment">// queue connection</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (speed &lt;= <a class="code hl_variable" href="class_pony_audio_sink.html#ac60e25afde2e495ed89653f21f94ccd1">PonyAudioSink::MAX_SPEED_FACTOR</a>) {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>                <span class="keywordflow">if</span> (!this-&gt;m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ac1dc7b6867c72e216051d5ee17d531e6">isBlock</a>()) { return; }</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                <span class="comment">// 需要重新启动音频</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                this-&gt;m_audioSink-&gt;setBlockState(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                emit <a class="code hl_signal" href="class_playback.html#accf1398c8f3cb6c24b531ad557a5e81b">requestResynchronization</a>(<span class="keyword">true</span>, <span class="keyword">false</span>); <span class="comment">// queue connection</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            }</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        });</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_playback.html#a647ec0ce7dcc61c880de27ef9176b504">Playback::showFirstVideoFrame</a>, <span class="keyword">this</span>, [<span class="keyword">this</span>] {</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>            <span class="keywordflow">if</span> (!cacheVideoFrame.<a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>()) { cacheVideoFrame = m_demuxer-&gt;getPicture(); }</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            emit <a class="code hl_signal" href="class_playback.html#ad3599e7c5e902df293116e1907dd835a">setPicture</a>(cacheVideoFrame);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        });</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_playback.html#a647ec0ce7dcc61c880de27ef9176b504">Playback::showFirstVideoFrame</a>, <span class="keyword">this</span>, [<span class="keyword">this</span>] {</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>            cacheVideoFrame = {};</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        });</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_playback.html#ae0ce34351f7bc2dd9d23d5fa82738656">Playback::clearRingBuffer</a>, <span class="keyword">this</span>, [<span class="keyword">this</span>] { this-&gt;m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ac0dbe43246c46eb124bc418051a759af">clear</a>(); });</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        connect(m_affinityThread, &amp;QThread::started, [<span class="keyword">this</span>] {</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            <span class="comment">// 在 Playback 线程上初始化</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>            this-&gt;m_audioSink = <span class="keyword">new</span> <a class="code hl_class" href="class_pony_audio_sink.html">PonyAudioSink</a>(<a class="code hl_variable" href="namespace_pony_player.html#a80461119237b4c630e68bb6108bae055">PonyPlayer::DEFAULT_AUDIO_FORMAT</a>);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            connect(m_audioSink, &amp;<a class="code hl_signal" href="class_pony_audio_sink.html#a96d55cee05290ceac063ea91b09fae4e">PonyAudioSink::signalDeviceSwitched</a>, <span class="keyword">this</span>, [<span class="keyword">this</span>] {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                emit <a class="code hl_signal" href="class_playback.html#a37e2926a37e8382d7d64ac9f83db5b21">signalDeviceSwitched</a>();</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                emit <a class="code hl_signal" href="class_playback.html#accf1398c8f3cb6c24b531ad557a5e81b">requestResynchronization</a>(!this-&gt;m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ac1dc7b6867c72e216051d5ee17d531e6">isBlock</a>(), <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            }, Qt::QueuedConnection);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>            connect(<span class="keyword">this</span>, &amp;<a class="code hl_signal" href="class_playback.html#aa53339d3edfc4694df903ab55ce7da2c">Playback::signalSetSelectedAudioOutputDevice</a>, m_audioSink,</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>                    &amp;<a class="code hl_slot" href="class_pony_audio_sink.html#a59b38bbabd945821d2f1b7a93c832614">PonyAudioSink::requestDeviceSwitch</a>);</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            connect(m_audioSink, &amp;<a class="code hl_signal" href="class_pony_audio_sink.html#aea439cea285ea8b31d327961d667da8e">PonyAudioSink::signalAudioOutputDeviceListChanged</a>, <span class="keyword">this</span>, [<span class="keyword">this</span>] {</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>                emit <a class="code hl_signal" href="class_playback.html#ae3d2159c0d8f28a198b18dd4ce7355cb">signalAudioOutputDevicesListChanged</a>();</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            });</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            emit <a class="code hl_signal" href="class_playback.html#ae3d2159c0d8f28a198b18dd4ce7355cb">signalAudioOutputDevicesListChanged</a>();</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        });</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        m_affinityThread-&gt;start();</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    }</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="class_playback.html#a6f1e0000722b01143295aca343a49adc">  162</a></span>    PONY_THREAD_SAFE qreal <a class="code hl_function" href="class_playback.html#a6f1e0000722b01143295aca343a49adc">getPreferablePos</a>() {</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        <span class="keywordflow">return</span> m_preferablePos;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    }</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="class_playback.html#ad82e284fe9aa152572acadb395fb8fad">  166</a></span>    <a class="code hl_class" href="class_pony_audio_format.html">PonyAudioFormat</a> <a class="code hl_function" href="class_playback.html#ad82e284fe9aa152572acadb395fb8fad">getDeviceFormat</a>() {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        std::unique_lock lock(m_workMutex);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordflow">return</span> m_audioSink-&gt;<a class="code hl_slot" href="class_pony_audio_sink.html#a43e96436072c927eefb259633de6ae86">getCurrentDeviceFormat</a>();</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    }</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="class_playback.html#a7e3d0510f3b9613b387e61b8c12f956e">  171</a></span>    [[nodiscard]] qreal <a class="code hl_function" href="class_playback.html#a7e3d0510f3b9613b387e61b8c12f956e">getAudioPos</a>(<span class="keywordtype">bool</span> backward)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordflow">if</span> (m_speedFactor &lt; <a class="code hl_variable" href="class_pony_audio_sink.html#ac60e25afde2e495ed89653f21f94ccd1">PonyAudioSink::MAX_SPEED_FACTOR</a>) {</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            <span class="keywordflow">return</span> m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ab957e88d57845120bb21a8ed055f49d3">getProcessSecs</a>(backward);</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>            <a class="code hl_define" href="ponyplayer_8h.html#a4b02e2c27cfd7a3f72cc70691d3d839c">ILLEGAL_STATE</a>(<span class="stringliteral">&quot;AudioPos not available.&quot;</span>);</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        }</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    }</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="class_playback.html#aa6879436b3cb2361b8329d72a4ad8609">  180</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_playback.html#aa6879436b3cb2361b8329d72a4ad8609">setDesiredFormat</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_pony_audio_format.html">PonyAudioFormat</a>&amp; format) {</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#ac8190ffd31f508cb7bd29aa74f6fe7b2">setFormat</a>(format);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    }</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="comment">//    qreal getVideoPos() const {</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span><span class="comment">//        return m_preferablePos.load();</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="comment">//    }</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno"><a class="line" href="class_playback.html#ac7389ba599c5e132f118f2551d2296de">  188</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="class_playback.html#ac7389ba599c5e132f118f2551d2296de">~Playback</a>() {</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        m_affinityThread-&gt;quit();</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    }</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="class_playback.html#adb6e9ee660686ab79a0e5b11a7d4b923">  192</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_playback.html#adb6e9ee660686ab79a0e5b11a7d4b923">setVolume</a>(qreal volume) {</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        emit <a class="code hl_signal" href="class_playback.html#a41afdcd0c69cde4142455fe49dc06301">setAudioVolume</a>(volume, QPrivateSignal());</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    }</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno"><a class="line" href="class_playback.html#aa2238ecf14c5ecd847aa5f26bec5f0ff">  197</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_playback.html#aa2238ecf14c5ecd847aa5f26bec5f0ff">setPitch</a>(qreal pitch) {</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        emit <a class="code hl_signal" href="class_playback.html#a983c7ff33c7682c9c528d1eef2cbd408">setAudioPitch</a>(pitch, QPrivateSignal());</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    }</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="class_playback.html#a2d5852c692afb248694f9a37ae66aa04">  201</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_playback.html#a2d5852c692afb248694f9a37ae66aa04">setSpeed</a>(qreal speed) {</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        emit <a class="code hl_signal" href="class_playback.html#af41a81961f3696d1dd2449fa73b25fdc">setAudioSpeed</a>(speed, QPrivateSignal());</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    }</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="class_playback.html#aa8064f627f516eef99182a015cc31d81">  205</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_playback.html#aa8064f627f516eef99182a015cc31d81">setSelectedAudioOutputDevice</a>(QString deviceName) {</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        emit <a class="code hl_signal" href="class_playback.html#aa53339d3edfc4694df903ab55ce7da2c">signalSetSelectedAudioOutputDevice</a>(std::move(deviceName));</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    }</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span> </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno"><a class="line" href="class_playback.html#a50c9d0195b417540665e64cd0d823234">  209</a></span>    QString <a class="code hl_function" href="class_playback.html#a50c9d0195b417540665e64cd0d823234">getSelectedAudioOutputDevice</a>() {</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>        <span class="keywordflow">return</span> m_audioSink ? m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#aee98686a26906b20430fdf180e16df89">getSelectedOutputDevice</a>() : <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    }</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno"><a class="line" href="class_playback.html#ae818484f99b19a561c6d7d1757319a7c">  213</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_playback.html#ae818484f99b19a561c6d7d1757319a7c">showFrame</a>() {</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        emit <a class="code hl_signal" href="class_playback.html#a647ec0ce7dcc61c880de27ef9176b504">showFirstVideoFrame</a>(QPrivateSignal());</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    }</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno"><a class="line" href="class_playback.html#a866a5662290d1fdfdadeaa571e3d5c79">  217</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_playback.html#a866a5662290d1fdfdadeaa571e3d5c79">clearCacheFrame</a>() {</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        emit <a class="code hl_signal" href="class_playback.html#a76ab859cb1c5d889175e799e335c08dc">clearCacheVideoFrame</a>(QPrivateSignal());</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    }</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno"><a class="line" href="class_playback.html#a1c4fc252b0bae065b8d2086b41c72a64">  225</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_playback.html#a1c4fc252b0bae065b8d2086b41c72a64">isPlaying</a>() { <span class="keywordflow">return</span> m_isPlaying; }</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno"><a class="line" href="class_playback.html#a93309cbf4d5c79d1bd04191b81c0f4c6">  231</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_playback.html#a93309cbf4d5c79d1bd04191b81c0f4c6">isInterrupted</a>() { <span class="keywordflow">return</span> m_isInterrupt; }</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno"><a class="line" href="class_playback.html#af2324efdc7c49b0e25ab517218e3d0ea">  233</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_playback.html#af2324efdc7c49b0e25ab517218e3d0ea">setStartPoint</a>(qreal startPoint) {</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        m_isInterrupt = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="comment">//        m_preferablePos = startPoint;</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;SetStartPoint&quot;</span> &lt;&lt; startPoint;</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        emit <a class="code hl_signal" href="class_playback.html#abfd2460bfa614f225c9f3aa8a6c87ed8">setAudioStartPoint</a>(startPoint, QPrivateSignal());</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    }</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno"><a class="line" href="class_playback.html#a2b3b6680c71ddd83ae3fc4576afc34a2">  243</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_playback.html#a2b3b6680c71ddd83ae3fc4576afc34a2">start</a>() {</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="comment">//        std::unique_lock lock(m_workMutex);</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        m_isInterrupt = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>        emit <a class="code hl_signal" href="class_playback.html#a90f4bf872e10833da89b1006de634df0">startWork</a>(QPrivateSignal());</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    }</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno"><a class="line" href="class_playback.html#aa0cde16095b8862051b681f6de7562b6">  252</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_playback.html#aa0cde16095b8862051b681f6de7562b6">clear</a>() {</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        emit <a class="code hl_signal" href="class_playback.html#ae0ce34351f7bc2dd9d23d5fa82738656">clearRingBuffer</a>(QPrivateSignal());</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    }</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span> </div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="class_playback.html#a063a6f00928de4b43755af5056ead62b">  259</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_playback.html#a063a6f00928de4b43755af5056ead62b">pause</a>() {</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        std::unique_lock cond_lock(m_interruptMutex);</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        m_isInterrupt = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        m_interruptCond.notify_all();</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        cond_lock.unlock();</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        std::unique_lock lock(m_workMutex);</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    }</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span> </div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno"><a class="line" href="class_playback.html#a5987f8fb4b8351f63461306152d28562">  270</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_playback.html#a5987f8fb4b8351f63461306152d28562">stop</a>() {</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        std::unique_lock cond_lock(m_interruptMutex);</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        m_isInterrupt = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        m_interruptCond.notify_all();</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>        cond_lock.unlock();</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>        std::unique_lock lock(m_workMutex); <span class="comment">// make sure stop</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        emit <a class="code hl_signal" href="class_playback.html#a72e6aa5ecd1ed5ea5a52324caf1ac3a0">stopWork</a>(QPrivateSignal());</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>        emit <a class="code hl_signal" href="class_playback.html#abfd2460bfa614f225c9f3aa8a6c87ed8">setAudioStartPoint</a>(0.0, QPrivateSignal());</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>        emit <a class="code hl_signal" href="class_playback.html#ae0ce34351f7bc2dd9d23d5fa82738656">clearRingBuffer</a>(QPrivateSignal());</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    }</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno"><a class="line" href="class_playback.html#a93d6924e97a7147bc8c0d8e9f1bc5e4f">  281</a></span>    QStringList <a class="code hl_function" href="class_playback.html#a93d6924e97a7147bc8c0d8e9f1bc5e4f">getAudioDeviceList</a>() { <span class="keywordflow">return</span> m_audioSink ? m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#a5671cab52326e790a71f3836af5a315e">getAudioDeviceList</a>() : QStringList(); };</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span> </div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno"><a class="line" href="class_playback.html#a4986f708040661f09333f79b5532f730">  283</a></span>    qreal <a class="code hl_function" href="class_playback.html#a4986f708040661f09333f79b5532f730">getPitch</a>() { <span class="keywordflow">return</span> m_audioSink ? m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#a203e36a1ce523cbbbe9bf5d98db6fedd">pitch</a>() : 1.0; }</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span> </div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span> </div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span><span class="keyword">private</span> slots:</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    <span class="keywordtype">void</span> onWork() {</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>        std::unique_lock lock(m_workMutex, std::defer_lock);</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>        <span class="keywordflow">if</span> (!lock.try_lock()) { <span class="keywordflow">return</span>; } <span class="comment">// not allow neat run</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        changeState(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>        writeAudio(5);</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>        m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#a847c840f9fa3f3baca6881795d58a0c5">start</a>();</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        <span class="keywordflow">while</span> (!m_isInterrupt) {</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>            <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> pic = getVideoFrame();</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>            <span class="keywordflow">if</span> (!pic.<a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>()) {</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>                m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#aa3982901dd8e9c6884283128774a2eab">waitComplete</a>();</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>                emit <a class="code hl_signal" href="class_playback.html#aa32fc8b4a881e1a6e305a289ff2dbf88">resourcesEnd</a>();</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>            }</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span><span class="comment">//            m_videoPos = pic.getPTS();</span></div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>            emit <a class="code hl_signal" href="class_playback.html#ad3599e7c5e902df293116e1907dd835a">setPicture</a>(pic);</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>            <span class="keywordflow">if</span> (!writeAudio(<span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(10 * m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#a9a9ba66a2d280ee050b1225b418409c4">speed</a>()))) {</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>                m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#aa3982901dd8e9c6884283128774a2eab">waitComplete</a>();</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>                emit <a class="code hl_signal" href="class_playback.html#aa32fc8b4a881e1a6e305a289ff2dbf88">resourcesEnd</a>();</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>            }</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>            QCoreApplication::processEvents(); <span class="comment">// process setVolume setSpeed etc</span></div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>            syncTo(pic.<a class="code hl_function" href="class_video_frame_ref.html#a8a31e35063c377144b0e02abcbaf2c83">getPTS</a>());</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>        }</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>        m_audioSink-&gt;<a class="code hl_function" href="class_pony_audio_sink.html#a0314e7a87116e73fda3fa69ef62ce4a3">pause</a>();</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>        changeState(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        lock.unlock();</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>    };</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span> </div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>signals:</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span> </div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno"><a class="line" href="class_playback.html#a90f4bf872e10833da89b1006de634df0">  323</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#a90f4bf872e10833da89b1006de634df0">startWork</a>(QPrivateSignal);</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span> </div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno"><a class="line" href="class_playback.html#a72e6aa5ecd1ed5ea5a52324caf1ac3a0">  325</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#a72e6aa5ecd1ed5ea5a52324caf1ac3a0">stopWork</a>(QPrivateSignal);</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span> </div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno"><a class="line" href="class_playback.html#ae0ce34351f7bc2dd9d23d5fa82738656">  327</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#ae0ce34351f7bc2dd9d23d5fa82738656">clearRingBuffer</a>(QPrivateSignal);</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno"><a class="line" href="class_playback.html#abfd2460bfa614f225c9f3aa8a6c87ed8">  329</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#abfd2460bfa614f225c9f3aa8a6c87ed8">setAudioStartPoint</a>(qreal startPoint, QPrivateSignal);</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span> </div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno"><a class="line" href="class_playback.html#a41afdcd0c69cde4142455fe49dc06301">  331</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#a41afdcd0c69cde4142455fe49dc06301">setAudioVolume</a>(qreal volume, QPrivateSignal);</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span> </div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno"><a class="line" href="class_playback.html#a983c7ff33c7682c9c528d1eef2cbd408">  333</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#a983c7ff33c7682c9c528d1eef2cbd408">setAudioPitch</a>(qreal pitch, QPrivateSignal);</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span> </div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno"><a class="line" href="class_playback.html#af41a81961f3696d1dd2449fa73b25fdc">  335</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#af41a81961f3696d1dd2449fa73b25fdc">setAudioSpeed</a>(qreal speed, QPrivateSignal);</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno"><a class="line" href="class_playback.html#aa53339d3edfc4694df903ab55ce7da2c">  337</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#aa53339d3edfc4694df903ab55ce7da2c">signalSetSelectedAudioOutputDevice</a>(QString);</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno"><a class="line" href="class_playback.html#a37e2926a37e8382d7d64ac9f83db5b21">  339</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#a37e2926a37e8382d7d64ac9f83db5b21">signalDeviceSwitched</a>();</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno"><a class="line" href="class_playback.html#a647ec0ce7dcc61c880de27ef9176b504">  341</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#a647ec0ce7dcc61c880de27ef9176b504">showFirstVideoFrame</a>(QPrivateSignal);</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno"><a class="line" href="class_playback.html#a76ab859cb1c5d889175e799e335c08dc">  343</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#a76ab859cb1c5d889175e799e335c08dc">clearCacheVideoFrame</a>(QPrivateSignal);</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span> </div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno"><a class="line" href="class_playback.html#ad3599e7c5e902df293116e1907dd835a">  345</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#ad3599e7c5e902df293116e1907dd835a">setPicture</a>(<a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> pic);</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno"><a class="line" href="class_playback.html#a64132f8ee7ec4838da0ec45b57468d4e">  347</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#a64132f8ee7ec4838da0ec45b57468d4e">stateChanged</a>(<span class="keywordtype">bool</span> <a class="code hl_function" href="class_playback.html#a1c4fc252b0bae065b8d2086b41c72a64">isPlaying</a>);</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span> </div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno"><a class="line" href="class_playback.html#aa32fc8b4a881e1a6e305a289ff2dbf88">  349</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#aa32fc8b4a881e1a6e305a289ff2dbf88">resourcesEnd</a>();</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span> </div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno"><a class="line" href="class_playback.html#ae3d2159c0d8f28a198b18dd4ce7355cb">  351</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#ae3d2159c0d8f28a198b18dd4ce7355cb">signalAudioOutputDevicesListChanged</a>();</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span> </div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno"><a class="line" href="class_playback.html#accf1398c8f3cb6c24b531ad557a5e81b">  356</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_playback.html#accf1398c8f3cb6c24b531ad557a5e81b">requestResynchronization</a>(<span class="keywordtype">bool</span> enableAudio, <span class="keywordtype">bool</span> updateAudioFormat);</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span> </div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span> </div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>};</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span> </div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span><span class="preprocessor">#endif </span><span class="comment">//PONYPLAYER_VIDEOWORKER_H</span></div>
+<div class="ttc" id="aaudiosink_8hpp_html"><div class="ttname"><a href="audiosink_8hpp.html">audiosink.hpp</a></div></div>
+<div class="ttc" id="aclass_audio_frame_html"><div class="ttname"><a href="class_audio_frame.html">AudioFrame</a></div><div class="ttdef"><b>Definition:</b> frame.hpp:145</div></div>
+<div class="ttc" id="aclass_audio_frame_html_a2df9938052fb8aaf52c7ce2566abbdc4"><div class="ttname"><a href="class_audio_frame.html#a2df9938052fb8aaf52c7ce2566abbdc4">AudioFrame::getDataLen</a></div><div class="ttdeci">int getDataLen() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:163</div></div>
+<div class="ttc" id="aclass_audio_frame_html_aa39eb6af5e4603cb662cf50a0d017b78"><div class="ttname"><a href="class_audio_frame.html#aa39eb6af5e4603cb662cf50a0d017b78">AudioFrame::getSampleData</a></div><div class="ttdeci">std::byte * getSampleData() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:159</div></div>
+<div class="ttc" id="aclass_audio_frame_html_ad2db725af67a53b42e661ababa6615e1"><div class="ttname"><a href="class_audio_frame.html#ad2db725af67a53b42e661ababa6615e1">AudioFrame::isValid</a></div><div class="ttdeci">bool isValid()</div><div class="ttdef"><b>Definition:</b> frame.hpp:155</div></div>
+<div class="ttc" id="aclass_demuxer_html"><div class="ttname"><a href="class_demuxer.html">Demuxer</a></div><div class="ttdef"><b>Definition:</b> demuxer.hpp:14</div></div>
+<div class="ttc" id="aclass_demuxer_html_a0cb45f14d52e736bedacb2f07c1d7ad0"><div class="ttname"><a href="class_demuxer.html#a0cb45f14d52e736bedacb2f07c1d7ad0">Demuxer::skipPicture</a></div><div class="ttdeci">PONY_THREAD_SAFE int skipPicture(const std::function&lt; bool(qreal)&gt; &amp;predicate)</div><div class="ttdef"><b>Definition:</b> demuxer.hpp:53</div></div>
+<div class="ttc" id="aclass_demuxer_html_a116d5fd30eea2ef058ddc06ff473f563"><div class="ttname"><a href="class_demuxer.html#a116d5fd30eea2ef058ddc06ff473f563">Demuxer::frontPicture</a></div><div class="ttdeci">qreal frontPicture()</div><div class="ttdef"><b>Definition:</b> demuxer.hpp:48</div></div>
+<div class="ttc" id="aclass_demuxer_html_a56a3ce3dec35f8509a8f833c5e45fc51"><div class="ttname"><a href="class_demuxer.html#a56a3ce3dec35f8509a8f833c5e45fc51">Demuxer::getSample</a></div><div class="ttdeci">AudioFrame getSample()</div><div class="ttdef"><b>Definition:</b> demuxer.hpp:60</div></div>
+<div class="ttc" id="aclass_demuxer_html_aa04c8073ec0dbd9db7aa83349b534931"><div class="ttname"><a href="class_demuxer.html#aa04c8073ec0dbd9db7aa83349b534931">Demuxer::isBackward</a></div><div class="ttdeci">PONY_THREAD_SAFE bool isBackward()</div><div class="ttdef"><b>Definition:</b> demuxer.hpp:108</div></div>
+<div class="ttc" id="aclass_demuxer_html_abf0681243a6a46ea7a0509fa03fd7b94"><div class="ttname"><a href="class_demuxer.html#abf0681243a6a46ea7a0509fa03fd7b94">Demuxer::getPicture</a></div><div class="ttdeci">VideoFrameRef getPicture()</div><div class="ttdef"><b>Definition:</b> demuxer.hpp:41</div></div>
+<div class="ttc" id="aclass_demuxer_html_aecb1d8412975b0a2aa980d5ee86fd706"><div class="ttname"><a href="class_demuxer.html#aecb1d8412975b0a2aa980d5ee86fd706">Demuxer::hasVideo</a></div><div class="ttdeci">PONY_THREAD_SAFE bool hasVideo()</div><div class="ttdef"><b>Definition:</b> demuxer.hpp:114</div></div>
+<div class="ttc" id="aclass_playback_html"><div class="ttname"><a href="class_playback.html">Playback</a></div><div class="ttdoc">负责输出视频和音频(不含视频预览).</div><div class="ttdef"><b>Definition:</b> playback.hpp:22</div></div>
+<div class="ttc" id="aclass_playback_html_a063a6f00928de4b43755af5056ead62b"><div class="ttname"><a href="class_playback.html#a063a6f00928de4b43755af5056ead62b">Playback::pause</a></div><div class="ttdeci">void pause()</div><div class="ttdef"><b>Definition:</b> playback.hpp:259</div></div>
+<div class="ttc" id="aclass_playback_html_a1c4fc252b0bae065b8d2086b41c72a64"><div class="ttname"><a href="class_playback.html#a1c4fc252b0bae065b8d2086b41c72a64">Playback::isPlaying</a></div><div class="ttdeci">bool isPlaying()</div><div class="ttdef"><b>Definition:</b> playback.hpp:225</div></div>
+<div class="ttc" id="aclass_playback_html_a2b3b6680c71ddd83ae3fc4576afc34a2"><div class="ttname"><a href="class_playback.html#a2b3b6680c71ddd83ae3fc4576afc34a2">Playback::start</a></div><div class="ttdeci">void start()</div><div class="ttdef"><b>Definition:</b> playback.hpp:243</div></div>
+<div class="ttc" id="aclass_playback_html_a2d5852c692afb248694f9a37ae66aa04"><div class="ttname"><a href="class_playback.html#a2d5852c692afb248694f9a37ae66aa04">Playback::setSpeed</a></div><div class="ttdeci">void setSpeed(qreal speed)</div><div class="ttdef"><b>Definition:</b> playback.hpp:201</div></div>
+<div class="ttc" id="aclass_playback_html_a37e2926a37e8382d7d64ac9f83db5b21"><div class="ttname"><a href="class_playback.html#a37e2926a37e8382d7d64ac9f83db5b21">Playback::signalDeviceSwitched</a></div><div class="ttdeci">void signalDeviceSwitched()</div></div>
+<div class="ttc" id="aclass_playback_html_a41afdcd0c69cde4142455fe49dc06301"><div class="ttname"><a href="class_playback.html#a41afdcd0c69cde4142455fe49dc06301">Playback::setAudioVolume</a></div><div class="ttdeci">void setAudioVolume(qreal volume, QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_playback_html_a4986f708040661f09333f79b5532f730"><div class="ttname"><a href="class_playback.html#a4986f708040661f09333f79b5532f730">Playback::getPitch</a></div><div class="ttdeci">qreal getPitch()</div><div class="ttdef"><b>Definition:</b> playback.hpp:283</div></div>
+<div class="ttc" id="aclass_playback_html_a50c9d0195b417540665e64cd0d823234"><div class="ttname"><a href="class_playback.html#a50c9d0195b417540665e64cd0d823234">Playback::getSelectedAudioOutputDevice</a></div><div class="ttdeci">QString getSelectedAudioOutputDevice()</div><div class="ttdef"><b>Definition:</b> playback.hpp:209</div></div>
+<div class="ttc" id="aclass_playback_html_a5987f8fb4b8351f63461306152d28562"><div class="ttname"><a href="class_playback.html#a5987f8fb4b8351f63461306152d28562">Playback::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdef"><b>Definition:</b> playback.hpp:270</div></div>
+<div class="ttc" id="aclass_playback_html_a64132f8ee7ec4838da0ec45b57468d4e"><div class="ttname"><a href="class_playback.html#a64132f8ee7ec4838da0ec45b57468d4e">Playback::stateChanged</a></div><div class="ttdeci">void stateChanged(bool isPlaying)</div></div>
+<div class="ttc" id="aclass_playback_html_a647ec0ce7dcc61c880de27ef9176b504"><div class="ttname"><a href="class_playback.html#a647ec0ce7dcc61c880de27ef9176b504">Playback::showFirstVideoFrame</a></div><div class="ttdeci">void showFirstVideoFrame(QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_playback_html_a6f1e0000722b01143295aca343a49adc"><div class="ttname"><a href="class_playback.html#a6f1e0000722b01143295aca343a49adc">Playback::getPreferablePos</a></div><div class="ttdeci">PONY_THREAD_SAFE qreal getPreferablePos()</div><div class="ttdef"><b>Definition:</b> playback.hpp:162</div></div>
+<div class="ttc" id="aclass_playback_html_a72e6aa5ecd1ed5ea5a52324caf1ac3a0"><div class="ttname"><a href="class_playback.html#a72e6aa5ecd1ed5ea5a52324caf1ac3a0">Playback::stopWork</a></div><div class="ttdeci">void stopWork(QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_playback_html_a76ab859cb1c5d889175e799e335c08dc"><div class="ttname"><a href="class_playback.html#a76ab859cb1c5d889175e799e335c08dc">Playback::clearCacheVideoFrame</a></div><div class="ttdeci">void clearCacheVideoFrame(QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_playback_html_a7e3d0510f3b9613b387e61b8c12f956e"><div class="ttname"><a href="class_playback.html#a7e3d0510f3b9613b387e61b8c12f956e">Playback::getAudioPos</a></div><div class="ttdeci">qreal getAudioPos(bool backward) const</div><div class="ttdef"><b>Definition:</b> playback.hpp:171</div></div>
+<div class="ttc" id="aclass_playback_html_a866a5662290d1fdfdadeaa571e3d5c79"><div class="ttname"><a href="class_playback.html#a866a5662290d1fdfdadeaa571e3d5c79">Playback::clearCacheFrame</a></div><div class="ttdeci">void clearCacheFrame()</div><div class="ttdef"><b>Definition:</b> playback.hpp:217</div></div>
+<div class="ttc" id="aclass_playback_html_a8f431ca7e445ad49e43b846ab971aecc"><div class="ttname"><a href="class_playback.html#a8f431ca7e445ad49e43b846ab971aecc">Playback::Playback</a></div><div class="ttdeci">Playback(Demuxer *demuxer, QObject *parent)</div><div class="ttdef"><b>Definition:</b> playback.hpp:113</div></div>
+<div class="ttc" id="aclass_playback_html_a90f4bf872e10833da89b1006de634df0"><div class="ttname"><a href="class_playback.html#a90f4bf872e10833da89b1006de634df0">Playback::startWork</a></div><div class="ttdeci">void startWork(QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_playback_html_a93309cbf4d5c79d1bd04191b81c0f4c6"><div class="ttname"><a href="class_playback.html#a93309cbf4d5c79d1bd04191b81c0f4c6">Playback::isInterrupted</a></div><div class="ttdeci">bool isInterrupted()</div><div class="ttdef"><b>Definition:</b> playback.hpp:231</div></div>
+<div class="ttc" id="aclass_playback_html_a93d6924e97a7147bc8c0d8e9f1bc5e4f"><div class="ttname"><a href="class_playback.html#a93d6924e97a7147bc8c0d8e9f1bc5e4f">Playback::getAudioDeviceList</a></div><div class="ttdeci">QStringList getAudioDeviceList()</div><div class="ttdef"><b>Definition:</b> playback.hpp:281</div></div>
+<div class="ttc" id="aclass_playback_html_a983c7ff33c7682c9c528d1eef2cbd408"><div class="ttname"><a href="class_playback.html#a983c7ff33c7682c9c528d1eef2cbd408">Playback::setAudioPitch</a></div><div class="ttdeci">void setAudioPitch(qreal pitch, QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_playback_html_aa0cde16095b8862051b681f6de7562b6"><div class="ttname"><a href="class_playback.html#aa0cde16095b8862051b681f6de7562b6">Playback::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdef"><b>Definition:</b> playback.hpp:252</div></div>
+<div class="ttc" id="aclass_playback_html_aa2238ecf14c5ecd847aa5f26bec5f0ff"><div class="ttname"><a href="class_playback.html#aa2238ecf14c5ecd847aa5f26bec5f0ff">Playback::setPitch</a></div><div class="ttdeci">void setPitch(qreal pitch)</div><div class="ttdef"><b>Definition:</b> playback.hpp:197</div></div>
+<div class="ttc" id="aclass_playback_html_aa32fc8b4a881e1a6e305a289ff2dbf88"><div class="ttname"><a href="class_playback.html#aa32fc8b4a881e1a6e305a289ff2dbf88">Playback::resourcesEnd</a></div><div class="ttdeci">void resourcesEnd()</div></div>
+<div class="ttc" id="aclass_playback_html_aa53339d3edfc4694df903ab55ce7da2c"><div class="ttname"><a href="class_playback.html#aa53339d3edfc4694df903ab55ce7da2c">Playback::signalSetSelectedAudioOutputDevice</a></div><div class="ttdeci">void signalSetSelectedAudioOutputDevice(QString)</div></div>
+<div class="ttc" id="aclass_playback_html_aa6879436b3cb2361b8329d72a4ad8609"><div class="ttname"><a href="class_playback.html#aa6879436b3cb2361b8329d72a4ad8609">Playback::setDesiredFormat</a></div><div class="ttdeci">void setDesiredFormat(const PonyAudioFormat &amp;format)</div><div class="ttdef"><b>Definition:</b> playback.hpp:180</div></div>
+<div class="ttc" id="aclass_playback_html_aa8064f627f516eef99182a015cc31d81"><div class="ttname"><a href="class_playback.html#aa8064f627f516eef99182a015cc31d81">Playback::setSelectedAudioOutputDevice</a></div><div class="ttdeci">void setSelectedAudioOutputDevice(QString deviceName)</div><div class="ttdef"><b>Definition:</b> playback.hpp:205</div></div>
+<div class="ttc" id="aclass_playback_html_abfd2460bfa614f225c9f3aa8a6c87ed8"><div class="ttname"><a href="class_playback.html#abfd2460bfa614f225c9f3aa8a6c87ed8">Playback::setAudioStartPoint</a></div><div class="ttdeci">void setAudioStartPoint(qreal startPoint, QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_playback_html_ac7389ba599c5e132f118f2551d2296de"><div class="ttname"><a href="class_playback.html#ac7389ba599c5e132f118f2551d2296de">Playback::~Playback</a></div><div class="ttdeci">virtual ~Playback()</div><div class="ttdef"><b>Definition:</b> playback.hpp:188</div></div>
+<div class="ttc" id="aclass_playback_html_accf1398c8f3cb6c24b531ad557a5e81b"><div class="ttname"><a href="class_playback.html#accf1398c8f3cb6c24b531ad557a5e81b">Playback::requestResynchronization</a></div><div class="ttdeci">void requestResynchronization(bool enableAudio, bool updateAudioFormat)</div></div>
+<div class="ttc" id="aclass_playback_html_ad3599e7c5e902df293116e1907dd835a"><div class="ttname"><a href="class_playback.html#ad3599e7c5e902df293116e1907dd835a">Playback::setPicture</a></div><div class="ttdeci">void setPicture(VideoFrameRef pic)</div></div>
+<div class="ttc" id="aclass_playback_html_ad82e284fe9aa152572acadb395fb8fad"><div class="ttname"><a href="class_playback.html#ad82e284fe9aa152572acadb395fb8fad">Playback::getDeviceFormat</a></div><div class="ttdeci">PonyAudioFormat getDeviceFormat()</div><div class="ttdef"><b>Definition:</b> playback.hpp:166</div></div>
+<div class="ttc" id="aclass_playback_html_adb6e9ee660686ab79a0e5b11a7d4b923"><div class="ttname"><a href="class_playback.html#adb6e9ee660686ab79a0e5b11a7d4b923">Playback::setVolume</a></div><div class="ttdeci">void setVolume(qreal volume)</div><div class="ttdef"><b>Definition:</b> playback.hpp:192</div></div>
+<div class="ttc" id="aclass_playback_html_ae0ce34351f7bc2dd9d23d5fa82738656"><div class="ttname"><a href="class_playback.html#ae0ce34351f7bc2dd9d23d5fa82738656">Playback::clearRingBuffer</a></div><div class="ttdeci">void clearRingBuffer(QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_playback_html_ae3d2159c0d8f28a198b18dd4ce7355cb"><div class="ttname"><a href="class_playback.html#ae3d2159c0d8f28a198b18dd4ce7355cb">Playback::signalAudioOutputDevicesListChanged</a></div><div class="ttdeci">void signalAudioOutputDevicesListChanged()</div></div>
+<div class="ttc" id="aclass_playback_html_ae818484f99b19a561c6d7d1757319a7c"><div class="ttname"><a href="class_playback.html#ae818484f99b19a561c6d7d1757319a7c">Playback::showFrame</a></div><div class="ttdeci">void showFrame()</div><div class="ttdef"><b>Definition:</b> playback.hpp:213</div></div>
+<div class="ttc" id="aclass_playback_html_af2324efdc7c49b0e25ab517218e3d0ea"><div class="ttname"><a href="class_playback.html#af2324efdc7c49b0e25ab517218e3d0ea">Playback::setStartPoint</a></div><div class="ttdeci">void setStartPoint(qreal startPoint)</div><div class="ttdef"><b>Definition:</b> playback.hpp:233</div></div>
+<div class="ttc" id="aclass_playback_html_af41a81961f3696d1dd2449fa73b25fdc"><div class="ttname"><a href="class_playback.html#af41a81961f3696d1dd2449fa73b25fdc">Playback::setAudioSpeed</a></div><div class="ttdeci">void setAudioSpeed(qreal speed, QPrivateSignal)</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html"><div class="ttname"><a href="class_pony_audio_format.html">PonyAudioFormat</a></div><div class="ttdef"><b>Definition:</b> audioformat.hpp:97</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html"><div class="ttname"><a href="class_pony_audio_sink.html">PonyAudioSink</a></div><div class="ttdoc">播放音频裸流, 用于代替QAudioSink.</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:38</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_a0314e7a87116e73fda3fa69ef62ce4a3"><div class="ttname"><a href="class_pony_audio_sink.html#a0314e7a87116e73fda3fa69ef62ce4a3">PonyAudioSink::pause</a></div><div class="ttdeci">void pause()</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:303</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_a0c68a1e4f02184914195bcc4d081850c"><div class="ttname"><a href="class_pony_audio_sink.html#a0c68a1e4f02184914195bcc4d081850c">PonyAudioSink::setVolume</a></div><div class="ttdeci">void setVolume(qreal newVolume)</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:452</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_a16e9cd5eaca42f023b5bd445a65f8e02"><div class="ttname"><a href="class_pony_audio_sink.html#a16e9cd5eaca42f023b5bd445a65f8e02">PonyAudioSink::setSpeed</a></div><div class="ttdeci">void setSpeed(qreal newSpeed)</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:470</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_a203e36a1ce523cbbbe9bf5d98db6fedd"><div class="ttname"><a href="class_pony_audio_sink.html#a203e36a1ce523cbbbe9bf5d98db6fedd">PonyAudioSink::pitch</a></div><div class="ttdeci">qreal pitch() const</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:487</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_a33cf6d2afaaa4c66b31186f39cfec502"><div class="ttname"><a href="class_pony_audio_sink.html#a33cf6d2afaaa4c66b31186f39cfec502">PonyAudioSink::freeByte</a></div><div class="ttdeci">int64_t freeByte() const</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:357</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_a43e96436072c927eefb259633de6ae86"><div class="ttname"><a href="class_pony_audio_sink.html#a43e96436072c927eefb259633de6ae86">PonyAudioSink::getCurrentDeviceFormat</a></div><div class="ttdeci">PonyAudioFormat getCurrentDeviceFormat()</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:584</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_a5529d909cadb603de7f7a46d57b86f56"><div class="ttname"><a href="class_pony_audio_sink.html#a5529d909cadb603de7f7a46d57b86f56">PonyAudioSink::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:326</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_a5671cab52326e790a71f3836af5a315e"><div class="ttname"><a href="class_pony_audio_sink.html#a5671cab52326e790a71f3836af5a315e">PonyAudioSink::getAudioDeviceList</a></div><div class="ttdeci">QStringList getAudioDeviceList()</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:533</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_a59b38bbabd945821d2f1b7a93c832614"><div class="ttname"><a href="class_pony_audio_sink.html#a59b38bbabd945821d2f1b7a93c832614">PonyAudioSink::requestDeviceSwitch</a></div><div class="ttdeci">void requestDeviceSwitch(const QString &amp;device)</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:567</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_a847c840f9fa3f3baca6881795d58a0c5"><div class="ttname"><a href="class_pony_audio_sink.html#a847c840f9fa3f3baca6881795d58a0c5">PonyAudioSink::start</a></div><div class="ttdeci">void start()</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:281</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_a96d55cee05290ceac063ea91b09fae4e"><div class="ttname"><a href="class_pony_audio_sink.html#a96d55cee05290ceac063ea91b09fae4e">PonyAudioSink::signalDeviceSwitched</a></div><div class="ttdeci">void signalDeviceSwitched()</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_a9a9ba66a2d280ee050b1225b418409c4"><div class="ttname"><a href="class_pony_audio_sink.html#a9a9ba66a2d280ee050b1225b418409c4">PonyAudioSink::speed</a></div><div class="ttdeci">qreal speed() const</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:483</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_aa0861713990503502cd16152386088d6"><div class="ttname"><a href="class_pony_audio_sink.html#aa0861713990503502cd16152386088d6">PonyAudioSink::setPitch</a></div><div class="ttdeci">void setPitch(qreal newPitch)</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:461</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_aa3982901dd8e9c6884283128774a2eab"><div class="ttname"><a href="class_pony_audio_sink.html#aa3982901dd8e9c6884283128774a2eab">PonyAudioSink::waitComplete</a></div><div class="ttdeci">void waitComplete()</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:317</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_ab957e88d57845120bb21a8ed055f49d3"><div class="ttname"><a href="class_pony_audio_sink.html#ab957e88d57845120bb21a8ed055f49d3">PonyAudioSink::getProcessSecs</a></div><div class="ttdeci">qreal getProcessSecs(bool backward) const</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:421</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_ac0dbe43246c46eb124bc418051a759af"><div class="ttname"><a href="class_pony_audio_sink.html#ac0dbe43246c46eb124bc418051a759af">PonyAudioSink::clear</a></div><div class="ttdeci">size_t clear()</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:407</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_ac1dc7b6867c72e216051d5ee17d531e6"><div class="ttname"><a href="class_pony_audio_sink.html#ac1dc7b6867c72e216051d5ee17d531e6">PonyAudioSink::isBlock</a></div><div class="ttdeci">bool isBlock()</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:341</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_ac60e25afde2e495ed89653f21f94ccd1"><div class="ttname"><a href="class_pony_audio_sink.html#ac60e25afde2e495ed89653f21f94ccd1">PonyAudioSink::MAX_SPEED_FACTOR</a></div><div class="ttdeci">constexpr static const qreal MAX_SPEED_FACTOR</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:230</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_ac726224f9d1b7101fb12ead9a588ddf6"><div class="ttname"><a href="class_pony_audio_sink.html#ac726224f9d1b7101fb12ead9a588ddf6">PonyAudioSink::setStartPoint</a></div><div class="ttdeci">void setStartPoint(double t=0.0)</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:435</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_ac8190ffd31f508cb7bd29aa74f6fe7b2"><div class="ttname"><a href="class_pony_audio_sink.html#ac8190ffd31f508cb7bd29aa74f6fe7b2">PonyAudioSink::setFormat</a></div><div class="ttdeci">void setFormat(const PonyAudioFormat &amp;format)</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:537</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_aea439cea285ea8b31d327961d667da8e"><div class="ttname"><a href="class_pony_audio_sink.html#aea439cea285ea8b31d327961d667da8e">PonyAudioSink::signalAudioOutputDeviceListChanged</a></div><div class="ttdeci">void signalAudioOutputDeviceListChanged()</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_aee98686a26906b20430fdf180e16df89"><div class="ttname"><a href="class_pony_audio_sink.html#aee98686a26906b20430fdf180e16df89">PonyAudioSink::getSelectedOutputDevice</a></div><div class="ttdeci">QString getSelectedOutputDevice()</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:506</div></div>
+<div class="ttc" id="aclass_pony_audio_sink_html_af98c2ec65d7ddda96f2faaea665f58b6"><div class="ttname"><a href="class_pony_audio_sink.html#af98c2ec65d7ddda96f2faaea665f58b6">PonyAudioSink::write</a></div><div class="ttdeci">bool write(const char *buf, qint32 origLen)</div><div class="ttdef"><b>Definition:</b> audiosink.hpp:369</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html"><div class="ttname"><a href="class_video_frame_ref.html">VideoFrameRef</a></div><div class="ttdef"><b>Definition:</b> frame.hpp:47</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a44ea9dfdb5158a87478776b573185cc2"><div class="ttname"><a href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">VideoFrameRef::isValid</a></div><div class="ttdeci">bool isValid() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:97</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a8a31e35063c377144b0e02abcbaf2c83"><div class="ttname"><a href="class_video_frame_ref.html#a8a31e35063c377144b0e02abcbaf2c83">VideoFrameRef::getPTS</a></div><div class="ttdeci">double getPTS() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:102</div></div>
+<div class="ttc" id="ademuxer_8hpp_html"><div class="ttname"><a href="demuxer_8hpp.html">demuxer.hpp</a></div></div>
+<div class="ttc" id="aframe_8hpp_html"><div class="ttname"><a href="frame_8hpp.html">frame.hpp</a></div></div>
+<div class="ttc" id="ahelper_8hpp_html_ad0eea03f324b212b488b01af6845c064"><div class="ttname"><a href="helper_8hpp.html#ad0eea03f324b212b488b01af6845c064">MAX_AUDIO_FRAME_SIZE</a></div><div class="ttdeci">const int MAX_AUDIO_FRAME_SIZE</div><div class="ttdef"><b>Definition:</b> helper.hpp:15</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a80461119237b4c630e68bb6108bae055"><div class="ttname"><a href="namespace_pony_player.html#a80461119237b4c630e68bb6108bae055">PonyPlayer::DEFAULT_AUDIO_FORMAT</a></div><div class="ttdeci">const PonyAudioFormat DEFAULT_AUDIO_FORMAT</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:164</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a822958961f75d7a2d53a2d9b651b4898"><div class="ttname"><a href="namespace_pony_player.html#a822958961f75d7a2d53a2d9b651b4898">PonyPlayer::PLAYBACK</a></div><div class="ttdeci">constexpr PonyThread PLAYBACK</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:45</div></div>
+<div class="ttc" id="aponyplayer_8h_html_a4b02e2c27cfd7a3f72cc70691d3d839c"><div class="ttname"><a href="ponyplayer_8h.html#a4b02e2c27cfd7a3f72cc70691d3d839c">ILLEGAL_STATE</a></div><div class="ttdeci">#define ILLEGAL_STATE(msg)</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:40</div></div>
+<div class="ttc" id="aponyplayer_8h_html_ac25e44376b574b1f59790ac6f64c9336"><div class="ttname"><a href="ponyplayer_8h.html#ac25e44376b574b1f59790ac6f64c9336">PONY_GUARD_BY</a></div><div class="ttdeci">#define PONY_GUARD_BY(...)</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:89</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_975424cdae97a07db69e55371758444e.html">player</a></li><li class="navelem"><a class="el" href="playback_8hpp.html">playback.hpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -83,48 +83,94 @@ $(document).ready(function(){initNavTree('class_demuxer.html',''); initResizable
 
 <div class="header">
   <div class="summary">
+<a href="#pub-slots">Public 槽</a> &#124;
+<a href="#signals">信号</a> &#124;
 <a href="#pub-methods">Public 成员函数</a> &#124;
 <a href="class_demuxer-members.html">所有成员列表</a>  </div>
   <div class="headertitle"><div class="title">Demuxer类 参考</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="demuxer_8h_source.html">demuxer.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="demuxer_8hpp_source.html">demuxer.hpp</a>&gt;</code></p>
+<div class="dynheader">
+类 Demuxer 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_demuxer.png" alt=""/>
+ </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-slots" name="pub-slots"></a>
+Public 槽</h2></td></tr>
+<tr class="memitem:a7de116f2c4541631c09bbb13d8991665"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a7de116f2c4541631c09bbb13d8991665">seek</a> (qreal secs)</td></tr>
+<tr class="separator:a7de116f2c4541631c09bbb13d8991665"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fcdc5900388debd22f22916cedb236d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a1fcdc5900388debd22f22916cedb236d">setAudioIndex</a> (<a class="el" href="dispatcher_8hpp.html#abaec574eea3051ebe48d9c46eb25e723">StreamIndex</a> index)</td></tr>
+<tr class="separator:a1fcdc5900388debd22f22916cedb236d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa629616b35612d27bbbe802eae9086a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#aa629616b35612d27bbbe802eae9086a7">openFile</a> (const std::string &amp;fn)</td></tr>
+<tr class="separator:aa629616b35612d27bbbe802eae9086a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba4f54fd67a47a77df638d379b5313b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#aba4f54fd67a47a77df638d379b5313b7">backward</a> ()</td></tr>
+<tr class="separator:aba4f54fd67a47a77df638d379b5313b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2dd659713b4e67fecab8044dc4883ed0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a2dd659713b4e67fecab8044dc4883ed0">forward</a> ()</td></tr>
+<tr class="separator:a2dd659713b4e67fecab8044dc4883ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
+信号</h2></td></tr>
+<tr class="memitem:a835dd8f729c830b078e00a9587a85f19"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a835dd8f729c830b078e00a9587a85f19">openFileResult</a> (<a class="el" href="namespace_pony_player.html#a028c97ff63e8c04932cdf4bc7db2aa37">PonyPlayer::OpenFileResultType</a> result, QPrivateSignal)</td></tr>
+<tr class="separator:a835dd8f729c830b078e00a9587a85f19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
-<tr class="memitem:a25115a0acf0c4e2ff9ab1481cfe3645a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a25115a0acf0c4e2ff9ab1481cfe3645a">Demuxer</a> ()</td></tr>
-<tr class="separator:a25115a0acf0c4e2ff9ab1481cfe3645a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56bcb4fb783d2a8ac15db2bb7d4671e2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a56bcb4fb783d2a8ac15db2bb7d4671e2">~Demuxer</a> ()</td></tr>
-<tr class="separator:a56bcb4fb783d2a8ac15db2bb7d4671e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ea0d0375816b9a5690a16b9282b2b7e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a8ea0d0375816b9a5690a16b9282b2b7e">seek</a> (int64_t us)</td></tr>
-<tr class="separator:a8ea0d0375816b9a5690a16b9282b2b7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa33a5fba97ec8c95a262b4c65f9d0bd3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#aa33a5fba97ec8c95a262b4c65f9d0bd3">videoDuration</a> ()</td></tr>
-<tr class="separator:aa33a5fba97ec8c95a262b4c65f9d0bd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83a8c15dcc92401012797fc933341fd8"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a83a8c15dcc92401012797fc933341fd8">audioDuration</a> ()</td></tr>
-<tr class="separator:a83a8c15dcc92401012797fc933341fd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb7a71acfe7afbc9101bec6b916ef31d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#acb7a71acfe7afbc9101bec6b916ef31d">openFile</a> (std::string inputFileName)</td></tr>
-<tr class="separator:acb7a71acfe7afbc9101bec6b916ef31d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab877d5a346eb48e74efcff609ba0dbe6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_picture.html">Picture</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#ab877d5a346eb48e74efcff609ba0dbe6">getPicture</a> (bool block)</td></tr>
-<tr class="separator:ab877d5a346eb48e74efcff609ba0dbe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51f65d75ad33d91e3b0edefbb994a190"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a51f65d75ad33d91e3b0edefbb994a190">popPicture</a> ()</td></tr>
-<tr class="separator:a51f65d75ad33d91e3b0edefbb994a190"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae807ec7eeedae0b7d1f182f440529fd1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_sample.html">Sample</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#ae807ec7eeedae0b7d1f182f440529fd1">getSample</a> (bool block)</td></tr>
-<tr class="separator:ae807ec7eeedae0b7d1f182f440529fd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af79bf069cff91cbbfb43593e9d9c1076"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#af79bf069cff91cbbfb43593e9d9c1076">popSample</a> ()</td></tr>
-<tr class="separator:af79bf069cff91cbbfb43593e9d9c1076"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a829dddb168ca37288002507463257cf8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a829dddb168ca37288002507463257cf8">quit</a> ()</td></tr>
-<tr class="separator:a829dddb168ca37288002507463257cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e4fb998093989fcee32b2affc9b9ccf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a7e4fb998093989fcee32b2affc9b9ccf">pause</a> ()</td></tr>
-<tr class="separator:a7e4fb998093989fcee32b2affc9b9ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a426a0c5ff0c4c6cfcf645483c939513f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a426a0c5ff0c4c6cfcf645483c939513f">resume</a> ()</td></tr>
-<tr class="separator:a426a0c5ff0c4c6cfcf645483c939513f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68c6f89d54ae875bdb61b1d13019fc34"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a68c6f89d54ae875bdb61b1d13019fc34">Demuxer</a> (QObject *parent)</td></tr>
+<tr class="separator:a68c6f89d54ae875bdb61b1d13019fc34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45739263d27ca55f34988a9b8bb030eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a45739263d27ca55f34988a9b8bb030eb">~Demuxer</a> () override</td></tr>
+<tr class="separator:a45739263d27ca55f34988a9b8bb030eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf0681243a6a46ea7a0509fa03fd7b94"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_video_frame_ref.html">VideoFrameRef</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#abf0681243a6a46ea7a0509fa03fd7b94">getPicture</a> ()</td></tr>
+<tr class="separator:abf0681243a6a46ea7a0509fa03fd7b94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a116d5fd30eea2ef058ddc06ff473f563"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a116d5fd30eea2ef058ddc06ff473f563">frontPicture</a> ()</td></tr>
+<tr class="separator:a116d5fd30eea2ef058ddc06ff473f563"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cb45f14d52e736bedacb2f07c1d7ad0"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a0cb45f14d52e736bedacb2f07c1d7ad0">skipPicture</a> (const std::function&lt; bool(qreal)&gt; &amp;predicate)</td></tr>
+<tr class="separator:a0cb45f14d52e736bedacb2f07c1d7ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56a3ce3dec35f8509a8f833c5e45fc51"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_audio_frame.html">AudioFrame</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a56a3ce3dec35f8509a8f833c5e45fc51">getSample</a> ()</td></tr>
+<tr class="separator:a56a3ce3dec35f8509a8f833c5e45fc51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d4113117234d9f64031f39f62590b7c"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a2d4113117234d9f64031f39f62590b7c">frontSample</a> ()</td></tr>
+<tr class="separator:a2d4113117234d9f64031f39f62590b7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0906463a920efd8b5868e09c909798ae"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a0906463a920efd8b5868e09c909798ae">skipSample</a> (const std::function&lt; bool(qreal)&gt; &amp;predicate)</td></tr>
+<tr class="separator:a0906463a920efd8b5868e09c909798ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4942470d1aee03a7f043e5c950b6de3"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#af4942470d1aee03a7f043e5c950b6de3">audioDuration</a> ()</td></tr>
+<tr class="separator:af4942470d1aee03a7f043e5c950b6de3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49afb6cd099cb2d85a91da3bc93d2c6f"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a49afb6cd099cb2d85a91da3bc93d2c6f">videoDuration</a> ()</td></tr>
+<tr class="separator:a49afb6cd099cb2d85a91da3bc93d2c6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad55b6f447f8ab06be314e9e87aa066a"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#aad55b6f447f8ab06be314e9e87aa066a">getTracks</a> ()</td></tr>
+<tr class="separator:aad55b6f447f8ab06be314e9e87aa066a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa04c8073ec0dbd9db7aa83349b534931"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#aa04c8073ec0dbd9db7aa83349b534931">isBackward</a> ()</td></tr>
+<tr class="separator:aa04c8073ec0dbd9db7aa83349b534931"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb1d8412975b0a2aa980d5ee86fd706"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#aecb1d8412975b0a2aa980d5ee86fd706">hasVideo</a> ()</td></tr>
+<tr class="separator:aecb1d8412975b0a2aa980d5ee86fd706"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb011c17241d150055db11de28dcd5e6"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#acb011c17241d150055db11de28dcd5e6">pause</a> ()</td></tr>
+<tr class="separator:acb011c17241d150055db11de28dcd5e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b10bf47d33058d6a8fabf6ff5240c7c"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a8b10bf47d33058d6a8fabf6ff5240c7c">isFileOpen</a> ()</td></tr>
+<tr class="separator:a8b10bf47d33058d6a8fabf6ff5240c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c701209e6da1453d3fa2581896031f8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a0c701209e6da1453d3fa2581896031f8">PONY_GUARD_BY</a> (FRAME) void flush()</td></tr>
+<tr class="separator:a0c701209e6da1453d3fa2581896031f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a239c97b6e586a6458695e89dde69ae61"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a239c97b6e586a6458695e89dde69ae61">start</a> ()</td></tr>
+<tr class="separator:a239c97b6e586a6458695e89dde69ae61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad16ba34316cc21fafd91c27774850c6b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#ad16ba34316cc21fafd91c27774850c6b">setEnableAudio</a> (bool enable)</td></tr>
+<tr class="separator:ad16ba34316cc21fafd91c27774850c6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74c6820f3ab2382729127055cd8659c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a74c6820f3ab2382729127055cd8659c6">getInputFormat</a> ()</td></tr>
+<tr class="separator:a74c6820f3ab2382729127055cd8659c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac33131b2c3605c9e0132f835309a102a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#ac33131b2c3605c9e0132f835309a102a">setOutputFormat</a> (<a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> format)</td></tr>
+<tr class="separator:ac33131b2c3605c9e0132f835309a102a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2306064b724db950d166b74174857be3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a2306064b724db950d166b74174857be3">close</a> ()</td></tr>
+<tr class="separator:a2306064b724db950d166b74174857be3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa27c65e61042ce97475fe2abea62bf23"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#aa27c65e61042ce97475fe2abea62bf23">setTrack</a> (int i)</td></tr>
+<tr class="separator:aa27c65e61042ce97475fe2abea62bf23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d46729082792e145de32edd6af29a2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demuxer.html#a5d46729082792e145de32edd6af29a2d">test_onWork</a> ()</td></tr>
+<tr class="separator:a5d46729082792e145de32edd6af29a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
-<div class="textblock"><p >usecase： <a class="el" href="class_demuxer.html">Demuxer</a> demuxer; ret = demuxer.openFile(filename); initDemuxer(); for (;;) { yuvFrame = demuxer.videoFrameQueueFront(); if (yuvFrame) { // do something demuxer.videoFramePop(); } } </p>
+<div class="textblock"><p >生命周期伴随整个程序运行. </p>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
-<a id="a25115a0acf0c4e2ff9ab1481cfe3645a" name="a25115a0acf0c4e2ff9ab1481cfe3645a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25115a0acf0c4e2ff9ab1481cfe3645a">&#9670;&nbsp;</a></span>Demuxer()</h2>
+<a id="a68c6f89d54ae875bdb61b1d13019fc34" name="a68c6f89d54ae875bdb61b1d13019fc34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68c6f89d54ae875bdb61b1d13019fc34">&#9670;&nbsp;</a></span>Demuxer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -135,21 +181,22 @@ Public 成员函数</h2></td></tr>
         <tr>
           <td class="memname">Demuxer::Demuxer </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a56bcb4fb783d2a8ac15db2bb7d4671e2" name="a56bcb4fb783d2a8ac15db2bb7d4671e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56bcb4fb783d2a8ac15db2bb7d4671e2">&#9670;&nbsp;</a></span>~Demuxer()</h2>
+<a id="a45739263d27ca55f34988a9b8bb030eb" name="a45739263d27ca55f34988a9b8bb030eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45739263d27ca55f34988a9b8bb030eb">&#9670;&nbsp;</a></span>~Demuxer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -166,7 +213,7 @@ Public 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -174,8 +221,8 @@ Public 成员函数</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">成员函数说明</h2>
-<a id="a83a8c15dcc92401012797fc933341fd8" name="a83a8c15dcc92401012797fc933341fd8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83a8c15dcc92401012797fc933341fd8">&#9670;&nbsp;</a></span>audioDuration()</h2>
+<a id="af4942470d1aee03a7f043e5c950b6de3" name="af4942470d1aee03a7f043e5c950b6de3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4942470d1aee03a7f043e5c950b6de3">&#9670;&nbsp;</a></span>audioDuration()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -184,7 +231,7 @@ Public 成员函数</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double Demuxer::audioDuration </td>
+          <td class="memname">qreal Demuxer::audioDuration </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -196,201 +243,504 @@ Public 成员函数</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >获取音频流的长度 </p><dl class="section return"><dt>返回</dt><dd>秒数 </dd></dl>
 
 </div>
 </div>
-<a id="ab877d5a346eb48e74efcff609ba0dbe6" name="ab877d5a346eb48e74efcff609ba0dbe6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab877d5a346eb48e74efcff609ba0dbe6">&#9670;&nbsp;</a></span>getPicture()</h2>
+<a id="aba4f54fd67a47a77df638d379b5313b7" name="aba4f54fd67a47a77df638d379b5313b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba4f54fd67a47a77df638d379b5313b7">&#9670;&nbsp;</a></span>backward</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_picture.html">Picture</a> Demuxer::getPicture </td>
+          <td class="memname">void Demuxer::backward </td>
           <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>block</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p >获得图像数据 </p><dl class="params"><dt>参数</dt><dd>
+<p >倒放视频, 必须保证解码器线程空闲且缓冲区为空. 方法返回后保证产生的帧是在时间正确. </p><dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">block</td><td>是否需要阻塞 </td></tr>
+    <tr><td class="paramname">secs</td><td>视频进度(单位: s) </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>图像数据，根据picture.isValid()判断是否返回了可用数据，如果没有返回可用数据， 可能是因为暂时没有数据（比如当前视频已经播放结束或者正常的饥饿，这种情况重试即可）， 也可能是因为上层下达了暂停/终止命令，需要自行判断 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>Demuxer2::statePause </dd>
+<dd>
+Demuxer2::flush </dd>
+<dd>
+<a class="el" href="class_decode_dispatcher.html#acdde07a562e65848a062a735a8c161eb">DecodeDispatcher::seek</a> </dd></dl>
 
 </div>
 </div>
-<a id="ae807ec7eeedae0b7d1f182f440529fd1" name="ae807ec7eeedae0b7d1f182f440529fd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae807ec7eeedae0b7d1f182f440529fd1">&#9670;&nbsp;</a></span>getSample()</h2>
+<a id="a2306064b724db950d166b74174857be3" name="a2306064b724db950d166b74174857be3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2306064b724db950d166b74174857be3">&#9670;&nbsp;</a></span>close()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_sample.html">Sample</a> Demuxer::getSample </td>
+          <td class="memname">void Demuxer::close </td>
           <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>block</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p >获取采样数据 </p><dl class="params"><dt>参数</dt><dd>
+
+</div>
+</div>
+<a id="a2dd659713b4e67fecab8044dc4883ed0" name="a2dd659713b4e67fecab8044dc4883ed0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2dd659713b4e67fecab8044dc4883ed0">&#9670;&nbsp;</a></span>forward</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demuxer::forward </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >正向播放视频, 必须保证解码器线程空闲且缓冲区为空. 方法返回后保证产生的帧是在时间正确. </p><dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">block</td><td>是否需要阻塞 </td></tr>
+    <tr><td class="paramname">secs</td><td>视频进度(单位: s) </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>一个帧的采样数据，根据sample.isValid()判断是否返回了可用数据 </dd></dl>
+<dl class="section see"><dt>参见</dt><dd>Demuxer2::statePause </dd>
+<dd>
+Demuxer2::flush </dd>
+<dd>
+<a class="el" href="class_decode_dispatcher.html#acdde07a562e65848a062a735a8c161eb">DecodeDispatcher::seek</a> </dd></dl>
 
 </div>
 </div>
-<a id="acb7a71acfe7afbc9101bec6b916ef31d" name="acb7a71acfe7afbc9101bec6b916ef31d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb7a71acfe7afbc9101bec6b916ef31d">&#9670;&nbsp;</a></span>openFile()</h2>
+<a id="a116d5fd30eea2ef058ddc06ff473f563" name="a116d5fd30eea2ef058ddc06ff473f563"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a116d5fd30eea2ef058ddc06ff473f563">&#9670;&nbsp;</a></span>frontPicture()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int Demuxer::openFile </td>
+          <td class="memname">qreal Demuxer::frontPicture </td>
           <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>inputFileName</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p >打开一个视频文件 </p><dl class="params"><dt>参数</dt><dd>
+
+</div>
+</div>
+<a id="a2d4113117234d9f64031f39f62590b7c" name="a2d4113117234d9f64031f39f62590b7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d4113117234d9f64031f39f62590b7c">&#9670;&nbsp;</a></span>frontSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal Demuxer::frontSample </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a74c6820f3ab2382729127055cd8659c6" name="a74c6820f3ab2382729127055cd8659c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74c6820f3ab2382729127055cd8659c6">&#9670;&nbsp;</a></span>getInputFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> Demuxer::getInputFormat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abf0681243a6a46ea7a0509fa03fd7b94" name="abf0681243a6a46ea7a0509fa03fd7b94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf0681243a6a46ea7a0509fa03fd7b94">&#9670;&nbsp;</a></span>getPicture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_video_frame_ref.html">VideoFrameRef</a> Demuxer::getPicture </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a56a3ce3dec35f8509a8f833c5e45fc51" name="a56a3ce3dec35f8509a8f833c5e45fc51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56a3ce3dec35f8509a8f833c5e45fc51">&#9670;&nbsp;</a></span>getSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_audio_frame.html">AudioFrame</a> Demuxer::getSample </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aad55b6f447f8ab06be314e9e87aa066a" name="aad55b6f447f8ab06be314e9e87aa066a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad55b6f447f8ab06be314e9e87aa066a">&#9670;&nbsp;</a></span>getTracks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList Demuxer::getTracks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aecb1d8412975b0a2aa980d5ee86fd706" name="aecb1d8412975b0a2aa980d5ee86fd706"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecb1d8412975b0a2aa980d5ee86fd706">&#9670;&nbsp;</a></span>hasVideo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE bool Demuxer::hasVideo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa04c8073ec0dbd9db7aa83349b534931" name="aa04c8073ec0dbd9db7aa83349b534931"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa04c8073ec0dbd9db7aa83349b534931">&#9670;&nbsp;</a></span>isBackward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE bool Demuxer::isBackward </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >当前是否倒放 </p><dl class="section return"><dt>返回</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a8b10bf47d33058d6a8fabf6ff5240c7c" name="a8b10bf47d33058d6a8fabf6ff5240c7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b10bf47d33058d6a8fabf6ff5240c7c">&#9670;&nbsp;</a></span>isFileOpen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE bool Demuxer::isFileOpen </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa629616b35612d27bbbe802eae9086a7" name="aa629616b35612d27bbbe802eae9086a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa629616b35612d27bbbe802eae9086a7">&#9670;&nbsp;</a></span>openFile</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demuxer::openFile </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>fn</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >打开文件 </p><dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">inputFileName</td><td>文件名 </td></tr>
+    <tr><td class="paramname">fn</td><td>本地文件路径 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>1表示成功，-1表示失败 </dd></dl>
 
 </div>
 </div>
-<a id="a7e4fb998093989fcee32b2affc9b9ccf" name="a7e4fb998093989fcee32b2affc9b9ccf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e4fb998093989fcee32b2affc9b9ccf">&#9670;&nbsp;</a></span>pause()</h2>
+<a id="a835dd8f729c830b078e00a9587a85f19" name="a835dd8f729c830b078e00a9587a85f19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a835dd8f729c830b078e00a9587a85f19">&#9670;&nbsp;</a></span>openFileResult</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Demuxer::pause </td>
+          <td class="memname">void Demuxer::openFileResult </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespace_pony_player.html#a028c97ff63e8c04932cdf4bc7db2aa37">PonyPlayer::OpenFileResultType</a>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QPrivateSignal&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acb011c17241d150055db11de28dcd5e6" name="acb011c17241d150055db11de28dcd5e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb011c17241d150055db11de28dcd5e6">&#9670;&nbsp;</a></span>pause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE void Demuxer::pause </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p >暂停demuxer </p>
+<p >向 DecodeThread 发送信号尽快暂停解码, 并唤醒阻塞在上面的线程. </p><dl class="section see"><dt>参见</dt><dd><a class="el" href="class_decode_dispatcher.html#ad526f5b8abb916f88cfa4660cab5c648">DecodeDispatcher::statePause</a> </dd></dl>
 
 </div>
 </div>
-<a id="a51f65d75ad33d91e3b0edefbb994a190" name="a51f65d75ad33d91e3b0edefbb994a190"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a51f65d75ad33d91e3b0edefbb994a190">&#9670;&nbsp;</a></span>popPicture()</h2>
+<a id="a0c701209e6da1453d3fa2581896031f8" name="a0c701209e6da1453d3fa2581896031f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c701209e6da1453d3fa2581896031f8">&#9670;&nbsp;</a></span>PONY_GUARD_BY()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Demuxer::popPicture </td>
+          <td class="memname">Demuxer::PONY_GUARD_BY </td>
           <td>(</td>
+          <td class="paramtype">FRAME&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p >成功获取图像数据后用于从队列中弹出一个图像帧 </p>
+<p >清空旧的帧, 这个方法会阻塞直到队列中的所有旧帧清理完成. </p><dl class="section see"><dt>参见</dt><dd><a class="el" href="class_decode_dispatcher.html#adf85d530a7c52698c663f12d9330fc77">DecodeDispatcher::flush</a> </dd></dl>
 
 </div>
 </div>
-<a id="af79bf069cff91cbbfb43593e9d9c1076" name="af79bf069cff91cbbfb43593e9d9c1076"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af79bf069cff91cbbfb43593e9d9c1076">&#9670;&nbsp;</a></span>popSample()</h2>
+<a id="a7de116f2c4541631c09bbb13d8991665" name="a7de116f2c4541631c09bbb13d8991665"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7de116f2c4541631c09bbb13d8991665">&#9670;&nbsp;</a></span>seek</h2>
 
 <div class="memitem">
 <div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Demuxer::popSample </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >获得一个可用的采样数据之后调用该函数弹出一个采样帧 </p>
-
-</div>
-</div>
-<a id="a829dddb168ca37288002507463257cf8" name="a829dddb168ca37288002507463257cf8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a829dddb168ca37288002507463257cf8">&#9670;&nbsp;</a></span>quit()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Demuxer::quit </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >结束demuxer </p>
-
-</div>
-</div>
-<a id="a426a0c5ff0c4c6cfcf645483c939513f" name="a426a0c5ff0c4c6cfcf645483c939513f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a426a0c5ff0c4c6cfcf645483c939513f">&#9670;&nbsp;</a></span>resume()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Demuxer::resume </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >恢复demuxer </p>
-
-</div>
-</div>
-<a id="a8ea0d0375816b9a5690a16b9282b2b7e" name="a8ea0d0375816b9a5690a16b9282b2b7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ea0d0375816b9a5690a16b9282b2b7e">&#9670;&nbsp;</a></span>seek()</h2>
-
-<div class="memitem">
-<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Demuxer::seek </td>
           <td>(</td>
-          <td class="paramtype">int64_t&#160;</td>
-          <td class="paramname"><em>us</em></td><td>)</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>secs</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p >跳转到指定时间点 </p><dl class="params"><dt>参数</dt><dd>
+<p >调整视频进度, 必须保证解码器线程空闲且缓冲区为空. 方法返回后保证产生的帧是在时间正确. <br  />
+一次完整的调整进度操作应该为: <br  />
+</p><ol type="1">
+<li>在VideoThread线程调用 Demuxer2::statePause 使解码器线程停止运行; <br  />
+</li>
+<li>在VideoThread线程调用 Demuxer2::seek 并阻塞等待函数返回, 接下来产生的帧是新的帧. <br  />
+</li>
+<li>在VideoThread线程调用 Demuxer2::flush 清空队列中的旧帧. <br  />
+</li>
+<li>在DeocdeThread线程中执行 Demuxer2::start, 恢复解码器线程线程运行. <br  />
+<dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">us</td><td>微秒时间戳 </td></tr>
+    <tr><td class="paramname">secs</td><td>视频进度(单位: s) </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section see"><dt>参见</dt><dd>Demuxer2::statePause </dd>
+<dd>
+Demuxer2::flush </dd>
+<dd>
+<a class="el" href="class_decode_dispatcher.html#acdde07a562e65848a062a735a8c161eb">DecodeDispatcher::seek</a> </dd></dl>
+</li>
+</ol>
 
 </div>
 </div>
-<a id="aa33a5fba97ec8c95a262b4c65f9d0bd3" name="aa33a5fba97ec8c95a262b4c65f9d0bd3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa33a5fba97ec8c95a262b4c65f9d0bd3">&#9670;&nbsp;</a></span>videoDuration()</h2>
+<a id="a1fcdc5900388debd22f22916cedb236d" name="a1fcdc5900388debd22f22916cedb236d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fcdc5900388debd22f22916cedb236d">&#9670;&nbsp;</a></span>setAudioIndex</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -399,7 +749,176 @@ Public 成员函数</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double Demuxer::videoDuration </td>
+          <td class="memname">void Demuxer::setAudioIndex </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="dispatcher_8hpp.html#abaec574eea3051ebe48d9c46eb25e723">StreamIndex</a>&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >设置音频索引, 必须保证解码器线程空闲且缓冲区为空 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>参见</dt><dd><a class="el" href="class_decode_dispatcher.html#acdde07a562e65848a062a735a8c161eb">DecodeDispatcher::seek</a> </dd></dl>
+
+</div>
+</div>
+<a id="ad16ba34316cc21fafd91c27774850c6b" name="ad16ba34316cc21fafd91c27774850c6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad16ba34316cc21fafd91c27774850c6b">&#9670;&nbsp;</a></span>setEnableAudio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demuxer::setEnableAudio </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac33131b2c3605c9e0132f835309a102a" name="ac33131b2c3605c9e0132f835309a102a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac33131b2c3605c9e0132f835309a102a">&#9670;&nbsp;</a></span>setOutputFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demuxer::setOutputFormat </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >设置 demuxer 输出格式, 必须保证 demuxer 已停止, 需要重新 seek 才能保证获取到正确的帧 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">format</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa27c65e61042ce97475fe2abea62bf23" name="aa27c65e61042ce97475fe2abea62bf23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa27c65e61042ce97475fe2abea62bf23">&#9670;&nbsp;</a></span>setTrack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demuxer::setTrack </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0cb45f14d52e736bedacb2f07c1d7ad0" name="a0cb45f14d52e736bedacb2f07c1d7ad0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cb45f14d52e736bedacb2f07c1d7ad0">&#9670;&nbsp;</a></span>skipPicture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE int Demuxer::skipPicture </td>
+          <td>(</td>
+          <td class="paramtype">const std::function&lt; bool(qreal)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>predicate</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0906463a920efd8b5868e09c909798ae" name="a0906463a920efd8b5868e09c909798ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0906463a920efd8b5868e09c909798ae">&#9670;&nbsp;</a></span>skipSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE int Demuxer::skipSample </td>
+          <td>(</td>
+          <td class="paramtype">const std::function&lt; bool(qreal)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>predicate</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a239c97b6e586a6458695e89dde69ae61" name="a239c97b6e586a6458695e89dde69ae61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a239c97b6e586a6458695e89dde69ae61">&#9670;&nbsp;</a></span>start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE void Demuxer::start </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -411,13 +930,62 @@ Public 成员函数</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >获取视频流的长度 </p><dl class="section return"><dt>返回</dt><dd>秒数 </dd></dl>
+<p >在 DecodeThread 启动解码器, 这个方法是非阻塞的, 但是可以保证返回后队里请求能够被阻塞. </p>
+
+</div>
+</div>
+<a id="a5d46729082792e145de32edd6af29a2d" name="a5d46729082792e145de32edd6af29a2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d46729082792e145de32edd6af29a2d">&#9670;&nbsp;</a></span>test_onWork()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Demuxer::test_onWork </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a49afb6cd099cb2d85a91da3bc93d2c6f" name="a49afb6cd099cb2d85a91da3bc93d2c6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49afb6cd099cb2d85a91da3bc93d2c6f">&#9670;&nbsp;</a></span>videoDuration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal Demuxer::videoDuration </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>include/<a class="el" href="demuxer_8h_source.html">demuxer.h</a></li>
-<li>src/ffmpeg/<a class="el" href="demuxer_8cpp.html">demuxer.cpp</a></li>
+<li>src/decoder/<a class="el" href="demuxer_8hpp_source.html">demuxer.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

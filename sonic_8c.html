@@ -1,0 +1,1003 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: thirdparty/sonic/sonic.c 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('sonic_8c.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle"><div class="title">sonic.c 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="sonic_8h_source.html">sonic.h</a>&quot;</code><br />
+<code>#include &lt;limits.h&gt;</code><br />
+<code>#include &lt;math.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsonic_stream_struct.html">sonicStreamStruct</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:ae7f1ea777ecd4545f32bbdc0f1969161"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#ae7f1ea777ecd4545f32bbdc0f1969161">SINC_FILTER_POINTS</a>&#160;&#160;&#160;  12 /* I am not able to hear improvement with higher N. */</td></tr>
+<tr class="separator:ae7f1ea777ecd4545f32bbdc0f1969161"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5134dfe9c0367fe7841e59c49e131c35"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a5134dfe9c0367fe7841e59c49e131c35">SINC_TABLE_SIZE</a>&#160;&#160;&#160;601</td></tr>
+<tr class="separator:a5134dfe9c0367fe7841e59c49e131c35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:a9ca668dee6ecca45282fe44def4c6bcc"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a9ca668dee6ecca45282fe44def4c6bcc">sonicGetSpeed</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream)</td></tr>
+<tr class="separator:a9ca668dee6ecca45282fe44def4c6bcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaae8b0bfac5f4d4cd88f2ac76860c552"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#aaae8b0bfac5f4d4cd88f2ac76860c552">sonicSetSpeed</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, float speed)</td></tr>
+<tr class="separator:aaae8b0bfac5f4d4cd88f2ac76860c552"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac95682c7d676417c24f6c9629b425925"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#ac95682c7d676417c24f6c9629b425925">sonicGetPitch</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream)</td></tr>
+<tr class="separator:ac95682c7d676417c24f6c9629b425925"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07fea2d535acf7ea8b2ca89cba242897"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a07fea2d535acf7ea8b2ca89cba242897">sonicSetPitch</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, float pitch)</td></tr>
+<tr class="separator:a07fea2d535acf7ea8b2ca89cba242897"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15d89ea9f62083184aa4a5866fa87a5d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a15d89ea9f62083184aa4a5866fa87a5d">sonicGetRate</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream)</td></tr>
+<tr class="separator:a15d89ea9f62083184aa4a5866fa87a5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a043991e8b37958a1abf12e2abd29f71a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a043991e8b37958a1abf12e2abd29f71a">sonicSetRate</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, float rate)</td></tr>
+<tr class="separator:a043991e8b37958a1abf12e2abd29f71a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b2119b6d597fb37887baab42ef72b1d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a9b2119b6d597fb37887baab42ef72b1d">sonicGetChordPitch</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream)</td></tr>
+<tr class="separator:a9b2119b6d597fb37887baab42ef72b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91710328c40ff750e4f65217a4144324"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a91710328c40ff750e4f65217a4144324">sonicSetChordPitch</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, int useChordPitch)</td></tr>
+<tr class="separator:a91710328c40ff750e4f65217a4144324"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d8f9d4f916e7d8c60bad2ab374ae8c5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a3d8f9d4f916e7d8c60bad2ab374ae8c5">sonicGetQuality</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream)</td></tr>
+<tr class="separator:a3d8f9d4f916e7d8c60bad2ab374ae8c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e1a823b6d27e842c139f770139a7e80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a8e1a823b6d27e842c139f770139a7e80">sonicSetQuality</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, int quality)</td></tr>
+<tr class="separator:a8e1a823b6d27e842c139f770139a7e80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b2ad6a8ff0c89c4a4b1544fa71af2ba"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a1b2ad6a8ff0c89c4a4b1544fa71af2ba">sonicGetVolume</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream)</td></tr>
+<tr class="separator:a1b2ad6a8ff0c89c4a4b1544fa71af2ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ab92c0e649b27790275a55c6d1f27c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a4ab92c0e649b27790275a55c6d1f27c1">sonicSetVolume</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, float volume)</td></tr>
+<tr class="separator:a4ab92c0e649b27790275a55c6d1f27c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69dadfe8e9020ba06a45d0bb0c416a55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a69dadfe8e9020ba06a45d0bb0c416a55">sonicDestroyStream</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream)</td></tr>
+<tr class="separator:a69dadfe8e9020ba06a45d0bb0c416a55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ab9a171c19e6b94941305da01b18173"><td class="memItemLeft" align="right" valign="top"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a2ab9a171c19e6b94941305da01b18173">sonicCreateStream</a> (int sampleRate, int numChannels)</td></tr>
+<tr class="separator:a2ab9a171c19e6b94941305da01b18173"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae83d255f97896415a5e7e547772a6d88"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#ae83d255f97896415a5e7e547772a6d88">sonicGetSampleRate</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream)</td></tr>
+<tr class="separator:ae83d255f97896415a5e7e547772a6d88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01363ab8ab227ba4d56ae14e8f8137cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a01363ab8ab227ba4d56ae14e8f8137cb">sonicSetSampleRate</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, int sampleRate)</td></tr>
+<tr class="separator:a01363ab8ab227ba4d56ae14e8f8137cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9881457b8e5f578ce3ebf612fb200855"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a9881457b8e5f578ce3ebf612fb200855">sonicGetNumChannels</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream)</td></tr>
+<tr class="separator:a9881457b8e5f578ce3ebf612fb200855"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afac8612aa618aa1a25b26d9607ddea20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#afac8612aa618aa1a25b26d9607ddea20">sonicSetNumChannels</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, int numChannels)</td></tr>
+<tr class="separator:afac8612aa618aa1a25b26d9607ddea20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2c82fa66f8af3338937cf40866bada9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#ad2c82fa66f8af3338937cf40866bada9">sonicReadFloatFromStream</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, float *samples, int maxSamples)</td></tr>
+<tr class="separator:ad2c82fa66f8af3338937cf40866bada9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a971a3148ffabd07a763f2cc3a18ddd0c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a971a3148ffabd07a763f2cc3a18ddd0c">sonicReadShortFromStream</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, short *samples, int maxSamples)</td></tr>
+<tr class="separator:a971a3148ffabd07a763f2cc3a18ddd0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add440029b68251c170f984668b6e5200"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#add440029b68251c170f984668b6e5200">sonicReadUnsignedCharFromStream</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, unsigned char *samples, int maxSamples)</td></tr>
+<tr class="separator:add440029b68251c170f984668b6e5200"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14602054438a8c200eb0a504dad35e5e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a14602054438a8c200eb0a504dad35e5e">sonicFlushStream</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream)</td></tr>
+<tr class="separator:a14602054438a8c200eb0a504dad35e5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f0c5b246e5d0e1aab93bed484e0a8e7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a4f0c5b246e5d0e1aab93bed484e0a8e7">sonicSamplesAvailable</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream)</td></tr>
+<tr class="separator:a4f0c5b246e5d0e1aab93bed484e0a8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4db445dc69526f498eaf1f85c6c01c9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#ad4db445dc69526f498eaf1f85c6c01c9">sonicWriteFloatToStream</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, float *samples, int numSamples)</td></tr>
+<tr class="separator:ad4db445dc69526f498eaf1f85c6c01c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52ab742f11f251b979fedb2ad0895d60"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a52ab742f11f251b979fedb2ad0895d60">sonicWriteShortToStream</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, const short *samples, int numSamples)</td></tr>
+<tr class="separator:a52ab742f11f251b979fedb2ad0895d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2729f4408f23a2878f29466c0eab6ec"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#ab2729f4408f23a2878f29466c0eab6ec">sonicWriteUnsignedCharToStream</a> (<a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> stream, unsigned char *samples, int numSamples)</td></tr>
+<tr class="separator:ab2729f4408f23a2878f29466c0eab6ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ed9efd2225102fed007f77b8fad393c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#a0ed9efd2225102fed007f77b8fad393c">sonicChangeFloatSpeed</a> (float *samples, int numSamples, float speed, float pitch, float rate, float volume, int useChordPitch, int sampleRate, int numChannels)</td></tr>
+<tr class="separator:a0ed9efd2225102fed007f77b8fad393c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5b893455c9821e1c5e38301f9ead421"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sonic_8c.html#ac5b893455c9821e1c5e38301f9ead421">sonicChangeShortSpeed</a> (short *samples, int numSamples, float speed, float pitch, float rate, float volume, int useChordPitch, int sampleRate, int numChannels)</td></tr>
+<tr class="separator:ac5b893455c9821e1c5e38301f9ead421"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="ae7f1ea777ecd4545f32bbdc0f1969161" name="ae7f1ea777ecd4545f32bbdc0f1969161"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7f1ea777ecd4545f32bbdc0f1969161">&#9670;&nbsp;</a></span>SINC_FILTER_POINTS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SINC_FILTER_POINTS&#160;&#160;&#160;  12 /* I am not able to hear improvement with higher N. */</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5134dfe9c0367fe7841e59c49e131c35" name="a5134dfe9c0367fe7841e59c49e131c35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5134dfe9c0367fe7841e59c49e131c35">&#9670;&nbsp;</a></span>SINC_TABLE_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SINC_TABLE_SIZE&#160;&#160;&#160;601</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">函数说明</h2>
+<a id="a0ed9efd2225102fed007f77b8fad393c" name="a0ed9efd2225102fed007f77b8fad393c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ed9efd2225102fed007f77b8fad393c">&#9670;&nbsp;</a></span>sonicChangeFloatSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicChangeFloatSpeed </td>
+          <td>(</td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>samples</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numSamples</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>speed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>pitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>rate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>volume</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>useChordPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>sampleRate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numChannels</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac5b893455c9821e1c5e38301f9ead421" name="ac5b893455c9821e1c5e38301f9ead421"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5b893455c9821e1c5e38301f9ead421">&#9670;&nbsp;</a></span>sonicChangeShortSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicChangeShortSpeed </td>
+          <td>(</td>
+          <td class="paramtype">short *&#160;</td>
+          <td class="paramname"><em>samples</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numSamples</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>speed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>pitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>rate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>volume</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>useChordPitch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>sampleRate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numChannels</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ab9a171c19e6b94941305da01b18173" name="a2ab9a171c19e6b94941305da01b18173"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ab9a171c19e6b94941305da01b18173">&#9670;&nbsp;</a></span>sonicCreateStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a> sonicCreateStream </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>sampleRate</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numChannels</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a69dadfe8e9020ba06a45d0bb0c416a55" name="a69dadfe8e9020ba06a45d0bb0c416a55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69dadfe8e9020ba06a45d0bb0c416a55">&#9670;&nbsp;</a></span>sonicDestroyStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sonicDestroyStream </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a14602054438a8c200eb0a504dad35e5e" name="a14602054438a8c200eb0a504dad35e5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14602054438a8c200eb0a504dad35e5e">&#9670;&nbsp;</a></span>sonicFlushStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicFlushStream </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9b2119b6d597fb37887baab42ef72b1d" name="a9b2119b6d597fb37887baab42ef72b1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b2119b6d597fb37887baab42ef72b1d">&#9670;&nbsp;</a></span>sonicGetChordPitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicGetChordPitch </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9881457b8e5f578ce3ebf612fb200855" name="a9881457b8e5f578ce3ebf612fb200855"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9881457b8e5f578ce3ebf612fb200855">&#9670;&nbsp;</a></span>sonicGetNumChannels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicGetNumChannels </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac95682c7d676417c24f6c9629b425925" name="ac95682c7d676417c24f6c9629b425925"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac95682c7d676417c24f6c9629b425925">&#9670;&nbsp;</a></span>sonicGetPitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float sonicGetPitch </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3d8f9d4f916e7d8c60bad2ab374ae8c5" name="a3d8f9d4f916e7d8c60bad2ab374ae8c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d8f9d4f916e7d8c60bad2ab374ae8c5">&#9670;&nbsp;</a></span>sonicGetQuality()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicGetQuality </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15d89ea9f62083184aa4a5866fa87a5d" name="a15d89ea9f62083184aa4a5866fa87a5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15d89ea9f62083184aa4a5866fa87a5d">&#9670;&nbsp;</a></span>sonicGetRate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float sonicGetRate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae83d255f97896415a5e7e547772a6d88" name="ae83d255f97896415a5e7e547772a6d88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae83d255f97896415a5e7e547772a6d88">&#9670;&nbsp;</a></span>sonicGetSampleRate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicGetSampleRate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9ca668dee6ecca45282fe44def4c6bcc" name="a9ca668dee6ecca45282fe44def4c6bcc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ca668dee6ecca45282fe44def4c6bcc">&#9670;&nbsp;</a></span>sonicGetSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float sonicGetSpeed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b2ad6a8ff0c89c4a4b1544fa71af2ba" name="a1b2ad6a8ff0c89c4a4b1544fa71af2ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b2ad6a8ff0c89c4a4b1544fa71af2ba">&#9670;&nbsp;</a></span>sonicGetVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float sonicGetVolume </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad2c82fa66f8af3338937cf40866bada9" name="ad2c82fa66f8af3338937cf40866bada9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2c82fa66f8af3338937cf40866bada9">&#9670;&nbsp;</a></span>sonicReadFloatFromStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicReadFloatFromStream </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>samples</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxSamples</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a971a3148ffabd07a763f2cc3a18ddd0c" name="a971a3148ffabd07a763f2cc3a18ddd0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a971a3148ffabd07a763f2cc3a18ddd0c">&#9670;&nbsp;</a></span>sonicReadShortFromStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicReadShortFromStream </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">short *&#160;</td>
+          <td class="paramname"><em>samples</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxSamples</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="add440029b68251c170f984668b6e5200" name="add440029b68251c170f984668b6e5200"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add440029b68251c170f984668b6e5200">&#9670;&nbsp;</a></span>sonicReadUnsignedCharFromStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicReadUnsignedCharFromStream </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramname"><em>samples</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxSamples</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4f0c5b246e5d0e1aab93bed484e0a8e7" name="a4f0c5b246e5d0e1aab93bed484e0a8e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f0c5b246e5d0e1aab93bed484e0a8e7">&#9670;&nbsp;</a></span>sonicSamplesAvailable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicSamplesAvailable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a91710328c40ff750e4f65217a4144324" name="a91710328c40ff750e4f65217a4144324"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91710328c40ff750e4f65217a4144324">&#9670;&nbsp;</a></span>sonicSetChordPitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sonicSetChordPitch </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>useChordPitch</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afac8612aa618aa1a25b26d9607ddea20" name="afac8612aa618aa1a25b26d9607ddea20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afac8612aa618aa1a25b26d9607ddea20">&#9670;&nbsp;</a></span>sonicSetNumChannels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sonicSetNumChannels </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numChannels</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07fea2d535acf7ea8b2ca89cba242897" name="a07fea2d535acf7ea8b2ca89cba242897"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07fea2d535acf7ea8b2ca89cba242897">&#9670;&nbsp;</a></span>sonicSetPitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sonicSetPitch </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>pitch</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e1a823b6d27e842c139f770139a7e80" name="a8e1a823b6d27e842c139f770139a7e80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e1a823b6d27e842c139f770139a7e80">&#9670;&nbsp;</a></span>sonicSetQuality()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sonicSetQuality </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>quality</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a043991e8b37958a1abf12e2abd29f71a" name="a043991e8b37958a1abf12e2abd29f71a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a043991e8b37958a1abf12e2abd29f71a">&#9670;&nbsp;</a></span>sonicSetRate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sonicSetRate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>rate</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a01363ab8ab227ba4d56ae14e8f8137cb" name="a01363ab8ab227ba4d56ae14e8f8137cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01363ab8ab227ba4d56ae14e8f8137cb">&#9670;&nbsp;</a></span>sonicSetSampleRate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sonicSetSampleRate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>sampleRate</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaae8b0bfac5f4d4cd88f2ac76860c552" name="aaae8b0bfac5f4d4cd88f2ac76860c552"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaae8b0bfac5f4d4cd88f2ac76860c552">&#9670;&nbsp;</a></span>sonicSetSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sonicSetSpeed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>speed</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4ab92c0e649b27790275a55c6d1f27c1" name="a4ab92c0e649b27790275a55c6d1f27c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ab92c0e649b27790275a55c6d1f27c1">&#9670;&nbsp;</a></span>sonicSetVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sonicSetVolume </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>volume</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad4db445dc69526f498eaf1f85c6c01c9" name="ad4db445dc69526f498eaf1f85c6c01c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4db445dc69526f498eaf1f85c6c01c9">&#9670;&nbsp;</a></span>sonicWriteFloatToStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicWriteFloatToStream </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>samples</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numSamples</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a52ab742f11f251b979fedb2ad0895d60" name="a52ab742f11f251b979fedb2ad0895d60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52ab742f11f251b979fedb2ad0895d60">&#9670;&nbsp;</a></span>sonicWriteShortToStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicWriteShortToStream </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const short *&#160;</td>
+          <td class="paramname"><em>samples</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numSamples</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab2729f4408f23a2878f29466c0eab6ec" name="ab2729f4408f23a2878f29466c0eab6ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2729f4408f23a2878f29466c0eab6ec">&#9670;&nbsp;</a></span>sonicWriteUnsignedCharToStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int sonicWriteUnsignedCharToStream </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sonic_8h.html#aa6a0d723b86067e60d8cb55d108cbc95">sonicStream</a>&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned char *&#160;</td>
+          <td class="paramname"><em>samples</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numSamples</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_7f51fab15f37f4c20c90b1af38889ac7.html">thirdparty</a></li><li class="navelem"><a class="el" href="dir_6cf4815d345c72fb1086b307d092930e.html">sonic</a></li><li class="navelem"><a class="el" href="sonic_8c.html">sonic.c</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

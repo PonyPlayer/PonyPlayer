@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: src/decoder/private/forward.hpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('forward_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">forward.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="forward_8hpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">//</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// Created by ColorsWind on 2022/5/1.</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="decoders_8hpp.html">decoders.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">template</span>&lt;IDemuxDecoder::DecoderType type&gt;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="class_decoder_impl.html">    9</a></span><span class="keyword">class </span><a class="code hl_class" href="class_decoder_impl.html">DecoderImpl</a> : <span class="keyword">public</span> <a class="code hl_class" href="class_decoder_context.html">DecoderContext</a>, <span class="keyword">public</span> <a class="code hl_class" href="class_i_demux_decoder.html">IDemuxDecoder</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">   11</a></span>    <a class="code hl_class" href="class_twins_block_queue.html">TwinsBlockQueue&lt;AVFrame *&gt;</a> *<a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#ae5ff61e2c21c03d7118eb3d3bffc110e">   13</a></span>    <a class="code hl_function" href="class_decoder_impl.html#ae5ff61e2c21c03d7118eb3d3bffc110e">DecoderImpl</a>(AVStream *vs, <a class="code hl_class" href="class_twins_block_queue.html">TwinsBlockQueue&lt;AVFrame *&gt;</a> *queue)</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>            : <a class="code hl_class" href="class_decoder_context.html">DecoderContext</a>(vs), <a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>(queue) {}</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#a135b10edc2026dfdf665122bdae25402">   16</a></span>    PONY_THREAD_SAFE <span class="keywordtype">double</span> <a class="code hl_function" href="class_decoder_impl.html#a135b10edc2026dfdf665122bdae25402">duration</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="class_decoder_context.html#aab3f8f629c4f5a24ed13691af4076117">stream</a>-&gt;duration) * av_q2d(<a class="code hl_variable" href="class_decoder_context.html#aab3f8f629c4f5a24ed13691af4076117">stream</a>-&gt;time_base);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    }</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#aaefe35b9479e5e335b2c72bdc824803f">   20</a></span>    <a class="code hl_function" href="class_decoder_impl.html#aa7b3cf5cb9f0a9ec1f2c890da4e73053">PONY_GUARD_BY</a>(<a class="code hl_variable" href="namespace_pony_player.html#a4dba509b25f0026b8f2c7d1ba5c407a0">DECODER</a>) <span class="keywordtype">bool</span> <a class="code hl_function" href="class_i_demux_decoder.html#a01546afaf774ebabe303688237f23fa7">accept</a>(AVPacket *pkt, std::atomic&lt;bool&gt; &amp;interrupt)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>-&gt;isEnable())</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#aa2fdf34e6a42ee64833287f7a435c95c">   23</a></span>        <span class="keywordtype">int</span> <a class="code hl_variable" href="class_decoder_impl.html#aa2fdf34e6a42ee64833287f7a435c95c">ret</a> = avcodec_send_packet(<a class="code hl_variable" href="class_decoder_context.html#a8fec2cff4505c6bdc46a2ef4f311fd35">codecCtx</a>, pkt);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#a051624b1b51fc631ef89f45be2b8468f">   24</a></span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_decoder_impl.html#aa2fdf34e6a42ee64833287f7a435c95c">ret</a> &lt; 0) {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            qWarning() &lt;&lt; <span class="stringliteral">&quot;Error avcodec_send_packet:&quot;</span> &lt;&lt; <a class="code hl_function" href="helper_8hpp.html#af075ca317e1895581d88926260500d87">ffmpegErrToString</a>(<a class="code hl_variable" href="class_decoder_impl.html#aa2fdf34e6a42ee64833287f7a435c95c">ret</a>);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        }</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#a0204ff136fe3d7587677d619ff515977">   28</a></span>        <span class="keywordflow">while</span>(<a class="code hl_variable" href="class_decoder_impl.html#aa2fdf34e6a42ee64833287f7a435c95c">ret</a> &gt;= 0 &amp;&amp; !interrupt) {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <a class="code hl_variable" href="class_decoder_impl.html#aa2fdf34e6a42ee64833287f7a435c95c">ret</a> = avcodec_receive_frame(<a class="code hl_variable" href="class_decoder_context.html#a8fec2cff4505c6bdc46a2ef4f311fd35">codecCtx</a>, <a class="code hl_variable" href="class_decoder_context.html#a846d2586cf5105db91a5e86502563e82">frameBuf</a>);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_decoder_impl.html#aa2fdf34e6a42ee64833287f7a435c95c">ret</a> &gt;= 0) {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                <span class="keywordflow">if</span>(!<a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>-&gt;push(<a class="code hl_variable" href="class_decoder_context.html#a846d2586cf5105db91a5e86502563e82">frameBuf</a>)) {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                    <a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>-&gt;clear([](AVFrame *frame) { av_frame_free(&amp;frame); });</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                    av_frame_unref(<a class="code hl_variable" href="class_decoder_context.html#a846d2586cf5105db91a5e86502563e82">frameBuf</a>);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                <a class="code hl_variable" href="class_decoder_context.html#a846d2586cf5105db91a5e86502563e82">frameBuf</a> = av_frame_alloc();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_decoder_impl.html#aa2fdf34e6a42ee64833287f7a435c95c">ret</a> == AVERROR(EAGAIN)) {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_decoder_impl.html#aa2fdf34e6a42ee64833287f7a435c95c">ret</a> == <a class="code hl_variable" href="helper_8hpp.html#ad567d869b10ce71c01c6a7d7df55de1e">ERROR_EOF</a>) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                <a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>-&gt;push(<span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                <a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>-&gt;push(<span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                qWarning() &lt;&lt; <span class="stringliteral">&quot;Error avcodec_receive_frame:&quot;</span> &lt;&lt; <a class="code hl_function" href="helper_8hpp.html#af075ca317e1895581d88926260500d87">ffmpegErrToString</a>(<a class="code hl_variable" href="class_decoder_impl.html#aa2fdf34e6a42ee64833287f7a435c95c">ret</a>);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            }</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#a51f9226a7b29a21ec9cb192487235ea0">   48</a></span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#aac7dd7dac588e6a7b4284a2c983c064f">   51</a></span>    PONY_THREAD_SAFE <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> <a class="code hl_function" href="class_decoder_impl.html#aac7dd7dac588e6a7b4284a2c983c064f">getPicture</a>()<span class="keyword"> override </span>{ <a class="code hl_define" href="ponyplayer_8h.html#aeb46fe29e358d4fe65487573aadfd583">NOT_IMPLEMENT_YET</a> }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#a0fe9f2e2a39bbecb68fc6f8472ac47af">   53</a></span>    PONY_THREAD_SAFE <a class="code hl_class" href="class_audio_frame.html">AudioFrame</a> <a class="code hl_function" href="class_decoder_impl.html#a0fe9f2e2a39bbecb68fc6f8472ac47af">getSample</a>()<span class="keyword"> override </span>{ <a class="code hl_define" href="ponyplayer_8h.html#aeb46fe29e358d4fe65487573aadfd583">NOT_IMPLEMENT_YET</a> }</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#a2d605992095012c5a6e0113a49f68e16">   55</a></span>    <a class="code hl_class" href="class_pony_audio_format.html">PonyAudioFormat</a> <a class="code hl_function" href="class_decoder_impl.html#a2d605992095012c5a6e0113a49f68e16">getInputFormat</a>()<span class="keyword"> override </span>{ <a class="code hl_define" href="ponyplayer_8h.html#aeb46fe29e358d4fe65487573aadfd583">NOT_IMPLEMENT_YET</a> }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#acb1f3a855752ace9c2acc52be3443ff1">   57</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_decoder_impl.html#acb1f3a855752ace9c2acc52be3443ff1">setOutputFormat</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_pony_audio_format.html">PonyAudioFormat</a> &amp;format)<span class="keyword"> override </span>{ <a class="code hl_define" href="ponyplayer_8h.html#aeb46fe29e358d4fe65487573aadfd583">NOT_IMPLEMENT_YET</a> }</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#acf1b5f50a8000d64fe063f9d74705a0f">   60</a></span>    PONY_THREAD_SAFE qreal <a class="code hl_function" href="class_decoder_impl.html#acf1b5f50a8000d64fe063f9d74705a0f">viewFront</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>-&gt;viewFront&lt;qreal&gt;([<span class="keyword">this</span>](AVFrame * frame) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keywordflow">if</span> (frame) {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>qreal<span class="keyword">&gt;</span>(frame-&gt;pts) * av_q2d(<a class="code hl_variable" href="class_decoder_context.html#aab3f8f629c4f5a24ed13691af4076117">stream</a>-&gt;time_base);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                <span class="keywordflow">return</span> std::numeric_limits&lt;qreal&gt;::quiet_NaN();</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        });</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    }</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#a37446b1030b43a24e71e272f9407e181">   70</a></span>    PONY_THREAD_SAFE <span class="keywordtype">int</span> <a class="code hl_function" href="class_decoder_impl.html#a37446b1030b43a24e71e272f9407e181">skip</a>(<span class="keyword">const</span> std::function&lt;<span class="keywordtype">bool</span>(qreal)&gt; &amp;predicate)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>-&gt;skip([<span class="keyword">this</span>, predicate](AVFrame *frame){</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            <span class="keywordflow">return</span> frame &amp;&amp; predicate(<span class="keyword">static_cast&lt;</span>qreal<span class="keyword">&gt;</span>(frame-&gt;pts) * av_q2d(<a class="code hl_variable" href="class_decoder_context.html#aab3f8f629c4f5a24ed13691af4076117">stream</a>-&gt;time_base));</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        }, [](AVFrame *frame) { av_frame_free(&amp;frame); });</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#aaa7b8b977463e4e7b7cc38199013982a">   76</a></span>    PONY_THREAD_SAFE <span class="keywordtype">void</span> <a class="code hl_function" href="class_decoder_impl.html#aaa7b8b977463e4e7b7cc38199013982a">setEnable</a>(<span class="keywordtype">bool</span> b)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>-&gt;setEnable(b);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    }</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="class_decoder_impl.html#a534540c25420631302dd2daa88bc2b2f">   80</a></span>    <a class="code hl_function" href="class_decoder_impl.html#a534540c25420631302dd2daa88bc2b2f">PONY_GUARD_BY</a>(<a class="code hl_variable" href="namespace_pony_player.html#a4dba509b25f0026b8f2c7d1ba5c407a0">DECODER</a>) <span class="keywordtype">void</span> <a class="code hl_function" href="class_i_demux_decoder.html#aa4bbd4106324589af4fcc62bfaf17381">flushFFmpegBuffers</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        avcodec_flush_buffers(<a class="code hl_variable" href="class_decoder_context.html#a8fec2cff4505c6bdc46a2ef4f311fd35">codecCtx</a>);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    }</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>};</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="class_decoder_impl_3_01_audio_01_4.html">   89</a></span><span class="keyword">template</span>&lt;&gt; <span class="keyword">class </span><a class="code hl_class" href="class_decoder_impl.html">DecoderImpl</a>&lt;<a class="code hl_variable" href="decoders_8hpp.html#ae800057c9f24f6d2293fb5cae0cc5707">Audio</a>&gt;: <span class="keyword">public</span> <a class="code hl_class" href="class_decoder_impl.html">DecoderImpl</a>&lt;Common&gt; {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    SwrContext *swrCtx = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    uint8_t *audioOutBuf = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    AVFrame * sampleFrameBuf = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <a class="code hl_class" href="class_pony_audio_format.html">PonyAudioFormat</a> targetFmt = <a class="code hl_class" href="class_pony_audio_format.html">PonyAudioFormat</a>(<a class="code hl_variable" href="namespace_pony_player.html#a752b0310898afc12743106b3683827da">PonyPlayer::Int16</a>, 44100, 2);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="class_decoder_impl_3_01_audio_01_4.html#a4f4e4fac29e7737134340f25ad549970">   96</a></span>    <a class="code hl_function" href="class_decoder_impl_3_01_audio_01_4.html#a4f4e4fac29e7737134340f25ad549970">DecoderImpl</a>(AVStream *vs, <a class="code hl_class" href="class_twins_block_queue.html">TwinsBlockQueue&lt;AVFrame *&gt;</a> *queue) : <a class="code hl_class" href="class_decoder_impl.html">DecoderImpl</a>&lt;<a class="code hl_variable" href="decoders_8hpp.html#a599ba9dc4ef333a979413f5f6c491226">Common</a>&gt;(vs, queue) {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">if</span> (!(audioOutBuf = <span class="keyword">static_cast&lt;</span>uint8_t *<span class="keyword">&gt;</span>(av_malloc(2 * <a class="code hl_variable" href="helper_8hpp.html#ad0eea03f324b212b488b01af6845c064">MAX_AUDIO_FRAME_SIZE</a>)))) {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Cannot alloc audioOutBuf&quot;</span>);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        sampleFrameBuf = av_frame_alloc();</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="class_decoder_impl_3_01_audio_01_4.html#a6e7f3a78d375782da7f81e63706dbefb">  103</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="class_decoder_impl_3_01_audio_01_4.html#a6e7f3a78d375782da7f81e63706dbefb">~DecoderImpl</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordflow">if</span> (sampleFrameBuf) { av_frame_free(&amp;sampleFrameBuf); }</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordflow">if</span> (audioOutBuf) { av_freep(&amp;audioOutBuf); }</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keywordflow">if</span> (swrCtx) { swr_free(&amp;swrCtx); }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    }</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="class_decoder_impl_3_01_audio_01_4.html#aa095f2d623c2585f0c1c13bdf02330b5">  110</a></span>    PONY_THREAD_SAFE <a class="code hl_class" href="class_audio_frame.html">AudioFrame</a> <a class="code hl_function" href="class_decoder_impl_3_01_audio_01_4.html#aa095f2d623c2585f0c1c13bdf02330b5">getSample</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>-&gt;isEnable()) {</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            <a class="code hl_define" href="ponyplayer_8h.html#a4b02e2c27cfd7a3f72cc70691d3d839c">ILLEGAL_STATE</a>(<span class="stringliteral">&quot;forward: getSample is disabled&quot;</span>);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        }</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        AVFrame *frame = <a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>-&gt;remove(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <span class="keywordflow">if</span> (!frame) { <span class="keywordflow">return</span> {}; }</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keywordtype">double</span> pts = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(frame-&gt;pts) * av_q2d(<a class="code hl_variable" href="class_decoder_context.html#aab3f8f629c4f5a24ed13691af4076117">stream</a>-&gt;time_base);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="keywordtype">int</span> len = swr_convert(swrCtx, &amp;audioOutBuf, 2 * <a class="code hl_variable" href="helper_8hpp.html#ad0eea03f324b212b488b01af6845c064">MAX_AUDIO_FRAME_SIZE</a>,</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>                              <span class="keyword">const_cast&lt;</span><span class="keyword">const </span>uint8_t **<span class="keyword">&gt;</span>(frame-&gt;data), frame-&gt;nb_samples);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="keywordtype">int</span> out_size = av_samples_get_buffer_size(<span class="keyword">nullptr</span>, targetFmt.<a class="code hl_function" href="class_pony_audio_format.html#a109d8256285b71fe813bef984e1325fd">getChannelCount</a>(),</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                                                  len,</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                                                  targetFmt.<a class="code hl_function" href="class_pony_audio_format.html#a2d4563277a5c084f5641474a9fdef01d">getSampleFormatForFFmpeg</a>(),</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>                                                  1);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        av_frame_free(&amp;frame);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="keywordflow">return</span> {<span class="keyword">reinterpret_cast&lt;</span>std::byte *<span class="keyword">&gt;</span>(audioOutBuf), out_size, pts};</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    }</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="class_decoder_impl_3_01_audio_01_4.html#a0f7c5ae2cf1275d005f9803c31c0b324">  129</a></span>    <a class="code hl_class" href="class_pony_audio_format.html">PonyAudioFormat</a> <a class="code hl_function" href="class_decoder_impl_3_01_audio_01_4.html#a0f7c5ae2cf1275d005f9803c31c0b324">getInputFormat</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="keywordflow">return</span> {PonyPlayer::valueOf(<a class="code hl_variable" href="class_decoder_context.html#a8fec2cff4505c6bdc46a2ef4f311fd35">codecCtx</a>-&gt;sample_fmt), <a class="code hl_variable" href="class_decoder_context.html#a8fec2cff4505c6bdc46a2ef4f311fd35">codecCtx</a>-&gt;sample_rate, <a class="code hl_variable" href="class_decoder_context.html#a8fec2cff4505c6bdc46a2ef4f311fd35">codecCtx</a>-&gt;channels};</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    }</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="class_decoder_impl_3_01_audio_01_4.html#a340286bc40a6e13fa47132b3f77f43af">  133</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_decoder_impl_3_01_audio_01_4.html#a340286bc40a6e13fa47132b3f77f43af">setOutputFormat</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_pony_audio_format.html">PonyAudioFormat</a>&amp; format)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        targetFmt = format;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordflow">if</span> (swrCtx) { swr_free(&amp;swrCtx); }</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        this-&gt;swrCtx = swr_alloc_set_opts(swrCtx, av_get_default_channel_layout(format.<a class="code hl_function" href="class_pony_audio_format.html#a109d8256285b71fe813bef984e1325fd">getChannelCount</a>()),</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>                                          format.<a class="code hl_function" href="class_pony_audio_format.html#a2d4563277a5c084f5641474a9fdef01d">getSampleFormatForFFmpeg</a>(), format.<a class="code hl_function" href="class_pony_audio_format.html#ac8000e64a76856bf5fe3f1b3b158bbee">getSampleRate</a>(),</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                                          <span class="keyword">static_cast&lt;</span>int64_t<span class="keyword">&gt;</span>(<a class="code hl_variable" href="class_decoder_context.html#a8fec2cff4505c6bdc46a2ef4f311fd35">codecCtx</a>-&gt;channel_layout), <a class="code hl_variable" href="class_decoder_context.html#a8fec2cff4505c6bdc46a2ef4f311fd35">codecCtx</a>-&gt;sample_fmt,</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                                          <a class="code hl_variable" href="class_decoder_context.html#a8fec2cff4505c6bdc46a2ef4f311fd35">codecCtx</a>-&gt;sample_rate, 0, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        <span class="keywordflow">if</span> (!swrCtx || swr_init(swrCtx) &lt; 0) {</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>            <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Cannot initialize swrCtx&quot;</span>);</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        }</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    }</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>};</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="class_decoder_impl_3_01_video_01_4.html">  151</a></span><span class="keyword">template</span>&lt;&gt; <span class="keyword">class </span><a class="code hl_class" href="class_decoder_impl.html">DecoderImpl</a>&lt;<a class="code hl_variable" href="decoders_8hpp.html#ac304e0abe8d5ac35523bc3f549bfc4d2">Video</a>&gt;: <span class="keyword">public</span> <a class="code hl_class" href="class_decoder_impl.html">DecoderImpl</a>&lt;Common&gt; {</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    std::atomic&lt;AVFrame *&gt; stillVideoFrame = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="class_decoder_impl_3_01_video_01_4.html#ab7c8c52327c72fec7d592c05290c5fe5">  158</a></span>    <a class="code hl_function" href="class_decoder_impl_3_01_video_01_4.html#ab7c8c52327c72fec7d592c05290c5fe5">DecoderImpl</a>(AVStream *vs, <a class="code hl_class" href="class_twins_block_queue.html">TwinsBlockQueue&lt;AVFrame *&gt;</a> *queue) : <a class="code hl_class" href="class_decoder_impl.html">DecoderImpl</a>&lt;<a class="code hl_variable" href="decoders_8hpp.html#a599ba9dc4ef333a979413f5f6c491226">Common</a>&gt;(vs, queue) {}</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="class_decoder_impl_3_01_video_01_4.html#aa8e913e4f384b8ff5c24f7f48e1a0fdc">  161</a></span>    <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> <a class="code hl_function" href="class_decoder_impl_3_01_video_01_4.html#aa8e913e4f384b8ff5c24f7f48e1a0fdc">getPicture</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        <span class="keywordflow">if</span> (stillVideoFrame != <span class="keyword">nullptr</span>) { <span class="keywordflow">return</span> {stillVideoFrame, <span class="keyword">true</span>, -1}; }</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        AVFrame *frame = <a class="code hl_variable" href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">frameQueue</a>-&gt;remove(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="keywordflow">if</span> (!frame) { <span class="keywordflow">return</span> {}; }</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keywordflow">if</span> (frame-&gt;pts &lt; 0) {</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>            stillVideoFrame = frame;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            <span class="keywordflow">return</span> {frame, <span class="keyword">true</span>, -9};</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        } <span class="keywordflow">else</span> {<span class="keywordtype">double</span> pts = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(frame-&gt;pts) * av_q2d(<a class="code hl_variable" href="class_decoder_context.html#aab3f8f629c4f5a24ed13691af4076117">stream</a>-&gt;time_base);</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>            <span class="keywordflow">return</span> {frame, <span class="keyword">true</span>, pts};</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        }</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    }</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno"><a class="line" href="class_decoder_impl_3_01_video_01_4.html#a90848b8238673f9ae13a32160378a2b4">  174</a></span>    <a class="code hl_function" href="class_decoder_impl_3_01_video_01_4.html#a90848b8238673f9ae13a32160378a2b4">~DecoderImpl</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        <span class="keyword">auto</span> *frame = stillVideoFrame.load();</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keywordflow">if</span> (frame) { av_frame_free(&amp;frame); }</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    }</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>};</div>
+<div class="ttc" id="aclass_audio_frame_html"><div class="ttname"><a href="class_audio_frame.html">AudioFrame</a></div><div class="ttdef"><b>Definition:</b> frame.hpp:145</div></div>
+<div class="ttc" id="aclass_decoder_context_html"><div class="ttname"><a href="class_decoder_context.html">DecoderContext</a></div><div class="ttdef"><b>Definition:</b> decoders.hpp:105</div></div>
+<div class="ttc" id="aclass_decoder_context_html_a846d2586cf5105db91a5e86502563e82"><div class="ttname"><a href="class_decoder_context.html#a846d2586cf5105db91a5e86502563e82">DecoderContext::frameBuf</a></div><div class="ttdeci">AVFrame * frameBuf</div><div class="ttdef"><b>Definition:</b> decoders.hpp:110</div></div>
+<div class="ttc" id="aclass_decoder_context_html_a8fec2cff4505c6bdc46a2ef4f311fd35"><div class="ttname"><a href="class_decoder_context.html#a8fec2cff4505c6bdc46a2ef4f311fd35">DecoderContext::codecCtx</a></div><div class="ttdeci">AVCodecContext * codecCtx</div><div class="ttdef"><b>Definition:</b> decoders.hpp:109</div></div>
+<div class="ttc" id="aclass_decoder_context_html_aab3f8f629c4f5a24ed13691af4076117"><div class="ttname"><a href="class_decoder_context.html#aab3f8f629c4f5a24ed13691af4076117">DecoderContext::stream</a></div><div class="ttdeci">AVStream * stream</div><div class="ttdef"><b>Definition:</b> decoders.hpp:108</div></div>
+<div class="ttc" id="aclass_decoder_impl_3_01_audio_01_4_html_a0f7c5ae2cf1275d005f9803c31c0b324"><div class="ttname"><a href="class_decoder_impl_3_01_audio_01_4.html#a0f7c5ae2cf1275d005f9803c31c0b324">DecoderImpl&lt; Audio &gt;::getInputFormat</a></div><div class="ttdeci">PonyAudioFormat getInputFormat() override</div><div class="ttdef"><b>Definition:</b> forward.hpp:129</div></div>
+<div class="ttc" id="aclass_decoder_impl_3_01_audio_01_4_html_a340286bc40a6e13fa47132b3f77f43af"><div class="ttname"><a href="class_decoder_impl_3_01_audio_01_4.html#a340286bc40a6e13fa47132b3f77f43af">DecoderImpl&lt; Audio &gt;::setOutputFormat</a></div><div class="ttdeci">void setOutputFormat(const PonyAudioFormat &amp;format) override</div><div class="ttdef"><b>Definition:</b> forward.hpp:133</div></div>
+<div class="ttc" id="aclass_decoder_impl_3_01_audio_01_4_html_a4f4e4fac29e7737134340f25ad549970"><div class="ttname"><a href="class_decoder_impl_3_01_audio_01_4.html#a4f4e4fac29e7737134340f25ad549970">DecoderImpl&lt; Audio &gt;::DecoderImpl</a></div><div class="ttdeci">DecoderImpl(AVStream *vs, TwinsBlockQueue&lt; AVFrame * &gt; *queue)</div><div class="ttdef"><b>Definition:</b> forward.hpp:96</div></div>
+<div class="ttc" id="aclass_decoder_impl_3_01_audio_01_4_html_a6e7f3a78d375782da7f81e63706dbefb"><div class="ttname"><a href="class_decoder_impl_3_01_audio_01_4.html#a6e7f3a78d375782da7f81e63706dbefb">DecoderImpl&lt; Audio &gt;::~DecoderImpl</a></div><div class="ttdeci">virtual ~DecoderImpl() override</div><div class="ttdef"><b>Definition:</b> forward.hpp:103</div></div>
+<div class="ttc" id="aclass_decoder_impl_3_01_audio_01_4_html_aa095f2d623c2585f0c1c13bdf02330b5"><div class="ttname"><a href="class_decoder_impl_3_01_audio_01_4.html#aa095f2d623c2585f0c1c13bdf02330b5">DecoderImpl&lt; Audio &gt;::getSample</a></div><div class="ttdeci">PONY_THREAD_SAFE AudioFrame getSample() override</div><div class="ttdef"><b>Definition:</b> forward.hpp:110</div></div>
+<div class="ttc" id="aclass_decoder_impl_3_01_video_01_4_html_a90848b8238673f9ae13a32160378a2b4"><div class="ttname"><a href="class_decoder_impl_3_01_video_01_4.html#a90848b8238673f9ae13a32160378a2b4">DecoderImpl&lt; Video &gt;::~DecoderImpl</a></div><div class="ttdeci">~DecoderImpl() override</div><div class="ttdef"><b>Definition:</b> forward.hpp:174</div></div>
+<div class="ttc" id="aclass_decoder_impl_3_01_video_01_4_html_aa8e913e4f384b8ff5c24f7f48e1a0fdc"><div class="ttname"><a href="class_decoder_impl_3_01_video_01_4.html#aa8e913e4f384b8ff5c24f7f48e1a0fdc">DecoderImpl&lt; Video &gt;::getPicture</a></div><div class="ttdeci">VideoFrameRef getPicture() override</div><div class="ttdef"><b>Definition:</b> forward.hpp:161</div></div>
+<div class="ttc" id="aclass_decoder_impl_3_01_video_01_4_html_ab7c8c52327c72fec7d592c05290c5fe5"><div class="ttname"><a href="class_decoder_impl_3_01_video_01_4.html#ab7c8c52327c72fec7d592c05290c5fe5">DecoderImpl&lt; Video &gt;::DecoderImpl</a></div><div class="ttdeci">DecoderImpl(AVStream *vs, TwinsBlockQueue&lt; AVFrame * &gt; *queue)</div><div class="ttdef"><b>Definition:</b> forward.hpp:158</div></div>
+<div class="ttc" id="aclass_decoder_impl_html"><div class="ttname"><a href="class_decoder_impl.html">DecoderImpl</a></div><div class="ttdef"><b>Definition:</b> forward.hpp:9</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_a0fe9f2e2a39bbecb68fc6f8472ac47af"><div class="ttname"><a href="class_decoder_impl.html#a0fe9f2e2a39bbecb68fc6f8472ac47af">DecoderImpl::getSample</a></div><div class="ttdeci">PONY_THREAD_SAFE AudioFrame getSample() override</div><div class="ttdef"><b>Definition:</b> forward.hpp:53</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_a135b10edc2026dfdf665122bdae25402"><div class="ttname"><a href="class_decoder_impl.html#a135b10edc2026dfdf665122bdae25402">DecoderImpl::duration</a></div><div class="ttdeci">PONY_THREAD_SAFE double duration() override</div><div class="ttdef"><b>Definition:</b> forward.hpp:16</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_a2d605992095012c5a6e0113a49f68e16"><div class="ttname"><a href="class_decoder_impl.html#a2d605992095012c5a6e0113a49f68e16">DecoderImpl::getInputFormat</a></div><div class="ttdeci">PonyAudioFormat getInputFormat() override</div><div class="ttdef"><b>Definition:</b> forward.hpp:55</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_a37446b1030b43a24e71e272f9407e181"><div class="ttname"><a href="class_decoder_impl.html#a37446b1030b43a24e71e272f9407e181">DecoderImpl::skip</a></div><div class="ttdeci">PONY_THREAD_SAFE int skip(const std::function&lt; bool(qreal)&gt; &amp;predicate) override</div><div class="ttdef"><b>Definition:</b> forward.hpp:70</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_a534540c25420631302dd2daa88bc2b2f"><div class="ttname"><a href="class_decoder_impl.html#a534540c25420631302dd2daa88bc2b2f">DecoderImpl::PONY_GUARD_BY</a></div><div class="ttdeci">PONY_GUARD_BY(DECODER) void flushFFmpegBuffers() override</div><div class="ttdef"><b>Definition:</b> forward.hpp:80</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_a9eccb9e9f3a97ef19d07b156aa02cb74"><div class="ttname"><a href="class_decoder_impl.html#a9eccb9e9f3a97ef19d07b156aa02cb74">DecoderImpl::frameQueue</a></div><div class="ttdeci">TwinsBlockQueue&lt; AVFrame * &gt; * frameQueue</div><div class="ttdef"><b>Definition:</b> forward.hpp:11</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_aa2fdf34e6a42ee64833287f7a435c95c"><div class="ttname"><a href="class_decoder_impl.html#aa2fdf34e6a42ee64833287f7a435c95c">DecoderImpl::ret</a></div><div class="ttdeci">int ret</div><div class="ttdef"><b>Definition:</b> forward.hpp:23</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_aa7b3cf5cb9f0a9ec1f2c890da4e73053"><div class="ttname"><a href="class_decoder_impl.html#aa7b3cf5cb9f0a9ec1f2c890da4e73053">DecoderImpl::PONY_GUARD_BY</a></div><div class="ttdeci">PONY_GUARD_BY(DECODER) bool accept(AVPacket *pkt</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_aaa7b8b977463e4e7b7cc38199013982a"><div class="ttname"><a href="class_decoder_impl.html#aaa7b8b977463e4e7b7cc38199013982a">DecoderImpl::setEnable</a></div><div class="ttdeci">PONY_THREAD_SAFE void setEnable(bool b) override</div><div class="ttdef"><b>Definition:</b> forward.hpp:76</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_aac7dd7dac588e6a7b4284a2c983c064f"><div class="ttname"><a href="class_decoder_impl.html#aac7dd7dac588e6a7b4284a2c983c064f">DecoderImpl::getPicture</a></div><div class="ttdeci">PONY_THREAD_SAFE VideoFrameRef getPicture() override</div><div class="ttdef"><b>Definition:</b> forward.hpp:51</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_acb1f3a855752ace9c2acc52be3443ff1"><div class="ttname"><a href="class_decoder_impl.html#acb1f3a855752ace9c2acc52be3443ff1">DecoderImpl::setOutputFormat</a></div><div class="ttdeci">void setOutputFormat(const PonyAudioFormat &amp;format) override</div><div class="ttdef"><b>Definition:</b> forward.hpp:57</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_acf1b5f50a8000d64fe063f9d74705a0f"><div class="ttname"><a href="class_decoder_impl.html#acf1b5f50a8000d64fe063f9d74705a0f">DecoderImpl::viewFront</a></div><div class="ttdeci">PONY_THREAD_SAFE qreal viewFront() override</div><div class="ttdef"><b>Definition:</b> forward.hpp:60</div></div>
+<div class="ttc" id="aclass_decoder_impl_html_ae5ff61e2c21c03d7118eb3d3bffc110e"><div class="ttname"><a href="class_decoder_impl.html#ae5ff61e2c21c03d7118eb3d3bffc110e">DecoderImpl::DecoderImpl</a></div><div class="ttdeci">DecoderImpl(AVStream *vs, TwinsBlockQueue&lt; AVFrame * &gt; *queue)</div><div class="ttdef"><b>Definition:</b> forward.hpp:13</div></div>
+<div class="ttc" id="aclass_i_demux_decoder_html"><div class="ttname"><a href="class_i_demux_decoder.html">IDemuxDecoder</a></div><div class="ttdef"><b>Definition:</b> decoders.hpp:22</div></div>
+<div class="ttc" id="aclass_i_demux_decoder_html_a01546afaf774ebabe303688237f23fa7"><div class="ttname"><a href="class_i_demux_decoder.html#a01546afaf774ebabe303688237f23fa7">IDemuxDecoder::accept</a></div><div class="ttdeci">virtual bool accept(AVPacket *pkt, std::atomic&lt; bool &gt; &amp;interrupt)=0</div></div>
+<div class="ttc" id="aclass_i_demux_decoder_html_aa4bbd4106324589af4fcc62bfaf17381"><div class="ttname"><a href="class_i_demux_decoder.html#aa4bbd4106324589af4fcc62bfaf17381">IDemuxDecoder::flushFFmpegBuffers</a></div><div class="ttdeci">virtual void flushFFmpegBuffers()=0</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html"><div class="ttname"><a href="class_pony_audio_format.html">PonyAudioFormat</a></div><div class="ttdef"><b>Definition:</b> audioformat.hpp:97</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_a109d8256285b71fe813bef984e1325fd"><div class="ttname"><a href="class_pony_audio_format.html#a109d8256285b71fe813bef984e1325fd">PonyAudioFormat::getChannelCount</a></div><div class="ttdeci">int getChannelCount() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:142</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_a2d4563277a5c084f5641474a9fdef01d"><div class="ttname"><a href="class_pony_audio_format.html#a2d4563277a5c084f5641474a9fdef01d">PonyAudioFormat::getSampleFormatForFFmpeg</a></div><div class="ttdeci">AVSampleFormat getSampleFormatForFFmpeg() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:118</div></div>
+<div class="ttc" id="aclass_pony_audio_format_html_ac8000e64a76856bf5fe3f1b3b158bbee"><div class="ttname"><a href="class_pony_audio_format.html#ac8000e64a76856bf5fe3f1b3b158bbee">PonyAudioFormat::getSampleRate</a></div><div class="ttdeci">int getSampleRate() const</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:138</div></div>
+<div class="ttc" id="aclass_twins_block_queue_html"><div class="ttname"><a href="class_twins_block_queue.html">TwinsBlockQueue</a></div><div class="ttdoc">联动队列. 用于单生产者多队列, 单消费者通信.</div><div class="ttdef"><b>Definition:</b> twins_queue.hpp:17</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html"><div class="ttname"><a href="class_video_frame_ref.html">VideoFrameRef</a></div><div class="ttdef"><b>Definition:</b> frame.hpp:47</div></div>
+<div class="ttc" id="adecoders_8hpp_html"><div class="ttname"><a href="decoders_8hpp.html">decoders.hpp</a></div></div>
+<div class="ttc" id="adecoders_8hpp_html_a599ba9dc4ef333a979413f5f6c491226"><div class="ttname"><a href="decoders_8hpp.html#a599ba9dc4ef333a979413f5f6c491226">Common</a></div><div class="ttdeci">constexpr auto Common</div><div class="ttdef"><b>Definition:</b> decoders.hpp:141</div></div>
+<div class="ttc" id="adecoders_8hpp_html_ac304e0abe8d5ac35523bc3f549bfc4d2"><div class="ttname"><a href="decoders_8hpp.html#ac304e0abe8d5ac35523bc3f549bfc4d2">Video</a></div><div class="ttdeci">constexpr auto Video</div><div class="ttdef"><b>Definition:</b> decoders.hpp:140</div></div>
+<div class="ttc" id="adecoders_8hpp_html_ae800057c9f24f6d2293fb5cae0cc5707"><div class="ttname"><a href="decoders_8hpp.html#ae800057c9f24f6d2293fb5cae0cc5707">Audio</a></div><div class="ttdeci">constexpr auto Audio</div><div class="ttdef"><b>Definition:</b> decoders.hpp:139</div></div>
+<div class="ttc" id="ahelper_8hpp_html_ad0eea03f324b212b488b01af6845c064"><div class="ttname"><a href="helper_8hpp.html#ad0eea03f324b212b488b01af6845c064">MAX_AUDIO_FRAME_SIZE</a></div><div class="ttdeci">const int MAX_AUDIO_FRAME_SIZE</div><div class="ttdef"><b>Definition:</b> helper.hpp:15</div></div>
+<div class="ttc" id="ahelper_8hpp_html_ad567d869b10ce71c01c6a7d7df55de1e"><div class="ttname"><a href="helper_8hpp.html#ad567d869b10ce71c01c6a7d7df55de1e">ERROR_EOF</a></div><div class="ttdeci">const int ERROR_EOF</div><div class="ttdef"><b>Definition:</b> helper.hpp:14</div></div>
+<div class="ttc" id="ahelper_8hpp_html_af075ca317e1895581d88926260500d87"><div class="ttname"><a href="helper_8hpp.html#af075ca317e1895581d88926260500d87">ffmpegErrToString</a></div><div class="ttdeci">QString ffmpegErrToString(int err)</div><div class="ttdef"><b>Definition:</b> helper.hpp:21</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a4dba509b25f0026b8f2c7d1ba5c407a0"><div class="ttname"><a href="namespace_pony_player.html#a4dba509b25f0026b8f2c7d1ba5c407a0">PonyPlayer::DECODER</a></div><div class="ttdeci">constexpr PonyThread DECODER</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:46</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a752b0310898afc12743106b3683827da"><div class="ttname"><a href="namespace_pony_player.html#a752b0310898afc12743106b3683827da">PonyPlayer::Int16</a></div><div class="ttdeci">const PonySampleFormat Int16</div><div class="ttdef"><b>Definition:</b> audioformat.hpp:160</div></div>
+<div class="ttc" id="aponyplayer_8h_html_a4b02e2c27cfd7a3f72cc70691d3d839c"><div class="ttname"><a href="ponyplayer_8h.html#a4b02e2c27cfd7a3f72cc70691d3d839c">ILLEGAL_STATE</a></div><div class="ttdeci">#define ILLEGAL_STATE(msg)</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:40</div></div>
+<div class="ttc" id="aponyplayer_8h_html_aeb46fe29e358d4fe65487573aadfd583"><div class="ttname"><a href="ponyplayer_8h.html#aeb46fe29e358d4fe65487573aadfd583">NOT_IMPLEMENT_YET</a></div><div class="ttdeci">#define NOT_IMPLEMENT_YET</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:39</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_ceef0f1c62ce7514856424f76fd612d6.html">decoder</a></li><li class="navelem"><a class="el" href="dir_98f411f5a923223089eb8d7ad339bad0.html">private</a></li><li class="navelem"><a class="el" href="forward_8hpp.html">forward.hpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

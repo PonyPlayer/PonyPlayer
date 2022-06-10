@@ -1,0 +1,708 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: IDemuxDecoder类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_i_demux_decoder.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="class_i_demux_decoder-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">IDemuxDecoder类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="decoders_8hpp_source.html">decoders.hpp</a>&gt;</code></p>
+<div class="dynheader">
+类 IDemuxDecoder 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_i_demux_decoder.png" usemap="#IDemuxDecoder_map" alt=""/>
+  <map id="IDemuxDecoder_map" name="IDemuxDecoder_map">
+<area href="class_decoder_impl.html" alt="DecoderImpl&lt; Common &gt;" shape="rect" coords="106,56,308,80"/>
+<area href="class_reverse_decoder_impl.html" alt="ReverseDecoderImpl&lt; Common &gt;" shape="rect" coords="530,56,732,80"/>
+<area href="class_decoder_impl.html" alt="DecoderImpl&lt; type &gt;" shape="rect" coords="742,56,944,80"/>
+<area href="class_reverse_decoder_impl.html" alt="ReverseDecoderImpl&lt; type &gt;" shape="rect" coords="954,56,1156,80"/>
+<area href="class_virtual_video_decoder.html" title="虚拟视频播放, 用于视频纯音频文件." alt="VirtualVideoDecoder" shape="rect" coords="1166,56,1368,80"/>
+<area href="class_decoder_impl_3_01_audio_01_4.html" alt="DecoderImpl&lt; Audio &gt;" shape="rect" coords="0,112,202,136"/>
+<area href="class_decoder_impl_3_01_video_01_4.html" alt="DecoderImpl&lt; Video &gt;" shape="rect" coords="212,112,414,136"/>
+<area href="class_reverse_decoder_impl_3_01_audio_01_4.html" alt="ReverseDecoderImpl&lt; Audio &gt;" shape="rect" coords="424,112,626,136"/>
+<area href="class_reverse_decoder_impl_3_01_video_01_4.html" alt="ReverseDecoderImpl&lt; Video &gt;" shape="rect" coords="636,112,838,136"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a22cd42a1392efe59a2bb2ba5164760c8"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#a22cd42a1392efe59a2bb2ba5164760c8">DecoderType</a> { <a class="el" href="class_i_demux_decoder.html#a22cd42a1392efe59a2bb2ba5164760c8ab22f0418e8ac915eb66f829d262d14a2">Audio</a>
+, <a class="el" href="class_i_demux_decoder.html#a22cd42a1392efe59a2bb2ba5164760c8a34e2d1989a1dbf75cd631596133ee5ee">Video</a>
+, <a class="el" href="class_i_demux_decoder.html#a22cd42a1392efe59a2bb2ba5164760c8ad13bc5b68b2bd9e18f29777db17cc563">Common</a>
+ }</td></tr>
+<tr class="separator:a22cd42a1392efe59a2bb2ba5164760c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a01546afaf774ebabe303688237f23fa7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#a01546afaf774ebabe303688237f23fa7">accept</a> (AVPacket *pkt, std::atomic&lt; bool &gt; &amp;interrupt)=0</td></tr>
+<tr class="separator:a01546afaf774ebabe303688237f23fa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4bbd4106324589af4fcc62bfaf17381"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#aa4bbd4106324589af4fcc62bfaf17381">flushFFmpegBuffers</a> ()=0</td></tr>
+<tr class="separator:aa4bbd4106324589af4fcc62bfaf17381"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a185182aea631a67696dab7b339f16127"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_video_frame_ref.html">VideoFrameRef</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#a185182aea631a67696dab7b339f16127">getPicture</a> ()=0</td></tr>
+<tr class="separator:a185182aea631a67696dab7b339f16127"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae33fa13d7820cdea9d16117aeec91ba1"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_audio_frame.html">AudioFrame</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#ae33fa13d7820cdea9d16117aeec91ba1">getSample</a> ()=0</td></tr>
+<tr class="separator:ae33fa13d7820cdea9d16117aeec91ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4148d4e05267b1a3498d990a04e440ab"><td class="memItemLeft" align="right" valign="top">virtual qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#a4148d4e05267b1a3498d990a04e440ab">viewFront</a> ()=0</td></tr>
+<tr class="separator:a4148d4e05267b1a3498d990a04e440ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0595fd850a0fa6e0e96d80bee30dca4"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#ac0595fd850a0fa6e0e96d80bee30dca4">skip</a> (const std::function&lt; bool(qreal)&gt; &amp;predicate)=0</td></tr>
+<tr class="separator:ac0595fd850a0fa6e0e96d80bee30dca4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1aaf9d06e1b4cfb4850da7dd59b5824"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#ad1aaf9d06e1b4cfb4850da7dd59b5824">duration</a> ()=0</td></tr>
+<tr class="separator:ad1aaf9d06e1b4cfb4850da7dd59b5824"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37b3ada3f6e24f5562f36faa5d40859d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#a37b3ada3f6e24f5562f36faa5d40859d">setEnable</a> (bool b)=0</td></tr>
+<tr class="separator:a37b3ada3f6e24f5562f36faa5d40859d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa560f5c01db23ce70c7d14c6dd2702d2"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#aa560f5c01db23ce70c7d14c6dd2702d2">~IDemuxDecoder</a> ()=default</td></tr>
+<tr class="separator:aa560f5c01db23ce70c7d14c6dd2702d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08b332810e56c295a55a38cbffd0dc12"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#a08b332810e56c295a55a38cbffd0dc12">setFollower</a> (<a class="el" href="class_i_demux_decoder.html">IDemuxDecoder</a> *follower)</td></tr>
+<tr class="separator:a08b332810e56c295a55a38cbffd0dc12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a882a3bf7b4dac3eafd7ccf7a2d72b0c0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#a882a3bf7b4dac3eafd7ccf7a2d72b0c0">pushFrameStack</a> ()</td></tr>
+<tr class="separator:a882a3bf7b4dac3eafd7ccf7a2d72b0c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a767425b9193160c8333705d7e106ccea"><td class="memItemLeft" align="right" valign="top">virtual qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#a767425b9193160c8333705d7e106ccea">getLastPts</a> ()</td></tr>
+<tr class="separator:a767425b9193160c8333705d7e106ccea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf5450d7e862ff2a20f318701260fead"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#acf5450d7e862ff2a20f318701260fead">clearFrameStack</a> ()</td></tr>
+<tr class="separator:acf5450d7e862ff2a20f318701260fead"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62c6973af74c417ae5bae45eff110756"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#a62c6973af74c417ae5bae45eff110756">setStart</a> (qreal secs)</td></tr>
+<tr class="separator:a62c6973af74c417ae5bae45eff110756"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae99f2ef4a7cebd43ee15e895dedc2d10"><td class="memItemLeft" align="right" valign="top">virtual qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#ae99f2ef4a7cebd43ee15e895dedc2d10">nextSegment</a> ()</td></tr>
+<tr class="separator:ae99f2ef4a7cebd43ee15e895dedc2d10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93b34ef1060ee9722d9ff9ae22ba54d1"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#a93b34ef1060ee9722d9ff9ae22ba54d1">getInputFormat</a> ()=0</td></tr>
+<tr class="separator:a93b34ef1060ee9722d9ff9ae22ba54d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7e2f4f4db6daa22624da7d7ef26f35e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_demux_decoder.html#af7e2f4f4db6daa22624da7d7ef26f35e">setOutputFormat</a> (const <a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> &amp;format)=0</td></tr>
+<tr class="separator:af7e2f4f4db6daa22624da7d7ef26f35e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a22cd42a1392efe59a2bb2ba5164760c8" name="a22cd42a1392efe59a2bb2ba5164760c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22cd42a1392efe59a2bb2ba5164760c8">&#9670;&nbsp;</a></span>DecoderType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="class_i_demux_decoder.html#a22cd42a1392efe59a2bb2ba5164760c8">IDemuxDecoder::DecoderType</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >解码器类型 </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a22cd42a1392efe59a2bb2ba5164760c8ab22f0418e8ac915eb66f829d262d14a2" name="a22cd42a1392efe59a2bb2ba5164760c8ab22f0418e8ac915eb66f829d262d14a2"></a>Audio&#160;</td><td class="fielddoc"><p >音频解码器 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a22cd42a1392efe59a2bb2ba5164760c8a34e2d1989a1dbf75cd631596133ee5ee" name="a22cd42a1392efe59a2bb2ba5164760c8a34e2d1989a1dbf75cd631596133ee5ee"></a>Video&#160;</td><td class="fielddoc"><p >视频解码器 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a22cd42a1392efe59a2bb2ba5164760c8ad13bc5b68b2bd9e18f29777db17cc563" name="a22cd42a1392efe59a2bb2ba5164760c8ad13bc5b68b2bd9e18f29777db17cc563"></a>Common&#160;</td><td class="fielddoc"><p >未指定 </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="aa560f5c01db23ce70c7d14c6dd2702d2" name="aa560f5c01db23ce70c7d14c6dd2702d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa560f5c01db23ce70c7d14c6dd2702d2">&#9670;&nbsp;</a></span>~IDemuxDecoder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual IDemuxDecoder::~IDemuxDecoder </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a01546afaf774ebabe303688237f23fa7" name="a01546afaf774ebabe303688237f23fa7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01546afaf774ebabe303688237f23fa7">&#9670;&nbsp;</a></span>accept()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool IDemuxDecoder::accept </td>
+          <td>(</td>
+          <td class="paramtype">AVPacket *&#160;</td>
+          <td class="paramname"><em>pkt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::atomic&lt; bool &gt; &amp;&#160;</td>
+          <td class="paramname"><em>interrupt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >接收一个包 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pkt</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>如果还需要接收下一个 packet 返回 true, 否则返回 false </dd></dl>
+
+<p>在 <a class="el" href="class_reverse_decoder_impl.html#a073700b76433af02ba5399f2df9f2218">ReverseDecoderImpl&lt; type &gt;</a>, <a class="el" href="class_reverse_decoder_impl.html#a073700b76433af02ba5399f2df9f2218">ReverseDecoderImpl&lt; Common &gt;</a> , 以及 <a class="el" href="class_virtual_video_decoder.html#aad671ab6a99c78bdf0e84557bb039832">VirtualVideoDecoder</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="acf5450d7e862ff2a20f318701260fead" name="acf5450d7e862ff2a20f318701260fead"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf5450d7e862ff2a20f318701260fead">&#9670;&nbsp;</a></span>clearFrameStack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void IDemuxDecoder::clearFrameStack </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_reverse_decoder_impl.html#a871a6fb95fe189c935dce34783d2ebf9">ReverseDecoderImpl&lt; type &gt;</a> , 以及 <a class="el" href="class_reverse_decoder_impl.html#a871a6fb95fe189c935dce34783d2ebf9">ReverseDecoderImpl&lt; Common &gt;</a> 重载.</p>
+
+</div>
+</div>
+<a id="ad1aaf9d06e1b4cfb4850da7dd59b5824" name="ad1aaf9d06e1b4cfb4850da7dd59b5824"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1aaf9d06e1b4cfb4850da7dd59b5824">&#9670;&nbsp;</a></span>duration()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double IDemuxDecoder::duration </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取流的长度 </p><dl class="section return"><dt>返回</dt><dd></dd></dl>
+
+<p>在 <a class="el" href="class_reverse_decoder_impl.html#aff291b197cbf0ef9865cba62e0fe0829">ReverseDecoderImpl&lt; type &gt;</a>, <a class="el" href="class_reverse_decoder_impl.html#aff291b197cbf0ef9865cba62e0fe0829">ReverseDecoderImpl&lt; Common &gt;</a>, <a class="el" href="class_decoder_impl.html#a135b10edc2026dfdf665122bdae25402">DecoderImpl&lt; type &gt;</a>, <a class="el" href="class_decoder_impl.html#a135b10edc2026dfdf665122bdae25402">DecoderImpl&lt; Common &gt;</a> , 以及 <a class="el" href="class_virtual_video_decoder.html#afaf4b99c97b312961b87ec9e14d39c01">VirtualVideoDecoder</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="aa4bbd4106324589af4fcc62bfaf17381" name="aa4bbd4106324589af4fcc62bfaf17381"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4bbd4106324589af4fcc62bfaf17381">&#9670;&nbsp;</a></span>flushFFmpegBuffers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void IDemuxDecoder::flushFFmpegBuffers </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >清空 FFmpeg 内部缓冲区 </p>
+
+<p>在 <a class="el" href="class_reverse_decoder_impl.html#a84b28aae03bedfb2050e1ac52688735f">ReverseDecoderImpl&lt; type &gt;</a>, <a class="el" href="class_reverse_decoder_impl.html#a84b28aae03bedfb2050e1ac52688735f">ReverseDecoderImpl&lt; Common &gt;</a> , 以及 <a class="el" href="class_virtual_video_decoder.html#ad2210251ca25c7c6adb9222bff4d4e86">VirtualVideoDecoder</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a93b34ef1060ee9722d9ff9ae22ba54d1" name="a93b34ef1060ee9722d9ff9ae22ba54d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93b34ef1060ee9722d9ff9ae22ba54d1">&#9670;&nbsp;</a></span>getInputFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> IDemuxDecoder::getInputFormat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="class_reverse_decoder_impl.html#affa6b08a98943b435465017cee083fde">ReverseDecoderImpl&lt; type &gt;</a>, <a class="el" href="class_reverse_decoder_impl.html#affa6b08a98943b435465017cee083fde">ReverseDecoderImpl&lt; Common &gt;</a>, <a class="el" href="class_reverse_decoder_impl_3_01_audio_01_4.html#abc70f77f821eacff4fbfefe1bd2b2d34">ReverseDecoderImpl&lt; Audio &gt;</a>, <a class="el" href="class_decoder_impl.html#a2d605992095012c5a6e0113a49f68e16">DecoderImpl&lt; type &gt;</a>, <a class="el" href="class_decoder_impl.html#a2d605992095012c5a6e0113a49f68e16">DecoderImpl&lt; Common &gt;</a>, <a class="el" href="class_decoder_impl_3_01_audio_01_4.html#a0f7c5ae2cf1275d005f9803c31c0b324">DecoderImpl&lt; Audio &gt;</a> , 以及 <a class="el" href="class_virtual_video_decoder.html#add3cc31e4be4cabd67a10f36fedc9b0b">VirtualVideoDecoder</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a767425b9193160c8333705d7e106ccea" name="a767425b9193160c8333705d7e106ccea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a767425b9193160c8333705d7e106ccea">&#9670;&nbsp;</a></span>getLastPts()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual qreal IDemuxDecoder::getLastPts </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_reverse_decoder_impl.html#aa22cbeda2973e3b4adcab2d03fc4f5c1">ReverseDecoderImpl&lt; type &gt;</a> , 以及 <a class="el" href="class_reverse_decoder_impl.html#aa22cbeda2973e3b4adcab2d03fc4f5c1">ReverseDecoderImpl&lt; Common &gt;</a> 重载.</p>
+
+</div>
+</div>
+<a id="a185182aea631a67696dab7b339f16127" name="a185182aea631a67696dab7b339f16127"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a185182aea631a67696dab7b339f16127">&#9670;&nbsp;</a></span>getPicture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="class_video_frame_ref.html">VideoFrameRef</a> IDemuxDecoder::getPicture </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取视频帧并从队列中删除, 仅当当前解码器是视频解码器时有效 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>是否阻塞 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>视频帧, 请用 isValid 判断是否有效 </dd></dl>
+
+<p>在 <a class="el" href="class_reverse_decoder_impl.html#ad99854b52bca1a202c8a2c5baa62951f">ReverseDecoderImpl&lt; type &gt;</a>, <a class="el" href="class_reverse_decoder_impl.html#ad99854b52bca1a202c8a2c5baa62951f">ReverseDecoderImpl&lt; Common &gt;</a>, <a class="el" href="class_reverse_decoder_impl_3_01_video_01_4.html#ae76e8d3263a7c7ccc268a725c4405ca8">ReverseDecoderImpl&lt; Video &gt;</a>, <a class="el" href="class_decoder_impl.html#aac7dd7dac588e6a7b4284a2c983c064f">DecoderImpl&lt; type &gt;</a>, <a class="el" href="class_decoder_impl.html#aac7dd7dac588e6a7b4284a2c983c064f">DecoderImpl&lt; Common &gt;</a>, <a class="el" href="class_decoder_impl_3_01_video_01_4.html#aa8e913e4f384b8ff5c24f7f48e1a0fdc">DecoderImpl&lt; Video &gt;</a> , 以及 <a class="el" href="class_virtual_video_decoder.html#aec6c0958f557f2a5031f73ea674a307d">VirtualVideoDecoder</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ae33fa13d7820cdea9d16117aeec91ba1" name="ae33fa13d7820cdea9d16117aeec91ba1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae33fa13d7820cdea9d16117aeec91ba1">&#9670;&nbsp;</a></span>getSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="class_audio_frame.html">AudioFrame</a> IDemuxDecoder::getSample </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取音频帧并从队列中删除, 仅当当前解码器是音频解码器时有效 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">b</td><td>是否阻塞 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>音频帧, 请用 isValid 判断是否有效 </dd></dl>
+
+<p>在 <a class="el" href="class_reverse_decoder_impl.html#abbc0ff68a7c2b1c567b88165329d035e">ReverseDecoderImpl&lt; type &gt;</a>, <a class="el" href="class_reverse_decoder_impl.html#abbc0ff68a7c2b1c567b88165329d035e">ReverseDecoderImpl&lt; Common &gt;</a>, <a class="el" href="class_reverse_decoder_impl_3_01_audio_01_4.html#af3000e3da5c12f49aebcbacf8398cbeb">ReverseDecoderImpl&lt; Audio &gt;</a>, <a class="el" href="class_decoder_impl.html#a0fe9f2e2a39bbecb68fc6f8472ac47af">DecoderImpl&lt; type &gt;</a>, <a class="el" href="class_decoder_impl.html#a0fe9f2e2a39bbecb68fc6f8472ac47af">DecoderImpl&lt; Common &gt;</a>, <a class="el" href="class_decoder_impl_3_01_audio_01_4.html#aa095f2d623c2585f0c1c13bdf02330b5">DecoderImpl&lt; Audio &gt;</a> , 以及 <a class="el" href="class_virtual_video_decoder.html#a4f0d8ff8ceabbf3b09a53680d488314b">VirtualVideoDecoder</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ae99f2ef4a7cebd43ee15e895dedc2d10" name="ae99f2ef4a7cebd43ee15e895dedc2d10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae99f2ef4a7cebd43ee15e895dedc2d10">&#9670;&nbsp;</a></span>nextSegment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual qreal IDemuxDecoder::nextSegment </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_reverse_decoder_impl.html#a5922368d5529eaa2fc1b76ffdc38041c">ReverseDecoderImpl&lt; type &gt;</a> , 以及 <a class="el" href="class_reverse_decoder_impl.html#a5922368d5529eaa2fc1b76ffdc38041c">ReverseDecoderImpl&lt; Common &gt;</a> 重载.</p>
+
+</div>
+</div>
+<a id="a882a3bf7b4dac3eafd7ccf7a2d72b0c0" name="a882a3bf7b4dac3eafd7ccf7a2d72b0c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a882a3bf7b4dac3eafd7ccf7a2d72b0c0">&#9670;&nbsp;</a></span>pushFrameStack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void IDemuxDecoder::pushFrameStack </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_reverse_decoder_impl.html#a06c7d30ca0b0ed6aab8e1091285696e1">ReverseDecoderImpl&lt; type &gt;</a> , 以及 <a class="el" href="class_reverse_decoder_impl.html#a06c7d30ca0b0ed6aab8e1091285696e1">ReverseDecoderImpl&lt; Common &gt;</a> 重载.</p>
+
+</div>
+</div>
+<a id="a37b3ada3f6e24f5562f36faa5d40859d" name="a37b3ada3f6e24f5562f36faa5d40859d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37b3ada3f6e24f5562f36faa5d40859d">&#9670;&nbsp;</a></span>setEnable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void IDemuxDecoder::setEnable </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="class_reverse_decoder_impl.html#a8eccf411ed9c943baa6df59daa87449a">ReverseDecoderImpl&lt; type &gt;</a>, <a class="el" href="class_reverse_decoder_impl.html#a8eccf411ed9c943baa6df59daa87449a">ReverseDecoderImpl&lt; Common &gt;</a>, <a class="el" href="class_decoder_impl.html#aaa7b8b977463e4e7b7cc38199013982a">DecoderImpl&lt; type &gt;</a>, <a class="el" href="class_decoder_impl.html#aaa7b8b977463e4e7b7cc38199013982a">DecoderImpl&lt; Common &gt;</a> , 以及 <a class="el" href="class_virtual_video_decoder.html#aff6f82117679993223bae784d5452aad">VirtualVideoDecoder</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a08b332810e56c295a55a38cbffd0dc12" name="a08b332810e56c295a55a38cbffd0dc12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08b332810e56c295a55a38cbffd0dc12">&#9670;&nbsp;</a></span>setFollower()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void IDemuxDecoder::setFollower </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_i_demux_decoder.html">IDemuxDecoder</a> *&#160;</td>
+          <td class="paramname"><em>follower</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_reverse_decoder_impl.html#afeee7384cf7d0fc3bd003f58d09333e1">ReverseDecoderImpl&lt; type &gt;</a> , 以及 <a class="el" href="class_reverse_decoder_impl.html#afeee7384cf7d0fc3bd003f58d09333e1">ReverseDecoderImpl&lt; Common &gt;</a> 重载.</p>
+
+</div>
+</div>
+<a id="af7e2f4f4db6daa22624da7d7ef26f35e" name="af7e2f4f4db6daa22624da7d7ef26f35e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7e2f4f4db6daa22624da7d7ef26f35e">&#9670;&nbsp;</a></span>setOutputFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void IDemuxDecoder::setOutputFormat </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> &amp;&#160;</td>
+          <td class="paramname"><em>format</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="class_reverse_decoder_impl.html#a8ac8e3331fbc60975752ceee494f9587">ReverseDecoderImpl&lt; type &gt;</a>, <a class="el" href="class_reverse_decoder_impl.html#a8ac8e3331fbc60975752ceee494f9587">ReverseDecoderImpl&lt; Common &gt;</a>, <a class="el" href="class_reverse_decoder_impl_3_01_audio_01_4.html#a5babdbc44f72dd843807f28292becba0">ReverseDecoderImpl&lt; Audio &gt;</a>, <a class="el" href="class_decoder_impl.html#acb1f3a855752ace9c2acc52be3443ff1">DecoderImpl&lt; type &gt;</a>, <a class="el" href="class_decoder_impl.html#acb1f3a855752ace9c2acc52be3443ff1">DecoderImpl&lt; Common &gt;</a>, <a class="el" href="class_decoder_impl_3_01_audio_01_4.html#a340286bc40a6e13fa47132b3f77f43af">DecoderImpl&lt; Audio &gt;</a> , 以及 <a class="el" href="class_virtual_video_decoder.html#ad02e394c6961a9c13efc4e8e1f6975f7">VirtualVideoDecoder</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a62c6973af74c417ae5bae45eff110756" name="a62c6973af74c417ae5bae45eff110756"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62c6973af74c417ae5bae45eff110756">&#9670;&nbsp;</a></span>setStart()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void IDemuxDecoder::setStart </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>secs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_reverse_decoder_impl.html#ad3999547b3e4a47b94ae21ab79bdbdb8">ReverseDecoderImpl&lt; type &gt;</a> , 以及 <a class="el" href="class_reverse_decoder_impl.html#ad3999547b3e4a47b94ae21ab79bdbdb8">ReverseDecoderImpl&lt; Common &gt;</a> 重载.</p>
+
+</div>
+</div>
+<a id="ac0595fd850a0fa6e0e96d80bee30dca4" name="ac0595fd850a0fa6e0e96d80bee30dca4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0595fd850a0fa6e0e96d80bee30dca4">&#9670;&nbsp;</a></span>skip()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int IDemuxDecoder::skip </td>
+          <td>(</td>
+          <td class="paramtype">const std::function&lt; bool(qreal)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>predicate</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >线性扫描移除满足条件的帧, 当发现帧不满足条件时, 结束扫描 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">predicate</td><td>条件 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>移除帧的个数 </dd></dl>
+
+<p>在 <a class="el" href="class_reverse_decoder_impl.html#a974497dc700e5c282664c1605459df6d">ReverseDecoderImpl&lt; type &gt;</a>, <a class="el" href="class_reverse_decoder_impl.html#a974497dc700e5c282664c1605459df6d">ReverseDecoderImpl&lt; Common &gt;</a>, <a class="el" href="class_reverse_decoder_impl_3_01_video_01_4.html#adeb92ed3c885d4d191e386c9a6d96420">ReverseDecoderImpl&lt; Video &gt;</a>, <a class="el" href="class_decoder_impl.html#a37446b1030b43a24e71e272f9407e181">DecoderImpl&lt; type &gt;</a>, <a class="el" href="class_decoder_impl.html#a37446b1030b43a24e71e272f9407e181">DecoderImpl&lt; Common &gt;</a> , 以及 <a class="el" href="class_virtual_video_decoder.html#afb4be903fc99a4c0d5f04920db12499d">VirtualVideoDecoder</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a4148d4e05267b1a3498d990a04e440ab" name="a4148d4e05267b1a3498d990a04e440ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4148d4e05267b1a3498d990a04e440ab">&#9670;&nbsp;</a></span>viewFront()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual qreal IDemuxDecoder::viewFront </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取队首帧的PTS, 若不存在, 返回NaN </p><dl class="section return"><dt>返回</dt><dd>队首帧的PTS </dd></dl>
+
+<p>在 <a class="el" href="class_reverse_decoder_impl.html#a2ef4c3ed4deb001d895e00b336ee3446">ReverseDecoderImpl&lt; type &gt;</a>, <a class="el" href="class_reverse_decoder_impl.html#a2ef4c3ed4deb001d895e00b336ee3446">ReverseDecoderImpl&lt; Common &gt;</a>, <a class="el" href="class_reverse_decoder_impl_3_01_video_01_4.html#ac102acc83451c7e73e3b2b540c95d6b8">ReverseDecoderImpl&lt; Video &gt;</a>, <a class="el" href="class_decoder_impl.html#acf1b5f50a8000d64fe063f9d74705a0f">DecoderImpl&lt; type &gt;</a>, <a class="el" href="class_decoder_impl.html#acf1b5f50a8000d64fe063f9d74705a0f">DecoderImpl&lt; Common &gt;</a> , 以及 <a class="el" href="class_virtual_video_decoder.html#a204b53a84ed810ee43532b4c9409bff4">VirtualVideoDecoder</a> 内被实现.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>src/decoder/private/<a class="el" href="decoders_8hpp_source.html">decoders.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_i_demux_decoder.html">IDemuxDecoder</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

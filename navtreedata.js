@@ -65,18 +65,23 @@ var NAVTREE =
         [ "slider(滑动条)", "md_docs__q_m_linterface.html#autotoc_md31", null ]
       ] ]
     ] ],
+    [ "videoSlider:", "md_docs_video_slider_operate.html", null ],
     [ "PonyPlayer", "md__r_e_a_d_m_e.html", [
       [ "1 技术栈", "md__r_e_a_d_m_e.html#autotoc_md33", null ],
       [ "2 Useful Links", "md__r_e_a_d_m_e.html#autotoc_md34", null ],
       [ "3 项目结构", "md__r_e_a_d_m_e.html#autotoc_md35", null ],
       [ "4 文档", "md__r_e_a_d_m_e.html#autotoc_md36", null ]
     ] ],
+    [ "LICENSE", "md_thirdparty_rwqueue__l_i_c_e_n_s_e.html", null ],
     [ "命名空间", "namespaces.html", [
       [ "命名空间列表", "namespaces.html", "namespaces_dup" ],
       [ "命名空间成员", "namespacemembers.html", [
         [ "全部", "namespacemembers.html", null ],
         [ "函数", "namespacemembers_func.html", null ],
-        [ "变量", "namespacemembers_vars.html", null ]
+        [ "变量", "namespacemembers_vars.html", null ],
+        [ "类型定义", "namespacemembers_type.html", null ],
+        [ "枚举", "namespacemembers_enum.html", null ],
+        [ "枚举值", "namespacemembers_eval.html", null ]
       ] ]
     ] ],
     [ "类", "annotated.html", [
@@ -84,10 +89,14 @@ var NAVTREE =
       [ "类索引", "classes.html", null ],
       [ "类继承关系", "hierarchy.html", "hierarchy" ],
       [ "类成员", "functions.html", [
-        [ "全部", "functions.html", null ],
-        [ "函数", "functions_func.html", null ],
+        [ "全部", "functions.html", "functions_dup" ],
+        [ "函数", "functions_func.html", "functions_func" ],
         [ "变量", "functions_vars.html", null ],
-        [ "属性", "functions_prop.html", null ]
+        [ "类型定义", "functions_type.html", null ],
+        [ "枚举", "functions_enum.html", null ],
+        [ "枚举值", "functions_eval.html", null ],
+        [ "属性", "functions_prop.html", null ],
+        [ "相关函数", "functions_rela.html", null ]
       ] ]
     ] ],
     [ "文件", "files.html", [
@@ -107,7 +116,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"quickitem_8h.html"
+"class_fireworks.html#acfded6ae8913d193a6587e7ec36ded19",
+"class_play_list_item.html#abf15cfee08e6a06f79af082529db0de2",
+"class_video_frame_ref.html#a325852a5e00eac5f80916caea9039123",
+"countdown__latch_8h_source.html",
+"namespacebuild.html#a47ac82abeb13f36af571735957fdc455",
+"structlrc_1_1_lyrics_1_1_lyric_line.html#a214bc30dc3db8b0e388e38d15ce516f9"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

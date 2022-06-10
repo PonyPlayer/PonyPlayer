@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['audioduration_0',['audioDuration',['../class_demuxer.html#a83a8c15dcc92401012797fc933341fd8',1,'Demuxer']]]
+  ['_5fgetdevicelist_0',['_getDeviceList',['../class_pony_audio_sink.html#a982dd1f714ac945bd9107e5071b4c490',1,'PonyAudioSink']]]
 ];

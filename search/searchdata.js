@@ -1,17 +1,18 @@
 var indexSectionsWithContent =
 {
-  0: "_acdefghiklmnopqrstuvz~",
-  1: "cdfhilpsv",
-  2: "s",
-  3: "cdefhiklmpqrst",
-  4: "acdfghilmopqrstuv~",
-  5: "acdefhilnpqrstvz",
-  6: "t",
-  7: "h",
-  8: "ilps",
-  9: "_dfsv",
-  10: "di",
-  11: "hpq"
+  0: "_abcdefghiklmnopqrstuvw~",
+  1: "abcdfhilmprstuvw",
+  2: "blmps",
+  3: "abcdefhiklmpqrstuvw",
+  4: "_abcdefghiklmnopqrstuvw~",
+  5: "abcdefghiklmnopqrstuv",
+  6: "cpsv",
+  7: "dhmop",
+  8: "acfilmpsv",
+  9: "_abcdefiklprstv",
+  10: "fv",
+  11: "afimnpst",
+  12: "hlpqv"
 };
 
 var indexSectionNames =
@@ -26,8 +27,9 @@ var indexSectionNames =
   7: "enums",
   8: "enumvalues",
   9: "properties",
-  10: "defines",
-  11: "pages"
+  10: "related",
+  11: "defines",
+  12: "pages"
 };
 
 var indexSectionLabels =
@@ -42,7 +44,8 @@ var indexSectionLabels =
   7: "枚举",
   8: "枚举值",
   9: "属性",
-  10: "宏定义",
-  11: "页"
+  10: "友元",
+  11: "宏定义",
+  12: "页"
 };
 

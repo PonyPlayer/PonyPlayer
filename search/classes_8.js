@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['videoplayworker_0',['VideoPlayWorker',['../class_video_play_worker.html',1,'']]]
+  ['metadata_0',['Metadata',['../structlrc_1_1_lyrics_1_1_metadata.html',1,'lrc::Lyrics']]]
 ];

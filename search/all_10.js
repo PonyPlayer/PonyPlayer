@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['readme_2emd_0',['README.md',['../_r_e_a_d_m_e_8md.html',1,'']]],
-  ['remove_1',['remove',['../class_pony_k_v_connect.html#ab9cf9bc9796cf37eba3e89337b90a29c',1,'PonyKVConnect::remove()'],['../class_pony_k_v_list.html#a3713e7d41954eecdfde53457fa444ad1',1,'PonyKVList::remove()']]],
-  ['render_2',['render',['../class_hurricane_renderer.html#ae339c4473aede82de5128a851db234e9',1,'HurricaneRenderer']]],
-  ['required_3',['required',['../namespacesetup.html#ab8446056f7437ce40a5d4dff30b1b9be',1,'setup']]],
-  ['resume_4',['resume',['../class_demuxer.html#a426a0c5ff0c4c6cfcf645483c939513f',1,'Demuxer::resume()'],['../class_video_play_worker.html#a0e354dcf8f04f31466a5b767b9cb8f9a',1,'VideoPlayWorker::resume()']]],
-  ['retrievedata_5',['retrieveData',['../class_pony_k_v_connect.html#a596283b85393de0b4ff471479838806b',1,'PonyKVConnect']]],
-  ['retrievedatabyclass_6',['retrieveDataByClass',['../class_pony_k_v_connect.html#a64dc957dcfdbc3ef6aa6e6a7a9e41461',1,'PonyKVConnect']]]
+  ['q_5fdeclare_5fmetatype_0',['Q_DECLARE_METATYPE',['../playlist_8h.html#a0ffc66fc30dfec590a0221688528a31f',1,'playlist.h']]],
+  ['qhash_1',['qHash',['../lyrics_8cpp.html#a72685d76e4e97c755d47f5700ca9b167',1,'lyrics.cpp']]],
+  ['qmlinterface_2emd_2',['QMLinterface.md',['../_q_m_linterface_8md.html',1,'']]],
+  ['qml界面_3',['QML界面',['../md_docs__q_m_linterface.html',1,'']]],
+  ['qt_5flibrary_5fcmake_5fdir_4',['qt_library_cmake_dir',['../namespacesetup.html#a2a71e73ff7d756b233cee4c85c3d2e01',1,'setup']]],
+  ['qt_5fpath_5',['qt_path',['../namespacebuild.html#a47ac82abeb13f36af571735957fdc455',1,'build.qt_path()'],['../namespacepackage.html#a4e5ff513de6a6b399e821ac1ea2208fa',1,'package.qt_path()'],['../namespacesetup.html#af34ebd34947b3a1041744f2b5ea04fbd',1,'setup.qt_path()']]],
+  ['qtypetoddl_6',['qTypeToDDL',['../class_pony_k_v_connect.html#a3320af242c31a4b28b1f785c780a4625',1,'PonyKVConnect']]],
+  ['quality_7',['quality',['../structsonic_stream_struct.html#a4b51ad651730d1ebb28cea6342e7ad72',1,'sonicStreamStruct']]]
 ];

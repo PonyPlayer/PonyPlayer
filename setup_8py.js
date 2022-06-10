@@ -22,5 +22,6 @@ var setup_8py =
     [ "self_path", "setup_8py.html#ae4a488127c01a41dfc640194d6cb4a92", null ],
     [ "str", "setup_8py.html#aa9b1f68db1daa4600284432cf82ce834", null ],
     [ "type", "setup_8py.html#ac312c4ad8abbb4d7574275abfde99152", null ],
-    [ "VERSION", "setup_8py.html#a704f2323949f9be057e0a3574731e019", null ]
+    [ "VERSION", "setup_8py.html#a704f2323949f9be057e0a3574731e019", null ],
+    [ "version", "setup_8py.html#a2aa722b36a933088812b50ea79b97a5c", null ]
 ];

@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: src/utils/include/ponyplayer.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ponyplayer_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ponyplayer.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ponyplayer_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">//</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// Created by ColorsWind on 2022/5/13.</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QDir&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#if defined(WIN32) || defined(linux)</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#define INCLUDE_FFMPEG_BEGIN \</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">extern &quot;C&quot;</span> {       \</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>_Pragma(&quot;GCC diagnostic push&quot;) \</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>_Pragma(&quot;GCC diagnostic ignored \&quot;-Wold-style-cast\&quot;&quot;) \</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>_Pragma(&quot;GCC diagnostic ignored \&quot;-Wsign-conversion\&quot;&quot;) \</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>_Pragma(&quot;GCC diagnostic ignored \&quot;-Wconversion\&quot;&quot;)</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#elif defined(__APPLE__)</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#define INCLUDE_FFMPEG_BEGIN \</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">extern &quot;C&quot;</span> {       \</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>_Pragma(&quot;GCC diagnostic push&quot;) \</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>_Pragma(&quot;GCC diagnostic ignored \&quot;-Wold-style-cast\&quot;&quot;) \</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>_Pragma(&quot;GCC diagnostic ignored \&quot;-Wsign-conversion\&quot;&quot;) \</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>_Pragma(&quot;GCC diagnostic ignored \&quot;-Wimplicit-int-conversion\&quot;&quot;)</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="ponyplayer_8h.html#a18e7632edda4d498be82cf0a168b6527">   26</a></span><span class="preprocessor">#define INCLUDE_FFMPEG_END \</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">_Pragma(&quot;GCC diagnostic pop&quot;</span>) \</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>}</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#ifdef NDEBUG</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#define NOT_IMPLEMENT_YET { throw std::runtime_error(&quot;Unsupported operation:&quot;</span>); }</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#define ILLEGAL_STATE(msg) throw std::runtime_error(std::string(&quot;Illegal State Exception: &quot;</span>).append(msg))</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="ponyplayer_8h.html#a6df1d22fb5f09eccc23b9f399670cfd7">   36</a></span><span class="preprocessor">#define STRINGIFY(x) #x</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="ponyplayer_8h.html#a9063e80f8777300c93afde6e6f4c9cea">   37</a></span><span class="preprocessor">#define TOSTRING(x) STRINGIFY(x)</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="ponyplayer_8h.html#afeabad653f918711273be0a3cd41e196">   38</a></span><span class="preprocessor">#define FILE_AND_LINE __FILE__ &quot;:&quot;</span> TOSTRING(__LINE__)</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="ponyplayer_8h.html#aeb46fe29e358d4fe65487573aadfd583">   39</a></span><span class="preprocessor">#define NOT_IMPLEMENT_YET { throw std::runtime_error(&quot;Unsupported operation: &quot;</span> FILE_AND_LINE); }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="ponyplayer_8h.html#a4b02e2c27cfd7a3f72cc70691d3d839c">   40</a></span><span class="preprocessor">#define ILLEGAL_STATE(msg) throw std::runtime_error(std::string(&quot;Illegal State Exception: &quot;</span>).append(msg).append(&quot; : &quot; FILE_AND_LINE))</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_pony_player.html">PonyPlayer</a> {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a701e5cea5dd029ffc7c13b46fd5cc919">   44</a></span>    <span class="keyword">using</span> <a class="code hl_typedef" href="namespace_pony_player.html#a701e5cea5dd029ffc7c13b46fd5cc919">PonyThread</a> = <span class="keyword">const</span> <span class="keywordtype">char</span>*;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a822958961f75d7a2d53a2d9b651b4898">   45</a></span>    <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_pony_player.html#a701e5cea5dd029ffc7c13b46fd5cc919">PonyThread</a> <a class="code hl_variable" href="namespace_pony_player.html#a822958961f75d7a2d53a2d9b651b4898">PLAYBACK</a> = <span class="stringliteral">&quot;PlaybackThread&quot;</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a4dba509b25f0026b8f2c7d1ba5c407a0">   46</a></span>    <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_pony_player.html#a701e5cea5dd029ffc7c13b46fd5cc919">PonyThread</a> <a class="code hl_variable" href="namespace_pony_player.html#a4dba509b25f0026b8f2c7d1ba5c407a0">DECODER</a>  = <span class="stringliteral">&quot;DecoderThread&quot;</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a06a2288fe4add98ace88ae6616dfa961">   47</a></span>    <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_pony_player.html#a701e5cea5dd029ffc7c13b46fd5cc919">PonyThread</a> <a class="code hl_variable" href="namespace_pony_player.html#a06a2288fe4add98ace88ae6616dfa961">MAIN</a>     = <span class="stringliteral">&quot;MainThread&quot;</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a174a2f43e1dfe9b073e6c9f5682eb06d">   48</a></span>    <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_pony_player.html#a701e5cea5dd029ffc7c13b46fd5cc919">PonyThread</a> <a class="code hl_variable" href="namespace_pony_player.html#a174a2f43e1dfe9b073e6c9f5682eb06d">RENDER</a>   = <span class="stringliteral">&quot;RenderThread&quot;</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#aa97460341dd062692efbefa28b755f15">   49</a></span>    <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_pony_player.html#a701e5cea5dd029ffc7c13b46fd5cc919">PonyThread</a> <a class="code hl_variable" href="namespace_pony_player.html#aa97460341dd062692efbefa28b755f15">PREVIEW</a>  = <span class="stringliteral">&quot;PreviewThread&quot;</span>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#ad85094c5482643eff26a6f9713aa9590">   50</a></span>    <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_pony_player.html#a701e5cea5dd029ffc7c13b46fd5cc919">PonyThread</a> <a class="code hl_variable" href="namespace_pony_player.html#ad85094c5482643eff26a6f9713aa9590">FRAME</a>    = <span class="stringliteral">&quot;FrameControllerThread&quot;</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a12eda25cec74c1a1cb67c4aa6e01bf66">   52</a></span>    <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_pony_player.html#a701e5cea5dd029ffc7c13b46fd5cc919">PonyThread</a> <a class="code hl_variable" href="namespace_pony_player.html#a12eda25cec74c1a1cb67c4aa6e01bf66">ANY</a>  = <span class="stringliteral">&quot;__AnyThread&quot;</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a15fc3daa6ce15b9986643e3a343d5e69">   53</a></span>    <span class="keyword">constexpr</span> <a class="code hl_typedef" href="namespace_pony_player.html#a701e5cea5dd029ffc7c13b46fd5cc919">PonyThread</a> <a class="code hl_variable" href="namespace_pony_player.html#a15fc3daa6ce15b9986643e3a343d5e69">SELF</a> = <span class="stringliteral">&quot;__SelfThread&quot;</span>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T0&gt;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a302a263c1ee7f5d958da27f9a39d5eb0">   56</a></span>    <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespace_pony_player.html#a302a263c1ee7f5d958da27f9a39d5eb0">checkThreadType</a>(T0) {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">return</span> std::is_same&lt;T0, PonyThread&gt;();</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T0, <span class="keyword">typename</span> ...T&gt;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#a507cc6fe4097be5af63e569b83767120">   61</a></span>    <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespace_pony_player.html#a302a263c1ee7f5d958da27f9a39d5eb0">checkThreadType</a>(T0, T ...t) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">return</span> std::is_same&lt;T0, PonyThread&gt;() &amp;&amp; <a class="code hl_function" href="namespace_pony_player.html#a302a263c1ee7f5d958da27f9a39d5eb0">checkThreadType</a>(t...);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="namespace_pony_player.html#ab6cce54f7370a1631fdc606eef358bf3">   69</a></span>    <span class="keyword">inline</span> QString <a class="code hl_function" href="namespace_pony_player.html#ab6cce54f7370a1631fdc606eef358bf3">getHome</a>() {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        QString home = QDir::homePath();</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#ifdef Q_OS_MAC</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        home += <span class="stringliteral">&quot;/Library/Containers/PonyPlayer&quot;</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#elif defined(Q_OS_WIN32)</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        home += <span class="stringliteral">&quot;/AppData/Local/PonyPlayer&quot;</span>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#elif defined(Q_OS_LINUX)</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        home += <span class="stringliteral">&quot;/.PonyPlayer&quot;</span>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> home;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="ponyplayer_8h.html#abab742fab2c7454579d1e67fca2343ca">   84</a></span><span class="preprocessor">#define PONY_THREAD_ANNOTATION(...) static_assert([]{using namespace PonyPlayer; return checkThreadType(__VA_ARGS__);}());</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="ponyplayer_8h.html#ac25e44376b574b1f59790ac6f64c9336">   89</a></span><span class="preprocessor">#define PONY_GUARD_BY(...) PONY_THREAD_ANNOTATION(__VA_ARGS__)</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="ponyplayer_8h.html#ad1dd67d30dd7d7f6e6a269f5e1c34c23">   94</a></span><span class="preprocessor">#define PONY_CONDITION(description)</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="ponyplayer_8h.html#ad438d3bff485aedd50b07fe78fdb4085">   95</a></span><span class="preprocessor">#define PONY_THREAD_AFFINITY(thread) PONY_THREAD_ANNOTATION(thread)</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="preprocessor">#define PONY_THREAD_SAFE</span></div>
+<div class="ttc" id="anamespace_pony_player_html"><div class="ttname"><a href="namespace_pony_player.html">PonyPlayer</a></div><div class="ttdef"><b>Definition:</b> audioformat.hpp:155</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a06a2288fe4add98ace88ae6616dfa961"><div class="ttname"><a href="namespace_pony_player.html#a06a2288fe4add98ace88ae6616dfa961">PonyPlayer::MAIN</a></div><div class="ttdeci">constexpr PonyThread MAIN</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:47</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a12eda25cec74c1a1cb67c4aa6e01bf66"><div class="ttname"><a href="namespace_pony_player.html#a12eda25cec74c1a1cb67c4aa6e01bf66">PonyPlayer::ANY</a></div><div class="ttdeci">constexpr PonyThread ANY</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:52</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a15fc3daa6ce15b9986643e3a343d5e69"><div class="ttname"><a href="namespace_pony_player.html#a15fc3daa6ce15b9986643e3a343d5e69">PonyPlayer::SELF</a></div><div class="ttdeci">constexpr PonyThread SELF</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:53</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a174a2f43e1dfe9b073e6c9f5682eb06d"><div class="ttname"><a href="namespace_pony_player.html#a174a2f43e1dfe9b073e6c9f5682eb06d">PonyPlayer::RENDER</a></div><div class="ttdeci">constexpr PonyThread RENDER</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:48</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a302a263c1ee7f5d958da27f9a39d5eb0"><div class="ttname"><a href="namespace_pony_player.html#a302a263c1ee7f5d958da27f9a39d5eb0">PonyPlayer::checkThreadType</a></div><div class="ttdeci">constexpr bool checkThreadType(T0)</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:56</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a4dba509b25f0026b8f2c7d1ba5c407a0"><div class="ttname"><a href="namespace_pony_player.html#a4dba509b25f0026b8f2c7d1ba5c407a0">PonyPlayer::DECODER</a></div><div class="ttdeci">constexpr PonyThread DECODER</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:46</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a701e5cea5dd029ffc7c13b46fd5cc919"><div class="ttname"><a href="namespace_pony_player.html#a701e5cea5dd029ffc7c13b46fd5cc919">PonyPlayer::PonyThread</a></div><div class="ttdeci">const char * PonyThread</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:44</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a822958961f75d7a2d53a2d9b651b4898"><div class="ttname"><a href="namespace_pony_player.html#a822958961f75d7a2d53a2d9b651b4898">PonyPlayer::PLAYBACK</a></div><div class="ttdeci">constexpr PonyThread PLAYBACK</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:45</div></div>
+<div class="ttc" id="anamespace_pony_player_html_aa97460341dd062692efbefa28b755f15"><div class="ttname"><a href="namespace_pony_player.html#aa97460341dd062692efbefa28b755f15">PonyPlayer::PREVIEW</a></div><div class="ttdeci">constexpr PonyThread PREVIEW</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:49</div></div>
+<div class="ttc" id="anamespace_pony_player_html_ab6cce54f7370a1631fdc606eef358bf3"><div class="ttname"><a href="namespace_pony_player.html#ab6cce54f7370a1631fdc606eef358bf3">PonyPlayer::getHome</a></div><div class="ttdeci">QString getHome()</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:69</div></div>
+<div class="ttc" id="anamespace_pony_player_html_ad85094c5482643eff26a6f9713aa9590"><div class="ttname"><a href="namespace_pony_player.html#ad85094c5482643eff26a6f9713aa9590">PonyPlayer::FRAME</a></div><div class="ttdeci">constexpr PonyThread FRAME</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:50</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_313caf1132e152dd9b58bea13a4052ca.html">utils</a></li><li class="navelem"><a class="el" href="dir_35e6833b6d46e7e2c86b593b75facf54.html">include</a></li><li class="navelem"><a class="el" href="ponyplayer_8h.html">ponyplayer.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

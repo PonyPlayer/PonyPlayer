@@ -1,0 +1,1125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: PonyAudioSink类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_pony_audio_sink.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-slots">Public 槽</a> &#124;
+<a href="#signals">信号</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-attribs">静态 Public 属性</a> &#124;
+<a href="class_pony_audio_sink-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">PonyAudioSink类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>播放音频裸流, 用于代替QAudioSink.  
+ <a href="class_pony_audio_sink.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="audiosink_8hpp_source.html">audiosink.hpp</a>&gt;</code></p>
+<div class="dynheader">
+类 PonyAudioSink 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_pony_audio_sink.png" alt=""/>
+ </div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-slots" name="pub-slots"></a>
+Public 槽</h2></td></tr>
+<tr class="memitem:a0b3bcaca8c5030a0954209c5e1735adc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a0b3bcaca8c5030a0954209c5e1735adc">onAudioOutputDevicesChanged</a> ()</td></tr>
+<tr class="separator:a0b3bcaca8c5030a0954209c5e1735adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59b38bbabd945821d2f1b7a93c832614"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a59b38bbabd945821d2f1b7a93c832614">requestDeviceSwitch</a> (const QString &amp;device)</td></tr>
+<tr class="separator:a59b38bbabd945821d2f1b7a93c832614"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43e96436072c927eefb259633de6ae86"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a43e96436072c927eefb259633de6ae86">getCurrentDeviceFormat</a> ()</td></tr>
+<tr class="separator:a43e96436072c927eefb259633de6ae86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
+信号</h2></td></tr>
+<tr class="memitem:acad6e548c421aefb42f5c8e5a7800e8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#acad6e548c421aefb42f5c8e5a7800e8c">stateChanged</a> ()</td></tr>
+<tr class="separator:acad6e548c421aefb42f5c8e5a7800e8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a473931d61999fb16ba7d30d78905fb8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a473931d61999fb16ba7d30d78905fb8d">resourceInsufficient</a> ()</td></tr>
+<tr class="separator:a473931d61999fb16ba7d30d78905fb8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea439cea285ea8b31d327961d667da8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#aea439cea285ea8b31d327961d667da8e">signalAudioOutputDeviceListChanged</a> ()</td></tr>
+<tr class="separator:aea439cea285ea8b31d327961d667da8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96d55cee05290ceac063ea91b09fae4e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a96d55cee05290ceac063ea91b09fae4e">signalDeviceSwitched</a> ()</td></tr>
+<tr class="separator:a96d55cee05290ceac063ea91b09fae4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:acafe160434d6520fd75a54c4bd2136bb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#acafe160434d6520fd75a54c4bd2136bb">PonyAudioSink</a> (<a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> format)</td></tr>
+<tr class="separator:acafe160434d6520fd75a54c4bd2136bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fda60f9e39fc273037dfd78a1fbb6dc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a5fda60f9e39fc273037dfd78a1fbb6dc">~PonyAudioSink</a> () override</td></tr>
+<tr class="separator:a5fda60f9e39fc273037dfd78a1fbb6dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a847c840f9fa3f3baca6881795d58a0c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a847c840f9fa3f3baca6881795d58a0c5">start</a> ()</td></tr>
+<tr class="separator:a847c840f9fa3f3baca6881795d58a0c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0314e7a87116e73fda3fa69ef62ce4a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a0314e7a87116e73fda3fa69ef62ce4a3">pause</a> ()</td></tr>
+<tr class="separator:a0314e7a87116e73fda3fa69ef62ce4a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3982901dd8e9c6884283128774a2eab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#aa3982901dd8e9c6884283128774a2eab">waitComplete</a> ()</td></tr>
+<tr class="separator:aa3982901dd8e9c6884283128774a2eab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5529d909cadb603de7f7a46d57b86f56"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a5529d909cadb603de7f7a46d57b86f56">stop</a> ()</td></tr>
+<tr class="separator:a5529d909cadb603de7f7a46d57b86f56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f693b5003c46b3eb7efabe944fae24d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a0f693b5003c46b3eb7efabe944fae24d">setBlockState</a> (bool <a class="el" href="class_pony_audio_sink.html#af6b540325a9592cf0c1e3ab6d8bd7559">state</a>)</td></tr>
+<tr class="separator:a0f693b5003c46b3eb7efabe944fae24d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1dc7b6867c72e216051d5ee17d531e6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#ac1dc7b6867c72e216051d5ee17d531e6">isBlock</a> ()</td></tr>
+<tr class="separator:ac1dc7b6867c72e216051d5ee17d531e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6b540325a9592cf0c1e3ab6d8bd7559"><td class="memItemLeft" align="right" valign="top"><a class="el" href="audiosink_8hpp.html#ae777c4083532155b0f63774284124497">PlaybackState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#af6b540325a9592cf0c1e3ab6d8bd7559">state</a> () const</td></tr>
+<tr class="separator:af6b540325a9592cf0c1e3ab6d8bd7559"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33cf6d2afaaa4c66b31186f39cfec502"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a33cf6d2afaaa4c66b31186f39cfec502">freeByte</a> () const</td></tr>
+<tr class="separator:a33cf6d2afaaa4c66b31186f39cfec502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af98c2ec65d7ddda96f2faaea665f58b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#af98c2ec65d7ddda96f2faaea665f58b6">write</a> (const char *buf, qint32 origLen)</td></tr>
+<tr class="separator:af98c2ec65d7ddda96f2faaea665f58b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0dbe43246c46eb124bc418051a759af"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#ac0dbe43246c46eb124bc418051a759af">clear</a> ()</td></tr>
+<tr class="separator:ac0dbe43246c46eb124bc418051a759af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab957e88d57845120bb21a8ed055f49d3"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#ab957e88d57845120bb21a8ed055f49d3">getProcessSecs</a> (bool backward) const</td></tr>
+<tr class="separator:ab957e88d57845120bb21a8ed055f49d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac726224f9d1b7101fb12ead9a588ddf6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#ac726224f9d1b7101fb12ead9a588ddf6">setStartPoint</a> (double t=0.0)</td></tr>
+<tr class="separator:ac726224f9d1b7101fb12ead9a588ddf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c68a1e4f02184914195bcc4d081850c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a0c68a1e4f02184914195bcc4d081850c">setVolume</a> (qreal newVolume)</td></tr>
+<tr class="separator:a0c68a1e4f02184914195bcc4d081850c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0861713990503502cd16152386088d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#aa0861713990503502cd16152386088d6">setPitch</a> (qreal newPitch)</td></tr>
+<tr class="separator:aa0861713990503502cd16152386088d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16e9cd5eaca42f023b5bd445a65f8e02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a16e9cd5eaca42f023b5bd445a65f8e02">setSpeed</a> (qreal newSpeed)</td></tr>
+<tr class="separator:a16e9cd5eaca42f023b5bd445a65f8e02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae46dd9af2cb1b92f6422b506281d39a7"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#ae46dd9af2cb1b92f6422b506281d39a7">volume</a> () const</td></tr>
+<tr class="separator:ae46dd9af2cb1b92f6422b506281d39a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a9ba66a2d280ee050b1225b418409c4"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a9a9ba66a2d280ee050b1225b418409c4">speed</a> () const</td></tr>
+<tr class="separator:a9a9ba66a2d280ee050b1225b418409c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a203e36a1ce523cbbbe9bf5d98db6fedd"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a203e36a1ce523cbbbe9bf5d98db6fedd">pitch</a> () const</td></tr>
+<tr class="separator:a203e36a1ce523cbbbe9bf5d98db6fedd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a982dd1f714ac945bd9107e5071b4c490"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a982dd1f714ac945bd9107e5071b4c490">_getDeviceList</a> ()</td></tr>
+<tr class="separator:a982dd1f714ac945bd9107e5071b4c490"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee98686a26906b20430fdf180e16df89"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#aee98686a26906b20430fdf180e16df89">getSelectedOutputDevice</a> ()</td></tr>
+<tr class="separator:aee98686a26906b20430fdf180e16df89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adeb3f62f862bd321728044c9a8e1f63f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#adeb3f62f862bd321728044c9a8e1f63f">restartStream</a> (const std::function&lt; void()&gt; &amp;betweenInitAndOpen)</td></tr>
+<tr class="separator:adeb3f62f862bd321728044c9a8e1f63f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b43f29ee585210b45f9edd0fd085b4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a8b43f29ee585210b45f9edd0fd085b4b">refreshDevicesList</a> ()</td></tr>
+<tr class="separator:a8b43f29ee585210b45f9edd0fd085b4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5671cab52326e790a71f3836af5a315e"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#a5671cab52326e790a71f3836af5a315e">getAudioDeviceList</a> ()</td></tr>
+<tr class="separator:a5671cab52326e790a71f3836af5a315e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8190ffd31f508cb7bd29aa74f6fe7b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#ac8190ffd31f508cb7bd29aa74f6fe7b2">setFormat</a> (const <a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> &amp;format)</td></tr>
+<tr class="separator:ac8190ffd31f508cb7bd29aa74f6fe7b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+静态 Public 属性</h2></td></tr>
+<tr class="memitem:ac60e25afde2e495ed89653f21f94ccd1"><td class="memItemLeft" align="right" valign="top">constexpr static const qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pony_audio_sink.html#ac60e25afde2e495ed89653f21f94ccd1">MAX_SPEED_FACTOR</a> = 4</td></tr>
+<tr class="separator:ac60e25afde2e495ed89653f21f94ccd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p >播放音频裸流, 用于代替QAudioSink. </p>
+<p >这个类的函数都不是线程安全的, 必须保证在 VideoThread 中调用, 这个类的RAII的. 音频播放涉及两个缓存: AudioBuffer 和 DataBuffer. AudioBuffer 由系统维护, 一旦我们向里面写入数据, 我们将不能读取它. 音频播放时, 系统播放 AudioBuffer 中的音频. 当 AudioBuffer 数据不足时, 系统会通过回调函数从 DataBuffer 中获取数据. DataBuffer 由 <a class="el" href="class_pony_audio_sink.html" title="播放音频裸流, 用于代替QAudioSink.">PonyAudioSink</a> 维护, 当需要播放音频时需要先调用 write 函数将音频数据写入 DataBuffer. </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="acafe160434d6520fd75a54c4bd2136bb" name="acafe160434d6520fd75a54c4bd2136bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acafe160434d6520fd75a54c4bd2136bb">&#9670;&nbsp;</a></span>PonyAudioSink()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PonyAudioSink::PonyAudioSink </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >创建PonyAudioSink并attach到默认设备上 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">format</td><td>音频格式 </td></tr>
+    <tr><td class="paramname">bufferSizeAdvice</td><td>DataBuffer 的建议大小, <a class="el" href="class_pony_audio_sink.html" title="播放音频裸流, 用于代替QAudioSink.">PonyAudioSink</a> 保证实际的 DataBuffer 不小于建议大小. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5fda60f9e39fc273037dfd78a1fbb6dc" name="a5fda60f9e39fc273037dfd78a1fbb6dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fda60f9e39fc273037dfd78a1fbb6dc">&#9670;&nbsp;</a></span>~PonyAudioSink()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PonyAudioSink::~PonyAudioSink </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >析构即从deattach当前设备 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a982dd1f714ac945bd9107e5071b4c490" name="a982dd1f714ac945bd9107e5071b4c490"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a982dd1f714ac945bd9107e5071b4c490">&#9670;&nbsp;</a></span>_getDeviceList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::_getDeviceList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac0dbe43246c46eb124bc418051a759af" name="ac0dbe43246c46eb124bc418051a759af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0dbe43246c46eb124bc418051a759af">&#9670;&nbsp;</a></span>clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t PonyAudioSink::clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >清空AudioBuffer, 将所有空间标记为可用. 这个操作保证在VideoThread上进行. </p><dl class="section return"><dt>返回</dt><dd>清空数据长度(单位: byte) </dd></dl>
+
+</div>
+</div>
+<a id="a33cf6d2afaaa4c66b31186f39cfec502" name="a33cf6d2afaaa4c66b31186f39cfec502"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33cf6d2afaaa4c66b31186f39cfec502">&#9670;&nbsp;</a></span>freeByte()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t PonyAudioSink::freeByte </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取AudioBuffer剩余空间 </p><dl class="section return"><dt>返回</dt><dd>剩余空间(单位: byte) </dd></dl>
+
+</div>
+</div>
+<a id="a5671cab52326e790a71f3836af5a315e" name="a5671cab52326e790a71f3836af5a315e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5671cab52326e790a71f3836af5a315e">&#9670;&nbsp;</a></span>getAudioDeviceList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList PonyAudioSink::getAudioDeviceList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a43e96436072c927eefb259633de6ae86" name="a43e96436072c927eefb259633de6ae86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43e96436072c927eefb259633de6ae86">&#9670;&nbsp;</a></span>getCurrentDeviceFormat</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> PonyAudioSink::getCurrentDeviceFormat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab957e88d57845120bb21a8ed055f49d3" name="ab957e88d57845120bb21a8ed055f49d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab957e88d57845120bb21a8ed055f49d3">&#9670;&nbsp;</a></span>getProcessSecs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal PonyAudioSink::getProcessSecs </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>backward</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取当前播放的时间, 这个函数只能在 <a class="el" href="audiosink_8hpp.html#ae777c4083532155b0f63774284124497a50366a49630a416ab3ccaa004196027e" title="正在播放">PlaybackState::PLAYING</a> 或 <a class="el" href="audiosink_8hpp.html#ae777c4083532155b0f63774284124497a99b2439e63f73ad515f7ab2447a80673" title="暂停状态">PlaybackState::PAUSED</a> 状态下使用. </p><dl class="section return"><dt>返回</dt><dd>当前已播放音频的长度(单位: 秒) </dd></dl>
+
+</div>
+</div>
+<a id="aee98686a26906b20430fdf180e16df89" name="aee98686a26906b20430fdf180e16df89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee98686a26906b20430fdf180e16df89">&#9670;&nbsp;</a></span>getSelectedOutputDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString PonyAudioSink::getSelectedOutputDevice </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac1dc7b6867c72e216051d5ee17d531e6" name="ac1dc7b6867c72e216051d5ee17d531e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1dc7b6867c72e216051d5ee17d531e6">&#9670;&nbsp;</a></span>isBlock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PonyAudioSink::isBlock </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0b3bcaca8c5030a0954209c5e1735adc" name="a0b3bcaca8c5030a0954209c5e1735adc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b3bcaca8c5030a0954209c5e1735adc">&#9670;&nbsp;</a></span>onAudioOutputDevicesChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::onAudioOutputDevicesChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0314e7a87116e73fda3fa69ef62ce4a3" name="a0314e7a87116e73fda3fa69ef62ce4a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0314e7a87116e73fda3fa69ef62ce4a3">&#9670;&nbsp;</a></span>pause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::pause </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >暂停播放, 状态变为 <a class="el" href="audiosink_8hpp.html#ae777c4083532155b0f63774284124497a99b2439e63f73ad515f7ab2447a80673" title="暂停状态">PlaybackState::PAUSED</a>. 但已经写入AudioBuffer的音频将会继续播放. </p>
+
+</div>
+</div>
+<a id="a203e36a1ce523cbbbe9bf5d98db6fedd" name="a203e36a1ce523cbbbe9bf5d98db6fedd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a203e36a1ce523cbbbe9bf5d98db6fedd">&#9670;&nbsp;</a></span>pitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal PonyAudioSink::pitch </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8b43f29ee585210b45f9edd0fd085b4b" name="a8b43f29ee585210b45f9edd0fd085b4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b43f29ee585210b45f9edd0fd085b4b">&#9670;&nbsp;</a></span>refreshDevicesList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::refreshDevicesList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a59b38bbabd945821d2f1b7a93c832614" name="a59b38bbabd945821d2f1b7a93c832614"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59b38bbabd945821d2f1b7a93c832614">&#9670;&nbsp;</a></span>requestDeviceSwitch</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::requestDeviceSwitch </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>device</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a473931d61999fb16ba7d30d78905fb8d" name="a473931d61999fb16ba7d30d78905fb8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a473931d61999fb16ba7d30d78905fb8d">&#9670;&nbsp;</a></span>resourceInsufficient</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::resourceInsufficient </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >由于缺少音频数据, 被迫暂停播放 </p>
+
+</div>
+</div>
+<a id="adeb3f62f862bd321728044c9a8e1f63f" name="adeb3f62f862bd321728044c9a8e1f63f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adeb3f62f862bd321728044c9a8e1f63f">&#9670;&nbsp;</a></span>restartStream()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::restartStream </td>
+          <td>(</td>
+          <td class="paramtype">const std::function&lt; void()&gt; &amp;&#160;</td>
+          <td class="paramname"><em>betweenInitAndOpen</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0f693b5003c46b3eb7efabe944fae24d" name="a0f693b5003c46b3eb7efabe944fae24d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f693b5003c46b3eb7efabe944fae24d">&#9670;&nbsp;</a></span>setBlockState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::setBlockState </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>state</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac8190ffd31f508cb7bd29aa74f6fe7b2" name="ac8190ffd31f508cb7bd29aa74f6fe7b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8190ffd31f508cb7bd29aa74f6fe7b2">&#9670;&nbsp;</a></span>setFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::setFormat </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> &amp;&#160;</td>
+          <td class="paramname"><em>format</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa0861713990503502cd16152386088d6" name="aa0861713990503502cd16152386088d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0861713990503502cd16152386088d6">&#9670;&nbsp;</a></span>setPitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::setPitch </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>newPitch</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >设置音调 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newPitch</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a16e9cd5eaca42f023b5bd445a65f8e02" name="a16e9cd5eaca42f023b5bd445a65f8e02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16e9cd5eaca42f023b5bd445a65f8e02">&#9670;&nbsp;</a></span>setSpeed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::setSpeed </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>newSpeed</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >设置速度 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newSpeed</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac726224f9d1b7101fb12ead9a588ddf6" name="ac726224f9d1b7101fb12ead9a588ddf6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac726224f9d1b7101fb12ead9a588ddf6">&#9670;&nbsp;</a></span>setStartPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::setStartPoint </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>t</em> = <code>0.0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >设置下一次播放的计时器. 这个函数必须在 <a class="el" href="audiosink_8hpp.html#ae777c4083532155b0f63774284124497a09d4d696b4e935115b9313e3c412509a" title="停止状态">PlaybackState::STOPPED</a> 状态下使用. 在播放开始后, 设置生效。 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>新的播放时间(单位: 秒) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0c68a1e4f02184914195bcc4d081850c" name="a0c68a1e4f02184914195bcc4d081850c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c68a1e4f02184914195bcc4d081850c">&#9670;&nbsp;</a></span>setVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::setVolume </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>newVolume</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >设备音量, 音量的范围通常是[0, 1] </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">newVolume</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aea439cea285ea8b31d327961d667da8e" name="aea439cea285ea8b31d327961d667da8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea439cea285ea8b31d327961d667da8e">&#9670;&nbsp;</a></span>signalAudioOutputDeviceListChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::signalAudioOutputDeviceListChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a96d55cee05290ceac063ea91b09fae4e" name="a96d55cee05290ceac063ea91b09fae4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96d55cee05290ceac063ea91b09fae4e">&#9670;&nbsp;</a></span>signalDeviceSwitched</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::signalDeviceSwitched </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9a9ba66a2d280ee050b1225b418409c4" name="a9a9ba66a2d280ee050b1225b418409c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a9ba66a2d280ee050b1225b418409c4">&#9670;&nbsp;</a></span>speed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal PonyAudioSink::speed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a847c840f9fa3f3baca6881795d58a0c5" name="a847c840f9fa3f3baca6881795d58a0c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a847c840f9fa3f3baca6881795d58a0c5">&#9670;&nbsp;</a></span>start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >开始播放, 状态变为 <a class="el" href="audiosink_8hpp.html#ae777c4083532155b0f63774284124497a50366a49630a416ab3ccaa004196027e" title="正在播放">PlaybackState::PLAYING</a>. 若当前DataBuffer内容不足, 状态将会发生改变. </p><dl class="section see"><dt>参见</dt><dd><a class="el" href="class_pony_audio_sink.html#acad6e548c421aefb42f5c8e5a7800e8c">PonyAudioSink::stateChanged</a> </dd>
+<dd>
+<a class="el" href="class_pony_audio_sink.html#a473931d61999fb16ba7d30d78905fb8d">PonyAudioSink::resourceInsufficient</a> </dd></dl>
+
+</div>
+</div>
+<a id="af6b540325a9592cf0c1e3ab6d8bd7559" name="af6b540325a9592cf0c1e3ab6d8bd7559"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6b540325a9592cf0c1e3ab6d8bd7559">&#9670;&nbsp;</a></span>state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="audiosink_8hpp.html#ae777c4083532155b0f63774284124497">PlaybackState</a> PonyAudioSink::state </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取播放状态 </p><dl class="section return"><dt>返回</dt><dd>当前状态 </dd></dl>
+
+</div>
+</div>
+<a id="acad6e548c421aefb42f5c8e5a7800e8c" name="acad6e548c421aefb42f5c8e5a7800e8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acad6e548c421aefb42f5c8e5a7800e8c">&#9670;&nbsp;</a></span>stateChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::stateChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >播放状态发生改变 </p>
+
+</div>
+</div>
+<a id="a5529d909cadb603de7f7a46d57b86f56" name="a5529d909cadb603de7f7a46d57b86f56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5529d909cadb603de7f7a46d57b86f56">&#9670;&nbsp;</a></span>stop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::stop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >停止播放, 状态变为 <a class="el" href="audiosink_8hpp.html#ae777c4083532155b0f63774284124497a09d4d696b4e935115b9313e3c412509a" title="停止状态">PlaybackState::STOPPED</a>, 且已写入AudioBuffer的音频将会被放弃, 播放会立即停止. </p>
+
+</div>
+</div>
+<a id="ae46dd9af2cb1b92f6422b506281d39a7" name="ae46dd9af2cb1b92f6422b506281d39a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae46dd9af2cb1b92f6422b506281d39a7">&#9670;&nbsp;</a></span>volume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal PonyAudioSink::volume </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >获取当前音量 </p><dl class="section return"><dt>返回</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="aa3982901dd8e9c6884283128774a2eab" name="aa3982901dd8e9c6884283128774a2eab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3982901dd8e9c6884283128774a2eab">&#9670;&nbsp;</a></span>waitComplete()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PonyAudioSink::waitComplete </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af98c2ec65d7ddda96f2faaea665f58b6" name="af98c2ec65d7ddda96f2faaea665f58b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af98c2ec65d7ddda96f2faaea665f58b6">&#9670;&nbsp;</a></span>write()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PonyAudioSink::write </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">qint32&#160;</td>
+          <td class="paramname"><em>origLen</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >写AudioBuffer, 要么写入完全成功, 要么失败. 这个操作保证在VideoThread上进行. </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buf</td><td>数据源 </td></tr>
+    <tr><td class="paramname">origLen</td><td>长度(单位: byte) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>写入是否成功 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ac60e25afde2e495ed89653f21f94ccd1" name="ac60e25afde2e495ed89653f21f94ccd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac60e25afde2e495ed89653f21f94ccd1">&#9670;&nbsp;</a></span>MAX_SPEED_FACTOR</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr static const qreal PonyAudioSink::MAX_SPEED_FACTOR = 4</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>src/audiosink/<a class="el" href="audiosink_8hpp_source.html">audiosink.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_pony_audio_sink.html">PonyAudioSink</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

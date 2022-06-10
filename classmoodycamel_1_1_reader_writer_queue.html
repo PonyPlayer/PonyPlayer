@@ -1,0 +1,590 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: moodycamel::ReaderWriterQueue&lt; T, MAX_BLOCK_SIZE &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classmoodycamel_1_1_reader_writer_queue.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="classmoodycamel_1_1_reader_writer_queue-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">moodycamel::ReaderWriterQueue&lt; T, MAX_BLOCK_SIZE &gt; 模板类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="readerwriterqueue_8h_source.html">readerwriterqueue.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a9dfbcdc3f85a6c5db2a8f55e7bc281f2"><td class="memItemLeft" align="right" valign="top">typedef T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#a9dfbcdc3f85a6c5db2a8f55e7bc281f2">value_type</a></td></tr>
+<tr class="separator:a9dfbcdc3f85a6c5db2a8f55e7bc281f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:abca43e01f2222ac593b93cc3e872ec3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#abca43e01f2222ac593b93cc3e872ec3b">ReaderWriterQueue</a> (size_t size=15)</td></tr>
+<tr class="separator:abca43e01f2222ac593b93cc3e872ec3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae555698e1b3663ac2e55ea6eb2353b42"><td class="memItemLeft" align="right" valign="top"><a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#ae555698e1b3663ac2e55ea6eb2353b42">ReaderWriterQueue</a> (<a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">ReaderWriterQueue</a> &amp;&amp;other)</td></tr>
+<tr class="separator:ae555698e1b3663ac2e55ea6eb2353b42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a904ac3498d28e569d0e9280c70e9ea04"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">ReaderWriterQueue</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#a904ac3498d28e569d0e9280c70e9ea04">operator=</a> (<a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">ReaderWriterQueue</a> &amp;&amp;other) <a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a></td></tr>
+<tr class="separator:a904ac3498d28e569d0e9280c70e9ea04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa55e1814d303422af6c7063b81c2d5bc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#aa55e1814d303422af6c7063b81c2d5bc">~ReaderWriterQueue</a> ()</td></tr>
+<tr class="separator:aa55e1814d303422af6c7063b81c2d5bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb3308da51543c0e1409b5886134fd47"><td class="memItemLeft" align="right" valign="top"><a class="el" href="atomicops_8h.html#ac24f99758da6ec5dab70259e807a64f4">AE_FORCEINLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#aeb3308da51543c0e1409b5886134fd47">try_enqueue</a> (T const &amp;element) <a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a></td></tr>
+<tr class="separator:aeb3308da51543c0e1409b5886134fd47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaab2a5b4c81e1481fbe1ff6f898306fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="atomicops_8h.html#ac24f99758da6ec5dab70259e807a64f4">AE_FORCEINLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#aaab2a5b4c81e1481fbe1ff6f898306fb">try_enqueue</a> (T &amp;&amp;element) <a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a></td></tr>
+<tr class="separator:aaab2a5b4c81e1481fbe1ff6f898306fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd246118fccc23207d3201ad70d58d98"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:afd246118fccc23207d3201ad70d58d98"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="atomicops_8h.html#ac24f99758da6ec5dab70259e807a64f4">AE_FORCEINLINE</a> bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#afd246118fccc23207d3201ad70d58d98">try_emplace</a> (Args &amp;&amp;... args) <a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a></td></tr>
+<tr class="separator:afd246118fccc23207d3201ad70d58d98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a916e4d19af1692aa8cb5e3cab06974a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="atomicops_8h.html#ac24f99758da6ec5dab70259e807a64f4">AE_FORCEINLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#a916e4d19af1692aa8cb5e3cab06974a1">enqueue</a> (T const &amp;element) <a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a></td></tr>
+<tr class="separator:a916e4d19af1692aa8cb5e3cab06974a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04bd825545946d74a4c1faf8f87991d1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="atomicops_8h.html#ac24f99758da6ec5dab70259e807a64f4">AE_FORCEINLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#a04bd825545946d74a4c1faf8f87991d1">enqueue</a> (T &amp;&amp;element) <a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a></td></tr>
+<tr class="separator:a04bd825545946d74a4c1faf8f87991d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f5836c71041cb94f197b24049095ec3"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a1f5836c71041cb94f197b24049095ec3"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="atomicops_8h.html#ac24f99758da6ec5dab70259e807a64f4">AE_FORCEINLINE</a> bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#a1f5836c71041cb94f197b24049095ec3">emplace</a> (Args &amp;&amp;... args) <a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a></td></tr>
+<tr class="separator:a1f5836c71041cb94f197b24049095ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77969aaf96e16d7df26ab47e45b4ea4b"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a77969aaf96e16d7df26ab47e45b4ea4b"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#a77969aaf96e16d7df26ab47e45b4ea4b">try_dequeue</a> (U &amp;result) <a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a></td></tr>
+<tr class="separator:a77969aaf96e16d7df26ab47e45b4ea4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cb9f4032a3b9633810cf9290ee42e1b"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#a0cb9f4032a3b9633810cf9290ee42e1b">peek</a> () const <a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a></td></tr>
+<tr class="separator:a0cb9f4032a3b9633810cf9290ee42e1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0705da9d31dcc086b747f40456ec451"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#ab0705da9d31dcc086b747f40456ec451">pop</a> () <a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a></td></tr>
+<tr class="separator:ab0705da9d31dcc086b747f40456ec451"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6713c73630617f77b43c7c65c220c34c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#a6713c73630617f77b43c7c65c220c34c">size_approx</a> () const <a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a></td></tr>
+<tr class="separator:a6713c73630617f77b43c7c65c220c34c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbee4ea74cc19aa04dcb366046dee59b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#acbee4ea74cc19aa04dcb366046dee59b">max_capacity</a> () const</td></tr>
+<tr class="separator:acbee4ea74cc19aa04dcb366046dee59b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">成员类型定义说明</h2>
+<a id="a9dfbcdc3f85a6c5db2a8f55e7bc281f2" name="a9dfbcdc3f85a6c5db2a8f55e7bc281f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9dfbcdc3f85a6c5db2a8f55e7bc281f2">&#9670;&nbsp;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef T <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::<a class="el" href="classmoodycamel_1_1_reader_writer_queue.html#a9dfbcdc3f85a6c5db2a8f55e7bc281f2">value_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="abca43e01f2222ac593b93cc3e872ec3b" name="abca43e01f2222ac593b93cc3e872ec3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abca43e01f2222ac593b93cc3e872ec3b">&#9670;&nbsp;</a></span>ReaderWriterQueue() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a> <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::<a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">ReaderWriterQueue</a> </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em> = <code>15</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae555698e1b3663ac2e55ea6eb2353b42" name="ae555698e1b3663ac2e55ea6eb2353b42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae555698e1b3663ac2e55ea6eb2353b42">&#9670;&nbsp;</a></span>ReaderWriterQueue() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a> <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::<a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">ReaderWriterQueue</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa55e1814d303422af6c7063b81c2d5bc" name="aa55e1814d303422af6c7063b81c2d5bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa55e1814d303422af6c7063b81c2d5bc">&#9670;&nbsp;</a></span>~ReaderWriterQueue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="atomicops_8h.html#ad8a039b7e87d99b4f0d0f65fad2980c4">AE_NO_TSAN</a> <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::~<a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">ReaderWriterQueue</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a1f5836c71041cb94f197b24049095ec3" name="a1f5836c71041cb94f197b24049095ec3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f5836c71041cb94f197b24049095ec3">&#9670;&nbsp;</a></span>emplace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="atomicops_8h.html#ac24f99758da6ec5dab70259e807a64f4">AE_FORCEINLINE</a> bool <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::emplace </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a04bd825545946d74a4c1faf8f87991d1" name="a04bd825545946d74a4c1faf8f87991d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04bd825545946d74a4c1faf8f87991d1">&#9670;&nbsp;</a></span>enqueue() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="atomicops_8h.html#ac24f99758da6ec5dab70259e807a64f4">AE_FORCEINLINE</a> bool <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::enqueue </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;&#160;</td>
+          <td class="paramname"><em>element</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a916e4d19af1692aa8cb5e3cab06974a1" name="a916e4d19af1692aa8cb5e3cab06974a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a916e4d19af1692aa8cb5e3cab06974a1">&#9670;&nbsp;</a></span>enqueue() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="atomicops_8h.html#ac24f99758da6ec5dab70259e807a64f4">AE_FORCEINLINE</a> bool <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::enqueue </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;&#160;</td>
+          <td class="paramname"><em>element</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acbee4ea74cc19aa04dcb366046dee59b" name="acbee4ea74cc19aa04dcb366046dee59b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbee4ea74cc19aa04dcb366046dee59b">&#9670;&nbsp;</a></span>max_capacity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::max_capacity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a904ac3498d28e569d0e9280c70e9ea04" name="a904ac3498d28e569d0e9280c70e9ea04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a904ac3498d28e569d0e9280c70e9ea04">&#9670;&nbsp;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">ReaderWriterQueue</a> &amp; <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0cb9f4032a3b9633810cf9290ee42e1b" name="a0cb9f4032a3b9633810cf9290ee42e1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cb9f4032a3b9633810cf9290ee42e1b">&#9670;&nbsp;</a></span>peek()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::peek </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab0705da9d31dcc086b747f40456ec451" name="ab0705da9d31dcc086b747f40456ec451"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0705da9d31dcc086b747f40456ec451">&#9670;&nbsp;</a></span>pop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::pop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6713c73630617f77b43c7c65c220c34c" name="a6713c73630617f77b43c7c65c220c34c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6713c73630617f77b43c7c65c220c34c">&#9670;&nbsp;</a></span>size_approx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::size_approx </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a77969aaf96e16d7df26ab47e45b4ea4b" name="a77969aaf96e16d7df26ab47e45b4ea4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77969aaf96e16d7df26ab47e45b4ea4b">&#9670;&nbsp;</a></span>try_dequeue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::try_dequeue </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&#160;</td>
+          <td class="paramname"><em>result</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afd246118fccc23207d3201ad70d58d98" name="afd246118fccc23207d3201ad70d58d98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd246118fccc23207d3201ad70d58d98">&#9670;&nbsp;</a></span>try_emplace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="atomicops_8h.html#ac24f99758da6ec5dab70259e807a64f4">AE_FORCEINLINE</a> bool <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::try_emplace </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aaab2a5b4c81e1481fbe1ff6f898306fb" name="aaab2a5b4c81e1481fbe1ff6f898306fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaab2a5b4c81e1481fbe1ff6f898306fb">&#9670;&nbsp;</a></span>try_enqueue() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="atomicops_8h.html#ac24f99758da6ec5dab70259e807a64f4">AE_FORCEINLINE</a> bool <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::try_enqueue </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;&#160;</td>
+          <td class="paramname"><em>element</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeb3308da51543c0e1409b5886134fd47" name="aeb3308da51543c0e1409b5886134fd47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb3308da51543c0e1409b5886134fd47">&#9670;&nbsp;</a></span>try_enqueue() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , size_t MAX_BLOCK_SIZE = 512&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="atomicops_8h.html#ac24f99758da6ec5dab70259e807a64f4">AE_FORCEINLINE</a> bool <a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue</a>&lt; T, MAX_BLOCK_SIZE &gt;::try_enqueue </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;&#160;</td>
+          <td class="paramname"><em>element</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>thirdparty/rwqueue/<a class="el" href="readerwriterqueue_8h_source.html">readerwriterqueue.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacemoodycamel.html">moodycamel</a></li><li class="navelem"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">ReaderWriterQueue</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

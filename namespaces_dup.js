@@ -1,5 +1,74 @@
 var namespaces_dup =
 [
+    [ "build", "namespacebuild.html", [
+      [ "execute", "namespacebuild.html#a43fa88417f0e35ef7d84fb4c5a572aaf", null ],
+      [ "action", "namespacebuild.html#add8b407ca543b7e3ec5ed93bc524b251", null ],
+      [ "args", "namespacebuild.html#a46b32f55c99c73a87ba6cc4e416db8b1", null ],
+      [ "build_dir", "namespacebuild.html#ace5a85b36d56d987fa71cdd95903113b", null ],
+      [ "cmake_command", "namespacebuild.html#a6ffb2f8e4706763a958d2bb410f56e24", null ],
+      [ "command", "namespacebuild.html#a825f6ec22f297db75cc46f77449691e7", null ],
+      [ "compiler_path", "namespacebuild.html#aafb67d414984e0b1ea5245db672198fa", null ],
+      [ "conf", "namespacebuild.html#a37f62cd6e3ecacd9ec8049445436cd23", null ],
+      [ "encoding", "namespacebuild.html#a0d30d8b83573ba0b22d1eb0722a16f11", null ],
+      [ "exist_ok", "namespacebuild.html#a4783066e25eb05b2d6b31cca72021070", null ],
+      [ "group", "namespacebuild.html#a1263222cfd778b6f4f9f2401bafeb9e4", null ],
+      [ "help", "namespacebuild.html#a37faf92853bd92811229cdc279a452ee", null ],
+      [ "modify_environment", "namespacebuild.html#a434f9a6bdb5b6587af1022d631884b24", null ],
+      [ "ninja_path", "namespacebuild.html#a363ad799792fff63450c6875396e2d55", null ],
+      [ "os_dependent_args", "namespacebuild.html#ab0f80ce7a776b7c143b4ff4cfb5c2cbc", null ],
+      [ "p", "namespacebuild.html#a800c2807190213fdb7e984ed1053d974", null ],
+      [ "parser", "namespacebuild.html#a8217a1ff1b7dcad2732a5e359cfbfb31", null ],
+      [ "qt_path", "namespacebuild.html#a47ac82abeb13f36af571735957fdc455", null ],
+      [ "self_path", "namespacebuild.html#a7ae6ad2f3b15ac53d2e87cf04a57cbe8", null ],
+      [ "toolset", "namespacebuild.html#a4bcc1cdca8c3df0da489b77d03ab0ad7", null ]
+    ] ],
+    [ "lrc", "namespacelrc.html", "namespacelrc" ],
+    [ "moodycamel", "namespacemoodycamel.html", "namespacemoodycamel" ],
+    [ "package", "namespacepackage.html", [
+      [ "apply_packaging", "namespacepackage.html#a730adb39a88e0835c2d94930bad7ccef", null ],
+      [ "execute", "namespacepackage.html#a82b731f7cebabe6ebd77513d66deaaec", null ],
+      [ "app_dir", "namespacepackage.html#a7a226b552ab8866db4dfc8af61606fb9", null ],
+      [ "build_dir", "namespacepackage.html#a6fa1ad8967ef5598c0bd3c977594aa83", null ],
+      [ "conf", "namespacepackage.html#a721906bd2dfe4b25d53e6347b0bcdb25", null ],
+      [ "encoding", "namespacepackage.html#a8a429d512ac75aa553585f22aa5eb63f", null ],
+      [ "prefix", "namespacepackage.html#ae19d1ffcda03f0a250d3a52ea453d4b8", null ],
+      [ "qt_path", "namespacepackage.html#a4e5ff513de6a6b399e821ac1ea2208fa", null ],
+      [ "self_path", "namespacepackage.html#a28513964642a31bbb996ccf8c3aa3dde", null ],
+      [ "version", "namespacepackage.html#a1cde3f0f45069519770bdf54d6b5b6dd", null ]
+    ] ],
+    [ "PonyPlayer", "namespace_pony_player.html", [
+      [ "PonyThread", "namespace_pony_player.html#a701e5cea5dd029ffc7c13b46fd5cc919", null ],
+      [ "OpenFileResultType", "namespace_pony_player.html#a028c97ff63e8c04932cdf4bc7db2aa37", [
+        [ "FAILED", "namespace_pony_player.html#a028c97ff63e8c04932cdf4bc7db2aa37a0dec2ca5ed1cef375ae331c33ce9a8cf", null ],
+        [ "VIDEO", "namespace_pony_player.html#a028c97ff63e8c04932cdf4bc7db2aa37a03b07e2efb15070a71f70b07a6fdd083", null ],
+        [ "AUDIO", "namespace_pony_player.html#a028c97ff63e8c04932cdf4bc7db2aa37a67c0ec0a67fd85aa05e469bdd2f81571", null ]
+      ] ],
+      [ "checkThreadType", "namespace_pony_player.html#a302a263c1ee7f5d958da27f9a39d5eb0", null ],
+      [ "checkThreadType", "namespace_pony_player.html#a507cc6fe4097be5af63e569b83767120", null ],
+      [ "getAssetsDir", "namespace_pony_player.html#aaa0d776e91cad19aeaf859c10961d0b2", null ],
+      [ "getHome", "namespace_pony_player.html#ab6cce54f7370a1631fdc606eef358bf3", null ],
+      [ "getLogFile", "namespace_pony_player.html#a599a88229abaf2d85044062c676ff2af", null ],
+      [ "logMessageHandler", "namespace_pony_player.html#ad2afaf03077f67b4b231a7b3ee6dc361", null ],
+      [ "reportErrorMain", "namespace_pony_player.html#a4b9d3d6c8c91ca41f42a9f3e658c8e1a", null ],
+      [ "showFileInExplorer", "namespace_pony_player.html#a1cb0a46642ef35ccd5702b66f397c9f1", null ],
+      [ "signalHandler", "namespace_pony_player.html#a8737714e658810c2507521fe1eb2da69", null ],
+      [ "startReporterProcess", "namespace_pony_player.html#ab25382b1d1b8ab90f0ac5324de75e8da", null ],
+      [ "ANY", "namespace_pony_player.html#a12eda25cec74c1a1cb67c4aa6e01bf66", null ],
+      [ "DECODER", "namespace_pony_player.html#a4dba509b25f0026b8f2c7d1ba5c407a0", null ],
+      [ "DEFAULT_AUDIO_FORMAT", "namespace_pony_player.html#a80461119237b4c630e68bb6108bae055", null ],
+      [ "Float", "namespace_pony_player.html#a4657a5681126586399dfb7d110c81cf2", null ],
+      [ "FRAME", "namespace_pony_player.html#ad85094c5482643eff26a6f9713aa9590", null ],
+      [ "Int16", "namespace_pony_player.html#a752b0310898afc12743106b3683827da", null ],
+      [ "Int32", "namespace_pony_player.html#aea2a32cefb227e00df6d2b53f5678a1f", null ],
+      [ "MAIN", "namespace_pony_player.html#a06a2288fe4add98ace88ae6616dfa961", null ],
+      [ "PLAYBACK", "namespace_pony_player.html#a822958961f75d7a2d53a2d9b651b4898", null ],
+      [ "PREVIEW", "namespace_pony_player.html#aa97460341dd062692efbefa28b755f15", null ],
+      [ "programArguments", "namespace_pony_player.html#a83c8b90f9f38b1247fdf3a5ca56216b8", null ],
+      [ "RENDER", "namespace_pony_player.html#a174a2f43e1dfe9b073e6c9f5682eb06d", null ],
+      [ "SELF", "namespace_pony_player.html#a15fc3daa6ce15b9986643e3a343d5e69", null ],
+      [ "UInt8", "namespace_pony_player.html#a35032fab7cef1e94e9ede7dd0680b53f", null ],
+      [ "Unknown", "namespace_pony_player.html#ae0995c9301a30395f40045a907732463", null ]
+    ] ],
     [ "setup", "namespacesetup.html", [
       [ "check_auto_detect", "namespacesetup.html#af17ff132122c7c6a8e7f4dbdd5aad3e6", null ],
       [ "convert_and_check_exists", "namespacesetup.html#a272de1803d91635c61cb52349c20cc21", null ],
@@ -23,6 +92,7 @@ var namespaces_dup =
       [ "self_path", "namespacesetup.html#ae4a488127c01a41dfc640194d6cb4a92", null ],
       [ "str", "namespacesetup.html#aa9b1f68db1daa4600284432cf82ce834", null ],
       [ "type", "namespacesetup.html#ac312c4ad8abbb4d7574275abfde99152", null ],
-      [ "VERSION", "namespacesetup.html#a704f2323949f9be057e0a3574731e019", null ]
+      [ "VERSION", "namespacesetup.html#a704f2323949f9be057e0a3574731e019", null ],
+      [ "version", "namespacesetup.html#a2aa722b36a933088812b50ea79b97a5c", null ]
     ] ]
 ];

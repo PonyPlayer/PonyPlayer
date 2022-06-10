@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: src/player/fireworks.hpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('fireworks_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">fireworks.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="fireworks_8hpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;QQuickItem&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QQuickWindow&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QOpenGLShaderProgram&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="renderer_8hpp.html">renderer.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="platform_8hpp.html">platform.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="class_fireworks.html">   10</a></span><span class="keyword">class </span><a class="code hl_class" href="class_fireworks.html">Fireworks</a> : <span class="keyword">public</span> QQuickItem {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    Q_OBJECT</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="class_fireworks.html#acfded6ae8913d193a6587e7ec36ded19">   12</a></span>    QML_ELEMENT</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    Q_PROPERTY(<span class="keywordtype">bool</span> <a class="code hl_property" href="class_fireworks.html#a1c98fc57aecce46b38d99bfd07518862">keepFrameRate</a> READ isKeepFrameRate WRITE setKeepFrameRate NOTIFY <a class="code hl_signal" href="class_fireworks.html#af6d7827cebe0eb073fd794c837679d81">keepFrameRateChanged</a>)</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    Q_PROPERTY(<span class="keywordtype">int</span> <a class="code hl_property" href="class_fireworks.html#a5d03eb94f494298de94a60a1082a2a41">frameHeight</a> READ <a class="code hl_function" href="class_fireworks.html#a47dd9ab9469b002aed6d6c402d9b1629">getHeight</a> NOTIFY <a class="code hl_signal" href="class_fireworks.html#ad0302b764fb717885b199e337d570f51">frameSizeChanged</a>)</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    Q_PROPERTY(<span class="keywordtype">int</span> <a class="code hl_property" href="class_fireworks.html#af3b8fb3825cffdd5e1af864932409d95">frameWidth</a> READ <a class="code hl_function" href="class_fireworks.html#a01b95b9f469f3a5dd80c19e2cbde0744">getWidth</a> NOTIFY <a class="code hl_signal" href="class_fireworks.html#ad0302b764fb717885b199e337d570f51">frameSizeChanged</a>)</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    Q_PROPERTY(<span class="keywordtype">double</span> <a class="code hl_property" href="class_fireworks.html#a1ad151c1e70b8bc3ae0b004fe5214454">frameRate</a> READ <a class="code hl_function" href="class_fireworks.html#a7989fa8e8d36b158d9e7642ef0530092">getFrameRate</a> NOTIFY <a class="code hl_signal" href="class_fireworks.html#ad0302b764fb717885b199e337d570f51">frameSizeChanged</a>)</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    Q_PROPERTY(GLfloat <a class="code hl_property" href="class_fireworks.html#acfded6ae8913d193a6587e7ec36ded19">brightness</a> READ getBrightness WRITE <a class="code hl_function" href="class_fireworks.html#a6f6ad7e5a9038b6abfbfeb2f61b936b2">setBrightness</a> NOTIFY <a class="code hl_signal" href="class_fireworks.html#a3e8b4d712fabc35ef369bb9d3164e257">brightnessChanged</a>)</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    Q_PROPERTY(GLfloat <a class="code hl_property" href="class_fireworks.html#a90f8d06d6f6e378c758fbbe1de4bf3e5">contrast</a> READ <a class="code hl_function" href="class_fireworks.html#a384fef6d1777db480fc1e1bee177a07c">getContrast</a> WRITE <a class="code hl_function" href="class_fireworks.html#abedd9984cfa4d97cb4112aa4d59b1c2b">setContrast</a> NOTIFY <a class="code hl_signal" href="class_fireworks.html#a179d8814ef1b4c86d64e8b1ef07a4c73">contrastChanged</a>)</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    Q_PROPERTY(GLfloat <a class="code hl_property" href="class_fireworks.html#a13e75ef1cfe5761bc8be3e25788a2dca">saturation</a> READ <a class="code hl_function" href="class_fireworks.html#a924d2ce8aaabf24441f0b1b918825dc3">getSaturation</a> WRITE <a class="code hl_function" href="class_fireworks.html#a701727621c2eaaa4aea2eb122622a0db">setSaturation</a> NOTIFY <a class="code hl_signal" href="class_fireworks.html#acddae9f56558a4e63d07a46cdbf18fb3">saturationChanged</a>)</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    Q_PROPERTY(QString <a class="code hl_property" href="class_fireworks.html#af6cd3038c5eca43ae063b6458fcd5298">filterPrefix</a> READ getFilterPrefix)</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    Q_PROPERTY(QStringList <a class="code hl_property" href="class_fireworks.html#a10af3fd7d601c02e8684ef4392bfc98b">filterJsons</a> READ getFilterJsons)</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <a class="code hl_class" href="class_fireworks_renderer.html">FireworksRenderer</a> *m_renderer;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    QString m_filterPrefix;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    QStringList m_filterJsons;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">int</span> m_frameHeight = 1;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">int</span> m_frameWidth = 1;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">double</span> m_frameRate = 1.0;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="class_fireworks.html#a539cc9cab9e319da4e59fea16d4fb6bf">   30</a></span>    QSGNode *<a class="code hl_function" href="class_fireworks.html#a539cc9cab9e319da4e59fea16d4fb6bf">updatePaintNode</a>(QSGNode *node, UpdatePaintNodeData *data)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">return</span> m_renderer;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    }</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="class_fireworks.html#a575015f0f8a6ac9f39736144432b1f97">   35</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="class_fireworks.html#a575015f0f8a6ac9f39736144432b1f97">Fireworks</a>(QQuickItem *parent = <span class="keyword">nullptr</span>): QQuickItem(parent), m_renderer(new <a class="code hl_class" href="class_fireworks_renderer.html">FireworksRenderer</a>),</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        m_filterPrefix(<a class="code hl_namespace" href="namespace_pony_player.html">PonyPlayer</a>::<a class="code hl_function" href="namespace_pony_player.html#aaa0d776e91cad19aeaf859c10961d0b2">getAssetsDir</a>() + u<span class="stringliteral">&quot;/filters&quot;</span>_qs), m_filterJsons() {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        QDir filterDir(m_filterPrefix);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keywordflow">for</span>(<span class="keyword">auto</span> &amp;&amp; filename : filterDir.entryList({<span class="stringliteral">&quot;*.json&quot;</span>})) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            QFile file = filterDir.filePath(filename);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            file.open(QIODevice::OpenModeFlag::ReadOnly);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            m_filterJsons.append(file.readAll());</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            file.close();</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        this-&gt;setFlag(QQuickItem::ItemHasContents);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        connect(<span class="keyword">this</span>, &amp;QQuickItem::windowChanged, <span class="keyword">this</span>, [<span class="keyword">this</span>](QQuickWindow *win){</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;Window Size Changed:&quot;</span> &lt;&lt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">void</span> *<span class="keyword">&gt;</span>(win) &lt;&lt; <span class="stringliteral">&quot;.&quot;</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            <span class="keywordflow">if</span> (win) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                connect(this-&gt;window(), &amp;QQuickWindow::beforeSynchronizing, m_renderer, &amp;<a class="code hl_function" href="class_fireworks_renderer.html#aa6dfdb13e884e20f0c53bb20905826dd">FireworksRenderer::sync</a>, Qt::DirectConnection);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                connect(this-&gt;window(), &amp;QQuickWindow::beforeRendering, m_renderer, &amp;<a class="code hl_slot" href="class_fireworks_renderer.html#ab13684e18c97e403f3d1a24f2f2ffa9a">FireworksRenderer::init</a>, Qt::DirectConnection);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                win-&gt;setColor(Qt::black);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                qWarning() &lt;&lt; <span class="stringliteral">&quot;Window destroy.&quot;</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            }</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        });</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;Create Hurricane QuickItem.&quot;</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    }</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="class_fireworks.html#af583553fd47d7d9c2a0c7b4a54a27c10">   58</a></span>    <a class="code hl_function" href="class_fireworks.html#af583553fd47d7d9c2a0c7b4a54a27c10">~Fireworks</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        m_renderer = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="class_fireworks.html#a0df6907200d1d82273cc2d110c28af76">   62</a></span><a class="code hl_function" href="class_fireworks.html#a0df6907200d1d82273cc2d110c28af76">PONY_GUARD_BY</a>(<a class="code hl_variable" href="namespace_pony_player.html#a06a2288fe4add98ace88ae6616dfa961">MAIN</a>) <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    [[nodiscard]] QString getFilterPrefix()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_filterPrefix; }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    [[nodiscard]] <span class="keywordtype">bool</span> isKeepFrameRate()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_renderer-&gt;isKeepFrameRate(); }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    [[nodiscard]] QStringList getFilterJsons()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_filterJsons; }</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    [[nodiscard]] GLfloat getBrightness()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_renderer-&gt;getBrightness(); }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordtype">void</span> setKeepFrameRate(<span class="keywordtype">bool</span> keep) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        m_renderer-&gt;setKeepFrameRate(keep);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        emit <a class="code hl_signal" href="class_fireworks.html#af6d7827cebe0eb073fd794c837679d81">keepFrameRateChanged</a>();</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="class_fireworks.html#a6f6ad7e5a9038b6abfbfeb2f61b936b2">   76</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_fireworks.html#a6f6ad7e5a9038b6abfbfeb2f61b936b2">setBrightness</a>(GLfloat b) {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        m_renderer-&gt;setBrightness(b);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        emit <a class="code hl_signal" href="class_fireworks.html#a3e8b4d712fabc35ef369bb9d3164e257">brightnessChanged</a>();</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="class_fireworks.html#a384fef6d1777db480fc1e1bee177a07c">   81</a></span>    [[nodiscard]] GLfloat <a class="code hl_function" href="class_fireworks.html#a384fef6d1777db480fc1e1bee177a07c">getContrast</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="keywordflow">return</span> m_renderer-&gt;getContrast();</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="class_fireworks.html#abedd9984cfa4d97cb4112aa4d59b1c2b">   85</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_fireworks.html#abedd9984cfa4d97cb4112aa4d59b1c2b">setContrast</a>(GLfloat c) {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        m_renderer-&gt;setContrast(c);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        emit <a class="code hl_signal" href="class_fireworks.html#a179d8814ef1b4c86d64e8b1ef07a4c73">contrastChanged</a>();</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    };</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="class_fireworks.html#a924d2ce8aaabf24441f0b1b918825dc3">   90</a></span>    [[nodiscard]] GLfloat <a class="code hl_function" href="class_fireworks.html#a924d2ce8aaabf24441f0b1b918825dc3">getSaturation</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_renderer-&gt;getSaturation(); };</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="class_fireworks.html#a701727621c2eaaa4aea2eb122622a0db">   92</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_fireworks.html#a701727621c2eaaa4aea2eb122622a0db">setSaturation</a>(GLfloat s) {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        m_renderer-&gt;setSaturation(s);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        emit <a class="code hl_signal" href="class_fireworks.html#acddae9f56558a4e63d07a46cdbf18fb3">saturationChanged</a>();</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    };</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="class_fireworks.html#a47dd9ab9469b002aed6d6c402d9b1629">   97</a></span>    [[nodiscard]] <span class="keywordtype">int</span> <a class="code hl_function" href="class_fireworks.html#a47dd9ab9469b002aed6d6c402d9b1629">getHeight</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordflow">return</span> m_frameHeight;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="class_fireworks.html#a01b95b9f469f3a5dd80c19e2cbde0744">  101</a></span>    [[nodiscard]] <span class="keywordtype">int</span> <a class="code hl_function" href="class_fireworks.html#a01b95b9f469f3a5dd80c19e2cbde0744">getWidth</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="keywordflow">return</span> m_frameWidth;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    }</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="class_fireworks.html#a7989fa8e8d36b158d9e7642ef0530092">  105</a></span>    [[nodiscard]] <span class="keywordtype">double</span> <a class="code hl_function" href="class_fireworks.html#a7989fa8e8d36b158d9e7642ef0530092">getFrameRate</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keywordflow">return</span> m_frameRate;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    }</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="keyword">public</span> slots:</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="class_fireworks.html#aac9dd1edca9cb1f32532ed406930341e">  112</a></span>    <span class="keywordtype">void</span> <a class="code hl_slot" href="class_fireworks.html#aac9dd1edca9cb1f32532ed406930341e">setVideoFrame</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;pic) {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <span class="comment">// this function must be called on GUI thread</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        <span class="comment">// setImage -&gt; sync -&gt; render</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="comment">// since picture may use on renderer thread, we CANNOT free now</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <span class="comment">// no change, return immediately</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keywordflow">if</span> (m_renderer-&gt;setVideoFrame(pic)) {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            <span class="comment">// make dirty</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            this-&gt;update();</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            <span class="keywordflow">if</span> (!pic.<a class="code hl_function" href="class_video_frame_ref.html#a80f06c13aec466bccc4e6769d5475bd8">isSameSize</a>(m_frameWidth, m_frameHeight)) {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                m_frameWidth = pic.<a class="code hl_function" href="class_video_frame_ref.html#a8b7d14fda8bf2fa106897d95f55e5d45">getWidth</a>();</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                m_frameHeight = pic.<a class="code hl_function" href="class_video_frame_ref.html#afb0d799e6c944a9993ef89f75d79c565">getHeight</a>();</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                m_frameRate = <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(m_frameHeight) / <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(m_frameWidth);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>                emit <a class="code hl_signal" href="class_fireworks.html#ad0302b764fb717885b199e337d570f51">frameSizeChanged</a>();</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            }</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        }</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    }</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="class_fireworks.html#a66fe40b2d0675d39f0d74f8fbc717219">  133</a></span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_slot" href="class_fireworks.html#a66fe40b2d0675d39f0d74f8fbc717219">setLUTFilter</a>(<span class="keyword">const</span> QString&amp; path) {</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        QImage image;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordflow">if</span> (!path.isEmpty()) {</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            image.load(QDir(m_filterPrefix).filePath(path));</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>            image.convertTo(QImage::Format_RGB888);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        }</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        m_renderer-&gt;setLUTFilter(image);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    }</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>signals:</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="class_fireworks.html#a3e8b4d712fabc35ef369bb9d3164e257">  146</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_fireworks.html#a3e8b4d712fabc35ef369bb9d3164e257">brightnessChanged</a>();</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="class_fireworks.html#a179d8814ef1b4c86d64e8b1ef07a4c73">  148</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_fireworks.html#a179d8814ef1b4c86d64e8b1ef07a4c73">contrastChanged</a>();</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="class_fireworks.html#acddae9f56558a4e63d07a46cdbf18fb3">  150</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_fireworks.html#acddae9f56558a4e63d07a46cdbf18fb3">saturationChanged</a>();</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="class_fireworks.html#ad0302b764fb717885b199e337d570f51">  152</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_fireworks.html#ad0302b764fb717885b199e337d570f51">frameSizeChanged</a>();</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="class_fireworks.html#af6d7827cebe0eb073fd794c837679d81">  154</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="class_fireworks.html#af6d7827cebe0eb073fd794c837679d81">keepFrameRateChanged</a>();</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>};</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="ttc" id="aclass_fireworks_html"><div class="ttname"><a href="class_fireworks.html">Fireworks</a></div><div class="ttdef"><b>Definition:</b> fireworks.hpp:10</div></div>
+<div class="ttc" id="aclass_fireworks_html_a01b95b9f469f3a5dd80c19e2cbde0744"><div class="ttname"><a href="class_fireworks.html#a01b95b9f469f3a5dd80c19e2cbde0744">Fireworks::getWidth</a></div><div class="ttdeci">int getWidth() const</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:101</div></div>
+<div class="ttc" id="aclass_fireworks_html_a0df6907200d1d82273cc2d110c28af76"><div class="ttname"><a href="class_fireworks.html#a0df6907200d1d82273cc2d110c28af76">Fireworks::PONY_GUARD_BY</a></div><div class="ttdeci">PONY_GUARD_BY(MAIN) private</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:62</div></div>
+<div class="ttc" id="aclass_fireworks_html_a10af3fd7d601c02e8684ef4392bfc98b"><div class="ttname"><a href="class_fireworks.html#a10af3fd7d601c02e8684ef4392bfc98b">Fireworks::filterJsons</a></div><div class="ttdeci">QStringList filterJsons</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:21</div></div>
+<div class="ttc" id="aclass_fireworks_html_a13e75ef1cfe5761bc8be3e25788a2dca"><div class="ttname"><a href="class_fireworks.html#a13e75ef1cfe5761bc8be3e25788a2dca">Fireworks::saturation</a></div><div class="ttdeci">GLfloat saturation</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:19</div></div>
+<div class="ttc" id="aclass_fireworks_html_a179d8814ef1b4c86d64e8b1ef07a4c73"><div class="ttname"><a href="class_fireworks.html#a179d8814ef1b4c86d64e8b1ef07a4c73">Fireworks::contrastChanged</a></div><div class="ttdeci">void contrastChanged()</div></div>
+<div class="ttc" id="aclass_fireworks_html_a1ad151c1e70b8bc3ae0b004fe5214454"><div class="ttname"><a href="class_fireworks.html#a1ad151c1e70b8bc3ae0b004fe5214454">Fireworks::frameRate</a></div><div class="ttdeci">double frameRate</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:16</div></div>
+<div class="ttc" id="aclass_fireworks_html_a1c98fc57aecce46b38d99bfd07518862"><div class="ttname"><a href="class_fireworks.html#a1c98fc57aecce46b38d99bfd07518862">Fireworks::keepFrameRate</a></div><div class="ttdeci">QML_ELEMENTbool keepFrameRate</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:13</div></div>
+<div class="ttc" id="aclass_fireworks_html_a384fef6d1777db480fc1e1bee177a07c"><div class="ttname"><a href="class_fireworks.html#a384fef6d1777db480fc1e1bee177a07c">Fireworks::getContrast</a></div><div class="ttdeci">GLfloat getContrast() const</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:81</div></div>
+<div class="ttc" id="aclass_fireworks_html_a3e8b4d712fabc35ef369bb9d3164e257"><div class="ttname"><a href="class_fireworks.html#a3e8b4d712fabc35ef369bb9d3164e257">Fireworks::brightnessChanged</a></div><div class="ttdeci">void brightnessChanged()</div></div>
+<div class="ttc" id="aclass_fireworks_html_a47dd9ab9469b002aed6d6c402d9b1629"><div class="ttname"><a href="class_fireworks.html#a47dd9ab9469b002aed6d6c402d9b1629">Fireworks::getHeight</a></div><div class="ttdeci">int getHeight() const</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:97</div></div>
+<div class="ttc" id="aclass_fireworks_html_a539cc9cab9e319da4e59fea16d4fb6bf"><div class="ttname"><a href="class_fireworks.html#a539cc9cab9e319da4e59fea16d4fb6bf">Fireworks::updatePaintNode</a></div><div class="ttdeci">QSGNode * updatePaintNode(QSGNode *node, UpdatePaintNodeData *data) override</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:30</div></div>
+<div class="ttc" id="aclass_fireworks_html_a575015f0f8a6ac9f39736144432b1f97"><div class="ttname"><a href="class_fireworks.html#a575015f0f8a6ac9f39736144432b1f97">Fireworks::Fireworks</a></div><div class="ttdeci">Fireworks(QQuickItem *parent=nullptr)</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:35</div></div>
+<div class="ttc" id="aclass_fireworks_html_a5d03eb94f494298de94a60a1082a2a41"><div class="ttname"><a href="class_fireworks.html#a5d03eb94f494298de94a60a1082a2a41">Fireworks::frameHeight</a></div><div class="ttdeci">int frameHeight</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:14</div></div>
+<div class="ttc" id="aclass_fireworks_html_a66fe40b2d0675d39f0d74f8fbc717219"><div class="ttname"><a href="class_fireworks.html#a66fe40b2d0675d39f0d74f8fbc717219">Fireworks::setLUTFilter</a></div><div class="ttdeci">Q_INVOKABLE void setLUTFilter(const QString &amp;path)</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:133</div></div>
+<div class="ttc" id="aclass_fireworks_html_a6f6ad7e5a9038b6abfbfeb2f61b936b2"><div class="ttname"><a href="class_fireworks.html#a6f6ad7e5a9038b6abfbfeb2f61b936b2">Fireworks::setBrightness</a></div><div class="ttdeci">void setBrightness(GLfloat b)</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:76</div></div>
+<div class="ttc" id="aclass_fireworks_html_a701727621c2eaaa4aea2eb122622a0db"><div class="ttname"><a href="class_fireworks.html#a701727621c2eaaa4aea2eb122622a0db">Fireworks::setSaturation</a></div><div class="ttdeci">void setSaturation(GLfloat s)</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:92</div></div>
+<div class="ttc" id="aclass_fireworks_html_a7989fa8e8d36b158d9e7642ef0530092"><div class="ttname"><a href="class_fireworks.html#a7989fa8e8d36b158d9e7642ef0530092">Fireworks::getFrameRate</a></div><div class="ttdeci">double getFrameRate() const</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:105</div></div>
+<div class="ttc" id="aclass_fireworks_html_a90f8d06d6f6e378c758fbbe1de4bf3e5"><div class="ttname"><a href="class_fireworks.html#a90f8d06d6f6e378c758fbbe1de4bf3e5">Fireworks::contrast</a></div><div class="ttdeci">GLfloat contrast</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:18</div></div>
+<div class="ttc" id="aclass_fireworks_html_a924d2ce8aaabf24441f0b1b918825dc3"><div class="ttname"><a href="class_fireworks.html#a924d2ce8aaabf24441f0b1b918825dc3">Fireworks::getSaturation</a></div><div class="ttdeci">GLfloat getSaturation() const</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:90</div></div>
+<div class="ttc" id="aclass_fireworks_html_aac9dd1edca9cb1f32532ed406930341e"><div class="ttname"><a href="class_fireworks.html#aac9dd1edca9cb1f32532ed406930341e">Fireworks::setVideoFrame</a></div><div class="ttdeci">void setVideoFrame(const VideoFrameRef &amp;pic)</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:112</div></div>
+<div class="ttc" id="aclass_fireworks_html_abedd9984cfa4d97cb4112aa4d59b1c2b"><div class="ttname"><a href="class_fireworks.html#abedd9984cfa4d97cb4112aa4d59b1c2b">Fireworks::setContrast</a></div><div class="ttdeci">void setContrast(GLfloat c)</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:85</div></div>
+<div class="ttc" id="aclass_fireworks_html_acddae9f56558a4e63d07a46cdbf18fb3"><div class="ttname"><a href="class_fireworks.html#acddae9f56558a4e63d07a46cdbf18fb3">Fireworks::saturationChanged</a></div><div class="ttdeci">void saturationChanged()</div></div>
+<div class="ttc" id="aclass_fireworks_html_acfded6ae8913d193a6587e7ec36ded19"><div class="ttname"><a href="class_fireworks.html#acfded6ae8913d193a6587e7ec36ded19">Fireworks::brightness</a></div><div class="ttdeci">GLfloat brightness</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:17</div></div>
+<div class="ttc" id="aclass_fireworks_html_ad0302b764fb717885b199e337d570f51"><div class="ttname"><a href="class_fireworks.html#ad0302b764fb717885b199e337d570f51">Fireworks::frameSizeChanged</a></div><div class="ttdeci">void frameSizeChanged()</div></div>
+<div class="ttc" id="aclass_fireworks_html_af3b8fb3825cffdd5e1af864932409d95"><div class="ttname"><a href="class_fireworks.html#af3b8fb3825cffdd5e1af864932409d95">Fireworks::frameWidth</a></div><div class="ttdeci">int frameWidth</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:15</div></div>
+<div class="ttc" id="aclass_fireworks_html_af583553fd47d7d9c2a0c7b4a54a27c10"><div class="ttname"><a href="class_fireworks.html#af583553fd47d7d9c2a0c7b4a54a27c10">Fireworks::~Fireworks</a></div><div class="ttdeci">~Fireworks() override</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:58</div></div>
+<div class="ttc" id="aclass_fireworks_html_af6cd3038c5eca43ae063b6458fcd5298"><div class="ttname"><a href="class_fireworks.html#af6cd3038c5eca43ae063b6458fcd5298">Fireworks::filterPrefix</a></div><div class="ttdeci">QString filterPrefix</div><div class="ttdef"><b>Definition:</b> fireworks.hpp:20</div></div>
+<div class="ttc" id="aclass_fireworks_html_af6d7827cebe0eb073fd794c837679d81"><div class="ttname"><a href="class_fireworks.html#af6d7827cebe0eb073fd794c837679d81">Fireworks::keepFrameRateChanged</a></div><div class="ttdeci">void keepFrameRateChanged()</div></div>
+<div class="ttc" id="aclass_fireworks_renderer_html"><div class="ttname"><a href="class_fireworks_renderer.html">FireworksRenderer</a></div><div class="ttdef"><b>Definition:</b> renderer.hpp:67</div></div>
+<div class="ttc" id="aclass_fireworks_renderer_html_aa6dfdb13e884e20f0c53bb20905826dd"><div class="ttname"><a href="class_fireworks_renderer.html#aa6dfdb13e884e20f0c53bb20905826dd">FireworksRenderer::sync</a></div><div class="ttdeci">void sync()</div><div class="ttdef"><b>Definition:</b> renderer.hpp:173</div></div>
+<div class="ttc" id="aclass_fireworks_renderer_html_ab13684e18c97e403f3d1a24f2f2ffa9a"><div class="ttname"><a href="class_fireworks_renderer.html#ab13684e18c97e403f3d1a24f2f2ffa9a">FireworksRenderer::init</a></div><div class="ttdeci">void init()</div><div class="ttdef"><b>Definition:</b> renderer.hpp:117</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html"><div class="ttname"><a href="class_video_frame_ref.html">VideoFrameRef</a></div><div class="ttdef"><b>Definition:</b> frame.hpp:47</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a80f06c13aec466bccc4e6769d5475bd8"><div class="ttname"><a href="class_video_frame_ref.html#a80f06c13aec466bccc4e6769d5475bd8">VideoFrameRef::isSameSize</a></div><div class="ttdeci">bool isSameSize(const VideoFrameRef &amp;frame) const</div><div class="ttdef"><b>Definition:</b> frame.hpp:130</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a8b7d14fda8bf2fa106897d95f55e5d45"><div class="ttname"><a href="class_video_frame_ref.html#a8b7d14fda8bf2fa106897d95f55e5d45">VideoFrameRef::getWidth</a></div><div class="ttdeci">int getWidth() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:122</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_afb0d799e6c944a9993ef89f75d79c565"><div class="ttname"><a href="class_video_frame_ref.html#afb0d799e6c944a9993ef89f75d79c565">VideoFrameRef::getHeight</a></div><div class="ttdeci">int getHeight() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:126</div></div>
+<div class="ttc" id="anamespace_pony_player_html"><div class="ttname"><a href="namespace_pony_player.html">PonyPlayer</a></div><div class="ttdef"><b>Definition:</b> audioformat.hpp:155</div></div>
+<div class="ttc" id="anamespace_pony_player_html_a06a2288fe4add98ace88ae6616dfa961"><div class="ttname"><a href="namespace_pony_player.html#a06a2288fe4add98ace88ae6616dfa961">PonyPlayer::MAIN</a></div><div class="ttdeci">constexpr PonyThread MAIN</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:47</div></div>
+<div class="ttc" id="anamespace_pony_player_html_aaa0d776e91cad19aeaf859c10961d0b2"><div class="ttname"><a href="namespace_pony_player.html#aaa0d776e91cad19aeaf859c10961d0b2">PonyPlayer::getAssetsDir</a></div><div class="ttdeci">QString getAssetsDir()</div><div class="ttdef"><b>Definition:</b> platform.hpp:20</div></div>
+<div class="ttc" id="aplatform_8hpp_html"><div class="ttname"><a href="platform_8hpp.html">platform.hpp</a></div></div>
+<div class="ttc" id="arenderer_8hpp_html"><div class="ttname"><a href="renderer_8hpp.html">renderer.hpp</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_975424cdae97a07db69e55371758444e.html">player</a></li><li class="navelem"><a class="el" href="fireworks_8hpp.html">fireworks.hpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

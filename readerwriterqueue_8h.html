@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: thirdparty/rwqueue/readerwriterqueue.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('readerwriterqueue_8h.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#namespaces">命名空间</a> &#124;
+<a href="#define-members">宏定义</a>  </div>
+  <div class="headertitle"><div class="title">readerwriterqueue.h 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="atomicops_8h_source.html">atomicops.h</a>&quot;</code><br />
+<code>#include &lt;new&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;cassert&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+</div>
+<p><a href="readerwriterqueue_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_reader_writer_queue.html">moodycamel::ReaderWriterQueue&lt; T, MAX_BLOCK_SIZE &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_queue.html">moodycamel::BlockingReaderWriterQueue&lt; T, MAX_BLOCK_SIZE &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespacemoodycamel"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemoodycamel.html">moodycamel</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a99b7aea919ebc38c496e79c0b78cb910"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="readerwriterqueue_8h.html#a99b7aea919ebc38c496e79c0b78cb910">MOODYCAMEL_CACHE_LINE_SIZE</a>&#160;&#160;&#160;64</td></tr>
+<tr class="separator:a99b7aea919ebc38c496e79c0b78cb910"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1226d95caca076ed7139cf21547ebf9f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="readerwriterqueue_8h.html#a1226d95caca076ed7139cf21547ebf9f">MOODYCAMEL_EXCEPTIONS_ENABLED</a></td></tr>
+<tr class="separator:a1226d95caca076ed7139cf21547ebf9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad98fba1833190439c3beee809e708359"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="readerwriterqueue_8h.html#ad98fba1833190439c3beee809e708359">MOODYCAMEL_HAS_EMPLACE</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:ad98fba1833190439c3beee809e708359"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1e7ae90c44b849da1afb4566d1a807b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="readerwriterqueue_8h.html#ae1e7ae90c44b849da1afb4566d1a807b">MOODYCAMEL_MAYBE_ALIGN_TO_CACHELINE</a>&#160;&#160;&#160;<a class="el" href="atomicops_8h.html#af63e6ce30c0d2f9e38cf5f06602f6be3">AE_ALIGN</a>(<a class="el" href="readerwriterqueue_8h.html#a99b7aea919ebc38c496e79c0b78cb910">MOODYCAMEL_CACHE_LINE_SIZE</a>)</td></tr>
+<tr class="separator:ae1e7ae90c44b849da1afb4566d1a807b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="a99b7aea919ebc38c496e79c0b78cb910" name="a99b7aea919ebc38c496e79c0b78cb910"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99b7aea919ebc38c496e79c0b78cb910">&#9670;&nbsp;</a></span>MOODYCAMEL_CACHE_LINE_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOODYCAMEL_CACHE_LINE_SIZE&#160;&#160;&#160;64</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1226d95caca076ed7139cf21547ebf9f" name="a1226d95caca076ed7139cf21547ebf9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1226d95caca076ed7139cf21547ebf9f">&#9670;&nbsp;</a></span>MOODYCAMEL_EXCEPTIONS_ENABLED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOODYCAMEL_EXCEPTIONS_ENABLED</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad98fba1833190439c3beee809e708359" name="ad98fba1833190439c3beee809e708359"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad98fba1833190439c3beee809e708359">&#9670;&nbsp;</a></span>MOODYCAMEL_HAS_EMPLACE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOODYCAMEL_HAS_EMPLACE&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae1e7ae90c44b849da1afb4566d1a807b" name="ae1e7ae90c44b849da1afb4566d1a807b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1e7ae90c44b849da1afb4566d1a807b">&#9670;&nbsp;</a></span>MOODYCAMEL_MAYBE_ALIGN_TO_CACHELINE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MOODYCAMEL_MAYBE_ALIGN_TO_CACHELINE&#160;&#160;&#160;<a class="el" href="atomicops_8h.html#af63e6ce30c0d2f9e38cf5f06602f6be3">AE_ALIGN</a>(<a class="el" href="readerwriterqueue_8h.html#a99b7aea919ebc38c496e79c0b78cb910">MOODYCAMEL_CACHE_LINE_SIZE</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_7f51fab15f37f4c20c90b1af38889ac7.html">thirdparty</a></li><li class="navelem"><a class="el" href="dir_7e105f3967d6a8c3e266f742944d1154.html">rwqueue</a></li><li class="navelem"><a class="el" href="readerwriterqueue_8h.html">readerwriterqueue.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

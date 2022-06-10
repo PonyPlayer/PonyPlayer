@@ -1,0 +1,840 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: moodycamel::BlockingReaderWriterCircularBuffer&lt; T &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">moodycamel::BlockingReaderWriterCircularBuffer&lt; T &gt; 模板类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="readerwritercircularbuffer_8h_source.html">readerwritercircularbuffer.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a4520886328b0c9bd0f372b6ceeb3df07"><td class="memItemLeft" align="right" valign="top">typedef T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a4520886328b0c9bd0f372b6ceeb3df07">value_type</a></td></tr>
+<tr class="separator:a4520886328b0c9bd0f372b6ceeb3df07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a114616fa103c65c1a81d51ebb1fb2485"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a114616fa103c65c1a81d51ebb1fb2485">BlockingReaderWriterCircularBuffer</a> (std::size_t capacity)</td></tr>
+<tr class="separator:a114616fa103c65c1a81d51ebb1fb2485"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6e6be70744c08ab6d3bdc3685e2d7fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#ad6e6be70744c08ab6d3bdc3685e2d7fd">BlockingReaderWriterCircularBuffer</a> (<a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> &amp;&amp;other)</td></tr>
+<tr class="separator:ad6e6be70744c08ab6d3bdc3685e2d7fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca9f7638af6d01964aeef3a04517784d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#aca9f7638af6d01964aeef3a04517784d">BlockingReaderWriterCircularBuffer</a> (<a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> const &amp;)=delete</td></tr>
+<tr class="separator:aca9f7638af6d01964aeef3a04517784d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e6634a4ce91bb78e775717aed31811c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a4e6634a4ce91bb78e775717aed31811c">~BlockingReaderWriterCircularBuffer</a> ()</td></tr>
+<tr class="separator:a4e6634a4ce91bb78e775717aed31811c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb79ffab729ac572a9d29459c8403d9b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#afb79ffab729ac572a9d29459c8403d9b">operator=</a> (<a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:afb79ffab729ac572a9d29459c8403d9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e769750b2874b4e88388a0dd396fabe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a3e769750b2874b4e88388a0dd396fabe">operator=</a> (<a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> const &amp;)=delete</td></tr>
+<tr class="separator:a3e769750b2874b4e88388a0dd396fabe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfda2172d0cd0a6d01a5d12f473686d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#adfda2172d0cd0a6d01a5d12f473686d3">swap</a> (<a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> &amp;other) noexcept</td></tr>
+<tr class="separator:adfda2172d0cd0a6d01a5d12f473686d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a603cc24c31c0adac1d803619443a913b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a603cc24c31c0adac1d803619443a913b">try_enqueue</a> (T const &amp;item)</td></tr>
+<tr class="separator:a603cc24c31c0adac1d803619443a913b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9a8fa66a09e355c42957ada3f82fa45"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#ad9a8fa66a09e355c42957ada3f82fa45">try_enqueue</a> (T &amp;&amp;item)</td></tr>
+<tr class="separator:ad9a8fa66a09e355c42957ada3f82fa45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1211a1f9c1c41ff2c5c645f53b4f8d7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a1211a1f9c1c41ff2c5c645f53b4f8d7c">wait_enqueue</a> (T const &amp;item)</td></tr>
+<tr class="separator:a1211a1f9c1c41ff2c5c645f53b4f8d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a756dc7316b586ed01d17cec1cdea4c70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a756dc7316b586ed01d17cec1cdea4c70">wait_enqueue</a> (T &amp;&amp;item)</td></tr>
+<tr class="separator:a756dc7316b586ed01d17cec1cdea4c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f30a75e4b8ee0d38e6131ad55368f08"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a9f30a75e4b8ee0d38e6131ad55368f08">wait_enqueue_timed</a> (T const &amp;item, std::int64_t timeout_usecs)</td></tr>
+<tr class="separator:a9f30a75e4b8ee0d38e6131ad55368f08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2738e3a3f02c0a0b21a3629639e815f4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a2738e3a3f02c0a0b21a3629639e815f4">wait_enqueue_timed</a> (T &amp;&amp;item, std::int64_t timeout_usecs)</td></tr>
+<tr class="separator:a2738e3a3f02c0a0b21a3629639e815f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a149c73ede056bc1c7d2871981222d70f"><td class="memTemplParams" colspan="2">template&lt;typename Rep , typename Period &gt; </td></tr>
+<tr class="memitem:a149c73ede056bc1c7d2871981222d70f"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a149c73ede056bc1c7d2871981222d70f">wait_enqueue_timed</a> (T const &amp;item, std::chrono::duration&lt; Rep, Period &gt; const &amp;timeout)</td></tr>
+<tr class="separator:a149c73ede056bc1c7d2871981222d70f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00dd8254d958b0e9bdce01feddb4e506"><td class="memTemplParams" colspan="2">template&lt;typename Rep , typename Period &gt; </td></tr>
+<tr class="memitem:a00dd8254d958b0e9bdce01feddb4e506"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a00dd8254d958b0e9bdce01feddb4e506">wait_enqueue_timed</a> (T &amp;&amp;item, std::chrono::duration&lt; Rep, Period &gt; const &amp;timeout)</td></tr>
+<tr class="separator:a00dd8254d958b0e9bdce01feddb4e506"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a732c3ea2b90d098a0d68507dd0c1e7d4"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a732c3ea2b90d098a0d68507dd0c1e7d4"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a732c3ea2b90d098a0d68507dd0c1e7d4">try_dequeue</a> (U &amp;item)</td></tr>
+<tr class="separator:a732c3ea2b90d098a0d68507dd0c1e7d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac036879ad5b2ef07c625b6e401827cd1"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:ac036879ad5b2ef07c625b6e401827cd1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#ac036879ad5b2ef07c625b6e401827cd1">wait_dequeue</a> (U &amp;item)</td></tr>
+<tr class="separator:ac036879ad5b2ef07c625b6e401827cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38ff67ca269db7da6307f0fe2d0a72e2"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a38ff67ca269db7da6307f0fe2d0a72e2"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a38ff67ca269db7da6307f0fe2d0a72e2">wait_dequeue_timed</a> (U &amp;item, std::int64_t timeout_usecs)</td></tr>
+<tr class="separator:a38ff67ca269db7da6307f0fe2d0a72e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa07582e2ab9b9d07e068de48ca2c5be1"><td class="memTemplParams" colspan="2">template&lt;typename U , typename Rep , typename Period &gt; </td></tr>
+<tr class="memitem:aa07582e2ab9b9d07e068de48ca2c5be1"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#aa07582e2ab9b9d07e068de48ca2c5be1">wait_dequeue_timed</a> (U &amp;item, std::chrono::duration&lt; Rep, Period &gt; const &amp;timeout)</td></tr>
+<tr class="separator:aa07582e2ab9b9d07e068de48ca2c5be1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedfea78298d72f335685dd1f254d3792"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#aedfea78298d72f335685dd1f254d3792">size_approx</a> () const</td></tr>
+<tr class="separator:aedfea78298d72f335685dd1f254d3792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a352cdc07caa59c7a465e17ac4bed2457"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a352cdc07caa59c7a465e17ac4bed2457">max_capacity</a> () const</td></tr>
+<tr class="separator:a352cdc07caa59c7a465e17ac4bed2457"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">成员类型定义说明</h2>
+<a id="a4520886328b0c9bd0f372b6ceeb3df07" name="a4520886328b0c9bd0f372b6ceeb3df07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4520886328b0c9bd0f372b6ceeb3df07">&#9670;&nbsp;</a></span>value_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef T <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::<a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a4520886328b0c9bd0f372b6ceeb3df07">value_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a114616fa103c65c1a81d51ebb1fb2485" name="a114616fa103c65c1a81d51ebb1fb2485"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a114616fa103c65c1a81d51ebb1fb2485">&#9670;&nbsp;</a></span>BlockingReaderWriterCircularBuffer() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::<a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>capacity</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad6e6be70744c08ab6d3bdc3685e2d7fd" name="ad6e6be70744c08ab6d3bdc3685e2d7fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6e6be70744c08ab6d3bdc3685e2d7fd">&#9670;&nbsp;</a></span>BlockingReaderWriterCircularBuffer() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::<a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a>&lt; T &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aca9f7638af6d01964aeef3a04517784d" name="aca9f7638af6d01964aeef3a04517784d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca9f7638af6d01964aeef3a04517784d">&#9670;&nbsp;</a></span>BlockingReaderWriterCircularBuffer() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::<a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a>&lt; T &gt; const &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4e6634a4ce91bb78e775717aed31811c" name="a4e6634a4ce91bb78e775717aed31811c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e6634a4ce91bb78e775717aed31811c">&#9670;&nbsp;</a></span>~BlockingReaderWriterCircularBuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::~<a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a352cdc07caa59c7a465e17ac4bed2457" name="a352cdc07caa59c7a465e17ac4bed2457"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a352cdc07caa59c7a465e17ac4bed2457">&#9670;&nbsp;</a></span>max_capacity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::max_capacity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afb79ffab729ac572a9d29459c8403d9b" name="afb79ffab729ac572a9d29459c8403d9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb79ffab729ac572a9d29459c8403d9b">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> &amp; <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a>&lt; T &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3e769750b2874b4e88388a0dd396fabe" name="a3e769750b2874b4e88388a0dd396fabe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e769750b2874b4e88388a0dd396fabe">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> &amp; <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a>&lt; T &gt; const &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aedfea78298d72f335685dd1f254d3792" name="aedfea78298d72f335685dd1f254d3792"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aedfea78298d72f335685dd1f254d3792">&#9670;&nbsp;</a></span>size_approx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::size_approx </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adfda2172d0cd0a6d01a5d12f473686d3" name="adfda2172d0cd0a6d01a5d12f473686d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfda2172d0cd0a6d01a5d12f473686d3">&#9670;&nbsp;</a></span>swap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::swap </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a732c3ea2b90d098a0d68507dd0c1e7d4" name="a732c3ea2b90d098a0d68507dd0c1e7d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a732c3ea2b90d098a0d68507dd0c1e7d4">&#9670;&nbsp;</a></span>try_dequeue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::try_dequeue </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad9a8fa66a09e355c42957ada3f82fa45" name="ad9a8fa66a09e355c42957ada3f82fa45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9a8fa66a09e355c42957ada3f82fa45">&#9670;&nbsp;</a></span>try_enqueue() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::try_enqueue </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a603cc24c31c0adac1d803619443a913b" name="a603cc24c31c0adac1d803619443a913b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a603cc24c31c0adac1d803619443a913b">&#9670;&nbsp;</a></span>try_enqueue() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::try_enqueue </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac036879ad5b2ef07c625b6e401827cd1" name="ac036879ad5b2ef07c625b6e401827cd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac036879ad5b2ef07c625b6e401827cd1">&#9670;&nbsp;</a></span>wait_dequeue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::wait_dequeue </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa07582e2ab9b9d07e068de48ca2c5be1" name="aa07582e2ab9b9d07e068de48ca2c5be1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa07582e2ab9b9d07e068de48ca2c5be1">&#9670;&nbsp;</a></span>wait_dequeue_timed() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U , typename Rep , typename Period &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::wait_dequeue_timed </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::duration&lt; Rep, Period &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a38ff67ca269db7da6307f0fe2d0a72e2" name="a38ff67ca269db7da6307f0fe2d0a72e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38ff67ca269db7da6307f0fe2d0a72e2">&#9670;&nbsp;</a></span>wait_dequeue_timed() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::wait_dequeue_timed </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::int64_t&#160;</td>
+          <td class="paramname"><em>timeout_usecs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a756dc7316b586ed01d17cec1cdea4c70" name="a756dc7316b586ed01d17cec1cdea4c70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a756dc7316b586ed01d17cec1cdea4c70">&#9670;&nbsp;</a></span>wait_enqueue() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::wait_enqueue </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1211a1f9c1c41ff2c5c645f53b4f8d7c" name="a1211a1f9c1c41ff2c5c645f53b4f8d7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1211a1f9c1c41ff2c5c645f53b4f8d7c">&#9670;&nbsp;</a></span>wait_enqueue() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::wait_enqueue </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a00dd8254d958b0e9bdce01feddb4e506" name="a00dd8254d958b0e9bdce01feddb4e506"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00dd8254d958b0e9bdce01feddb4e506">&#9670;&nbsp;</a></span>wait_enqueue_timed() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename Rep , typename Period &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::wait_enqueue_timed </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::duration&lt; Rep, Period &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2738e3a3f02c0a0b21a3629639e815f4" name="a2738e3a3f02c0a0b21a3629639e815f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2738e3a3f02c0a0b21a3629639e815f4">&#9670;&nbsp;</a></span>wait_enqueue_timed() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::wait_enqueue_timed </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::int64_t&#160;</td>
+          <td class="paramname"><em>timeout_usecs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a149c73ede056bc1c7d2871981222d70f" name="a149c73ede056bc1c7d2871981222d70f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a149c73ede056bc1c7d2871981222d70f">&#9670;&nbsp;</a></span>wait_enqueue_timed() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<div class="memtemplate">
+template&lt;typename Rep , typename Period &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::wait_enqueue_timed </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::chrono::duration&lt; Rep, Period &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>timeout</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f30a75e4b8ee0d38e6131ad55368f08" name="a9f30a75e4b8ee0d38e6131ad55368f08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f30a75e4b8ee0d38e6131ad55368f08">&#9670;&nbsp;</a></span>wait_enqueue_timed() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a>&lt; T &gt;::wait_enqueue_timed </td>
+          <td>(</td>
+          <td class="paramtype">T const &amp;&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::int64_t&#160;</td>
+          <td class="paramname"><em>timeout_usecs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>thirdparty/rwqueue/<a class="el" href="readerwritercircularbuffer_8h_source.html">readerwritercircularbuffer.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacemoodycamel.html">moodycamel</a></li><li class="navelem"><a class="el" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: thirdparty/lrctools/include/liblrc/lyrics.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('thirdparty_2lrctools_2include_2liblrc_2lyrics_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">lyrics.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="thirdparty_2lrctools_2include_2liblrc_2lyrics_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">//******************************************</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">//  Author : Yuwei Huang</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//  Created On : Thu Feb 08 2018</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">//  File : lyrics.h</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">//******************************************</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef LIBLRC_LYRICS_H</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define LIBLRC_LYRICS_H</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacelrc.html">lrc</a> {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classlrc_1_1_lyrics.html">   16</a></span><span class="keyword">class </span><a class="code hl_class" href="classlrc_1_1_lyrics.html">Lyrics</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="structlrc_1_1_lyrics_1_1_metadata.html">   18</a></span>  <span class="keyword">struct </span><a class="code hl_struct" href="structlrc_1_1_lyrics_1_1_metadata.html">Metadata</a> {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structlrc_1_1_lyrics_1_1_metadata.html#a473333c067dfc0db52ed2e961857e578">   19</a></span>    std::string <a class="code hl_variable" href="structlrc_1_1_lyrics_1_1_metadata.html#a473333c067dfc0db52ed2e961857e578">artist</a>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="structlrc_1_1_lyrics_1_1_metadata.html#abcfac488194a6a3b4a55c644998113ee">   20</a></span>    std::string <a class="code hl_variable" href="structlrc_1_1_lyrics_1_1_metadata.html#abcfac488194a6a3b4a55c644998113ee">album</a>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="structlrc_1_1_lyrics_1_1_metadata.html#a5b06d2d28cd4c5bc5047cc115699c147">   21</a></span>    std::string <a class="code hl_variable" href="structlrc_1_1_lyrics_1_1_metadata.html#a5b06d2d28cd4c5bc5047cc115699c147">title</a>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="structlrc_1_1_lyrics_1_1_metadata.html#a92a84ce810e0c6c898679191afda300c">   22</a></span>    std::string <a class="code hl_variable" href="structlrc_1_1_lyrics_1_1_metadata.html#a92a84ce810e0c6c898679191afda300c">lyricsWriter</a>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structlrc_1_1_lyrics_1_1_metadata.html#abd40531701f9ef59099d4307bf1a955f">   23</a></span>    std::string <a class="code hl_variable" href="structlrc_1_1_lyrics_1_1_metadata.html#abd40531701f9ef59099d4307bf1a955f">fileCreator</a>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="structlrc_1_1_lyrics_1_1_metadata.html#a9a541d0583475d89281f6bca7f04dbf1">   24</a></span>    int32_t <a class="code hl_variable" href="structlrc_1_1_lyrics_1_1_metadata.html#a9a541d0583475d89281f6bca7f04dbf1">adjustment</a>;  <span class="comment">// in milliseconds, + shifts time up, - shifts down.</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  };</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classlrc_1_1_lyrics.html#a54e1df172eab05b85a116d41bea89a7f">   27</a></span>  <span class="keyword">static</span> <span class="keyword">const</span> int32_t <a class="code hl_variable" href="classlrc_1_1_lyrics.html#a54e1df172eab05b85a116d41bea89a7f">kEndTimeNever</a>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="structlrc_1_1_lyrics_1_1_lyric_line.html">   29</a></span>  <span class="keyword">struct </span><a class="code hl_struct" href="structlrc_1_1_lyrics_1_1_lyric_line.html">LyricLine</a> {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structlrc_1_1_lyrics_1_1_lyric_line.html#a214bc30dc3db8b0e388e38d15ce516f9">   30</a></span>    int32_t <a class="code hl_variable" href="structlrc_1_1_lyrics_1_1_lyric_line.html#a214bc30dc3db8b0e388e38d15ce516f9">start_time</a>;  <span class="comment">// in milliseconds.</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="comment">// kEndTimeNever if it is at the end of the song.</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="structlrc_1_1_lyrics_1_1_lyric_line.html#afcaa0022bc12c18f2bb582907e703bf1">   33</a></span>    int32_t <a class="code hl_variable" href="structlrc_1_1_lyrics_1_1_lyric_line.html#afcaa0022bc12c18f2bb582907e703bf1">end_time</a>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="structlrc_1_1_lyrics_1_1_lyric_line.html#a8aaf66cb10eda64e6ba5c0fd626a56f0">   35</a></span>    std::string <a class="code hl_variable" href="structlrc_1_1_lyrics_1_1_lyric_line.html#a8aaf66cb10eda64e6ba5c0fd626a56f0">lyric</a>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  };</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classlrc_1_1_lyrics.html#a66fa8d69e56abbb247cb79093be6c1d4">   38</a></span>  <span class="keyword">using</span> <a class="code hl_typedef" href="classlrc_1_1_lyrics.html#a66fa8d69e56abbb247cb79093be6c1d4">ConstLyricIterator</a> = std::vector&lt;LyricLine&gt;::const_iterator;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <span class="comment">// Lyric duration is not required and will be automatically filled.</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="comment">// Please DO NOT include offset adjustment in LyricLine. They will be adjusted</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  <span class="comment">// by this class.</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <a class="code hl_function" href="classlrc_1_1_lyrics.html#a8ce10baa0ff5d9beac7f0cf7d0d4447d">Lyrics</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structlrc_1_1_lyrics_1_1_metadata.html">Metadata</a>&amp; metadata, std::vector&lt;LyricLine&gt;&amp;&amp; lyrics);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <a class="code hl_function" href="classlrc_1_1_lyrics.html#a64f4572833053aec2427d39b287f7d9e">~Lyrics</a>();</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  <span class="keyword">const</span> <a class="code hl_struct" href="structlrc_1_1_lyrics_1_1_metadata.html">Metadata</a>&amp; <a class="code hl_function" href="classlrc_1_1_lyrics.html#af96c8ed550cf1e1368653714e50cf560">GetMetadata</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  <span class="comment">// Returns the LyricLine at the given offset. Returns a null LyricLine (all</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  <span class="comment">// fields are empty) if offset &lt; 0 or offset &gt;= kEndTimeNever.</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  <span class="comment">// Random position lookup cost is O(log(n)); lookup with linearly increasing</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <span class="comment">// offset has a cost of O(1) for each lookup.</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  <span class="keyword">const</span> <a class="code hl_struct" href="structlrc_1_1_lyrics_1_1_lyric_line.html">LyricLine</a>&amp; <a class="code hl_function" href="classlrc_1_1_lyrics.html#a3077694ec3f69de51a3853b935d6f16d">LyricAt</a>(int32_t offset);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <span class="comment">// Returns the lyric iterator at the given offset. Caller can use it to query</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <span class="comment">// lyrics before or after the current lyric. Returns IteratorEnd if offset &lt; 0</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="comment">// or offset &gt;= kEndTimeNever.</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  <a class="code hl_typedef" href="classlrc_1_1_lyrics.html#a66fa8d69e56abbb247cb79093be6c1d4">ConstLyricIterator</a> <a class="code hl_function" href="classlrc_1_1_lyrics.html#a98e087acd8906e6c53480c37dcc91a02">LyricIteratorAt</a>(int32_t offset);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  <a class="code hl_typedef" href="classlrc_1_1_lyrics.html#a66fa8d69e56abbb247cb79093be6c1d4">ConstLyricIterator</a> <a class="code hl_function" href="classlrc_1_1_lyrics.html#a6848fb4a6ba8b3a1de2ec4cc9675aebc">IteratorBegin</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  <a class="code hl_typedef" href="classlrc_1_1_lyrics.html#a66fa8d69e56abbb247cb79093be6c1d4">ConstLyricIterator</a> <a class="code hl_function" href="classlrc_1_1_lyrics.html#a5b6e2812826166cd1324d52c5b42a11e">IteratorEnd</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <a class="code hl_struct" href="structlrc_1_1_lyrics_1_1_metadata.html">Metadata</a> metadata_;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  std::vector&lt;LyricLine&gt; lyrics_;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  std::vector&lt;LyricLine&gt;::iterator current_lyric_;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>};</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>}  <span class="comment">// namespace lrc</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#endif  </span><span class="comment">// LIBLRC_LYRICS_H</span></div>
+<div class="ttc" id="aclasslrc_1_1_lyrics_html"><div class="ttname"><a href="classlrc_1_1_lyrics.html">lrc::Lyrics</a></div><div class="ttdef"><b>Definition:</b> lyrics.h:16</div></div>
+<div class="ttc" id="aclasslrc_1_1_lyrics_html_a3077694ec3f69de51a3853b935d6f16d"><div class="ttname"><a href="classlrc_1_1_lyrics.html#a3077694ec3f69de51a3853b935d6f16d">lrc::Lyrics::LyricAt</a></div><div class="ttdeci">const LyricLine &amp; LyricAt(int32_t offset)</div><div class="ttdef"><b>Definition:</b> lyrics.cc:84</div></div>
+<div class="ttc" id="aclasslrc_1_1_lyrics_html_a54e1df172eab05b85a116d41bea89a7f"><div class="ttname"><a href="classlrc_1_1_lyrics.html#a54e1df172eab05b85a116d41bea89a7f">lrc::Lyrics::kEndTimeNever</a></div><div class="ttdeci">static const int32_t kEndTimeNever</div><div class="ttdef"><b>Definition:</b> lyrics.h:27</div></div>
+<div class="ttc" id="aclasslrc_1_1_lyrics_html_a5b6e2812826166cd1324d52c5b42a11e"><div class="ttname"><a href="classlrc_1_1_lyrics.html#a5b6e2812826166cd1324d52c5b42a11e">lrc::Lyrics::IteratorEnd</a></div><div class="ttdeci">ConstLyricIterator IteratorEnd() const</div><div class="ttdef"><b>Definition:</b> lyrics.cc:131</div></div>
+<div class="ttc" id="aclasslrc_1_1_lyrics_html_a64f4572833053aec2427d39b287f7d9e"><div class="ttname"><a href="classlrc_1_1_lyrics.html#a64f4572833053aec2427d39b287f7d9e">lrc::Lyrics::~Lyrics</a></div><div class="ttdeci">~Lyrics()</div><div class="ttdef"><b>Definition:</b> lyrics.cc:78</div></div>
+<div class="ttc" id="aclasslrc_1_1_lyrics_html_a66fa8d69e56abbb247cb79093be6c1d4"><div class="ttname"><a href="classlrc_1_1_lyrics.html#a66fa8d69e56abbb247cb79093be6c1d4">lrc::Lyrics::ConstLyricIterator</a></div><div class="ttdeci">std::vector&lt; LyricLine &gt;::const_iterator ConstLyricIterator</div><div class="ttdef"><b>Definition:</b> lyrics.h:38</div></div>
+<div class="ttc" id="aclasslrc_1_1_lyrics_html_a6848fb4a6ba8b3a1de2ec4cc9675aebc"><div class="ttname"><a href="classlrc_1_1_lyrics.html#a6848fb4a6ba8b3a1de2ec4cc9675aebc">lrc::Lyrics::IteratorBegin</a></div><div class="ttdeci">ConstLyricIterator IteratorBegin() const</div><div class="ttdef"><b>Definition:</b> lyrics.cc:127</div></div>
+<div class="ttc" id="aclasslrc_1_1_lyrics_html_a8ce10baa0ff5d9beac7f0cf7d0d4447d"><div class="ttname"><a href="classlrc_1_1_lyrics.html#a8ce10baa0ff5d9beac7f0cf7d0d4447d">lrc::Lyrics::Lyrics</a></div><div class="ttdeci">Lyrics(const Metadata &amp;metadata, std::vector&lt; LyricLine &gt; &amp;&amp;lyrics)</div><div class="ttdef"><b>Definition:</b> lyrics.cc:50</div></div>
+<div class="ttc" id="aclasslrc_1_1_lyrics_html_a98e087acd8906e6c53480c37dcc91a02"><div class="ttname"><a href="classlrc_1_1_lyrics.html#a98e087acd8906e6c53480c37dcc91a02">lrc::Lyrics::LyricIteratorAt</a></div><div class="ttdeci">ConstLyricIterator LyricIteratorAt(int32_t offset)</div><div class="ttdef"><b>Definition:</b> lyrics.cc:89</div></div>
+<div class="ttc" id="aclasslrc_1_1_lyrics_html_af96c8ed550cf1e1368653714e50cf560"><div class="ttname"><a href="classlrc_1_1_lyrics.html#af96c8ed550cf1e1368653714e50cf560">lrc::Lyrics::GetMetadata</a></div><div class="ttdeci">const Metadata &amp; GetMetadata() const</div><div class="ttdef"><b>Definition:</b> lyrics.cc:80</div></div>
+<div class="ttc" id="anamespacelrc_html"><div class="ttname"><a href="namespacelrc.html">lrc</a></div><div class="ttdef"><b>Definition:</b> lrc_parser.h:15</div></div>
+<div class="ttc" id="astructlrc_1_1_lyrics_1_1_lyric_line_html"><div class="ttname"><a href="structlrc_1_1_lyrics_1_1_lyric_line.html">lrc::Lyrics::LyricLine</a></div><div class="ttdef"><b>Definition:</b> lyrics.h:29</div></div>
+<div class="ttc" id="astructlrc_1_1_lyrics_1_1_lyric_line_html_a214bc30dc3db8b0e388e38d15ce516f9"><div class="ttname"><a href="structlrc_1_1_lyrics_1_1_lyric_line.html#a214bc30dc3db8b0e388e38d15ce516f9">lrc::Lyrics::LyricLine::start_time</a></div><div class="ttdeci">int32_t start_time</div><div class="ttdef"><b>Definition:</b> lyrics.h:30</div></div>
+<div class="ttc" id="astructlrc_1_1_lyrics_1_1_lyric_line_html_a8aaf66cb10eda64e6ba5c0fd626a56f0"><div class="ttname"><a href="structlrc_1_1_lyrics_1_1_lyric_line.html#a8aaf66cb10eda64e6ba5c0fd626a56f0">lrc::Lyrics::LyricLine::lyric</a></div><div class="ttdeci">std::string lyric</div><div class="ttdef"><b>Definition:</b> lyrics.h:35</div></div>
+<div class="ttc" id="astructlrc_1_1_lyrics_1_1_lyric_line_html_afcaa0022bc12c18f2bb582907e703bf1"><div class="ttname"><a href="structlrc_1_1_lyrics_1_1_lyric_line.html#afcaa0022bc12c18f2bb582907e703bf1">lrc::Lyrics::LyricLine::end_time</a></div><div class="ttdeci">int32_t end_time</div><div class="ttdef"><b>Definition:</b> lyrics.h:33</div></div>
+<div class="ttc" id="astructlrc_1_1_lyrics_1_1_metadata_html"><div class="ttname"><a href="structlrc_1_1_lyrics_1_1_metadata.html">lrc::Lyrics::Metadata</a></div><div class="ttdef"><b>Definition:</b> lyrics.h:18</div></div>
+<div class="ttc" id="astructlrc_1_1_lyrics_1_1_metadata_html_a473333c067dfc0db52ed2e961857e578"><div class="ttname"><a href="structlrc_1_1_lyrics_1_1_metadata.html#a473333c067dfc0db52ed2e961857e578">lrc::Lyrics::Metadata::artist</a></div><div class="ttdeci">std::string artist</div><div class="ttdef"><b>Definition:</b> lyrics.h:19</div></div>
+<div class="ttc" id="astructlrc_1_1_lyrics_1_1_metadata_html_a5b06d2d28cd4c5bc5047cc115699c147"><div class="ttname"><a href="structlrc_1_1_lyrics_1_1_metadata.html#a5b06d2d28cd4c5bc5047cc115699c147">lrc::Lyrics::Metadata::title</a></div><div class="ttdeci">std::string title</div><div class="ttdef"><b>Definition:</b> lyrics.h:21</div></div>
+<div class="ttc" id="astructlrc_1_1_lyrics_1_1_metadata_html_a92a84ce810e0c6c898679191afda300c"><div class="ttname"><a href="structlrc_1_1_lyrics_1_1_metadata.html#a92a84ce810e0c6c898679191afda300c">lrc::Lyrics::Metadata::lyricsWriter</a></div><div class="ttdeci">std::string lyricsWriter</div><div class="ttdef"><b>Definition:</b> lyrics.h:22</div></div>
+<div class="ttc" id="astructlrc_1_1_lyrics_1_1_metadata_html_a9a541d0583475d89281f6bca7f04dbf1"><div class="ttname"><a href="structlrc_1_1_lyrics_1_1_metadata.html#a9a541d0583475d89281f6bca7f04dbf1">lrc::Lyrics::Metadata::adjustment</a></div><div class="ttdeci">int32_t adjustment</div><div class="ttdef"><b>Definition:</b> lyrics.h:24</div></div>
+<div class="ttc" id="astructlrc_1_1_lyrics_1_1_metadata_html_abcfac488194a6a3b4a55c644998113ee"><div class="ttname"><a href="structlrc_1_1_lyrics_1_1_metadata.html#abcfac488194a6a3b4a55c644998113ee">lrc::Lyrics::Metadata::album</a></div><div class="ttdeci">std::string album</div><div class="ttdef"><b>Definition:</b> lyrics.h:20</div></div>
+<div class="ttc" id="astructlrc_1_1_lyrics_1_1_metadata_html_abd40531701f9ef59099d4307bf1a955f"><div class="ttname"><a href="structlrc_1_1_lyrics_1_1_metadata.html#abd40531701f9ef59099d4307bf1a955f">lrc::Lyrics::Metadata::fileCreator</a></div><div class="ttdeci">std::string fileCreator</div><div class="ttdef"><b>Definition:</b> lyrics.h:23</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_7f51fab15f37f4c20c90b1af38889ac7.html">thirdparty</a></li><li class="navelem"><a class="el" href="dir_d92e663b76f54e36bb2bf3487581028f.html">lrctools</a></li><li class="navelem"><a class="el" href="dir_f27b8ad0c6f209aa2376e11a0036ca6f.html">include</a></li><li class="navelem"><a class="el" href="dir_e7b4061c4a118892da0569d66c1d130c.html">liblrc</a></li><li class="navelem"><a class="el" href="thirdparty_2lrctools_2include_2liblrc_2lyrics_8h.html">lyrics.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

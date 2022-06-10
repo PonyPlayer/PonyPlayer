@@ -1,0 +1,737 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: DemuxDispatcherBase类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_demux_dispatcher_base.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-attribs">Public 属性</a> &#124;
+<a href="#pro-methods">Protected 成员函数</a> &#124;
+<a href="#pro-attribs">Protected 属性</a> &#124;
+<a href="class_demux_dispatcher_base-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">DemuxDispatcherBase类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="dispatcher_8hpp_source.html">dispatcher.hpp</a>&gt;</code></p>
+<div class="dynheader">
+类 DemuxDispatcherBase 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_demux_dispatcher_base.png" usemap="#DemuxDispatcherBase_map" alt=""/>
+  <map id="DemuxDispatcherBase_map" name="DemuxDispatcherBase_map">
+<area href="class_decode_dispatcher.html" title="解码器调度器, 将Packet分配给解码器进一步解码成Frame 这个类是RAII的" alt="DecodeDispatcher" shape="rect" coords="0,112,164,136"/>
+<area href="class_previewer.html" alt="Previewer" shape="rect" coords="174,112,338,136"/>
+<area href="class_reverse_decode_dispatcher.html" title="反向解码器调度器" alt="ReverseDecodeDispatcher" shape="rect" coords="348,112,512,136"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a1c70a8ca6003d0ee155329b1bd10ba85"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a1c70a8ca6003d0ee155329b1bd10ba85">statePause</a> ()</td></tr>
+<tr class="separator:a1c70a8ca6003d0ee155329b1bd10ba85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba8fba581ef382341aad76fd385e3750"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#aba8fba581ef382341aad76fd385e3750">flush</a> ()</td></tr>
+<tr class="separator:aba8fba581ef382341aad76fd385e3750"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83b2b4bc0bbfc6890cfea179a72b4bc1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a83b2b4bc0bbfc6890cfea179a72b4bc1">stateResume</a> ()</td></tr>
+<tr class="separator:a83b2b4bc0bbfc6890cfea179a72b4bc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a3da04b0e0e58b3a345c75edbdc1494"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a5a3da04b0e0e58b3a345c75edbdc1494">seek</a> (qreal secs)</td></tr>
+<tr class="separator:a5a3da04b0e0e58b3a345c75edbdc1494"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dd62aca8a7fc275cafd707b38eae8da"><td class="memItemLeft" align="right" valign="top">virtual PONY_THREAD_SAFE <a class="el" href="class_video_frame_ref.html">VideoFrameRef</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a4dd62aca8a7fc275cafd707b38eae8da">getPicture</a> ()</td></tr>
+<tr class="separator:a4dd62aca8a7fc275cafd707b38eae8da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addcfd147f6dde810b5b031c297bb25ec"><td class="memItemLeft" align="right" valign="top">virtual PONY_THREAD_SAFE qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#addcfd147f6dde810b5b031c297bb25ec">frontPicture</a> ()</td></tr>
+<tr class="separator:addcfd147f6dde810b5b031c297bb25ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e0c2f5f1d8665d7ca9fb25a3911546f"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a5e0c2f5f1d8665d7ca9fb25a3911546f">skipPicture</a> (const std::function&lt; bool(qreal)&gt; &amp;function)</td></tr>
+<tr class="separator:a5e0c2f5f1d8665d7ca9fb25a3911546f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5a7764289ef454defdf12897b48ba4c"><td class="memItemLeft" align="right" valign="top">virtual PONY_THREAD_SAFE <a class="el" href="class_audio_frame.html">AudioFrame</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#af5a7764289ef454defdf12897b48ba4c">getSample</a> ()</td></tr>
+<tr class="separator:af5a7764289ef454defdf12897b48ba4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15e1ec9f30a881aaee2cb3a7e26bb978"><td class="memItemLeft" align="right" valign="top">virtual PONY_THREAD_SAFE qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a15e1ec9f30a881aaee2cb3a7e26bb978">frontSample</a> ()</td></tr>
+<tr class="separator:a15e1ec9f30a881aaee2cb3a7e26bb978"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac72ad2b4f76ac216fb84febaccc45369"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#ac72ad2b4f76ac216fb84febaccc45369">skipSample</a> (const std::function&lt; bool(qreal)&gt; &amp;function)</td></tr>
+<tr class="separator:ac72ad2b4f76ac216fb84febaccc45369"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4402e44e0eea9e2ddf632d7e2d437ed8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a4402e44e0eea9e2ddf632d7e2d437ed8">setTrack</a> (int i)</td></tr>
+<tr class="separator:a4402e44e0eea9e2ddf632d7e2d437ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af77f64fa0da43b99b356e1882e2b4b07"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#af77f64fa0da43b99b356e1882e2b4b07">hasVideo</a> ()</td></tr>
+<tr class="separator:af77f64fa0da43b99b356e1882e2b4b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae89b2d03d9ff69ef91c253dd8888320c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#ae89b2d03d9ff69ef91c253dd8888320c">setEnableAudio</a> (bool enable)</td></tr>
+<tr class="separator:ae89b2d03d9ff69ef91c253dd8888320c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a873e3347982e061c9058b2b075a7b70f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a873e3347982e061c9058b2b075a7b70f">getAudioInputFormat</a> ()=0</td></tr>
+<tr class="separator:a873e3347982e061c9058b2b075a7b70f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7725c2963a73da718f53b5197b2f876d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a7725c2963a73da718f53b5197b2f876d">setAudioOutputFormat</a> (<a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> format)=0</td></tr>
+<tr class="separator:a7725c2963a73da718f53b5197b2f876d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6faefb7f6f408de071781ede78f5d148"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a6faefb7f6f408de071781ede78f5d148">test_onWork</a> ()=0</td></tr>
+<tr class="separator:a6faefb7f6f408de071781ede78f5d148"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public 属性</h2></td></tr>
+<tr class="memitem:a2fd63a625c04b77ab13a775f78135f7b"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a2fd63a625c04b77ab13a775f78135f7b">filename</a></td></tr>
+<tr class="separator:a2fd63a625c04b77ab13a775f78135f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected 成员函数</h2></td></tr>
+<tr class="memitem:a68d1ae4842e0a30f2f8aba4c27f13f53"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a68d1ae4842e0a30f2f8aba4c27f13f53">DemuxDispatcherBase</a> (const std::string &amp;fn, QObject *parent)</td></tr>
+<tr class="separator:a68d1ae4842e0a30f2f8aba4c27f13f53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a406693ce72f47cf177e6874c7cd4d9cb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a406693ce72f47cf177e6874c7cd4d9cb">~DemuxDispatcherBase</a> () override</td></tr>
+<tr class="separator:a406693ce72f47cf177e6874c7cd4d9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected 属性</h2></td></tr>
+<tr class="memitem:a87a4864c835ebb90f1b4c889b109062f"><td class="memItemLeft" align="right" valign="top">AVFormatContext *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a87a4864c835ebb90f1b4c889b109062f">fmtCtx</a> = nullptr</td></tr>
+<tr class="separator:a87a4864c835ebb90f1b4c889b109062f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28bdd99c2502ba8716c62a2da1c74abf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a28bdd99c2502ba8716c62a2da1c74abf">isAudio</a> = false</td></tr>
+<tr class="separator:a28bdd99c2502ba8716c62a2da1c74abf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p >生命周期与打开的文件相同. </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a68d1ae4842e0a30f2f8aba4c27f13f53" name="a68d1ae4842e0a30f2f8aba4c27f13f53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68d1ae4842e0a30f2f8aba4c27f13f53">&#9670;&nbsp;</a></span>DemuxDispatcherBase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DemuxDispatcherBase::DemuxDispatcherBase </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>fn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a406693ce72f47cf177e6874c7cd4d9cb" name="a406693ce72f47cf177e6874c7cd4d9cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a406693ce72f47cf177e6874c7cd4d9cb">&#9670;&nbsp;</a></span>~DemuxDispatcherBase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DemuxDispatcherBase::~DemuxDispatcherBase </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="aba8fba581ef382341aad76fd385e3750" name="aba8fba581ef382341aad76fd385e3750"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba8fba581ef382341aad76fd385e3750">&#9670;&nbsp;</a></span>flush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void DemuxDispatcherBase::flush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#adf85d530a7c52698c663f12d9330fc77">DecodeDispatcher</a> , 以及 <a class="el" href="class_reverse_decode_dispatcher.html#af3850ba86294029d4fe4c9f76ea0d72a">ReverseDecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="addcfd147f6dde810b5b031c297bb25ec" name="addcfd147f6dde810b5b031c297bb25ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addcfd147f6dde810b5b031c297bb25ec">&#9670;&nbsp;</a></span>frontPicture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual PONY_THREAD_SAFE qreal DemuxDispatcherBase::frontPicture </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#a4802b9d516d32fd45ad3a59120c11c6f">DecodeDispatcher</a> , 以及 <a class="el" href="class_reverse_decode_dispatcher.html#ab1f0d7cfdceb6088436d606cbf7f4634">ReverseDecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="a15e1ec9f30a881aaee2cb3a7e26bb978" name="a15e1ec9f30a881aaee2cb3a7e26bb978"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15e1ec9f30a881aaee2cb3a7e26bb978">&#9670;&nbsp;</a></span>frontSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual PONY_THREAD_SAFE qreal DemuxDispatcherBase::frontSample </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#a7625cccc0a3585aa4e2066e778d34e92">DecodeDispatcher</a> , 以及 <a class="el" href="class_reverse_decode_dispatcher.html#a7a967ae5fed8a3a6add45627e09bb287">ReverseDecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="a873e3347982e061c9058b2b075a7b70f" name="a873e3347982e061c9058b2b075a7b70f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a873e3347982e061c9058b2b075a7b70f">&#9670;&nbsp;</a></span>getAudioInputFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> DemuxDispatcherBase::getAudioInputFormat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="class_decode_dispatcher.html#a70efb9f4553716042a1b113fe77ecec0">DecodeDispatcher</a>, <a class="el" href="class_reverse_decode_dispatcher.html#ac98a6ad1f9a8c913116ecbacf9b65017">ReverseDecodeDispatcher</a> , 以及 <a class="el" href="class_previewer.html#a5aa973386c581510cd43b42bf09a673a">Previewer</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="a4dd62aca8a7fc275cafd707b38eae8da" name="a4dd62aca8a7fc275cafd707b38eae8da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dd62aca8a7fc275cafd707b38eae8da">&#9670;&nbsp;</a></span>getPicture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual PONY_THREAD_SAFE <a class="el" href="class_video_frame_ref.html">VideoFrameRef</a> DemuxDispatcherBase::getPicture </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#a1239f5d9df00b529e41f72f63710a33a">DecodeDispatcher</a> , 以及 <a class="el" href="class_reverse_decode_dispatcher.html#a70863c69f4c2c60ab5d9097b9fbc1146">ReverseDecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="af5a7764289ef454defdf12897b48ba4c" name="af5a7764289ef454defdf12897b48ba4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5a7764289ef454defdf12897b48ba4c">&#9670;&nbsp;</a></span>getSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual PONY_THREAD_SAFE <a class="el" href="class_audio_frame.html">AudioFrame</a> DemuxDispatcherBase::getSample </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#a4adf8ca194fbd0453b79ce9d67217661">DecodeDispatcher</a> , 以及 <a class="el" href="class_reverse_decode_dispatcher.html#a99d6cc45a24dd94c324e9d8207a9d44c">ReverseDecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="af77f64fa0da43b99b356e1882e2b4b07" name="af77f64fa0da43b99b356e1882e2b4b07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af77f64fa0da43b99b356e1882e2b4b07">&#9670;&nbsp;</a></span>hasVideo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool DemuxDispatcherBase::hasVideo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#a6affeedb8e00ddcc36c20bd9d53c0d6f">DecodeDispatcher</a> , 以及 <a class="el" href="class_reverse_decode_dispatcher.html#a3eb777a6e6f117205576f6246064a441">ReverseDecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="a5a3da04b0e0e58b3a345c75edbdc1494" name="a5a3da04b0e0e58b3a345c75edbdc1494"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a3da04b0e0e58b3a345c75edbdc1494">&#9670;&nbsp;</a></span>seek()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void DemuxDispatcherBase::seek </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>secs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#acdde07a562e65848a062a735a8c161eb">DecodeDispatcher</a> , 以及 <a class="el" href="class_reverse_decode_dispatcher.html#a4360d29d71752106921ccaebdea5f28d">ReverseDecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="a7725c2963a73da718f53b5197b2f876d" name="a7725c2963a73da718f53b5197b2f876d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7725c2963a73da718f53b5197b2f876d">&#9670;&nbsp;</a></span>setAudioOutputFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void DemuxDispatcherBase::setAudioOutputFormat </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="class_decode_dispatcher.html#aa72050ebf6c7f7fd18f0c3cde0f3ea30">DecodeDispatcher</a>, <a class="el" href="class_reverse_decode_dispatcher.html#a71545e5363eddc9ff3834cc5363d1a9d">ReverseDecodeDispatcher</a> , 以及 <a class="el" href="class_previewer.html#a96b28b242b11d1429d9b0f527c807586">Previewer</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ae89b2d03d9ff69ef91c253dd8888320c" name="ae89b2d03d9ff69ef91c253dd8888320c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae89b2d03d9ff69ef91c253dd8888320c">&#9670;&nbsp;</a></span>setEnableAudio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void DemuxDispatcherBase::setEnableAudio </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#a853679ab73caa7927411c3d92740be51">DecodeDispatcher</a> , 以及 <a class="el" href="class_reverse_decode_dispatcher.html#a84fbaeb60a470b45afdba2491e5e5ea0">ReverseDecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="a4402e44e0eea9e2ddf632d7e2d437ed8" name="a4402e44e0eea9e2ddf632d7e2d437ed8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4402e44e0eea9e2ddf632d7e2d437ed8">&#9670;&nbsp;</a></span>setTrack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void DemuxDispatcherBase::setTrack </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#acf2e59c497bb7dfb08f6af2d5e13416c">DecodeDispatcher</a> , 以及 <a class="el" href="class_reverse_decode_dispatcher.html#a26ce02b6410dc84023cb5db6ba9a6797">ReverseDecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="a5e0c2f5f1d8665d7ca9fb25a3911546f" name="a5e0c2f5f1d8665d7ca9fb25a3911546f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e0c2f5f1d8665d7ca9fb25a3911546f">&#9670;&nbsp;</a></span>skipPicture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int DemuxDispatcherBase::skipPicture </td>
+          <td>(</td>
+          <td class="paramtype">const std::function&lt; bool(qreal)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>function</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#a547218017307f586a1eb76a42390d4ac">DecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="ac72ad2b4f76ac216fb84febaccc45369" name="ac72ad2b4f76ac216fb84febaccc45369"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac72ad2b4f76ac216fb84febaccc45369">&#9670;&nbsp;</a></span>skipSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int DemuxDispatcherBase::skipSample </td>
+          <td>(</td>
+          <td class="paramtype">const std::function&lt; bool(qreal)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>function</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#a912cc09e4e41ccf1300056736219ecc9">DecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="a1c70a8ca6003d0ee155329b1bd10ba85" name="a1c70a8ca6003d0ee155329b1bd10ba85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c70a8ca6003d0ee155329b1bd10ba85">&#9670;&nbsp;</a></span>statePause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void DemuxDispatcherBase::statePause </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#ad526f5b8abb916f88cfa4660cab5c648">DecodeDispatcher</a> , 以及 <a class="el" href="class_reverse_decode_dispatcher.html#aa137726f0e3ab572e2262cdbc55df638">ReverseDecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="a83b2b4bc0bbfc6890cfea179a72b4bc1" name="a83b2b4bc0bbfc6890cfea179a72b4bc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83b2b4bc0bbfc6890cfea179a72b4bc1">&#9670;&nbsp;</a></span>stateResume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void DemuxDispatcherBase::stateResume </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>被 <a class="el" href="class_decode_dispatcher.html#a2a8c284dc60ad853d4ded0df3f5c5016">DecodeDispatcher</a> , 以及 <a class="el" href="class_reverse_decode_dispatcher.html#a610156f22098157eabf32fcbac20283b">ReverseDecodeDispatcher</a> 重载.</p>
+
+</div>
+</div>
+<a id="a6faefb7f6f408de071781ede78f5d148" name="a6faefb7f6f408de071781ede78f5d148"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6faefb7f6f408de071781ede78f5d148">&#9670;&nbsp;</a></span>test_onWork()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void DemuxDispatcherBase::test_onWork </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 <a class="el" href="class_decode_dispatcher.html#af23daa46762c18e52b0e3e302072ad10">DecodeDispatcher</a>, <a class="el" href="class_reverse_decode_dispatcher.html#afa506365e2439c7d816ce3aafd72559a">ReverseDecodeDispatcher</a> , 以及 <a class="el" href="class_previewer.html#ad8a6fa6e64df5496f509d3a8a4f4bd91">Previewer</a> 内被实现.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a2fd63a625c04b77ab13a775f78135f7b" name="a2fd63a625c04b77ab13a775f78135f7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fd63a625c04b77ab13a775f78135f7b">&#9670;&nbsp;</a></span>filename</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string DemuxDispatcherBase::filename</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a87a4864c835ebb90f1b4c889b109062f" name="a87a4864c835ebb90f1b4c889b109062f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87a4864c835ebb90f1b4c889b109062f">&#9670;&nbsp;</a></span>fmtCtx</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">AVFormatContext* DemuxDispatcherBase::fmtCtx = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a28bdd99c2502ba8716c62a2da1c74abf" name="a28bdd99c2502ba8716c62a2da1c74abf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28bdd99c2502ba8716c62a2da1c74abf">&#9670;&nbsp;</a></span>isAudio</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool DemuxDispatcherBase::isAudio = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>src/decoder/private/<a class="el" href="dispatcher_8hpp_source.html">dispatcher.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_demux_dispatcher_base.html">DemuxDispatcherBase</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

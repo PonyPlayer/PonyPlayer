@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: src/player/updatevalue.hpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('updatevalue_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">updatevalue.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="updatevalue_8hpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">//</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// Created by ColorsWind on 2022/5/20.</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="frame_8hpp.html">frame.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="class_update_value.html">    9</a></span><span class="keyword">class </span><a class="code hl_class" href="class_update_value.html">UpdateValue</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="class_update_value.html#a76bdc0724f9d594dad4125dd87dd713b">   11</a></span>    T <a class="code hl_variable" href="class_update_value.html#a76bdc0724f9d594dad4125dd87dd713b">m_value</a>;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">   12</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">m_update</a>;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="class_update_value.html#a3033fa2310c46c5658f7b17e324c179b">   15</a></span>    <a class="code hl_function" href="class_update_value.html#a3033fa2310c46c5658f7b17e324c179b">UpdateValue</a>() : <a class="code hl_variable" href="class_update_value.html#a76bdc0724f9d594dad4125dd87dd713b">m_value</a>(), <a class="code hl_variable" href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">m_update</a>(true) {}</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="class_update_value.html#a3477d98ba26ccd9c5b16b293e821d9e3">   16</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="class_update_value.html#a3477d98ba26ccd9c5b16b293e821d9e3">UpdateValue</a>(T value) : <a class="code hl_variable" href="class_update_value.html#a76bdc0724f9d594dad4125dd87dd713b">m_value</a>(std::move(value)), <a class="code hl_variable" href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">m_update</a>(true) {}</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="class_update_value.html#ae46b8dfb40fd149743b634e5951b3ebc">   19</a></span>    <span class="keyword">operator</span> <span class="keyword">const</span> T&amp;() <span class="keyword">const</span> { <span class="comment">// NOLINT(google-explicit-constructor)</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="class_update_value.html#a76bdc0724f9d594dad4125dd87dd713b">m_value</a>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    }</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="class_update_value.html#af2dbec5bc98b96de6a87ec952fc7b293">   23</a></span>    <span class="keyword">virtual</span> <span class="keyword">const</span> T&amp; <a class="code hl_function" href="class_update_value.html#af2dbec5bc98b96de6a87ec952fc7b293">getUpdate</a>() {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <a class="code hl_variable" href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">m_update</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="class_update_value.html#a76bdc0724f9d594dad4125dd87dd713b">m_value</a>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    }</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="class_update_value.html#a9e64f2e3c8cf361f5e57e50bb6f3a986">   28</a></span>    <span class="keyword">virtual</span> <a class="code hl_class" href="class_update_value.html">UpdateValue</a>&amp; <a class="code hl_function" href="class_update_value.html#a9e64f2e3c8cf361f5e57e50bb6f3a986">operator=</a>(<span class="keyword">const</span> T &amp;v) {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        this-&gt;m_value = v;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <a class="code hl_variable" href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">m_update</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    }</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="class_update_value.html#ad074e3ae2f6037512adb884953ddfb97">   34</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_update_value.html#ad074e3ae2f6037512adb884953ddfb97">updateBy</a>(<a class="code hl_class" href="class_update_value.html">UpdateValue</a>&amp; updateValue) {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        this-&gt;m_update |= updateValue.<a class="code hl_variable" href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">m_update</a>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        this-&gt;m_value = updateValue.<a class="code hl_function" href="class_update_value.html#af2dbec5bc98b96de6a87ec952fc7b293">getUpdate</a>();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="class_update_value.html#afe3a9ffb91c4b0a4a9597ed8ee76b046">   39</a></span>    [[nodiscard]] <span class="keywordtype">bool</span> <a class="code hl_function" href="class_update_value.html#afe3a9ffb91c4b0a4a9597ed8ee76b046">isUpdate</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">m_update</a>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>};</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="class_update_value_video_frame_ref.html">   44</a></span><span class="keyword">class </span><a class="code hl_class" href="class_update_value_video_frame_ref.html">UpdateValueVideoFrameRef</a> : <span class="keyword">public</span> <a class="code hl_class" href="class_update_value.html">UpdateValue</a>&lt;VideoFrameRef&gt; {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">bool</span> m_updateSize;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="class_update_value_video_frame_ref.html#a6aa51c056b04d3e91d18128e992dad77">   48</a></span>    <a class="code hl_function" href="class_update_value_video_frame_ref.html#a6aa51c056b04d3e91d18128e992dad77">UpdateValueVideoFrameRef</a>() : <a class="code hl_class" href="class_update_value.html">UpdateValue</a>(<a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a>{}), m_updateSize(true) {}</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="class_update_value_video_frame_ref.html#adef8466e3b69837a9b73dfd059f75479">   50</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="class_update_value_video_frame_ref.html#adef8466e3b69837a9b73dfd059f75479">UpdateValueVideoFrameRef</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;value) : <a class="code hl_class" href="class_update_value.html">UpdateValue</a>(value), m_updateSize(true) {}</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="class_update_value_video_frame_ref.html#a152777717676fb0b48ae24335623a5d5">   54</a></span>    <a class="code hl_class" href="class_update_value_video_frame_ref.html">UpdateValueVideoFrameRef</a>&amp; <a class="code hl_function" href="class_update_value_video_frame_ref.html#a152777717676fb0b48ae24335623a5d5">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;videoFrame)<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">if</span> (videoFrame == this-&gt;<a class="code hl_variable" href="class_update_value.html#a76bdc0724f9d594dad4125dd87dd713b">m_value</a>) { <span class="keywordflow">return</span> *<span class="keyword">this</span>; }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="class_update_value.html#a76bdc0724f9d594dad4125dd87dd713b">m_value</a>.<a class="code hl_function" href="class_video_frame_ref.html#a80f06c13aec466bccc4e6769d5475bd8">isSameSize</a>(videoFrame)) { this-&gt;m_updateSize = <span class="keyword">true</span>; }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        this-&gt;<a class="code hl_variable" href="class_update_value.html#a76bdc0724f9d594dad4125dd87dd713b">m_value</a> = videoFrame;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <a class="code hl_variable" href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">m_update</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="class_update_value_video_frame_ref.html#a84a0e248149f32a7660207d3368be6cb">   62</a></span>    <span class="keyword">const</span> <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a>&amp; <a class="code hl_function" href="class_update_value_video_frame_ref.html#a84a0e248149f32a7660207d3368be6cb">getUpdate</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <a class="code hl_variable" href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">m_update</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        m_updateSize = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="class_update_value.html#a76bdc0724f9d594dad4125dd87dd713b">m_value</a>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="class_update_value_video_frame_ref.html#adedcb81798da26e8c731723a62be07e9">   68</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_update_value_video_frame_ref.html#adedcb81798da26e8c731723a62be07e9">updateBy</a>(<a class="code hl_class" href="class_update_value_video_frame_ref.html">UpdateValueVideoFrameRef</a>&amp; updateValue) {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        this-&gt;<a class="code hl_variable" href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">m_update</a> |= updateValue.<a class="code hl_variable" href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">m_update</a>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        this-&gt;m_updateSize |= updateValue.m_updateSize;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        this-&gt;<a class="code hl_variable" href="class_update_value.html#a76bdc0724f9d594dad4125dd87dd713b">m_value</a> = updateValue.<a class="code hl_function" href="class_update_value_video_frame_ref.html#a84a0e248149f32a7660207d3368be6cb">getUpdate</a>();</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="class_update_value_video_frame_ref.html#af832f4014dbe618dd593443d517f8267">   74</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_update_value_video_frame_ref.html#af832f4014dbe618dd593443d517f8267">isUpdateSize</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keywordflow">return</span> m_updateSize;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>};</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="ttc" id="aclass_update_value_html"><div class="ttname"><a href="class_update_value.html">UpdateValue</a></div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:9</div></div>
+<div class="ttc" id="aclass_update_value_html_a3033fa2310c46c5658f7b17e324c179b"><div class="ttname"><a href="class_update_value.html#a3033fa2310c46c5658f7b17e324c179b">UpdateValue::UpdateValue</a></div><div class="ttdeci">UpdateValue()</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:15</div></div>
+<div class="ttc" id="aclass_update_value_html_a3477d98ba26ccd9c5b16b293e821d9e3"><div class="ttname"><a href="class_update_value.html#a3477d98ba26ccd9c5b16b293e821d9e3">UpdateValue::UpdateValue</a></div><div class="ttdeci">UpdateValue(T value)</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:16</div></div>
+<div class="ttc" id="aclass_update_value_html_a76bdc0724f9d594dad4125dd87dd713b"><div class="ttname"><a href="class_update_value.html#a76bdc0724f9d594dad4125dd87dd713b">UpdateValue::m_value</a></div><div class="ttdeci">T m_value</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:11</div></div>
+<div class="ttc" id="aclass_update_value_html_a9e64f2e3c8cf361f5e57e50bb6f3a986"><div class="ttname"><a href="class_update_value.html#a9e64f2e3c8cf361f5e57e50bb6f3a986">UpdateValue::operator=</a></div><div class="ttdeci">virtual UpdateValue &amp; operator=(const T &amp;v)</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:28</div></div>
+<div class="ttc" id="aclass_update_value_html_ad074e3ae2f6037512adb884953ddfb97"><div class="ttname"><a href="class_update_value.html#ad074e3ae2f6037512adb884953ddfb97">UpdateValue::updateBy</a></div><div class="ttdeci">void updateBy(UpdateValue &amp;updateValue)</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:34</div></div>
+<div class="ttc" id="aclass_update_value_html_adc0377268c32b261b075e7a1685fc604"><div class="ttname"><a href="class_update_value.html#adc0377268c32b261b075e7a1685fc604">UpdateValue::m_update</a></div><div class="ttdeci">bool m_update</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:12</div></div>
+<div class="ttc" id="aclass_update_value_html_af2dbec5bc98b96de6a87ec952fc7b293"><div class="ttname"><a href="class_update_value.html#af2dbec5bc98b96de6a87ec952fc7b293">UpdateValue::getUpdate</a></div><div class="ttdeci">virtual const T &amp; getUpdate()</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:23</div></div>
+<div class="ttc" id="aclass_update_value_html_afe3a9ffb91c4b0a4a9597ed8ee76b046"><div class="ttname"><a href="class_update_value.html#afe3a9ffb91c4b0a4a9597ed8ee76b046">UpdateValue::isUpdate</a></div><div class="ttdeci">bool isUpdate() const</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:39</div></div>
+<div class="ttc" id="aclass_update_value_video_frame_ref_html"><div class="ttname"><a href="class_update_value_video_frame_ref.html">UpdateValueVideoFrameRef</a></div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:44</div></div>
+<div class="ttc" id="aclass_update_value_video_frame_ref_html_a152777717676fb0b48ae24335623a5d5"><div class="ttname"><a href="class_update_value_video_frame_ref.html#a152777717676fb0b48ae24335623a5d5">UpdateValueVideoFrameRef::operator=</a></div><div class="ttdeci">UpdateValueVideoFrameRef &amp; operator=(const VideoFrameRef &amp;videoFrame) override</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:54</div></div>
+<div class="ttc" id="aclass_update_value_video_frame_ref_html_a6aa51c056b04d3e91d18128e992dad77"><div class="ttname"><a href="class_update_value_video_frame_ref.html#a6aa51c056b04d3e91d18128e992dad77">UpdateValueVideoFrameRef::UpdateValueVideoFrameRef</a></div><div class="ttdeci">UpdateValueVideoFrameRef()</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:48</div></div>
+<div class="ttc" id="aclass_update_value_video_frame_ref_html_a84a0e248149f32a7660207d3368be6cb"><div class="ttname"><a href="class_update_value_video_frame_ref.html#a84a0e248149f32a7660207d3368be6cb">UpdateValueVideoFrameRef::getUpdate</a></div><div class="ttdeci">const VideoFrameRef &amp; getUpdate() override</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:62</div></div>
+<div class="ttc" id="aclass_update_value_video_frame_ref_html_adedcb81798da26e8c731723a62be07e9"><div class="ttname"><a href="class_update_value_video_frame_ref.html#adedcb81798da26e8c731723a62be07e9">UpdateValueVideoFrameRef::updateBy</a></div><div class="ttdeci">void updateBy(UpdateValueVideoFrameRef &amp;updateValue)</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:68</div></div>
+<div class="ttc" id="aclass_update_value_video_frame_ref_html_adef8466e3b69837a9b73dfd059f75479"><div class="ttname"><a href="class_update_value_video_frame_ref.html#adef8466e3b69837a9b73dfd059f75479">UpdateValueVideoFrameRef::UpdateValueVideoFrameRef</a></div><div class="ttdeci">UpdateValueVideoFrameRef(const VideoFrameRef &amp;value)</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:50</div></div>
+<div class="ttc" id="aclass_update_value_video_frame_ref_html_af832f4014dbe618dd593443d517f8267"><div class="ttname"><a href="class_update_value_video_frame_ref.html#af832f4014dbe618dd593443d517f8267">UpdateValueVideoFrameRef::isUpdateSize</a></div><div class="ttdeci">bool isUpdateSize() const</div><div class="ttdef"><b>Definition:</b> updatevalue.hpp:74</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html"><div class="ttname"><a href="class_video_frame_ref.html">VideoFrameRef</a></div><div class="ttdef"><b>Definition:</b> frame.hpp:47</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a80f06c13aec466bccc4e6769d5475bd8"><div class="ttname"><a href="class_video_frame_ref.html#a80f06c13aec466bccc4e6769d5475bd8">VideoFrameRef::isSameSize</a></div><div class="ttdeci">bool isSameSize(const VideoFrameRef &amp;frame) const</div><div class="ttdef"><b>Definition:</b> frame.hpp:130</div></div>
+<div class="ttc" id="aframe_8hpp_html"><div class="ttname"><a href="frame_8hpp.html">frame.hpp</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_975424cdae97a07db69e55371758444e.html">player</a></li><li class="navelem"><a class="el" href="updatevalue_8hpp.html">updatevalue.hpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

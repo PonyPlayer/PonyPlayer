@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: src/decoder/frame.hpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('frame_8hpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">frame.hpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="frame_8hpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">//</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// Created by ColorsWind on 2022/5/7.</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">//</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="helper_8hpp.html">helper.hpp</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="ponyplayer_8h.html">ponyplayer.h</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;queue&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>INCLUDE_FFMPEG_BEGIN</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;libavformat/avformat.h&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><a class="code hl_define" href="ponyplayer_8h.html#a18e7632edda4d498be82cf0a168b6527">INCLUDE_FFMPEG_END</a></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="frame_8hpp.html#a26967d59a8a1299d01dbc378edd8ddc7">   16</a></span><span class="keyword">typedef</span> std::function&lt;void(AVFrame *)&gt; <a class="code hl_variable" href="frame_8hpp.html#a26967d59a8a1299d01dbc378edd8ddc7">FrameFreeFunc</a>;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="class_video_frame.html">   18</a></span><span class="keyword">class </span><a class="code hl_class" href="class_video_frame.html">VideoFrame</a> {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    AVFrame *m_frame;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    std::atomic&lt;int&gt; m_refCount;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> m_pts;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> m_isValid;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="class_video_frame.html#a19caa736db2e87abcc9d7c66bccaefb6">   24</a></span>    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="class_video_frame.html#a5e23bf93208f5a408607cbed4bafda70">   26</a></span>    <span class="keyword">static</span> <span class="keyword">inline</span> std::atomic&lt;int&gt; <a class="code hl_variable" href="class_video_frame.html#a5e23bf93208f5a408607cbed4bafda70">totalCount</a> = 0;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="class_video_frame.html#a4298166d9efa22de2cfffd0962dc69fb">   28</a></span>    <a class="code hl_function" href="class_video_frame.html#a4298166d9efa22de2cfffd0962dc69fb">VideoFrame</a>(AVFrame *frame, <span class="keywordtype">double</span> pts, <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>)</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            : m_frame(frame), m_refCount(1), m_pts(pts), m_isValid(<a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>) {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keywordflow">if</span> (frame) ++<a class="code hl_variable" href="class_video_frame.html#a5e23bf93208f5a408607cbed4bafda70">totalCount</a>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="class_video_frame.html#af3b566c39ee5878c602581cb1f196675">   33</a></span>    <a class="code hl_function" href="class_video_frame.html#af3b566c39ee5878c602581cb1f196675">~VideoFrame</a>() {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keywordflow">if</span> (m_frame) {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            --<a class="code hl_variable" href="class_video_frame.html#a5e23bf93208f5a408607cbed4bafda70">totalCount</a>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            av_frame_free(&amp;m_frame);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="class_video_frame.html#a05b54678b6552d4e98ea055d7f8fad23">   40</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_video_frame.html#a05b54678b6552d4e98ea055d7f8fad23">unref</a>() {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">if</span> (--m_refCount == 0) {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            <span class="keyword">delete</span> <span class="keyword">this</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>};</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html">   47</a></span><span class="keyword">class </span><a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <a class="code hl_class" href="class_video_frame.html">VideoFrame</a> *m_videoFrame;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#aab4d41015d9ab8633404cdae17bc5b1b">   51</a></span>    <a class="code hl_function" href="class_video_frame_ref.html#aab4d41015d9ab8633404cdae17bc5b1b">VideoFrameRef</a>(AVFrame *frame, <span class="keywordtype">bool</span> <a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>, <span class="keywordtype">double</span> pts) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        m_videoFrame = <span class="keyword">new</span> <a class="code hl_class" href="class_video_frame.html">VideoFrame</a>(frame, pts, <a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    }</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a37eb090fe782caa9918ccf6cdfc5c3fb">   55</a></span>    <a class="code hl_function" href="class_video_frame_ref.html#a37eb090fe782caa9918ccf6cdfc5c3fb">VideoFrameRef</a>() : <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a>(nullptr, false, std::numeric_limits&lt;double&gt;::quiet_NaN()) {}</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a79b518d450d15a022146c08f3e52532d">   57</a></span>    <a class="code hl_function" href="class_video_frame_ref.html#a79b518d450d15a022146c08f3e52532d">VideoFrameRef</a>(<a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;&amp;rhs) <span class="keyword">noexcept</span>: m_videoFrame(rhs.m_videoFrame) {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        rhs.m_videoFrame = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    }</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#af71bdbd8dbb3648be9c4383cdca1ea2d">   61</a></span>    <a class="code hl_function" href="class_video_frame_ref.html#af71bdbd8dbb3648be9c4383cdca1ea2d">VideoFrameRef</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;rhs) : m_videoFrame(rhs.m_videoFrame) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        ++rhs.m_videoFrame-&gt;m_refCount;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a0c147d257a6bef0eeaa30941e5d56c68">   65</a></span>    <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;<a class="code hl_function" href="class_video_frame_ref.html#a0c147d257a6bef0eeaa30941e5d56c68">operator=</a>(<a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;&amp;rhs) <span class="keyword">noexcept</span> {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordflow">if</span> (this-&gt;m_videoFrame) { this-&gt;m_videoFrame-&gt;<a class="code hl_function" href="class_video_frame.html#a05b54678b6552d4e98ea055d7f8fad23">unref</a>(); }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        this-&gt;m_videoFrame = rhs.m_videoFrame;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        rhs.m_videoFrame = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    }</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a0ab5c230614eb03260b41c9adc65d52d">   72</a></span>    <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;<a class="code hl_function" href="class_video_frame_ref.html#a0ab5c230614eb03260b41c9adc65d52d">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;rhs) <span class="keyword">noexcept</span> {</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordflow">if</span> (&amp;rhs != <span class="keyword">this</span>) {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            <span class="keywordflow">if</span> (this-&gt;m_videoFrame) { this-&gt;m_videoFrame-&gt;<a class="code hl_function" href="class_video_frame.html#a05b54678b6552d4e98ea055d7f8fad23">unref</a>(); }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            this-&gt;m_videoFrame = rhs.m_videoFrame;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            ++m_videoFrame-&gt;m_refCount;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        }</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a5b650f68a829a2b83f4ac37cf69b8e71">   82</a></span>    <a class="code hl_function" href="class_video_frame_ref.html#a5b650f68a829a2b83f4ac37cf69b8e71">~VideoFrameRef</a>() {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="keywordflow">if</span> (m_videoFrame) { m_videoFrame-&gt;<a class="code hl_function" href="class_video_frame.html#a05b54678b6552d4e98ea055d7f8fad23">unref</a>(); }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    }</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a325852a5e00eac5f80916caea9039123">   86</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_video_frame_ref.html#a325852a5e00eac5f80916caea9039123">operator==</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;frame)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordflow">return</span> this-&gt;m_videoFrame == frame.m_videoFrame;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    }</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#ad28cfd937af16254490de1adc6d94c9f">   90</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_video_frame_ref.html#ad28cfd937af16254490de1adc6d94c9f">operator!=</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;frame)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">return</span> !this-&gt;<a class="code hl_function" href="class_video_frame_ref.html#a325852a5e00eac5f80916caea9039123">operator==</a>(frame);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    }</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">   97</a></span>    [[nodiscard]] <span class="keywordtype">bool</span> <a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordflow">return</span> m_videoFrame &amp;&amp; m_videoFrame-&gt;m_isValid;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a8a31e35063c377144b0e02abcbaf2c83">  102</a></span>    [[nodiscard]] <span class="keywordtype">double</span> <a class="code hl_function" href="class_video_frame_ref.html#a8a31e35063c377144b0e02abcbaf2c83">getPTS</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">return</span> m_videoFrame-&gt;m_pts;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    }</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#ae1d0b0acd70e4dbd778a19c646eaea3f">  106</a></span>    [[nodiscard]] std::byte *<a class="code hl_function" href="class_video_frame_ref.html#ae1d0b0acd70e4dbd778a19c646eaea3f">getY</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordflow">return</span> !m_videoFrame-&gt;m_frame ? nullptr : <span class="keyword">reinterpret_cast&lt;</span>std::byte *<span class="keyword">&gt;</span>(m_videoFrame-&gt;m_frame-&gt;data[0]);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    }</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#ab8856b7fd31a1499871b8e909bd06afc">  110</a></span>    [[nodiscard]] std::byte *<a class="code hl_function" href="class_video_frame_ref.html#ab8856b7fd31a1499871b8e909bd06afc">getU</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordflow">return</span> !m_videoFrame-&gt;m_frame ? nullptr : <span class="keyword">reinterpret_cast&lt;</span>std::byte *<span class="keyword">&gt;</span>(m_videoFrame-&gt;m_frame-&gt;data[1]);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a0228f750664085e0e2ec172a6085bef3">  114</a></span>    [[nodiscard]] std::byte *<a class="code hl_function" href="class_video_frame_ref.html#a0228f750664085e0e2ec172a6085bef3">getV</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="keywordflow">return</span> !m_videoFrame-&gt;m_frame ? nullptr : <span class="keyword">reinterpret_cast&lt;</span>std::byte *<span class="keyword">&gt;</span>(m_videoFrame-&gt;m_frame-&gt;data[2]);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    }</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a9959accee39e576138aa22fc0d4cb65e">  118</a></span>    [[nodiscard]] <span class="keywordtype">int</span> <a class="code hl_function" href="class_video_frame_ref.html#a9959accee39e576138aa22fc0d4cb65e">getLineSize</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="keywordflow">return</span> !m_videoFrame-&gt;m_frame ? 0 : m_videoFrame-&gt;m_frame-&gt;linesize[0];</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    }</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a8b7d14fda8bf2fa106897d95f55e5d45">  122</a></span>    [[nodiscard]] <span class="keywordtype">int</span> <a class="code hl_function" href="class_video_frame_ref.html#a8b7d14fda8bf2fa106897d95f55e5d45">getWidth</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        <span class="keywordflow">return</span> !m_videoFrame-&gt;m_frame ? 0 : m_videoFrame-&gt;m_frame-&gt;width;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    }</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#afb0d799e6c944a9993ef89f75d79c565">  126</a></span>    [[nodiscard]] <span class="keywordtype">int</span> <a class="code hl_function" href="class_video_frame_ref.html#afb0d799e6c944a9993ef89f75d79c565">getHeight</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="keywordflow">return</span> !m_videoFrame-&gt;m_frame ? 0 : m_videoFrame-&gt;m_frame-&gt;height;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    }</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a80f06c13aec466bccc4e6769d5475bd8">  130</a></span>    [[nodiscard]] <span class="keywordtype">bool</span> <a class="code hl_function" href="class_video_frame_ref.html#a80f06c13aec466bccc4e6769d5475bd8">isSameSize</a>(<span class="keyword">const</span> <a class="code hl_class" href="class_video_frame_ref.html">VideoFrameRef</a> &amp;frame)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <span class="keywordflow">return</span> (this-&gt;<a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>()</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                &amp;&amp; frame.<a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>()</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                &amp;&amp; this-&gt;getWidth() == frame.<a class="code hl_function" href="class_video_frame_ref.html#a8b7d14fda8bf2fa106897d95f55e5d45">getWidth</a>()</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                &amp;&amp; this-&gt;getHeight() == frame.<a class="code hl_function" href="class_video_frame_ref.html#afb0d799e6c944a9993ef89f75d79c565">getHeight</a>()</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                &amp;&amp; this-&gt;getLineSize() == frame.<a class="code hl_function" href="class_video_frame_ref.html#a9959accee39e576138aa22fc0d4cb65e">getLineSize</a>())</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>               || (!this-&gt;<a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>() &amp;&amp; !frame.<a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>());</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    }</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="class_video_frame_ref.html#a721ad4fa288d84f9abc24abc96e78ddf">  139</a></span>    [[nodiscard]] <span class="keywordtype">bool</span> <a class="code hl_function" href="class_video_frame_ref.html#a721ad4fa288d84f9abc24abc96e78ddf">isSameSize</a>(<span class="keywordtype">int</span> width, <span class="keywordtype">int</span> height)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">isValid</a>() &amp;&amp; this-&gt;<a class="code hl_function" href="class_video_frame_ref.html#a8b7d14fda8bf2fa106897d95f55e5d45">getWidth</a>() == width &amp;&amp; this-&gt;<a class="code hl_function" href="class_video_frame_ref.html#afb0d799e6c944a9993ef89f75d79c565">getHeight</a>() == height;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    }</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>};</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="class_audio_frame.html">  145</a></span><span class="keyword">class </span><a class="code hl_class" href="class_audio_frame.html">AudioFrame</a> {</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    std::byte *m_data;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keywordtype">int</span> m_len;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keywordtype">double</span> m_pts;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="class_audio_frame.html#a5537096fb6e0ae11dc63fd5fd68e1c23">  151</a></span>    <a class="code hl_function" href="class_audio_frame.html#a5537096fb6e0ae11dc63fd5fd68e1c23">AudioFrame</a>() : m_data(nullptr), m_len(0), m_pts(std::numeric_limits&lt;double&gt;::quiet_NaN()) {}</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno"><a class="line" href="class_audio_frame.html#a841c7d6ab092f226c31fdcbc07b43825">  153</a></span>    <a class="code hl_function" href="class_audio_frame.html#a841c7d6ab092f226c31fdcbc07b43825">AudioFrame</a>(std::byte *data, <span class="keywordtype">int</span> len, <span class="keywordtype">double</span> pts) : m_data(data), m_len(len), m_pts(pts) {}</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="class_audio_frame.html#ad2db725af67a53b42e661ababa6615e1">  155</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="class_audio_frame.html#ad2db725af67a53b42e661ababa6615e1">isValid</a>() {</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordflow">return</span> m_data;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    }</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="class_audio_frame.html#aa39eb6af5e4603cb662cf50a0d017b78">  159</a></span>    [[nodiscard]] std::byte *<a class="code hl_function" href="class_audio_frame.html#aa39eb6af5e4603cb662cf50a0d017b78">getSampleData</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <span class="keywordflow">return</span> m_data;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    }</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="class_audio_frame.html#a2df9938052fb8aaf52c7ce2566abbdc4">  163</a></span>    [[nodiscard]] <span class="keywordtype">int</span> <a class="code hl_function" href="class_audio_frame.html#a2df9938052fb8aaf52c7ce2566abbdc4">getDataLen</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="keywordflow">return</span> m_len;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    }</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="class_audio_frame.html#ad93054f1bc5c2adce92ddf2b195ce321">  167</a></span>    [[nodiscard]] <span class="keywordtype">double</span> <a class="code hl_function" href="class_audio_frame.html#ad93054f1bc5c2adce92ddf2b195ce321">getPTS</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordflow">return</span> m_pts;</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    }</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>};</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="ttc" id="aclass_audio_frame_html"><div class="ttname"><a href="class_audio_frame.html">AudioFrame</a></div><div class="ttdef"><b>Definition:</b> frame.hpp:145</div></div>
+<div class="ttc" id="aclass_audio_frame_html_a2df9938052fb8aaf52c7ce2566abbdc4"><div class="ttname"><a href="class_audio_frame.html#a2df9938052fb8aaf52c7ce2566abbdc4">AudioFrame::getDataLen</a></div><div class="ttdeci">int getDataLen() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:163</div></div>
+<div class="ttc" id="aclass_audio_frame_html_a5537096fb6e0ae11dc63fd5fd68e1c23"><div class="ttname"><a href="class_audio_frame.html#a5537096fb6e0ae11dc63fd5fd68e1c23">AudioFrame::AudioFrame</a></div><div class="ttdeci">AudioFrame()</div><div class="ttdef"><b>Definition:</b> frame.hpp:151</div></div>
+<div class="ttc" id="aclass_audio_frame_html_a841c7d6ab092f226c31fdcbc07b43825"><div class="ttname"><a href="class_audio_frame.html#a841c7d6ab092f226c31fdcbc07b43825">AudioFrame::AudioFrame</a></div><div class="ttdeci">AudioFrame(std::byte *data, int len, double pts)</div><div class="ttdef"><b>Definition:</b> frame.hpp:153</div></div>
+<div class="ttc" id="aclass_audio_frame_html_aa39eb6af5e4603cb662cf50a0d017b78"><div class="ttname"><a href="class_audio_frame.html#aa39eb6af5e4603cb662cf50a0d017b78">AudioFrame::getSampleData</a></div><div class="ttdeci">std::byte * getSampleData() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:159</div></div>
+<div class="ttc" id="aclass_audio_frame_html_ad2db725af67a53b42e661ababa6615e1"><div class="ttname"><a href="class_audio_frame.html#ad2db725af67a53b42e661ababa6615e1">AudioFrame::isValid</a></div><div class="ttdeci">bool isValid()</div><div class="ttdef"><b>Definition:</b> frame.hpp:155</div></div>
+<div class="ttc" id="aclass_audio_frame_html_ad93054f1bc5c2adce92ddf2b195ce321"><div class="ttname"><a href="class_audio_frame.html#ad93054f1bc5c2adce92ddf2b195ce321">AudioFrame::getPTS</a></div><div class="ttdeci">double getPTS() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:167</div></div>
+<div class="ttc" id="aclass_video_frame_html"><div class="ttname"><a href="class_video_frame.html">VideoFrame</a></div><div class="ttdef"><b>Definition:</b> frame.hpp:18</div></div>
+<div class="ttc" id="aclass_video_frame_html_a05b54678b6552d4e98ea055d7f8fad23"><div class="ttname"><a href="class_video_frame.html#a05b54678b6552d4e98ea055d7f8fad23">VideoFrame::unref</a></div><div class="ttdeci">void unref()</div><div class="ttdef"><b>Definition:</b> frame.hpp:40</div></div>
+<div class="ttc" id="aclass_video_frame_html_a4298166d9efa22de2cfffd0962dc69fb"><div class="ttname"><a href="class_video_frame.html#a4298166d9efa22de2cfffd0962dc69fb">VideoFrame::VideoFrame</a></div><div class="ttdeci">VideoFrame(AVFrame *frame, double pts, const bool isValid)</div><div class="ttdef"><b>Definition:</b> frame.hpp:28</div></div>
+<div class="ttc" id="aclass_video_frame_html_a5e23bf93208f5a408607cbed4bafda70"><div class="ttname"><a href="class_video_frame.html#a5e23bf93208f5a408607cbed4bafda70">VideoFrame::totalCount</a></div><div class="ttdeci">static std::atomic&lt; int &gt; totalCount</div><div class="ttdef"><b>Definition:</b> frame.hpp:26</div></div>
+<div class="ttc" id="aclass_video_frame_html_af3b566c39ee5878c602581cb1f196675"><div class="ttname"><a href="class_video_frame.html#af3b566c39ee5878c602581cb1f196675">VideoFrame::~VideoFrame</a></div><div class="ttdeci">~VideoFrame()</div><div class="ttdef"><b>Definition:</b> frame.hpp:33</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html"><div class="ttname"><a href="class_video_frame_ref.html">VideoFrameRef</a></div><div class="ttdef"><b>Definition:</b> frame.hpp:47</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a0228f750664085e0e2ec172a6085bef3"><div class="ttname"><a href="class_video_frame_ref.html#a0228f750664085e0e2ec172a6085bef3">VideoFrameRef::getV</a></div><div class="ttdeci">std::byte * getV() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:114</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a0ab5c230614eb03260b41c9adc65d52d"><div class="ttname"><a href="class_video_frame_ref.html#a0ab5c230614eb03260b41c9adc65d52d">VideoFrameRef::operator=</a></div><div class="ttdeci">VideoFrameRef &amp; operator=(const VideoFrameRef &amp;rhs) noexcept</div><div class="ttdef"><b>Definition:</b> frame.hpp:72</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a0c147d257a6bef0eeaa30941e5d56c68"><div class="ttname"><a href="class_video_frame_ref.html#a0c147d257a6bef0eeaa30941e5d56c68">VideoFrameRef::operator=</a></div><div class="ttdeci">VideoFrameRef &amp; operator=(VideoFrameRef &amp;&amp;rhs) noexcept</div><div class="ttdef"><b>Definition:</b> frame.hpp:65</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a325852a5e00eac5f80916caea9039123"><div class="ttname"><a href="class_video_frame_ref.html#a325852a5e00eac5f80916caea9039123">VideoFrameRef::operator==</a></div><div class="ttdeci">bool operator==(const VideoFrameRef &amp;frame) const</div><div class="ttdef"><b>Definition:</b> frame.hpp:86</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a37eb090fe782caa9918ccf6cdfc5c3fb"><div class="ttname"><a href="class_video_frame_ref.html#a37eb090fe782caa9918ccf6cdfc5c3fb">VideoFrameRef::VideoFrameRef</a></div><div class="ttdeci">VideoFrameRef()</div><div class="ttdef"><b>Definition:</b> frame.hpp:55</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a44ea9dfdb5158a87478776b573185cc2"><div class="ttname"><a href="class_video_frame_ref.html#a44ea9dfdb5158a87478776b573185cc2">VideoFrameRef::isValid</a></div><div class="ttdeci">bool isValid() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:97</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a5b650f68a829a2b83f4ac37cf69b8e71"><div class="ttname"><a href="class_video_frame_ref.html#a5b650f68a829a2b83f4ac37cf69b8e71">VideoFrameRef::~VideoFrameRef</a></div><div class="ttdeci">~VideoFrameRef()</div><div class="ttdef"><b>Definition:</b> frame.hpp:82</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a721ad4fa288d84f9abc24abc96e78ddf"><div class="ttname"><a href="class_video_frame_ref.html#a721ad4fa288d84f9abc24abc96e78ddf">VideoFrameRef::isSameSize</a></div><div class="ttdeci">bool isSameSize(int width, int height) const</div><div class="ttdef"><b>Definition:</b> frame.hpp:139</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a79b518d450d15a022146c08f3e52532d"><div class="ttname"><a href="class_video_frame_ref.html#a79b518d450d15a022146c08f3e52532d">VideoFrameRef::VideoFrameRef</a></div><div class="ttdeci">VideoFrameRef(VideoFrameRef &amp;&amp;rhs) noexcept</div><div class="ttdef"><b>Definition:</b> frame.hpp:57</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a80f06c13aec466bccc4e6769d5475bd8"><div class="ttname"><a href="class_video_frame_ref.html#a80f06c13aec466bccc4e6769d5475bd8">VideoFrameRef::isSameSize</a></div><div class="ttdeci">bool isSameSize(const VideoFrameRef &amp;frame) const</div><div class="ttdef"><b>Definition:</b> frame.hpp:130</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a8a31e35063c377144b0e02abcbaf2c83"><div class="ttname"><a href="class_video_frame_ref.html#a8a31e35063c377144b0e02abcbaf2c83">VideoFrameRef::getPTS</a></div><div class="ttdeci">double getPTS() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:102</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a8b7d14fda8bf2fa106897d95f55e5d45"><div class="ttname"><a href="class_video_frame_ref.html#a8b7d14fda8bf2fa106897d95f55e5d45">VideoFrameRef::getWidth</a></div><div class="ttdeci">int getWidth() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:122</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_a9959accee39e576138aa22fc0d4cb65e"><div class="ttname"><a href="class_video_frame_ref.html#a9959accee39e576138aa22fc0d4cb65e">VideoFrameRef::getLineSize</a></div><div class="ttdeci">int getLineSize() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:118</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_aab4d41015d9ab8633404cdae17bc5b1b"><div class="ttname"><a href="class_video_frame_ref.html#aab4d41015d9ab8633404cdae17bc5b1b">VideoFrameRef::VideoFrameRef</a></div><div class="ttdeci">VideoFrameRef(AVFrame *frame, bool isValid, double pts)</div><div class="ttdef"><b>Definition:</b> frame.hpp:51</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_ab8856b7fd31a1499871b8e909bd06afc"><div class="ttname"><a href="class_video_frame_ref.html#ab8856b7fd31a1499871b8e909bd06afc">VideoFrameRef::getU</a></div><div class="ttdeci">std::byte * getU() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:110</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_ad28cfd937af16254490de1adc6d94c9f"><div class="ttname"><a href="class_video_frame_ref.html#ad28cfd937af16254490de1adc6d94c9f">VideoFrameRef::operator!=</a></div><div class="ttdeci">bool operator!=(const VideoFrameRef &amp;frame) const</div><div class="ttdef"><b>Definition:</b> frame.hpp:90</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_ae1d0b0acd70e4dbd778a19c646eaea3f"><div class="ttname"><a href="class_video_frame_ref.html#ae1d0b0acd70e4dbd778a19c646eaea3f">VideoFrameRef::getY</a></div><div class="ttdeci">std::byte * getY() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:106</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_af71bdbd8dbb3648be9c4383cdca1ea2d"><div class="ttname"><a href="class_video_frame_ref.html#af71bdbd8dbb3648be9c4383cdca1ea2d">VideoFrameRef::VideoFrameRef</a></div><div class="ttdeci">VideoFrameRef(const VideoFrameRef &amp;rhs)</div><div class="ttdef"><b>Definition:</b> frame.hpp:61</div></div>
+<div class="ttc" id="aclass_video_frame_ref_html_afb0d799e6c944a9993ef89f75d79c565"><div class="ttname"><a href="class_video_frame_ref.html#afb0d799e6c944a9993ef89f75d79c565">VideoFrameRef::getHeight</a></div><div class="ttdeci">int getHeight() const</div><div class="ttdef"><b>Definition:</b> frame.hpp:126</div></div>
+<div class="ttc" id="aframe_8hpp_html_a26967d59a8a1299d01dbc378edd8ddc7"><div class="ttname"><a href="frame_8hpp.html#a26967d59a8a1299d01dbc378edd8ddc7">FrameFreeFunc</a></div><div class="ttdeci">INCLUDE_FFMPEG_BEGIN INCLUDE_FFMPEG_END typedef std::function&lt; void(AVFrame *)&gt; FrameFreeFunc</div><div class="ttdef"><b>Definition:</b> frame.hpp:16</div></div>
+<div class="ttc" id="ahelper_8hpp_html"><div class="ttname"><a href="helper_8hpp.html">helper.hpp</a></div></div>
+<div class="ttc" id="aponyplayer_8h_html"><div class="ttname"><a href="ponyplayer_8h.html">ponyplayer.h</a></div></div>
+<div class="ttc" id="aponyplayer_8h_html_a18e7632edda4d498be82cf0a168b6527"><div class="ttname"><a href="ponyplayer_8h.html#a18e7632edda4d498be82cf0a168b6527">INCLUDE_FFMPEG_END</a></div><div class="ttdeci">#define INCLUDE_FFMPEG_END</div><div class="ttdef"><b>Definition:</b> ponyplayer.h:26</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_ceef0f1c62ce7514856424f76fd612d6.html">decoder</a></li><li class="navelem"><a class="el" href="frame_8hpp.html">frame.hpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

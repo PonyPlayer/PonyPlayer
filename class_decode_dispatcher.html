@@ -1,0 +1,915 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: DecodeDispatcher类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('class_decode_dispatcher.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#signals">信号</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="class_decode_dispatcher-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">DecodeDispatcher类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>解码器调度器, 将Packet分配给解码器进一步解码成Frame 这个类是RAII的  
+ <a href="class_decode_dispatcher.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="dispatcher_8hpp_source.html">dispatcher.hpp</a>&gt;</code></p>
+<div class="dynheader">
+类 DecodeDispatcher 继承关系图:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_decode_dispatcher.png" usemap="#DecodeDispatcher_map" alt=""/>
+  <map id="DecodeDispatcher_map" name="DecodeDispatcher_map">
+<area href="class_demux_dispatcher_base.html" alt="DemuxDispatcherBase" shape="rect" coords="0,56,139,80"/>
+  </map>
+</div></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
+信号</h2></td></tr>
+<tr class="memitem:a9862d2d85e42592e319ac61a974684bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a9862d2d85e42592e319ac61a974684bb">signalStartWorker</a> (QPrivateSignal)</td></tr>
+<tr class="separator:a9862d2d85e42592e319ac61a974684bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:ac05b6205a5b83dba9c8a86cb356a759c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#ac05b6205a5b83dba9c8a86cb356a759c">DecodeDispatcher</a> (const std::string &amp;fn, <a class="el" href="namespace_pony_player.html#a028c97ff63e8c04932cdf4bc7db2aa37">PonyPlayer::OpenFileResultType</a> &amp;result, <a class="el" href="dispatcher_8hpp.html#abaec574eea3051ebe48d9c46eb25e723">StreamIndex</a> audioStreamIndex=<a class="el" href="dispatcher_8hpp.html#a97c50a9a70aabf98cc4f601e945d4c11">DEFAULT_STREAM_INDEX</a>, <a class="el" href="dispatcher_8hpp.html#abaec574eea3051ebe48d9c46eb25e723">StreamIndex</a> videoStreamIndex=<a class="el" href="dispatcher_8hpp.html#a97c50a9a70aabf98cc4f601e945d4c11">DEFAULT_STREAM_INDEX</a>, QObject *parent=nullptr)</td></tr>
+<tr class="separator:ac05b6205a5b83dba9c8a86cb356a759c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addddbc8c6f0073aa8011bf46b5065bb9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#addddbc8c6f0073aa8011bf46b5065bb9">~DecodeDispatcher</a> () override</td></tr>
+<tr class="separator:addddbc8c6f0073aa8011bf46b5065bb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad526f5b8abb916f88cfa4660cab5c648"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#ad526f5b8abb916f88cfa4660cab5c648">statePause</a> () override</td></tr>
+<tr class="separator:ad526f5b8abb916f88cfa4660cab5c648"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf85d530a7c52698c663f12d9330fc77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#adf85d530a7c52698c663f12d9330fc77">flush</a> () override</td></tr>
+<tr class="separator:adf85d530a7c52698c663f12d9330fc77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a8c284dc60ad853d4ded0df3f5c5016"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a2a8c284dc60ad853d4ded0df3f5c5016">stateResume</a> () override</td></tr>
+<tr class="separator:a2a8c284dc60ad853d4ded0df3f5c5016"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdde07a562e65848a062a735a8c161eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#acdde07a562e65848a062a735a8c161eb">seek</a> (qreal secs) override</td></tr>
+<tr class="separator:acdde07a562e65848a062a735a8c161eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1239f5d9df00b529e41f72f63710a33a"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE <a class="el" href="class_video_frame_ref.html">VideoFrameRef</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a1239f5d9df00b529e41f72f63710a33a">getPicture</a> () override</td></tr>
+<tr class="separator:a1239f5d9df00b529e41f72f63710a33a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4802b9d516d32fd45ad3a59120c11c6f"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a4802b9d516d32fd45ad3a59120c11c6f">frontPicture</a> () override</td></tr>
+<tr class="separator:a4802b9d516d32fd45ad3a59120c11c6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a547218017307f586a1eb76a42390d4ac"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a547218017307f586a1eb76a42390d4ac">skipPicture</a> (const std::function&lt; bool(qreal)&gt; &amp;predicate) override</td></tr>
+<tr class="separator:a547218017307f586a1eb76a42390d4ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4adf8ca194fbd0453b79ce9d67217661"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE <a class="el" href="class_audio_frame.html">AudioFrame</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a4adf8ca194fbd0453b79ce9d67217661">getSample</a> () override</td></tr>
+<tr class="separator:a4adf8ca194fbd0453b79ce9d67217661"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7625cccc0a3585aa4e2066e778d34e92"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a7625cccc0a3585aa4e2066e778d34e92">frontSample</a> () override</td></tr>
+<tr class="separator:a7625cccc0a3585aa4e2066e778d34e92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a912cc09e4e41ccf1300056736219ecc9"><td class="memItemLeft" align="right" valign="top">PONY_THREAD_SAFE int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a912cc09e4e41ccf1300056736219ecc9">skipSample</a> (const std::function&lt; bool(qreal)&gt; &amp;predicate) override</td></tr>
+<tr class="separator:a912cc09e4e41ccf1300056736219ecc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a234f6bb5e4e19429d94c6f09560af8b4"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a234f6bb5e4e19429d94c6f09560af8b4">getAudionLength</a> () const</td></tr>
+<tr class="separator:a234f6bb5e4e19429d94c6f09560af8b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbd5bb2dec67a3fc954b4f1e0af407af"><td class="memItemLeft" align="right" valign="top">qreal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#acbd5bb2dec67a3fc954b4f1e0af407af">getVideoLength</a> () const</td></tr>
+<tr class="separator:acbd5bb2dec67a3fc954b4f1e0af407af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf2e59c497bb7dfb08f6af2d5e13416c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#acf2e59c497bb7dfb08f6af2d5e13416c">setTrack</a> (int i) override</td></tr>
+<tr class="separator:acf2e59c497bb7dfb08f6af2d5e13416c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59bc9f8cde28ab53b7b4fc62423ab779"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a59bc9f8cde28ab53b7b4fc62423ab779">getTracks</a> ()</td></tr>
+<tr class="separator:a59bc9f8cde28ab53b7b4fc62423ab779"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d7c6793fcd1eb14281a9ba27bf077f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a5d7c6793fcd1eb14281a9ba27bf077f9">setAudioIndex</a> (<a class="el" href="dispatcher_8hpp.html#abaec574eea3051ebe48d9c46eb25e723">StreamIndex</a> i)</td></tr>
+<tr class="separator:a5d7c6793fcd1eb14281a9ba27bf077f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6affeedb8e00ddcc36c20bd9d53c0d6f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a6affeedb8e00ddcc36c20bd9d53c0d6f">hasVideo</a> () override</td></tr>
+<tr class="separator:a6affeedb8e00ddcc36c20bd9d53c0d6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a853679ab73caa7927411c3d92740be51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a853679ab73caa7927411c3d92740be51">setEnableAudio</a> (bool enable) override</td></tr>
+<tr class="separator:a853679ab73caa7927411c3d92740be51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70efb9f4553716042a1b113fe77ecec0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#a70efb9f4553716042a1b113fe77ecec0">getAudioInputFormat</a> () override</td></tr>
+<tr class="separator:a70efb9f4553716042a1b113fe77ecec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa72050ebf6c7f7fd18f0c3cde0f3ea30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#aa72050ebf6c7f7fd18f0c3cde0f3ea30">setAudioOutputFormat</a> (<a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> format) override</td></tr>
+<tr class="separator:aa72050ebf6c7f7fd18f0c3cde0f3ea30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af23daa46762c18e52b0e3e302072ad10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_decode_dispatcher.html#af23daa46762c18e52b0e3e302072ad10">test_onWork</a> () override</td></tr>
+<tr class="separator:af23daa46762c18e52b0e3e302072ad10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pub_attribs_class_demux_dispatcher_base"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_demux_dispatcher_base')"><img src="closed.png" alt="-"/>&#160;Public 属性 继承自 <a class="el" href="class_demux_dispatcher_base.html">DemuxDispatcherBase</a></td></tr>
+<tr class="memitem:a2fd63a625c04b77ab13a775f78135f7b inherit pub_attribs_class_demux_dispatcher_base"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a2fd63a625c04b77ab13a775f78135f7b">filename</a></td></tr>
+<tr class="separator:a2fd63a625c04b77ab13a775f78135f7b inherit pub_attribs_class_demux_dispatcher_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_class_demux_dispatcher_base"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_class_demux_dispatcher_base')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="class_demux_dispatcher_base.html">DemuxDispatcherBase</a></td></tr>
+<tr class="memitem:a68d1ae4842e0a30f2f8aba4c27f13f53 inherit pro_methods_class_demux_dispatcher_base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a68d1ae4842e0a30f2f8aba4c27f13f53">DemuxDispatcherBase</a> (const std::string &amp;fn, QObject *parent)</td></tr>
+<tr class="separator:a68d1ae4842e0a30f2f8aba4c27f13f53 inherit pro_methods_class_demux_dispatcher_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a406693ce72f47cf177e6874c7cd4d9cb inherit pro_methods_class_demux_dispatcher_base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a406693ce72f47cf177e6874c7cd4d9cb">~DemuxDispatcherBase</a> () override</td></tr>
+<tr class="separator:a406693ce72f47cf177e6874c7cd4d9cb inherit pro_methods_class_demux_dispatcher_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_class_demux_dispatcher_base"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_demux_dispatcher_base')"><img src="closed.png" alt="-"/>&#160;Protected 属性 继承自 <a class="el" href="class_demux_dispatcher_base.html">DemuxDispatcherBase</a></td></tr>
+<tr class="memitem:a87a4864c835ebb90f1b4c889b109062f inherit pro_attribs_class_demux_dispatcher_base"><td class="memItemLeft" align="right" valign="top">AVFormatContext *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a87a4864c835ebb90f1b4c889b109062f">fmtCtx</a> = nullptr</td></tr>
+<tr class="separator:a87a4864c835ebb90f1b4c889b109062f inherit pro_attribs_class_demux_dispatcher_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28bdd99c2502ba8716c62a2da1c74abf inherit pro_attribs_class_demux_dispatcher_base"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_demux_dispatcher_base.html#a28bdd99c2502ba8716c62a2da1c74abf">isAudio</a> = false</td></tr>
+<tr class="separator:a28bdd99c2502ba8716c62a2da1c74abf inherit pro_attribs_class_demux_dispatcher_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p >解码器调度器, 将Packet分配给解码器进一步解码成Frame 这个类是RAII的 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="ac05b6205a5b83dba9c8a86cb356a759c" name="ac05b6205a5b83dba9c8a86cb356a759c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac05b6205a5b83dba9c8a86cb356a759c">&#9670;&nbsp;</a></span>DecodeDispatcher()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DecodeDispatcher::DecodeDispatcher </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>fn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespace_pony_player.html#a028c97ff63e8c04932cdf4bc7db2aa37">PonyPlayer::OpenFileResultType</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="dispatcher_8hpp.html#abaec574eea3051ebe48d9c46eb25e723">StreamIndex</a>&#160;</td>
+          <td class="paramname"><em>audioStreamIndex</em> = <code><a class="el" href="dispatcher_8hpp.html#a97c50a9a70aabf98cc4f601e945d4c11">DEFAULT_STREAM_INDEX</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="dispatcher_8hpp.html#abaec574eea3051ebe48d9c46eb25e723">StreamIndex</a>&#160;</td>
+          <td class="paramname"><em>videoStreamIndex</em> = <code><a class="el" href="dispatcher_8hpp.html#a97c50a9a70aabf98cc4f601e945d4c11">DEFAULT_STREAM_INDEX</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="addddbc8c6f0073aa8011bf46b5065bb9" name="addddbc8c6f0073aa8011bf46b5065bb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addddbc8c6f0073aa8011bf46b5065bb9">&#9670;&nbsp;</a></span>~DecodeDispatcher()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DecodeDispatcher::~DecodeDispatcher </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="adf85d530a7c52698c663f12d9330fc77" name="adf85d530a7c52698c663f12d9330fc77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf85d530a7c52698c663f12d9330fc77">&#9670;&nbsp;</a></span>flush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DecodeDispatcher::flush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#aba8fba581ef382341aad76fd385e3750">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="a4802b9d516d32fd45ad3a59120c11c6f" name="a4802b9d516d32fd45ad3a59120c11c6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4802b9d516d32fd45ad3a59120c11c6f">&#9670;&nbsp;</a></span>frontPicture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE qreal DecodeDispatcher::frontPicture </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#addcfd147f6dde810b5b031c297bb25ec">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="a7625cccc0a3585aa4e2066e778d34e92" name="a7625cccc0a3585aa4e2066e778d34e92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7625cccc0a3585aa4e2066e778d34e92">&#9670;&nbsp;</a></span>frontSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE qreal DecodeDispatcher::frontSample </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#a15e1ec9f30a881aaee2cb3a7e26bb978">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="a70efb9f4553716042a1b113fe77ecec0" name="a70efb9f4553716042a1b113fe77ecec0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70efb9f4553716042a1b113fe77ecec0">&#9670;&nbsp;</a></span>getAudioInputFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a> DecodeDispatcher::getAudioInputFormat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="class_demux_dispatcher_base.html#a873e3347982e061c9058b2b075a7b70f">DemuxDispatcherBase</a>.</p>
+
+</div>
+</div>
+<a id="a234f6bb5e4e19429d94c6f09560af8b4" name="a234f6bb5e4e19429d94c6f09560af8b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a234f6bb5e4e19429d94c6f09560af8b4">&#9670;&nbsp;</a></span>getAudionLength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal DecodeDispatcher::getAudionLength </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1239f5d9df00b529e41f72f63710a33a" name="a1239f5d9df00b529e41f72f63710a33a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1239f5d9df00b529e41f72f63710a33a">&#9670;&nbsp;</a></span>getPicture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE <a class="el" href="class_video_frame_ref.html">VideoFrameRef</a> DecodeDispatcher::getPicture </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#a4dd62aca8a7fc275cafd707b38eae8da">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="a4adf8ca194fbd0453b79ce9d67217661" name="a4adf8ca194fbd0453b79ce9d67217661"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4adf8ca194fbd0453b79ce9d67217661">&#9670;&nbsp;</a></span>getSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE <a class="el" href="class_audio_frame.html">AudioFrame</a> DecodeDispatcher::getSample </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#af5a7764289ef454defdf12897b48ba4c">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="a59bc9f8cde28ab53b7b4fc62423ab779" name="a59bc9f8cde28ab53b7b4fc62423ab779"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59bc9f8cde28ab53b7b4fc62423ab779">&#9670;&nbsp;</a></span>getTracks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList DecodeDispatcher::getTracks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acbd5bb2dec67a3fc954b4f1e0af407af" name="acbd5bb2dec67a3fc954b4f1e0af407af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbd5bb2dec67a3fc954b4f1e0af407af">&#9670;&nbsp;</a></span>getVideoLength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal DecodeDispatcher::getVideoLength </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6affeedb8e00ddcc36c20bd9d53c0d6f" name="a6affeedb8e00ddcc36c20bd9d53c0d6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6affeedb8e00ddcc36c20bd9d53c0d6f">&#9670;&nbsp;</a></span>hasVideo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool DecodeDispatcher::hasVideo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#af77f64fa0da43b99b356e1882e2b4b07">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="acdde07a562e65848a062a735a8c161eb" name="acdde07a562e65848a062a735a8c161eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdde07a562e65848a062a735a8c161eb">&#9670;&nbsp;</a></span>seek()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DecodeDispatcher::seek </td>
+          <td>(</td>
+          <td class="paramtype">qreal&#160;</td>
+          <td class="paramname"><em>secs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >修改视频播放进度, 注意: 这个方法必须在解码线程上调用. </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">secs</td><td>新的视频进度(单位: 秒) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#a5a3da04b0e0e58b3a345c75edbdc1494">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="a5d7c6793fcd1eb14281a9ba27bf077f9" name="a5d7c6793fcd1eb14281a9ba27bf077f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d7c6793fcd1eb14281a9ba27bf077f9">&#9670;&nbsp;</a></span>setAudioIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DecodeDispatcher::setAudioIndex </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="dispatcher_8hpp.html#abaec574eea3051ebe48d9c46eb25e723">StreamIndex</a>&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa72050ebf6c7f7fd18f0c3cde0f3ea30" name="aa72050ebf6c7f7fd18f0c3cde0f3ea30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa72050ebf6c7f7fd18f0c3cde0f3ea30">&#9670;&nbsp;</a></span>setAudioOutputFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DecodeDispatcher::setAudioOutputFormat </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_pony_audio_format.html">PonyAudioFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="class_demux_dispatcher_base.html#a7725c2963a73da718f53b5197b2f876d">DemuxDispatcherBase</a>.</p>
+
+</div>
+</div>
+<a id="a853679ab73caa7927411c3d92740be51" name="a853679ab73caa7927411c3d92740be51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a853679ab73caa7927411c3d92740be51">&#9670;&nbsp;</a></span>setEnableAudio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DecodeDispatcher::setEnableAudio </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#ae89b2d03d9ff69ef91c253dd8888320c">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="acf2e59c497bb7dfb08f6af2d5e13416c" name="acf2e59c497bb7dfb08f6af2d5e13416c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf2e59c497bb7dfb08f6af2d5e13416c">&#9670;&nbsp;</a></span>setTrack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DecodeDispatcher::setTrack </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#a4402e44e0eea9e2ddf632d7e2d437ed8">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="a9862d2d85e42592e319ac61a974684bb" name="a9862d2d85e42592e319ac61a974684bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9862d2d85e42592e319ac61a974684bb">&#9670;&nbsp;</a></span>signalStartWorker</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DecodeDispatcher::signalStartWorker </td>
+          <td>(</td>
+          <td class="paramtype">QPrivateSignal&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a547218017307f586a1eb76a42390d4ac" name="a547218017307f586a1eb76a42390d4ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a547218017307f586a1eb76a42390d4ac">&#9670;&nbsp;</a></span>skipPicture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE int DecodeDispatcher::skipPicture </td>
+          <td>(</td>
+          <td class="paramtype">const std::function&lt; bool(qreal)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>predicate</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#a5e0c2f5f1d8665d7ca9fb25a3911546f">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="a912cc09e4e41ccf1300056736219ecc9" name="a912cc09e4e41ccf1300056736219ecc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a912cc09e4e41ccf1300056736219ecc9">&#9670;&nbsp;</a></span>skipSample()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PONY_THREAD_SAFE int DecodeDispatcher::skipSample </td>
+          <td>(</td>
+          <td class="paramtype">const std::function&lt; bool(qreal)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>predicate</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#ac72ad2b4f76ac216fb84febaccc45369">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="ad526f5b8abb916f88cfa4660cab5c648" name="ad526f5b8abb916f88cfa4660cab5c648"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad526f5b8abb916f88cfa4660cab5c648">&#9670;&nbsp;</a></span>statePause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DecodeDispatcher::statePause </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >保证阻塞获取结果的线程尽快被唤醒, 同时请求 DecodeThread 的工作尽快停止. </p>
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#a1c70a8ca6003d0ee155329b1bd10ba85">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="a2a8c284dc60ad853d4ded0df3f5c5016" name="a2a8c284dc60ad853d4ded0df3f5c5016"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a8c284dc60ad853d4ded0df3f5c5016">&#9670;&nbsp;</a></span>stateResume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DecodeDispatcher::stateResume </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >保证可以阻塞地获取 Picture 和 Sample. 这个方法是线程安全的. </p>
+
+<p>重载 <a class="el" href="class_demux_dispatcher_base.html#a83b2b4bc0bbfc6890cfea179a72b4bc1">DemuxDispatcherBase</a> .</p>
+
+</div>
+</div>
+<a id="af23daa46762c18e52b0e3e302072ad10" name="af23daa46762c18e52b0e3e302072ad10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af23daa46762c18e52b0e3e302072ad10">&#9670;&nbsp;</a></span>test_onWork()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void DecodeDispatcher::test_onWork </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实现了 <a class="el" href="class_demux_dispatcher_base.html#a6faefb7f6f408de071781ede78f5d148">DemuxDispatcherBase</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="afdaf35d1ef07dd38eea8da3c7351cb50" name="afdaf35d1ef07dd38eea8da3c7351cb50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdaf35d1ef07dd38eea8da3c7351cb50">&#9670;&nbsp;</a></span>audioDuration</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal DecodeDispatcher::audioDuration = std::numeric_limits&lt;qreal&gt;::quiet_NaN()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a74f3baaf7151a7ae7858e07aba7f8274" name="a74f3baaf7151a7ae7858e07aba7f8274"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74f3baaf7151a7ae7858e07aba7f8274">&#9670;&nbsp;</a></span>m_audioStreamsIndex</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="dispatcher_8hpp.html#abaec574eea3051ebe48d9c46eb25e723">StreamIndex</a>&gt; DecodeDispatcher::m_audioStreamsIndex</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afb49f8f0d416b8cfe548c30db82fa212" name="afb49f8f0d416b8cfe548c30db82fa212"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb49f8f0d416b8cfe548c30db82fa212">&#9670;&nbsp;</a></span>m_videoStreamsIndex</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="dispatcher_8hpp.html#abaec574eea3051ebe48d9c46eb25e723">StreamIndex</a>&gt; DecodeDispatcher::m_videoStreamsIndex</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a91dfc88d7e06c13e5b2ec4c3bfd4679c" name="a91dfc88d7e06c13e5b2ec4c3bfd4679c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91dfc88d7e06c13e5b2ec4c3bfd4679c">&#9670;&nbsp;</a></span>streamInfos</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="class_stream_info.html">StreamInfo</a>&gt; DecodeDispatcher::streamInfos</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac0b0561155d64a27eb7c9c87dd5ef407" name="ac0b0561155d64a27eb7c9c87dd5ef407"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0b0561155d64a27eb7c9c87dd5ef407">&#9670;&nbsp;</a></span>videoDuration</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">qreal DecodeDispatcher::videoDuration = std::numeric_limits&lt;qreal&gt;::quiet_NaN()</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>src/decoder/private/<a class="el" href="dispatcher_8hpp_source.html">dispatcher.hpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="class_decode_dispatcher.html">DecodeDispatcher</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>

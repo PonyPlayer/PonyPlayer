@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.2"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>PonyPlayer: thirdparty/rwqueue/readerwritercircularbuffer.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">PonyPlayer
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.2 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search",'搜索','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('readerwritercircularbuffer_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">readerwritercircularbuffer.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="readerwritercircularbuffer_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// ©2020 Cameron Desrochers.</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// Distributed under the simplified BSD license (see the license file that</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// should have come with this header).</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// Provides a C++11 implementation of a single-producer, single-consumer wait-free concurrent</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">// circular buffer (fixed-size queue).</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;cassert&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">// Note that this implementation is fully modern C++11 (not compatible with old MSVC versions)</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">// but we still include atomicops.h for its LightweightSemaphore implementation.</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;<a class="code" href="atomicops_8h.html">atomicops.h</a>&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#ifndef MOODYCAMEL_CACHE_LINE_SIZE</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="readerwritercircularbuffer_8h.html#a99b7aea919ebc38c496e79c0b78cb910">   22</a></span><span class="preprocessor">#define MOODYCAMEL_CACHE_LINE_SIZE 64</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacemoodycamel.html">moodycamel</a> {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">   28</a></span><span class="keyword">class </span><a class="code hl_class" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>{</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a4520886328b0c9bd0f372b6ceeb3df07">   31</a></span>    <span class="keyword">typedef</span> T <a class="code hl_typedef" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a4520886328b0c9bd0f372b6ceeb3df07">value_type</a>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a114616fa103c65c1a81d51ebb1fb2485">   34</a></span>    <span class="keyword">explicit</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a114616fa103c65c1a81d51ebb1fb2485">BlockingReaderWriterCircularBuffer</a>(std::size_t capacity)</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        : maxcap(capacity), mask(), rawData(), data(),</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        slots_(new spsc_sema::LightweightSemaphore(static_cast&lt;spsc_sema::LightweightSemaphore::ssize_t&gt;(capacity))),</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        items(new spsc_sema::LightweightSemaphore(0)),</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        nextSlot(0), nextItem(0)</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="comment">// Round capacity up to power of two to compute modulo mask.</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="comment">// Adapted from http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        --capacity;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        capacity |= capacity &gt;&gt; 1;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        capacity |= capacity &gt;&gt; 2;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        capacity |= capacity &gt;&gt; 4;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="keywordflow">for</span> (std::size_t i = 1; i &lt; <span class="keyword">sizeof</span>(std::size_t); i &lt;&lt;= 1)</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            capacity |= capacity &gt;&gt; (i &lt;&lt; 3);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        mask = capacity++;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        rawData = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(std::malloc(capacity * <span class="keyword">sizeof</span>(T) + std::alignment_of&lt;T&gt;::value - 1));</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        data = align_for&lt;T&gt;(rawData);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#ad6e6be70744c08ab6d3bdc3685e2d7fd">   53</a></span>    <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#ad6e6be70744c08ab6d3bdc3685e2d7fd">BlockingReaderWriterCircularBuffer</a>(<a class="code hl_class" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a>&amp;&amp; other)</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        : maxcap(0), mask(0), rawData(nullptr), data(nullptr),</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        slots_(new spsc_sema::LightweightSemaphore(0)),</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        items(new spsc_sema::LightweightSemaphore(0)),</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        nextSlot(), nextItem()</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#adfda2172d0cd0a6d01a5d12f473686d3">swap</a>(other);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#aca9f7638af6d01964aeef3a04517784d">   62</a></span>    <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#aca9f7638af6d01964aeef3a04517784d">BlockingReaderWriterCircularBuffer</a>(<a class="code hl_class" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> <span class="keyword">const</span>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// Note: The queue should not be accessed concurrently while it&#39;s</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="comment">// being deleted. It&#39;s up to the user to synchronize this.</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a4e6634a4ce91bb78e775717aed31811c">   66</a></span>    <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a4e6634a4ce91bb78e775717aed31811c">~BlockingReaderWriterCircularBuffer</a>()</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordflow">for</span> (std::size_t i = 0, n = items-&gt;availableApprox(); i != n; ++i)</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            <span class="keyword">reinterpret_cast&lt;</span>T*<span class="keyword">&gt;</span>(data)[(nextItem + i) &amp; mask].~T();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        std::free(rawData);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#afb79ffab729ac572a9d29459c8403d9b">   73</a></span>    <a class="code hl_class" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a>&amp; <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#afb79ffab729ac572a9d29459c8403d9b">operator=</a>(<a class="code hl_class" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a>&amp;&amp; other) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#adfda2172d0cd0a6d01a5d12f473686d3">swap</a>(other);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    }</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a3e769750b2874b4e88388a0dd396fabe">   79</a></span>    <a class="code hl_class" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a>&amp; <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a3e769750b2874b4e88388a0dd396fabe">operator=</a>(<a class="code hl_class" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a> <span class="keyword">const</span>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="comment">// Swaps the contents of this buffer with the contents of another.</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="comment">// Not thread-safe.</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#adfda2172d0cd0a6d01a5d12f473686d3">   83</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#adfda2172d0cd0a6d01a5d12f473686d3">swap</a>(<a class="code hl_class" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">BlockingReaderWriterCircularBuffer</a>&amp; other) <span class="keyword">noexcept</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        std::swap(maxcap, other.maxcap);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        std::swap(mask, other.mask);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        std::swap(rawData, other.rawData);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        std::swap(data, other.data);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        std::swap(slots_, other.slots_);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        std::swap(items, other.items);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        std::swap(nextSlot, other.nextSlot);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        std::swap(nextItem, other.nextItem);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    }</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="comment">// Enqueues a single item (by copying it).</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="comment">// Fails if not enough room to enqueue.</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="comment">// Thread-safe when called by producer thread.</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="comment">// No exception guarantee (state will be corrupted) if constructor of T throws.</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a603cc24c31c0adac1d803619443a913b">   99</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a603cc24c31c0adac1d803619443a913b">try_enqueue</a>(T <span class="keyword">const</span>&amp; item)</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    {</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keywordflow">if</span> (!slots_-&gt;tryWait())</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        inner_enqueue(item);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    }</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="comment">// Enqueues a single item (by moving it, if possible).</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="comment">// Fails if not enough room to enqueue.</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="comment">// Thread-safe when called by producer thread.</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="comment">// No exception guarantee (state will be corrupted) if constructor of T throws.</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#ad9a8fa66a09e355c42957ada3f82fa45">  111</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#ad9a8fa66a09e355c42957ada3f82fa45">try_enqueue</a>(T&amp;&amp; item)</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <span class="keywordflow">if</span> (!slots_-&gt;tryWait())</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        inner_enqueue(std::move(item));</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    }</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="comment">// Blocks the current thread until there&#39;s enough space to enqueue the given item,</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="comment">// then enqueues it (via copy).</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="comment">// Thread-safe when called by producer thread.</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="comment">// No exception guarantee (state will be corrupted) if constructor of T throws.</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a1211a1f9c1c41ff2c5c645f53b4f8d7c">  123</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a1211a1f9c1c41ff2c5c645f53b4f8d7c">wait_enqueue</a>(T <span class="keyword">const</span>&amp; item)</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="keywordflow">while</span> (!slots_-&gt;wait());</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        inner_enqueue(item);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    }</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="comment">// Blocks the current thread until there&#39;s enough space to enqueue the given item,</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="comment">// then enqueues it (via move, if possible).</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="comment">// Thread-safe when called by producer thread.</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="comment">// No exception guarantee (state will be corrupted) if constructor of T throws.</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a756dc7316b586ed01d17cec1cdea4c70">  133</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a756dc7316b586ed01d17cec1cdea4c70">wait_enqueue</a>(T&amp;&amp; item)</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    {</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordflow">while</span> (!slots_-&gt;wait());</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        inner_enqueue(std::move(item));</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    }</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="comment">// Blocks the current thread until there&#39;s enough space to enqueue the given item,</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    <span class="comment">// or the timeout expires. Returns false without enqueueing the item if the timeout</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <span class="comment">// expires, otherwise enqueues the item (via copy) and returns true.</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="comment">// Thread-safe when called by producer thread.</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="comment">// No exception guarantee (state will be corrupted) if constructor of T throws.</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a9f30a75e4b8ee0d38e6131ad55368f08">  144</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a9f30a75e4b8ee0d38e6131ad55368f08">wait_enqueue_timed</a>(T <span class="keyword">const</span>&amp; item, std::int64_t timeout_usecs)</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    {</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordflow">if</span> (!slots_-&gt;wait(timeout_usecs))</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        inner_enqueue(item);</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    }</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <span class="comment">// Blocks the current thread until there&#39;s enough space to enqueue the given item,</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="comment">// or the timeout expires. Returns false without enqueueing the item if the timeout</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="comment">// expires, otherwise enqueues the item (via move, if possible) and returns true.</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="comment">// Thread-safe when called by producer thread.</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="comment">// No exception guarantee (state will be corrupted) if constructor of T throws.</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a2738e3a3f02c0a0b21a3629639e815f4">  157</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a2738e3a3f02c0a0b21a3629639e815f4">wait_enqueue_timed</a>(T&amp;&amp; item, std::int64_t timeout_usecs)</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    {</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <span class="keywordflow">if</span> (!slots_-&gt;wait(timeout_usecs))</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        inner_enqueue(std::move(item));</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    }</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="comment">// Blocks the current thread until there&#39;s enough space to enqueue the given item,</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="comment">// or the timeout expires. Returns false without enqueueing the item if the timeout</span></div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    <span class="comment">// expires, otherwise enqueues the item (via copy) and returns true.</span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    <span class="comment">// Thread-safe when called by producer thread.</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <span class="comment">// No exception guarantee (state will be corrupted) if constructor of T throws.</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Rep, <span class="keyword">typename</span> Period&gt;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a149c73ede056bc1c7d2871981222d70f">  171</a></span>    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a149c73ede056bc1c7d2871981222d70f">wait_enqueue_timed</a>(T <span class="keyword">const</span>&amp; item, std::chrono::duration&lt;Rep, Period&gt; <span class="keyword">const</span>&amp; timeout)</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    {</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a9f30a75e4b8ee0d38e6131ad55368f08">wait_enqueue_timed</a>(item, std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(timeout).count());</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    }</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <span class="comment">// Blocks the current thread until there&#39;s enough space to enqueue the given item,</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    <span class="comment">// or the timeout expires. Returns false without enqueueing the item if the timeout</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="comment">// expires, otherwise enqueues the item (via move, if possible) and returns true.</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    <span class="comment">// Thread-safe when called by producer thread.</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    <span class="comment">// No exception guarantee (state will be corrupted) if constructor of T throws.</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Rep, <span class="keyword">typename</span> Period&gt;</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a00dd8254d958b0e9bdce01feddb4e506">  182</a></span>    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a00dd8254d958b0e9bdce01feddb4e506">wait_enqueue_timed</a>(T&amp;&amp; item, std::chrono::duration&lt;Rep, Period&gt; <span class="keyword">const</span>&amp; timeout)</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    {</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a9f30a75e4b8ee0d38e6131ad55368f08">wait_enqueue_timed</a>(std::move(item), std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(timeout).count());</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    }</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <span class="comment">// Attempts to dequeue a single item.</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="comment">// Returns false if the buffer is empty.</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    <span class="comment">// Thread-safe when called by consumer thread.</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="comment">// No exception guarantee (state will be corrupted) if assignment operator of U throws.</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a732c3ea2b90d098a0d68507dd0c1e7d4">  192</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a732c3ea2b90d098a0d68507dd0c1e7d4">try_dequeue</a>(U&amp; item)</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    {</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <span class="keywordflow">if</span> (!items-&gt;tryWait())</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        inner_dequeue(item);</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    }</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="comment">// Blocks the current thread until there&#39;s something to dequeue, then dequeues it.</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <span class="comment">// Thread-safe when called by consumer thread.</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    <span class="comment">// No exception guarantee (state will be corrupted) if assignment operator of U throws.</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#ac036879ad5b2ef07c625b6e401827cd1">  204</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#ac036879ad5b2ef07c625b6e401827cd1">wait_dequeue</a>(U&amp; item)</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    {</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        <span class="keywordflow">while</span> (!items-&gt;wait());</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        inner_dequeue(item);</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    }</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    <span class="comment">// Blocks the current thread until either there&#39;s something to dequeue</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    <span class="comment">// or the timeout expires. Returns false without setting `item` if the</span></div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    <span class="comment">// timeout expires, otherwise assigns to `item` and returns true.</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="comment">// Thread-safe when called by consumer thread.</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    <span class="comment">// No exception guarantee (state will be corrupted) if assignment operator of U throws.</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a38ff67ca269db7da6307f0fe2d0a72e2">  216</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a38ff67ca269db7da6307f0fe2d0a72e2">wait_dequeue_timed</a>(U&amp; item, std::int64_t timeout_usecs)</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    {</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        <span class="keywordflow">if</span> (!items-&gt;wait(timeout_usecs))</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>        inner_dequeue(item);</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    }</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="comment">// Blocks the current thread until either there&#39;s something to dequeue</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="comment">// or the timeout expires. Returns false without setting `item` if the</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="comment">// timeout expires, otherwise assigns to `item` and returns true.</span></div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="comment">// Thread-safe when called by consumer thread.</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="comment">// No exception guarantee (state will be corrupted) if assignment operator of U throws.</span></div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U, <span class="keyword">typename</span> Rep, <span class="keyword">typename</span> Period&gt;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#aa07582e2ab9b9d07e068de48ca2c5be1">  230</a></span>    <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#aa07582e2ab9b9d07e068de48ca2c5be1">wait_dequeue_timed</a>(U&amp; item, std::chrono::duration&lt;Rep, Period&gt; <span class="keyword">const</span>&amp; timeout)</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    {</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a38ff67ca269db7da6307f0fe2d0a72e2">wait_dequeue_timed</a>(item, std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(timeout).count());</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    }</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span> </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="comment">// Returns a (possibly outdated) snapshot of the total number of elements currently in the buffer.</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="comment">// Thread-safe.</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#aedfea78298d72f335685dd1f254d3792">  237</a></span>    <span class="keyword">inline</span> std::size_t <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#aedfea78298d72f335685dd1f254d3792">size_approx</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span><span class="keyword">    </span>{</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        <span class="keywordflow">return</span> items-&gt;availableApprox();</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    }</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    <span class="comment">// Returns the maximum number of elements that this circular buffer can hold at once.</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    <span class="comment">// Thread-safe.</span></div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno"><a class="line" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a352cdc07caa59c7a465e17ac4bed2457">  244</a></span>    <span class="keyword">inline</span> std::size_t <a class="code hl_function" href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a352cdc07caa59c7a465e17ac4bed2457">max_capacity</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span><span class="keyword">    </span>{</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>        <span class="keywordflow">return</span> maxcap;</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    }</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="keywordtype">void</span> inner_enqueue(U&amp;&amp; item)</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    {</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        std::size_t i = nextSlot++;</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>        <span class="keyword">new</span> (<span class="keyword">reinterpret_cast&lt;</span>T*<span class="keyword">&gt;</span>(data) + (i &amp; mask)) T(std::forward&lt;U&gt;(item));</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>        items-&gt;signal();</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>    }</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>    <span class="keywordtype">void</span> inner_dequeue(U&amp; item)</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    {</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        std::size_t i = nextItem++;</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        T&amp; element = <span class="keyword">reinterpret_cast&lt;</span>T*<span class="keyword">&gt;</span>(data)[i &amp; mask];</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        item = std::move(element);</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        element.~T();</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>        slots_-&gt;signal();</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    }</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span> </div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">char</span>* align_for(<span class="keywordtype">char</span>* ptr)</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    {</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        <span class="keyword">const</span> std::size_t alignment = std::alignment_of&lt;U&gt;::value;</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        <span class="keywordflow">return</span> ptr + (alignment - (<span class="keyword">reinterpret_cast&lt;</span>std::uintptr_t<span class="keyword">&gt;</span>(ptr) % alignment)) % alignment;</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    }</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    std::size_t maxcap;                           <span class="comment">// actual (non-power-of-two) capacity</span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    std::size_t mask;                             <span class="comment">// circular buffer capacity mask (for cheap modulo)</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    <span class="keywordtype">char</span>* rawData;                                <span class="comment">// raw circular buffer memory</span></div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    <span class="keywordtype">char</span>* data;                                   <span class="comment">// circular buffer memory aligned to element alignment</span></div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    std::unique_ptr&lt;spsc_sema::LightweightSemaphore&gt; slots_;  <span class="comment">// number of slots currently free (named with underscore to accommodate Qt&#39;s &#39;slots&#39; macro)</span></div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    std::unique_ptr&lt;spsc_sema::LightweightSemaphore&gt; items;   <span class="comment">// number of elements currently enqueued</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    <span class="keywordtype">char</span> cachelineFiller0[<a class="code hl_define" href="readerwritercircularbuffer_8h.html#a99b7aea919ebc38c496e79c0b78cb910">MOODYCAMEL_CACHE_LINE_SIZE</a> - <span class="keyword">sizeof</span>(<span class="keywordtype">char</span>*) * 2 - <span class="keyword">sizeof</span>(std::size_t) * 2 - <span class="keyword">sizeof</span>(std::unique_ptr&lt;spsc_sema::LightweightSemaphore&gt;) * 2];</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>    std::size_t nextSlot;                         <span class="comment">// index of next free slot to enqueue into</span></div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    <span class="keywordtype">char</span> cachelineFiller1[<a class="code hl_define" href="readerwritercircularbuffer_8h.html#a99b7aea919ebc38c496e79c0b78cb910">MOODYCAMEL_CACHE_LINE_SIZE</a> - <span class="keyword">sizeof</span>(std::size_t)];</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    std::size_t nextItem;                         <span class="comment">// index of next element to dequeue from</span></div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>};</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>}</div>
+<div class="ttc" id="aatomicops_8h_html"><div class="ttname"><a href="atomicops_8h.html">atomicops.h</a></div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html">moodycamel::BlockingReaderWriterCircularBuffer</a></div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:29</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a00dd8254d958b0e9bdce01feddb4e506"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a00dd8254d958b0e9bdce01feddb4e506">moodycamel::BlockingReaderWriterCircularBuffer::wait_enqueue_timed</a></div><div class="ttdeci">bool wait_enqueue_timed(T &amp;&amp;item, std::chrono::duration&lt; Rep, Period &gt; const &amp;timeout)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:182</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a114616fa103c65c1a81d51ebb1fb2485"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a114616fa103c65c1a81d51ebb1fb2485">moodycamel::BlockingReaderWriterCircularBuffer::BlockingReaderWriterCircularBuffer</a></div><div class="ttdeci">BlockingReaderWriterCircularBuffer(std::size_t capacity)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:34</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a1211a1f9c1c41ff2c5c645f53b4f8d7c"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a1211a1f9c1c41ff2c5c645f53b4f8d7c">moodycamel::BlockingReaderWriterCircularBuffer::wait_enqueue</a></div><div class="ttdeci">void wait_enqueue(T const &amp;item)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:123</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a149c73ede056bc1c7d2871981222d70f"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a149c73ede056bc1c7d2871981222d70f">moodycamel::BlockingReaderWriterCircularBuffer::wait_enqueue_timed</a></div><div class="ttdeci">bool wait_enqueue_timed(T const &amp;item, std::chrono::duration&lt; Rep, Period &gt; const &amp;timeout)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:171</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a2738e3a3f02c0a0b21a3629639e815f4"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a2738e3a3f02c0a0b21a3629639e815f4">moodycamel::BlockingReaderWriterCircularBuffer::wait_enqueue_timed</a></div><div class="ttdeci">bool wait_enqueue_timed(T &amp;&amp;item, std::int64_t timeout_usecs)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:157</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a352cdc07caa59c7a465e17ac4bed2457"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a352cdc07caa59c7a465e17ac4bed2457">moodycamel::BlockingReaderWriterCircularBuffer::max_capacity</a></div><div class="ttdeci">std::size_t max_capacity() const</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:244</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a38ff67ca269db7da6307f0fe2d0a72e2"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a38ff67ca269db7da6307f0fe2d0a72e2">moodycamel::BlockingReaderWriterCircularBuffer::wait_dequeue_timed</a></div><div class="ttdeci">bool wait_dequeue_timed(U &amp;item, std::int64_t timeout_usecs)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:216</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a3e769750b2874b4e88388a0dd396fabe"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a3e769750b2874b4e88388a0dd396fabe">moodycamel::BlockingReaderWriterCircularBuffer::operator=</a></div><div class="ttdeci">BlockingReaderWriterCircularBuffer &amp; operator=(BlockingReaderWriterCircularBuffer const &amp;)=delete</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a4520886328b0c9bd0f372b6ceeb3df07"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a4520886328b0c9bd0f372b6ceeb3df07">moodycamel::BlockingReaderWriterCircularBuffer::value_type</a></div><div class="ttdeci">T value_type</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:31</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a4e6634a4ce91bb78e775717aed31811c"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a4e6634a4ce91bb78e775717aed31811c">moodycamel::BlockingReaderWriterCircularBuffer::~BlockingReaderWriterCircularBuffer</a></div><div class="ttdeci">~BlockingReaderWriterCircularBuffer()</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:66</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a603cc24c31c0adac1d803619443a913b"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a603cc24c31c0adac1d803619443a913b">moodycamel::BlockingReaderWriterCircularBuffer::try_enqueue</a></div><div class="ttdeci">bool try_enqueue(T const &amp;item)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:99</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a732c3ea2b90d098a0d68507dd0c1e7d4"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a732c3ea2b90d098a0d68507dd0c1e7d4">moodycamel::BlockingReaderWriterCircularBuffer::try_dequeue</a></div><div class="ttdeci">bool try_dequeue(U &amp;item)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:192</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a756dc7316b586ed01d17cec1cdea4c70"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a756dc7316b586ed01d17cec1cdea4c70">moodycamel::BlockingReaderWriterCircularBuffer::wait_enqueue</a></div><div class="ttdeci">void wait_enqueue(T &amp;&amp;item)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:133</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_a9f30a75e4b8ee0d38e6131ad55368f08"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#a9f30a75e4b8ee0d38e6131ad55368f08">moodycamel::BlockingReaderWriterCircularBuffer::wait_enqueue_timed</a></div><div class="ttdeci">bool wait_enqueue_timed(T const &amp;item, std::int64_t timeout_usecs)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:144</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_aa07582e2ab9b9d07e068de48ca2c5be1"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#aa07582e2ab9b9d07e068de48ca2c5be1">moodycamel::BlockingReaderWriterCircularBuffer::wait_dequeue_timed</a></div><div class="ttdeci">bool wait_dequeue_timed(U &amp;item, std::chrono::duration&lt; Rep, Period &gt; const &amp;timeout)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:230</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_ac036879ad5b2ef07c625b6e401827cd1"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#ac036879ad5b2ef07c625b6e401827cd1">moodycamel::BlockingReaderWriterCircularBuffer::wait_dequeue</a></div><div class="ttdeci">void wait_dequeue(U &amp;item)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:204</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_aca9f7638af6d01964aeef3a04517784d"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#aca9f7638af6d01964aeef3a04517784d">moodycamel::BlockingReaderWriterCircularBuffer::BlockingReaderWriterCircularBuffer</a></div><div class="ttdeci">BlockingReaderWriterCircularBuffer(BlockingReaderWriterCircularBuffer const &amp;)=delete</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_ad6e6be70744c08ab6d3bdc3685e2d7fd"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#ad6e6be70744c08ab6d3bdc3685e2d7fd">moodycamel::BlockingReaderWriterCircularBuffer::BlockingReaderWriterCircularBuffer</a></div><div class="ttdeci">BlockingReaderWriterCircularBuffer(BlockingReaderWriterCircularBuffer &amp;&amp;other)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:53</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_ad9a8fa66a09e355c42957ada3f82fa45"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#ad9a8fa66a09e355c42957ada3f82fa45">moodycamel::BlockingReaderWriterCircularBuffer::try_enqueue</a></div><div class="ttdeci">bool try_enqueue(T &amp;&amp;item)</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:111</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_adfda2172d0cd0a6d01a5d12f473686d3"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#adfda2172d0cd0a6d01a5d12f473686d3">moodycamel::BlockingReaderWriterCircularBuffer::swap</a></div><div class="ttdeci">void swap(BlockingReaderWriterCircularBuffer &amp;other) noexcept</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:83</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_aedfea78298d72f335685dd1f254d3792"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#aedfea78298d72f335685dd1f254d3792">moodycamel::BlockingReaderWriterCircularBuffer::size_approx</a></div><div class="ttdeci">std::size_t size_approx() const</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:237</div></div>
+<div class="ttc" id="aclassmoodycamel_1_1_blocking_reader_writer_circular_buffer_html_afb79ffab729ac572a9d29459c8403d9b"><div class="ttname"><a href="classmoodycamel_1_1_blocking_reader_writer_circular_buffer.html#afb79ffab729ac572a9d29459c8403d9b">moodycamel::BlockingReaderWriterCircularBuffer::operator=</a></div><div class="ttdeci">BlockingReaderWriterCircularBuffer &amp; operator=(BlockingReaderWriterCircularBuffer &amp;&amp;other) noexcept</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:73</div></div>
+<div class="ttc" id="anamespacemoodycamel_html"><div class="ttname"><a href="namespacemoodycamel.html">moodycamel</a></div><div class="ttdef"><b>Definition:</b> atomicops.h:93</div></div>
+<div class="ttc" id="areaderwritercircularbuffer_8h_html_a99b7aea919ebc38c496e79c0b78cb910"><div class="ttname"><a href="readerwritercircularbuffer_8h.html#a99b7aea919ebc38c496e79c0b78cb910">MOODYCAMEL_CACHE_LINE_SIZE</a></div><div class="ttdeci">#define MOODYCAMEL_CACHE_LINE_SIZE</div><div class="ttdef"><b>Definition:</b> readerwritercircularbuffer.h:22</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_7f51fab15f37f4c20c90b1af38889ac7.html">thirdparty</a></li><li class="navelem"><a class="el" href="dir_7e105f3967d6a8c3e266f742944d1154.html">rwqueue</a></li><li class="navelem"><a class="el" href="readerwritercircularbuffer_8h.html">readerwritercircularbuffer.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
+  </ul>
+</div>
+</body>
+</html>
