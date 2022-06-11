@@ -1,6 +1,16 @@
 # PonyPlayer
 
-Cross-platform media player.
+PonyPlayer is a cross-platform media player based on Qt6 and FFmpeg. This project aims to deliver a lightweighted and customizable player with modern technologies.
+
+PonyPlayer has the following features below:
+* High performance render engine "Hurricane" based on OpenGL
+* A full-featured and easy-to-use media library
+* Speed settings for both video and audio
+* Brightness/Contrast/Saturation settings and multiple video filters available
+* Frame preview
+* Native experience on macOS with QML
+
+Compared with those large player projects like VLC or mpv, PonyPlayer is much more handy for developers to modify and create their own builds. Feel free to make your contribution here!
 
 
 
