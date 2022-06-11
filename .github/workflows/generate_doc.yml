@@ -2,7 +2,7 @@ name: Build Project
 on:
   push:
     branches:
-      - dbg_opengl2
+      - dev
 jobs:
   build:
     name: Doxygen Docs
@@ -27,8 +27,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         id: publish-github-page
         with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          external_repository: ColorsWind/PonyPlayer-Docs
           publish_branch: gh-pages
-          destination_dir: u5smb17rl3k18v79
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: '${{ github.workspace }}/docs/html'

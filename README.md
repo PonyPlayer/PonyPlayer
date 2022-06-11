@@ -1,48 +1,119 @@
 # PonyPlayer
 
+Cross-platform media player.
 
 
-## 1 技术栈
 
-UI框架采用 QML（Qt 6.2.4）
+## Usage
 
-视频编解码采用 FFmpeg
+We recommend you use `Clion` as development IDE.
 
-使用CMake+Ninja组织和构建项目
+### Requirements
 
-同时支持Windows，macOS和Linux
+- C++ 17 Compiler (In Windows, mingw64_1120 is required)
+- Qt 6.2.4 LTS
+- FFmpeg n5.0.1
+- python 3.7+
+- Additional dependence to package.
 
-其中Windows打包成`msi`，macOS打包成`dmg`，`Linux`打包成`AppImage`；
+### Setup
 
-## 2 Useful Links
-
-课题文档：https://bytedance.feishu.cn/docx/doxcnjgvgFRujPdK6y2ZUnZZLWJ
-
-需求文档：https://hm18q8qgif.feishu.cn/docs/doccnuBpe1USF4dx8MTZXgjEZEf
-
-交互设计文档：https://hoa42m.axshare.com
-
-FFmpeg文档：https://ffmpeg.org/documentation.html
-
-CMake文档：https://cmake.org/documentation/
-
-Qt文档：https://doc.qt.io/qt-6/index.html
-
-QML教程：https://bytedance.feishu.cn/docx/doxcnE8mXRZzdf4ZCOlkqwS4Nee
-
-## 3 项目结构
-
-```
-include   -- 头文件 .h
-src       -- 源文件 .cpp & .qml
-docs      -- 文档
-cmake     -- cmake脚本
-scripts   -- 脚本
+```bash
+python3 scripts/setup.py --qt_path <your qt path> --ffmpeg_path <your ffmpeg path>
 ```
 
-## 4 文档
+For example, `qt path` is `/Users/runner/Qt/6.2.4/macos`  and `ffmpeg path` is `/Users/runner/FFmpeg`.
 
-参与项目开发前请仔细文档，特别是[HowToDevelop](https://github.com/SCUT-SE-ProjectMP/PonyPlayer/blob/main/docs/HowToDevelop.md)、[HowToCommit](https://github.com/SCUT-SE-ProjectMP/PonyPlayer/blob/main/docs/HowToCommit.md)和[HowToCode](https://github.com/SCUT-SE-ProjectMP/PonyPlayer/blob/main/docs/HowToCode.md)。
+Especially, in Linux, set `ffmpeg path` to `""`.
+
+### Build
+
+```bash
+python3 scripts/build.py
+```
+
+### Package
+
+You may need additional tool to create installer, see [how to install](https://github.com/SCUT-SE-ProjectMP/PonyPlayer/blob/main/.github/workflows/build.yml).
+
+```bash
+python3 scripts/package.py
+```
+
+In Windows, we use `NSIS` to create `msi` installer.
+
+In macOS, we use `create-dmg` to create `dmg` installer.
+
+In Linux, we use `appimagetool` to create `AppImage` package.
+
+
+
+## Structure
+
+![Strcutrue](README.assets/Strcutrue.svg)
+
+### Project Structure
+
+```
+assets      --  external resource files 
+config      --  configuration, in particuar, user profiles are also generated here.
+docs        --  document
+samples     --  video samples for unit tests
+thirdparty  --  third party library source code and cmake script
+scripts     --  project supporting script to setup, build and package.
+src         --  the source code of the project, which can be divided into some modules.
+```
+
+### Modules
+
+| Module    | Description                                                  |
+| --------- | ------------------------------------------------------------ |
+| AudioSink | Audio output module, which integrates into PortAudio. It implements functions related to audio output, such as realizing volume adjustment and speed change. |
+| Decoder   | Media decoding module, which integrates into FFmpeg. It implements functions related to decoding stream control, such as seek. |
+| Player    | Quickitem module, which integrates into Qt and OpenGL. It registers some Quickitems and exposes them to QML, which are drawn by OpenGL. It also implements functions for playback control. It receives the instructions from the QML and forwards them to the AudioSink and Decoder modules after appropriate processing. |
+| Playlist  | Data persistence module, which integrates into Qt SQL. Based on the reflection of Qt MetaObject, it implements configuration-free data persistence. Relevant data will be saved to the local SQLite database. |
+| Tests     | Unit tests.                                                  |
+| Utils     | Utility, such as wrapper for platform-depended methods and logger. |
+| View      | View module, which integrates into QML and implements most of the UI. The UI is written in QML, and simple logic is implemented in JavaScript. |
+| Wave      | Wave module. Similar to Player module, it integrates into Qt and OpenGL and registers a Qucikitem which drawn circular music “oscillograph”. |
+
+
+
+## Screenshoot
+
+![UI](README.assets/UI.jpeg)
+
+![Installer](README.assets/Installer.jpeg)
+
+## License
+
+**Copyright (c) 2022 PonyPlayer Team**
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Thrid party license and warrantty are included in `LICENSE.RTF` .
+
+
+
+## Documents
+
+https://scut-se-projectmp.github.io/PonyPlayer/
 
 https://github.com/SCUT-SE-ProjectMP/PonyPlayer/tree/main/docs
 
