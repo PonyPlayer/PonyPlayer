@@ -85,32 +85,82 @@ $(document).ready(function(){initNavTree('md__r_e_a_d_m_e.html',''); initResizab
   <div class="headertitle"><div class="title"><a class="el" href="namespace_pony_player.html">PonyPlayer</a> </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md33"></a>
-1 技术栈</h1>
-<p >UI框架采用 QML（Qt 6.2.4）</p>
-<p >视频编解码采用 FFmpeg</p>
-<p >使用CMake+Ninja组织和构建项目</p>
-<p >同时支持Windows，macOS和Linux</p>
-<p >其中Windows打包成<code>msi</code>，macOS打包成<code>dmg</code>，<code>Linux</code>打包成<code>AppImage</code>；</p>
-<h1><a class="anchor" id="autotoc_md34"></a>
-2 Useful Links</h1>
-<p >课题文档：https://bytedance.feishu.cn/docx/doxcnjgvgFRujPdK6y2ZUnZZLWJ</p>
-<p >需求文档：https://hm18q8qgif.feishu.cn/docs/doccnuBpe1USF4dx8MTZXgjEZEf</p>
-<p >交互设计文档：https://hoa42m.axshare.com</p>
-<p >FFmpeg文档：https://ffmpeg.org/documentation.html</p>
-<p >CMake文档：https://cmake.org/documentation/</p>
-<p >Qt文档：https://doc.qt.io/qt-6/index.html</p>
-<p >QML教程：https://bytedance.feishu.cn/docx/doxcnE8mXRZzdf4ZCOlkqwS4Nee</p>
-<h1><a class="anchor" id="autotoc_md35"></a>
-3 项目结构</h1>
-<div class="fragment"><div class="line">include   -- 头文件 .h</div>
-<div class="line">src       -- 源文件 .cpp &amp; .qml</div>
-<div class="line">docs      -- 文档</div>
-<div class="line">cmake     -- cmake脚本</div>
-<div class="line">scripts   -- 脚本</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md36"></a>
-4 文档</h1>
-<p >参与项目开发前请仔细文档，特别是<a href="https://github.com/SCUT-SE-ProjectMP/PonyPlayer/blob/main/docs/HowToDevelop.md">HowToDevelop</a>、<a href="https://github.com/SCUT-SE-ProjectMP/PonyPlayer/blob/main/docs/HowToCommit.md">HowToCommit</a>和<a href="https://github.com/SCUT-SE-ProjectMP/PonyPlayer/blob/main/docs/HowToCode.md">HowToCode</a>。</p>
+<div class="textblock"><p >Cross-platform media player.</p>
+<h1><a class="anchor" id="autotoc_md33"></a>
+Usage</h1>
+<p >We recommend you use <code>Clion</code> as development IDE.</p>
+<h2><a class="anchor" id="autotoc_md34"></a>
+Requirements</h2>
+<ul>
+<li>C++ 17 Compiler (In Windows, mingw64_1120 is required)</li>
+<li>Qt 6.2.4 LTS</li>
+<li>FFmpeg n5.0.1</li>
+<li>python 3.7+</li>
+<li>Additional dependence to package.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md35"></a>
+Setup</h2>
+<div class="fragment"><div class="line">python3 scripts/setup.py --qt_path &lt;your qt path&gt; --ffmpeg_path &lt;your ffmpeg path&gt;</div>
+</div><!-- fragment --><p >For example, <code>qt path</code> is <code>/Users/runner/Qt/6.2.4/macos</code> and <code>ffmpeg path</code> is <code>/Users/runner/FFmpeg</code>.</p>
+<p >Especially, in Linux, set <code>ffmpeg path</code> to <code>""</code>.</p>
+<h2><a class="anchor" id="autotoc_md36"></a>
+Build</h2>
+<div class="fragment"><div class="line">python3 scripts/build.py</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md37"></a>
+Package</h2>
+<p >You may need additional tool to create installer, see <a href="https://github.com/SCUT-SE-ProjectMP/PonyPlayer/blob/main/.github/workflows/build.yml">how to install</a>.</p>
+<div class="fragment"><div class="line">python3 scripts/package.py</div>
+</div><!-- fragment --><p >In Windows, we use <code>NSIS</code> to create <code>msi</code> installer.</p>
+<p >In macOS, we use <code>create-dmg</code> to create <code>dmg</code> installer.</p>
+<p >In Linux, we use <code>appimagetool</code> to create <code>AppImage</code> package.</p>
+<h1><a class="anchor" id="autotoc_md38"></a>
+Structure</h1>
+<p ><img src="README.assets/Strcutrue.svg" alt="Strcutrue" style="pointer-events: none;" class="inline"/></p>
+<h2><a class="anchor" id="autotoc_md39"></a>
+Project Structure</h2>
+<div class="fragment"><div class="line">assets      --  external resource files </div>
+<div class="line">config      --  configuration, in particuar, user profiles are also generated here.</div>
+<div class="line">docs        --  document</div>
+<div class="line">samples     --  video samples for unit tests</div>
+<div class="line">thirdparty  --  third party library source code and cmake script</div>
+<div class="line">scripts     --  project supporting script to setup, build and package.</div>
+<div class="line">src         --  the source code of the project, which can be divided into some modules.</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md40"></a>
+Modules</h2>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Module   </th><th class="markdownTableHeadNone">Description    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">AudioSink   </td><td class="markdownTableBodyNone">Audio output module, which integrates into PortAudio. It implements functions related to audio output, such as realizing volume adjustment and speed change.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Decoder   </td><td class="markdownTableBodyNone">Media decoding module, which integrates into FFmpeg. It implements functions related to decoding stream control, such as seek.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Player   </td><td class="markdownTableBodyNone">Quickitem module, which integrates into Qt and OpenGL. It registers some Quickitems and exposes them to QML, which are drawn by OpenGL. It also implements functions for playback control. It receives the instructions from the QML and forwards them to the AudioSink and Decoder modules after appropriate processing.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Playlist   </td><td class="markdownTableBodyNone">Data persistence module, which integrates into Qt SQL. Based on the reflection of Qt MetaObject, it implements configuration-free data persistence. Relevant data will be saved to the local SQLite database.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Tests   </td><td class="markdownTableBodyNone">Unit tests.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Utils   </td><td class="markdownTableBodyNone">Utility, such as wrapper for platform-depended methods and logger.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">View   </td><td class="markdownTableBodyNone">View module, which integrates into QML and implements most of the UI. The UI is written in QML, and simple logic is implemented in JavaScript.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Wave   </td><td class="markdownTableBodyNone">Wave module. Similar to Player module, it integrates into Qt and OpenGL and registers a Qucikitem which drawn circular music “oscillograph”.   </td></tr>
+</table>
+<h1><a class="anchor" id="autotoc_md41"></a>
+Screenshoot</h1>
+<p ><img src="README.assets/UI.jpeg" alt="UI" class="inline"/></p>
+<p ><img src="README.assets/Installer.jpeg" alt="Installer" class="inline"/></p>
+<h1><a class="anchor" id="autotoc_md42"></a>
+License</h1>
+<p ><b>Copyright (c) 2022 <a class="el" href="namespace_pony_player.html">PonyPlayer</a> Team</b></p>
+<p >Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p >The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p >THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+<p >Thrid party license and warrantty are included in <code>LICENSE.RTF</code> .</p>
+<h1><a class="anchor" id="autotoc_md43"></a>
+Documents</h1>
+<p ><a href="https://scut-se-projectmp.github.io/PonyPlayer/">https://scut-se-projectmp.github.io/PonyPlayer/</a></p>
 <p ><a href="https://github.com/SCUT-SE-ProjectMP/PonyPlayer/tree/main/docs">https://github.com/SCUT-SE-ProjectMP/PonyPlayer/tree/main/docs</a> </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

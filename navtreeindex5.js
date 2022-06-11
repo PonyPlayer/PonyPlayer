@@ -1,5 +1,12 @@
 var NAVTREEINDEX5 =
 {
+"namespacebuild.html#a363ad799792fff63450c6875396e2d55":[7,0,0,13],
+"namespacebuild.html#a37f62cd6e3ecacd9ec8049445436cd23":[7,0,0,7],
+"namespacebuild.html#a37faf92853bd92811229cdc279a452ee":[7,0,0,11],
+"namespacebuild.html#a434f9a6bdb5b6587af1022d631884b24":[7,0,0,12],
+"namespacebuild.html#a43fa88417f0e35ef7d84fb4c5a572aaf":[7,0,0,0],
+"namespacebuild.html#a46b32f55c99c73a87ba6cc4e416db8b1":[7,0,0,2],
+"namespacebuild.html#a4783066e25eb05b2d6b31cca72021070":[7,0,0,9],
 "namespacebuild.html#a47ac82abeb13f36af571735957fdc455":[7,0,0,17],
 "namespacebuild.html#a4bcc1cdca8c3df0da489b77d03ab0ad7":[7,0,0,19],
 "namespacebuild.html#a6ffb2f8e4706763a958d2bb410f56e24":[7,0,0,4],
@@ -242,12 +249,5 @@ var NAVTREEINDEX5 =
 "struct_render_settings.html":[8,0,38],
 "struct_render_settings.html#a25996e6e54cb8d07e8c783492825c873":[8,0,38,0],
 "struct_render_settings.html#a2cdb60c43f43ec312929b776d6b376ad":[8,0,38,1],
-"struct_render_settings.html#a453e120d549d93e8aa867c55a65b0237":[8,0,38,2],
-"struct_render_settings.html#a4f385cbfd4c472a3ce51a68c4cb2a3f3":[8,0,38,5],
-"struct_render_settings.html#aa0d47d552b02963050bc132110d1535c":[8,0,38,6],
-"struct_render_settings.html#aa6ece8da7971b4f5324a6d4b0ccf8757":[8,0,38,3],
-"struct_render_settings.html#ac3261e58440ec49a7e388f48601320ef":[8,0,38,4],
-"structlrc_1_1_lyrics_1_1_lyric_line.html":[7,0,1,2,0],
-"structlrc_1_1_lyrics_1_1_lyric_line.html":[8,0,0,1,0],
-"structlrc_1_1_lyrics_1_1_lyric_line.html#a214bc30dc3db8b0e388e38d15ce516f9":[8,0,0,1,0,2]
+"struct_render_settings.html#a453e120d549d93e8aa867c55a65b0237":[8,0,38,2]
 };

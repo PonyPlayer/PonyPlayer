@@ -67,10 +67,19 @@ var NAVTREE =
     ] ],
     [ "videoSlider:", "md_docs_video_slider_operate.html", null ],
     [ "PonyPlayer", "md__r_e_a_d_m_e.html", [
-      [ "1 技术栈", "md__r_e_a_d_m_e.html#autotoc_md33", null ],
-      [ "2 Useful Links", "md__r_e_a_d_m_e.html#autotoc_md34", null ],
-      [ "3 项目结构", "md__r_e_a_d_m_e.html#autotoc_md35", null ],
-      [ "4 文档", "md__r_e_a_d_m_e.html#autotoc_md36", null ]
+      [ "Usage", "md__r_e_a_d_m_e.html#autotoc_md33", [
+        [ "Requirements", "md__r_e_a_d_m_e.html#autotoc_md34", null ],
+        [ "Setup", "md__r_e_a_d_m_e.html#autotoc_md35", null ],
+        [ "Build", "md__r_e_a_d_m_e.html#autotoc_md36", null ],
+        [ "Package", "md__r_e_a_d_m_e.html#autotoc_md37", null ]
+      ] ],
+      [ "Structure", "md__r_e_a_d_m_e.html#autotoc_md38", [
+        [ "Project Structure", "md__r_e_a_d_m_e.html#autotoc_md39", null ],
+        [ "Modules", "md__r_e_a_d_m_e.html#autotoc_md40", null ]
+      ] ],
+      [ "Screenshoot", "md__r_e_a_d_m_e.html#autotoc_md41", null ],
+      [ "License", "md__r_e_a_d_m_e.html#autotoc_md42", null ],
+      [ "Documents", "md__r_e_a_d_m_e.html#autotoc_md43", null ]
     ] ],
     [ "LICENSE", "md_thirdparty_rwqueue__l_i_c_e_n_s_e.html", null ],
     [ "命名空间", "namespaces.html", [
@@ -120,8 +129,8 @@ var NAVTREEINDEX =
 "class_play_list_item.html#abf15cfee08e6a06f79af082529db0de2",
 "class_video_frame_ref.html#a325852a5e00eac5f80916caea9039123",
 "countdown__latch_8h_source.html",
-"namespacebuild.html#a47ac82abeb13f36af571735957fdc455",
-"structlrc_1_1_lyrics_1_1_lyric_line.html#a214bc30dc3db8b0e388e38d15ce516f9"
+"namespacebuild.html#a363ad799792fff63450c6875396e2d55",
+"struct_render_settings.html#a4f385cbfd4c472a3ce51a68c4cb2a3f3"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';
