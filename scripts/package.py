@@ -42,8 +42,8 @@ def apply_packaging():
                 "--hide-extension PonyPlayer.app "
                 "--app-drop-link 780 275 "
                 "--no-internet-enable "
-                f"--eula \"{project_dir / 'docs' / 'LICENSE.RTF' }\" "
-                f"--add-file LICENSE \"{project_dir / 'docs' / 'LICENSE.RTF' }\" 900 465 "
+                f"--eula \"{project_dir / 'LICENSE.RTF' }\" "
+                f"--add-file LICENSE \"{project_dir / 'LICENSE.RTF' }\" 900 465 "
                 "--hdiutil-quiet "
                 f"{package_dmg} "
                 f"{package_app}")
