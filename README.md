@@ -123,7 +123,7 @@ Thrid party license and warrantty are included in `LICENSE.RTF` .
 
 ## Documents
 
-https://scut-se-projectmp.github.io/PonyPlayer/
+https://ponyplayer.github.io/PonyPlayer/
 
-https://github.com/SCUT-SE-ProjectMP/PonyPlayer/tree/main/docs
+https://github.com/PonyPlayer/PonyPlayer/tree/main/docs
 
